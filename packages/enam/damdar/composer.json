@@ -1,0 +1,32 @@
+{
+    "name": "enam/damdar",
+    "authors": [
+        {
+            "name": "Enam",
+            "email": "surelastmail@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^7.3|^8.0",
+        "illuminate/support": "^v8.0",
+        "livewire/livewire": "^2.3",
+        "fruitcake/laravel-cors": "^2.0",
+        "barryvdh/laravel-dompdf": "^0.9.0",
+    },
+    "autoload": {
+        "psr-4": {
+            "Enam\\Acc\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Barryvdh\\DomPDF\\ServiceProvider"
+            ],
+            "aliases": {
+                "PDF": "Barryvdh\\DomPDF\\Facade"
+            }
+        }
+    },
+    "license": "mit"
+}
