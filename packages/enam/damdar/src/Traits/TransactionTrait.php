@@ -214,7 +214,7 @@ trait TransactionTrait
             $amount = TransactionDetail::query()->when($branch_id != 'All', function ($query) use ($branch_id) {
                 return $query->where('branch_id', $branch_id);
             })->whereBetween('date', [$start_date, $end_date])->where('ledger_id', $ledger_id)->sum('amount');
-//            if (!$amount) continue; tod
+            if (!$amount) continue;
 
             $incomeLedgers[$ledger->ledgerGroup->group_name][] = ['ledger_name' => $ledger->ledger_name, 'amount' => $amount];
             $totalIncome += $amount;
@@ -232,7 +232,7 @@ trait TransactionTrait
             $amount = TransactionDetail::query()->when($branch_id != 'All', function ($query) use ($branch_id) {
                 return $query->where('branch_id', $branch_id);
             })->whereBetween('date', [$start_date, $end_date])->where('ledger_id', $ledger_id)->sum('amount');
-//            if (!$amount) continue; todo
+            if (!$amount) continue;
 
             $expenseLedgers[$ledger->ledgerGroup->group_name][] = ['ledger_name' => $ledger->ledger_name, 'amount' => $amount];
             $totalExpense += $amount;
