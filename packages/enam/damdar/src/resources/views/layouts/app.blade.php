@@ -21,6 +21,7 @@
         href="https://www.bootstrapdash.com/demo/connect-plus/laravel/template/demo_1/assets/plugins/@mdi/font/css/materialdesignicons.min.css">
     --}}
     <link media="all" type="text/css" rel="stylesheet" href="{{ asset('css/materialicon.css') }}">
+    <link media="all" type="text/css" rel="stylesheet" href="{{ asset('css/style.css') }}">
 
     <link media="all" type="text/css" rel="stylesheet"
           href="https://www.bootstrapdash.com/demo/connect-plus/laravel/template/demo_1/assets/plugins/perfect-scrollbar/perfect-scrollbar.css">
@@ -272,6 +273,7 @@
 <body>
 
 <div class="container-scroller">
+
     <nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row ">
         <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
             <a class="navbar-brand brand-logo text-success mt-4" href="{{ url('/') }}">
@@ -282,6 +284,32 @@
                     class="mdi mdi-arrow-left mr-2"></a>
         </div>
         <div class="navbar-menu-wrapper d-flex align-items-stretch">
+            <div class="subnavbar">
+                <div class="subnavbar-inner">
+                    <div class="container">
+                        <ul class="mainnav">
+                            <li class="active"><a href="index.html"><i class="icon-dashboard"></i><span>Dashboard</span> </a> </li>
+                            <li><a href="reports.html"><i class="icon-list-alt"></i><span>Reports</span> </a> </li>
+                            <li class="subnavbar-open-right"><a href="guidely.html"><i class="icon-facetime-video"></i><span>App Tour</span> </a></li>
+                            <li><a href="charts.html"><i class="icon-bar-chart"></i><span>Charts</span> </a> </li>
+                            <li><a href="shortcodes.html"><i class="icon-code"></i><span>Shortcodes</span> </a> </li>
+                            <li class="dropdown subnavbar-open-right"><a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown"> <i class="icon-long-arrow-down"></i><span>Drops</span> <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="icons.html">Icons</a></li>
+                                    <li><a href="faq.html">FAQ</a></li>
+                                    <li class="subnavbar-open-right"><a href="pricing.html">Pricing Plans</a></li>
+                                    <li><a href="login.html">Login</a></li>
+                                    <li><a href="signup.html">Signup</a></li>
+                                    <li class="subnavbar-open-right"><a href="error.html">404</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- /container -->
+                </div>
+                <!-- /subnavbar-inner -->
+            </div>
+
             <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
                 <span class="mdi mdi-menu"></span>
             </button>
@@ -293,6 +321,8 @@
 
 
         </div>
+
+
     </nav>
     <div class="container-fluid page-body-wrapper">
 
