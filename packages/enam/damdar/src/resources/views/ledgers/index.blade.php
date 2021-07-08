@@ -42,9 +42,9 @@
             </div>
         @else
             <div class="card-body card-body-with-table">
-                <div class="table-responsive">
+                <div >
 
-                    <table class="table table-striped ">
+                    <table class="table table-bordered table-striped ">
                         <thead>
                         <tr>
                             <th>Ledger Name</th>

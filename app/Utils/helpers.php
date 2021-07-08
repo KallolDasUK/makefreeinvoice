@@ -26,3 +26,22 @@ if (!function_exists('openingCrBalance')) {
 
     }
 }
+if (!function_exists('is_home')) {
+    function is_home($url, $routeName)
+    {
+        if ($routeName == 'acc.home') {
+            return 'active';
+        } else return '';
+
+
+    }
+}if (!function_exists('is_settings')) {
+    function is_settings($url, $routeName)
+    {
+        if ($routeName == 'accounting.settings.edit') {
+            return 'active';
+        } else return '';
+
+
+    }
+}

@@ -17,9 +17,16 @@
 
     <div class="card card-default">
 
-        <div class="card-heading clearfix">
+        <div class="card-heading">
+            <div class="filters float-left m-2">
+                <button class="btn btn-secondary btn-fw dropdown-toggle">
+                    <i class="fa fa-filter"></i>
+                    Filters
+                </button>
 
-            <div class="btn-group btn-group-sm float-right" role="group">
+
+            </div>
+            <div class="btn-group btn-group-sm float-right m-2" role="group">
                 <a href="{{ route('payments.payment.trash') }}" class="btn btn-danger mr-2" title="Create New Payment">
                     <span class="mdi mdi-trash-can" aria-hidden="true"></span>
                     Trash({{\Enam\Acc\Models\Transaction::onlyTrashed()->where('txn_type',\Enam\Acc\Utils\VoucherType::$PAYMENT)->count()}}
@@ -30,6 +37,61 @@
                     Create New Payment
                 </a>
             </div>
+            <p class="clearfix"></p>
+            <div class="filter-content border p-2" style="display: none;background: #efefef">
+                <form action="" method="get">
+                    <div class=" text-dark" style="position:relative;">
+
+                        <div id="dvBranch" class="col-lg-6 mx-auto col-xs-12 col-sm-12 col-md-12 mx-auto">
+                            <label class="font-weight-bolder">Select Branch</label>
+                            <select name="branch_id" class="col-12 form-control">
+                                <option> All</option>
+
+                                @foreach($branches as $id => $branch)
+                                    <option value="{{ $branch->id }}">{{ $branch->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <br>
+
+
+                        <div class="col-lg-6 mx-auto col-xs-12 col-sm-12 col-md-12">
+
+                            <div class="row ">
+                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
+                                    <label class="font-weight-bolder" for="inputWarning">From Date</label>
+                                    <input type="date" name="start_date" value="{{ $start_date }}"
+                                           class="col-xs-12 col-sm-12 col-md-12 col-lg-12 focusColor datePicker form-control hasDatepicker">
+                                </div>
+                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
+                                    <label class="font-weight-bolder" for="inputWarning">To Date </label>
+                                    <input type="date" name="end_date" value="{{ $end_date }}"
+                                           class="col-xs-12 col-sm-12 col-md-12 col-lg-12 focusColor datePicker form-control">
+                                </div>
+
+                                <!--End Row-->
+                            </div>
+
+                        </div>
+                        <br>
+                        <div class="col-lg-6 mx-auto col-xs-12 col-sm-12 col-md-12 mx-auto float-right pr-4">
+
+
+                            <a href="{{ route('payments.payment.index') }}"
+                               class="col-lg-3 mx-auto col-xs-12 col-sm-12 col-md-12 btn btn-secondary">Reset
+                                Filter</a>
+
+                            <button class="col-lg-3 mx-auto col-xs-12 col-sm-12 col-md-12 btn btn-primary">Apply
+                            </button>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+
+
+                </form>
+
+            </div>
+
 
         </div>
 
@@ -39,9 +101,9 @@
             </div>
         @else
             <div class="card-body card-body-with-table">
-                <div class="table-responsive">
+                <div>
 
-                    <table class="table table-striped ">
+                    <table class="table table-striped table-bordered ">
                         <thead>
                         <tr>
                             <th>Ledger Name</th>
@@ -119,6 +181,16 @@
             $('.table').dataTable({
                 "order": [],
             });
+            $('.filters').on('click', function (event) {
+
+                $('.filter-content').toggle()
+                // event.stopPropagation();
+
+            })
+
+            // $(window).click(function() {
+            //     $('.filter-content').hide()
+            // });
         })
     </script>
 @endsection

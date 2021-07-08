@@ -20,7 +20,7 @@ class BaseController extends Controller
 
         $date = $request->date ?? today()->toDateString();
         $date = Carbon::parse($date);
-        View::share('title', 'Accounting Dashboard');
+        View::share('title', 'Overview');
 
         $payment = Transaction::query()->where('txn_type', VoucherType::$PAYMENT)->whereMonth('date', $date->month)->whereYear('date', $date->year)->sum('amount');
         $receive = Transaction::query()->where('txn_type', VoucherType::$RECEIVE)->whereMonth('date', $date->month)->whereYear('date', $date->year)->sum('amount');

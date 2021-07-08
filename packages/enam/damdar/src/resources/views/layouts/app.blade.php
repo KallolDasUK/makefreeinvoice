@@ -16,6 +16,11 @@
     <link media="all" type="text/css" rel="stylesheet"
           href="https://www.bootstrapdash.com/demo/connect-plus/laravel/template/demo_1/assets/plugins/flag-icon-css/css/flag-icon.css">
 
+
+    <script src="https://use.fontawesome.com/715fc6bd34.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+          integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
     {{--
     <link media="all" type="text/css" rel="stylesheet"
         href="https://www.bootstrapdash.com/demo/connect-plus/laravel/template/demo_1/assets/plugins/@mdi/font/css/materialdesignicons.min.css">
@@ -43,23 +48,72 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet"/>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+
     <link href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css" rel="stylesheet"/>
     <link media="all" type="text/css" rel="stylesheet"
           href="https://cdn.datatables.net/1.10.24/css/dataTables.bootstrap4.min.css">
+
+
     <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.css"/>
     <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css"/>
 
     <script src="https://unpkg.com/swiper/swiper-bundle.js"></script>
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
-    <!-- end plugin css -->
+    <link href="https://cdn.jsdelivr.net/npm/tom-select@1.1/dist/css/tom-select.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/tom-select@1.1/dist/js/tom-select.complete.min.js"></script>
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/css/selectize.bootstrap3.min.css"
           integrity="sha256-ze/OEYGcFbPRmvCnrSeKbRTtjG4vGLHXgOqsyLFTRjg=" crossorigin="anonymous"/>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether-drop/1.4.2/js/drop.min.js"
+            integrity="sha512-Lvy+Fbz3bTkUx6BrU0hmCh/paXCkl0sWDE4JVASkehxQlUcQtzOJHin6dsR+zy+RYlMAy5wdY3mGyFTgENQaBA=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
     @yield('css')
     @stack('css')
     <livewire:styles/>
     <style>
 
+        table.dataTable thead .sorting {
+            background-image: none !important;
+        }
+
+        table.dataTable thead .sorting_asc {
+            background-image: none !important;
+
+        }
+        /*body > * {*/
+        /*    -webkit-transition: all 2s ease !important;*/
+        /*    -moz-transition: all 2s ease !important;*/
+        /*    -o-transition: all 2s ease !important;*/
+        /*    transition: all 2s ease !important;*/
+        /*}*/
+        .borderless td, .borderless th {
+            border: none;
+        }
+        .tip {
+            position: relative;
+            display: inline-block;
+            border-bottom: 1px dotted black;
+        }
+
+        .tip .tooltiptext {
+            visibility: hidden;
+            width: 400px;
+            background-color: lightgray;
+            color: black;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px 0;
+
+            /* Position the tooltip */
+            position: absolute;
+            z-index: 1;
+        }
+
+        .tip:hover .tooltiptext {
+            visibility: visible;
+        }
         div.dataTables_wrapper div.dataTables_length select {
             width: auto;
             display: inline-block;
@@ -75,11 +129,6 @@
             margin-left: 3px;
         }
 
-        .table th, .table td {
-            padding: 0rem;
-            /* vertical-align: top; */
-            border-top: 1px solid rgba(151, 151, 151, 0.3);
-        }
 
         table.dataTable.no-footer {
             border-bottom: 0px solid #111;
@@ -204,6 +253,28 @@
             scrollbar-color: #00C851 #F5F5F5;
         }
 
+        label {
+            color: black !important;
+            font-weight: bold;
+        }
+
+
+
+
+        .small-input:focus {
+            outline: none;
+            border: 1px dashed black !important;
+        }
+
+        .small-input {
+            outline: none;
+            border: 1px dashed lightgray !important;
+        }
+
+        td {
+            vertical-align: top !important;
+        }
+
         .scrollbar-info::-webkit-scrollbar-track {
             -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
             background-color: #F5F5F5;
@@ -275,10 +346,10 @@
 <div class="container-scroller">
 
     <nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row ">
-        <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
+        <div class="text-center navbar-brand-wrapper d-none align-items-center justify-content-center">
             <a class="navbar-brand brand-logo text-success mt-4" href="{{ url('/') }}">
 
-                <h2><span class="mdi mdi-arrow-left mr-2"></span>{{ env('APP_NAME') }}</h2>
+                <h2>{{ env('APP_NAME') }}</h2>
             </a>
             <a class="navbar-brand brand-logo-mini text-success" href="{{ url('/')  }}"><span
                     class="mdi mdi-arrow-left mr-2"></a>
@@ -288,35 +359,132 @@
                 <div class="subnavbar-inner">
                     <div class="container">
                         <ul class="mainnav">
-                            <li class="active"><a href="index.html"><i class="icon-dashboard"></i><span>Dashboard</span> </a> </li>
-                            <li><a href="reports.html"><i class="icon-list-alt"></i><span>Reports</span> </a> </li>
-                            <li class="subnavbar-open-right"><a href="guidely.html"><i class="icon-facetime-video"></i><span>App Tour</span> </a></li>
-                            <li><a href="charts.html"><i class="icon-bar-chart"></i><span>Charts</span> </a> </li>
-                            <li><a href="shortcodes.html"><i class="icon-code"></i><span>Shortcodes</span> </a> </li>
-                            <li class="dropdown subnavbar-open-right"><a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown"> <i class="icon-long-arrow-down"></i><span>Drops</span> <b class="caret"></b></a>
+                            <li class="{{ is_home(Route::current()->uri(),Route::currentRouteName()) }}"><a
+                                    href="{{ route('acc.home') }}"><i
+                                        class="fa fa-tachometer-alt"></i><span>Dashboard</span> </a></li>
+                            <li class="dropdown subnavbar-open-center"><a href="javascript:;" class="dropdown-toggle"
+                                                                          data-toggle="dropdown"><i
+                                        class="fas fa-file-invoice-dollar"></i><span>My Invoices</span> </a>
+
                                 <ul class="dropdown-menu">
-                                    <li><a href="icons.html">Icons</a></li>
-                                    <li><a href="faq.html">FAQ</a></li>
-                                    <li class="subnavbar-open-right"><a href="pricing.html">Pricing Plans</a></li>
-                                    <li><a href="login.html">Login</a></li>
-                                    <li><a href="signup.html">Signup</a></li>
-                                    <li class="subnavbar-open-right"><a href="error.html">404</a></li>
+                                    <div class="row m-0">
+
+                                        <div class="col" style="min-width: 500px">
+                                            <p class="text-info text--cap border-bottom d-inline-block">
+                                                Invoice Module</p>
+                                            <div class="menu-icon-grid font-weight-bolder p-0">
+                                                <a href="{{ route('invoices.invoice.create') }}"
+                                                   style="min-width: 100px">
+                                                    <i class="fa fa-plus" aria-hidden="true"></i>
+                                                    New <br> Invoice</a>
+                                                <a href="{{ route('invoices.invoice.index') }}"
+                                                   style="min-width: 100px"><i
+                                                        class="fa fa-list-alt" aria-hidden="true"></i>Manage <br>
+                                                    Invoices</a>
+
+                                                <a href="{{ route('products.product.index') }}"
+                                                   style="min-width: 100px"><i class="fab fa-product-hunt"></i> Products
+                                                </a>
+
+                                                <a href="{{ route('customers.customer.index') }}"
+                                                   style="min-width: 100px"><i
+                                                        class="fa fa-users" aria-hidden="true"></i>Customers</a>
+
+
+                                            </div>
+                                        </div>
+
+                                    </div>
                                 </ul>
                             </li>
+
+                            <li class="dropdown subnavbar-open-center"><a href="javascript:;" class="dropdown-toggle"
+                                                                          data-toggle="dropdown"> <i
+                                        class="fa  fa-calculator"></i><span>Accounting</span> <b
+                                        class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    <div class="row m-0" style="width:1000px">
+
+                                        <div class="col-md-4 p-4">
+                                            <p class="text-info text--cap border-bottom d-inline-block">
+                                                Master</p>
+                                            <div class="menu-icon-grid w-auto p-0">
+                                                <a href="{{ route('ledgers.ledger.index') }}">
+                                                    <i class="fa fa-address-book" aria-hidden="true"></i>
+                                                    Ledger</a>
+                                                <a href="{{ route('ledger_groups.ledger_group.index') }}"><i
+                                                        class="fa fa-users" aria-hidden="true"></i>Group</a>
+                                                <a href="{{ route('branches.branch.index') }}"><i
+                                                        class="fa fa-sitemap" aria-hidden="true"></i>Branches</a>
+                                                <a href="{{ route('accounting.coa') }}"><i class="fa fa-server"
+                                                                                           aria-hidden="true"></i>
+                                                    COA</a>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 p-4">
+                                            <p class="text-info text--cap border-bottom d-inline-block">
+                                                Transaction Vouchers</p>
+                                            <div class="menu-icon-grid w-auto p-0">
+                                                <a href="{{ route('payments.payment.index') }}"><i
+                                                        class="fab fa-amazon-pay"></i>Payment</a>
+                                                <a href="{{ route('transactions.transaction.index') }}"><i
+                                                        class="fab fa-get-pocket"></i>Receipt</a>
+                                                <a href="{{ route('journals.journal.index') }}"><i
+                                                        class="fas fa-journal-whills"></i>Journal</a>
+                                                <a href="{{ route('contras.contra.index') }}"><i
+                                                        class="fas fa-exchange-alt"></i>Contra</a>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 p-4">
+                                            <p class="text-info border-bottom d-inline-block"
+                                               style="border-bottom:2px solid gray">
+                                                Reports</p>
+                                            <ul class="links">
+                                                <li>
+                                                    <a href="{{ route('accounting.report.trial-balance') }}">Trial
+                                                        Balance</a>
+                                                </li>
+                                                <li>
+                                                    <a href="{{ route('accounting.report.receipt-payment-branch') }}">Receipt
+                                                        & Payment </a>
+                                                </li>
+                                                <li>
+                                                    <a href="{{ route('accounting.report.profit-loss') }}">Profit &
+                                                        Loss </a>
+                                                </li>
+                                                <li>
+                                                    <a href="{{ route('accounting.report.ledger') }}">Ledger</a>
+                                                </li>
+                                                <li>
+                                                    <a href="{{ route('accounting.report.voucher') }}">Voucher </a>
+                                                </li>
+                                                <li>
+                                                    <a href="{{ route('accounting.report.cashbook') }}">Cashbook</a>
+                                                </li>
+                                                <li>
+                                                    <a href="{{ route('accounting.report.daybook') }}">Daybook </a>
+                                                </li>
+                                                <li>
+                                                    <a href="{{ route('accounting.report.voucher') }}">Balance
+                                                        Sheet </a>
+                                                </li>
+
+
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </ul>
+                            </li>
+
+                            <li class="{{ is_settings(Route::current()->uri(),Route::currentRouteName()) }}"><a
+                                    href="{{ route('accounting.settings.edit') }}"><i class="fa fa-cog"></i><span>Settings</span>
+                                </a></li>
+
                         </ul>
                     </div>
                     <!-- /container -->
                 </div>
                 <!-- /subnavbar-inner -->
-            </div>
-
-            <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
-                <span class="mdi mdi-menu"></span>
-            </button>
-            <div class="search-field d-none d-xl-block">
-                <form class="d-flex align-items-center h-100 ml-6" action="#">
-                    <b><h3 class="text-light font-weight-bold mb-2 mt-2"> {{ $title??'' }} </h3></b>
-                </form>
             </div>
 
 
@@ -327,7 +495,7 @@
     <div class="container-fluid page-body-wrapper">
 
 
-        <nav class="sidebar sidebar-offcanvas dynamic-active-class-disabled" id="sidebar">
+        <nav class="sidebar sidebar-offcanvas dynamic-active-class-disabled d-none" id="sidebar">
             <ul class="nav">
                 <li class="nav-item nav-category">Accounting</li>
                 <li class="nav-item">
@@ -376,7 +544,7 @@
                        aria-controls="accountTransaction">
                      <span class="icon-bg"><i
                              class="mdi mdi-trackpad menu-icon"></i></span>
-                        <span class="menu-title">Transaction</span>
+                        <span class="menu-title">Transaction </span>
                         <i class="menu-arrow"></i>
                     </a>
                     <div class="collapse " id="accountTransaction">
@@ -478,7 +646,10 @@
             </ul>
         </nav>
 
+
         <div class="p-4 main-panel">
+            <b class="text-black font-weight-bold mb-2 mt-2"> {{ $title??'' }} </b>
+
             @yield('content')
             {{ $slot ?? '' }}
 
@@ -492,19 +663,13 @@
     <script>
         $(document).ready(function () {
 
-            var url = window.location.href;     // Returns full URL (https://example.com/path/example.html)
+            $('.mainnav li').on('mouseover', function () {
+                $('.mainnav li').removeClass('active')
+                $(this).addClass('active')
+                console.log('Hovered', this)
+            })
 
-            $('.nav-link').each(function (index, element) {
-                let navLink = $(element).attr('href')
-                if (url === navLink) {
-                    let closetNavItem = $(element).closest('.nav-item');
-                    closetNavItem.addClass('active')
-                    let closetCollapsed = $(element).closest('.collapse');
-                    closetCollapsed.addClass('show')
-                    $(closetCollapsed).closest('div>ul').parent().addClass('show')
 
-                }
-            });
         })
     </script>
 
@@ -554,7 +719,7 @@
     <script
         src="https://www.bootstrapdash.com/demo/connect-plus/laravel/template/demo_1/assets/js/typeahead.js">
     </script>
-    <script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js">
+    <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js">
     </script>
     <script src="https://cdn.datatables.net/1.10.24/js/dataTables.bootstrap4.min.js"></script>
     <script

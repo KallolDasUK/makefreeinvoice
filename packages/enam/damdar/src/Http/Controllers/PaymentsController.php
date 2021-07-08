@@ -2,20 +2,16 @@
 
 namespace Enam\Acc\Http\Controllers;
 
-use Enam\Acc\Http\Livewire\helpers\VoucherHelper;
-use Enam\Acc\Traits\TransactionTrait;
-use Enam\Acc\Utils\VoucherType;
-use NumberFormatter;
-use \PDF;
-use Enam\Acc\Http\Controllers\Controller;
 use Enam\Acc\Models\Branch;
 use Enam\Acc\Models\Ledger;
 use Enam\Acc\Models\Transaction;
 use Enam\Acc\Models\TransactionDetail;
-use Enam\Acc\Utils\EntryType;
+use Enam\Acc\Traits\TransactionTrait;
+use Enam\Acc\Utils\VoucherType;
 use Illuminate\Http\Request;
-use Exception;
 use Illuminate\Support\Facades\View;
+use NumberFormatter;
+use PDF;
 
 class PaymentsController extends Controller
 {
@@ -24,9 +20,12 @@ class PaymentsController extends Controller
 
     public function index()
     {
+        $start_date = null;
+        $end_date = null;
         View::share('title', 'Payment Voucher');
+        $branches = Branch::all();
         $transactions = Transaction::with('branch')->where('txn_type', VoucherType::$PAYMENT)->orderBy('date')->get();
-        return view('acc::payments.index', compact('transactions'));
+        return view('acc::payments.index', compact('transactions', 'branches', 'start_date', 'end_date'));
     }
 
     public function trash()

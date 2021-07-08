@@ -62,8 +62,7 @@
 
             <form method="POST" action="{{ route('payments.payment.store') }}"
                   accept-charset="UTF-8"
-                  id="create_transaction_form" name="create_transaction_form" class="form-horizontal"
-            >
+                  id="create_transaction_form" name="create_transaction_form" class="form-horizontal">
                 {{ csrf_field() }}
                 @include ('acc::payments.form', ['transaction' => null])
 
@@ -238,7 +237,6 @@
 
             $('#date').on('focus', function () {
                 $(this).click()
-                // alert('boom')
             })
 
             $("form").submit(function (e) {

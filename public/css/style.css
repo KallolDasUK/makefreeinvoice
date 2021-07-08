@@ -7,15 +7,10 @@ p {
     font: 13px/1.7em 'Open Sans'
 }
 
-input, button, select, textarea {
-    font-family: open sans
+body, input, button, select, textarea {
+    font-family: 'nunito' !important;
 }
 
-.dropdown .dropdown-menu {
-    -webkit-border-radius: 6px;
-    -moz-border-radius: 6px;
-    border-radius: 6px
-}
 
 .btn-icon-only {
     padding-right: 3px;
@@ -153,9 +148,6 @@ input, button, select, textarea {
     color: #383838
 }
 
-.subnavbar .dropdown .dropdown-menu a {
-    font-size: 12px
-}
 
 .subnavbar .dropdown .dropdown-menu {
     text-align: left;
@@ -163,8 +155,23 @@ input, button, select, textarea {
     -webkit-border-top-right-radius: 0;
     -moz-border-radius-topleft: 0;
     -moz-border-radius-topright: 0;
-    border-top-left-radius: 0;
-    border-top-right-radius: 0
+
+
+    top: 100%;
+    left: 0;
+    z-index: 1000;
+    float: left;
+    min-width: 10rem;
+    padding: 0.5rem 0;
+    margin: 0.125rem 0 0;
+    font-size: 0.813rem;
+    color: #47404f;
+    text-align: left;
+    list-style: none;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-radius: 0.25rem;
 }
 
 .subnavbar .dropdown-menu::before {
@@ -508,10 +515,6 @@ ul.messages_layout li .message_wrap .text {
     padding-top: 5px
 }
 
-ul.messages_layout .dropdown-menu li {
-    width: 100%;
-    font-size: 11px
-}
 
 .fc {
     direction: ltr;
@@ -1094,9 +1097,6 @@ table.fc-border-separate {
     height: 250px
 }
 
-.dropdown-menu li > a:hover, .dropdown-menu .active > a, .dropdown-menu .active > a:hover {
-    background: #00ba8b
-}
 
 .accordion-heading {
     background: #e5e5e5
@@ -1251,4 +1251,59 @@ table.fc-border-separate {
     .navbar .search-query {
         width: 200px
     }
+}
+
+.menu-icon-grid {
+    width: auto;
+    padding: 0 8px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.menu-icon-grid > a {
+    display: inline-flex;
+    width: 5rem;
+    flex-direction: column;
+    align-items: center;
+    padding: 8px 0px;
+    color: #52495a;
+    text-align: center;
+    border-radius: 4px;
+    text-decoration: none !important;
+    border: 1px solid gray;
+    margin-bottom: 10px;
+
+}
+
+.menu-icon-grid > a:hover {
+    background: #a461d8;
+    color: white;
+}
+
+.menu-icon-grid > a i {
+    font-size: 28px;
+    margin-bottom: 4px;
+}
+
+svg:hover {
+    fill: white;
+    color: white;
+}
+
+ul.links {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    column-count: 2;
+}
+
+ul.links li a {
+    display: inline-block;
+    margin-bottom: 8px;
+    color: #70657b;
+}
+
+.main-panel {
+    margin: 0 auto !important;
 }

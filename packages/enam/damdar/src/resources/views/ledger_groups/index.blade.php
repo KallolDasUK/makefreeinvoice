@@ -56,9 +56,9 @@
             </div>
         @else
             <div class="card-body panel-body-with-table">
-                <div class="table-responsive">
+                <div class="">
 
-                    <table class="table table-striped ">
+                    <table class="table table-striped table-bordered ">
                         <thead>
                         <tr>
                             <th>ID</th>
