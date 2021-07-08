@@ -114,7 +114,30 @@
 
 <br>
 <div class="row">
-    <div class="col"></div>
+    <div class="col">
+
+        <p class="p-2 rounded text-primary d-flex font-weight-bolder text-center"
+           style="background: whitesmoke;font-size: 16px;cursor:pointer;"
+           data-toggle="collapse"
+           href="#additionalCollapse" role="button"
+           aria-expanded="false" aria-controls="additionalCollapse">
+
+            <span class="mr-4">Additional Information</span>
+            <i id="caret" class="fa fa-caret-down my-auto"></i>
+
+
+        </p>
+        <div class="collapse" id="additionalCollapse">
+            <table class="table table-borderless">
+
+
+                <tbody id="additionalFieldTarget">
+
+                </tbody>
+            </table>
+        </div>
+
+    </div>
     <div class="col">
 
 
@@ -273,6 +296,7 @@
 <div class="hidden">
     <input type="text" id="invoice_items" name="invoice_items" hidden>
     <input type="text" id="additional" name="additional" hidden>
+    <input type="text" id="additionalField" name="additional_fields" hidden>
 </div>
 
 
@@ -332,7 +356,16 @@
         </div>
 
 
-</script>
+
+
+
+
+
+
+
+
+
+    </script>
 @endverbatim
 
 @verbatim
@@ -388,5 +421,65 @@
 
 
 
-</script>
+
+
+
+
+
+
+
+
+
+    </script>
+@endverbatim
+@verbatim
+    <script id="additionalFieldTemplate" type="text/ractive">
+
+        {{#each additional_fields:i}}
+        <tr>
+            <td>
+                <input type="text" class="form-control form-control-sm font-weight-bolder"  placeholder="ex. Vat No" value="{{ name }}">
+
+                    </td>
+                    <td>
+                   <input type="text" step="any" class="form-control form-control-sm" placeholder="ex. 77GH77G9 " value="{{ value }}">
+
+                    </td>
+                    <td class="text-center"> <i class="fa fa-trash text-danger my-auto text-center" on-click="@this.removeAdditionalField(i)" style="cursor:pointer;"></i>
+</td>
+                </tr>
+
+             {{/each}}
+        <tr>
+              <td><span class="text-primary " on-click="@this.addAdditionalField()" style="cursor:pointer;">+ Add More</span></td>
+              <td></td>
+          </tr>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </script>
 @endverbatim

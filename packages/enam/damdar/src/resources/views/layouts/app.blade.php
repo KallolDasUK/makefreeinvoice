@@ -728,7 +728,7 @@
         crossorigin="anonymous"></script>
 
     <script>
-        Ractive.DEBUG = false;
+        Ractive.DEBUG = true;
     </script>
 @yield('js')
 @stack('js')

@@ -3,12 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Customer;
+use App\Models\ExtraField;
 use App\Models\Invoice;
 use App\Models\InvoiceExtraField;
 use App\Models\InvoiceItem;
 use App\Models\Product;
 use App\Models\Tax;
-use Exception;
 use Illuminate\Http\Request;
 
 class InvoicesController extends Controller
@@ -40,8 +40,10 @@ class InvoicesController extends Controller
 //        dd($data);
         $invoice_items = $data['invoice_items'] ?? [];
         $extraFields = $data['additional'] ?? [];
+        $additionalFields = $data['additional_fields'] ?? [];
         unset($data['invoice_items']);
         unset($data['additional']);
+        unset($data['additional_fields']);
 
         $invoice = Invoice::create($data);
         foreach ($invoice_items as $invoice_item) {
@@ -51,6 +53,10 @@ class InvoicesController extends Controller
         }
         foreach ($extraFields as $additional) {
             InvoiceExtraField::create(['name' => $additional->name, 'value' => $additional->value, 'invoice_id' => $invoice->id]);
+        }
+
+        foreach ($additionalFields as $additional) {
+            ExtraField::create(['name' => $additional->name, 'value' => $additional->value, 'type' => Invoice::class, 'type_id' => $invoice->id]);
         }
 
         return redirect()->route('invoices.invoice.index')
@@ -73,11 +79,12 @@ class InvoicesController extends Controller
         $customers = Customer::pluck('name', 'id')->all();
         $taxes = Tax::query()->latest()->get()->toArray();
         $invoice_items = InvoiceItem::query()->where('invoice_id', $invoice->id)->get();
-        $additional = InvoiceItem::query()->where('invoice_id', $invoice->id)->get();
+        $additional = InvoiceExtraField::query()->where('invoice_id', $invoice->id)->get();
+        $additionalFields = ExtraField::query()->where('type', Invoice::class)->where('type_id', $invoice->id)->get();
         $products = Product::query()->latest()->get();
 
-//        dd($invoice_items,$additional);
-        return view('invoices.edit', compact('invoice', 'customers', 'taxes', 'invoice_items', 'additional', 'products'));
+//        dd($additional, $additionalFields);
+        return view('invoices.edit', compact('invoice', 'customers', 'taxes', 'invoice_items', 'additional', 'products', 'additionalFields'));
     }
 
 
@@ -90,27 +97,21 @@ class InvoicesController extends Controller
         $invoice = Invoice::findOrFail($id);
         $invoice->update($data);
 
-        return redirect()->route('invoices.invoice.index')
-            ->with('success_message', 'Invoice was successfully updated.');
+        return redirect()->route('invoices.invoice.index')->with('success_message', 'Invoice was successfully updated.');
 
     }
 
 
     public function destroy($id)
     {
-        try {
-            $invoice = Invoice::findOrFail($id);
-            InvoiceExtraField::query()->where('invoice_id', $invoice->id)->delete();
-            InvoiceItem::query()->where('invoice_id', $invoice->id)->delete();
-            $invoice->delete();
 
-            return redirect()->route('invoices.invoice.index')
-                ->with('success_message', 'Invoice was successfully deleted.');
-        } catch (Exception $exception) {
+        $invoice = Invoice::findOrFail($id);
+        InvoiceExtraField::query()->where('invoice_id', $invoice->id)->delete();
+        InvoiceItem::query()->where('invoice_id', $invoice->id)->delete();
+        $invoice->delete();
 
-            return back()->withInput()
-                ->withErrors(['unexpected_error' => 'Unexpected error occurred while trying to process your request.']);
-        }
+        return redirect()->route('invoices.invoice.index')->with('success_message', 'Invoice was successfully deleted.');
+
     }
 
 
@@ -135,11 +136,13 @@ class InvoicesController extends Controller
             'attachment' => ['file', 'nullable'],
             'invoice_items' => 'nullable',
             'additional' => 'nullable',
+            'additional_fields' => 'nullable',
         ];
 
         $data = $request->validate($rules);
         $data['invoice_items'] = json_decode($data['invoice_items'] ?? '{}');
         $data['additional'] = json_decode($data['additional'] ?? '{}');
+        $data['additional_fields'] = json_decode($data['additional_fields'] ?? '{}');
 
         if ($request->has('custom_delete_attachment')) {
             $data['attachment'] = null;

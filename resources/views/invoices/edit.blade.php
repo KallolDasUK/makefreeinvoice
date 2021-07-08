@@ -64,9 +64,13 @@
         var taxes = @json($taxes);
         var invoice_items = @json($invoice_items);
         var products = @json($products);
-        console.log(invoice_items)
+        var additional_fields = @json($additionalFields);
+        console.log(pair,'pairs')
         $(document).ready(function () {
             $('.customer').selectize({});
+            if (pair.length>0){
+                $('#additionalCollapse').collapse('show')
+            }
         });
     </script>
     <script src="{{ asset('js/invoices.js') }}"></script>

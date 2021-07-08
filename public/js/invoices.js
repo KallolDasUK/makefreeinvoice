@@ -14,7 +14,6 @@ var ractive = new Ractive({
 
         ractive.push('invoice_items', copiedObject)
         let length = ractive.get('invoice_items').length;
-        console.log(`#itemSelect${length - 1}`)
 
         new TomSelect(`#itemSelect${length - 1}`, {
             sortField: {
@@ -92,7 +91,7 @@ var ractiveExtra = new Ractive({
     target: '#extra',
     template: '#extraTemplate',
     data: {
-        pairs: [jQuery.extend(true, {}, pair)],
+        pairs: pair,
     },
     addExtraField: function () {
         ractiveExtra.push('pairs', {name: '', value: ''})
@@ -120,6 +119,20 @@ var ractiveExtra = new Ractive({
 
         }
     }
+});
+var ractiveAdditional = new Ractive({
+    target: '#additionalFieldTarget',
+    template: '#additionalFieldTemplate',
+    data: {
+        additional_fields: additional_fields,
+    },
+    addAdditionalField: function () {
+        ractiveAdditional.push('additional_fields', {name: '', value: ''})
+    },
+    observe: {
+        'additional_fields': (items) => $('#additionalField').val(JSON.stringify(items))
+    },
+    removeAdditionalField: (index) => ractiveAdditional.splice('additional_fields', index, 1),
 });
 
 new TomSelect(`#itemSelect0`, {
@@ -196,12 +209,12 @@ function calculateOthers() {
     let additionalCost = 0;
     for (let i = 0; i < pairs.length; i++) {
         let pair = pairs[i];
-        additionalCost += pair.value || 0
+        additionalCost += parseFloat(pair.value) || 0
 
     }
 
     let total = ((subTotal - discount) + shippingCharge) + additionalCost + tax;
-
+    console.log('subTotal', subTotal, discount, shippingCharge, additionalCost, tax, total)
     // alert(tax)
 
     $('#total').val(total.toFixed(2))
@@ -214,6 +227,18 @@ $('#discountValue').on('input', () => calculateOthers());
 $('#shipping_input').on('input', () => calculateOthers());
 $('#discount_type').on('change', () => calculateOthers());
 
+
+// Just the ui staff
 $(document).ready(function () {
     $('[data-toggle="tooltip"]').tooltip();
+    $('#additionalCollapse').on('hidden.bs.collapse', function () {
+
+        $('#caret').addClass('fa-caret-down')
+        $('#caret').removeClass('fa-caret-up')
+
+    })
+    $('#additionalCollapse').on('shown.bs.collapse', function () {
+        $('#caret').removeClass('fa-caret-down')
+        $('#caret').addClass('fa-caret-up')
+    })
 });

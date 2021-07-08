@@ -43,13 +43,16 @@
             product_id: '', description: '', price: '', qnt: 1, tax_id: '', unit: 'Unit'
         };
         var copiedObject = jQuery.extend(true, {}, sample_item)
-        var pair = {'key': '', value: ''};
+        var pair = [{'key': '', value: ''}];
         var taxes = @json($taxes);
         var invoice_items = [copiedObject];
         var products = @json($products);
+        var additional_fields = [{name: '', value: ''}];
+
         console.log(products)
         $(document).ready(function () {
             $('.customer').selectize({});
+
         });
     </script>
     <script src="{{ asset('js/invoices.js') }}"></script>
