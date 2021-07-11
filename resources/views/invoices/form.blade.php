@@ -3,19 +3,24 @@
         <img class="border border-dashed border-red text-center" src="https://via.placeholder.com/150" width="100px"
              height="80px">
     </div>
+
+    @if($errors->any())
+        {!! implode('', $errors->all('<div>:message</div>')) !!}
+    @endif
 </div>
 <div class="row">
 
 
     <div class="col">
         <div class="form-group">
+
             <label for="invoice_number" class="text-danger">Invoice Number</label>
             <span class="text-danger font-bolder">*</span>
             <br>
-            <input class="small-input {{ $errors->has('invoice_number') ? 'is-invalid' : '' }}"
+            <input class="  {{ $errors->has('invoice_number') ? 'is-invalid' : '' }}"
                    name="invoice_number"
                    type="text" id="invoice_number"
-                   value="{{ old('invoice_number', optional($invoice)->invoice_number) }}">
+                   value="{{ old('invoice_number', optional($invoice)->invoice_number)??$next_invoice }}" required>
             {!! $errors->first('invoice_number', '<p class="form-text text-danger">:message</p>') !!}
         </div>
 
@@ -38,7 +43,8 @@
             <br>
             <input class="input-small {{ $errors->has('invoice_date') ? 'is-invalid' : '' }}"
                    style="outline: none;border: 1px dashed gray" name="invoice_date"
-                   type="date" id="invoice_date" value="{{ old('invoice_date', optional($invoice)->invoice_date) }}">
+                   type="date" id="invoice_date" value="{{ old('invoice_date', optional($invoice)->invoice_date) }}"
+                   required>
 
             {!! $errors->first('invoice_date', '<p class="form-text text-danger">:message</p>') !!}
 
@@ -49,9 +55,9 @@
             <label for="payment_terms">Payment Terms</label> <br>
             <select class="small-input" id="payment_terms" name="payment_terms" style="width: 70%">
                 <option value="" selected>--</option>
-                @foreach (['Net 30','Net 15'] as $key => $text)
+                @foreach (['45'=>'Net 45','30'=>'Net 30','15'=>'Net 15','-1'=>'Custom'] as $key=> $text)
                     <option
-                        value="{{ $key }}" {{ old('payment_terms', optional($invoice)->payment_terms) == $key ? '' : '' }}>
+                        value="{{ $key }}" {{ old('payment_terms', optional($invoice)->payment_terms) == $key ? 'selected' : '' }}>
                         {{ $text }}
                     </option>
                 @endforeach
@@ -71,24 +77,21 @@
 
             <label for="due_date">Due Date</label>
             <br>
-            <input class="small-input  {{ $errors->has('due_date') ? 'is-invalid' : '' }}" name="due_date" type="date"
+            <input class="small-input {{ $errors->has('due_date') ? 'is-invalid' : '' }}" name="due_date" type="date"
                    id="due_date" value="{{ old('due_date', optional($invoice)->due_date) }}">
             {!! $errors->first('due_date', '<p class="form-text text-danger">:message</p>') !!}
 
         </div>
     </div>
     <div class="col">
-        <div class="form-group">
-            <label>To Customer <span type="button" class="text-primary " data-toggle="modal"
-                                     data-target="#customerModal">+ New</span></label>
+        <div class="form-group mini">
+            <label>To Customer</label>
 
             <br>
 
-            <select class="customer " id="customer_id" name="customer_id">
-                <option value="" style="display: none;"
-                        {{ old('customer_id', optional($invoice)->customer_id ?: '') == '' ? 'selected' : '' }} disabled
-                        selected>Select customer
-                </option>
+            <select class="customer form-control" id="customer_id" name="customer_id" >
+                <option value="" disabled
+                        selected></option>
                 @foreach ($customers as $key => $customer)
                     <option
                         value="{{ $key }}" {{ old('customer_id', optional($invoice)->customer_id) == $key ? 'selected' : '' }}>
@@ -148,7 +151,8 @@
 
                 </td>
                 <td style="text-align: end">
-                    <input type="number" step="any" id="subTotal" name="sub_total" value="0.00" readonly
+                    <input type="number" step="any" id="subTotal" name="sub_total"
+                           value="{{ old('sub_total', optional($invoice)->sub_total) }}" readonly
                            style="border: 1px solid transparent; outline: none;text-align: end">
                 </td>
             </tr>
@@ -156,7 +160,8 @@
                 <td>
                     <b class=" font-weight-bolder text-black mr-2" style="font-size: 14px">Discount</b>
                     <input type="number" step="any" class="small-input"
-                           style="max-width: 100px; text-align: end" id="discountValue" name="discountValue">
+                           style="max-width: 100px; text-align: end" id="discountValue" name="discount_value"
+                           value="{{ old('discount_value', optional($invoice)->discount_value) }}">
                     <select class="small-input" id="discount_type" name="discount_type">
 
                         @foreach ([ '%', 'Flat'] as $key => $text)
@@ -169,9 +174,11 @@
                 </td>
                 <td style="text-align: end">
                     <label>
-                        <input type="number" step="any" id="discount" name="discount" value="0.00" readonly
+                        <input type="number" step="any" id="discount" name="discount"
+                               value="{{ old('discount', optional($invoice)->discount) }}>" readonly
                                style="border: 1px solid transparent; outline: none;text-align: end" hidden>
-                        <input type="number" step="any" id="discountShown" value="0.00" readonly
+                        <input type="number" step="any" id="discountShown"
+                               value="{{ old('discount', optional($invoice)->discount) }}" readonly
                                style="border: 1px solid transparent; outline: none;text-align: end">
                     </label>
                 </td>
@@ -181,10 +188,12 @@
 
                     <input type="number" step="any" class="small-input" style="max-width: 100px;text-align: end"
                            name="shipping_input"
-                           id="shipping_input">
+                           id="shipping_input"
+                           value="{{ old('shipping_charge', optional($invoice)->shipping_charge) }}">
                 </td>
                 <td style="text-align: end">
-                    <input type="number" id="shipping_charge" name="shipping_charge" value="0.00" readonly
+                    <input type="number" id="shipping_charge" name="shipping_charge"
+                           value="{{ old('shipping_charge', optional($invoice)->shipping_charge) }}" readonly
                            style="border: 1px solid transparent; outline: none;text-align: end">
                 </td>
             </tr>
@@ -267,28 +276,37 @@
 
 <div class="modal fade" id="customerModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
      aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog" role="document" style="margin-top:0px!important;">
+
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">New message</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
+
             <div class="modal-body">
                 <div class="form-group">
-                    <label for="recipient-name" class="col-form-label">Recipient:</label>
-                    <input type="text" class="form-control" id="recipient-name">
+                    <label for="name" class="col-form-label text-danger">Name *:</label>
+                    <input type="text" class="form-control form-control-sm" id="name" name="name">
                 </div>
                 <div class="form-group">
-                    <label for="message-text" class="col-form-label">Message:</label>
-                    <textarea class="form-control" id="message-text"></textarea>
+                    <label for="phone" class="col-form-label">Phone :</label>
+                    <input class="form-control form-control-sm" id="phone" name="phone"/>
+                </div>
+                <div class="form-group">
+                    <label for="address" class="col-form-label">Address :</label>
+                    <input class="form-control form-control-sm" id="address" name="address"/>
+                </div>
+                <div class="form-group">
+                    <label for="email" class="col-form-label">Email :</label>
+                    <input class="form-control form-control-sm" id="email" name="email"/>
+                </div>
+                <div class="form-group">
+                    <label for="message-text" class="col-form-label">Website :</label>
+                    <input class="form-control form-control-sm" id="website" name="website"/>
                 </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Send message</button>
+                <button type="button" class="btn btn-primary" id="storeUserBtn">Save Customer</button>
             </div>
+
         </div>
     </div>
 </div>
@@ -307,7 +325,7 @@
                 <table class="table text-black text-center ">
                     <thead>
                     <tr class="">
-                        <th colspan="2" scope="col" class="font-weight-bold" style="text-align: start;">Items <span class="text-danger">*</span></th>
+                        <th scope="col" class="font-weight-bold" style="text-align: start;">Items <span class="text-danger">*</span></th>
                         <th scope="col" class="font-weight-bold">Rate</th>
                         <th scope="col" class="font-weight-bold">Quantity</th>
                         <th scope="col" class="font-weight-bold">Tax</th>
@@ -319,7 +337,7 @@
                 {{#each invoice_items:i}}
         <tr fade-in>
             <td colspan="2" style="text-align: start; " >
-                <select id="itemSelect{{i}}"  value="{{ product_id }}" index="{{ i }}" required>
+                <select class="itemSelect form-control form-control-sm" id="itemSelect{{i}}"  value="{{ product_id }}" index="{{ i }}" required>
                             <option disabled selected value=""> -- </option>
                             {{ #each products:i }}
         <option value="{{ id }}" > {{ name }}</option>
@@ -330,10 +348,10 @@
             <td> <input type="number" step="any" style="text-align: end"  class="small-input" value="{{ price }}" required></td>
             <td> <input type="number" step="any" style="text-align: end"  class="small-input" value="{{ qnt }}" required>
             <br>
-            <p class="mr-4"> <input class="" type="text" style="width: 100%;outline: none;border:0 !important;text-align: end;padding: 5px"  value="{{ unit }}"/> </p>
+            <p class="text-right mr-2"> <input class=" small-input text-right" type="text" style="width: 50px;outline: none;border:0 !important;text-align: end;padding: 5px;border-bottom: 1px solid gray !important"  value="{{ unit }}"/> </p>
              </td>
             <td style="max-width: 120px">
-            <select class="small-input" value="{{ tax_id }}" style="min-width: 80%;max-width: 80%">
+            <select id="itemTax{{i}}" class="small-input" value="{{ tax_id }}" style="min-width: 80%;max-width: 80%">
                     <option value="">--</option>
                     {{ #each taxes:index }}
         <option value="{{id}}">{{ name }} - {{value}}%</option>
@@ -354,6 +372,25 @@
             <span role="button" on-click="@this.addInvoiceItem()" class="p-4 text-center text-primary"
                   style="cursor: pointer">+ Add Line</span>
         </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -393,7 +430,7 @@
 
                     </td>
                     <td style="text-align: end">
-                        <input type="number" id="shipping_charge" name="shipping_charge" value="{{ value }}" readonly
+                        <input type="number"  value="{{ value }}" readonly
                         class="{{ className }}" style="border: 1px solid transparent; outline: none;text-align: end">
                     </td>
                 </tr>
@@ -403,6 +440,25 @@
                           <td><span class="text-primary " on-click="@this.addExtraField()" style="cursor:pointer;">+ Add More</span></td>
                           <td></td>
                       </tr>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -454,6 +510,25 @@
               <td><span class="text-primary " on-click="@this.addAdditionalField()" style="cursor:pointer;">+ Add More</span></td>
               <td></td>
           </tr>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

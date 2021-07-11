@@ -27,6 +27,8 @@
     --}}
     <link media="all" type="text/css" rel="stylesheet" href="{{ asset('css/materialicon.css') }}">
     <link media="all" type="text/css" rel="stylesheet" href="{{ asset('css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" integrity="sha512-nMNlpuaDPrqlEls3IX/Q56H36qvBASwb3ipuo3MxeWbsQB1881ox0cRv7UPTgBlriqoynt35KjEwgGUeUXIPnw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link media="all" type="text/css" rel="stylesheet" href="{{ asset('css/select2-bootstrap.css') }}">
 
     <link media="all" type="text/css" rel="stylesheet"
           href="https://www.bootstrapdash.com/demo/connect-plus/laravel/template/demo_1/assets/plugins/perfect-scrollbar/perfect-scrollbar.css">
@@ -34,8 +36,7 @@
 
     <link media="all" type="text/css" rel="stylesheet"
           href="https://www.bootstrapdash.com/demo/connect-plus/laravel/template/demo_1/assets/plugins/icheck/skins/all.css">
-    <link media="all" type="text/css" rel="stylesheet"
-          href="https://www.bootstrapdash.com/demo/connect-plus/laravel/template/demo_1/assets/plugins/select2/css/select2.min.css">
+
 
     <!-- common css -->
     <link media="all" type="text/css" rel="stylesheet"
@@ -46,8 +47,6 @@
 
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet"/>
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
 
     <link href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css" rel="stylesheet"/>
     <link media="all" type="text/css" rel="stylesheet"
@@ -82,6 +81,7 @@
             background-image: none !important;
 
         }
+
         /*body > * {*/
         /*    -webkit-transition: all 2s ease !important;*/
         /*    -moz-transition: all 2s ease !important;*/
@@ -91,6 +91,7 @@
         .borderless td, .borderless th {
             border: none;
         }
+
         .tip {
             position: relative;
             display: inline-block;
@@ -114,6 +115,7 @@
         .tip:hover .tooltiptext {
             visibility: visible;
         }
+
         div.dataTables_wrapper div.dataTables_length select {
             width: auto;
             display: inline-block;
@@ -134,32 +136,8 @@
             border-bottom: 0px solid #111;
         }
 
-        .select2-results__option[aria-selected=true] {
-            display: none;
-        }
 
-        .select2-selection--multiple {
-            overflow: hidden !important;
-            height: auto !important;
-        }
 
-        .select2-selection__rendered {
-            line-height: 42px !important;
-        }
-
-        .select2-container--open {
-            z-index: 9999999
-        }
-
-        .select2-container .select2-selection--single {
-            height: 42px !important;
-
-            border: 1px solid rgba(151, 151, 151, 0.3) !important;
-        }
-
-        .select2-selection__arrow {
-            height: 42px !important;
-        }
 
         .scrollbar {
             margin-left: 30px;
@@ -257,8 +235,6 @@
             color: black !important;
             font-weight: bold;
         }
-
-
 
 
         .small-input:focus {
@@ -681,14 +657,15 @@
         src="https://www.bootstrapdash.com/demo/connect-plus/laravel/template/demo_1/assets/plugins/perfect-scrollbar/perfect-scrollbar.min.js">
     </script>
     <!-- end base js -->
+{{--    <link rel="stylesheet" type="text/css" href="{{ asset('css/semantic.min.css') }}">--}}
+{{--    <script src="{{ asset('js/app.js') }}"></script>--}}
 
-    <!-- plugin js -->
+{{--    <script src="{{ asset('js/semantic.min.js') }}"></script>--}}
+<!-- plugin js -->
     <script
         src="https://www.bootstrapdash.com/demo/connect-plus/laravel/template/demo_1/assets/plugins/icheck/icheck.min.js">
     </script>
-    <script
-        src="https://www.bootstrapdash.com/demo/connect-plus/laravel/template/demo_1/assets/plugins/select2/js/select2.min.js">
-    </script>
+
     <script
         src="https://www.bootstrapdash.com/demo/connect-plus/laravel/template/demo_1/assets/plugins/typeaheadjs/typeahead.bundle.min.js">
     </script>
@@ -714,8 +691,7 @@
     </script>
     <script src="https://www.bootstrapdash.com/demo/connect-plus/laravel/template/demo_1/assets/js/iCheck.js">
     </script>
-    <script src="https://www.bootstrapdash.com/demo/connect-plus/laravel/template/demo_1/assets/js/select2.js">
-    </script>
+
     <script
         src="https://www.bootstrapdash.com/demo/connect-plus/laravel/template/demo_1/assets/js/typeahead.js">
     </script>
@@ -726,9 +702,11 @@
         src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js"
         integrity="sha256-+C0A5Ilqmu4QcSPxrlGpaZxJ04VjsRjKu+G82kl5UJk="
         crossorigin="anonymous"></script>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.full.min.js" integrity="sha512-RtZU3AyMVArmHLiW0suEZ9McadTdegwbgtiQl5Qqo9kunkVg1ofwueXD8/8wv3Af8jkME3DDe3yLfR8HSJfT2g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script>
         Ractive.DEBUG = true;
+        $.fn.select2.defaults.set("theme", "bootstrap");
+
     </script>
 @yield('js')
 @stack('js')

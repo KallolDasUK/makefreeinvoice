@@ -32,7 +32,10 @@ class CustomersController extends Controller
 
         $data = $this->getData($request);
 
-        Customer::create($data);
+        $customer = Customer::create($data);
+        if ($request->acceptsJson()) {
+            return $customer;
+        }
 
         return redirect()->route('customers.customer.index')
             ->with('success_message', 'Customer was successfully added.');

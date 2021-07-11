@@ -23,7 +23,11 @@
 
                 <div class="form-group">
                     <div class="float-right">
-                        <input class="btn btn-primary btn-lg btn-fw" type="submit" value="Save Invoice">
+
+                        <button class="btn btn-primary btn-lg btn-fw" type="submit">
+
+                            <i class="far fa-save"></i> Save Invoice
+                        </button>
                     </div>
                 </div>
 
@@ -40,7 +44,7 @@
 
     <script>
         var sample_item = {
-            product_id: '', description: '', price: '', qnt: 1, tax_id: '', unit: 'Unit'
+            product_id: '', description: '', price: '', qnt: 1, tax_id: '', unit: 'unit'
         };
         var copiedObject = jQuery.extend(true, {}, sample_item)
         var pair = [{'key': '', value: ''}];
@@ -51,19 +55,44 @@
 
         console.log(products)
         $(document).ready(function () {
-            $('.customer').selectize({});
+            let addedNewPlusButton = false;
+
+            $('.customer').select2({
+                placeholder: "--Select or Add Customer--"
+            }).on('select2:open', function () {
+                let a = $(this).data('select2');
+                if (addedNewPlusButton) return false;
+                if (!$('.select2-link').length) {
+                    a.$results.parents('.select2-results')
+                        .append('<div><button  data-toggle="modal" data-target="#customerModal" class="btn btn-default text-primary underline btn-fw" style="width: 100%">+ Add New Customer</button></div>')
+                        .on('click', function (b) {
+
+                            $(".customer").select2("close");
+
+                        });
+                    addedNewPlusButton = true;
+                }
+            })
+
+
 
         });
     </script>
     <script src="{{ asset('js/invoices.js') }}"></script>
+    <script src="{{ asset('js/invoice-crud.js') }}"></script>
+
 @endsection
 
 
 
 @section('css')
+    <link media="all" type="text/css" rel="stylesheet"
+          href="{{ asset('css/invoice.css') }}">
     <style>
         td > * {
             vertical-align: top !important;
         }
     </style>
 @endsection
+
+

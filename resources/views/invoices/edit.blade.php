@@ -6,7 +6,7 @@
 
         <div class="card-header">
 
-            <h5  class="my-1 float-left">{{ !empty($title) ? $title : 'Invoice' }}</h5>
+            <h5 class="my-1 float-left">{{ !empty($title) ? $title : 'Invoice' }}</h5>
 
             <div class="btn-group btn-group-sm float-right" role="group">
 
@@ -33,16 +33,20 @@
                 </ul>
             @endif
 
-            <form method="POST" action="{{ route('invoices.invoice.update', $invoice->id) }}" id="edit_invoice_form" name="edit_invoice_form" accept-charset="UTF-8" class="form-horizontal" enctype="multipart/form-data">
-            {{ csrf_field() }}
-            <input name="_method" type="hidden" value="PUT">
-            @include ('invoices.form', [
-                                        'invoice' => $invoice,
-                                      ])
+            <form method="POST" action="{{ route('invoices.invoice.update', $invoice->id) }}" id="edit_invoice_form"
+                  name="edit_invoice_form" accept-charset="UTF-8" class="form-horizontal" enctype="multipart/form-data">
+                {{ csrf_field() }}
+                <input name="_method" type="hidden" value="PUT">
+                @include ('invoices.form', ['invoice' => $invoice])
 
-                <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
-                        <input class="btn btn-primary" type="submit" value="Update">
+                <div class="form-group mt-2">
+                    <div class="float-right">
+
+                        <button class="btn btn-primary btn-lg btn-fw" type="submit">
+
+                            <i class="far fa-share-square"></i>
+                            Update Invoice
+                        </button>
                     </div>
                 </div>
             </form>
@@ -52,26 +56,31 @@
 
 @endsection
 
+@section('css')
+    <link media="all" type="text/css" rel="stylesheet"
+          href="{{ asset('css/invoice.css') }}">
+@endsection
 
 @section('js')
 
     <script>
         var sample_item = {
-            product_id: '', description: '', price: '', qnt: 1, tax_id: '', unit: 'Unit'
+            product_id: '', description: '', price: '', qnt: 1, tax_id: '', unit: 'unit'
         };
         var copiedObject = jQuery.extend(true, {}, sample_item)
-        var pair = @json($additional);
+        var pair = @json($invoiceExtraField);
         var taxes = @json($taxes);
         var invoice_items = @json($invoice_items);
         var products = @json($products);
-        var additional_fields = @json($additionalFields);
-        console.log(pair,'pairs')
+        var additional_fields = @json($extraFields);
+        console.log(pair, 'pairs')
         $(document).ready(function () {
             $('.customer').selectize({});
-            if (pair.length>0){
+            if (additional_fields.length > 0) {
                 $('#additionalCollapse').collapse('show')
             }
         });
     </script>
     <script src="{{ asset('js/invoices.js') }}"></script>
+    <script src="{{ asset('js/invoice-crud.js') }}"></script>
 @endsection

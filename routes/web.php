@@ -98,12 +98,14 @@ Route::group([
     'prefix' => 'taxes',
 ], function () {
 
-    Route::get('/', [TaxesController::class,'index'])->name('taxes.tax.index');
-    Route::get('/create',[TaxesController::class,'create'])->name('taxes.tax.create');
-    Route::get('/show/{tax}',[TaxesController::class,'show'])->name('taxes.tax.show')->where('id', '[0-9]+');
-    Route::get('/{tax}/edit',[TaxesController::class,'edit'])->name('taxes.tax.edit')->where('id', '[0-9]+');
-    Route::post('/', [TaxesController::class,'store'])->name('taxes.tax.store');
-    Route::put('tax/{tax}', [TaxesController::class,'update'])->name('taxes.tax.update')->where('id', '[0-9]+');
-    Route::delete('/tax/{tax}',[TaxesController::class,'destroy'])->name('taxes.tax.destroy')->where('id', '[0-9]+');
+    Route::get('/', [TaxesController::class, 'index'])->name('taxes.tax.index');
+    Route::get('/create', [TaxesController::class, 'create'])->name('taxes.tax.create');
+    Route::get('/show/{tax}', [TaxesController::class, 'show'])->name('taxes.tax.show')->where('id', '[0-9]+');
+    Route::get('/{tax}/edit', [TaxesController::class, 'edit'])->name('taxes.tax.edit')->where('id', '[0-9]+');
+    Route::post('/', [TaxesController::class, 'store'])->name('taxes.tax.store');
+    Route::put('tax/{tax}', [TaxesController::class, 'update'])->name('taxes.tax.update')->where('id', '[0-9]+');
+    Route::delete('/tax/{tax}', [TaxesController::class, 'destroy'])->name('taxes.tax.destroy')->where('id', '[0-9]+');
 
 });
+
+Route::view('/test', 'test');

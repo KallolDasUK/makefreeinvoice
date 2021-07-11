@@ -28,7 +28,8 @@ class InvoicesController extends Controller
         $customers = Customer::pluck('name', 'id')->all();
         $products = Product::query()->latest()->get();
         $taxes = Tax::query()->latest()->get()->toArray();
-        return view('invoices.create', compact('customers', 'products', 'taxes'));
+        $next_invoice = str_pad(count(Invoice::query()->get())+1, 4, '0', STR_PAD_LEFT);
+        return view('invoices.create', compact('customers', 'products', 'taxes','next_invoice'));
     }
 
 
@@ -37,7 +38,6 @@ class InvoicesController extends Controller
 
 
         $data = $this->getData($request);
-//        dd($data);
         $invoice_items = $data['invoice_items'] ?? [];
         $extraFields = $data['additional'] ?? [];
         $additionalFields = $data['additional_fields'] ?? [];
@@ -46,10 +46,27 @@ class InvoicesController extends Controller
         unset($data['additional_fields']);
 
         $invoice = Invoice::create($data);
+
+        $this->insertDataToOtherTable($invoice, $invoice_items, $extraFields, $additionalFields);
+        return redirect()->route('invoices.invoice.index')
+            ->with('success_message', 'Invoice was successfully added.');
+
+    }
+
+    public function insertDataToOtherTable($invoice, $invoice_items, $extraFields, $additionalFields)
+    {
+//        dd($invoice_items);
         foreach ($invoice_items as $invoice_item) {
-            InvoiceItem::create(['invoice_id' => $invoice->id, 'product_id' => $invoice_item->product_id,
+            $product_id = $invoice_item->product_id;
+            if (!is_numeric($product_id)) {
+                $product = Product::create(['product_type' => 'Service', 'name' => $invoice_item->product_id, 'sell_price' => $invoice_item->price, 'sell_unit' => $invoice_item->unit ?? '',
+                    'description' => $invoice_item->description]);
+                $product_id = $product->id;
+            }
+
+            InvoiceItem::create(['invoice_id' => $invoice->id, 'product_id' => $product_id,
                 'description' => $invoice_item->description, 'qnt' => $invoice_item->qnt, 'unit' => $invoice_item->unit ?? '',
-                'price' => $invoice_item->price, 'amount' => $invoice_item->price * $invoice_item->qnt, 'tax_id' => $invoice_item->tax_id]);
+                'price' => $invoice_item->price, 'amount' => $invoice_item->price * $invoice_item->qnt, 'tax_id' => $invoice_item->tax_id == '' ? 0 : $invoice_item->tax_id]);
         }
         foreach ($extraFields as $additional) {
             InvoiceExtraField::create(['name' => $additional->name, 'value' => $additional->value, 'invoice_id' => $invoice->id]);
@@ -58,17 +75,11 @@ class InvoicesController extends Controller
         foreach ($additionalFields as $additional) {
             ExtraField::create(['name' => $additional->name, 'value' => $additional->value, 'type' => Invoice::class, 'type_id' => $invoice->id]);
         }
-
-        return redirect()->route('invoices.invoice.index')
-            ->with('success_message', 'Invoice was successfully added.');
-
     }
-
 
     public function show($id)
     {
         $invoice = Invoice::with('customer')->findOrFail($id);
-
         return view('invoices.show', compact('invoice'));
     }
 
@@ -79,12 +90,13 @@ class InvoicesController extends Controller
         $customers = Customer::pluck('name', 'id')->all();
         $taxes = Tax::query()->latest()->get()->toArray();
         $invoice_items = InvoiceItem::query()->where('invoice_id', $invoice->id)->get();
-        $additional = InvoiceExtraField::query()->where('invoice_id', $invoice->id)->get();
-        $additionalFields = ExtraField::query()->where('type', Invoice::class)->where('type_id', $invoice->id)->get();
+        $invoiceExtraField = InvoiceExtraField::query()->where('invoice_id', $invoice->id)->get();
+        $extraFields = ExtraField::query()->where('type', Invoice::class)->where('type_id', $invoice->id)->get();
         $products = Product::query()->latest()->get();
+//        dd($extraFields, $invoice->id);
 
-//        dd($additional, $additionalFields);
-        return view('invoices.edit', compact('invoice', 'customers', 'taxes', 'invoice_items', 'additional', 'products', 'additionalFields'));
+//        dd($additional, $additionalFields,$invoice->toArray());
+        return view('invoices.edit', compact('invoice', 'customers', 'taxes', 'invoice_items', 'invoiceExtraField', 'products', 'extraFields'));
     }
 
 
@@ -93,9 +105,19 @@ class InvoicesController extends Controller
 
 
         $data = $this->getData($request);
+        $invoice_items = $data['invoice_items'] ?? [];
+        $extraFields = $data['additional'] ?? [];
+        $additionalFields = $data['additional_fields'] ?? [];
+        unset($data['invoice_items']);
+        unset($data['additional']);
+        unset($data['additional_fields']);
 
         $invoice = Invoice::findOrFail($id);
         $invoice->update($data);
+        InvoiceExtraField::query()->where('invoice_id', $invoice->id)->delete();
+        InvoiceItem::query()->where('invoice_id', $invoice->id)->delete();
+        ExtraField::query()->where('type', get_class($invoice))->where('type_id', $invoice->id)->delete();
+        $this->insertDataToOtherTable($invoice, $invoice_items, $extraFields, $additionalFields);
 
         return redirect()->route('invoices.invoice.index')->with('success_message', 'Invoice was successfully updated.');
 
@@ -108,6 +130,7 @@ class InvoicesController extends Controller
         $invoice = Invoice::findOrFail($id);
         InvoiceExtraField::query()->where('invoice_id', $invoice->id)->delete();
         InvoiceItem::query()->where('invoice_id', $invoice->id)->delete();
+        ExtraField::query()->where('type', get_class($invoice))->where('type_id', $invoice->id)->delete();
         $invoice->delete();
 
         return redirect()->route('invoices.invoice.index')->with('success_message', 'Invoice was successfully deleted.');
@@ -125,9 +148,9 @@ class InvoicesController extends Controller
             'invoice_date' => 'required',
             'payment_terms' => 'nullable',
             'due_date' => 'nullable',
-            'discount_type' => 'string',
-            'discount_value' => 'string',
-            'discount' => 'string',
+            'discount_type' => 'nullable',
+            'discount_value' => 'nullable',
+            'discount' => 'nullable',
             'sub_total' => 'numeric',
             'shipping_charge' => 'numeric',
             'total' => 'numeric',

@@ -1,4 +1,4 @@
-let subTotal = 0;
+let subTotal = parseFloat($('subTotal').val());
 var ractive = new Ractive({
     target: '#target',
     template: '#template',
@@ -43,6 +43,7 @@ var ractive = new Ractive({
     observe: {
         'invoice_items': (newValue) => {
             let invoice_items = newValue;
+            console.log(invoice_items)
             let sub = 0;
             ractiveExtra.set(`appliedTax`, [])
             // alert('sdlfk')
@@ -135,27 +136,31 @@ var ractiveAdditional = new Ractive({
     removeAdditionalField: (index) => ractiveAdditional.splice('additional_fields', index, 1),
 });
 
-new TomSelect(`#itemSelect0`, {
-    create: true,
-    sortField: {
-        field: "text",
-        direction: "asc"
-    },
-    plugins: {
-        'dropdown_header': {
-            title: 'Language',
-            html: function (data) {
-                return `<div >
-                    <a href="/sdlfd" >+ Add New Item</a>
-			            </div>`;
-            }
-        },
 
-    },
-});
-$('#itemSelect0').on('change', function (e) {
-    onProductChangeEvent(e)
-})
+for (let i = 0; i < invoice_items.length; i++) {
+    let addedNewPlusButton = false;
+    $(`#itemTax${i}`).select2({
+        placeholder: "--Select or Add Item--"
+    }).on('select2:open', function (event) {
+        let a = $(this).data('select2');
+        if (addedNewPlusButton) return false;
+        if (!$('.select2-link').length) {
+            a.$results.parents('.select2-results')
+                .append('<div><button  data-toggle="modal" data-target="#productModal" class="btn btn-default text-primary underline btn-fw" style="width: 100%">+ Add Item</button></div>')
+                .on('click', function (b) {
+                    $(event.target).select2("close");
+
+                });
+            addedNewPlusButton = true;
+        }
+    })
+
+
+    $(`#itemSelect${i}`).on('change', function (e) {
+        onProductChangeEvent(e)
+    });
+
+}
 
 function onProductChangeEvent(e) {
     let id = e.target.value;
@@ -168,8 +173,11 @@ function calculate(product_id, lineIndex) {
     let product = products.filter((item) => item.id === parseInt(product_id));
     if (product.length)
         product = product[0];
-    ractive.set(`invoice_items.${lineIndex}.unit`, product.sell_unit)
-    ractive.set(`invoice_items.${lineIndex}.price`, product.sell_price)
+    ractive.set(`invoice_items.${lineIndex}.unit`, product.sell_unit || 'unit')
+    if (product.sell_price) {
+        ractive.set(`invoice_items.${lineIndex}.price`, product.sell_price)
+
+    }
 
     calculateOthers()
 }
@@ -232,7 +240,6 @@ $('#discount_type').on('change', () => calculateOthers());
 $(document).ready(function () {
     $('[data-toggle="tooltip"]').tooltip();
     $('#additionalCollapse').on('hidden.bs.collapse', function () {
-
         $('#caret').addClass('fa-caret-down')
         $('#caret').removeClass('fa-caret-up')
 
@@ -241,4 +248,7 @@ $(document).ready(function () {
         $('#caret').removeClass('fa-caret-down')
         $('#caret').addClass('fa-caret-up')
     })
+    // calculateOthers()
+    ractive.set('invoice_items.0.test', '')
+
 });

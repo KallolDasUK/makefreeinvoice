@@ -67,7 +67,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tether-drop/1.4.2/js/drop.min.js"
             integrity="sha512-Lvy+Fbz3bTkUx6BrU0hmCh/paXCkl0sWDE4JVASkehxQlUcQtzOJHin6dsR+zy+RYlMAy5wdY3mGyFTgENQaBA=="
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
+    <script src="{{ asset('js/app.js') }}"></script>
     @yield('css')
     @stack('css')
     <livewire:styles/>
