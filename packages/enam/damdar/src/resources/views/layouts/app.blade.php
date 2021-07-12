@@ -241,7 +241,20 @@
             outline: none;
             border: 1px dashed black !important;
         }
-
+        .input-sm {
+            height: 30px;
+            padding: 5px 10px;
+            font-size: 12px;
+            line-height: 1.5;
+            border-radius: 3px;
+        }
+        .form-control-xs {
+            height: calc(1em + .375rem + 2px) !important;
+            padding: .125rem .25rem !important;
+            font-size: .75rem !important;
+            line-height: 1.5;
+            border-radius: .2rem;
+        }
         .small-input {
             outline: none;
             border: 1px dashed lightgray !important;
@@ -653,6 +666,10 @@
     <script src="https://www.bootstrapdash.com/demo/connect-plus/laravel/template/demo_1/js/app.js"></script>
     <script
         src="https://cdn.jsdelivr.net/npm/ractive"></script>
+    <script src="https://cdn.jsdelivr.net/npm/ractive-transitions-fade"></script>
+    <script src="https://cdn.jsdelivr.net/npm/ractive-transitions-slide"></script>
+    <script src="https://cdn.jsdelivr.net/npm/ractive-transitions-fly"></script>
+
     <script
         src="https://www.bootstrapdash.com/demo/connect-plus/laravel/template/demo_1/assets/plugins/perfect-scrollbar/perfect-scrollbar.min.js">
     </script>

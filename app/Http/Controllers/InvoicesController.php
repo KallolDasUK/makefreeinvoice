@@ -37,6 +37,7 @@ class InvoicesController extends Controller
     {
 
 
+//        dd($request->all());
         $data = $this->getData($request);
         $invoice_items = $data['invoice_items'] ?? [];
         $extraFields = $data['additional'] ?? [];

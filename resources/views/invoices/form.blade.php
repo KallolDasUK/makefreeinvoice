@@ -17,7 +17,7 @@
             <label for="invoice_number" class="text-danger">Invoice Number</label>
             <span class="text-danger font-bolder">*</span>
             <br>
-            <input class="  {{ $errors->has('invoice_number') ? 'is-invalid' : '' }}"
+            <input class="form-control form-control-sm  {{ $errors->has('invoice_number') ? 'is-invalid' : '' }}"
                    name="invoice_number"
                    type="text" id="invoice_number"
                    value="{{ old('invoice_number', optional($invoice)->invoice_number)??$next_invoice }}" required>
@@ -29,7 +29,7 @@
         <div class="form-group">
             <label for="order_number">Order Number</label>
             <br>
-            <input class="small-input {{ $errors->has('order_number') ? 'is-invalid' : '' }}" name="order_number"
+            <input class="form-control form-control-sm{{ $errors->has('order_number') ? 'is-invalid' : '' }}" name="order_number"
                    type="text" id="order_number" value="{{ old('order_number', optional($invoice)->order_number) }}">
 
             {!! $errors->first('order_number', '<p class="form-text text-danger">:message</p>') !!}
@@ -41,8 +41,8 @@
             <label class="text-danger" for="invoice_date">Invoice Date</label> <span
                 class="text-danger font-bolder">*</span>
             <br>
-            <input class="input-small {{ $errors->has('invoice_date') ? 'is-invalid' : '' }}"
-                   style="outline: none;border: 1px dashed gray" name="invoice_date"
+            <input class="form-control form-control-sm {{ $errors->has('invoice_date') ? 'is-invalid' : '' }}"
+                    name="invoice_date"
                    type="date" id="invoice_date" value="{{ old('invoice_date', optional($invoice)->invoice_date) }}"
                    required>
 
@@ -53,7 +53,7 @@
     <div class="col">
         <div class="form-group">
             <label for="payment_terms">Payment Terms</label> <br>
-            <select class="small-input" id="payment_terms" name="payment_terms" style="width: 70%">
+            <select class="form-control form-control-sm" id="payment_terms" name="payment_terms" style="width: 70%">
                 <option value="" selected>--</option>
                 @foreach (['45'=>'Net 45','30'=>'Net 30','15'=>'Net 15','-1'=>'Custom'] as $key=> $text)
                     <option
@@ -77,7 +77,7 @@
 
             <label for="due_date">Due Date</label>
             <br>
-            <input class="small-input {{ $errors->has('due_date') ? 'is-invalid' : '' }}" name="due_date" type="date"
+            <input class="form-control form-control-sm {{ $errors->has('due_date') ? 'is-invalid' : '' }}" name="due_date" type="date"
                    id="due_date" value="{{ old('due_date', optional($invoice)->due_date) }}">
             {!! $errors->first('due_date', '<p class="form-text text-danger">:message</p>') !!}
 
@@ -89,7 +89,7 @@
 
             <br>
 
-            <select class="customer form-control" id="customer_id" name="customer_id" >
+            <select class="customer form-control" id="customer_id" name="customer_id">
                 <option value="" disabled
                         selected></option>
                 @foreach ($customers as $key => $customer)
@@ -322,37 +322,37 @@
 @verbatim
     <script id="template" type="text/ractive">
 
-                <table class="table text-black text-center ">
+                <table class="table text-black text-center  ">
                     <thead>
                     <tr class="">
-                        <th scope="col" class="font-weight-bold" style="text-align: start;">Items <span class="text-danger">*</span></th>
-                        <th scope="col" class="font-weight-bold">Rate</th>
-                        <th scope="col" class="font-weight-bold">Quantity</th>
-                        <th scope="col" class="font-weight-bold">Tax</th>
-                        <th scope="col" class="font-weight-bold">Amount</th>
-                         <th>Action</th>
+                        <th  class="font-weight-bold" style="text-align: start;">Items <span class="text-danger">*</span></th>
+                        <th style="width: 13%" scope="col" class="font-weight-bold">Rate</th>
+                        <th style="width: 13%"  scope="col" class="font-weight-bold">Quantity</th>
+                        <th style="width: 15%" scope="col" class="font-weight-bold">Tax</th>
+                        <th  scope="col" class="font-weight-bold">Amount</th>
+                         <th style="width: 5%" ></th>
                     </tr>
                     </thead>
                 <tbody>
                 {{#each invoice_items:i}}
         <tr id="row{{i}}" fade-in>
-            <td style="text-align: start; " >
-                <select class="itemSelect form-control form-control-sm" id="itemSelect{{i}}"  value="{{ product_id }}" index="{{ i }}" required>
+            <td>
+                <select style="width: 100%" class="itemSelect form-control input-sm " id="itemSelect{{i}}"  value="{{ product_id }}
+        " index="{{ i }}" required>
                             <option disabled selected value=""> -- </option>
                             {{ #each products:i }}
         <option value="{{ id }}" > {{ name }}</option>
                             {{ /each }}
         </select>
-        <input type="text" value="{{ description }}" style="border: none!important;" class="small-input" placeholder="Item Description ...">
+   <input type="text" value="{{ description }}" style="border: none!important;" class="form-control form-control-sm input-sm" placeholder="Item Description ...">
             </td>
-            <td> <input type="number" step="any" style="text-align: end"  class="small-input rate" value="{{ price }}" required></td>
-            <td> <input type="number" step="any" style="text-align: end"  class="small-input" value="{{ qnt }}" required>
-            <br>
-            <p class="text-right mr-2"> <input class=" small-input text-right" type="text" style="width: 50px;outline: none;border:0 !important;text-align: end;padding: 5px;border-bottom: 1px solid gray !important"  value="{{ unit }}"/> </p>
+            <td> <input type="number" step="any" style="text-align: end"  class="form-control form-control-sm input-sm rate" value="{{ price }}" required></td>
+            <td> <input type="number" step="any" style="text-align: end"  class="form-control form-control-sm  input-sm" value="{{ qnt }}" required>
+            <input class="text-right form-control input-sm" type="text" style="outline: none;border:0 !important;text-align: end; text-decoration: underline;text-decoration-style: dashed;text-decoration-color: red"  value="{{ unit }}"/>
              </td>
-            <td style="max-width: 120px">
-            <select id="itemTax{{i}}" class="small-input" value="{{ tax_id }}">
-                    <option value="">--</option>
+            <td >
+            <select index="{{i}}" id="itemTax{{i}}" class="form-control form-control-sm" value="{{ tax_id }}">
+                    <option value="" selected>--</option>
                     {{ #each taxes:index }}
         <option value="{{id}}">{{ name }} - {{value}}%</option>
                     {{ /each }}
@@ -360,7 +360,7 @@
         <br>
         &nbsp;
      </td>
-    <td> <input type="number" step="any" style="text-align: end"   style="border: 1px solid transparent; outline: none;text-align: center" readonly value="{{ parseFloat(price * qnt).toFixed(2) }}"></td>
+    <td> <input class="font-weight-bolder" type="number" step="any" style="text-align: end"   style="border: 1px solid transparent; outline: none;text-align: center" twoway="false" readonly value="{{ parseFloat(price * qnt).toFixed(2) }}"></td>
             <td on-click="@this.delete(i)" style="cursor: pointer"> <i class="fa fa-trash text-danger" ></i></td>
          </tr>
 {{ /each}}
@@ -372,6 +372,10 @@
             <span role="button" on-click="@this.addInvoiceItem()" class="p-4 text-center text-primary"
                   style="cursor: pointer">+ Add Line</span>
         </div>
+
+
+
+
 
 
 
@@ -486,6 +490,10 @@
 
 
 
+
+
+
+
     </script>
 @endverbatim
 @verbatim
@@ -510,6 +518,10 @@
               <td><span class="text-primary " on-click="@this.addAdditionalField()" style="cursor:pointer;">+ Add More</span></td>
               <td></td>
           </tr>
+
+
+
+
 
 
 

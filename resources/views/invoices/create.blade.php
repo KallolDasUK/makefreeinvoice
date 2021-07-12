@@ -55,27 +55,21 @@
 
         console.log(products)
         $(document).ready(function () {
-            let addedNewPlusButton = false;
 
             $('.customer').select2({
-                placeholder: "--Select or Add Customer--"
+                placeholder: "Choose or New Customer"
             }).on('select2:open', function () {
                 let a = $(this).data('select2');
-                if (addedNewPlusButton) return false;
-                if (!$('.select2-link').length) {
+                let doExits = a.$results.parents('.select2-results').find('button')
+                if (!doExits.length) {
                     a.$results.parents('.select2-results')
                         .append('<div><button  data-toggle="modal" data-target="#customerModal" class="btn btn-default text-primary underline btn-fw" style="width: 100%">+ Add New Customer</button></div>')
                         .on('click', function (b) {
-
                             $(".customer").select2("close");
-
                         });
-                    addedNewPlusButton = true;
                 }
+
             })
-
-
-
 
 
         });
