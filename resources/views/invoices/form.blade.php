@@ -335,8 +335,8 @@
                     </thead>
                 <tbody>
                 {{#each invoice_items:i}}
-        <tr fade-in>
-            <td colspan="2" style="text-align: start; " >
+        <tr id="row{{i}}" fade-in>
+            <td style="text-align: start; " >
                 <select class="itemSelect form-control form-control-sm" id="itemSelect{{i}}"  value="{{ product_id }}" index="{{ i }}" required>
                             <option disabled selected value=""> -- </option>
                             {{ #each products:i }}
@@ -345,13 +345,13 @@
         </select>
         <input type="text" value="{{ description }}" style="border: none!important;" class="small-input" placeholder="Item Description ...">
             </td>
-            <td> <input type="number" step="any" style="text-align: end"  class="small-input" value="{{ price }}" required></td>
+            <td> <input type="number" step="any" style="text-align: end"  class="small-input rate" value="{{ price }}" required></td>
             <td> <input type="number" step="any" style="text-align: end"  class="small-input" value="{{ qnt }}" required>
             <br>
             <p class="text-right mr-2"> <input class=" small-input text-right" type="text" style="width: 50px;outline: none;border:0 !important;text-align: end;padding: 5px;border-bottom: 1px solid gray !important"  value="{{ unit }}"/> </p>
              </td>
             <td style="max-width: 120px">
-            <select id="itemTax{{i}}" class="small-input" value="{{ tax_id }}" style="min-width: 80%;max-width: 80%">
+            <select id="itemTax{{i}}" class="small-input" value="{{ tax_id }}">
                     <option value="">--</option>
                     {{ #each taxes:index }}
         <option value="{{id}}">{{ name }} - {{value}}%</option>

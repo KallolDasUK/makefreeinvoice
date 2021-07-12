@@ -13,28 +13,43 @@ var ractive = new Ractive({
         var copiedObject = jQuery.extend(true, {}, sample_item)
 
         ractive.push('invoice_items', copiedObject)
-        let length = ractive.get('invoice_items').length;
+        let i = ractive.get('invoice_items').length - 1;
 
-        new TomSelect(`#itemSelect${length - 1}`, {
-            sortField: {
-                field: "text",
-                direction: "asc"
-            },
-            plugins: {
-                'dropdown_header': {
-                    title: 'Language',
-                    html: function (data) {
-                        return `<div >
-                    <a href="/sdlfd" >+ Add New Item</a>
-			            </div>`;
-                    }
-                },
+        $(`#itemSelect${i}`).select2({
+            placeholder: "--Select or Add Item--"
+        }).on('select2:open', function (event) {
+            let a = $(this).data('select2');
 
-            },
-        });
-        $(`#itemSelect${length - 1}`).on('change', function (e) {
-            onProductChangeEvent(e)
+            let doExits = a.$results.parents('.select2-results').find('button')
+            if (!doExits.length) {
+                a.$results.parents('.select2-results')
+                    .append('<div><button  data-toggle="modal" data-target="#productModal" class="btn btn-default text-primary underline btn-fw" style="width: 100%">+ Add Item</button></div>')
+                    .on('click', function (b) {
+                        $(event.target).select2("close");
+                    });
+            }
         })
+
+        $(`#itemTax${i}`).select2({
+            placeholder: "--Select or Add Item--"
+        }).on('select2:open', function (event) {
+            let a = $(this).data('select2');
+            let doExits = a.$results.parents('.select2-results').find('button')
+
+            if (!doExits.length) {
+                a.$results.parents('.select2-results')
+                    .append('<div><button  data-toggle="modal" data-target="#productModal" class="btn btn-default text-primary underline btn-fw" style="width: 100%">+ Add Tax</button></div>')
+                    .on('click', function (b) {
+                        $(event.target).select2("close");
+
+                    });
+            }
+        })
+
+
+        $(`#itemSelect${i}`).on('change', function (e) {
+            onProductChangeEvent(e)
+        });
 
     },
     delete(index) {
@@ -43,7 +58,6 @@ var ractive = new Ractive({
     observe: {
         'invoice_items': (newValue) => {
             let invoice_items = newValue;
-            console.log(invoice_items)
             let sub = 0;
             ractiveExtra.set(`appliedTax`, [])
             // alert('sdlfk')
@@ -106,7 +120,6 @@ var ractiveExtra = new Ractive({
             for (let i = 0; i < pairs.length; i++) {
                 let pair = pairs[i];
                 let value = pair.value || 0
-                console.log(pairs, value, value < 0)
 
                 if (value < 0) {
                     ractiveExtra.set(`pairs.${i}.className`, 'text-danger')
@@ -138,20 +151,59 @@ var ractiveAdditional = new Ractive({
 
 
 for (let i = 0; i < invoice_items.length; i++) {
-    let addedNewPlusButton = false;
-    $(`#itemTax${i}`).select2({
+    let currentSelectItem = `#itemSelect${i}`;
+    $(currentSelectItem).select2({
         placeholder: "--Select or Add Item--"
     }).on('select2:open', function (event) {
         let a = $(this).data('select2');
-        if (addedNewPlusButton) return false;
-        if (!$('.select2-link').length) {
+
+        let doExits = a.$results.parents('.select2-results').find('button')
+        if (!doExits.length) {
             a.$results.parents('.select2-results')
                 .append('<div><button  data-toggle="modal" data-target="#productModal" class="btn btn-default text-primary underline btn-fw" style="width: 100%">+ Add Item</button></div>')
                 .on('click', function (b) {
                     $(event.target).select2("close");
+                });
+        }
+    })
+
+    $(document).on('keyup', `.select2-search__field`, function (e) {
+        if (e.which === 13) {
+            if (!e.target.value) {
+                alert('no value')
+                return false;
+            }
+            let ariaControl = $(e.target).attr('aria-controls');
+            console.log(ariaControl)
+            if (!ariaControl.includes('itemSelect')) {
+                // alert('has area control'+$(e.target).attr('aria-controls'))
+                return false;
+
+            }
+
+            let id = ariaControl.split('-')[1]
+            var newState = new Option(e.target.value, e.target.value, true, true);
+            // Append it to the select
+            $(`#${id}`).append(newState).trigger('change');
+            $(`#${id}`).select2("close");
+            $('.rate').focus();
+
+        }
+    });
+
+    $(`#itemTax${i}`).select2({
+        placeholder: "--Select or Add Item--"
+    }).on('select2:open', function (event) {
+        let a = $(this).data('select2');
+        let doExits = a.$results.parents('.select2-results').find('button')
+
+        if (!doExits.length) {
+            a.$results.parents('.select2-results')
+                .append('<div><button  data-toggle="modal" data-target="#productModal" class="btn btn-default text-primary underline btn-fw" style="width: 100%">+ Add Tax</button></div>')
+                .on('click', function (b) {
+                    $(event.target).select2("close");
 
                 });
-            addedNewPlusButton = true;
         }
     })
 
@@ -222,7 +274,6 @@ function calculateOthers() {
     }
 
     let total = ((subTotal - discount) + shippingCharge) + additionalCost + tax;
-    console.log('subTotal', subTotal, discount, shippingCharge, additionalCost, tax, total)
     // alert(tax)
 
     $('#total').val(total.toFixed(2))
