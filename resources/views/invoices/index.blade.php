@@ -40,8 +40,9 @@
                     <table class="table table-striped table-bordered">
                         <thead>
                         <tr>
-                            <th>Customer</th>
+                            <th>SL</th>
                             <th>Invoice Number</th>
+                            <th>Customer</th>
                             <th>Order Number</th>
                             <th>Invoice Date</th>
                             <th>Total</th>
@@ -53,8 +54,9 @@
                         <tbody>
                         @foreach($invoices as $invoice)
                             <tr>
-                                <td>{{ optional($invoice->customer)->name }}</td>
+                                <td>{{ $loop->iteration }}</td>
                                 <td>{{ $invoice->invoice_number }}</td>
+                                <td>{{ optional($invoice->customer)->name }}</td>
                                 <td>{{ $invoice->order_number }}</td>
                                 <td>{{ $invoice->invoice_date }}</td>
                                 <td>{{ $invoice->total }}</td>

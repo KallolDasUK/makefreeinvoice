@@ -29,7 +29,8 @@
         <div class="form-group">
             <label for="order_number">Order Number</label>
             <br>
-            <input class="form-control form-control-sm{{ $errors->has('order_number') ? 'is-invalid' : '' }}" name="order_number"
+            <input class="form-control form-control-sm{{ $errors->has('order_number') ? 'is-invalid' : '' }}"
+                   name="order_number"
                    type="text" id="order_number" value="{{ old('order_number', optional($invoice)->order_number) }}">
 
             {!! $errors->first('order_number', '<p class="form-text text-danger">:message</p>') !!}
@@ -42,7 +43,7 @@
                 class="text-danger font-bolder">*</span>
             <br>
             <input class="form-control form-control-sm {{ $errors->has('invoice_date') ? 'is-invalid' : '' }}"
-                    name="invoice_date"
+                   name="invoice_date"
                    type="date" id="invoice_date" value="{{ old('invoice_date', optional($invoice)->invoice_date) }}"
                    required>
 
@@ -55,7 +56,7 @@
             <label for="payment_terms">Payment Terms</label> <br>
             <select class="form-control form-control-sm" id="payment_terms" name="payment_terms" style="width: 70%">
                 <option value="" selected>--</option>
-                @foreach (['45'=>'Net 45','30'=>'Net 30','15'=>'Net 15','-1'=>'Custom'] as $key=> $text)
+                @foreach (['7'=>'Net 7','15'=>'Net 15','30'=>'Net 30','45'=>'Net 45','-1'=>'Custom'] as $key=> $text)
                     <option
                         value="{{ $key }}" {{ old('payment_terms', optional($invoice)->payment_terms) == $key ? 'selected' : '' }}>
                         {{ $text }}
@@ -77,7 +78,8 @@
 
             <label for="due_date">Due Date</label>
             <br>
-            <input class="form-control form-control-sm {{ $errors->has('due_date') ? 'is-invalid' : '' }}" name="due_date" type="date"
+            <input class="form-control form-control-sm {{ $errors->has('due_date') ? 'is-invalid' : '' }}"
+                   name="due_date" type="date"
                    id="due_date" value="{{ old('due_date', optional($invoice)->due_date) }}">
             {!! $errors->first('due_date', '<p class="form-text text-danger">:message</p>') !!}
 
@@ -310,6 +312,42 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="productModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document" style="margin-top:0px!important;">
+
+        <div class="modal-content">
+
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="name" class="col-form-label text-danger">Name *:</label>
+                    <input type="text" class="form-control form-control-sm" id="name" name="name">
+                </div>
+                <div class="form-group">
+                    <label for="phone" class="col-form-label">Phone :</label>
+                    <input class="form-control form-control-sm" id="phone" name="phone"/>
+                </div>
+                <div class="form-group">
+                    <label for="address" class="col-form-label">Address :</label>
+                    <input class="form-control form-control-sm" id="address" name="address"/>
+                </div>
+                <div class="form-group">
+                    <label for="email" class="col-form-label">Email :</label>
+                    <input class="form-control form-control-sm" id="email" name="email"/>
+                </div>
+                <div class="form-group">
+                    <label for="message-text" class="col-form-label">Website :</label>
+                    <input class="form-control form-control-sm" id="website" name="website"/>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="storeUserBtn">Save Customer</button>
+            </div>
+
+        </div>
+    </div>
+</div>
 
 <div class="hidden">
     <input type="text" id="invoice_items" name="invoice_items" hidden>
@@ -337,8 +375,8 @@
                 {{#each invoice_items:i}}
         <tr id="row{{i}}" fade-in>
             <td>
-                <select style="width: 100%" class="itemSelect form-control input-sm " id="itemSelect{{i}}"  value="{{ product_id }}
-        " index="{{ i }}" required>
+                <select style="width: 100%" id='itemSelect{{ i }}' class="itemSelect form-control input-sm "
+                value="{{ product_id }}" index="{{ i }}" required>
                             <option disabled selected value=""> -- </option>
                             {{ #each products:i }}
         <option value="{{ id }}" > {{ name }}</option>
@@ -372,34 +410,6 @@
             <span role="button" on-click="@this.addInvoiceItem()" class="p-4 text-center text-primary"
                   style="cursor: pointer">+ Add Line</span>
         </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -494,6 +504,12 @@
 
 
 
+
+
+
+
+
+
     </script>
 @endverbatim
 @verbatim
@@ -518,6 +534,12 @@
               <td><span class="text-primary " on-click="@this.addAdditionalField()" style="cursor:pointer;">+ Add More</span></td>
               <td></td>
           </tr>
+
+
+
+
+
+
 
 
 

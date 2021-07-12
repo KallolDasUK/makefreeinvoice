@@ -166,7 +166,9 @@ var ractiveAdditional = new Ractive({
 
 
 for (let i = 0; i < invoice_items.length; i++) {
+
     let currentSelectItem = `#itemSelect${i}`;
+    console.log(invoice_items,'Current Item')
     $(currentSelectItem).select2({
         placeholder: "Select or Add Item",
         "language": {
@@ -190,6 +192,8 @@ for (let i = 0; i < invoice_items.length; i++) {
     }).on('change', function (event) {
         let i = $(this).attr('index');
         ractive.set(`invoice_items.${i}.product_id`, $(this).val())
+
+        $(`#row${i}`).find('.rate').focus()
 
     })
 
@@ -304,6 +308,7 @@ $(document).ready(function () {
         $('#caret').addClass('fa-caret-up')
     })
     $('#payment_terms').select2()
+
     // calculateOthers()
     ractive.set('invoice_items.0.test', '')
 

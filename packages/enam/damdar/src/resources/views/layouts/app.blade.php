@@ -64,9 +64,7 @@
           href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/css/selectize.bootstrap3.min.css"
           integrity="sha256-ze/OEYGcFbPRmvCnrSeKbRTtjG4vGLHXgOqsyLFTRjg=" crossorigin="anonymous"/>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether-drop/1.4.2/js/drop.min.js"
-            integrity="sha512-Lvy+Fbz3bTkUx6BrU0hmCh/paXCkl0sWDE4JVASkehxQlUcQtzOJHin6dsR+zy+RYlMAy5wdY3mGyFTgENQaBA=="
-            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
 
     @yield('css')
     @stack('css')
@@ -655,7 +653,7 @@
             $('.mainnav li').on('mouseover', function () {
                 $('.mainnav li').removeClass('active')
                 $(this).addClass('active')
-                console.log('Hovered', this)
+                // console.log('Hovered', this)
             })
 
 
