@@ -190,7 +190,7 @@ for (let i = 0; i < invoice_items.length; i++) {
 
         }
     });
-
+ // Test
     $(`#itemTax${i}`).select2({
         placeholder: "--Select or Add Item--"
     }).on('select2:open', function (event) {
