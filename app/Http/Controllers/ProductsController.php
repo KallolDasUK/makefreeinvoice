@@ -112,7 +112,7 @@ class ProductsController extends Controller
         if ($request->hasFile('photo')) {
             $data['photo'] = $this->moveFile($request->file('photo'));
         }
-        if ($data['category_id']) {
+        if (array_key_exists('category_id',$data)) {
             if (!is_numeric($data['category_id'])) {
                 $data['category_id'] = Category::create(['name' => $data['category_id']])->id;
             }

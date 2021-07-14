@@ -24,88 +24,92 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::group(['middleware' => 'auth:web'], function () {
 
-/*
- *  php artisan resource-file:create Customer --fields=id,name,photo,company_name,phone,email,address,website
- *  php artisan create:scaffold Customer  --layout-name="layouts.app" --with-migration
- * */
-Route::group(['prefix' => 'customers','middleware' =>'auth:web'], function () {
 
-    Route::get('/', [CustomersController::class, 'index'])->name('customers.customer.index');
-    Route::get('/create', [CustomersController::class, 'create'])->name('customers.customer.create');
-    Route::get('/show/{customer}', [CustomersController::class, 'show'])->name('customers.customer.show')->where('id', '[0-9]+');
-    Route::get('/{customer}/edit', [CustomersController::class, 'edit'])->name('customers.customer.edit')->where('id', '[0-9]+');
-    Route::post('/', [CustomersController::class, 'store'])->name('customers.customer.store');
-    Route::put('customer/{customer}', [CustomersController::class, 'update'])->name('customers.customer.update')->where('id', '[0-9]+');
-    Route::delete('/customer/{customer}', [CustomersController::class, 'destroy'])->name('customers.customer.destroy')->where('id', '[0-9]+');
+    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-});
+    /*
+     *  php artisan resource-file:create Customer --fields=id,name,photo,company_name,phone,email,address,website
+     *  php artisan create:scaffold Customer  --layout-name="layouts.app" --with-migration
+     * */
+    Route::group(['prefix' => 'customers'], function () {
+
+        Route::get('/', [CustomersController::class, 'index'])->name('customers.customer.index');
+        Route::get('/create', [CustomersController::class, 'create'])->name('customers.customer.create');
+        Route::get('/show/{customer}', [CustomersController::class, 'show'])->name('customers.customer.show')->where('id', '[0-9]+');
+        Route::get('/{customer}/edit', [CustomersController::class, 'edit'])->name('customers.customer.edit')->where('id', '[0-9]+');
+        Route::post('/', [CustomersController::class, 'store'])->name('customers.customer.store');
+        Route::put('customer/{customer}', [CustomersController::class, 'update'])->name('customers.customer.update')->where('id', '[0-9]+');
+        Route::delete('/customer/{customer}', [CustomersController::class, 'destroy'])->name('customers.customer.destroy')->where('id', '[0-9]+');
+
+    });
 
 
 // php artisan resource-file:create Invoice --fields=id,customer_id,invoice_number,order_number,invoice_date,payment_terms,due_date,sub_total,total,discount_type,discount_value,discount,shipping_charge,terms_condition
 // php artisan create:scaffold Invoice  --layout-name="layouts.app" --with-migration
 
 
-Route::group(['prefix' => 'invoices'], function () {
+    Route::group(['prefix' => 'invoices'], function () {
 
-    Route::get('/', [InvoicesController::class, 'index'])->name('invoices.invoice.index');
-    Route::get('/create', [InvoicesController::class, 'create'])->name('invoices.invoice.create');
-    Route::get('/show/{invoice}', [InvoicesController::class, 'show'])->name('invoices.invoice.show')->where('id', '[0-9]+');
-    Route::get('/{invoice}/edit', [InvoicesController::class, 'edit'])->name('invoices.invoice.edit')->where('id', '[0-9]+');
-    Route::post('/', [InvoicesController::class, 'store'])->name('invoices.invoice.store');
-    Route::put('invoice/{invoice}', [InvoicesController::class, 'update'])->name('invoices.invoice.update')->where('id', '[0-9]+');
-    Route::delete('/invoice/{invoice}', [InvoicesController::class, 'destroy'])->name('invoices.invoice.destroy')->where('id', '[0-9]+');
+        Route::get('/', [InvoicesController::class, 'index'])->name('invoices.invoice.index');
+        Route::get('/create', [InvoicesController::class, 'create'])->name('invoices.invoice.create');
+        Route::get('/show/{invoice}', [InvoicesController::class, 'show'])->name('invoices.invoice.show')->where('id', '[0-9]+');
+        Route::get('/{invoice}/edit', [InvoicesController::class, 'edit'])->name('invoices.invoice.edit')->where('id', '[0-9]+');
+        Route::post('/', [InvoicesController::class, 'store'])->name('invoices.invoice.store');
+        Route::put('invoice/{invoice}', [InvoicesController::class, 'update'])->name('invoices.invoice.update')->where('id', '[0-9]+');
+        Route::delete('/invoice/{invoice}', [InvoicesController::class, 'destroy'])->name('invoices.invoice.destroy')->where('id', '[0-9]+');
 
-});
+    });
 // php artisan resource-file:create Category --fields=id,name,category_id
 // php artisan create:scaffold Category  --layout-name="layouts.app" --with-migration
 
 
-Route::group([
-    'prefix' => 'categories',
-], function () {
+    Route::group([
+        'prefix' => 'categories',
+    ], function () {
 
-    Route::get('/', [CategoriesController::class, 'index'])->name('categories.category.index');
-    Route::get('/create', [CategoriesController::class, 'create'])->name('categories.category.create');
-    Route::get('/show/{category}', [CategoriesController::class, 'show'])->name('categories.category.show')->where('id', '[0-9]+');
-    Route::get('/{category}/edit', [CategoriesController::class, 'edit'])->name('categories.category.edit')->where('id', '[0-9]+');
-    Route::post('/', [CategoriesController::class, 'store'])->name('categories.category.store');
-    Route::put('category/{category}', [CategoriesController::class, 'update'])->name('categories.category.update')->where('id', '[0-9]+');
-    Route::delete('/category/{category}', [CategoriesController::class, 'destroy'])->name('categories.category.destroy')->where('id', '[0-9]+');
+        Route::get('/', [CategoriesController::class, 'index'])->name('categories.category.index');
+        Route::get('/create', [CategoriesController::class, 'create'])->name('categories.category.create');
+        Route::get('/show/{category}', [CategoriesController::class, 'show'])->name('categories.category.show')->where('id', '[0-9]+');
+        Route::get('/{category}/edit', [CategoriesController::class, 'edit'])->name('categories.category.edit')->where('id', '[0-9]+');
+        Route::post('/', [CategoriesController::class, 'store'])->name('categories.category.store');
+        Route::put('category/{category}', [CategoriesController::class, 'update'])->name('categories.category.update')->where('id', '[0-9]+');
+        Route::delete('/category/{category}', [CategoriesController::class, 'destroy'])->name('categories.category.destroy')->where('id', '[0-9]+');
 
-});
+    });
 // php artisan resource-file:create Product --fields=id,product_type,name,photo,category_id,sell_price,sell_unit,purchase_price,purchase_unit,description,is_track,opening_stock,opening_stock_price
 // php artisan create:scaffold Product  --layout-name="layouts.app" --with-migration
 
-Route::group([
-    'prefix' => 'products',
-], function () {
+    Route::group([
+        'prefix' => 'products',
+    ], function () {
 
-    Route::get('/', [ProductsController::class, 'index'])->name('products.product.index');
-    Route::get('/create', [ProductsController::class, 'create'])->name('products.product.create');
-    Route::get('/show/{product}', [ProductsController::class, 'show'])->name('products.product.show')->where('id', '[0-9]+');
-    Route::get('/{product}/edit', [ProductsController::class, 'edit'])->name('products.product.edit')->where('id', '[0-9]+');
-    Route::post('/', [ProductsController::class, 'store'])->name('products.product.store');
-    Route::put('product/{product}', [ProductsController::class, 'update'])->name('products.product.update')->where('id', '[0-9]+');
-    Route::delete('/product/{product}', [ProductsController::class, 'destroy'])->name('products.product.destroy')->where('id', '[0-9]+');
+        Route::get('/', [ProductsController::class, 'index'])->name('products.product.index');
+        Route::get('/create', [ProductsController::class, 'create'])->name('products.product.create');
+        Route::get('/show/{product}', [ProductsController::class, 'show'])->name('products.product.show')->where('id', '[0-9]+');
+        Route::get('/{product}/edit', [ProductsController::class, 'edit'])->name('products.product.edit')->where('id', '[0-9]+');
+        Route::post('/', [ProductsController::class, 'store'])->name('products.product.store');
+        Route::put('product/{product}', [ProductsController::class, 'update'])->name('products.product.update')->where('id', '[0-9]+');
+        Route::delete('/product/{product}', [ProductsController::class, 'destroy'])->name('products.product.destroy')->where('id', '[0-9]+');
 
-});
+    });
 // php artisan resource-file:create Tax --fields=id,name,value,tax_type
 // php artisan create:scaffold Tax  --layout-name="acc::layouts.app" --with-migration
 
-Route::group([
-    'prefix' => 'taxes',
-], function () {
+    Route::group([
+        'prefix' => 'taxes',
+    ], function () {
 
-    Route::get('/', [TaxesController::class, 'index'])->name('taxes.tax.index');
-    Route::get('/create', [TaxesController::class, 'create'])->name('taxes.tax.create');
-    Route::get('/show/{tax}', [TaxesController::class, 'show'])->name('taxes.tax.show')->where('id', '[0-9]+');
-    Route::get('/{tax}/edit', [TaxesController::class, 'edit'])->name('taxes.tax.edit')->where('id', '[0-9]+');
-    Route::post('/', [TaxesController::class, 'store'])->name('taxes.tax.store');
-    Route::put('tax/{tax}', [TaxesController::class, 'update'])->name('taxes.tax.update')->where('id', '[0-9]+');
-    Route::delete('/tax/{tax}', [TaxesController::class, 'destroy'])->name('taxes.tax.destroy')->where('id', '[0-9]+');
+        Route::get('/', [TaxesController::class, 'index'])->name('taxes.tax.index');
+        Route::get('/create', [TaxesController::class, 'create'])->name('taxes.tax.create');
+        Route::get('/show/{tax}', [TaxesController::class, 'show'])->name('taxes.tax.show')->where('id', '[0-9]+');
+        Route::get('/{tax}/edit', [TaxesController::class, 'edit'])->name('taxes.tax.edit')->where('id', '[0-9]+');
+        Route::post('/', [TaxesController::class, 'store'])->name('taxes.tax.store');
+        Route::put('tax/{tax}', [TaxesController::class, 'update'])->name('taxes.tax.update')->where('id', '[0-9]+');
+        Route::delete('/tax/{tax}', [TaxesController::class, 'destroy'])->name('taxes.tax.destroy')->where('id', '[0-9]+');
+
+    });
 
 });
-
 Route::view('/test', 'test');

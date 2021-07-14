@@ -44,7 +44,8 @@
             <br>
             <input class="form-control form-control-sm {{ $errors->has('invoice_date') ? 'is-invalid' : '' }}"
                    name="invoice_date"
-                   type="date" id="invoice_date" value="{{ old('invoice_date', optional($invoice)->invoice_date) }}"
+                   type="date" id="invoice_date"
+                   value="{{ old('invoice_date', optional($invoice)->invoice_date)??today()->toDateString() }}"
                    required>
 
             {!! $errors->first('invoice_date', '<p class="form-text text-danger">:message</p>') !!}
@@ -231,8 +232,7 @@
         <div class="form-group">
             <label for="terms_condition">Terms Condition</label>
             <textarea class="form-control" name="terms_condition" cols="50" rows="5"
-                      id="terms_condition">{{ old('terms_condition', optional($invoice)->terms_condition) }}</textarea>
-            {!! $errors->first('terms_condition', '<p class="form-text text-danger">:message</p>') !!}
+                      id="terms_condition">{{ old('terms_condition', optional($invoice)->terms_condition)??$settings->terms_condition??'' }}</textarea>
 
         </div>
     </div>
@@ -240,7 +240,7 @@
         <div class="form-group">
             <label for="notes">Notes</label>
             <textarea class="form-control" name="notes" cols="50" rows="5"
-                      id="notes">{{ old('notes', optional($invoice)->notes) }}</textarea>
+                      id="notes">{{ old('notes', optional($invoice)->notes) ??$settings->notes??'' }}</textarea>
             {!! $errors->first('notes', '<p class="form-text text-danger">:message</p>') !!}
         </div>
     </div>
@@ -276,7 +276,6 @@
 </div>
 
 
-
 <div class="hidden">
     <input type="text" id="invoice_items" name="invoice_items" hidden>
     <input type="text" id="additional" name="additional" hidden>
@@ -294,7 +293,7 @@
                         <th  class="font-weight-bold" style="text-align: start;">Items <span class="text-danger">*</span></th>
                         <th style="width: 13%" scope="col" class="font-weight-bold">Rate</th>
                         <th style="width: 13%"  scope="col" class="font-weight-bold">Quantity</th>
-                        <th  style="width: 20%"  scope="col" class="font-weight-bold">Tax</th>
+                        <th  style="width: 20%"  scope="col" class="font-weight-bold">Tax <sup><a target="_blank" href="/taxes">view taxes</a></sup></th>
                         <th  style="width: 13%" scope="col" class="font-weight-bold">Amount</th>
                          <th   ></th>
                     </tr>
@@ -338,6 +337,9 @@
             <span role="button" on-click="@this.addInvoiceItem()" class="p-4 text-center text-primary"
                   style="cursor: pointer">+ Add Line</span>
         </div>
+
+
+
 
 
 
@@ -437,6 +439,9 @@
 
 
 
+
+
+
     </script>
 @endverbatim
 @verbatim
@@ -461,6 +466,9 @@
               <td><span class="text-primary " on-click="@this.addAdditionalField()" style="cursor:pointer;">+ Add More</span></td>
               <td></td>
           </tr>
+
+
+
 
 
 

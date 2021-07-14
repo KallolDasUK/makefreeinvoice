@@ -8,6 +8,7 @@ use App\Models\ExtraField;
 use App\Models\Invoice;
 use App\Models\InvoiceExtraField;
 use App\Models\InvoiceItem;
+use App\Models\MetaSetting;
 use App\Models\Product;
 use App\Models\Tax;
 use Illuminate\Http\Request;
@@ -30,11 +31,12 @@ class InvoicesController extends Controller
         $products = Product::query()->latest()->get();
         $categories = Category::query()->latest()->get();
         $taxes = Tax::query()->latest()->get()->toArray();
+        $extraFields = ExtraField::query()->where('type', Invoice::class)->where('name', '!=', '')->get();
 
         $next_invoice = str_pad(count(Invoice::query()->get()) + 1, 4, '0', STR_PAD_LEFT);
 
 
-        return view('invoices.create', compact('customers', 'products', 'taxes', 'next_invoice', 'categories'));
+        return view('invoices.create', compact('customers', 'products', 'taxes', 'next_invoice', 'categories', 'extraFields'));
     }
 
 
@@ -54,6 +56,7 @@ class InvoicesController extends Controller
         $invoice = Invoice::create($data);
 
         $this->insertDataToOtherTable($invoice, $invoice_items, $extraFields, $additionalFields);
+        $this->saveTermsNDNote($data);
         return redirect()->route('invoices.invoice.index')
             ->with('success_message', 'Invoice was successfully added.');
 
@@ -89,6 +92,16 @@ class InvoicesController extends Controller
         return view('invoices.show', compact('invoice'));
     }
 
+    public function saveTermsNDNote($data)
+    {
+        if (array_key_exists('terms_condition', $data)) {
+            MetaSetting::query()->updateOrCreate(['key' => 'terms_condition'], ['key' => 'terms_condition', 'value' => $data['terms_condition']]);
+        }
+        if (array_key_exists('notes', $data)) {
+            MetaSetting::query()->updateOrCreate(['key' => 'notes'], ['key' => 'notes', 'value' => $data['notes']]);
+        }
+
+    }
 
     public function edit($id)
     {
@@ -96,11 +109,12 @@ class InvoicesController extends Controller
         $customers = Customer::pluck('name', 'id')->all();
         $taxes = Tax::query()->latest()->get()->toArray();
         $invoice_items = InvoiceItem::query()->where('invoice_id', $invoice->id)->get();
+        $categories = Category::query()->latest()->get();
         $invoiceExtraField = InvoiceExtraField::query()->where('invoice_id', $invoice->id)->get();
         $extraFields = ExtraField::query()->where('type', Invoice::class)->where('type_id', $invoice->id)->get();
         $products = Product::query()->latest()->get();
 
-        return view('invoices.edit', compact('invoice', 'customers', 'taxes', 'invoice_items', 'invoiceExtraField', 'products', 'extraFields'));
+        return view('invoices.edit', compact('invoice', 'customers', 'taxes', 'invoice_items', 'invoiceExtraField', 'products', 'extraFields', 'categories'));
     }
 
 
@@ -122,6 +136,8 @@ class InvoicesController extends Controller
         InvoiceItem::query()->where('invoice_id', $invoice->id)->delete();
         ExtraField::query()->where('type', get_class($invoice))->where('type_id', $invoice->id)->delete();
         $this->insertDataToOtherTable($invoice, $invoice_items, $extraFields, $additionalFields);
+        $this->saveTermsNDNote($data);
+
 
         return redirect()->route('invoices.invoice.index')->with('success_message', 'Invoice was successfully updated.');
 

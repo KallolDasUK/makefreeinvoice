@@ -2,6 +2,9 @@
 
 @section('content')
 
+    @include('partials.ajax-product-create-form')
+    @include('partials.ajax-customer-create-form')
+    @include('partials.ajax-tax-create-form')
     <div class="card">
 
         <div class="card-header">
@@ -89,9 +92,7 @@
                 }
 
             })
-            if (additional_fields.length > 0) {
-                $('#additionalCollapse').collapse('show')
-            }
+
         });
     </script>
     <script src="{{ asset('js/invoices.js') }}"></script>

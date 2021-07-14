@@ -53,7 +53,11 @@
         var taxes = @json($taxes);
         var invoice_items = [copiedObject];
         var products = @json($products);
-        var additional_fields = [{name: '', value: ''}];
+        // var additional_fields = [{name: '', value: ''}];
+        var additional_fields = @json($extraFields);
+        if (additional_fields.length === 0) {
+            additional_fields = [{name: '', value: ''}];
+        }
 
         console.log(products)
         $(document).ready(function () {
@@ -70,8 +74,12 @@
                             $(".customer").select2("close");
                         });
                 }
+                if (additional_fields.length > 0) {
+                    $('#additionalCollapse').collapse('show')
+                }
 
             })
+
 
 
         });

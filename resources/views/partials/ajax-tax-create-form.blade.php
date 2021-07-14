@@ -31,7 +31,10 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary" id="storeProduct">Save Tax</button>
+                    <button type="submit" class="btn btn-primary" id="storeTax">
+                        <span class="spinner-grow spinner-grow-sm spinner d-none" role="status" aria-hidden="true"></span>
+                        Save Tax
+                    </button>
                 </div>
 
             </div>

@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\MetaSetting;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -23,6 +24,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        view()->composer('*', function ($view) {
+            $settings = json_decode(MetaSetting::query()->pluck('value', 'key')->toJson());
+            $view->with('settings', $settings);
+        });
+
     }
 }
+

@@ -34,6 +34,7 @@ class TaxesController extends Controller
 
         $tax = Tax::create($data);
 
+        // sleep(5);
 
         if ($request->acceptsJson()) {
             return $tax;
