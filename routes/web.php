@@ -30,7 +30,7 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
  *  php artisan resource-file:create Customer --fields=id,name,photo,company_name,phone,email,address,website
  *  php artisan create:scaffold Customer  --layout-name="layouts.app" --with-migration
  * */
-Route::group(['prefix' => 'customers'], function () {
+Route::group(['prefix' => 'customers','middleware' =>'auth:web'], function () {
 
     Route::get('/', [CustomersController::class, 'index'])->name('customers.customer.index');
     Route::get('/create', [CustomersController::class, 'create'])->name('customers.customer.create');

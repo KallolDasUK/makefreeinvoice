@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Product;
-use Exception;
 use Illuminate\Http\Request;
 
 class ProductsController extends Controller
@@ -33,7 +32,10 @@ class ProductsController extends Controller
 
         $data = $this->getData($request);
 
-        Product::create($data);
+        $product = Product::create($data);
+        if ($request->acceptsJson()) {
+            return $product;
+        }
 
         return redirect()->route('products.product.index')
             ->with('success_message', 'Product was successfully added.');
@@ -75,17 +77,13 @@ class ProductsController extends Controller
 
     public function destroy($id)
     {
-        try {
-            $product = Product::findOrFail($id);
-            $product->delete();
 
-            return redirect()->route('products.product.index')
-                ->with('success_message', 'Product was successfully deleted.');
-        } catch (Exception $exception) {
+        $product = Product::findOrFail($id);
+        $product->delete();
 
-            return back()->withInput()
-                ->withErrors(['unexpected_error' => 'Unexpected error occurred while trying to process your request.']);
-        }
+        return redirect()->route('products.product.index')
+            ->with('success_message', 'Product was successfully deleted.');
+
     }
 
 
@@ -114,6 +112,13 @@ class ProductsController extends Controller
         if ($request->hasFile('photo')) {
             $data['photo'] = $this->moveFile($request->file('photo'));
         }
+        if ($data['category_id']) {
+            if (!is_numeric($data['category_id'])) {
+                $data['category_id'] = Category::create(['name' => $data['category_id']])->id;
+            }
+        }
+
+
         $data['is_track'] = $request->has('is_track');
 
         return $data;

@@ -276,78 +276,6 @@
 </div>
 
 
-<div class="modal fade" id="customerModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-     aria-hidden="true">
-    <div class="modal-dialog" role="document" style="margin-top:0px!important;">
-
-        <div class="modal-content">
-
-            <div class="modal-body">
-                <div class="form-group">
-                    <label for="name" class="col-form-label text-danger">Name *:</label>
-                    <input type="text" class="form-control form-control-sm" id="name" name="name">
-                </div>
-                <div class="form-group">
-                    <label for="phone" class="col-form-label">Phone :</label>
-                    <input class="form-control form-control-sm" id="phone" name="phone"/>
-                </div>
-                <div class="form-group">
-                    <label for="address" class="col-form-label">Address :</label>
-                    <input class="form-control form-control-sm" id="address" name="address"/>
-                </div>
-                <div class="form-group">
-                    <label for="email" class="col-form-label">Email :</label>
-                    <input class="form-control form-control-sm" id="email" name="email"/>
-                </div>
-                <div class="form-group">
-                    <label for="message-text" class="col-form-label">Website :</label>
-                    <input class="form-control form-control-sm" id="website" name="website"/>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="storeUserBtn">Save Customer</button>
-            </div>
-
-        </div>
-    </div>
-</div>
-<div class="modal fade" id="productModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-     aria-hidden="true">
-    <div class="modal-dialog" role="document" style="margin-top:0px!important;">
-
-        <div class="modal-content">
-
-            <div class="modal-body">
-                <div class="form-group">
-                    <label for="name" class="col-form-label text-danger">Name *:</label>
-                    <input type="text" class="form-control form-control-sm" id="name" name="name">
-                </div>
-                <div class="form-group">
-                    <label for="phone" class="col-form-label">Phone :</label>
-                    <input class="form-control form-control-sm" id="phone" name="phone"/>
-                </div>
-                <div class="form-group">
-                    <label for="address" class="col-form-label">Address :</label>
-                    <input class="form-control form-control-sm" id="address" name="address"/>
-                </div>
-                <div class="form-group">
-                    <label for="email" class="col-form-label">Email :</label>
-                    <input class="form-control form-control-sm" id="email" name="email"/>
-                </div>
-                <div class="form-group">
-                    <label for="message-text" class="col-form-label">Website :</label>
-                    <input class="form-control form-control-sm" id="website" name="website"/>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="storeUserBtn">Save Customer</button>
-            </div>
-
-        </div>
-    </div>
-</div>
 
 <div class="hidden">
     <input type="text" id="invoice_items" name="invoice_items" hidden>
@@ -366,9 +294,9 @@
                         <th  class="font-weight-bold" style="text-align: start;">Items <span class="text-danger">*</span></th>
                         <th style="width: 13%" scope="col" class="font-weight-bold">Rate</th>
                         <th style="width: 13%"  scope="col" class="font-weight-bold">Quantity</th>
-                        <th style="width: 15%" scope="col" class="font-weight-bold">Tax</th>
-                        <th  scope="col" class="font-weight-bold">Amount</th>
-                         <th style="width: 5%" ></th>
+                        <th  style="width: 20%"  scope="col" class="font-weight-bold">Tax</th>
+                        <th  style="width: 13%" scope="col" class="font-weight-bold">Amount</th>
+                         <th   ></th>
                     </tr>
                     </thead>
                 <tbody>
@@ -385,7 +313,7 @@
    <input type="text" value="{{ description }}" style="border: none!important;" class="form-control form-control-sm input-sm" placeholder="Item Description ...">
             </td>
             <td> <input type="number" step="any" style="text-align: end"  class="form-control form-control-sm input-sm rate" value="{{ price }}" required></td>
-            <td> <input type="number" step="any" style="text-align: end"  class="form-control form-control-sm  input-sm" value="{{ qnt }}" required>
+            <td> <input type="number" step="any" style="text-align: end"  class="form-control form-control-sm  input-sm qnt" value="{{ qnt }}" required>
             <input class="text-right form-control input-sm" type="text" style="outline: none;border:0 !important;text-align: end; text-decoration: underline;text-decoration-style: dashed;text-decoration-color: red"  value="{{ unit }}"/>
              </td>
             <td >
@@ -418,7 +346,6 @@
 
     </script>
 @endverbatim
-
 @verbatim
     <script id="extraTemplate" type="text/ractive">
             {{#each appliedTax:i}}

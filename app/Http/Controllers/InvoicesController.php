@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Customer;
 use App\Models\ExtraField;
 use App\Models\Invoice;
@@ -17,7 +18,7 @@ class InvoicesController extends Controller
 
     public function index()
     {
-        $invoices = Invoice::with('customer')->latest()->get();
+        $invoices = Invoice::with('customer')->paginate(20);
 
         return view('invoices.index', compact('invoices'));
     }
@@ -27,9 +28,13 @@ class InvoicesController extends Controller
     {
         $customers = Customer::pluck('name', 'id')->all();
         $products = Product::query()->latest()->get();
+        $categories = Category::query()->latest()->get();
         $taxes = Tax::query()->latest()->get()->toArray();
-        $next_invoice = str_pad(count(Invoice::query()->get())+1, 4, '0', STR_PAD_LEFT);
-        return view('invoices.create', compact('customers', 'products', 'taxes','next_invoice'));
+
+        $next_invoice = str_pad(count(Invoice::query()->get()) + 1, 4, '0', STR_PAD_LEFT);
+
+
+        return view('invoices.create', compact('customers', 'products', 'taxes', 'next_invoice', 'categories'));
     }
 
 
@@ -37,8 +42,8 @@ class InvoicesController extends Controller
     {
 
 
-//        dd($request->all());
         $data = $this->getData($request);
+
         $invoice_items = $data['invoice_items'] ?? [];
         $extraFields = $data['additional'] ?? [];
         $additionalFields = $data['additional_fields'] ?? [];
@@ -94,9 +99,7 @@ class InvoicesController extends Controller
         $invoiceExtraField = InvoiceExtraField::query()->where('invoice_id', $invoice->id)->get();
         $extraFields = ExtraField::query()->where('type', Invoice::class)->where('type_id', $invoice->id)->get();
         $products = Product::query()->latest()->get();
-//        dd($extraFields, $invoice->id);
 
-//        dd($additional, $additionalFields,$invoice->toArray());
         return view('invoices.edit', compact('invoice', 'customers', 'taxes', 'invoice_items', 'invoiceExtraField', 'products', 'extraFields'));
     }
 
@@ -164,6 +167,7 @@ class InvoicesController extends Controller
         ];
 
         $data = $request->validate($rules);
+
         $data['invoice_items'] = json_decode($data['invoice_items'] ?? '{}');
         $data['additional'] = json_decode($data['additional'] ?? '{}');
         $data['additional_fields'] = json_decode($data['additional_fields'] ?? '{}');

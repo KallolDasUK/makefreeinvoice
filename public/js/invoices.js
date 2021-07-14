@@ -33,11 +33,15 @@ var ractive = new Ractive({
                     .append('<div><button  data-toggle="modal" data-target="#productModal" class="btn btn-default text-primary underline btn-fw" style="width: 100%">+ Add Item</button></div>')
                     .on('click', function (b) {
                         $(event.target).select2("close");
+                        $('#createProductForm').attr('index', i)
                     });
             }
         }).on('change', function (event) {
             let i = $(this).attr('index');
             ractive.set(`invoice_items.${i}.product_id`, $(this).val())
+            setTimeout(() => {
+                $(`#row${i}`).find('.rate').focus()
+            }, 10)
 
         })
 
@@ -73,11 +77,9 @@ var ractive = new Ractive({
             let invoice_items = newValue;
             let sub = 0;
             ractiveExtra.set(`appliedTax`, [])
-            console.log(newValue)
             // alert('sdlfk')
             for (let i = 0; i < invoice_items.length; i++) {
                 let item = invoice_items[i];
-
                 sub += (parseFloat(item.qnt) || 0) * (parseFloat(item.price) || 0);
                 let tax_id = parseInt(item.tax_id || 0)
                 if (item.product_id && tax_id) {
@@ -168,7 +170,6 @@ var ractiveAdditional = new Ractive({
 for (let i = 0; i < invoice_items.length; i++) {
 
     let currentSelectItem = `#itemSelect${i}`;
-    console.log(invoice_items,'Current Item')
     $(currentSelectItem).select2({
         placeholder: "Select or Add Item",
         "language": {
@@ -187,13 +188,16 @@ for (let i = 0; i < invoice_items.length; i++) {
                 .append('<div><button  data-toggle="modal" data-target="#productModal" class="btn btn-default text-primary underline btn-fw" style="width: 100%">+ Add Item</button></div>')
                 .on('click', function (b) {
                     $(event.target).select2("close");
+                    $('#createProductForm').attr('index', i)
                 });
         }
     }).on('change', function (event) {
-        let i = $(this).attr('index');
+        // let i = $(this).attr('index');
         ractive.set(`invoice_items.${i}.product_id`, $(this).val())
-
-        $(`#row${i}`).find('.rate').focus()
+        ractive.set(`invoice_items.${i}.product_id`, $(this).val())
+        setTimeout(() => {
+            $(`#row${i}`).find('.rate').focus()
+        }, 10)
 
     })
 
@@ -207,6 +211,7 @@ for (let i = 0; i < invoice_items.length; i++) {
                 .append('<div><button  data-toggle="modal" data-target="#taxModal" class="btn btn-default text-primary underline btn-fw" style="width: 100%">+ Add Tax</button></div>')
                 .on('click', function (b) {
                     $(event.target).select2("close");
+                    $('#createTaxForm').attr('index', i)
                 });
         }
     }).on('change', function (event) {
@@ -320,7 +325,6 @@ $(document).on('keyup', `.select2-search__field`, function (e) {
             return false;
         }
         let ariaControl = $(e.target).attr('aria-controls');
-        console.log(ariaControl)
         if (!ariaControl.includes('itemSelect')) {
             // alert('has area control'+$(e.target).attr('aria-controls'))
             return false;

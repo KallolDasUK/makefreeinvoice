@@ -44,6 +44,9 @@
     <!-- end common css -->
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/jquery-form/form@4.3.0/dist/jquery.form.min.js" integrity="sha384-qlmct0AOBiA2VPZkMY3+2WqkHtIQ9lSdAsAn5RUJD/3vA5MKDgSGcdmIv4ycVxyn" crossorigin="anonymous"></script>
+
+    <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
 
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
@@ -53,279 +56,14 @@
           href="https://cdn.datatables.net/1.10.24/css/dataTables.bootstrap4.min.css">
 
 
-    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.css"/>
-    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css"/>
 
-    <script src="https://unpkg.com/swiper/swiper-bundle.js"></script>
-    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/tom-select@1.1/dist/css/tom-select.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/tom-select@1.1/dist/js/tom-select.complete.min.js"></script>
-    <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/css/selectize.bootstrap3.min.css"
-          integrity="sha256-ze/OEYGcFbPRmvCnrSeKbRTtjG4vGLHXgOqsyLFTRjg=" crossorigin="anonymous"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.13.3/css/selectize.bootstrap4.min.css" integrity="sha512-MMojOrCQrqLg4Iarid2YMYyZ7pzjPeXKRvhW9nZqLo6kPBBTuvNET9DBVWptAo/Q20Fy11EIHM5ig4WlIrJfQw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 
 
     @yield('css')
     @stack('css')
-    <livewire:styles/>
-    <style>
 
-        table.dataTable thead .sorting {
-            background-image: none !important;
-        }
-
-        table.dataTable thead .sorting_asc {
-            background-image: none !important;
-
-        }
-
-        /*body > * {*/
-        /*    -webkit-transition: all 2s ease !important;*/
-        /*    -moz-transition: all 2s ease !important;*/
-        /*    -o-transition: all 2s ease !important;*/
-        /*    transition: all 2s ease !important;*/
-        /*}*/
-        .borderless td, .borderless th {
-            border: none;
-        }
-
-        .tip {
-            position: relative;
-            display: inline-block;
-            border-bottom: 1px dotted black;
-        }
-
-        .tip .tooltiptext {
-            visibility: hidden;
-            width: 400px;
-            background-color: lightgray;
-            color: black;
-            text-align: center;
-            border-radius: 6px;
-            padding: 5px 0;
-
-            /* Position the tooltip */
-            position: absolute;
-            z-index: 1;
-        }
-
-        .tip:hover .tooltiptext {
-            visibility: visible;
-        }
-
-        div.dataTables_wrapper div.dataTables_length select {
-            width: auto;
-            display: inline-block;
-            height: 25px !important;
-        }
-
-        .dataTables_wrapper .dataTables_filter input {
-            border: 1px solid #aaa;
-            border-radius: 3px;
-            padding: 5px;
-            height: 30px !important;
-            background-color: transparent;
-            margin-left: 3px;
-        }
-
-
-        table.dataTable.no-footer {
-            border-bottom: 0px solid #111;
-        }
-
-
-
-
-        .scrollbar {
-            margin-left: 30px;
-            float: left;
-            height: 300px;
-            width: 65px;
-            background: #fff;
-            overflow-y: scroll;
-            margin-bottom: 25px;
-        }
-
-        .force-overflow {
-            min-height: 450px;
-        }
-
-        .scrollbar-primary::-webkit-scrollbar {
-            width: 12px;
-            background-color: #F5F5F5;
-        }
-
-        .scrollbar-primary::-webkit-scrollbar-thumb {
-            border-radius: 10px;
-            -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
-            background-color: #4285F4;
-        }
-
-        .scrollbar-primary {
-            scrollbar-color: #4285F4 #F5F5F5;
-        }
-
-        .scrollbar-danger::-webkit-scrollbar-track {
-            -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
-            background-color: #F5F5F5;
-            border-radius: 10px;
-        }
-
-        .scrollbar-danger::-webkit-scrollbar {
-            width: 5px;
-            background-color: #F5F5F5;
-        }
-
-        .scrollbar-danger::-webkit-scrollbar-thumb {
-            border-radius: 10px;
-            -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
-            background-color: #ff3547;
-        }
-
-        .scrollbar-danger {
-            scrollbar-color: #ff3547 #F5F5F5;
-        }
-
-        .scrollbar-warning::-webkit-scrollbar-track {
-            -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
-            background-color: #F5F5F5;
-            border-radius: 10px;
-        }
-
-        .scrollbar-warning::-webkit-scrollbar {
-            width: 12px;
-            background-color: #F5F5F5;
-        }
-
-        .scrollbar-warning::-webkit-scrollbar-thumb {
-            border-radius: 10px;
-            -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
-            background-color: #FF8800;
-        }
-
-        .scrollbar-warning {
-            scrollbar-color: #FF8800 #F5F5F5;
-        }
-
-        .scrollbar-success::-webkit-scrollbar-track {
-            -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
-            background-color: #F5F5F5;
-            border-radius: 10px;
-        }
-
-        .scrollbar-success::-webkit-scrollbar {
-            width: 12px;
-            background-color: #F5F5F5;
-        }
-
-        .scrollbar-success::-webkit-scrollbar-thumb {
-            border-radius: 10px;
-            -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
-            background-color: #00C851;
-        }
-
-        .scrollbar-success {
-            scrollbar-color: #00C851 #F5F5F5;
-        }
-
-        label {
-            color: black !important;
-            font-weight: bold;
-        }
-
-
-        .small-input:focus {
-            outline: none;
-            border: 1px dashed black !important;
-        }
-        .input-sm {
-            height: 30px;
-            padding: 5px 10px;
-            font-size: 12px;
-            line-height: 1.5;
-            border-radius: 3px;
-        }
-        .form-control-xs {
-            height: calc(1em + .375rem + 2px) !important;
-            padding: .125rem .25rem !important;
-            font-size: .75rem !important;
-            line-height: 1.5;
-            border-radius: .2rem;
-        }
-        .small-input {
-            outline: none;
-            border: 1px dashed lightgray !important;
-        }
-
-        td {
-            vertical-align: top !important;
-        }
-
-        .scrollbar-info::-webkit-scrollbar-track {
-            -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
-            background-color: #F5F5F5;
-            border-radius: 10px;
-        }
-
-        .scrollbar-info::-webkit-scrollbar {
-            width: 12px;
-            background-color: #F5F5F5;
-        }
-
-        .scrollbar-info::-webkit-scrollbar-thumb {
-            border-radius: 10px;
-            -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
-            background-color: #33b5e5;
-        }
-
-        .scrollbar-info {
-            scrollbar-color: #33b5e5 #F5F5F5;
-        }
-
-        .scrollbar-default::-webkit-scrollbar-track {
-            -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
-            background-color: #F5F5F5;
-            border-radius: 10px;
-        }
-
-        .scrollbar-default::-webkit-scrollbar {
-            width: 12px;
-            background-color: #F5F5F5;
-        }
-
-        .scrollbar-default::-webkit-scrollbar-thumb {
-            border-radius: 10px;
-            -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
-            background-color: #2BBBAD;
-        }
-
-        .scrollbar-default {
-            scrollbar-color: #2BBBAD #F5F5F5;
-        }
-
-        .scrollbar-secondary::-webkit-scrollbar-track {
-            -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
-            background-color: #F5F5F5;
-            border-radius: 10px;
-        }
-
-        .scrollbar-secondary::-webkit-scrollbar {
-            width: 12px;
-            background-color: #F5F5F5;
-        }
-
-        .scrollbar-secondary::-webkit-scrollbar-thumb {
-            border-radius: 10px;
-            -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
-            background-color: #aa66cc;
-        }
-
-        .scrollbar-secondary {
-            scrollbar-color: #aa66cc #F5F5F5;
-        }
-
-    </style>
 </head>
 
 <body>
@@ -645,7 +383,7 @@
     </div>
 
 
-    <livewire:scripts/>
+
 
     <script>
         $(document).ready(function () {
@@ -661,62 +399,15 @@
     </script>
 
     <!-- base js -->
-    <script src="https://www.bootstrapdash.com/demo/connect-plus/laravel/template/demo_1/js/app.js"></script>
-    <script
-        src="https://cdn.jsdelivr.net/npm/ractive"></script>
+    <!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/ractive"></script>
     <script src="https://cdn.jsdelivr.net/npm/ractive-transitions-fade"></script>
     <script src="https://cdn.jsdelivr.net/npm/ractive-transitions-slide"></script>
     <script src="https://cdn.jsdelivr.net/npm/ractive-transitions-fly"></script>
-
-    <script
-        src="https://www.bootstrapdash.com/demo/connect-plus/laravel/template/demo_1/assets/plugins/perfect-scrollbar/perfect-scrollbar.min.js">
-    </script>
-    <!-- end base js -->
-{{--    <link rel="stylesheet" type="text/css" href="{{ asset('css/semantic.min.css') }}">--}}
-{{--    <script src="{{ asset('js/app.js') }}"></script>--}}
-
-{{--    <script src="{{ asset('js/semantic.min.js') }}"></script>--}}
-<!-- plugin js -->
-    <script
-        src="https://www.bootstrapdash.com/demo/connect-plus/laravel/template/demo_1/assets/plugins/icheck/icheck.min.js">
-    </script>
-
-    <script
-        src="https://www.bootstrapdash.com/demo/connect-plus/laravel/template/demo_1/assets/plugins/typeaheadjs/typeahead.bundle.min.js">
-    </script>
-    <!-- end plugin js -->
-
-    <!-- common js -->
-    <script
-        src="https://www.bootstrapdash.com/demo/connect-plus/laravel/template/demo_1/assets/js/off-canvas.js">
-    </script>
-    <script
-        src="https://www.bootstrapdash.com/demo/connect-plus/laravel/template/demo_1/assets/js/hoverable-collapse.js">
-    </script>
-    <script src="https://www.bootstrapdash.com/demo/connect-plus/laravel/template/demo_1/assets/js/misc.js">
-    </script>
-    <script src="https://www.bootstrapdash.com/demo/connect-plus/laravel/template/demo_1/assets/js/settings.js">
-    </script>
-    <script src="https://www.bootstrapdash.com/demo/connect-plus/laravel/template/demo_1/assets/js/todolist.js">
-    </script>
-    <!-- end common js -->
-
-    <script
-        src="https://www.bootstrapdash.com/demo/connect-plus/laravel/template/demo_1/assets/js/file-upload.js">
-    </script>
-    <script src="https://www.bootstrapdash.com/demo/connect-plus/laravel/template/demo_1/assets/js/iCheck.js">
-    </script>
-
-    <script
-        src="https://www.bootstrapdash.com/demo/connect-plus/laravel/template/demo_1/assets/js/typeahead.js">
-    </script>
-    <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js">
-    </script>
+    <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.24/js/dataTables.bootstrap4.min.js"></script>
-    <script
-        src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js"
-        integrity="sha256-+C0A5Ilqmu4QcSPxrlGpaZxJ04VjsRjKu+G82kl5UJk="
-        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.full.min.js" integrity="sha512-RtZU3AyMVArmHLiW0suEZ9McadTdegwbgtiQl5Qqo9kunkVg1ofwueXD8/8wv3Af8jkME3DDe3yLfR8HSJfT2g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script>
         Ractive.DEBUG = true;

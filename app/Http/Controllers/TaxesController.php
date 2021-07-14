@@ -32,8 +32,12 @@ class TaxesController extends Controller
 
         $data = $this->getData($request);
 
-        Tax::create($data);
+        $tax = Tax::create($data);
 
+
+        if ($request->acceptsJson()) {
+            return $tax;
+        }
         return redirect()->route('taxes.tax.index')
             ->with('success_message', 'Tax was successfully added.');
 

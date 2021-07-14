@@ -1,7 +1,9 @@
 @extends('acc::layouts.app')
 
 @section('content')
-
+    @include('partials.ajax-product-create-form')
+    @include('partials.ajax-customer-create-form')
+    @include('partials.ajax-tax-create-form')
     <div style="position:absolute;right: 0">
         <a href="{{ route('invoices.invoice.index') }}" class="btn btn-primary float-right" title="Show All Invoice">
             <i class=" fas fa-fw fa-th-list" aria-hidden="true"></i>
@@ -82,8 +84,7 @@
 
 
 @section('css')
-    <link media="all" type="text/css" rel="stylesheet"
-          href="{{ asset('css/invoice.css') }}">
+    <link media="all" type="text/css" rel="stylesheet" href="{{ asset('css/invoice.css') }}"/>
     <style>
         td > * {
             vertical-align: top !important;
