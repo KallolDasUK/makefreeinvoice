@@ -13,7 +13,7 @@ use Enam\Acc\Http\Controllers\LedgerGroupsController;
 use Enam\Acc\Http\Controllers\LedgersController;
 use Enam\Acc\Http\Controllers\BranchesController;
 
-Route::middleware(['web'])
+Route::middleware(['web', 'auth:web'])
     ->group(function () {
 
         Route::get('/accounting', [BaseControllerAlias::class, 'index'])->name('acc.home');
