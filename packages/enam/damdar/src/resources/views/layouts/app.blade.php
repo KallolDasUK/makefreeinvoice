@@ -218,8 +218,7 @@
                                 </ul>
                             </li>
 
-                            <li class="{{ is_settings(Route::current()->uri(),Route::currentRouteName()) }}"><a
-                                    href="{{ route('accounting.settings.edit') }}"><i
+                            <li class="{{ is_settings(Route::current()->uri(),Route::currentRouteName()) }}"><a href="{{ route('accounting.settings.edit') }}"><i
                                         class="fa fa-cog" style="color: black"></i><span style="color: black">Settings</span>
                                 </a></li>
 
