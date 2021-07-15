@@ -1,15 +1,22 @@
 <div class="float-right">
     <div class="" style="width: 150px;height: 150px">
         <div class="image-input image-input-outline" id="kt_image_1">
-            <div class="image-input-wrapper" style="background-image: url({{ asset('storage/'.$settings->business_logo)?? 'https://res.cloudinary.com/teepublic/image/private/s--lPknYmIq--/t_Resized%20Artwork/c_fit,g_north_west,h_954,w_954/co_000000,e_outline:48/co_000000,e_outline:inner_fill:48/co_ffffff,e_outline:48/co_ffffff,e_outline:inner_fill:48/co_bbbbbb,e_outline:3:1000/c_mpad,g_center,h_1260,w_1260/b_rgb:eeeeee/c_limit,f_auto,h_630,q_90,w_630/v1524123000/production/designs/2605867_0.jpg'}})"></div>
+            <div class="image-input-wrapper"
+                 @if($settings->business_logo??false)
+                 style="background-image: url({{ asset('storage/'.$settings->business_logo)}})"></div>
+            @else
+                style="background-image: url( https://res.cloudinary.com/teepublic/image/private/s--lPknYmIq--/t_Resized%20Artwork/c_fit,g_north_west,h_954,w_954/co_000000,e_outline:48/co_000000,e_outline:inner_fill:48/co_ffffff,e_outline:48/co_ffffff,e_outline:inner_fill:48/co_bbbbbb,e_outline:3:1000/c_mpad,g_center,h_1260,w_1260/b_rgb:eeeeee/c_limit,f_auto,h_630,q_90,w_630/v1524123000/production/designs/2605867_0.jpg)"></div>
+        @endif
 
-            <label class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow" data-action="change" data-toggle="tooltip" title="" data-original-title="Change avatar">
+            <label class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow"
+                   data-action="change" data-toggle="tooltip" title="" data-original-title="Change avatar">
                 <i class="fa fa-pen icon-sm text-muted"></i>
                 <input type="file" name="business_logo" accept=".png, .jpg, .jpeg"/>
                 <input type="hidden" name="profile_avatar_remove"/>
             </label>
 
-            <span class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow" data-action="cancel" data-toggle="tooltip" title="Cancel avatar">
+            <span class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow"
+                  data-action="cancel" data-toggle="tooltip" title="Cancel avatar">
   <i class="ki ki-bold-close icon-xs text-muted"></i>
  </span>
         </div>
@@ -25,7 +32,7 @@
     <div class="col">
         <div class="form-group">
 
-            <label class="font-weight-bolder" for="invoice_number" >Invoice Number</label>
+            <label class="font-weight-bolder" for="invoice_number">Invoice Number</label>
             <span class="text-danger font-bolder text-danger">*</span>
             <br>
             <input class="form-control  {{ $errors->has('invoice_number') ? 'is-invalid' : '' }}"
@@ -200,7 +207,8 @@
             <tr>
                 <td><b class="font-weight-bolder text-black mr-2" style="font-size: 14px">Shipping Charges</b>
 
-                    <input type="number" step="any" class="input-sm form-control d-inline-block" style="max-width: 100px;text-align: end"
+                    <input type="number" step="any" class="input-sm form-control d-inline-block"
+                           style="max-width: 100px;text-align: end"
                            name="shipping_input"
                            id="shipping_input"
                            value="{{ old('shipping_charge', optional($invoice)->shipping_charge) }}">
@@ -357,6 +365,7 @@
 
 
 
+
     </script>
 @endverbatim
 @verbatim
@@ -453,6 +462,7 @@
 
 
 
+
     </script>
 @endverbatim
 @verbatim
@@ -477,6 +487,7 @@
               <td><span class="text-primary " on-click="@this.addAdditionalField()" style="cursor:pointer;">+ Add More</span></td>
               <td></td>
           </tr>
+
 
 
 
