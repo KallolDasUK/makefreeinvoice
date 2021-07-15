@@ -11,13 +11,13 @@
                         <div class="col">
                             <div class="form-group">
                                 <label for="name" class="col-form-label text-danger">Name *:</label>
-                                <input type="text" class="form-control form-control-sm" id="name" name="name">
+                                <input type="text" class="form-control " id="name" name="name">
                             </div>
                         </div>
                         <div class="col">
                             <div class="form-group">
                                 <label for="phone" class="col-form-label">Phone :</label>
-                                <input class="form-control form-control-sm" id="phone" name="phone"/>
+                                <input class="form-control " id="phone" name="phone"/>
                             </div>
                         </div>
                     </div>
@@ -26,20 +26,20 @@
                         <div class="col">
                             <div class="form-group">
                                 <label for="message-text" class="col-form-label">Website :</label>
-                                <input class="form-control form-control-sm" id="website" name="website"/>
+                                <input class="form-control " id="website" name="website"/>
                             </div>
 
                         </div>
                         <div class="col">
                             <div class="form-group">
                                 <label for="email" class="col-form-label">Email :</label>
-                                <input class="form-control form-control-sm" id="email" name="email"/>
+                                <input class="form-control " id="email" name="email"/>
                             </div>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="address" class="col-form-label">Address :</label>
-                        <textarea class="form-control form-control-sm" id="address" name="address" cols="5" rows="5">
+                        <textarea class="form-control " id="address" name="address" cols="5" rows="5">
 
                     </textarea>
                     </div>

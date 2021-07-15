@@ -27,6 +27,10 @@
     --}}
     <link media="all" type="text/css" rel="stylesheet" href="{{ asset('css/materialicon.css') }}">
     <link media="all" type="text/css" rel="stylesheet" href="{{ asset('css/style.css') }}">
+    <link media="all" type="text/css" rel="stylesheet"
+          href="https://preview.keenthemes.com/metronic/theme/html/demo2/dist/assets/css/style.bundle.css?v=7.2.8">
+    {{--    <link media="all" type="text/css" rel="stylesheet" href="{{ asset('css/bundle.min.css') }}">--}}
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css"
           integrity="sha512-nMNlpuaDPrqlEls3IX/Q56H36qvBASwb3ipuo3MxeWbsQB1881ox0cRv7UPTgBlriqoynt35KjEwgGUeUXIPnw=="
           crossorigin="anonymous" referrerpolicy="no-referrer"/>
@@ -41,13 +45,15 @@
 
 
     <!-- common css -->
-    <link media="all" type="text/css" rel="stylesheet"
-          href="https://www.bootstrapdash.com/demo/connect-plus/laravel/template/demo_1/css/app.css">
-    <!-- end common css -->
+    {{--    <link media="all" type="text/css" rel="stylesheet"--}}
+    {{--          href="https://www.bootstrapdash.com/demo/connect-plus/laravel/template/demo_1/css/app.css">--}}
+<!-- end common css -->
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     {{--    <script src="{{ asset('js/app.js') }}"></script>--}}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"
+            integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdn.jsdelivr.net/gh/jquery-form/form@4.3.0/dist/jquery.form.min.js"></script>
 
     <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
@@ -58,6 +64,10 @@
     <link href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css" rel="stylesheet"/>
     <link media="all" type="text/css" rel="stylesheet"
           href="https://cdn.datatables.net/1.10.24/css/dataTables.bootstrap4.min.css">
+    <link href="https://unpkg.com/filepond/dist/filepond.css" rel="stylesheet">
+    <script src="https://unpkg.com/filepond/dist/filepond.min.js"></script>
+    <script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.js"></script>
+    <script src="https://unpkg.com/jquery-filepond/filepond.jquery.js"></script>
 
 
     <link rel="stylesheet"
@@ -71,9 +81,11 @@
 
 <body>
 
-<div class="container-scroller">
 
-    <nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row ">
+<div class="container">
+
+
+    <nav class=" header header-fixed " style="width: 100% ;">
         <div class="text-center navbar-brand-wrapper d-none align-items-center justify-content-center">
             <a class="navbar-brand brand-logo text-success mt-4" href="{{ url('/') }}">
 
@@ -85,14 +97,15 @@
         <div class="navbar-menu-wrapper d-flex align-items-stretch">
             <div class="subnavbar">
                 <div class="subnavbar-inner">
-                    <div class="container">
+                    <div class="container" style="padding: 0px">
                         <ul class="mainnav">
                             <li class="{{ is_home(Route::current()->uri(),Route::currentRouteName()) }}"><a
                                     href="{{ route('acc.home') }}"><i
-                                        class="fa fa-tachometer-alt"></i><span>Dashboard</span> </a></li>
+                                        class="fa fa-tachometer-alt" style="color: purple"></i><span style="color: purple">Dashboard</span> </a></li>
                             <li class="dropdown subnavbar-open-center"><a href="javascript:;" class="dropdown-toggle"
                                                                           data-toggle="dropdown"><i
-                                        class="fas fa-file-invoice-dollar"></i><span>My Invoices</span> </a>
+                                        class="fas fa-file-invoice-dollar text-primary"></i><span class="text-primary">My Invoices</span>
+                                </a>
 
                                 <ul class="dropdown-menu">
                                     <div class="row m-0">
@@ -128,7 +141,8 @@
 
                             <li class="dropdown subnavbar-open-center"><a href="javascript:;" class="dropdown-toggle"
                                                                           data-toggle="dropdown"> <i
-                                        class="fa  fa-calculator"></i><span>Accounting</span> <b
+                                        class="fa  fa-calculator text-info"></i><span
+                                        class="text-info">Accounting</span> <b
                                         class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     <div class="row m-0" style="width:1000px">
@@ -205,7 +219,8 @@
                             </li>
 
                             <li class="{{ is_settings(Route::current()->uri(),Route::currentRouteName()) }}"><a
-                                    href="{{ route('accounting.settings.edit') }}"><i class="fa fa-cog"></i><span>Settings</span>
+                                    href="{{ route('accounting.settings.edit') }}"><i
+                                        class="fa fa-cog" style="color: black"></i><span style="color: black">Settings</span>
                                 </a></li>
 
                         </ul>
@@ -217,213 +232,61 @@
 
 
         </div>
-
-
     </nav>
-    <div class="container-fluid page-body-wrapper">
 
 
-        <nav class="sidebar sidebar-offcanvas dynamic-active-class-disabled d-none" id="sidebar">
-            <ul class="nav">
-                <li class="nav-item nav-category">Accounting</li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('acc.home') }}">
-                        <span class="icon-bg"><i class="mdi mdi-home menu-icon"></i></span>
-                        <span class="menu-title">Home</span>
-                    </a>
-                </li>
-                <li class="nav-item ">
-                    <a class="nav-link" data-toggle="collapse" href="#accountMaster"
-                       aria-expanded="false"
-                       aria-controls="accountMaster">
-                        <span class="icon-bg"><i
-                                class="mdi mdi-cart-plus menu-icon"></i></span>
-                        <span class="menu-title">Master</span>
-                        <i class="menu-arrow"></i>
-                    </a>
-                    <div class="collapse " id="accountMaster">
-                        <ul class="nav flex-column sub-menu ml-2">
+    <div>
+        <b class="text-black font-weight-bold mb-2 mt-2"> {{ $title??'' }} </b>
 
-                            <li class="nav-item " style="cursor: no-drop;"><a
-                                    class="nav-link"
-                                    href="{{ route('ledger_groups.ledger_group.create') }}">Ledger
-                                    Group</a>
-                            </li>
-                            <li class="nav-item " style="cursor: no-drop;"><a
-                                    class="nav-link"
-                                    href="{{ route('ledgers.ledger.create') }}">Ledger</a>
-                            </li>
-                            <li class="nav-item " style="cursor: no-drop;"><a
-                                    class="nav-link" href="{{ route('accounting.coa') }}">COA-
-                                    Chart of Accounts</a>
-                            </li>
-                            <li class="nav-item " style="cursor: no-drop;"><a
-                                    class="nav-link"
-                                    href="{{ route('branches.branch.create') }}">Branches</a>
-                            </li>
-
-
-                        </ul>
-                    </div>
-                </li>
-                <li class="nav-item ">
-                    <a class="nav-link" data-toggle="collapse" href="#accountTransaction"
-                       aria-expanded="false"
-                       aria-controls="accountTransaction">
-                     <span class="icon-bg"><i
-                             class="mdi mdi-trackpad menu-icon"></i></span>
-                        <span class="menu-title">Transaction </span>
-                        <i class="menu-arrow"></i>
-                    </a>
-                    <div class="collapse " id="accountTransaction">
-                        <ul class="nav flex-column sub-menu ml-2">
-
-                            <li class="nav-item "><a
-                                    class="nav-link"
-                                    href="{{ route('transactions.transaction.create') }}">
-                                    Receive </a>
-                            </li>
-                            <li class="nav-item " style="cursor: no-drop;"><a
-                                    class="nav-link"
-                                    href="{{ route('payments.payment.create') }}">
-                                    Payment</a>
-                            </li>
-                            <li class="nav-item " style="cursor: no-drop;"><a
-                                    class="nav-link"
-                                    href="{{ route('journals.journal.create') }}">
-                                    Journal</a>
-                            </li>
-                            <li class="nav-item " style="cursor: no-drop;"><a
-                                    class="nav-link"
-                                    href="{{ route('contras.contra.create') }}">
-                                    Contra</a>
-                            </li>
-
-
-                        </ul>
-                    </div>
-                </li>
-                <li class="nav-item ">
-                    <a class="nav-link" data-toggle="collapse" href="#accountReport"
-                       aria-expanded="false"
-                       aria-controls="accountReport">
-                         <span class="icon-bg"><i
-                                 class="mdi mdi-paper-cut-vertical menu-icon"></i></span>
-                        <span class="menu-title">Report</span>
-                        <i class="menu-arrow"></i>
-                    </a>
-                    <div class="collapse " id="accountReport">
-                        <ul class="nav flex-column sub-menu ml-2">
-
-                            <li class="nav-item " style="cursor: no-drop;"><a
-                                    class="nav-link"
-                                    href="{{ route('accounting.report.trial-balance') }}">
-                                    Trial Balance Report</a>
-                            </li>
-                            <li class="nav-item " style="cursor: no-drop;"><a
-                                    class="nav-link"
-                                    href="{{ route('accounting.report.receipt-payment-branch') }}">
-                                    Receipt & Payment Report (Branch Wise)</a>
-                            </li>
-                            <li class="nav-item "><a
-                                    class="nav-link"
-                                    href="{{ route('accounting.report.profit-loss') }}">
-                                    Profit & Loss / Income Statement Report</a>
-                            </li>
-                            <li class="nav-item "><a
-                                    class="nav-link"
-                                    href="{{ route('accounting.report.balance-sheet') }}">
-                                    Balance Sheet Report</a>
-                            </li>
-
-
-                            <li class="nav-item "><a
-                                    class="nav-link"
-                                    href="{{ route('accounting.report.ledger') }}">
-                                    Ledger Report</a>
-                            </li>
-                            <li class="nav-item "><a
-                                    class="nav-link"
-                                    href="{{ route('accounting.report.voucher') }}">
-                                    Voucher Report </a>
-                            </li>
-
-                            <li class="nav-item "><a
-                                    class="nav-link"
-                                    href="{{ route('accounting.report.cashbook') }}">
-                                    Cash Book Report </a>
-                            </li>
-                            <li class="nav-item "><a
-                                    class="nav-link"
-                                    href="{{ route('accounting.report.daybook') }}">
-                                    Day Book Report </a>
-                            </li>
-
-
-                        </ul>
-                    </div>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('accounting.settings.edit') }}">
-                        <span class="icon-bg"><i class="mdi mdi-paper-cut-vertical menu-icon"></i></span>
-                        <span class="menu-title">Settings</span>
-                    </a>
-                </li>
-
-
-            </ul>
-        </nav>
-
-
-        <div class="p-4 main-panel">
-            <b class="text-black font-weight-bold mb-2 mt-2"> {{ $title??'' }} </b>
-
-            @yield('content')
-            {{ $slot ?? '' }}
-
-        </div>
+        @yield('content')
+        {{ $slot ?? '' }}
 
     </div>
+</div>
 
 
-    <script>
-        $(document).ready(function () {
+<script>
+    $(document).ready(function () {
 
-            $('.mainnav li').on('mouseover', function () {
-                $('.mainnav li').removeClass('active')
-                $(this).addClass('active')
-                // console.log('Hovered', this)
-            })
-            Date.prototype.addDays = function (days) {
-                var date = new Date(this.valueOf());
-                date.setDate(date.getDate() + days);
-                return date;
-            }
-
-
+        $('.mainnav li').on('mouseover', function () {
+            $('.mainnav li').removeClass('active')
+            $(this).addClass('active')
+            // console.log('Hovered', this)
         })
-    </script>
+        Date.prototype.addDays = function (days) {
+            var date = new Date(this.valueOf());
+            date.setDate(date.getDate() + days);
+            return date;
+        }
 
-    <!-- base js -->
-    <!-- JavaScript Bundle with Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns"
-            crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/ractive"></script>
-    <script src="https://cdn.jsdelivr.net/npm/ractive-transitions-fade"></script>
-    <script src="https://cdn.jsdelivr.net/npm/ractive-transitions-slide"></script>
-    <script src="https://cdn.jsdelivr.net/npm/ractive-transitions-fly"></script>
-    <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.10.24/js/dataTables.bootstrap4.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.full.min.js"
-            integrity="sha512-RtZU3AyMVArmHLiW0suEZ9McadTdegwbgtiQl5Qqo9kunkVg1ofwueXD8/8wv3Af8jkME3DDe3yLfR8HSJfT2g=="
-            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script>
-        Ractive.DEBUG = true;
-        $.fn.select2.defaults.set("theme", "bootstrap");
 
-    </script>
+    })
+</script>
+
+<!-- base js -->
+<!-- JavaScript Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/ractive"></script>
+<script src="https://cdn.jsdelivr.net/npm/ractive-transitions-fade"></script>
+<script src="https://cdn.jsdelivr.net/npm/ractive-transitions-slide"></script>
+<script src="https://cdn.jsdelivr.net/npm/ractive-transitions-fly"></script>
+<script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.24/js/dataTables.bootstrap4.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js"></script>
+<script
+    src="https://preview.keenthemes.com/metronic/theme/html/demo2/dist/assets/js/scripts.bundle.js?v=7.2.8"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.full.min.js"
+        integrity="sha512-RtZU3AyMVArmHLiW0suEZ9McadTdegwbgtiQl5Qqo9kunkVg1ofwueXD8/8wv3Af8jkME3DDe3yLfR8HSJfT2g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+    Ractive.DEBUG = true;
+    $.fn.select2.defaults.set("theme", "bootstrap");
+    $.fn.filepond.registerPlugin(FilePondPluginImagePreview);
+
+
+</script>
 @yield('js')
 @stack('js')
 

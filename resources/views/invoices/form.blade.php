@@ -1,7 +1,18 @@
 <div class="float-right">
-    <div class="">
-        <img class="border border-dashed border-red text-center" src="https://via.placeholder.com/150" width="100px"
-             height="80px">
+    <div class="" style="width: 150px;height: 150px">
+        <div class="image-input image-input-outline" id="kt_image_1">
+            <div class="image-input-wrapper" style="background-image: url({{ asset('storage/'.$settings->business_logo)?? 'https://res.cloudinary.com/teepublic/image/private/s--lPknYmIq--/t_Resized%20Artwork/c_fit,g_north_west,h_954,w_954/co_000000,e_outline:48/co_000000,e_outline:inner_fill:48/co_ffffff,e_outline:48/co_ffffff,e_outline:inner_fill:48/co_bbbbbb,e_outline:3:1000/c_mpad,g_center,h_1260,w_1260/b_rgb:eeeeee/c_limit,f_auto,h_630,q_90,w_630/v1524123000/production/designs/2605867_0.jpg'}})"></div>
+
+            <label class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow" data-action="change" data-toggle="tooltip" title="" data-original-title="Change avatar">
+                <i class="fa fa-pen icon-sm text-muted"></i>
+                <input type="file" name="business_logo" accept=".png, .jpg, .jpeg"/>
+                <input type="hidden" name="profile_avatar_remove"/>
+            </label>
+
+            <span class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow" data-action="cancel" data-toggle="tooltip" title="Cancel avatar">
+  <i class="ki ki-bold-close icon-xs text-muted"></i>
+ </span>
+        </div>
     </div>
 
     @if($errors->any())
@@ -14,10 +25,10 @@
     <div class="col">
         <div class="form-group">
 
-            <label for="invoice_number" class="text-danger">Invoice Number</label>
-            <span class="text-danger font-bolder">*</span>
+            <label class="font-weight-bolder" for="invoice_number" >Invoice Number</label>
+            <span class="text-danger font-bolder text-danger">*</span>
             <br>
-            <input class="form-control form-control-sm  {{ $errors->has('invoice_number') ? 'is-invalid' : '' }}"
+            <input class="form-control  {{ $errors->has('invoice_number') ? 'is-invalid' : '' }}"
                    name="invoice_number"
                    type="text" id="invoice_number"
                    value="{{ old('invoice_number', optional($invoice)->invoice_number)??$next_invoice }}" required>
@@ -27,9 +38,9 @@
     </div>
     <div class="col">
         <div class="form-group">
-            <label for="order_number">Order Number</label>
+            <label class="font-weight-bolder" for="order_number">Order Number</label>
             <br>
-            <input class="form-control form-control-sm{{ $errors->has('order_number') ? 'is-invalid' : '' }}"
+            <input class="form-control {{ $errors->has('order_number') ? 'is-invalid' : '' }}"
                    name="order_number"
                    type="text" id="order_number" value="{{ old('order_number', optional($invoice)->order_number) }}">
 
@@ -39,10 +50,10 @@
     </div>
     <div class="col">
         <div class="form-group">
-            <label class="text-danger" for="invoice_date">Invoice Date</label> <span
-                class="text-danger font-bolder">*</span>
+            <label class="font-weight-bolder" for="invoice_date">Invoice Date</label> <span
+                class="text-danger font-bolder text-danger">*</span>
             <br>
-            <input class="form-control form-control-sm {{ $errors->has('invoice_date') ? 'is-invalid' : '' }}"
+            <input class="form-control  {{ $errors->has('invoice_date') ? 'is-invalid' : '' }}"
                    name="invoice_date"
                    type="date" id="invoice_date"
                    value="{{ old('invoice_date', optional($invoice)->invoice_date)??today()->toDateString() }}"
@@ -54,8 +65,8 @@
     </div>
     <div class="col">
         <div class="form-group">
-            <label for="payment_terms">Payment Terms</label> <br>
-            <select class="form-control form-control-sm" id="payment_terms" name="payment_terms" style="width: 70%">
+            <label class="font-weight-bolder" for="payment_terms">Payment Terms</label> <br>
+            <select class="form-control " id="payment_terms" name="payment_terms" style="width: 70%">
                 <option value="" selected>--</option>
                 @foreach (['7'=>'Net 7','15'=>'Net 15','30'=>'Net 30','45'=>'Net 45','-1'=>'Custom'] as $key=> $text)
                     <option
@@ -77,9 +88,9 @@
     <div class="col">
         <div class="form-group">
 
-            <label for="due_date">Due Date</label>
+            <label class="font-weight-bolder" for="due_date">Due Date</label>
             <br>
-            <input class="form-control form-control-sm {{ $errors->has('due_date') ? 'is-invalid' : '' }}"
+            <input class="form-control  {{ $errors->has('due_date') ? 'is-invalid' : '' }}"
                    name="due_date" type="date"
                    id="due_date" value="{{ old('due_date', optional($invoice)->due_date) }}">
             {!! $errors->first('due_date', '<p class="form-text text-danger">:message</p>') !!}
@@ -88,11 +99,11 @@
     </div>
     <div class="col">
         <div class="form-group mini">
-            <label>To Customer</label>
+            <label class="font-weight-bolder">To Customer</label>
 
             <br>
 
-            <select class="customer form-control" id="customer_id" name="customer_id">
+            <select class="customer form-control select2" id="customer_id" name="customer_id">
                 <option value="" disabled
                         selected></option>
                 @foreach ($customers as $key => $customer)
@@ -162,10 +173,10 @@
             <tr>
                 <td>
                     <b class=" font-weight-bolder text-black mr-2" style="font-size: 14px">Discount</b>
-                    <input type="number" step="any" class="small-input"
+                    <input type="number" step="any" class="input-sm form-control d-inline-block"
                            style="max-width: 100px; text-align: end" id="discountValue" name="discount_value"
                            value="{{ old('discount_value', optional($invoice)->discount_value) }}">
-                    <select class="small-input" id="discount_type" name="discount_type">
+                    <select class="input-sm small-input d-inline" id="discount_type" name="discount_type">
 
                         @foreach ([ '%', 'Flat'] as $key => $text)
                             <option
@@ -189,7 +200,7 @@
             <tr>
                 <td><b class="font-weight-bolder text-black mr-2" style="font-size: 14px">Shipping Charges</b>
 
-                    <input type="number" step="any" class="small-input" style="max-width: 100px;text-align: end"
+                    <input type="number" step="any" class="input-sm form-control d-inline-block" style="max-width: 100px;text-align: end"
                            name="shipping_input"
                            id="shipping_input"
                            value="{{ old('shipping_charge', optional($invoice)->shipping_charge) }}">
@@ -309,14 +320,14 @@
         <option value="{{ id }}" > {{ name }}</option>
                             {{ /each }}
         </select>
-   <input type="text" value="{{ description }}" style="border: none!important;" class="form-control form-control-sm input-sm" placeholder="Item Description ...">
+   <input type="text" value="{{ description }}" style="border: none!important;" class="form-control  input-sm" placeholder="Item Description ...">
             </td>
-            <td> <input type="number" step="any" style="text-align: end"  class="form-control form-control-sm input-sm rate" value="{{ price }}" required></td>
-            <td> <input type="number" step="any" style="text-align: end"  class="form-control form-control-sm  input-sm qnt" value="{{ qnt }}" required>
+            <td> <input type="number" step="any" style="text-align: end"  class="form-control  input-sm rate" value="{{ price }}" required></td>
+            <td> <input type="number" step="any" style="text-align: end"  class="form-control   input-sm qnt" value="{{ qnt }}" required>
             <input class="text-right form-control input-sm" type="text" style="outline: none;border:0 !important;text-align: end; text-decoration: underline;text-decoration-style: dashed;text-decoration-color: red"  value="{{ unit }}"/>
              </td>
             <td >
-            <select index="{{i}}" id="itemTax{{i}}" class="form-control form-control-sm" value="{{ tax_id }}">
+            <select index="{{i}}" id="itemTax{{i}}" class="form-control " value="{{ tax_id }}">
                     <option value="" selected>--</option>
                     {{ #each taxes:index }}
         <option value="{{id}}">{{ name }} - {{value}}%</option>
@@ -365,9 +376,9 @@
              {{/each}}
         {{#each pairs:i}}
         <tr>
-            <td>
-                <input type="text" class="small-input font-weight-bolder" style="width: 50%" placeholder="Additional.." value="{{ name }}">
-                        <input type="number" step="any" class="small-input" style="width: 50%;text-align: end" value="{{ value }}">
+            <td class="d-flex">
+                <input type="text" class="input-sm form-control d-inline-block" style="" placeholder="Additional.." value="{{ name }}">
+                        <input type="number" step="any" class="input-sm form-control d-inline-block" style="text-align: end" value="{{ value }}">
                         <i class="fa fa-minus text-danger mx-2" on-click="@this.removeExtraField(i)" style="cursor:pointer;"></i>
                         <b class="far fa-question-circle" data-toggle="tooltip" title="Add any other +ve or -ve charges that need to be applied to adjust the total amount of the transaction Eg. +10 or -10.">
 
@@ -450,11 +461,11 @@
         {{#each additional_fields:i}}
         <tr>
             <td>
-                <input type="text" class="form-control form-control-sm font-weight-bolder"  placeholder="ex. Vat No" value="{{ name }}">
+                <input type="text" class="form-control  font-weight-bolder"  placeholder="ex. Vat No" value="{{ name }}">
 
                     </td>
                     <td>
-                   <input type="text" step="any" class="form-control form-control-sm" placeholder="ex. 77GH77G9 " value="{{ value }}">
+                   <input type="text" step="any" class="form-control " placeholder="ex. 77GH77G9 " value="{{ value }}">
 
                     </td>
                     <td class="text-center"> <i class="fa fa-trash text-danger my-auto text-center" on-click="@this.removeAdditionalField(i)" style="cursor:pointer;"></i>

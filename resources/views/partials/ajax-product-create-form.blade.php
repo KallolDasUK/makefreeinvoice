@@ -41,10 +41,10 @@
                                     <label class="input-group-btn">
                                         <span class="">
                                              <input type="file" name="photo" id="photo"
-                                                    class="form-control form-control-sm-file">
+                                                    class="form-control -file">
                                         </span>
                                     </label>
-                                    <input type="text" class="form-control form-control-sm uploaded-file-name" hidden>
+                                    <input type="text" class="form-control  uploaded-file-name" hidden>
                                 </div>
 
 
@@ -70,7 +70,7 @@
                         <div class="col">
                             <div class="form-group">
                                 <label for="category_id">Category</label>
-                                <select class="form-control form-control-sm" id="category_id" name="category_id">
+                                <select class="form-control " id="category_id" name="category_id">
                                     <option value="" style="display: none;" disabled
                                             selected>Select category
                                     </option>
@@ -103,7 +103,7 @@
                             <div class="form-group">
                                 <label for="sell_unit">Sell Unit</label>
 
-                                <select class="form-control form-control-sm" id="sell_unit" name="sell_unit">
+                                <select class="form-control " id="sell_unit" name="sell_unit">
                                     <option value="" style="display: none;" disabled
                                             selected>--
                                     </option>
@@ -134,7 +134,7 @@
                         <div class="col">
                             <div class="form-group">
                                 <label for="purchase_unit">Purchase Unit</label>
-                                <select class="form-control form-control-sm" id="purchase_unit" name="purchase_unit">
+                                <select class="form-control " id="purchase_unit" name="purchase_unit">
                                     <option value="" style="display: none;"
                                             disabled
                                             selected>--
@@ -154,7 +154,7 @@
                         <label for="description">Description</label>
 
 
-                        <textarea class="form-control form-control-sm" name="description" cols="50" rows="4"
+                        <textarea class="form-control " name="description" cols="50" rows="4"
                                   id="description"
                                   maxlength="1000"></textarea>
 

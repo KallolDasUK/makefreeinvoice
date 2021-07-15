@@ -99,7 +99,6 @@
         }
 
 
-
         table.dataTable.no-footer {
             border-bottom: 0px solid #111;
         }
@@ -643,6 +642,7 @@
     <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js">
     </script>
     <script src="https://cdn.datatables.net/1.10.24/js/dataTables.bootstrap4.min.js"></script>
+    <script src="{{ asset('js/plugin.min.js') }}"></script>
     <script
         src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js"
         integrity="sha256-+C0A5Ilqmu4QcSPxrlGpaZxJ04VjsRjKu+G82kl5UJk="

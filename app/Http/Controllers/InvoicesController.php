@@ -19,7 +19,7 @@ class InvoicesController extends Controller
 
     public function index()
     {
-        $invoices = Invoice::with('customer')->paginate(20);
+        $invoices = Invoice::with('customer')->latest()->paginate(2);
 
         return view('invoices.index', compact('invoices'));
     }
@@ -45,6 +45,7 @@ class InvoicesController extends Controller
 
 
         $data = $this->getData($request);
+//        dd($request->all());
 
         $invoice_items = $data['invoice_items'] ?? [];
         $extraFields = $data['additional'] ?? [];
@@ -52,6 +53,7 @@ class InvoicesController extends Controller
         unset($data['invoice_items']);
         unset($data['additional']);
         unset($data['additional_fields']);
+        unset($data['business_logo']);
 
         $invoice = Invoice::create($data);
 
@@ -180,6 +182,7 @@ class InvoicesController extends Controller
             'invoice_items' => 'nullable',
             'additional' => 'nullable',
             'additional_fields' => 'nullable',
+            'business-logo' => 'nullable',
         ];
 
         $data = $request->validate($rules);
@@ -193,6 +196,10 @@ class InvoicesController extends Controller
         }
         if ($request->hasFile('attachment')) {
             $data['attachment'] = $this->moveFile($request->file('attachment'));
+        }
+        if ($request->hasFile('business_logo')) {
+
+            MetaSetting::query()->updateOrCreate(['key' => 'business_logo'], ['key' => 'business_logo', 'value' => $this->moveFile($request->file('business_logo'))]);
         }
 
         return $data;
