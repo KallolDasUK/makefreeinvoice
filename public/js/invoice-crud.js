@@ -13,7 +13,7 @@ $(document).ready(function () {
             return markup;
         }
     })
-
+    $('#currency').select2()
 
     /*  Creating Product Via Ajax with Validation */
     $('#createProductForm').validate({
@@ -211,9 +211,12 @@ $(document).ready(function () {
         }
     });
     var avatar1 = new KTImageInput('kt_image_1');
-
-
-
+    let currency = $('#currency').val()
+    ractive.set('currency',currency)
+    $('#currency').on('change',function () {
+        let currency = $('#currency').val()
+        ractive.set('currency',currency)
+    })
 })
 
 

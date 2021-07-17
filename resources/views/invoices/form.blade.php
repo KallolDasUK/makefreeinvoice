@@ -5,26 +5,28 @@
                  @if($settings->business_logo??false)
                  style="background-image: url({{ asset('storage/'.$settings->business_logo)}})"></div>
             @else
-                style="background-image: url( https://res.cloudinary.com/teepublic/image/private/s--lPknYmIq--/t_Resized%20Artwork/c_fit,g_north_west,h_954,w_954/co_000000,e_outline:48/co_000000,e_outline:inner_fill:48/co_ffffff,e_outline:48/co_ffffff,e_outline:inner_fill:48/co_bbbbbb,e_outline:3:1000/c_mpad,g_center,h_1260,w_1260/b_rgb:eeeeee/c_limit,f_auto,h_630,q_90,w_630/v1524123000/production/designs/2605867_0.jpg)"></div>
+                style="background-image: url(
+                https://res.cloudinary.com/teepublic/image/private/s--lPknYmIq--/t_Resized%20Artwork/c_fit,g_north_west,h_954,w_954/co_000000,e_outline:48/co_000000,e_outline:inner_fill:48/co_ffffff,e_outline:48/co_ffffff,e_outline:inner_fill:48/co_bbbbbb,e_outline:3:1000/c_mpad,g_center,h_1260,w_1260/b_rgb:eeeeee/c_limit,f_auto,h_630,q_90,w_630/v1524123000/production/designs/2605867_0.jpg)">
+        </div>
         @endif
 
-            <label class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow"
-                   data-action="change" data-toggle="tooltip" title="" data-original-title="Change avatar">
-                <i class="fa fa-pen icon-sm text-muted"></i>
-                <input type="file" name="business_logo" accept=".png, .jpg, .jpeg"/>
-                <input type="hidden" name="profile_avatar_remove"/>
-            </label>
+        <label class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow"
+               data-action="change" data-toggle="tooltip" title="" data-original-title="Change avatar">
+            <i class="fa fa-pen icon-sm text-muted"></i>
+            <input type="file" name="business_logo" accept=".png, .jpg, .jpeg"/>
+            <input type="hidden" name="profile_avatar_remove"/>
+        </label>
 
-            <span class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow"
-                  data-action="cancel" data-toggle="tooltip" title="Cancel avatar">
+        <span class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow"
+              data-action="cancel" data-toggle="tooltip" title="Cancel avatar">
   <i class="ki ki-bold-close icon-xs text-muted"></i>
  </span>
-        </div>
     </div>
+</div>
 
-    @if($errors->any())
-        {!! implode('', $errors->all('<div>:message</div>')) !!}
-    @endif
+@if($errors->any())
+{!! implode('', $errors->all('<div>:message</div>')) !!}
+@endif
 </div>
 <div class="row">
 
@@ -125,8 +127,38 @@
 
         </div>
     </div>
-    <div class="col"></div>
-    <div class="col"></div>
+    <div class="col">
+
+        <div class="form-group">
+
+            <label class="font-weight-bolder" for="due_date">Shipping Date</label>
+            <br>
+            <input class="form-control  {{ $errors->has('shipping_date') ? 'is-invalid' : '' }}"
+                   name="due_date" type="date"
+                   id="due_date" value="{{ old('shipping_date', optional($invoice)->shipping_date) }}">
+
+        </div>
+    </div>
+    <div class="col">
+        <div class="form-group mini">
+            <label class="font-weight-bolder">Currency</label>
+
+            <br>
+
+            <select class=" form-control select2" id="currency" name="currency">
+                <option value="" disabled selected></option>
+                @foreach (currencies() as $currency)
+                    <option
+                        value="{{ $currency['symbol'] }}" {{ old('customer_id', optional($invoice)->currency) == $currency['symbol'] ? 'selected' : '' }} @if($invoice == null) {{ $settings->currency??'$' == $currency['symbol'] ? 'selected' : '' }} @endif>
+                        {{ $currency['name'] ?? $currency['currencyname'] }} - {{ $currency['symbol'] }}
+                    </option>
+                @endforeach
+            </select>
+
+            {!! $errors->first('customer_id', '<p class="form-text text-danger">:message</p>') !!}
+
+        </div>
+    </div>
 </div>
 
 
@@ -175,6 +207,8 @@
                     <input type="number" step="any" id="subTotal" name="sub_total"
                            value="{{ old('sub_total', optional($invoice)->sub_total) }}" readonly
                            style="border: 1px solid transparent; outline: none;text-align: end">
+                    <span class="currency"></span>
+
                 </td>
             </tr>
             <tr>
@@ -194,14 +228,16 @@
                     </select>
                 </td>
                 <td style="text-align: end">
-                    <label>
+
                         <input type="number" step="any" id="discount" name="discount"
                                value="{{ old('discount', optional($invoice)->discount) }}>" readonly
                                style="border: 1px solid transparent; outline: none;text-align: end" hidden>
+
                         <input type="number" step="any" id="discountShown"
                                value="{{ old('discount', optional($invoice)->discount) }}" readonly
                                style="border: 1px solid transparent; outline: none;text-align: end">
-                    </label>
+                        <span class="currency"></span>
+
                 </td>
             </tr>
             <tr>
@@ -217,6 +253,8 @@
                     <input type="number" id="shipping_charge" name="shipping_charge"
                            value="{{ old('shipping_charge', optional($invoice)->shipping_charge) }}" readonly
                            style="border: 1px solid transparent; outline: none;text-align: end">
+                    <span class="currency"></span>
+
                 </td>
             </tr>
 
@@ -228,10 +266,13 @@
                 <td>
                     <b class=" font-weight-bolder text-black mr-2" style="font-size: 20px">Total</b>
                 </td>
-                <td style="text-align: end">
-                    <input class="font-weight-bolder" type="number" step="any" id="total" name="total" value="0.00"
-                           readonly
+                <td class="d-flex" style="text-align: end">
+
+                    <input class="font-weight-bolder d-inline" type="number" step="any" id="total" name="total"
+                           value="0.00" readonly
                            style="border: 1px solid transparent; outline: none;text-align: end;font-size: 20px">
+                    <span class="currency font-weight-bolder d-inline" style="font-size: 20px"></span>
+
                 </td>
             </tr>
         </table>
@@ -344,7 +385,9 @@
         <br>
         &nbsp;
      </td>
-    <td> <input class="font-weight-bolder" type="number" step="any" style="text-align: end"   style="border: 1px solid transparent; outline: none;text-align: center" twoway="false" readonly value="{{ parseFloat(price * qnt).toFixed(2) }}"></td>
+    <td >
+        <span class="font-weight-bolder" style="font-size: 16px"> {{ (parseFloat((price||0) * (qnt||0))).toFixed(2) }}</span>
+        <span class="currency d-inline font-weight-bolder" style="font-size: 16px">{{ currency }}</span></td>
             <td on-click="@this.delete(i)" style="cursor: pointer"> <i class="fa fa-trash text-danger" ></i></td>
          </tr>
 {{ /each}}
@@ -356,6 +399,14 @@
             <span role="button" on-click="@this.addInvoiceItem()" class="p-4 text-center text-primary"
                   style="cursor: pointer">+ Add Line</span>
         </div>
+
+
+
+
+
+
+
+
 
 
 
@@ -379,6 +430,7 @@
                     <td style="text-align: end">
                         <input type="number" value="{{ amount.toFixed(2) }}" readonly
                         style="border: 1px solid transparent; outline: none;text-align: end">
+                        <span class="currency d-inline" style="font-size: 16px">{{ currency }}</span>
                     </td>
                 </tr>
 
@@ -393,8 +445,11 @@
 
                     </td>
                     <td style="text-align: end">
+
                         <input type="number"  value="{{ value }}" readonly
                         class="{{ className }}" style="border: 1px solid transparent; outline: none;text-align: end">
+                                                <span class="currency d-inline {{ className }}" style="font-size: 16px">{{ currency }}</span>
+
                     </td>
                 </tr>
 
@@ -403,6 +458,14 @@
                           <td><span class="text-primary " on-click="@this.addExtraField()" style="cursor:pointer;">+ Add More</span></td>
                           <td></td>
                       </tr>
+
+
+
+
+
+
+
+
 
 
 
@@ -487,6 +550,14 @@
               <td><span class="text-primary " on-click="@this.addAdditionalField()" style="cursor:pointer;">+ Add More</span></td>
               <td></td>
           </tr>
+
+
+
+
+
+
+
+
 
 
 

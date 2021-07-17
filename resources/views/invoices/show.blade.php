@@ -1,13 +1,58 @@
 @extends('acc::layouts.app')
 
+@section('css')
+    <style>
+        .invoice-container {
+            margin: 15px auto;
+            padding: 70px;
+            max-width: 850px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            -moz-border-radius: 6px;
+            -webkit-border-radius: 6px;
+            -o-border-radius: 6px;
+            border-radius: 6px;
+        }
+
+        b, strong {
+            font-weight: bolder;
+        }
+
+        .text-1 {
+            font-size: 12px !important;
+            font-size: 0.75rem !important;
+        }
+
+        .text-7 {
+            font-size: 28px !important;
+            font-size: 1.75rem !important;
+        }
+
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+
+            #invoice-container, #invoice-container * {
+                visibility: visible;
+            }
+
+            #invoice-container {
+                position: absolute;
+                left: 0;
+                top: 0;
+                right: 0;
+            }
+        }
+    </style>
+@endsection
 @section('content')
 
-    <div class="card">
-        <div class="card-header">
+    <div class="">
+        <div class="">
 
-            <h5 class="my-1 float-left">{{ isset($title) ? $title : 'Invoice' }}</h5>
 
-            <div class="float-right">
+            <div class="text-center">
 
                 <form method="POST" action="{!! route('invoices.invoice.destroy', $invoice->id) !!}"
                       accept-charset="UTF-8">
@@ -43,132 +88,150 @@
             </div>
 
         </div>
+        <p class="clearfix"></p>
+        <div class=" text-center">
+            <div class="btn-group btn-group-sm d-print-none" style="font-size: 20px">
+                <button id="printBtn"
+                        class="btn btn-outline-info  btn-lg" style="font-size: 20px"><i
+                        class="fa fa-print"></i> Print
+                </button>
+                <button id="downloadButton"
+                        class="btn btn-outline-success  btn-lg" style="font-size: 20px"><i
+                        class="fa fa-download"></i> Download
+                </button>
+                <button id="downloadButton"
+                        class="btn btn-outline-primary  btn-lg " style="font-size: 20px"><i
+                        class="fa fa-send"></i> Send Invoice To
+                </button>
+            </div>
+        </div>
+        <p class="clearfix"></p>
 
-        <div class="card card-custom overflow-hidden mx-auto" style="width: 70%">
-            <div class="card-body p-0">
-                <!-- begin: Invoice-->
-                <!-- begin: Invoice header-->
-                <div class="row justify-content-center bgi-size-cover bgi-no-repeat py-8 px-8 py-md-27 px-md-0"
-                     style="background-image: url(https://preview.keenthemes.com/metronic/theme/html/demo2/dist/assets/media/bg/bg-6.jpg);">
-                    <div class="col-md-9">
-                        <div class="d-flex justify-content-between pb-10 pb-md-20 flex-column flex-md-row">
-                            <h1 class="display-4 text-white font-weight-boldest mb-10">INVOICE</h1>
-                            <div class="d-flex flex-column align-items-md-end px-0">
-                                <!--begin::Logo-->
-                                <a href="#" class="mb-5">
-                                    @if($settings->business_logo??false)
-                                        <img
-                                            class="rounded"
-                                            src="{{ asset('storage/'.$settings->business_logo) }}"
-                                            width="100"
-                                            alt="">
-                                    @endif
-                                </a>
-                                <!--end::Logo-->
-                                <span class="text-white d-flex flex-column align-items-md-end opacity-70">
-															<span>Cecilia Chapman, 711-2880 Nulla St, Mankato</span>
-															<span>Mississippi 96522</span>
-														</span>
-                            </div>
-                        </div>
-                        <div class="border-bottom w-100 opacity-20"></div>
-                        <div class="d-flex justify-content-between text-white pt-6">
-                            <div class="d-flex flex-column flex-root">
-                                <span class="font-weight-bolde mb-2r">DATA</span>
-                                <span class="opacity-70">Dec 12, 2017</span>
-                            </div>
-                            <div class="d-flex flex-column flex-root">
-                                <span class="font-weight-bolder mb-2">INVOICE NO.</span>
-                                <span class="opacity-70">GS 000014</span>
-                            </div>
-                            <div class="d-flex flex-column flex-root">
-                                <span class="font-weight-bolder mb-2">INVOICE TO.</span>
-                                <span class="opacity-70">Iris Watson, P.O. Box 283 8562 Fusce RD.
-														<br>Fredrick Nebraska 20620</span>
-                            </div>
-                        </div>
+        <div id="invoice-container" class="container-fluid invoice-container">
+
+            <!-- Header -->
+            <header>
+                <div class="row align-items-center">
+                    <div class="col-sm-7 text-center text-sm-left mb-3 mb-sm-0">
+                        @if($settings->business_logo??false)
+                            <img
+                                class="rounded"
+                                src="{{ asset('storage/'.$settings->business_logo) }}"
+                                width="100"
+                                alt="">
+                        @endif
+                    </div>
+                    <div class="col-sm-5 text-center text-sm-right">
+                        <h4 class="text-7 mb-0">Invoice</h4>
                     </div>
                 </div>
-                <!-- end: Invoice header-->
-                <!-- begin: Invoice body-->
-                <div class="row justify-content-center py-8 px-8 py-md-10 px-md-0">
-                    <div class="col-md-10">
-                        <div class="">
-                            <table class="table table-sm table-striped">
-                                <thead>
+                <hr>
+            </header>
+
+            <!-- Main Content -->
+            <main>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <strong>Date:</strong> {{ \Carbon\Carbon::parse($invoice->date)->format('d/m/y') }}</div>
+                    <div class="col-sm-6 text-sm-right"><strong>Invoice No:</strong> {{ $invoice->invoice_number }}
+                    </div>
+
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-sm-6 text-sm-right order-sm-1"><strong> From:</strong>
+                        <address>
+                            Koice Inc<br>
+                            2705 N. Enterprise St<br>
+                            Orange, CA 92865<br>
+                            contact@koiceinc.com
+                        </address>
+                    </div>
+                    <div class="col-sm-6 order-sm-0"><strong>To:</strong>
+                        <address>
+                            Smith Rhodes<br>
+                            15 Hodges Mews, High Wycombe<br>
+                            HP12 3JL<br>
+                            United Kingdom
+                        </address>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table mb-0">
+                                <thead class="card-header">
                                 <tr>
-                                    <th class=" font-weight-bold text-muted text-uppercase">Description</th>
-                                    <th class="text-right font-weight-bold text-muted text-uppercase">Quantity</th>
-                                    <th class="text-right font-weight-bold text-muted text-uppercase">Rate</th>
-                                    <th class="text-right pr-0 font-weight-bold text-muted text-uppercase">Amount</th>
+                                    <td class=" border-0"><strong>SL</strong></td>
+                                    <td class=" border-0"><strong>Description</strong></td>
+                                    <td class=" text-center border-0"><strong>Rate</strong></td>
+                                    <td class=" text-center border-0"><strong>QTY</strong></td>
+                                    <td class=" text-right border-0"><strong>Amount</strong></td>
                                 </tr>
                                 </thead>
                                 <tbody>
+
                                 @foreach($invoice->invoice_items as $item)
-                                    <tr class="font-weight-boldest font-size-lg">
+
+                                    <tr class="">
+                                        <td>{{ $loop->iteration }}</td>
                                         <td class="">
                                             {{ $item->product->name }}
                                             @if($item->description)
-                                            <small> {{ $item->description }} </small>
-                                                @endif
+                                                <br>
+                                                <small> {{ $item->description }} </small>
+                                            @endif
                                         </td>
-                                        <td class="text-right ">{{ number_format($item->qnt) }}x</td>
-                                        <td class="text-right">{{ number_format($item->price) }}</td>
-                                        <td class="text-danger text-right">{{ number_format($item->amount) }}</td>
+                                        <td class="text-center">{{ $invoice->currency }} {{ number_format($item->price) }}</td>
+                                        <td class="text-center ">{{ number_format($item->qnt) }}x</td>
+                                        <td class="text-right">{{ $invoice->currency }} {{ number_format($item->amount) }}</td>
                                     </tr>
                                 @endforeach
 
+
                                 </tbody>
+                                <tfoot class="card-footer">
+                                <tr>
+                                    <td colspan="4" class="text-right"><strong>Sub Total:</strong></td>
+                                    <td class="text-right">$2150.00</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="4" class="text-right"><strong>Tax:</strong></td>
+                                    <td class="text-right">$215.00</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="4" class="text-right"><strong>Total:</strong></td>
+                                    <td class="text-right">$2365.00</td>
+                                </tr>
+                                </tfoot>
                             </table>
                         </div>
                     </div>
                 </div>
-                <!-- end: Invoice body-->
-                <!-- begin: Invoice footer-->
-                <div class="row justify-content-center bg-gray-100 py-8 px-8 py-md-10 px-md-0">
-                    <div class="col-md-9">
-                        <div class="d-flex justify-content-between flex-column flex-md-row font-size-lg">
-                            <div class="d-flex flex-column mb-10 mb-md-0">
-                                <div class="font-weight-bolder font-size-lg mb-3">BANK TRANSFER</div>
-                                <div class="d-flex justify-content-between mb-3">
-                                    <span class="mr-15 font-weight-bold">Account Name:</span>
-                                    <span class="text-right">Barclays UK</span>
-                                </div>
-                                <div class="d-flex justify-content-between mb-3">
-                                    <span class="mr-15 font-weight-bold">Account Number:</span>
-                                    <span class="text-right">1234567890934</span>
-                                </div>
-                                <div class="d-flex justify-content-between">
-                                    <span class="mr-15 font-weight-bold">Code:</span>
-                                    <span class="text-right">BARC0032UK</span>
-                                </div>
-                            </div>
-                            <div class="d-flex flex-column text-md-right">
-                                <span class="font-size-lg font-weight-bolder mb-1">TOTAL AMOUNT</span>
-                                <span class="font-size-h2 font-weight-boldest text-danger mb-1">$20.600.00</span>
-                                <span>Taxes Included</span>
-                            </div>
-                        </div>
-                    </div>
+            </main>
+            <!-- Footer -->
+
+            <div class="row mt-4">
+                <div class="col"><p class="text-1"><strong>Terms & Condition :</strong> <br>
+                        {{ $invoice->terms_condition }}</p>
+                    <p class="text-1"><strong>Notes :</strong> <br>
+                        {{ $invoice->notes }}</p>
                 </div>
-                <!-- end: Invoice footer-->
-                <!-- begin: Invoice action-->
-                <div class="row justify-content-center py-8 px-8 py-md-10 px-md-0">
-                    <div class="col-md-9">
-                        <div class="d-flex justify-content-between">
-                            <button type="button" class="btn btn-light-primary font-weight-bold"
-                                    onclick="window.print();">Download Invoice
-                            </button>
-                            <button type="button" class="btn btn-primary font-weight-bold" onclick="window.print();">
-                                Print Invoice
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <!-- end: Invoice action-->
-                <!-- end: Invoice-->
+                <div class="col"></div>
             </div>
+
         </div>
+
+
     </div>
 
+@endsection
+
+@section('js')
+    <script>
+        $('#printBtn,#downloadButton').on('click', function () {
+            window.print()
+        })
+    </script>
 @endsection

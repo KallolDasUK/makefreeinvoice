@@ -28,8 +28,8 @@ class CreateInvoicesTable extends Migration
             $table->string('discount_value')->nullable();
             $table->string('discount')->nullable();
             $table->string('shipping_charge')->nullable();
-            $table->string('terms_condition')->nullable();
-            $table->string('notes')->nullable();
+            $table->text('terms_condition')->nullable();
+            $table->text('notes')->nullable();
             $table->string('attachment')->nullable();
 
         });

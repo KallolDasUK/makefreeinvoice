@@ -25,7 +25,8 @@
                 <span class="text-muted mt-3 font-weight-bold font-size-sm">More than 400+ new members</span>
             </h3>
             <div class="card-toolbar">
-                <a href="{{ route('invoices.invoice.create') }}" class="btn btn-success font-weight-bolder font-size-sm">
+                <a href="{{ route('invoices.invoice.create') }}"
+                   class="btn btn-success font-weight-bolder font-size-sm">
                     <i class="fas fa-fw fa-plus" aria-hidden="true"></i>
 
                     </span>Add Invoice</a>
@@ -89,7 +90,7 @@
 
                             <td class="text-right">
                                 <div class="font-weight-bolder  ">
-                                    <span style="font-size: 25px">{{ $invoice->total }}</span>
+                                    <span style="font-size: 25px">{{ $invoice->total }} {{ $invoice->currency }}</span>
                                 </div>
                             </td>
                             <td class="pr-0 text-right">

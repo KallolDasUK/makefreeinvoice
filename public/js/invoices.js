@@ -6,7 +6,8 @@ var ractive = new Ractive({
         invoice_items: invoice_items,
         products: products,
         taxes: taxes,
-        appliedTax: []
+        appliedTax: [],
+        currency: ''
     },
     addInvoiceItem() {
 
@@ -117,6 +118,10 @@ var ractive = new Ractive({
 
             calculate()
         },
+        'currency': (newCurrency) => {
+            $('.currency').text(newCurrency)
+            ractiveExtra.set('currency', newCurrency)
+        }
     }
 });
 var ractiveExtra = new Ractive({

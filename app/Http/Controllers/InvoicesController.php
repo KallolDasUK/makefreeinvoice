@@ -27,6 +27,8 @@ class InvoicesController extends Controller
 
     public function create()
     {
+//        dd(html_entity_decode(currencies()[0]['symbol']));
+//        dd(currencies());
         $customers = Customer::pluck('name', 'id')->all();
         $products = Product::query()->latest()->get();
         $categories = Category::query()->latest()->get();
@@ -183,6 +185,8 @@ class InvoicesController extends Controller
             'additional' => 'nullable',
             'additional_fields' => 'nullable',
             'business-logo' => 'nullable',
+            'currency' => 'nullable',
+            'shipping_date' => 'nullable',
         ];
 
         $data = $request->validate($rules);

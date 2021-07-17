@@ -15,6 +15,8 @@
     <!-- plugin css -->
     <link media="all" type="text/css" rel="stylesheet"
           href="https://www.bootstrapdash.com/demo/connect-plus/laravel/template/demo_1/assets/plugins/flag-icon-css/css/flag-icon.css">
+    <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900'
+          type='text/css'>
 
 
     <script src="https://use.fontawesome.com/715fc6bd34.js"></script>
@@ -77,6 +79,20 @@
     @yield('css')
     @stack('css')
 
+    <style>
+        i:hover {
+            color: white !important;
+        }
+
+        i {
+            color: inherit !important;
+        }
+        .center {
+            text-align-last: center;
+            border: 2px solid black;
+        }
+    </style>
+
 </head>
 
 <body>
@@ -101,7 +117,8 @@
                         <ul class="mainnav">
                             <li class="{{ is_home(Route::current()->uri(),Route::currentRouteName()) }}"><a
                                     href="{{ route('acc.home') }}"><i
-                                        class="fa fa-tachometer-alt" style="color: purple"></i><span style="color: purple">Dashboard</span> </a></li>
+                                        class="fa fa-tachometer-alt" style="color: purple"></i><span
+                                        style="color: purple">Dashboard</span> </a></li>
                             <li class="dropdown subnavbar-open-center"><a href="javascript:;" class="dropdown-toggle"
                                                                           data-toggle="dropdown"><i
                                         class="fas fa-file-invoice-dollar text-primary"></i><span class="text-primary">My Invoices</span>
@@ -218,8 +235,10 @@
                                 </ul>
                             </li>
 
-                            <li class="{{ is_settings(Route::current()->uri(),Route::currentRouteName()) }}"><a href="{{ route('accounting.settings.edit') }}"><i
-                                        class="fa fa-cog" style="color: black"></i><span style="color: black">Settings</span>
+                            <li class="{{ is_settings(Route::current()->uri(),Route::currentRouteName()) }}"><a
+                                    href="{{ route('accounting.settings.edit') }}"><i
+                                        class="fa fa-cog" style="color: black"></i><span
+                                        style="color: black">Settings</span>
                                 </a></li>
 
                         </ul>
@@ -259,11 +278,60 @@
         }
 
 
-
-
     })
 </script>
-<script>var KTAppSettings = { "breakpoints": { "sm": 576, "md": 768, "lg": 992, "xl": 1200, "xxl": 1200 }, "colors": { "theme": { "base": { "white": "#ffffff", "primary": "#6993FF", "secondary": "#E5EAEE", "success": "#1BC5BD", "info": "#8950FC", "warning": "#FFA800", "danger": "#F64E60", "light": "#F3F6F9", "dark": "#212121" }, "light": { "white": "#ffffff", "primary": "#E1E9FF", "secondary": "#ECF0F3", "success": "#C9F7F5", "info": "#EEE5FF", "warning": "#FFF4DE", "danger": "#FFE2E5", "light": "#F3F6F9", "dark": "#D6D6E0" }, "inverse": { "white": "#ffffff", "primary": "#ffffff", "secondary": "#212121", "success": "#ffffff", "info": "#ffffff", "warning": "#ffffff", "danger": "#ffffff", "light": "#464E5F", "dark": "#ffffff" } }, "gray": { "gray-100": "#F3F6F9", "gray-200": "#ECF0F3", "gray-300": "#E5EAEE", "gray-400": "#D6D6E0", "gray-500": "#B5B5C3", "gray-600": "#80808F", "gray-700": "#464E5F", "gray-800": "#1B283F", "gray-900": "#212121" } }, "font-family": "Poppins" };</script>
+<script>var KTAppSettings = {
+        "breakpoints": {"sm": 576, "md": 768, "lg": 992, "xl": 1200, "xxl": 1200},
+        "colors": {
+            "theme": {
+                "base": {
+                    "white": "#ffffff",
+                    "primary": "#6993FF",
+                    "secondary": "#E5EAEE",
+                    "success": "#1BC5BD",
+                    "info": "#8950FC",
+                    "warning": "#FFA800",
+                    "danger": "#F64E60",
+                    "light": "#F3F6F9",
+                    "dark": "#212121"
+                },
+                "light": {
+                    "white": "#ffffff",
+                    "primary": "#E1E9FF",
+                    "secondary": "#ECF0F3",
+                    "success": "#C9F7F5",
+                    "info": "#EEE5FF",
+                    "warning": "#FFF4DE",
+                    "danger": "#FFE2E5",
+                    "light": "#F3F6F9",
+                    "dark": "#D6D6E0"
+                },
+                "inverse": {
+                    "white": "#ffffff",
+                    "primary": "#ffffff",
+                    "secondary": "#212121",
+                    "success": "#ffffff",
+                    "info": "#ffffff",
+                    "warning": "#ffffff",
+                    "danger": "#ffffff",
+                    "light": "#464E5F",
+                    "dark": "#ffffff"
+                }
+            },
+            "gray": {
+                "gray-100": "#F3F6F9",
+                "gray-200": "#ECF0F3",
+                "gray-300": "#E5EAEE",
+                "gray-400": "#D6D6E0",
+                "gray-500": "#B5B5C3",
+                "gray-600": "#80808F",
+                "gray-700": "#464E5F",
+                "gray-800": "#1B283F",
+                "gray-900": "#212121"
+            }
+        },
+        "font-family": "Poppins"
+    };</script>
 
 
 <!-- base js -->
