@@ -149,7 +149,7 @@
                 <option value="" disabled selected></option>
                 @foreach (currencies() as $currency)
                     <option
-                        value="{{ $currency['symbol'] }}" {{ old('customer_id', optional($invoice)->currency) == $currency['symbol'] ? 'selected' : '' }} @if($invoice == null) {{ $settings->currency??'$' == $currency['symbol'] ? 'selected' : '' }} @endif>
+                        value="{{ $currency['symbol'] }}" {{ old('customer_id', optional($invoice)->currency) == $currency['symbol'] ? 'selected' : '' }} @if($invoice == null) {{ ($settings->currency??'$') == $currency['symbol'] ? 'selected' : '' }} @endif>
                         {{ $currency['name'] ?? $currency['currencyname'] }} - {{ $currency['symbol'] }}
                     </option>
                 @endforeach

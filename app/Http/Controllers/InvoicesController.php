@@ -19,7 +19,7 @@ class InvoicesController extends Controller
 
     public function index()
     {
-        $invoices = Invoice::with('customer')->latest()->paginate(2);
+        $invoices = Invoice::with('customer')->latest()->paginate(10);
 
         return view('invoices.index', compact('invoices'));
     }
@@ -33,9 +33,10 @@ class InvoicesController extends Controller
         $products = Product::query()->latest()->get();
         $categories = Category::query()->latest()->get();
         $taxes = Tax::query()->latest()->get()->toArray();
-        $extraFields = ExtraField::query()->where('type', Invoice::class)->where('name', '!=', '')->get();
+        $extraFields = optional(Invoice::query()->latest()->first())->extra_fields ?? [];
+//        dd($extraFields);
 
-        $next_invoice = str_pad(count(Invoice::query()->get()) + 1, 4, '0', STR_PAD_LEFT);
+        $next_invoice = 'INV-' . str_pad(count(Invoice::query()->get()) + 1, 4, '0', STR_PAD_LEFT);
 
 
         return view('invoices.create', compact('customers', 'products', 'taxes', 'next_invoice', 'categories', 'extraFields'));

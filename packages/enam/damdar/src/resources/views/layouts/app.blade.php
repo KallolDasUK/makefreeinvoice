@@ -91,6 +91,9 @@
             text-align-last: center;
             border: 2px solid black;
         }
+        .form-group {
+            margin-bottom: 1.0rem;
+        }
     </style>
 
 </head>

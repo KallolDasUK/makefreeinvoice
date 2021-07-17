@@ -183,9 +183,9 @@
                                                 <small> {{ $item->description }} </small>
                                             @endif
                                         </td>
-                                        <td class="text-center">{{ $invoice->currency }} {{ number_format($item->price) }}</td>
+                                        <td class="text-center">{{ $invoice->currency }}{{ number_format($item->price) }}</td>
                                         <td class="text-center ">{{ number_format($item->qnt) }}x</td>
-                                        <td class="text-right">{{ $invoice->currency }} {{ number_format($item->amount) }}</td>
+                                        <td class="text-right">{{ $invoice->currency }}{{ number_format($item->amount) }}</td>
                                     </tr>
                                 @endforeach
 
@@ -202,7 +202,7 @@
                                 </tr>
                                 <tr>
                                     <td colspan="4" class="text-right"><strong>Total:</strong></td>
-                                    <td class="text-right">$2365.00</td>
+                                    <td class="text-right">{{ $invoice->currency }}{{ number_format($item->total) }}</td>
                                 </tr>
                                 </tfoot>
                             </table>

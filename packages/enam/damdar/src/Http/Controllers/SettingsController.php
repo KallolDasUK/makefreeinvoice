@@ -2,6 +2,7 @@
 
 namespace Enam\Acc\Http\Controllers;
 
+use App\Models\MetaSetting;
 use App\Models\User;
 use Enam\Acc\Http\Controllers\Controller;
 use Enam\Acc\Models\Ledger;
@@ -29,32 +30,39 @@ class SettingsController extends Controller
     public function edit()
     {
         View::share('title', 'Settings');
+//        dd(MetaSetting::all()->toArray());
 
         return view('acc::settings.settings');
     }
 
-    /**
-     * Update the specified ledger in the storage.
-     *
-     * @param int $id
-     * @param Illuminate\Http\Request $request
-     *
-     * @return Illuminate\Http\RedirectResponse | Illuminate\Routing\Redirector
-     */
-    public function update( Request $request)
+
+    public function update(Request $request)
     {
 
-        $settings = Setting::query()->first();
-        $settings->name = $request->name;
-        $settings->email = $request->email;
-        $settings->address = $request->address;
-        $settings->phone = $request->phone;
-        $settings->save();
+        $params = $request->all();
+//        dd($request->all());
 
-        return back()
-            ->with('success_message', 'Settings was successfully updated.');
+        if ($request->hasFile('business_logo')) {
+            $params['business_logo'] = $this->moveFile($request->file('business_logo'));
+        }
+
+        foreach ($params as $key => $value) {
+            MetaSetting::query()->updateOrCreate(['key' => $key], ['value' => $value]);
+        }
+        return back()->with('success_message', 'Settings was successfully updated.');
 
     }
 
+    protected function moveFile($file)
+    {
+        if (!$file->isValid()) {
+            return '';
+        }
+
+        $path = config('laravel-code-generator.files_upload_path', 'uploads');
+        $saved = $file->store('public/' . $path, config('filesystems.default'));
+
+        return substr($saved, 7);
+    }
 
 }

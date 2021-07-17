@@ -15,9 +15,19 @@ class Invoice extends Model
         return $this->belongsTo('App\Models\Customer', 'customer_id');
     }
 
-    public function invoice_items(){
+    public function invoice_items()
+    {
         return $this->hasMany('App\Models\InvoiceItem', 'invoice_id');
+    }
 
+    public function extra_fields()
+    {
+        return $this->hasMany('App\Models\ExtraField', 'invoice_id');
+    }
+
+    public function getExtraFieldsAttribute()
+    {
+        return ExtraField::query()->where('type', Invoice::class)->where('type_id', $this->id)->get();
     }
 
 
