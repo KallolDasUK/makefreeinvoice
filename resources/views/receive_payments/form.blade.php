@@ -22,8 +22,7 @@
 
 
     <input class="form-control col-lg-4 {{ $errors->has('payment_date') ? 'is-invalid' : '' }}" name="payment_date"
-           type="date" id="payment_date" value="{{ old('payment_date', optional($receivePayment)->payment_date) }}"
-           data=" required=" true"" placeholder="Enter payment date here...">
+           type="date" id="payment_date" value="{{ old('payment_date', optional($receivePayment)->payment_date) }}">
 
     {!! $errors->first('payment_date', '<p class="form-text text-danger">:message</p>') !!}
 
@@ -33,14 +32,13 @@
 
     <label for="payment_sl" class="col-lg-2">Payment # <span class="text-danger font-bolder">*</span> </label>
     <input class="form-control col-lg-4 {{ $errors->has('payment_sl') ? 'is-invalid' : '' }}" name="payment_sl"
-           type="text" id="payment_sl" value="{{ old('payment_sl', optional($receivePayment)->payment_sl) }}" data=""
-           placeholder="Enter payment sl here...">
+           type="text" id="payment_sl" value="{{ old('payment_sl', optional($receivePayment)->payment_sl)??$paymentSerial }}"
+           readonly>
     {!! $errors->first('payment_sl', '<p class="form-text text-danger">:message</p>') !!}
 
 </div>
 
 <div class="form-group row">
-
     <label for="payment_method_id" class="col-lg-2">Payment Method</label>
     <select class="form-control col-lg-4" id="payment_method_id" name="payment_method_id">
         <option value="" style="display: none;"
@@ -80,35 +78,23 @@
 </div>
 </div>
 
-<table class="table line-item-table">
-    <thead>
-    <tr class="line-item-header">
-        <th>Date</th>
-        <th>Invoice Number</th>
-        <th class="text-right">Invoice Amount</th>
-        <th class="text-right"> Amount Due</th> <!----><!---->
-        <th class="text-right" style="width:16%;">Payment</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr id="ember3172" class="ember-view">
-        <td> 18 Jul 2021<br><small><span class="text-muted">Due Date</span>: 18 Jul 2021</small></td>
-        <td>INV-000001</td>
-        <td class="text-right"> 0</td>
-        <td class="text-right"> 0</td> <!----><!---->
-        <td class="text-right" style="width:16%; position: relative;"><input id="ember3173"
-                                                                             class="ember-text-field text-right ember-view form-control"
-                                                                             type="text"> <!----><!----> </td>
-    </tr>
+<div class="form-group px-4">
+    <table class="table line-item-table">
+        <thead>
+        <tr class="line-item-header">
+            <th>Date</th>
+            <th>Invoice Number</th>
+            <th class="text-right">Invoice Amount</th>
+            <th class="text-right"> Amount Due</th> <!----><!---->
+            <th class="text-right" style="width:16%;">Payment</th>
+        </tr>
+        </thead>
+        <tbody id="tbody">
 
-    <tr>
-        <td colspan="2" style="padding-top: 0px;">
-        </td>
-        <td colspan="2" class="text-right">Total</td> <!---->
-        <td class="text-right"> 270.00</td>
-    </tr>
-    </tbody>
-</table>
+        </tbody>
+
+    </table>
+</div>
 
 
 <div class="form-group">
@@ -116,10 +102,12 @@
         <label for="note">Note</label>
 
 
-        <textarea class="form-control" name="note" cols="50" rows="10" id="note" minlength="1"
+        <textarea class="form-control" name="note" cols="50" rows="2" id="note" minlength="1"
                   maxlength="1000">{{ old('note', optional($receivePayment)->note) }}</textarea>
         {!! $errors->first('note', '<p class="form-text text-danger">:message</p>') !!}
 
     </div>
 </div>
+
+<input type="text" hidden id="data" name="data">
 

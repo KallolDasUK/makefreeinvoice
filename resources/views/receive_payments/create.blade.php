@@ -6,10 +6,11 @@
 
         <div class="card-header">
 
-            <h5  class="my-1 float-left">Create New Receive Payment</h5>
+            <h5 class="my-1 float-left">Create New Receive Payment</h5>
 
             <div class="btn-group btn-group-sm float-right" role="group">
-                <a href="{{ route('receive_payments.receive_payment.index') }}" class="btn btn-primary" title="Show All Receive Payment">
+                <a href="{{ route('receive_payments.receive_payment.index') }}" class="btn btn-primary"
+                   title="Show All Receive Payment">
                     <i class=" fas fa-fw fa-th-list" aria-hidden="true"></i>
                     Show All Receive Payment
                 </a>
@@ -19,15 +20,14 @@
 
         <div class="card-body">
 
+            <form method="POST" action="{{ route('receive_payments.receive_payment.store') }}" accept-charset="UTF-8"
+                  id="create_receive_payment_form" name="create_receive_payment_form" class="form-horizontal" enctype="multipart/form-data">
+                {{ csrf_field() }}
+                @include ('receive_payments.form', ['receivePayment' => null])
 
-
-            <form method="POST" action="{{ route('receive_payments.receive_payment.store') }}" accept-charset="UTF-8" id="create_receive_payment_form" name="create_receive_payment_form" class="form-horizontal">
-            {{ csrf_field() }}
-            @include ('receive_payments.form', ['receivePayment' => null])
-
-                <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
-                        <input class="btn btn-primary" type="submit" value="Add">
+                <div class="form-group mb-4">
+                    <div class="">
+                        <input class="btn btn-primary btn-lg float-right mr-4" type="submit" id="addPayment" disabled value="Add Payment">
                     </div>
                 </div>
 
@@ -38,4 +38,15 @@
 
 @endsection
 
+@section('js')
+    <script>
+        var customerInvoiceUrl = "{{ route('receive-payment-customers-invoice') }}"
+        $(document).ready(function () {
+            $('#customer_id').select2()
+            $('#payment_method_id').select2()
+            $('#deposit_to').select2()
+        })
+    </script>
 
+    <script src="{{ asset('js/receive-payment/receive-payments.js') }}"></script>
+@endsection

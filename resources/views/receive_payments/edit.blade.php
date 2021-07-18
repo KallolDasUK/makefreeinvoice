@@ -51,3 +51,15 @@
     </div>
 
 @endsection
+@section('js')
+    <script>
+        var customerInvoiceUrl = "{{ route('receive-payment-customers-invoice') }}"
+        $(document).ready(function () {
+            $('#customer_id').select2()
+            $('#payment_method_id').select2()
+            $('#deposit_to').select2()
+        })
+    </script>
+
+    <script src="{{ asset('js/receive-payment/receive-payments.js') }}"></script>
+@endsection

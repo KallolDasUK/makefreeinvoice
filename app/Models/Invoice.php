@@ -31,4 +31,14 @@ class Invoice extends Model
     }
 
 
+    public function getDueAttribute()
+    {
+        $due = 0;
+        $payment = ReceivePaymentItem::query()->where('invoice_id', $this->id)->sum('amount');
+        $due = $this->total - $payment;
+        return $due;
+
+    }
+
+
 }

@@ -371,6 +371,7 @@
     Ractive.DEBUG = true;
     $.fn.select2.defaults.set("theme", "bootstrap");
     $.fn.filepond.registerPlugin(FilePondPluginImagePreview);
+    var csrf = $('meta[name=csrf-token]').attr('content');
 
 
 </script>
