@@ -87,12 +87,21 @@
         i {
             color: inherit !important;
         }
+
         .center {
             text-align-last: center;
             border: 2px solid black;
         }
+
         .form-group {
             margin-bottom: 1.0rem;
+        }
+
+        label {
+            font-weight: bolder!important;
+        }
+        input:focus {
+            background-color: yellow!important;
         }
     </style>
 

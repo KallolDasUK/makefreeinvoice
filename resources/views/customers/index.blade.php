@@ -18,7 +18,7 @@
 
         <div class="card-header">
 
-            <h5 class="my-1 float-left">Customers</h5>
+            <h5  class="my-1 float-left">Customers</h5>
 
             <div class="btn-group btn-group-sm float-right" role="group">
                 <a href="{{ route('customers.customer.create') }}" class="btn btn-success" title="Create New Customer">
@@ -34,121 +34,96 @@
                 <h4>No Customers Available.</h4>
             </div>
         @else
-            <div class="card-body">
+        <div class="card-body">
 
-                <div>
-                    <table class="table table-striped table-bordered">
-                        <thead>
+            <div class="table-responsive">
+                <table class="table table-striped table-sm">
+                    <thead>
                         <tr>
-                            <th>SL</th>
-                            <th>Name</th>
-                            <th>Avatar</th>
+                                <th>Name</th>
+                            <th>Company Name</th>
                             <th>Phone</th>
                             <th>Email</th>
                             <th>Address</th>
+                            <th>Website</th>
 
                             <th></th>
                         </tr>
-                        </thead>
-                        <tbody>
-                        @foreach($customers as $customer)
-                            <tr>
-                                <td> {{ $loop->iteration }}</td>
+                    </thead>
+                    <tbody>
+                    @foreach($customers as $customer)
+                        <tr>
                                 <td>{{ $customer->name }}</td>
-                                <td class="text-center">
-                                    @if($customer->photo)
-                                        <img class="avatar" src="{{ asset('storage/' . $customer->photo) }}"
-                                             width="50px"></td>
+                            <td>{{ $customer->company_name }}</td>
+                            <td>{{ $customer->phone }}</td>
+                            <td>{{ $customer->email }}</td>
+                            <td>{{ $customer->address }}</td>
+                            <td>{{ $customer->website }}</td>
 
-                                @endif
-                                <td>{{ $customer->phone }}</td>
-                                <td>{{ $customer->email }}</td>
-                                <td title="{{ $customer->address }}">
-                                    {{  mb_strimwidth($customer->address, 0, 30, "...")}}</td>
-                                <td>
+                            <td>
 
-                                    <form method="POST"
-                                          action="{!! route('customers.customer.destroy', $customer->id) !!}"
-                                          accept-charset="UTF-8">
-                                        <input name="_method" value="DELETE" type="hidden">
-                                        {{ csrf_field() }}
+                                <form method="POST" action="{!! route('customers.customer.destroy', $customer->id) !!}" accept-charset="UTF-8">
+                                <input name="_method" value="DELETE" type="hidden">
+                                {{ csrf_field() }}
 
-                                        <div class="btn-group btn-group-sm float-right " role="group">
-                                            <a href="{{ route('customers.customer.show', $customer->id ) }}"
-                                               title="Show Customer">
-                                                <i class="fa fa-eye text-info" aria-hidden="true"></i>
-                                            </a>
-                                            <a href="{{ route('customers.customer.edit', $customer->id ) }}"
-                                               class="mx-4" title="Edit Customer">
-                                                <i class="fas fa-edit text-primary" aria-hidden="true"></i>
-                                            </a>
+                                    <div class="btn-group btn-group-sm float-right " role="group">
+                                        <a href="{{ route('customers.customer.show', $customer->id ) }}"title="Show Customer">
+                                            <i class="fa fa-eye text-info" aria-hidden="true"></i>
+                                        </a>
+                                        <a href="{{ route('customers.customer.edit', $customer->id ) }}" class="mx-4" title="Edit Customer">
+                                            <i class="fas fa-edit text-primary" aria-hidden="true"></i>
+                                        </a>
 
-                                            <button type="submit" style="border: none;background: transparent"
-                                                    title="Delete Customer"
-                                                    onclick="return confirm(&quot;Click Ok to delete Customer.&quot;)">
-                                                <i class=" fas  fa-trash text-danger" aria-hidden="true"></i>
-                                            </button>
-                                        </div>
+                                        <button type="submit" style="border: none;background: transparent"  title="Delete Customer" onclick="return confirm(&quot;Click Ok to delete Customer.&quot;)">
+                                            <i class=" fas  fa-trash text-danger" aria-hidden="true"></i>
+                                        </button>
+                                    </div>
 
-                                    </form>
+                                </form>
 
-                                </td>
-                            </tr>
-                        @endforeach
-                        </tbody>
-                    </table>
+                            </td>
+                        </tr>
+                    @endforeach
+                    </tbody>
+                </table>
 
-                </div>
             </div>
+        </div>
 
-
+        <div class="card-footer">
+            {!! $customers->render() !!}
+        </div>
 
         @endif
 
     </div>
 @endsection
 
-@section('js')
+@section('scripts')
 
-    <script>
-        $(document).ready(function () {
-            $('table').DataTable({
-                responsive: true,
-                "order": [],
-                dom: 'lBfrtip',
-                buttons: [
-                    'copy', 'excel', 'pdf', 'print'
-                ]
+     <script>
+         $(document).ready(function () {
+             $('table').DataTable({
+                 responsive: true,
+                 "order": [],
+                 dom: 'lBfrtip',
+                 buttons: [
+                     'copy', 'excel', 'pdf', 'print'
+                 ]
 
-            });
+             });
+         });
+     </script>
 
-            $('.avatar').on('hover', function () {
+     <style>
+         .dataTables_filter {
+             float: right;
+         }
+        i:hover { color: #0248fa !important; }
 
-            })
-        });
-    </script>
-
-    <style>
-        .dataTables_filter {
-            float: right;
-        }
-
-        .avatar {
-            transition: all .2s ease-in-out;
-        }
-
-        .avatar:hover {
-            transform: scale(4);
-        }
-
-        i:hover {
-            color: #0248fa !important;
-        }
-
-    </style>
+     </style>
 
 
 @endsection
-
 
 

@@ -2,22 +2,31 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Controller;
 use App\Models\Customer;
-use Exception;
 use Illuminate\Http\Request;
+use Exception;
 
 class CustomersController extends Controller
 {
 
-
+    /**
+     * Display a listing of the customers.
+     *
+     * @return Illuminate\View\View
+     */
     public function index()
     {
-        $customers = Customer::query()->latest()->get();
+        $customers = Customer::paginate(25);
 
         return view('customers.index', compact('customers'));
     }
 
-
+    /**
+     * Show the form for creating a new customer.
+     *
+     * @return Illuminate\View\View
+     */
     public function create()
     {
 
@@ -42,7 +51,13 @@ class CustomersController extends Controller
 
     }
 
-
+    /**
+     * Display the specified customer.
+     *
+     * @param int $id
+     *
+     * @return Illuminate\View\View
+     */
     public function show($id)
     {
         $customer = Customer::findOrFail($id);
@@ -50,7 +65,13 @@ class CustomersController extends Controller
         return view('customers.show', compact('customer'));
     }
 
-
+    /**
+     * Show the form for editing the specified customer.
+     *
+     * @param int $id
+     *
+     * @return Illuminate\View\View
+     */
     public function edit($id)
     {
         $customer = Customer::findOrFail($id);
@@ -59,7 +80,14 @@ class CustomersController extends Controller
         return view('customers.edit', compact('customer'));
     }
 
-
+    /**
+     * Update the specified customer in the storage.
+     *
+     * @param int $id
+     * @param Illuminate\Http\Request $request
+     *
+     * @return Illuminate\Http\RedirectResponse | Illuminate\Routing\Redirector
+     */
     public function update($id, Request $request)
     {
 
@@ -74,7 +102,13 @@ class CustomersController extends Controller
 
     }
 
-
+    /**
+     * Remove the specified customer from the storage.
+     *
+     * @param int $id
+     *
+     * @return Illuminate\Http\RedirectResponse | Illuminate\Routing\Redirector
+     */
     public function destroy($id)
     {
         try {
@@ -91,6 +125,12 @@ class CustomersController extends Controller
     }
 
 
+    /**
+     * Get the request's data from the request.
+     *
+     * @param Illuminate\Http\Request\Request $request
+     * @return array
+     */
     protected function getData(Request $request)
     {
         $rules = [
@@ -99,7 +139,13 @@ class CustomersController extends Controller
             'company_name' => 'string|min:1|nullable',
             'phone' => 'string|min:1|nullable',
             'email' => 'nullable',
-            'address' => 'string|min:1|nullable',
+            'country' => 'nullable',
+            'address' => 'nullable',
+            'street_1' => 'nullable',
+            'street_2' => 'nullable',
+            'city' => 'nullable',
+            'state' => 'nullable',
+            'zip_post' => 'nullable',
             'website' => 'string|min:1|nullable',
         ];
 
@@ -110,6 +156,7 @@ class CustomersController extends Controller
         if ($request->hasFile('photo')) {
             $data['photo'] = $this->moveFile($request->file('photo'));
         }
+
 
         return $data;
     }

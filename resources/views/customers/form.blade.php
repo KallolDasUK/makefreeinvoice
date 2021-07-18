@@ -85,13 +85,91 @@
 
 <div class="form-group">
     <div class="col-md-10">
-        <label for="address">Address</label>
+        <label for="country">Country</label>
 
 
             @if(''===' required="true"') <span class="text-danger font-bolder">*</span> @endif
-        <input class="form-control  {{ $errors->has('address') ? 'is-invalid' : '' }}" name="address" type="text" id="address" value="{{ old('address', optional($customer)->address) }}" minlength="1" data=""  placeholder="Enter address here...">
+        <input class="form-control  {{ $errors->has('country') ? 'is-invalid' : '' }}" name="country" type="text" id="country" value="{{ old('country', optional($customer)->country) }}" maxlength="191" data="" >
+
+            {!! $errors->first('country', '<p class="form-text text-danger">:message</p>') !!}
+
+    </div>
+</div>
+
+<div class="form-group">
+    <div class="col-md-10">
+        <label for="address">Address</label>
+
+
+            @if(' required="true"'===' required="true"') <span class="text-danger font-bolder">*</span> @endif
+        <input class="form-control  {{ $errors->has('address') ? 'is-invalid' : '' }}" name="address" type="text" id="address" value="{{ old('address', optional($customer)->address) }}" minlength="1" maxlength="191" data=" required="true""  placeholder="Enter address here...">
 
             {!! $errors->first('address', '<p class="form-text text-danger">:message</p>') !!}
+
+    </div>
+</div>
+
+<div class="form-group">
+    <div class="col-md-10">
+        <label for="street_1">Street 1</label>
+
+
+            @if(''===' required="true"') <span class="text-danger font-bolder">*</span> @endif
+        <input class="form-control  {{ $errors->has('street_1') ? 'is-invalid' : '' }}" name="street_1" type="text" id="street_1" value="{{ old('street_1', optional($customer)->street_1) }}" maxlength="191" data="" >
+
+            {!! $errors->first('street_1', '<p class="form-text text-danger">:message</p>') !!}
+
+    </div>
+</div>
+
+<div class="form-group">
+    <div class="col-md-10">
+        <label for="street_2">Street 2</label>
+
+
+            @if(''===' required="true"') <span class="text-danger font-bolder">*</span> @endif
+        <input class="form-control  {{ $errors->has('street_2') ? 'is-invalid' : '' }}" name="street_2" type="text" id="street_2" value="{{ old('street_2', optional($customer)->street_2) }}" maxlength="191" data="" >
+
+            {!! $errors->first('street_2', '<p class="form-text text-danger">:message</p>') !!}
+
+    </div>
+</div>
+
+<div class="form-group">
+    <div class="col-md-10">
+        <label for="city">City</label>
+
+
+            @if(''===' required="true"') <span class="text-danger font-bolder">*</span> @endif
+        <input class="form-control  {{ $errors->has('city') ? 'is-invalid' : '' }}" name="city" type="text" id="city" value="{{ old('city', optional($customer)->city) }}" maxlength="191" data="" >
+
+            {!! $errors->first('city', '<p class="form-text text-danger">:message</p>') !!}
+
+    </div>
+</div>
+
+<div class="form-group">
+    <div class="col-md-10">
+        <label for="state">State</label>
+
+
+            @if(''===' required="true"') <span class="text-danger font-bolder">*</span> @endif
+        <input class="form-control  {{ $errors->has('state') ? 'is-invalid' : '' }}" name="state" type="text" id="state" value="{{ old('state', optional($customer)->state) }}" maxlength="191" data="" >
+
+            {!! $errors->first('state', '<p class="form-text text-danger">:message</p>') !!}
+
+    </div>
+</div>
+
+<div class="form-group">
+    <div class="col-md-10">
+        <label for="zip_post">Zip/Post Code</label>
+
+
+            @if(''===' required="true"') <span class="text-danger font-bolder">*</span> @endif
+        <input class="form-control  {{ $errors->has('zip_post') ? 'is-invalid' : '' }}" name="zip_post" type="text" id="zip_post" value="{{ old('zip_post', optional($customer)->zip_post) }}" maxlength="191" data="" >
+
+            {!! $errors->first('zip_post', '<p class="form-text text-danger">:message</p>') !!}
 
     </div>
 </div>

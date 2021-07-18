@@ -141,19 +141,48 @@
                 <div class="row">
                     <div class="col-sm-6 text-sm-right order-sm-1"><strong> From:</strong>
                         <address>
-                            Koice Inc<br>
-                            2705 N. Enterprise St<br>
-                            Orange, CA 92865<br>
-                            contact@koiceinc.com
+                            {{ $settings->business_name??'n/a' }}
+                            @if($settings->street_1??'')
+                                <br> {{ $settings->street_1??'' }}
+                            @endif
+                            @if($settings->street_2??'')
+                                <br> {{ $settings->street_2??'' }}
+                            @endif
+                            @if(($settings->state??'') || ($settings->zip_post??'') )
+                                <br> {{ $settings->state??'' }} {{ $settings->zip_post??'' }}
+                            @endif
+                            @if($settings->email??'')
+                                <br> {{ $settings->email??'' }}
+                            @endif
+                            @if($settings->phone??'')
+                                <br> {{ $settings->phone??'' }}
+                            @endif
                         </address>
                     </div>
                     <div class="col-sm-6 order-sm-0"><strong>To:</strong>
-                        <address>
-                            Smith Rhodes<br>
-                            15 Hodges Mews, High Wycombe<br>
-                            HP12 3JL<br>
-                            United Kingdom
-                        </address>
+                        @if($invoice->customer)
+                            <address>
+                                {{ $invoice->customer->company_name?? $invoice->customer->name??'N/A' }}<br>
+                                @if($invoice->customer->street_1)
+                                    {{ $invoice->customer->street_1??'' }} <br>
+                                @endif
+
+                                @if($invoice->customer->street_2)
+                                    {{ $invoice->customer->street_2??'' }}<br>
+                                @endif
+                                {{ $invoice->customer->state??'' }} {{ $invoice->customer->zip_post??'' }}
+                                @if($invoice->customer->email)
+                                    <br> {{ $invoice->customer->email??'' }}
+                                @endif
+                                @if($invoice->customer->phone)
+                                    <br> {{ $invoice->customer->phone??'' }}
+                                @endif
+                            </address>
+                        @else
+                            <address>
+                                No address / No Client Selected
+                            </address>
+                        @endif
                     </div>
                 </div>
 
@@ -194,15 +223,42 @@
                                 <tfoot class="card-footer">
                                 <tr>
                                     <td colspan="4" class="text-right"><strong>Sub Total:</strong></td>
-                                    <td class="text-right">$2150.00</td>
+                                    <td class="text-right">{{ $invoice->currency }}{{ number_format($invoice->sub_total) }}</td>
                                 </tr>
-                                <tr>
-                                    <td colspan="4" class="text-right"><strong>Tax:</strong></td>
-                                    <td class="text-right">$215.00</td>
-                                </tr>
+                                @if($invoice->discount)
+                                    <tr>
+                                        <td colspan="4" class="text-right"><strong>
+                                                Discount @if($invoice->discount_type == '%') {{ $invoice->discount_value }}{{ $invoice->discount_type }} @endif
+                                                :
+                                            </strong></td>
+                                        <td class="text-right">
+                                            - {{ $invoice->currency }}{{ number_format($invoice->discount) }}</td>
+                                    </tr>
+                                @endif
+                                @if($invoice->shipping_charge)
+                                    <tr>
+                                        <td colspan="4" class="text-right"><strong>Shipping Charge :</strong></td>
+                                        <td class="text-right">
+                                            @if(floatval($invoice->shipping_charge)<0)
+                                                - @endif {{ $invoice->currency }}{{ number_format($invoice->shipping_charge) }}</td>
+                                    </tr>
+                                @endif
+                                @foreach($invoice->invoice_extra as $ie )
+                                    @if(!$ie->value)
+                                        @continue
+                                    @endif
+                                    <tr>
+                                        <td colspan="4" class="text-right"><strong>{{ $ie->name }}:</strong></td>
+                                        <td class="text-right"> @if(floatval($ie->value)<0)
+                                                - @endif{{ $invoice->currency }}{{ number_format(floatval($ie->value)) }}</td>
+                                    </tr>
+                                @endforeach
+
                                 <tr>
                                     <td colspan="4" class="text-right"><strong>Total:</strong></td>
-                                    <td class="text-right">{{ $invoice->currency }}{{ number_format($item->total) }}</td>
+                                    <td class="text-right">
+                                        <strong>{{ $invoice->currency }}{{ number_format($invoice->total) }}</strong>
+                                    </td>
                                 </tr>
                                 </tfoot>
                             </table>
@@ -213,12 +269,18 @@
             <!-- Footer -->
 
             <div class="row mt-4">
-                <div class="col"><p class="text-1"><strong>Terms & Condition :</strong> <br>
+                <div class="col">
+                    <p class="text-1"><strong>Terms & Condition :</strong> <br>
                         {{ $invoice->terms_condition }}</p>
                     <p class="text-1"><strong>Notes :</strong> <br>
                         {{ $invoice->notes }}</p>
                 </div>
-                <div class="col"></div>
+                <div class="col text-right">
+                    @foreach($invoice->extra_fields as $ef)
+                        <p class="text-1"><strong>{{ $ef->name }} :</strong> <br>
+                            {{ $ef->value }}</p>
+                    @endforeach
+                </div>
             </div>
 
         </div>

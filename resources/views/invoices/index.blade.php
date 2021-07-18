@@ -67,8 +67,9 @@
                                 </label>
                             </td>
                             <td class="text-center">
-                                <a class="font-weight-bolder d-block font-size-lg"
+                                <a class="font-weight-bolder d-block font-size-lg underline text-left"
                                    href="{{ route('invoices.invoice.show',$invoice->id) }}">
+                                    <i class="fa fa-external-link-alt font-normal text-secondary" style="font-size: 10px"></i>
                                     {{ $invoice->invoice_number }}
                                 </a>
                             </td>

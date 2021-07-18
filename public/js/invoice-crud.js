@@ -96,6 +96,7 @@ $(document).ready(function () {
         },
         rules: {
             name: {required: true,},
+            // street_1: {required: true},
             email: {email: true,},
         },
         messages: {
@@ -212,10 +213,10 @@ $(document).ready(function () {
     });
     var avatar1 = new KTImageInput('kt_image_1');
     let currency = $('#currency').val()
-    ractive.set('currency',currency)
-    $('#currency').on('change',function () {
+    ractive.set('currency', currency)
+    $('#currency').on('change', function () {
         let currency = $('#currency').val()
-        ractive.set('currency',currency)
+        ractive.set('currency', currency)
     })
 })
 

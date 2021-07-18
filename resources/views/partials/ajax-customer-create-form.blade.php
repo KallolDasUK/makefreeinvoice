@@ -39,9 +39,33 @@
                     </div>
                     <div class="form-group">
                         <label for="address" class="col-form-label">Address :</label>
-                        <textarea class="form-control " id="address" name="address" cols="5" rows="5">
+                        <div class="row">
+                            <div class="col">
+                                <textarea placeholder="Street 1" id="street_1" name="street_1"
+                                          class="form-control"
+                                          style="margin-top: 0px; margin-bottom: 0px; height: 62px;"></textarea>
+                            </div>
+                            <div class="col">
+                                <textarea placeholder="Street 1" id="street_1" name="street_1" class="form-control"
+                                          style="margin-top: 0px; margin-bottom: 0px; height: 62px;"></textarea>
+                            </div>
+                        </div>
 
-                    </textarea>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <input placeholder="City" id="city" name="city"  class="form-control" type="text">
+                        </div>
+                        <div class="col-lg-4">
+                            <div>
+                                <input placeholder="State/Province *" class="form-control" type="text" name="state" >
+
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <input placeholder="Zip/Postal Code" id="zip_post" name="zip_post"  class="form-control" type="text">
+                        </div>
                     </div>
 
 

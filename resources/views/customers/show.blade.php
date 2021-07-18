@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('acc::layouts.app')
 
 @section('content')
 
@@ -51,8 +51,20 @@
             <dd>{{ $customer->phone }}</dd>
             <dt>Email</dt>
             <dd>{{ $customer->email }}</dd>
+            <dt>Country</dt>
+            <dd>{{ $customer->country }}</dd>
             <dt>Address</dt>
             <dd>{{ $customer->address }}</dd>
+            <dt>Street 1</dt>
+            <dd>{{ $customer->street_1 }}</dd>
+            <dt>Street 2</dt>
+            <dd>{{ $customer->street_2 }}</dd>
+            <dt>City</dt>
+            <dd>{{ $customer->city }}</dd>
+            <dt>State</dt>
+            <dd>{{ $customer->state }}</dd>
+            <dt>Zip/Post Code</dt>
+            <dd>{{ $customer->zip_post }}</dd>
             <dt>Website</dt>
             <dd>{{ $customer->website }}</dd>
 

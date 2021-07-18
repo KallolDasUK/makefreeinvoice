@@ -20,9 +20,9 @@ class Invoice extends Model
         return $this->hasMany('App\Models\InvoiceItem', 'invoice_id');
     }
 
-    public function extra_fields()
+    public function invoice_extra()
     {
-        return $this->hasMany('App\Models\ExtraField', 'invoice_id');
+        return $this->hasMany('App\Models\InvoiceExtraField', 'invoice_id');
     }
 
     public function getExtraFieldsAttribute()

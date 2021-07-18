@@ -296,7 +296,8 @@ function calculateOthers() {
 
     $('#total').val(total.toFixed(2))
     $('#invoice_items').val(JSON.stringify(ractive.get('invoice_items')))
-    $('#additional').val(JSON.stringify(ractiveExtra.get('pairs')))
+    $('#additional').val(JSON.stringify(ractiveExtra.get('pairs').filter((pair) => pair.value !== '' && pair.value !== 0)))
+    // console.log(ractiveExtra.get('pairs').filter((pair) => pair.value !== '' && pair.value !== 0))
 
 }
 

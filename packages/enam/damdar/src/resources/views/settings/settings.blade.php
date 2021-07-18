@@ -72,7 +72,7 @@
                 <label class="font-weight-bolder text-danger"> Business Name *</label>
             </div>
             <div class="col-lg-4">
-                <input type="text" class="form-control" name="name" value="{{ $settings->name??'' }}">
+                <input type="text" class="form-control" name="business_name" value="{{ $settings->business_name??'' }}">
             </div>
         </div>
         <div class="form-group row">
