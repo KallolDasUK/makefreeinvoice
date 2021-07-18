@@ -225,7 +225,7 @@
                                     <td colspan="4" class="text-right"><strong>Sub Total:</strong></td>
                                     <td class="text-right">{{ $invoice->currency }}{{ number_format($invoice->sub_total) }}</td>
                                 </tr>
-                                @if($invoice->discount)
+                                @if($invoice->discount && $invoice->discount != 0)
                                     <tr>
                                         <td colspan="4" class="text-right"><strong>
                                                 Discount @if($invoice->discount_type == '%') {{ $invoice->discount_value }}{{ $invoice->discount_type }} @endif
@@ -235,7 +235,7 @@
                                             - {{ $invoice->currency }}{{ number_format($invoice->discount) }}</td>
                                     </tr>
                                 @endif
-                                @if($invoice->shipping_charge)
+                                @if($invoice->shipping_charge && $invoice->shipping_charge!=0)
                                     <tr>
                                         <td colspan="4" class="text-right"><strong>Shipping Charge :</strong></td>
                                         <td class="text-right">
