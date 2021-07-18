@@ -14,5 +14,14 @@
     {
         "model-name": "Tax",
         "resource-file": "taxes.json"
+    },
+    {
+        "model-name": "ReceivePayment",
+        "resource-file": "receive_payments.json"
+    },
+    {
+        "model-name": "PaymentMethod",
+        "resource-file": "payment_methods.json",
+        "table-name": "payment_methods"
     }
 ]

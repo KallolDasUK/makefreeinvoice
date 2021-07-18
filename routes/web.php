@@ -5,6 +5,8 @@ use App\Http\Controllers\CustomersController;
 use App\Http\Controllers\InvoicesController;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\TaxesController;
+use App\Http\Controllers\ReceivePaymentsController;
+use App\Http\Controllers\PaymentMethodsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -61,6 +63,7 @@ Route::group(['middleware' => 'auth:web'], function () {
         Route::delete('/invoice/{invoice}', [InvoicesController::class, 'destroy'])->name('invoices.invoice.destroy')->where('id', '[0-9]+');
 
     });
+
 // php artisan resource-file:create Category --fields=id,name,category_id
 // php artisan create:scaffold Category  --layout-name="layouts.app" --with-migration
 
@@ -113,3 +116,38 @@ Route::group(['middleware' => 'auth:web'], function () {
 
 });
 Route::view('/test', 'test');
+
+
+// php artisan resource-file:create ReceivePayment --fields=id,customer_id,invoice,payment_date,payment_sl,payment_method_id,deposit_to,note
+// php artisan resource-file:create ReceivePaymentItem --fields=id,receive_payment_id,invoice_id,payment
+// php artisan create:scaffold ReceivePayment  --layout-name="acc::layouts.app" --with-migration
+
+
+
+Route::group([
+    'prefix' => 'receive_payments',
+], function () {
+
+    Route::get('/', [ReceivePaymentsController::class,'index'])->name('receive_payments.receive_payment.index');
+    Route::get('/create',[ReceivePaymentsController::class,'create'])->name('receive_payments.receive_payment.create');
+    Route::get('/show/{receivePayment}',[ReceivePaymentsController::class,'show'])->name('receive_payments.receive_payment.show')->where('id', '[0-9]+');
+    Route::get('/{receivePayment}/edit',[ReceivePaymentsController::class,'edit'])->name('receive_payments.receive_payment.edit')->where('id', '[0-9]+');
+    Route::post('/', [ReceivePaymentsController::class,'store'])->name('receive_payments.receive_payment.store');
+    Route::put('receive_payment/{receivePayment}', [ReceivePaymentsController::class,'update'])->name('receive_payments.receive_payment.update')->where('id', '[0-9]+');
+    Route::delete('/receive_payment/{receivePayment}',[ReceivePaymentsController::class,'destroy'])->name('receive_payments.receive_payment.destroy')->where('id', '[0-9]+');
+
+});
+
+Route::group([
+    'prefix' => 'payment_methods',
+], function () {
+
+    Route::get('/', [PaymentMethodsController::class,'index'])->name('payment_methods.payment_method.index');
+    Route::get('/create',[PaymentMethodsController::class,'create'])->name('payment_methods.payment_method.create');
+    Route::get('/show/{paymentMethod}',[PaymentMethodsController::class,'show'])->name('payment_methods.payment_method.show');
+    Route::get('/{paymentMethod}/edit',[PaymentMethodsController::class,'edit'])->name('payment_methods.payment_method.edit');
+    Route::post('/', [PaymentMethodsController::class,'store'])->name('payment_methods.payment_method.store');
+    Route::put('payment_method/{paymentMethod}', [PaymentMethodsController::class,'update'])->name('payment_methods.payment_method.update');
+    Route::delete('/payment_method/{paymentMethod}',[PaymentMethodsController::class,'destroy'])->name('payment_methods.payment_method.destroy');
+
+});

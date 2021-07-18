@@ -49,11 +49,10 @@
             product_id: '', description: '', price: '', qnt: 1, tax_id: '', unit: 'unit'
         };
         var copiedObject = jQuery.extend(true, {}, sample_item)
-        var pair = [{'key': '', value: ''}];
+        var pair = @json($invoice_fields);
         var taxes = @json($taxes);
         var invoice_items = [copiedObject];
         var products = @json($products);
-        // var additional_fields = [{name: '', value: ''}];
         var additional_fields = @json($extraFields);
         if (additional_fields.length === 0) {
             additional_fields = [{name: '', value: ''}];
@@ -79,7 +78,6 @@
                 }
 
             })
-
 
 
         });

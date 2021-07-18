@@ -1,9 +1,84 @@
 @extends('acc::layouts.app')
+
+@section('css')
+    <style>
+        .eaBhby {
+            width: 140px;
+            height: 132px;
+            margin: 18px 10px 5px;
+            float: left;
+            padding: 8px;
+            text-align: center;
+            border-radius: 8px;
+            cursor: pointer;
+            display: block;
+            background-color: initial;
+            border: none;
+            font-size: inherit;
+        }
+
+        .image {
+            background-color: rgb(226, 231, 233);
+            background-size: 80px;
+            background-position: center center;
+            background-repeat: no-repeat;
+            width: 80px;
+            height: 80px;
+            margin: 0px auto 8px;
+            border-radius: 50%;
+            border: 2px solid rgb(212, 215, 220);
+        }
+
+        .eaBhby:hover, .eaBhby:focus, .eaBhby:active {
+            background-color: rgb(236, 238, 241);
+        }
+
+
+    </style>
+@endsection
 @section('content')
     <div class="" style="min-height: 100vh">
+
+
+        <div class="row card mt-4">
+            <div class="card-body">
+                <div class="font-weight-bolder">
+                    SHORTCUTS
+                </div>
+                <a href="{{ route('customers.customer.create') }}" class="sc-gPEVay eaBhby">
+                    <div class="sc-iRbamj image" style="background-image:url('images/customer.svg') ">
+
+                    </div>
+                    <div class="sc-jlyJG gSoaLO">Add customer</div>
+                </a>
+                <a  class="sc-gPEVay eaBhby"
+                   href="{{ route('invoices.invoice.create') }}">
+                    <div class="sc-iRbamj image" style="background-image:url('images/invoice.svg') ">
+
+                    </div>
+                    <div class="sc-jlyJG gSoaLO">Add Invoice</div>
+                </a>
+                <a  class="sc-gPEVay eaBhby development"
+                   href="#">
+                    <div class="sc-iRbamj image" style="background-image:url('images/estimate.svg') ">
+
+                    </div>
+                    <div class="sc-jlyJG gSoaLO ">Add Estimate (In Dev)</div>
+                </a>
+                <a  class="sc-gPEVay eaBhby "
+                   href="{{ route('receive_payments.receive_payment.create') }}">
+                    <div class="sc-iRbamj image" style="background-image:url('images/receive.svg') ">
+
+                    </div>
+                    <div class="sc-jlyJG gSoaLO">Receive Payment</div>
+                </a>
+            </div>
+        </div>
+        <p class="my-4"></p>
         <div class="float-right">
             <form>
-            <h4 class="card-title"><input type="month" class="form-control font-weight-bolder text-danger" value="{{ $date }}" name="date" onchange="this.form.submit()"></h4>
+                <h4 class="card-title"><input type="month" class="form-control font-weight-bolder text-danger"
+                                              value="{{ $date }}" name="date" onchange="this.form.submit()"></h4>
             </form>
         </div>
         <p class="clearfix"></p>
@@ -53,7 +128,6 @@
                     </div>
                 </div>
             </div>
-
 
 
             <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 grid-margin stretch-card mt-4">
@@ -156,6 +230,9 @@
         $(document).ready(function () {
 
             $('input').focus()
+            $('.development').on('click',function (){
+                swal.fire("Under Development!");
+            })
         })
     </script>
 @endsection

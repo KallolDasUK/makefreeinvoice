@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePaymentsTable extends Migration
+class CreateReceivePaymentItemsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,11 @@ class CreatePaymentsTable extends Migration
      */
     public function up()
     {
-        Schema::create('payments', function (Blueprint $table) {
+        Schema::create('receive_payment_items', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('payment_method_id');
+            $table->unsignedBigInteger('receive_payment_id')->nullable();
             $table->unsignedBigInteger('invoice_id')->nullable();
-            $table->decimal('amount')->default(0);
-            $table->text('note')->nullable();
+            $table->decimal('amount')->default(0)->nullable();
             $table->timestamps();
         });
     }
@@ -30,6 +29,6 @@ class CreatePaymentsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('payments');
+        Schema::dropIfExists('receive_payment_items');
     }
 }

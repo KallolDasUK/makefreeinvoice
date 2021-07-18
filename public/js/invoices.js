@@ -18,7 +18,10 @@ var ractive = new Ractive({
 
         let currentSelectItem = `#itemSelect${i}`;
         $(currentSelectItem).select2({
-            placeholder: "Select or Add Item", "language": {
+            placeholder: "Select or Add Item",
+            allowClear: true,
+
+            "language": {
                 "noResults": function () {
                     return "Press <code>Enter</code> to add";
                 }
@@ -47,7 +50,10 @@ var ractive = new Ractive({
         })
 
         // Test
-        $(`#itemTax${i}`).select2({placeholder: "--Select or Add Item--"}).on('select2:open', function (event) {
+        $(`#itemTax${i}`).select2({
+            placeholder: "--Select or Add Item--",
+            allowClear: true
+        }).on('select2:open', function (event) {
             let a = $(this).data('select2');
             let doExits = a.$results.parents('.select2-results').find('button')
 
@@ -68,6 +74,9 @@ var ractive = new Ractive({
         $(`#itemSelect${i}`).on('change', function (e) {
             onProductChangeEvent(e)
         });
+
+        $("#invoice_item_table tbody").sortable();
+
 
     },
     delete(index) {
@@ -177,6 +186,8 @@ for (let i = 0; i < invoice_items.length; i++) {
     let currentSelectItem = `#itemSelect${i}`;
     $(currentSelectItem).select2({
         placeholder: "Select or Add Item",
+
+        allowClear: true,
         "language": {
             "noResults": function () {
                 return "Press <code>Enter</code> to add";
@@ -207,7 +218,8 @@ for (let i = 0; i < invoice_items.length; i++) {
     })
 
     // Test
-    $(`#itemTax${i}`).select2({placeholder: "Select or Add Item"}).on('select2:open', function (event) {
+    $(`#itemTax${i}`).select2({placeholder: "Select or Add Item",
+        allowClear: true}).on('select2:open', function (event) {
         let a = $(this).data('select2');
         let doExits = a.$results.parents('.select2-results').find('button')
 
@@ -319,6 +331,7 @@ $(document).ready(function () {
         $('#caret').addClass('fa-caret-up')
     })
     $('#payment_terms').select2()
+    $("#invoice_item_table tbody").sortable();
 
     // calculateOthers()
     ractive.set('invoice_items.0.test', '')

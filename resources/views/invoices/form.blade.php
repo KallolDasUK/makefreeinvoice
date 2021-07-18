@@ -347,7 +347,7 @@
 @verbatim
     <script id="template" type="text/ractive">
 
-                <table class="table text-black text-center  ">
+                <table id="invoice_item_table" class="table text-black text-center  ">
                     <thead>
                     <tr class="">
                         <th  class="font-weight-bold" style="text-align: start;">Items <span class="text-danger">*</span></th>
@@ -360,8 +360,12 @@
                     </thead>
                 <tbody>
                 {{#each invoice_items:i}}
-        <tr id="row{{i}}" fade-in>
+        <tr class="ui-state-default" id="row{{i}}" fade-in>
             <td>
+                <div class="d-flex">
+
+
+                <span class="fa fa-grip-vertical p-2" style="cursor: move"></span>
                 <select style="width: 100%" id='itemSelect{{ i }}' class="itemSelect form-control input-sm "
                 value="{{ product_id }}" index="{{ i }}" required>
                             <option disabled selected value=""> -- </option>
@@ -369,6 +373,7 @@
         <option value="{{ id }}" > {{ name }}</option>
                             {{ /each }}
         </select>
+        </div>
    <input type="text" value="{{ description }}" style="border: none!important;" class="form-control  input-sm" placeholder="Item Description ...">
             </td>
             <td> <input type="number" step="any" style="text-align: end"  class="form-control  input-sm rate" value="{{ price }}" required></td>

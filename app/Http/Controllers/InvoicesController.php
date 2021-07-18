@@ -34,12 +34,13 @@ class InvoicesController extends Controller
         $categories = Category::query()->latest()->get();
         $taxes = Tax::query()->latest()->get()->toArray();
         $extraFields = optional(Invoice::query()->latest()->first())->extra_fields ?? [];
-//        dd($extraFields);
+        $invoice_fields = optional(Invoice::query()->latest()->first())->invoice_extra ?? [];
+//        dd($invoice_fields);
 
         $next_invoice = 'INV-' . str_pad(count(Invoice::query()->get()) + 1, 4, '0', STR_PAD_LEFT);
 
 
-        return view('invoices.create', compact('customers', 'products', 'taxes', 'next_invoice', 'categories', 'extraFields'));
+        return view('invoices.create', compact('customers', 'products', 'taxes', 'next_invoice', 'categories', 'extraFields', 'invoice_fields'));
     }
 
 
