@@ -46,10 +46,10 @@
                     SHORTCUTS
                 </div>
                 <a href="{{ route('customers.customer.create') }}" class="sc-gPEVay eaBhby border rounded">
-                    <div class="sc-iRbamj image" style="background-image:url('images/customer.svg') ">
+                    <div class="sc-iRbamj image" style="background-image:url('images/customer 1.svg') ">
 
                     </div>
-                    <div class="sc-jlyJG gSoaLO">Add customer</div>
+                    <div class=" font-weight-bolder text-black">Add customer</div>
                 </a>
                 <a  class="sc-gPEVay eaBhby border rounded"
                    href="{{ route('invoices.invoice.create') }}">
