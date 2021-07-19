@@ -11,6 +11,8 @@ use App\Models\InvoiceItem;
 use App\Models\MetaSetting;
 use App\Models\PaymentMethod;
 use App\Models\Product;
+use App\Models\ReceivePayment;
+use App\Models\ReceivePaymentItem;
 use App\Models\Tax;
 use Enam\Acc\Models\GroupMap;
 use Enam\Acc\Models\Ledger;
@@ -35,20 +37,18 @@ class InvoicesController extends Controller
 
     public function create()
     {
-//        dd(html_entity_decode(currencies()[0]['symbol']));
-//        dd(currencies());
+        $cashAcId = optional(GroupMap::query()->firstWhere('key', LedgerHelper::$CASH_AC))->value;
+        $depositAccounts = Ledger::find($this->getAssetLedgers())->sortBy('ledger_name');
+        $paymentMethods = PaymentMethod::query()->get();
         $customers = Customer::pluck('name', 'id')->all();
         $products = Product::query()->latest()->get();
         $categories = Category::query()->latest()->get();
         $taxes = Tax::query()->latest()->get()->toArray();
         $extraFields = optional(Invoice::query()->latest()->first())->extra_fields ?? [];
         $invoice_fields = optional(Invoice::query()->latest()->first())->invoice_extra ?? [];
-//        dd($invoice_fields);
-
         $next_invoice = 'INV-' . str_pad(count(Invoice::query()->get()) + 1, 4, '0', STR_PAD_LEFT);
 
-
-        return view('invoices.create', compact('customers', 'products', 'taxes', 'next_invoice', 'categories', 'extraFields', 'invoice_fields'));
+        return view('invoices.create', compact('customers', 'products', 'taxes', 'next_invoice', 'categories', 'extraFields', 'invoice_fields', 'cashAcId', 'depositAccounts', 'paymentMethods'));
     }
 
 
@@ -57,7 +57,7 @@ class InvoicesController extends Controller
 
 
         $data = $this->getData($request);
-//        dd($request->all());
+//        dd($data);
 
         $invoice_items = $data['invoice_items'] ?? [];
         $extraFields = $data['additional'] ?? [];
@@ -98,6 +98,24 @@ class InvoicesController extends Controller
         foreach ($additionalFields as $additional) {
             ExtraField::create(['name' => $additional->name, 'value' => $additional->value, 'type' => Invoice::class, 'type_id' => $invoice->id]);
         }
+
+
+        if (!$invoice->is_payment) return;
+        $paymentSerial = 'PM' . str_pad(ReceivePayment::query()->count(), 3, '0', STR_PAD_LEFT);
+
+        $receivePayment = ReceivePayment::create([
+            'payment_date' => $invoice->payment_date,
+            'invoice_id' => $invoice->id,
+            'customer_id' => $invoice->customer_id,
+            'payment_method_id' => $invoice->payment_method_id,
+            'deposit_to' => $invoice->deposit_to,
+            'payment_sl' => $paymentSerial,
+            'note' => $invoice->notes
+        ]);
+
+        $rp = ReceivePaymentItem::create(['receive_payment_id' => $receivePayment->id, 'invoice_id' => $invoice->id, 'amount' => $invoice->payment_amount]);
+        $invoice->receive_payment_id = $rp->id;
+
     }
 
     public function show($id)
@@ -119,6 +137,9 @@ class InvoicesController extends Controller
 
     public function edit($id)
     {
+        $cashAcId = optional(GroupMap::query()->firstWhere('key', LedgerHelper::$CASH_AC))->value;
+        $depositAccounts = Ledger::find($this->getAssetLedgers())->sortBy('ledger_name');
+        $paymentMethods = PaymentMethod::query()->get();
         $invoice = Invoice::findOrFail($id);
         $customers = Customer::pluck('name', 'id')->all();
         $taxes = Tax::query()->latest()->get()->toArray();
@@ -128,7 +149,7 @@ class InvoicesController extends Controller
         $extraFields = ExtraField::query()->where('type', Invoice::class)->where('type_id', $invoice->id)->get();
         $products = Product::query()->latest()->get();
 
-        return view('invoices.edit', compact('invoice', 'customers', 'taxes', 'invoice_items', 'invoiceExtraField', 'products', 'extraFields', 'categories'));
+        return view('invoices.edit', compact('invoice', 'customers', 'taxes', 'invoice_items', 'invoiceExtraField', 'products', 'extraFields', 'categories', 'cashAcId', 'depositAccounts', 'paymentMethods'));
     }
 
 
@@ -149,6 +170,9 @@ class InvoicesController extends Controller
         InvoiceExtraField::query()->where('invoice_id', $invoice->id)->delete();
         InvoiceItem::query()->where('invoice_id', $invoice->id)->delete();
         ExtraField::query()->where('type', get_class($invoice))->where('type_id', $invoice->id)->delete();
+        ReceivePayment::query()->where('id', $invoice->receive_payment_id)->delete();
+        ReceivePaymentItem::query()->where('receive_payment_id', $invoice->receive_payment_id)->delete();
+
         $this->insertDataToOtherTable($invoice, $invoice_items, $extraFields, $additionalFields);
         $this->saveTermsNDNote($data);
 
@@ -197,6 +221,10 @@ class InvoicesController extends Controller
             'business-logo' => 'nullable',
             'currency' => 'nullable',
             'shipping_date' => 'nullable',
+            'is_payment' => 'nullable',
+            'payment_method_id' => 'nullable',
+            'deposit_to' => 'nullable',
+            'payment_amount' => 'nullable',
         ];
 
         $data = $request->validate($rules);
@@ -204,7 +232,7 @@ class InvoicesController extends Controller
         $data['invoice_items'] = json_decode($data['invoice_items'] ?? '{}');
         $data['additional'] = json_decode($data['additional'] ?? '{}');
         $data['additional_fields'] = json_decode($data['additional_fields'] ?? '{}');
-
+        $data['is_payment'] = $request->has('is_payment');
         if ($request->has('custom_delete_attachment')) {
             $data['attachment'] = null;
         }

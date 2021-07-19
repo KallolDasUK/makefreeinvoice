@@ -9,7 +9,7 @@ class Invoice extends Model
 
     const Partial = "Partial";
     const Paid = "Paid";
-    const UnPaid = "Un Paid";
+    const UnPaid = "Unpaid";
 
     protected $guarded = [];
 

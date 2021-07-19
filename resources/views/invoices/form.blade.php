@@ -192,7 +192,62 @@
                 </tbody>
             </table>
         </div>
+        <div><label class=" form-check form-check-inline form-control-plaintext">
+                <input id="paymentCheckBox" class="form-check-input" name="is_payment"
+                       type="checkbox" {{ optional($invoice)->is_payment?'checked':'' }}>
+                &nbsp;
+                <label for="paymentCheckBox" class="form-check-label"><span class="text-bold"> I have received the payment </span></label>
+            </label>
 
+
+            <div class="paymentContainer mt-4" @if(optional($invoice)->is_payment) style="display: block"
+                 @else style="display: none" @endif>
+                <div class="form-group row">
+                    <div class="col-form-label col-lg-4 text-right required">
+                        <label class="font-weight-bolder " style="font-size: 14px"> Amount <span
+                                class="text-danger">*</span></label>
+                    </div>
+                    <div class="col-lg-6">
+                        <input type="number" step="any" id="paymentAmount" class="form-control" name="payment_amount"
+                               value="{{ optional($invoice)->payment_amount??'' }}"/>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-form-label col-lg-4 text-right required">
+                        <label class="font-weight-bolder " style="font-size: 14px"> Payment Method <span
+                                class="text-danger">*</span></label>
+                    </div>
+                    <div class="col-lg-6">
+                        <select id="payment_method_id" class="form-control" name="payment_method_id">
+                            @foreach ($paymentMethods as $paymentMethod )
+                                <option
+                                    value="{{ $paymentMethod->id }}" {{ optional($invoice)->payment_method_id == $paymentMethod->id ? 'selected' : '' }}>
+                                    {{ $paymentMethod->name }}
+                                </option>
+                            @endforeach
+
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-form-label col-lg-4 text-right required">
+                        <label class="font-weight-bolder " style="font-size: 14px"> Deposit Account <span
+                                class="text-danger">*</span></label>
+                    </div>
+                    <div class="col-lg-6">
+                        <select id="deposit_to" class="form-control" name="deposit_to">
+                            @foreach ($depositAccounts as $account)
+                                <option
+                                    value="{{ $account->id }}" {{ $account->id == optional($invoice)->deposit_to?'selected':'' }} >
+                                    {{ $account->ledger_name }}
+                                </option>
+                            @endforeach
+
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <div class="col">
 
@@ -229,14 +284,14 @@
                 </td>
                 <td style="text-align: end">
 
-                        <input type="number" step="any" id="discount" name="discount"
-                               value="{{ old('discount', optional($invoice)->discount) }}>" readonly
-                               style="border: 1px solid transparent; outline: none;text-align: end" hidden>
+                    <input type="number" step="any" id="discount" name="discount"
+                           value="{{ old('discount', optional($invoice)->discount) }}>" readonly
+                           style="border: 1px solid transparent; outline: none;text-align: end" hidden>
 
-                        <input type="number" step="any" id="discountShown"
-                               value="{{ old('discount', optional($invoice)->discount) }}" readonly
-                               style="border: 1px solid transparent; outline: none;text-align: end">
-                        <span class="currency"></span>
+                    <input type="number" step="any" id="discountShown"
+                           value="{{ old('discount', optional($invoice)->discount) }}" readonly
+                           style="border: 1px solid transparent; outline: none;text-align: end">
+                    <span class="currency"></span>
 
                 </td>
             </tr>
@@ -422,6 +477,20 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     </script>
 @endverbatim
 @verbatim
@@ -453,7 +522,8 @@
 
                         <input type="number"  value="{{ value }}" readonly
                         class="{{ className }}" style="border: 1px solid transparent; outline: none;text-align: end">
-                                                <span class="currency d-inline {{ className }}" style="font-size: 16px">{{ currency }}</span>
+                                                <span class="currency d-inline {{ className }}
+        " style="font-size: 16px">{{ currency }}</span>
 
                     </td>
                 </tr>
@@ -463,6 +533,20 @@
                           <td><span class="text-primary " on-click="@this.addExtraField()" style="cursor:pointer;">+ Add More</span></td>
                           <td></td>
                       </tr>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -555,6 +639,20 @@
               <td><span class="text-primary " on-click="@this.addAdditionalField()" style="cursor:pointer;">+ Add More</span></td>
               <td></td>
           </tr>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -218,6 +218,22 @@ $(document).ready(function () {
         let currency = $('#currency').val()
         ractive.set('currency', currency)
     })
+
+
+    $('#payment_method_id').select2()
+    $('#deposit_to').select2()
+
+    $('#paymentCheckBox').on('change', function () {
+
+        if ($('#paymentCheckBox').is(':checked')) {
+            console.log('checked')
+            $('#paymentAmount').prop('required', true)
+        } else {
+            console.log('not checked')
+            $('#paymentAmount').prop('required', false)
+        }
+        $('.paymentContainer').toggle(100)
+    })
 })
 
 
