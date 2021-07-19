@@ -209,7 +209,8 @@
                     </div>
                     <div class="col-lg-6">
                         <input type="number" step="any" id="paymentAmount" class="form-control" name="payment_amount"
-                               value="{{ optional($invoice)->payment_amount??'' }}"/>
+                               value="{{ optional($invoice)->payment_amount??'' }}" min="0"
+                               max="{{ optional($invoice)->total??'' }}"/>
                     </div>
                 </div>
                 <div class="form-group row">
@@ -491,6 +492,8 @@
 
 
 
+
+
     </script>
 @endverbatim
 @verbatim
@@ -615,6 +618,8 @@
 
 
 
+
+
     </script>
 @endverbatim
 @verbatim
@@ -639,6 +644,8 @@
               <td><span class="text-primary " on-click="@this.addAdditionalField()" style="cursor:pointer;">+ Add More</span></td>
               <td></td>
           </tr>
+
+
 
 
 

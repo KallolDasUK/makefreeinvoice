@@ -76,6 +76,7 @@
         var invoice_items = @json($invoice_items);
         var products = @json($products);
         var additional_fields = @json($extraFields);
+        var create = false;
         console.log(pair, 'pairs')
         $(document).ready(function () {
             $('.customer').select2({

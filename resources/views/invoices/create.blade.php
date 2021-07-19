@@ -57,7 +57,7 @@
         if (additional_fields.length === 0) {
             additional_fields = [{name: '', value: ''}];
         }
-
+        var create = true;
         console.log(products)
         $(document).ready(function () {
 

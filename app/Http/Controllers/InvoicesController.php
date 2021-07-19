@@ -113,8 +113,9 @@ class InvoicesController extends Controller
             'note' => $invoice->notes
         ]);
 
-        $rp = ReceivePaymentItem::create(['receive_payment_id' => $receivePayment->id, 'invoice_id' => $invoice->id, 'amount' => $invoice->payment_amount]);
-        $invoice->receive_payment_id = $rp->id;
+        ReceivePaymentItem::create(['receive_payment_id' => $receivePayment->id, 'invoice_id' => $invoice->id, 'amount' => $invoice->payment_amount]);
+        $invoice->receive_payment_id = $receivePayment->id;
+        $invoice->save();
 
     }
 

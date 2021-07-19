@@ -307,7 +307,12 @@ function calculateOthers() {
     // alert(tax)
 
     $('#total').val(total.toFixed(2))
-    $('#paymentAmount').val(total.toFixed(2))
+    if (create){
+        $('#paymentAmount').val(total.toFixed(2))
+    }
+
+    $('#paymentAmount').prop('max',total.toFixed(2))
+
     $('#invoice_items').val(JSON.stringify(ractive.get('invoice_items')))
     $('#additional').val(JSON.stringify(ractiveExtra.get('pairs').filter((pair) => pair.value !== '' && pair.value !== 0)))
     // console.log(ractiveExtra.get('pairs').filter((pair) => pair.value !== '' && pair.value !== 0))
