@@ -4,12 +4,13 @@
     @include('partials.ajax-product-create-form')
     @include('partials.ajax-customer-create-form')
     @include('partials.ajax-tax-create-form')
-    <div style="position:absolute;right: 0">
-        <a href="{{ route('invoices.invoice.index') }}" class="btn btn-primary float-right" title="Show All Invoice">
+    <div class="text-right">
+        <a href="{{ route('invoices.invoice.index') }}" class="btn btn-primary " title="Show All Invoices">
             <i class=" fas fa-fw fa-th-list" aria-hidden="true"></i>
-            Show All
+            Show All Invoices
         </a>
     </div>
+    <p class="clearfix"></p>
     <div class="card">
 
         <div class="card-body">

@@ -52,7 +52,8 @@
 <!-- end common css -->
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/TableDnD/0.9.1/jquery.tablednd.js" integrity="sha256-d3rtug+Hg1GZPB7Y/yTcRixO/wlI78+2m08tosoRn7A=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/TableDnD/0.9.1/jquery.tablednd.js"
+            integrity="sha256-d3rtug+Hg1GZPB7Y/yTcRixO/wlI78+2m08tosoRn7A=" crossorigin="anonymous"></script>
 
     {{--    <script src="{{ asset('js/app.js') }}"></script>--}}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"
@@ -100,10 +101,92 @@
         }
 
         label {
-            font-weight: bolder!important;
+            font-weight: bolder !important;
         }
+
         input:focus {
-            background-color: yellow!important;
+            background-color: yellow !important;
+        }
+
+        .header-tabs {
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-align: stretch;
+            -ms-flex-align: stretch;
+            align-items: stretch;
+            width: 100%;
+            height: 100px;
+            -ms-flex-item-align: end !important;
+            align-self: flex-end !important;
+        }
+
+        .header-tabs .nav-item {
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-align: stretch;
+            -ms-flex-align: stretch;
+            align-items: stretch;
+            width: 100%;
+            -webkit-box-flex: 1;
+            -ms-flex-positive: 1;
+            flex-grow: 1;
+            -ms-flex-preferred-size: 0;
+            flex-basis: 0;
+            padding: 0;
+            margin: 0;
+            position: relative;
+            text-align: center;
+        }
+
+
+        .header-tabs .nav-item .nav-link {
+            margin: 0;
+            padding: 0.75rem 1.5rem;
+            color: #ffffff;
+            -webkit-transition: color 0.15s ease, background-color 0.15s ease, border-color 0.15s ease, -webkit-box-shadow 0.15s ease;
+            transition: color 0.15s ease, background-color 0.15s ease, border-color 0.15s ease, -webkit-box-shadow 0.15s ease;
+            transition: color 0.15s ease, background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+            transition: color 0.15s ease, background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease, -webkit-box-shadow 0.15s ease;
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-orient: vertical;
+            -webkit-box-direction: normal;
+            -ms-flex-direction: column;
+            flex-direction: column;
+            -webkit-box-align: center;
+            -ms-flex-align: center;
+            align-items: center;
+            -webkit-box-pack: center;
+            -ms-flex-pack: center;
+            justify-content: center;
+            -webkit-box-flex: 1;
+            -ms-flex-positive: 1;
+            flex-grow: 1;
+            -ms-flex-preferred-size: 0;
+            flex-basis: 0;
+            background-color: #065a92;
+            border-right: 1px solid #E4E6EF;
+        }
+
+        .header-tabs .nav-item .nav-link .nav-title {
+            font-size: 1.25rem;
+            color: #ffffff;
+            font-weight: 600;
+        }
+
+        .nav-item .nav-link .nav-desc {
+            font-size: 1rem;
+            color: #ecebeb;
+        }
+
+        .dropdown-toggle::after {
+            display: none !important;
+        }
+        .nav-link:hover{
+            background-color: gray!important;
         }
     </style>
 
@@ -114,8 +197,157 @@
 
 <div class="container">
 
+    <ul class="header-tabs nav flex-column-auto" role="tablist">
+        <!--begin::Item-->
+        <li class="nav-item">
+            <a href="{{ route('acc.home') }}" class="nav-link active rounded">
+                <span class="nav-title text-uppercase">Home</span>
+                <span class="nav-desc">Dashboard &amp; Shortcuts</span>
+            </a>
+        </li>
+        <!--end::Item-->
+        <!--begin::Item-->
+        <li class="nav-item">
+            <a href="#" class="nav-link dropdown-toggle rounded" data-toggle="dropdown">
+                <span class="nav-title text-uppercase">Invoices</span>
+                <span class="nav-desc">Invoices &amp; Payments</span>
+                <i class="fas fa-sort-down"></i>
 
-    <nav class=" header header-fixed " style="width: 100% ;">
+            </a>
+            <ul class="dropdown-menu">
+                <div class="row m-0">
+
+                    <div class="col" style="min-width: 500px">
+                        <p class="text-info text--cap border-bottom d-inline-block">
+                            Invoice Module</p>
+                        <div class="menu-icon-grid font-weight-bolder p-0">
+                            <a href="{{ route('invoices.invoice.create') }}"
+                               style="min-width: 100px">
+                                <i class="fa fa-plus" aria-hidden="true"></i>
+                                New <br> Invoice</a>
+                            <a href="{{ route('invoices.invoice.index') }}"
+                               style="min-width: 100px"><i
+                                    class="fa fa-list-alt" aria-hidden="true"></i>Manage <br>
+                                Invoices</a>
+
+                            <a href="{{ route('products.product.index') }}"
+                               style="min-width: 100px"><i class="fab fa-product-hunt"></i> Products
+                            </a>
+
+                            <a href="{{ route('customers.customer.index') }}"
+                               style="min-width: 100px"><i
+                                    class="fa fa-users" aria-hidden="true"></i>Customers</a>
+
+
+                        </div>
+                    </div>
+
+                </div>
+            </ul>
+        </li>
+        <!--end::Item-->
+        <!--begin::Item-->
+        <li class="nav-item">
+            <a href="#" class="nav-link rounded" data-toggle="tab" data-target="#kt_header_tab_2" role="tab"
+               aria-selected="false">
+                <span class="nav-title text-uppercase">Bill</span>
+                <span class="nav-desc">Purchase &amp; Pay</span>
+            </a>
+        </li>
+        <!--end::Item-->
+        <!--begin::Item-->
+        <li class="nav-item">
+            <a href="#" class="nav-link dropdown-toggle rounded" data-toggle="dropdown" data-target="#kt_header_tab_2"
+               role="tab" aria-selected="false">
+                <span class="nav-title text-uppercase">Accounting</span>
+                <span class="nav-desc">Finance & Audit</span>
+                <i class="fas fa-sort-down"></i>
+
+            </a>
+            <ul class="dropdown-menu">
+                <div class="row m-0" style="width:500px">
+
+                    <div class="col-md-12 p-4">
+                        <p class="text-info text--cap border-bottom d-inline-block">
+                            Master</p>
+                        <div class="menu-icon-grid w-auto p-0">
+                            <a href="{{ route('ledgers.ledger.index') }}">
+                                <i class="fa fa-address-book" aria-hidden="true"></i>
+                                Ledger</a>
+                            <a href="{{ route('ledger_groups.ledger_group.index') }}"><i
+                                    class="fa fa-users" aria-hidden="true"></i>Group</a>
+                            <a href="{{ route('branches.branch.index') }}"><i
+                                    class="fa fa-sitemap" aria-hidden="true"></i>Branches</a>
+                            <a href="{{ route('accounting.coa') }}"><i class="fa fa-server"
+                                                                       aria-hidden="true"></i>
+                                COA</a>
+                        </div>
+                    </div>
+                    <div class="col-md-12 p-4">
+                        <p class="text-info text--cap border-bottom d-inline-block">
+                            Transaction Vouchers</p>
+                        <div class="menu-icon-grid w-auto p-0">
+                            <a href="{{ route('payments.payment.index') }}"><i
+                                    class="fab fa-amazon-pay"></i>Payment</a>
+                            <a href="{{ route('transactions.transaction.index') }}"><i
+                                    class="fab fa-get-pocket"></i>Receipt</a>
+                            <a href="{{ route('journals.journal.index') }}"><i
+                                    class="fas fa-journal-whills"></i>Journal</a>
+                            <a href="{{ route('contras.contra.index') }}"><i
+                                    class="fas fa-exchange-alt"></i>Contra</a>
+                        </div>
+                    </div>
+                    <div class="col-md-12 p-4">
+                        <p class="text-info border-bottom d-inline-block"
+                           style="border-bottom:2px solid gray">
+                            Reports</p>
+                        <ul class="links">
+                            <li>
+                                <a href="{{ route('accounting.report.trial-balance') }}">Trial
+                                    Balance</a>
+                            </li>
+                            <li>
+                                <a href="{{ route('accounting.report.receipt-payment-branch') }}">Receipt
+                                    & Payment </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('accounting.report.profit-loss') }}">Profit &
+                                    Loss </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('accounting.report.ledger') }}">Ledger</a>
+                            </li>
+                            <li>
+                                <a href="{{ route('accounting.report.voucher') }}">Voucher </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('accounting.report.cashbook') }}">Cashbook</a>
+                            </li>
+                            <li>
+                                <a href="{{ route('accounting.report.daybook') }}">Daybook </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('accounting.report.voucher') }}">Balance
+                                    Sheet </a>
+                            </li>
+
+
+                        </ul>
+                    </div>
+                </div>
+            </ul>
+        </li>
+        <!--end::Item-->
+        <!--begin::Item-->
+        <li class="nav-item">
+            <a href="{{ route('accounting.settings.edit') }}" class="nav-link rounded">
+                <span class="nav-title text-uppercase">Settings</span>
+                <span class="nav-desc">Customization &amp; Personalization</span>
+            </a>
+        </li>
+        <!--end::Item-->
+    </ul>
+    <nav class=" header header-fixed " style="display: none">
         <div class="text-center navbar-brand-wrapper d-none align-items-center justify-content-center">
             <a class="navbar-brand brand-logo text-success mt-4" href="{{ url('/') }}">
 
@@ -267,8 +499,8 @@
     </nav>
 
 
-    <div>
-        <b class="text-black font-weight-bold mb-2 mt-2"> {{ $title??'' }} </b>
+    <div class="mt-4">
+        <b class="text-black font-weight-bolder mb-2 mt-2" style="font-size: 20px"> {{ $title??'' }} </b>
 
         @yield('content')
         {{ $slot ?? '' }}

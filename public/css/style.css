@@ -1251,21 +1251,21 @@ table.fc-border-separate {
 
 .menu-icon-grid > a {
     display: inline-flex;
-    width: 5rem;
+    width: 7rem;
     flex-direction: column;
     align-items: center;
     padding: 8px 0px;
-    color: #52495a;
+    color: #065a92;
     text-align: center;
     border-radius: 4px;
     text-decoration: none !important;
-    border: 1px solid gray;
+    border: 1px solid #065a92;
     margin-bottom: 10px;
 
 }
 
 .menu-icon-grid > a:hover {
-    background: #a461d8;
+    background: #065a92;
     color: white;
 }
 

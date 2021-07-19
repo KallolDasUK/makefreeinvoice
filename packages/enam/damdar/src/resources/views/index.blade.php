@@ -45,27 +45,27 @@
                 <div class="font-weight-bolder">
                     SHORTCUTS
                 </div>
-                <a href="{{ route('customers.customer.create') }}" class="sc-gPEVay eaBhby">
+                <a href="{{ route('customers.customer.create') }}" class="sc-gPEVay eaBhby border rounded">
                     <div class="sc-iRbamj image" style="background-image:url('images/customer.svg') ">
 
                     </div>
                     <div class="sc-jlyJG gSoaLO">Add customer</div>
                 </a>
-                <a  class="sc-gPEVay eaBhby"
+                <a  class="sc-gPEVay eaBhby border rounded"
                    href="{{ route('invoices.invoice.create') }}">
                     <div class="sc-iRbamj image" style="background-image:url('images/invoice.svg') ">
 
                     </div>
                     <div class="sc-jlyJG gSoaLO">Add Invoice</div>
                 </a>
-                <a  class="sc-gPEVay eaBhby development"
+                <a  class="sc-gPEVay eaBhby development border rounded"
                    href="#">
                     <div class="sc-iRbamj image" style="background-image:url('images/estimate.svg') ">
 
                     </div>
-                    <div class="sc-jlyJG gSoaLO ">Add Estimate (In Dev)</div>
+                    <div class="sc-jlyJG gSoaLO ">Add Estimate</div>
                 </a>
-                <a  class="sc-gPEVay eaBhby "
+                <a  class="sc-gPEVay eaBhby border rounded"
                    href="{{ route('receive_payments.receive_payment.create') }}">
                     <div class="sc-iRbamj image" style="background-image:url('images/receive.svg') ">
 
