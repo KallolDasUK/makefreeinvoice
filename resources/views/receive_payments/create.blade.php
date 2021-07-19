@@ -21,13 +21,15 @@
         <div class="card-body">
 
             <form method="POST" action="{{ route('receive_payments.receive_payment.store') }}" accept-charset="UTF-8"
-                  id="create_receive_payment_form" name="create_receive_payment_form" class="form-horizontal" enctype="multipart/form-data">
+                  id="create_receive_payment_form" name="create_receive_payment_form" class="form-horizontal"
+                  enctype="multipart/form-data">
                 {{ csrf_field() }}
                 @include ('receive_payments.form', ['receivePayment' => null])
 
                 <div class="form-group mb-4">
                     <div class="">
-                        <input class="btn btn-primary btn-lg float-right mr-4" type="submit" id="addPayment" disabled value="Add Payment">
+                        <input class="btn btn-primary btn-lg float-right mr-4" type="submit" id="addPayment" disabled
+                               value="Add Payment">
                     </div>
                 </div>
 
@@ -41,6 +43,7 @@
 @section('js')
     <script>
         var customerInvoiceUrl = "{{ route('receive-payment-customers-invoice') }}"
+        var create = true;
         $(document).ready(function () {
             $('#customer_id').select2()
             $('#payment_method_id').select2()

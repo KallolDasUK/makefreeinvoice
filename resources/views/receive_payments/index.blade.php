@@ -72,10 +72,12 @@
                                         {{ csrf_field() }}
 
                                         <div class="btn-group btn-group-sm float-right " role="group">
+
                                             <a href="{{ route('receive_payments.receive_payment.show', $receivePayment->id ) }}"
                                                title="Show Receive Payment">
                                                 <i class="fa fa-eye text-info" aria-hidden="true"></i>
                                             </a>
+
                                             <a href="{{ route('receive_payments.receive_payment.edit', $receivePayment->id ) }}"
                                                class="mx-4" title="Edit Receive Payment">
                                                 <i class="fas fa-edit text-primary" aria-hidden="true"></i>

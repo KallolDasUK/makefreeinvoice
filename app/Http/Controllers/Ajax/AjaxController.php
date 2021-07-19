@@ -19,4 +19,11 @@ class AjaxController extends Controller
 
 
     }
+
+    public function recordPayment(Request $request)
+    {
+//        sleep(5);
+
+        return $request->all();
+    }
 }

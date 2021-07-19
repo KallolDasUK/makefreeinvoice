@@ -54,6 +54,7 @@
 @section('js')
     <script>
         var customerInvoiceUrl = "{{ route('receive-payment-customers-invoice') }}"
+        var create = false;
         $(document).ready(function () {
             $('#customer_id').select2()
             $('#payment_method_id').select2()

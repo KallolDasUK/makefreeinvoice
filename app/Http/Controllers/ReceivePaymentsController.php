@@ -7,11 +7,17 @@ use App\Models\Customer;
 use App\Models\PaymentMethod;
 use App\Models\ReceivePayment;
 use App\Models\ReceivePaymentItem;
+use Enam\Acc\Models\GroupMap;
+use Enam\Acc\Models\Ledger;
+use Enam\Acc\Models\LedgerGroup;
+use Enam\Acc\Traits\TransactionTrait;
+use Enam\Acc\Utils\LedgerHelper;
 use Illuminate\Http\Request;
 use Exception;
 
 class ReceivePaymentsController extends Controller
 {
+    use TransactionTrait;
 
 
     public function index()
@@ -26,9 +32,11 @@ class ReceivePaymentsController extends Controller
     {
         $paymentSerial = 'PM' . str_pad(ReceivePayment::query()->count(), 3, '0', STR_PAD_LEFT);
         $customers = Customer::pluck('name', 'id')->all();
+        $cashAcId = optional(GroupMap::query()->firstWhere('key', LedgerHelper::$CASH_AC))->value;
+        $depositAccounts = Ledger::find($this->getAssetLedgers())->sortBy('ledger_name');
         $paymentMethods = PaymentMethod::pluck('name', 'id')->all();
 
-        return view('receive_payments.create', compact('customers', 'paymentMethods', 'paymentSerial'));
+        return view('receive_payments.create', compact('customers', 'paymentMethods', 'paymentSerial', 'depositAccounts', 'cashAcId'));
     }
 
 
@@ -62,25 +70,32 @@ class ReceivePaymentsController extends Controller
 
     public function edit($id)
     {
+        $depositAccounts = Ledger::find($this->getAssetLedgers())->sortBy('ledger_name');
+
         $receivePayment = ReceivePayment::findOrFail($id);
         $customers = Customer::pluck('name', 'id')->all();
         $paymentMethods = PaymentMethod::pluck('name', 'id')->all();
-
-        return view('receive_payments.edit', compact('receivePayment', 'customers', 'paymentMethods'));
+//        dd($receivePayment->items);
+        return view('receive_payments.edit', compact('receivePayment', 'customers', 'paymentMethods', 'depositAccounts'));
     }
 
 
     public function update($id, Request $request)
     {
 
+//        dd($request->all());
 
         $data = $this->getData($request);
 
         $receivePayment = ReceivePayment::findOrFail($id);
         $receivePayment->update($data);
+        ReceivePaymentItem::query()->where('receive_payment_id', $receivePayment->id)->delete();
+        $payments = json_decode($request->data ?? '{}');
+        foreach ($payments as $payment) {
+            ReceivePaymentItem::create(['invoice_id' => $payment->invoice_id, 'receive_payment_id' => $receivePayment->id, 'amount' => $payment->amount]);
+        }
 
-        return redirect()->route('receive_payments.receive_payment.index')
-            ->with('success_message', 'Receive Payment was successfully updated.');
+        return redirect()->route('receive_payments.receive_payment.index')->with('success_message', 'Receive Payment was successfully updated.');
 
     }
 
@@ -89,6 +104,8 @@ class ReceivePaymentsController extends Controller
     {
 
         $receivePayment = ReceivePayment::findOrFail($id);
+        ReceivePaymentItem::query()->where('receive_payment_id', $receivePayment->id)->delete();
+
         $receivePayment->delete();
 
         return redirect()->route('receive_payments.receive_payment.index')

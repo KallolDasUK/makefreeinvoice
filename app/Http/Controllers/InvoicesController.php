@@ -9,19 +9,27 @@ use App\Models\Invoice;
 use App\Models\InvoiceExtraField;
 use App\Models\InvoiceItem;
 use App\Models\MetaSetting;
+use App\Models\PaymentMethod;
 use App\Models\Product;
 use App\Models\Tax;
+use Enam\Acc\Models\GroupMap;
+use Enam\Acc\Models\Ledger;
+use Enam\Acc\Traits\TransactionTrait;
+use Enam\Acc\Utils\LedgerHelper;
 use Illuminate\Http\Request;
 
 class InvoicesController extends Controller
 {
+    use TransactionTrait;
 
 
     public function index()
     {
         $invoices = Invoice::with('customer')->latest()->paginate(10);
-
-        return view('invoices.index', compact('invoices'));
+        $cashAcId = optional(GroupMap::query()->firstWhere('key', LedgerHelper::$CASH_AC))->value;
+        $depositAccounts = Ledger::find($this->getAssetLedgers())->sortBy('ledger_name');
+        $paymentMethods = PaymentMethod::query()->get();
+        return view('invoices.index', compact('invoices', 'cashAcId', 'depositAccounts', 'paymentMethods'));
     }
 
 

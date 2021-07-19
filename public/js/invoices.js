@@ -335,10 +335,10 @@ $(document).ready(function () {
 
     // calculateOthers()
     ractive.set('invoice_items.0.test', '')
-    window.onbeforeunload = confirmExit;
-    function confirmExit() {
-        return "You have attempted to leave this page. Are you sure?";
-    }
+    // window.onbeforeunload = confirmExit;
+    // function confirmExit() {
+    //     return "You have attempted to leave this page. Are you sure?";
+    // }
 
 });
 

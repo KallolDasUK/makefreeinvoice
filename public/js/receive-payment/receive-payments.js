@@ -17,13 +17,30 @@ function getCustomerInvoices(customer_id) {
         },
         success: function (response) {
             $('#tbody').html(response)
+            console.log(response.length, response)
+            if (response.length > 250) {
+                $('#message').hide()
+
+            } else {
+                $('#message').show()
+                $('#message h3').text('Selected customer does not have any unpaid invoices.')
+
+            }
         },
+        error: function () {
+            $('#message').show()
+            $('#message h3').text('Please select a customer first')
+        }
 
     });
 }
 
 $(document).ready(function () {
-    getCustomerInvoices($('customer_id').val())
+    if (create) {
+        getCustomerInvoices($('customer_id').val())
+    } else {
+        $("#customer_id").prop("disabled", true);
+    }
 })
 
 $('form').on('submit', function (e) {
@@ -50,8 +67,9 @@ $(document).on('input', '.paymentAmount', function () {
     $('#totalAmount').val(totalAmount)
     if (totalAmount > 0) {
         $('#addPayment').prop('disabled', false)
-    }else{
+    } else {
         $('#addPayment').prop('disabled', true)
-
     }
+
+
 })

@@ -145,6 +145,7 @@ Route::group(['middleware' => 'auth:web'], function () {
 
     Route::group(['prefix' => 'ajax'], function () {
         Route::post('/receive-payment-customers-invoice', [AjaxController::class, 'receivePaymentCustomerInvoice'])->name('receive-payment-customers-invoice');
+        Route::post('/record-payment', [AjaxController::class, 'recordPayment'])->name('ajax.recordPayment');
     });
 });
 Route::view('/test', 'test');

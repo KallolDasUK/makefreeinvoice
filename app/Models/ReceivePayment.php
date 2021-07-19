@@ -8,25 +8,8 @@ class ReceivePayment extends Model
 {
 
 
-    /**
-     * The database table used by the model.
-     *
-     * @var string
-     */
-    protected $table = 'receive_payments';
 
-    /**
-     * The database primary key value.
-     *
-     * @var string
-     */
-    protected $primaryKey = 'id';
 
-    /**
-     * Attributes that should be mass-assignable.
-     *
-     * @var array
-     */
     protected $fillable = [
         'customer_id',
         'payment_date',
@@ -48,6 +31,11 @@ class ReceivePayment extends Model
         return $this->belongsTo('App\Models\PaymentMethod', 'payment_method_id');
     }
 
+    public function items()
+    {
+        return $this->hasMany('App\Models\ReceivePaymentItem', 'receive_payment_id');
+    }
+
     public function getAmountAttribute()
     {
         return ReceivePaymentItem::query()->where('receive_payment_id', $this->id)->sum('amount');
@@ -55,7 +43,7 @@ class ReceivePayment extends Model
 
     public function getInvoiceAttribute()
     {
-        return join(",",Invoice::find(ReceivePaymentItem::query()->where('receive_payment_id', $this->id)->pluck('invoice_id'))->pluck('invoice_number')->toArray());
+        return join(",", Invoice::find(ReceivePaymentItem::query()->where('receive_payment_id', $this->id)->pluck('invoice_id'))->pluck('invoice_number')->toArray());
     }
 
 
