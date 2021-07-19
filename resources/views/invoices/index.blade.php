@@ -138,7 +138,7 @@
                                 @if($invoice->due > 0)
                                     <span style="text-decoration: underline"
                                           class=" font-weight-bolder text-success  font-size-lg underline  text-hover-danger cursor-pointer mx-4 recordPaymentBtn"
-                                          invoice_id="{{ $invoice->id }}" currency="{{ $invoice->currency }}"
+                                          invoice_id="{{ $invoice->id }}" currency="{{ $invoice->currency }}" invoice_number="{{ $invoice->invoice_number }}"
                                           due="{{ $invoice->due }}"> Receive Payment</span>
                                 @endif
 
@@ -203,8 +203,10 @@
                 let invoice_id = $(this).attr('invoice_id')
                 let currency = $(this).attr('currency')
                 let due = $(this).attr('due')
+                let invoice_number = $(this).attr('invoice_number')
                 $('#invoice_id').val(invoice_id)
                 $('.currency').text(currency)
+                $('.invoice_number').text(invoice_number)
                 $('#amount').val(due)
                 setTimeout(() => {
                     $('#amount').focus()
