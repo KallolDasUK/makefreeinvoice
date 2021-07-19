@@ -11,6 +11,11 @@
         svg:hover {
             color: #0d71bb !important;
         }
+
+        .dropdown-toggle::after {
+            content: "";
+            border-top: 0em solid;
+        }
     </style>
 @endsection
 @section('content')
@@ -49,7 +54,7 @@
         <!--begin::Body-->
         <div class="card-body py-0">
             <!--begin::Table-->
-            <div class="table-responsive">
+            <div>
                 <table class="table table-head-custom table-vertical-center" id="kt_advance_table_widget_1">
                     <thead>
                     <tr class="text-left">
@@ -124,21 +129,22 @@
                             <td>
                                 @if($invoice->due>0)
                                     <span
-                                        class="text-dark-75 font-weight-bolder text-hover-primary mb-1 font-size-lg">{{ number_format($invoice->due) }}</span>
+                                        class="text-dark-75 font-weight-bolder text-hover-primary mb-1 font-size-lg">{{ $invoice->due }}</span>
                                 @endif
 
                             </td>
                             <td class="text-right">
                                 <div class="font-weight-bolder  ">
                                     <span
-                                        style="font-size: 25px">{{ $invoice->currency }}{{ number_format($invoice->total) }} </span>
+                                        style="font-size: 20px"><small>{{ $invoice->currency }}</small>{{ number_format($invoice->total,2) }} </span>
                                 </div>
                             </td>
                             <td class="pr-0 text-right">
                                 @if($invoice->due > 0)
                                     <span style="text-decoration: underline"
                                           class=" font-weight-bolder text-success  font-size-lg underline  text-hover-danger cursor-pointer mx-4 recordPaymentBtn"
-                                          invoice_id="{{ $invoice->id }}" currency="{{ $invoice->currency }}" invoice_number="{{ $invoice->invoice_number }}"
+                                          invoice_id="{{ $invoice->id }}" currency="{{ $invoice->currency }}"
+                                          invoice_number="{{ $invoice->invoice_number }}"
                                           due="{{ $invoice->due }}"> Receive Payment</span>
                                 @endif
 
@@ -227,8 +233,10 @@
                         },
                         success: function (response) {
                             $('#recordPaymentModal').modal('hide');
-                            Swal.fire("Payment Recorded Successfully")
-                            console.log(response)
+                            Swal.fire(response.success_message)
+                                .then(function (result) {
+                                    window.location.reload()
+                                })
                             $('#recordPaymentForm').trigger("reset");
                             $('button[type=submit]').prop('disabled', false)
 

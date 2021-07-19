@@ -40,7 +40,7 @@ class Invoice extends Model
         $payment = $this->payments->sum('amount');
         $due = $this->total - $payment;
 
-        return $due;
+        return number_format((float)$due, 2, '.', '');
 
     }
 

@@ -34,7 +34,7 @@ class ReceivePaymentsController extends Controller
         $customers = Customer::pluck('name', 'id')->all();
         $cashAcId = optional(GroupMap::query()->firstWhere('key', LedgerHelper::$CASH_AC))->value;
         $depositAccounts = Ledger::find($this->getAssetLedgers())->sortBy('ledger_name');
-        $paymentMethods = PaymentMethod::pluck('name', 'id')->all();
+        $paymentMethods = PaymentMethod::query()->get();
 
         return view('receive_payments.create', compact('customers', 'paymentMethods', 'paymentSerial', 'depositAccounts', 'cashAcId'));
     }
@@ -74,7 +74,7 @@ class ReceivePaymentsController extends Controller
 
         $receivePayment = ReceivePayment::findOrFail($id);
         $customers = Customer::pluck('name', 'id')->all();
-        $paymentMethods = PaymentMethod::pluck('name', 'id')->all();
+        $paymentMethods = PaymentMethod::query()->get();
 //        dd($receivePayment->items);
         return view('receive_payments.edit', compact('receivePayment', 'customers', 'paymentMethods', 'depositAccounts'));
     }
