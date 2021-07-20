@@ -34,7 +34,7 @@ class InvoiceSendMail extends Mailable
             ->from($this->request_data->from, $this->settings->bussiness_name??'InvoicePedia')
             ->replyTo($this->request_data->from, $this->settings->bussiness_name??'InvoicePedia')
             ->subject($this->request_data->subject)
-            ->view('mail.invoice-mail')
-            ->attach(asset('sample/enam_cv.pdf'));
+            ->view('mail.invoice-mail');
+//            ->attach(asset('sample/enam_cv.pdf'));
     }
 }
