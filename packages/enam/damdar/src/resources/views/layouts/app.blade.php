@@ -80,6 +80,8 @@
     <script src="https://unpkg.com/@yaireo/tagify"></script>
     <script src="https://unpkg.com/@yaireo/tagify/dist/tagify.polyfills.min.js"></script>
     <link href="https://unpkg.com/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css"/>
+    <link href="https://ckeditor.com/docs/ckeditor5/latest/assets/snippet-styles.css" rel="stylesheet" type="text/css"/>
+    <link href="https://cdn.quilljs.com/1.0.0/quill.snow.css" rel="stylesheet">
 
     @yield('css')
     @stack('css')
@@ -220,10 +222,12 @@
 
 </head>
 
-<body>
+<body class="">
 
-
-<div class="container">
+<div class="container ribbon ribbon-clip ribbon-left">
+    <div class="ribbon-target" style="top: 2px;">
+        <span class="ribbon-inner bg-danger"></span>In Development
+    </div>
 
     <ul class="header-tabs nav flex-column-auto mt-4" role="tablist">
         <!--begin::Item-->
@@ -634,13 +638,13 @@
     var csrf = $('meta[name=csrf-token]').attr('content');
     $(document).ready(function () {
         $('.nav-item').mouseenter(function () {
-            $(this).find('.nav-title').css('color','#065a92')
-            $(this).find('.nav-desc').css('color','#065a92')
+            $(this).find('.nav-title').css('color', '#065a92')
+            $(this).find('.nav-desc').css('color', '#065a92')
         })
         $('.nav-item').mouseleave(function () {
 
-            $(this).find('.nav-title').css('color','white')
-            $(this).find('.nav-desc').css('color','white')
+            $(this).find('.nav-title').css('color', 'white')
+            $(this).find('.nav-desc').css('color', 'white')
 
         })
     })

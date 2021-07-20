@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\InvoiceSendMail;
 use App\Models\Category;
 use App\Models\Customer;
 use App\Models\ExtraField;
@@ -19,6 +20,7 @@ use Enam\Acc\Models\Ledger;
 use Enam\Acc\Traits\TransactionTrait;
 use Enam\Acc\Utils\LedgerHelper;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class InvoicesController extends Controller
 {
@@ -276,9 +278,13 @@ class InvoicesController extends Controller
         return view('invoices.send', compact('invoice', 'title', 'from', 'to', 'subject'));
     }
 
-    public function sendInvoiceMail(Request $request)
+    public function sendInvoiceMail(Request $request, Invoice $invoice)
     {
 //        dd($request->all());
+//        dd($invoice);
+        Mail::to($request->user())->send(new InvoiceSendMail($invoice));
+//        \Artisan::call('queue:work', ['--stop-when-empty' => true]);
+
         return redirect()->route('invoices.invoice.index')->with('success_message', 'Invoice was sent successfully.');
     }
 }

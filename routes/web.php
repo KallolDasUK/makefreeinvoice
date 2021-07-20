@@ -61,19 +61,19 @@ Route::group(['middleware' => 'auth:web'], function () {
         Route::get('/send/{invoice}', [InvoicesController::class, 'send'])->name('invoices.invoice.send')->where('id', '[0-9]+');
         Route::get('/{invoice}/edit', [InvoicesController::class, 'edit'])->name('invoices.invoice.edit')->where('id', '[0-9]+');
         Route::post('/', [InvoicesController::class, 'store'])->name('invoices.invoice.store');
-        Route::post('/sendMail', [InvoicesController::class, 'sendInvoiceMail'])->name('invoices.invoice.send_invoice_mail');
+        Route::post('/send/{invoice}', [InvoicesController::class, 'sendInvoiceMail'])->name('invoices.invoice.send_invoice_mail');
         Route::put('invoice/{invoice}', [InvoicesController::class, 'update'])->name('invoices.invoice.update')->where('id', '[0-9]+');
         Route::delete('/invoice/{invoice}', [InvoicesController::class, 'destroy'])->name('invoices.invoice.destroy')->where('id', '[0-9]+');
 
     });
 
+
+
 // php artisan resource-file:create Category --fields=id,name,category_id
 // php artisan create:scaffold Category  --layout-name="layouts.app" --with-migration
 
 
-    Route::group([
-        'prefix' => 'categories',
-    ], function () {
+    Route::group(['prefix' => 'categories'], function () {
 
         Route::get('/', [CategoriesController::class, 'index'])->name('categories.category.index');
         Route::get('/create', [CategoriesController::class, 'create'])->name('categories.category.create');
@@ -87,9 +87,7 @@ Route::group(['middleware' => 'auth:web'], function () {
 // php artisan resource-file:create Product --fields=id,product_type,name,photo,category_id,sell_price,sell_unit,purchase_price,purchase_unit,description,is_track,opening_stock,opening_stock_price
 // php artisan create:scaffold Product  --layout-name="layouts.app" --with-migration
 
-    Route::group([
-        'prefix' => 'products',
-    ], function () {
+    Route::group(['prefix' => 'products'], function () {
 
         Route::get('/', [ProductsController::class, 'index'])->name('products.product.index');
         Route::get('/create', [ProductsController::class, 'create'])->name('products.product.create');

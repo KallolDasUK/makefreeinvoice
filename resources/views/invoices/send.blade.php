@@ -10,7 +10,7 @@
 @section('content')
 
     <div class="card mx-auto rounded mt-4" style="width: 70%">
-        <form action="{{ route('invoices.invoice.send_invoice_mail') }}" method="post">
+        <form action="{{ route('invoices.invoice.send_invoice_mail',$invoice->id) }}" method="post">
             @csrf
 
             <div class="card-body">
@@ -55,8 +55,8 @@
                         <label class="font-weight-bolder" style="font-size: 16px"> Message <span
                                 class="text-danger">*</span></label>
                     </div>
-                    <div class="input-group col-lg-6">
-                    <textarea type="text" name="message" id="message" class="form-control" rows="5">
+                    <div class="input-group col-lg-6" >
+                    <textarea type="text" name="message" id="message" class="form-control" rows="5" >
 
                     </textarea>
                     </div>
@@ -113,7 +113,11 @@
 @endsection
 
 @section('js')
+
+    <script src="https://cdn.ckeditor.com/4.16.1/standard/ckeditor.js"></script>
     <script>
+
+
         $(document).ready(function () {
             // $('#to').select2()
             var tagify = new Tagify(document.getElementById('to'))
@@ -126,6 +130,8 @@
                 }
                 console.log()
             })
+            CKEDITOR.replace( 'message' );
+
         })
     </script>
 @endsection
