@@ -260,4 +260,25 @@ class InvoicesController extends Controller
 
         return substr($saved, 7);
     }
+
+    public function send($id)
+    {
+        $invoice = Invoice::with('customer')->findOrFail($id);
+        $title = "Send Invoice - " . $invoice->invoice_number;
+
+        $from = $this->settings->email ?? '';
+        $to = null;
+        if (optional($invoice->customer)->email) {
+            $to = optional($invoice->customer)->email;
+        }
+        $subject = "Invoice #" . ($invoice->invoice_number ?? '') . ' from ' . ($this->settings->business_name ?? 'n/a');
+//        dd($invoice);
+        return view('invoices.send', compact('invoice', 'title', 'from', 'to', 'subject'));
+    }
+
+    public function sendInvoiceMail(Request $request)
+    {
+//        dd($request->all());
+        return redirect()->route('invoices.invoice.index')->with('success_message', 'Invoice was sent successfully.');
+    }
 }

@@ -58,8 +58,10 @@ Route::group(['middleware' => 'auth:web'], function () {
         Route::get('/', [InvoicesController::class, 'index'])->name('invoices.invoice.index');
         Route::get('/create', [InvoicesController::class, 'create'])->name('invoices.invoice.create');
         Route::get('/show/{invoice}', [InvoicesController::class, 'show'])->name('invoices.invoice.show')->where('id', '[0-9]+');
+        Route::get('/send/{invoice}', [InvoicesController::class, 'send'])->name('invoices.invoice.send')->where('id', '[0-9]+');
         Route::get('/{invoice}/edit', [InvoicesController::class, 'edit'])->name('invoices.invoice.edit')->where('id', '[0-9]+');
         Route::post('/', [InvoicesController::class, 'store'])->name('invoices.invoice.store');
+        Route::post('/sendMail', [InvoicesController::class, 'sendInvoiceMail'])->name('invoices.invoice.send_invoice_mail');
         Route::put('invoice/{invoice}', [InvoicesController::class, 'update'])->name('invoices.invoice.update')->where('id', '[0-9]+');
         Route::delete('/invoice/{invoice}', [InvoicesController::class, 'destroy'])->name('invoices.invoice.destroy')->where('id', '[0-9]+');
 

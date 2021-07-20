@@ -99,10 +99,10 @@
                         class="btn btn-outline-success  btn-lg" style="font-size: 20px"><i
                         class="fa fa-download"></i> Download
                 </button>
-                <button id="downloadButton"
+                <a href="{{ route('invoices.invoice.send',$invoice->id) }}"
                         class="btn btn-outline-primary  btn-lg " style="font-size: 20px"><i
                         class="fa fa-send"></i> Send Invoice To
-                </button>
+                </a>
             </div>
         </div>
         <p class="clearfix"></p>

@@ -33,6 +33,14 @@
             background-color: rgb(236, 238, 241);
         }
 
+        .shortcuts-title {
+            color: black;
+            font-weight: bolder;
+        }
+        .rounded{
+            border-color: #065a92a3 !important;
+        }
+
 
     </style>
 @endsection
@@ -49,28 +57,28 @@
                     <div class="sc-iRbamj image" style="background-image:url('images/customer 1.svg') ">
 
                     </div>
-                    <div class=" font-weight-bolder text-black">Add customer</div>
+                    <div class="shortcuts-title  text-black">Add Customer</div>
                 </a>
-                <a  class="sc-gPEVay eaBhby border rounded"
+                <a class="sc-gPEVay eaBhby border rounded"
                    href="{{ route('invoices.invoice.create') }}">
                     <div class="sc-iRbamj image" style="background-image:url('images/invoice.svg') ">
 
                     </div>
-                    <div class="sc-jlyJG gSoaLO">Add Invoice</div>
+                    <div class=" shortcuts-title sc-jlyJG gSoaLO">Add Invoice</div>
                 </a>
-                <a  class="sc-gPEVay eaBhby development border rounded"
+                <a class="sc-gPEVay eaBhby development border rounded"
                    href="#">
                     <div class="sc-iRbamj image" style="background-image:url('images/estimate.svg') ">
 
                     </div>
-                    <div class="sc-jlyJG gSoaLO ">Add Estimate</div>
+                    <div class="shortcuts-title sc-jlyJG gSoaLO ">Add Estimate</div>
                 </a>
-                <a  class="sc-gPEVay eaBhby border rounded"
+                <a class="sc-gPEVay eaBhby border rounded"
                    href="{{ route('receive_payments.receive_payment.create') }}">
                     <div class="sc-iRbamj image" style="background-image:url('images/receive.svg') ">
 
                     </div>
-                    <div class="sc-jlyJG gSoaLO">Receive Payment</div>
+                    <div class="shortcuts-title sc-jlyJG gSoaLO">Receive Payment</div>
                 </a>
             </div>
         </div>
@@ -230,7 +238,7 @@
         $(document).ready(function () {
 
             $('input').focus()
-            $('.development').on('click',function (){
+            $('.development').on('click', function () {
                 swal.fire("Under Development!");
             })
         })

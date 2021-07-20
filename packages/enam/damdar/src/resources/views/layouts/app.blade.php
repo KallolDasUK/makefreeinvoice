@@ -77,7 +77,9 @@
 
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.13.3/css/selectize.bootstrap4.min.css"/>
-
+    <script src="https://unpkg.com/@yaireo/tagify"></script>
+    <script src="https://unpkg.com/@yaireo/tagify/dist/tagify.polyfills.min.js"></script>
+    <link href="https://unpkg.com/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css"/>
 
     @yield('css')
     @stack('css')
@@ -135,7 +137,7 @@
             -ms-flex-preferred-size: 0;
             flex-basis: 0;
             padding: 0;
-            margin: 0;
+            margin: 2px;
             position: relative;
             text-align: center;
         }
@@ -182,12 +184,38 @@
             color: #ecebeb;
         }
 
-        .dropdown-toggle::after {
+        .header-tabs .dropdown-toggle::after {
             display: none !important;
         }
-        .nav-link:hover{
-            background-color: gray!important;
+
+        .nav-link:hover {
+            color: #065a92 !important;
+            background-color: white !important;
+            border: 1px solid #065a92;
         }
+
+
+        .card {
+        }
+
+        .btn.btn-outline-primary {
+            color: #065a92;
+            background-color: transparent;
+            border-color: #065a92;
+        }
+
+        .btn.btn-primary {
+            color: #065a92;
+            background-color: transparent;
+            border-color: #065a92;
+        }
+
+        .btn.btn-primary:hover {
+            background-color: #053251 !important;
+            border-color: #053251;
+        }
+
+
     </style>
 
 </head>
@@ -197,10 +225,10 @@
 
 <div class="container">
 
-    <ul class="header-tabs nav flex-column-auto" role="tablist">
+    <ul class="header-tabs nav flex-column-auto mt-4" role="tablist">
         <!--begin::Item-->
         <li class="nav-item">
-            <a href="{{ route('acc.home') }}" class="nav-link active rounded">
+            <a href="{{ route('acc.home') }}" class="nav-link rounded">
                 <span class="nav-title text-uppercase">Home</span>
                 <span class="nav-desc">Dashboard &amp; Shortcuts</span>
             </a>
@@ -604,7 +632,18 @@
     $.fn.select2.defaults.set("theme", "bootstrap");
     $.fn.filepond.registerPlugin(FilePondPluginImagePreview);
     var csrf = $('meta[name=csrf-token]').attr('content');
+    $(document).ready(function () {
+        $('.nav-item').mouseenter(function () {
+            $(this).find('.nav-title').css('color','#065a92')
+            $(this).find('.nav-desc').css('color','#065a92')
+        })
+        $('.nav-item').mouseleave(function () {
 
+            $(this).find('.nav-title').css('color','white')
+            $(this).find('.nav-desc').css('color','white')
+
+        })
+    })
 
 </script>
 @yield('js')

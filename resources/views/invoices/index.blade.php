@@ -162,6 +162,10 @@
                                                 class=""></path></svg>
                                     </span>
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        <a href="{{ route('invoices.invoice.send',$invoice->id) }}"
+                                           class="dropdown-item btn">
+                                            <span class="fa fa-send mx-4"></span> <strong>Send Invoice To</strong>
+                                        </a>
                                         <a href="{{ route('invoices.invoice.edit',$invoice->id) }}"
                                            class="dropdown-item btn">
                                             <span class="fa fa-pencil-alt mx-4"></span> <strong>Edit</strong>
