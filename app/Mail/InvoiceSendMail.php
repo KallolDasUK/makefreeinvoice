@@ -3,6 +3,7 @@
 namespace App\Mail;
 
 use App\Models\Invoice;
+use App\Models\MetaSetting;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -10,7 +11,9 @@ use Illuminate\Queue\SerializesModels;
 
 class InvoiceSendMail extends Mailable
 {
+
     use Queueable, SerializesModels;
+    public $settings;
 
 
     public $invoice;
@@ -20,16 +23,18 @@ class InvoiceSendMail extends Mailable
     {
         $this->invoice = $invoice;
         $this->request_data = $request_data;
+        $this->settings = json_decode(MetaSetting::query()->pluck('value', 'key')->toJson());
+
     }
 
 
     public function build()
     {
         return $this
-            ->from($this->request_data->from, 'Business Name')
-            ->replyTo($this->request_data->from, 'Business Name')
+            ->from($this->request_data->from, $this->settings->bussiness_name??'InvoicePedia')
+            ->replyTo($this->request_data->from, $this->settings->bussiness_name??'InvoicePedia')
             ->subject($this->request_data->subject)
-            ->view('mail.invoice-mail');
-//            ->attach(asset('sample/enam_cv.pdf'));
+            ->view('mail.invoice-mail')
+            ->attach(asset('sample/enam_cv.pdf'));
     }
 }
