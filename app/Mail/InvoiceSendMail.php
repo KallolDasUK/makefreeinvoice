@@ -31,8 +31,8 @@ class InvoiceSendMail extends Mailable
     public function build()
     {
         return $this
-            ->from($this->request_data->from, $this->settings->bussiness_name??'InvoicePedia')
-            ->replyTo($this->request_data->from, $this->settings->bussiness_name??'InvoicePedia')
+            ->from($this->request_data->from, $this->settings->business_name??'InvoicePedia')
+            ->replyTo($this->request_data->from, $this->settings->business_name??'InvoicePedia')
             ->subject($this->request_data->subject)
             ->view('mail.invoice-mail');
 //            ->attach(asset('sample/enam_cv.pdf'));
