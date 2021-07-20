@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Mail\InvoiceSendMail;
+use App\Models\AppMail;
 use App\Models\Category;
 use App\Models\Customer;
 use App\Models\ExtraField;
@@ -280,10 +281,25 @@ class InvoicesController extends Controller
 
     public function sendInvoiceMail(Request $request, Invoice $invoice)
     {
-//        dd($request->all());
-//        dd($invoice);
-        Mail::to($request->user())->send(new InvoiceSendMail($invoice));
-//        \Artisan::call('queue:work', ['--stop-when-empty' => true]);
+        $data = $request->all();
+        $to = [];
+        foreach (json_decode($data['to'] ?? '{}') as $item) {
+            $validator = validator()->make(['email' => $item->value], [
+                'email' => 'email'
+            ]);
+            if ($validator->passes()) {
+                $to[] = $item->value;
+            }
+        }
+        $data['send_to_business'] = $request->has('send_to_business');
+        $data['attach_pdf'] = $request->has('attach_pdf');
+        $data['to'] = $to;
+
+        $invoice->invoice_status = "sent";
+        $invoice->save();
+
+
+        Mail::to($request->user())->queue(new InvoiceSendMail($invoice,(object)$data));
 
         return redirect()->route('invoices.invoice.index')->with('success_message', 'Invoice was sent successfully.');
     }

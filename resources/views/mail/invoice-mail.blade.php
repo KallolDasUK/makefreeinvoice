@@ -9,5 +9,6 @@
 </head>
 <body>
 <h4>Invoice {{ $invoice->invoice_number }}</h4>
+<p> {!! $request_data->message??'' !!} </p>
 </body>
 </html>

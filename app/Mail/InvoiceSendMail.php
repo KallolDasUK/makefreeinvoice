@@ -14,20 +14,22 @@ class InvoiceSendMail extends Mailable
 
 
     public $invoice;
+    public $request_data;
 
-    public function __construct(Invoice $invoice)
+    public function __construct(Invoice $invoice, $request_data)
     {
         $this->invoice = $invoice;
+        $this->request_data = $request_data;
     }
 
 
     public function build()
     {
         return $this
-            ->from('from@gmail.com', 'From Business')
-            ->replyTo('from@gmail.com', 'From Business')
-            ->subject('Invoice #' . $this->invoice->invoice_number)
-            ->view('mail.invoice-mail')
-            ->attach(asset('sample/enam_cv.pdf'));
+            ->from($this->request_data->from, 'Business Name')
+            ->replyTo($this->request_data->from, 'Business Name')
+            ->subject($this->request_data->subject)
+            ->view('mail.invoice-mail');
+//            ->attach(asset('sample/enam_cv.pdf'));
     }
 }
