@@ -275,8 +275,10 @@ class InvoicesController extends Controller
             $to = optional($invoice->customer)->email;
         }
         $subject = "Invoice #" . ($invoice->invoice_number ?? '') . ' from ' . ($this->settings->business_name ?? 'n/a');
-//        dd($invoice);
-        return view('invoices.send', compact('invoice', 'title', 'from', 'to', 'subject'));
+        $message = "Dear customer, The recurring invoice <b>($invoice->invoice_number)</b> for your customer, Customer, has been saved in your Zoho Books account. You can review the invoice and send it to your customer. Here's an overview of the auto-generated invoice: Invoice#: $invoice->invoice_number Date: $invoice->invoice_date Amount: $invoice->total";
+
+//        dd($message);
+        return view('invoices.send', compact('invoice', 'title', 'from', 'to', 'subject', 'message'));
     }
 
     public function sendInvoiceMail(Request $request, Invoice $invoice)
@@ -299,8 +301,16 @@ class InvoicesController extends Controller
         $invoice->save();
 
 
-        Mail::to($request->user())->queue(new InvoiceSendMail($invoice,(object)$data));
+        Mail::to($to)->queue(new InvoiceSendMail($invoice, (object)$data));
+
 
         return redirect()->route('invoices.invoice.index')->with('success_message', 'Invoice was sent successfully.');
     }
+
+    public function share($secret)
+    {
+        $invoice = Invoice::with('customer')->where('secret', $secret)->firstOrFail();
+        return view('invoices.share', compact('invoice'));
+    }
+
 }

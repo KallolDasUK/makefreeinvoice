@@ -2,9 +2,14 @@
 
 namespace App\Providers;
 
+use App\Models\Invoice;
 use App\Models\MetaSetting;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Queue;
+use Illuminate\Queue\Events\JobProcessed;
+use Illuminate\Queue\Events\JobProcessing;
+use Illuminate\Support\Str;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -30,6 +35,13 @@ class AppServiceProvider extends ServiceProvider
             $settings = json_decode(MetaSetting::query()->pluck('value', 'key')->toJson());
             $view->with('settings', $settings);
         });
+
+        Invoice::created(function ($invoice){
+            $random = Str::random(40);
+
+            $invoice->secret = $random;
+        });
+
 
     }
 }

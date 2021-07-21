@@ -16,6 +16,8 @@
             content: "";
             border-top: 0em solid;
         }
+
+
     </style>
 @endsection
 @section('content')
@@ -150,7 +152,7 @@
 
 
                                 <div class="dropdown d-inline">
-                                    <span class=" dropdown-toggle mr-4" type="button" style="font-size: 25px"
+                                    <span class=" dropdown-toggle mr-4 " type="button" style="font-size: 25px"
                                           id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
                                           aria-expanded="false">
                                         <svg aria-hidden="true" focusable="false" data-prefix="far"
@@ -166,10 +168,17 @@
                                            class="dropdown-item btn">
                                             <span class="fa fa-send mx-4"></span> <strong>Send Invoice To</strong>
                                         </a>
+                                        <a href="javascript:;"
+                                           share_link="{{ route('invoices.invoice.share',$invoice->secret) }}"
+
+                                           class="dropdown-item btn shareLink">
+                                            <span class="fa fa-share mx-4"></span> <strong>Get Share Link</strong>
+                                        </a>
                                         <a href="{{ route('invoices.invoice.edit',$invoice->id) }}"
                                            class="dropdown-item btn">
                                             <span class="fa fa-pencil-alt mx-4"></span> <strong>Edit</strong>
                                         </a>
+
                                         <a class="dropdown-item btn" href="javascript:;"
                                            onclick="return confirm('Click Ok to delete Invoice')">
                                             <form method="POST"
@@ -201,6 +210,27 @@
             </div>
             <!--end::Table-->
         </div>
+
+        <div class="modal fade" id="shareModal" tabindex="-1" role="dialog" aria-labelledby="shareModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="shareModalLabel">Get a shareable link</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <h4><input type="text" id="shareLinkInput" class="form-control"></h4>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" id="copyLink" class="btn btn-primary">Copy</button>
+                    </div>
+                </div>
+            </div>
+        </div>
         <!--end::Body-->
     </div>
 @endsection
@@ -225,7 +255,6 @@
             });
             $('#payment_method_id').select2()
             $('#deposit_to').select2()
-
             $('#recordPaymentForm').validate({
                 submitHandler: function (form) {
                     $.ajax({
@@ -267,6 +296,22 @@
                     $(element).removeClass('is-invalid');
                 }
             });
+
+            $('.shareLink').on('click', function () {
+                let link = $(this).attr('share_link');
+                $('#shareModal').modal('show')
+                $('#shareLinkInput').val(link)
+                setTimeout(() => {
+                    $('#shareLinkInput').select()
+
+                }, 500)
+            })
+            $('#copyLink').on('click', function () {
+                document.execCommand("copy");
+                $('#shareModal').modal('hide')
+                $.notify('I have a progress bar', { showProgressbar: true });
+
+            })
         })
     </script>
 

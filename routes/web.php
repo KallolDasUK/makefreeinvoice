@@ -58,6 +58,7 @@ Route::group(['middleware' => 'auth:web'], function () {
         Route::get('/', [InvoicesController::class, 'index'])->name('invoices.invoice.index');
         Route::get('/create', [InvoicesController::class, 'create'])->name('invoices.invoice.create');
         Route::get('/show/{invoice}', [InvoicesController::class, 'show'])->name('invoices.invoice.show')->where('id', '[0-9]+');
+        Route::get('/share/{invoice}', [InvoicesController::class, 'share'])->name('invoices.invoice.share')->where('id', '[0-9]+')->withoutMiddleware('auth:web');
         Route::get('/send/{invoice}', [InvoicesController::class, 'send'])->name('invoices.invoice.send')->where('id', '[0-9]+');
         Route::get('/{invoice}/edit', [InvoicesController::class, 'edit'])->name('invoices.invoice.edit')->where('id', '[0-9]+');
         Route::post('/', [InvoicesController::class, 'store'])->name('invoices.invoice.store');
@@ -66,7 +67,6 @@ Route::group(['middleware' => 'auth:web'], function () {
         Route::delete('/invoice/{invoice}', [InvoicesController::class, 'destroy'])->name('invoices.invoice.destroy')->where('id', '[0-9]+');
 
     });
-
 
 
 // php artisan resource-file:create Category --fields=id,name,category_id
@@ -148,4 +148,13 @@ Route::group(['middleware' => 'auth:web'], function () {
         Route::post('/record-payment', [AjaxController::class, 'recordPayment'])->name('ajax.recordPayment');
     });
 });
-Route::view('/test', 'test');
+Route::get('/test', function () {
+    foreach (\App\Models\Invoice::all() as $invoice) {
+        $random = Str::random(40);
+        $invoice->secret = $random;
+        $invoice->save();
+    }
+
+    $invoice = \App\Models\Invoice::first();
+    return view('mail.invoice-mail', compact('invoice'));
+});

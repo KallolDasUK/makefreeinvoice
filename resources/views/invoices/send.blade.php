@@ -38,7 +38,8 @@
                     <div class="col-lg-6">
                         <input type="text" name="to" id="to" value="{{ $to }}" class="form-control"
                                placeholder="another email here" required>
-                        <small   class="error text-danger" @if($to  != null) style="display: none"@endif>At least one email is required</small>
+                        <small class="error text-danger" @if($to  != null) style="display: none"@endif>At least one
+                            email is required</small>
                     </div>
                 </div>
                 <div class="form-group row">
@@ -55,9 +56,9 @@
                         <label class="font-weight-bolder" style="font-size: 16px"> Message <span
                                 class="text-danger">*</span></label>
                     </div>
-                    <div class="input-group col-lg-6" >
-                    <textarea type="text" name="message" id="message" class="form-control" rows="5" >
-
+                    <div class="input-group col-lg-6">
+                    <textarea type="text" name="message" id="message" class="form-control" rows="5">
+                        {{ $message }}
                     </textarea>
                     </div>
                 </div>
@@ -130,7 +131,7 @@
                 }
                 console.log()
             })
-            CKEDITOR.replace( 'message' );
+            CKEDITOR.replace('message');
 
         })
     </script>
