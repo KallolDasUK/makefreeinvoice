@@ -22,7 +22,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return redirect(\route('acc.home'));
+    return view('welcome');
 });
 
 Auth::routes();
