@@ -3,12 +3,12 @@
 
 <head>
     <meta charset="utf-8"/>
-    <title>InvoicePedia - Free Invoice Generator , Billing & Accounting Online</title>
+    <title>InvoicePedia - Free Online Invoice Generator, Billing & Accounting Online</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Premium Bootstrap 5 Landing Page Template"/>
-    <meta name="keywords" content="Saas, Software, multi-uses, HTML, Clean, Modern"/>
-    <meta name="author" content="Shreethemes"/>
-    <meta name="email" content="support@shreethemes.in"/>
+    <meta name="description" content="InvoicePedia - Free Online Invoice Generator, Billing & Accounting Online"/>
+    <meta name="keywords" content="Online Invoices, Estimate, Billing, Online Payment,Online Accounting Software"/>
+    <meta name="author" content="InvoicePedia"/>
+    <meta name="email" content="invoicepedia@gmail.com"/>
     <meta name="website" content="{{ url('/') }}"/>
     <meta name="Version" content="v3.5.0"/>
 
@@ -32,6 +32,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
           integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
           crossorigin="anonymous" referrerpolicy="no-referrer"/>
+
+    <link rel="icon" type="image/png" href="{{ asset('favicon.ico') }}"/>
+    <link rel="icon" type="image/png" href="{{ asset('favicon-32x32.png') }}"/>
+    <link rel="icon" type="image/png" href="{{ asset('favicon-16x16.png') }}"/>
     <style>
         .bg-overlay {
             background-color: #065a92;
