@@ -72,7 +72,6 @@
           href="https://cdn.datatables.net/1.10.24/css/dataTables.bootstrap4.min.css">
 
 
-
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.13.3/css/selectize.bootstrap4.min.css"/>
     <script src="https://unpkg.com/@yaireo/tagify"></script>
@@ -536,6 +535,20 @@
         {{ $slot ?? '' }}
 
     </div>
+    <div class="bg-secondary p-4">
+        <div class="row">
+            <div class="col"><h3>{{ auth()->user()->email }}</h3>
+                <h4>{{ auth()->user()->name }}</h4></div>
+            <div class="col text-right">
+                <form action="{{ route('logout') }}" method="post">
+                    @csrf
+                    <button class="btn btn-light">Logout</button>
+                </form>
+            </div>
+        </div>
+
+
+    </div>
 </div>
 
 
@@ -625,8 +638,12 @@
 <script
     src="https://preview.keenthemes.com/metronic/theme/html/demo2/dist/assets/js/scripts.bundle.js?v=7.2.8"></script>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-notify/0.2.0/js/bootstrap-notify.min.js" integrity="sha512-vCgNjt5lPWUyLz/tC5GbiUanXtLX1tlPXVFaX5KAQrUHjwPcCwwPOLn34YBFqws7a7+62h7FRvQ1T0i/yFqANA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-notify/0.2.0/css/bootstrap-notify.css" integrity="sha512-rQESClU96g/m7xFESOEisIKXZapchOd6+HfUTaMzGXtBFfF837IDR0utlmq58hgoAqGUWQn9LeZbw2DtOgaWYg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-notify/0.2.0/js/bootstrap-notify.min.js"
+        integrity="sha512-vCgNjt5lPWUyLz/tC5GbiUanXtLX1tlPXVFaX5KAQrUHjwPcCwwPOLn34YBFqws7a7+62h7FRvQ1T0i/yFqANA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-notify/0.2.0/css/bootstrap-notify.css"
+      integrity="sha512-rQESClU96g/m7xFESOEisIKXZapchOd6+HfUTaMzGXtBFfF837IDR0utlmq58hgoAqGUWQn9LeZbw2DtOgaWYg=="
+      crossorigin="anonymous" referrerpolicy="no-referrer"/>
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 

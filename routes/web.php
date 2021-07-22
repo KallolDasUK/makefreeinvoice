@@ -5,6 +5,7 @@ use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\CustomersController;
 use App\Http\Controllers\InvoicesController;
 use App\Http\Controllers\ProductsController;
+use App\Http\Controllers\SocialLoginController;
 use App\Http\Controllers\TaxesController;
 use App\Http\Controllers\ReceivePaymentsController;
 use App\Http\Controllers\PaymentMethodsController;
@@ -26,6 +27,8 @@ Route::get('/', function () {
 });
 
 Auth::routes();
+Route::get('/auth/redirect/{provider}', [SocialLoginController::class, 'redirect'])->name('social.redirect');
+Route::get('/auth/callback/{provider}', [SocialLoginController::class, 'callback'])->name('social.callback');
 
 Route::group(['middleware' => 'auth:web'], function () {
 
@@ -158,3 +161,4 @@ Route::get('/test', function () {
     $invoice = \App\Models\Invoice::first();
     return view('mail.invoice-mail', compact('invoice'));
 });
+

@@ -209,13 +209,17 @@
                                         <div class="row">
                                             <div class="col-6 mt-3">
                                                 <div class="d-grid">
-                                                    <a href="javascript:void(0)" class="btn btn-primary"><i class="fab fa-facebook-f"></i> Facebook</a>
+                                                    <a href="{{ route('social.redirect','facebook') }}"
+                                                       class="btn btn-primary"><i
+                                                            class="fab fa-facebook-f"></i> Facebook</a>
                                                 </div>
                                             </div><!--end col-->
 
                                             <div class="col-6 mt-3">
                                                 <div class="d-grid">
-                                                    <a href="javascript:void(0)" class="btn btn-danger"><i class="fab fa-google"></i></i> Google</a>
+                                                    <a href="{{ route('social.redirect','google') }}"
+                                                       class="btn btn-danger"><i class="fab fa-google"></i></i>
+                                                        Google</a>
                                                 </div>
                                             </div><!--end col-->
                                         </div>
