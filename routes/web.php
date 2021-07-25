@@ -46,6 +46,7 @@ Route::group(['middleware' => 'auth:web'], function () {
         Route::get('/show/{customer}', [CustomersController::class, 'show'])->name('customers.customer.show')->where('id', '[0-9]+');
         Route::get('/{customer}/edit', [CustomersController::class, 'edit'])->name('customers.customer.edit')->where('id', '[0-9]+');
         Route::post('/', [CustomersController::class, 'store'])->name('customers.customer.store');
+        Route::post('/storeJson', [CustomersController::class, 'storeJson'])->name('customers.customer.storeJson');
         Route::put('customer/{customer}', [CustomersController::class, 'update'])->name('customers.customer.update')->where('id', '[0-9]+');
         Route::delete('/customer/{customer}', [CustomersController::class, 'destroy'])->name('customers.customer.destroy')->where('id', '[0-9]+');
 
@@ -152,13 +153,9 @@ Route::group(['middleware' => 'auth:web'], function () {
     });
 });
 Route::get('/test', function () {
-    foreach (\App\Models\Invoice::all() as $invoice) {
-        $random = Str::random(40);
-        $invoice->secret = $random;
-        $invoice->save();
-    }
-
-    $invoice = \App\Models\Invoice::first();
+    $statement = DB::select("SHOW TABLE STATUS LIKE 'users'");
+    $nextId = $statement[0]->Auto_increment;
+    dd($nextId);
     return view('mail.invoice-mail', compact('invoice'));
 });
 

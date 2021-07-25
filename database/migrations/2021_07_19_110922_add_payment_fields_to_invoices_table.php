@@ -16,8 +16,8 @@ class AddPaymentFieldsToInvoicesTable extends Migration
         Schema::table('invoices', function (Blueprint $table) {
             $table->boolean('is_payment');
             $table->decimal('payment_amount', 12)->nullable();
-            $table->integer('payment_method_id');
-            $table->integer('deposit_to');
+            $table->integer('payment_method_id')->nullable();
+            $table->integer('deposit_to')->nullable();
         });
     }
 

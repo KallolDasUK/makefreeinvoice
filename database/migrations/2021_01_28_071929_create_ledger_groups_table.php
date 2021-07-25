@@ -19,7 +19,6 @@ class CreateLedgerGroupsTable extends Migration
             $table->integer('parent');
             $table->enum('nature', ['Asset', 'Liabilities', 'Income', 'Expense'])->nullable();
             $table->enum('cashflow_type', ['Operating Activities', 'Investing Activities', 'Financial Activities'])->nullable();
-
         });
     }
 

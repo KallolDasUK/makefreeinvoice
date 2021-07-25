@@ -2,7 +2,7 @@
      aria-hidden="true">
     <div class="modal-dialog" role="document" style="margin-top:10px!important;">
 
-        <form id="createCustomerForm" action="{{ route('customers.customer.store') }}" method="post">
+        <form id="createCustomerForm" action="{{ route('customers.customer.storeJson') }}" method="post">
             @csrf
             <div class="modal-content">
 
@@ -55,16 +55,17 @@
                     </div>
                     <div class="row">
                         <div class="col-lg-4">
-                            <input placeholder="City" id="city" name="city"  class="form-control" type="text">
+                            <input placeholder="City" id="city" name="city" class="form-control" type="text">
                         </div>
                         <div class="col-lg-4">
                             <div>
-                                <input placeholder="State/Province *" class="form-control" type="text" name="state" >
+                                <input placeholder="State/Province *" class="form-control" type="text" name="state">
 
                             </div>
                         </div>
                         <div class="col-lg-4">
-                            <input placeholder="Zip/Postal Code" id="zip_post" name="zip_post"  class="form-control" type="text">
+                            <input placeholder="Zip/Postal Code" id="zip_post" name="zip_post" class="form-control"
+                                   type="text">
                         </div>
                     </div>
 

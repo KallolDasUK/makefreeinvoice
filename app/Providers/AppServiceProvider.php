@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use App\Models\Invoice;
 use App\Models\MetaSetting;
+use App\Models\PaymentMethod;
+use App\Models\User;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Queue;
@@ -36,12 +38,16 @@ class AppServiceProvider extends ServiceProvider
             $view->with('settings', $settings);
         });
 
-        Invoice::created(function ($invoice){
+        Invoice::created(function ($invoice) {
             $random = Str::random(40);
-
             $invoice->secret = $random;
         });
 
+        User::created(function ($user) {
+            if ($user->client_id == null) {
+                $user->client_id = $user->id;
+            }
+        });
 
     }
 }
