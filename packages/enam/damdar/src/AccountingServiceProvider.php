@@ -3,6 +3,7 @@
 namespace Enam\Acc;
 
 
+use App\Models\MetaSetting;
 use Enam\Acc\Http\Livewire\AccHeadComponent;
 use Enam\Acc\Http\Livewire\EarnExpenseComponent;
 use Enam\Acc\Http\Livewire\LedgerComponent;
@@ -61,16 +62,12 @@ class AccountingServiceProvider extends ServiceProvider
 
             $model->save();
         });
-        if (Schema::hasTable('settings')) {
-            $settings = Setting::query()->get()->count();
-            if (!$settings) {
-                Setting::create(['name' => 'Business Name', 'address' => 'Address',
-                    'phone' => '+880123456789', 'email' => 'test@gmail.com']);
-            }
-        }
+
         View::composer('*', function ($view) {
-            $settings = Setting::query()->first();
-            $view->with('settings', $settings);
+            if (optional(auth()->user())->client_id){
+                $settings = json_decode(MetaSetting::query()->pluck('value', 'key')->toJson());
+                $view->with('settings', $settings);
+            }
         });
 
 

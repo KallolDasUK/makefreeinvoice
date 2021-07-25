@@ -34,8 +34,11 @@ class AppServiceProvider extends ServiceProvider
     {
         Paginator::useBootstrap();
         view()->composer('*', function ($view) {
-            $settings = json_decode(MetaSetting::query()->pluck('value', 'key')->toJson());
-            $view->with('settings', $settings);
+            if (optional(auth()->user())->client_id){
+                $settings = json_decode(MetaSetting::query()->pluck('value', 'key')->toJson());
+                $view->with('settings', $settings);
+            }
+
         });
 
         Invoice::created(function ($invoice) {
