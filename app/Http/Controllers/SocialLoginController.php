@@ -14,13 +14,13 @@ class SocialLoginController extends Controller
 {
     public function redirect($provider)
     {
-        return Socialite::driver($provider)->redirect();
+        return Socialite::driver($provider)->stateless()->redirect();
 
     }
 
     public function callback($provider)
     {
-        $user = Socialite::driver($provider)->user();
+        $user = Socialite::driver($provider)->stateless()->user();
 
 
         $isUserExits = User::query()->where('email', $user->email)->first();
