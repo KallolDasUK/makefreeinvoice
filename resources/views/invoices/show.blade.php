@@ -1,5 +1,8 @@
 @extends('acc::layouts.app')
-
+@section('js')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.8.1/html2pdf.bundle.min.js"
+            integrity="sha512-vDKWohFHe2vkVWXHp3tKvIxxXg0pJxeid5eo+UjdjME3DBFBn2F8yWOE0XmiFcFbXxrEOR1JriWEno5Ckpn15A=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>@endsection
 @section('css')
     <style>
         .invoice-container {
@@ -113,10 +116,24 @@
 
 @endsection
 
-@section('js')
+@push('js')
     <script>
-        $('#printBtn,#downloadButton').on('click', function () {
+
+        $('#printBtn').on('click', function () {
             window.print()
         })
+        $('#downloadButton').on('click', function () {
+            var element = document.getElementById('invoice-container');
+            let invoice_number = "{{ $invoice->invoice_number??'invoice_invoicepedia' }}"
+            var opt = {
+                filename: invoice_number + '.pdf',
+                image: {type: 'jpeg', quality: 0.98},
+                html2canvas: {scale: 2},
+                jsPDF: {unit: 'in', format: 'letter', orientation: 'portrait'}
+            };
+            html2pdf(element, opt);
+        })
+
+
     </script>
-@endsection
+@endpush
