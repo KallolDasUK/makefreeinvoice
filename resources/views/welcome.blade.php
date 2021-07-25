@@ -58,6 +58,16 @@
             border-color: #053251;
         }
     </style>
+    
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-J35PC4G2SJ"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+    
+      gtag('config', 'G-J35PC4G2SJ');
+    </script>
 </head>
 
 <body>
