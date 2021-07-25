@@ -11,11 +11,4 @@ use Illuminate\Routing\Controller as BaseController;
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
-
-    public $settings;
-
-    public function __construct()
-    {
-        $this->settings = json_decode(MetaSetting::query()->pluck('value', 'key')->toJson());
-    }
 }

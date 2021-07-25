@@ -34,12 +34,7 @@ class InvoiceSendMail extends Mailable
 
     public function send($mailer)
     {
-      return  parent::send($mailer);
-//        if (!Mail::failures()) {
-//            $invoicePath = 'app/public/invoices/' . ($invoice->invoice_number ?? 'invoice') . '.pdf';
-//            dd(storage_path($invoicePath), unlink(storage_path($invoicePath)));
-//        }
-
+        parent::send($mailer);
     }
 
 
