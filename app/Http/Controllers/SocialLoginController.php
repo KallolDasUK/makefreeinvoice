@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Laravel\Socialite\Facades\Socialite;
 use DB;
+use Laravel\Socialite\Two\InvalidStateException;
 
 class SocialLoginController extends Controller
 {
@@ -20,7 +21,11 @@ class SocialLoginController extends Controller
 
     public function callback($provider)
     {
-        $user = Socialite::driver($provider)->stateless()->user();
+        try {
+            $user = Socialite::driver($provider)->user();
+        } catch (InvalidStateException $e) {
+            $user = Socialite::driver($provider)->stateless()->user();
+        }
 
 
         $isUserExits = User::query()->where('email', $user->email)->first();
