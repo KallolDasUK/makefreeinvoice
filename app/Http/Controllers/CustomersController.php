@@ -10,27 +10,17 @@ use Exception;
 class CustomersController extends Controller
 {
 
-    /**
-     * Display a listing of the customers.
-     *
-     * @return Illuminate\View\View
-     */
+
     public function index()
     {
-        $customers = Customer::paginate(25);
+        $customers = Customer::query()->paginate(10);
 
         return view('customers.index', compact('customers'));
     }
 
-    /**
-     * Show the form for creating a new customer.
-     *
-     * @return Illuminate\View\View
-     */
+
     public function create()
     {
-
-
         return view('customers.create');
     }
 
@@ -42,12 +32,19 @@ class CustomersController extends Controller
         $data = $this->getData($request);
 
         $customer = Customer::create($data);
-        if ($request->acceptsJson()) {
-            return $customer;
-        }
 
-        return redirect()->route('customers.customer.index')
-            ->with('success_message', 'Customer was successfully added.');
+
+        return redirect()->route('customers.customer.index')->with('success_message', 'Customer was successfully added.');
+
+    }
+
+    public function storeJson(Request $request)
+    {
+
+
+        $data = $this->getData($request);
+
+        return Customer::create($data);
 
     }
 
@@ -156,8 +153,6 @@ class CustomersController extends Controller
         if ($request->hasFile('photo')) {
             $data['photo'] = $this->moveFile($request->file('photo'));
         }
-
-
         return $data;
     }
 

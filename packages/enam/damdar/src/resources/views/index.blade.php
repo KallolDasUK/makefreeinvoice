@@ -37,7 +37,8 @@
             color: black;
             font-weight: bolder;
         }
-        .rounded{
+
+        .rounded {
             border-color: #065a92a3 !important;
         }
 
@@ -47,7 +48,42 @@
 @section('content')
     <div class="" style="min-height: 100vh">
 
+        @if(!\App\Models\Invoice::query()->exists())
 
+            <div class="d-flex align-items-center justify-content-center " style="min-height: 200px;">
+                <div style="min-width: 200px" >
+                    <span>Welcome,</span> <h1 class="text-black"> {{ auth()->user()->name }}!</h1>
+                </div>
+                <div class="">
+                    <div style="max-width: 100%;vertical-align: middle">
+                        <a href="{{ route('invoices.invoice.create') }}">
+                            <div class="m-auto  text-center d-flex"
+                                 style="width: 200px;height: 150px;border: 2px dashed gray;cursor: pointer">
+
+                    <span style="text-align: center;font-size: 20px;" data-link-to="link"
+                          class="m-auto text-black ">
+                        <div>
+                            <span class="fa fa-plus"></span>
+                            New Invoice
+                        </div>
+                    </span>
+
+                            </div>
+
+                        </a>
+                    </div>
+                </div>
+                <div class="mx-4">
+                    <img height="30px"
+                         src="https://my.freshbooks.com/assets/images/onboarding/arrow-left-8a0848d364cd87602821c18e77cea9ce.png"
+                         alt="Arrow">
+                </div>
+                <div class=" ">
+                    <span style="text-align: center;font-size: 20px;">Create your first invoice!</span>
+                </div>
+
+            </div>
+        @endif
         <div class="row card mt-4">
             <div class="card-body">
                 <div class="font-weight-bolder">

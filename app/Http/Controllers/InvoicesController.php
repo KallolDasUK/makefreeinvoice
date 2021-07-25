@@ -22,6 +22,7 @@ use Enam\Acc\Traits\TransactionTrait;
 use Enam\Acc\Utils\LedgerHelper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 
 class InvoicesController extends Controller
 {
@@ -60,8 +61,9 @@ class InvoicesController extends Controller
 
 
         $data = $this->getData($request);
-//        dd($data);
 
+        $random = Str::random(40);
+        $data['secret'] = $random;
         $invoice_items = $data['invoice_items'] ?? [];
         $extraFields = $data['additional'] ?? [];
         $additionalFields = $data['additional_fields'] ?? [];

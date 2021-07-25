@@ -534,17 +534,17 @@
     </nav>
 
 
-    <div class="mt-4">
+    <div class="mt-4" style="min-height: 70vh">
         <b class="text-black font-weight-bolder mb-2 mt-2" style="font-size: 20px"> {{ $title??'' }} </b>
 
         @yield('content')
         {{ $slot ?? '' }}
 
     </div>
-    <div class="bg-secondary p-4">
-        <div class="row">
-            <div class="col"><h3>{{ auth()->user()->email }}</h3>
-                <h4>{{ auth()->user()->name }}</h4></div>
+    <div class=" card rounded mb-4 mt-4">
+        <div class="row card-body">
+            <div class="col"><h4>{{ auth()->user()->email }}</h4>
+                <h5>{{ auth()->user()->name }}</h5></div>
             <div class="col text-right">
                 <form action="{{ route('logout') }}" method="post">
                     @csrf
