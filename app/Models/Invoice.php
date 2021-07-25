@@ -70,7 +70,9 @@ class Invoice extends Model
         parent::boot();
 
         static::addGlobalScope('scopeClient', function (Builder $builder) {
-            $builder->where('client_id', auth()->user()->client_id ?? -1);
+            if (optional(auth()->user())->client_id){
+                $builder->where('client_id', auth()->user()->client_id ?? -1);
+            }
         });
     }
 

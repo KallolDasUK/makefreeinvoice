@@ -63,7 +63,8 @@
 
     <link href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css" rel="stylesheet"/>
     <link media="all" type="text/css" rel="stylesheet"
-          href="https://cdn.datatables.net/1.10.24/css/dataTables.bootstrap4.min.css"></head>
+          href="https://cdn.datatables.net/1.10.24/css/dataTables.bootstrap4.min.css">
+</head>
 <style>
     .invoice-container {
         margin: 15px auto;
@@ -110,11 +111,11 @@
 </style>
 
 <body>
-<div >
+<div>
 
     <div class="mb-4 container mx-auto text-center">
         <a href="{{ url('/') }}">
-        <img src="{{ asset('images/white_promo_sm.png') }}" >
+            <img src="{{ asset('images/white_promo_sm.png') }}">
         </a>
     </div>
     <div class=" text-center">
@@ -131,7 +132,6 @@
         </div>
     </div>
     <p class="clearfix"></p>
-
     @include('partials.invoice')
 
 </div>
