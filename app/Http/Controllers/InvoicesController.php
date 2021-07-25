@@ -16,6 +16,7 @@ use App\Models\Product;
 use App\Models\ReceivePayment;
 use App\Models\ReceivePaymentItem;
 use App\Models\Tax;
+use App\Traits\SettingsTrait;
 use Enam\Acc\Models\GroupMap;
 use Enam\Acc\Models\Ledger;
 use Enam\Acc\Traits\TransactionTrait;
@@ -26,8 +27,14 @@ use Illuminate\Support\Str;
 
 class InvoicesController extends Controller
 {
-    use TransactionTrait;
+    use TransactionTrait, SettingsTrait;
 
+    public $settings;
+
+    public function __construct()
+    {
+//        dd($this->settings);
+    }
 
     public function index()
     {
@@ -270,7 +277,9 @@ class InvoicesController extends Controller
     {
         $invoice = Invoice::with('customer')->findOrFail($id);
         $title = "Send Invoice - " . $invoice->invoice_number;
+        $this->settings = json_decode(MetaSetting::query()->pluck('value', 'key')->toJson());
 
+//        dd($invoice, $this->settings, auth()->user(), MetaSetting::query()->pluck('value', 'key')->toJson());
         $from = $this->settings->email ?? '';
         $to = null;
         if (optional($invoice->customer)->email) {
@@ -311,7 +320,7 @@ class InvoicesController extends Controller
 
     public function share($secret)
     {
-        $invoice = Invoice::with('customer')->where('secret', $secret)->firstOrFail();
+        $invoice = Invoice::query()->withoutGlobalScope('scopeClient')->with('customer')->where('secret', $secret)->firstOrFail();
         return view('invoices.share', compact('invoice'));
     }
 
