@@ -6,7 +6,7 @@
     <title>InvoicePedia - Free Online Invoice Generator, Billing & Accounting Online</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description"
-          content="InvoicePedia - Free Online Invoice Generator, Billing & Accounting Online, Zoho books, Freshbooks, waveapps, "/>
+          content="Create Free Online Invoice Generator, Billing, QuickBooks, Freshbooks, Zoho Books, Xero, Sage 50c, Wave, Invoice2go, OneUp, SliQ Invoicing, BillQuick Online, FinancialForce Billing, Chargebee, WORKetc, Harvest, PaySimple, Zervant, KashFlow, Bill.com "/>
     <meta name="keywords" content="Online Invoices, Estimate, Billing, Online Payment,Online Accounting Software"/>
     <meta name="author" content="InvoicePedia"/>
     <meta name="email" content="invoicepedia@gmail.com"/>
