@@ -5,7 +5,8 @@
     <meta charset="utf-8"/>
     <title>InvoicePedia - Free Online Invoice Generator, Billing & Accounting Online</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="InvoicePedia - Free Online Invoice Generator, Billing & Accounting Online"/>
+    <meta name="description"
+          content="InvoicePedia - Free Online Invoice Generator, Billing & Accounting Online, Zoho books, Freshbooks, waveapps, "/>
     <meta name="keywords" content="Online Invoices, Estimate, Billing, Online Payment,Online Accounting Software"/>
     <meta name="author" content="InvoicePedia"/>
     <meta name="email" content="invoicepedia@gmail.com"/>
@@ -239,12 +240,23 @@
 <section class="section">
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-12 text-center">
+            <div class="col-12 text-left">
                 <div class="section-title mb-4 pb-2">
-                    <h4 class="title mb-4">Benefit for users using invoicepedia</h4>
-                    <p class="text-muted para-desc mb-0 mx-auto">Start working with <span class="text-primary fw-bold">InvoicePedia</span>
-                        that can provide easy solution to create invoices online and send it to your business client.
-                    </p>
+                    <h4 class="title mb-4 text-center">Benefit for users using <strong class="font-weight-bolder" style="font-weight: 900"><span style="color: #0d71bb">Invoice</span><span style="color: red">Pedia</span></strong></h4>
+                    <span class="text-muted para-desc mb-0 mx-auto">Start working with <span class="text-primary fw-bold"><span style="color: #0d71bb">Invoice</span><span style="color: red">Pedia</span></span>
+                        that can provide easy solution to <h1 class="d-inline" style="font-size: 16px !important;display: inline"> <strong>create invoices online</strong></h1> and send it to your
+                        business client.
+                        Making an invoice is sometimes like a hard-nut-crack for almost every business person. A lot of
+                        work needs to be done, like, itemizing charges, calculating taxes, managing online payments and
+                        many more. Exactly this is why we are here.
+                        <br>
+
+                        Just with a couple of clicks you can add and save products, create clients, and send them
+                        invoices with online payment options. Any data once inserted manually, is instantly saved in the
+                        database. You don’t have to write the same thing twice later. Tracking invoices is also a great
+                        convenience. This software is definitely free and free for lifetime. There is no invoice limit
+                        or client limit. Use it as many times as you need.
+                    </span>
                 </div>
             </div><!--end col-->
         </div><!--end row-->
