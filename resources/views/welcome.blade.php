@@ -252,7 +252,7 @@
         <div class="row justify-content-center">
             <div class="col-12 text-left">
                 <div class="section-title mb-4 pb-2">
-                    <h4 class="title mb-4 text-center">Benefit for users using <strong class="font-weight-bolder" style="font-weight: 900"><span style="color: #0d71bb">Invoice</span><span style="color: red">Pedia</span></strong></h4>
+                    <h4 class="title mb-4 text-center">Benefit for users using <strong class="font-weight-bolder" style="font-weight: 900;font-family: system-ui"><span style="color: #0d71bb">Invoice</span><span style="color: red">Pedia</span></strong></h4>
                     <span class="text-muted para-desc mb-0 mx-auto">Start working with <span class="text-primary fw-bold"><span style="color: #0d71bb">Invoice</span><span style="color: red">Pedia</span></span>
                         that can provide easy solution to <h1 class="d-inline" style="font-size: 16px !important;display: inline"> <strong>create invoices online</strong></h1> and send it to your
                         business client.
