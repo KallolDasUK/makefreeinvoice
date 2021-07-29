@@ -13,6 +13,8 @@ $(document).ready(function () {
             return markup;
         }
     })
+
+
     $('#currency').select2()
 
     /*  Creating Product Via Ajax with Validation */
@@ -162,6 +164,50 @@ $(document).ready(function () {
         }
     });
 
+    /* Creating Tax Via Ajax With Validation */
+    $('#createPaymentMethodForm').validate({
+        submitHandler: function (form) {
+            $.ajax({
+                url: form.action,
+                type: form.method,
+                data: $(form).serialize(),
+                beforeSend: () => {
+                    $('#storePaymentMethodBtn').prop('disabled', true)
+                    $('.spinner').removeClass('d-none')
+                },
+                success: function (response) {
+                    $('#paymentMethodModal').modal('hide')
+                    let method = response;
+                    $("#payment_method_id").append(new Option(method.name, method.id));
+                    $("#payment_method_id").val(method.id)
+                    $("#payment_method_id").trigger('change')
+                    $('#createPaymentMethodForm').trigger("reset");
+                    $('#storePaymentMethodBtn').prop('disabled', false)
+                    $('.spinner').addClass('d-none')
+                },
+
+            });
+        },
+        rules: {
+            name: {required: true},
+        },
+        messages: {
+            name: {required: "Name is required",},
+            sell_price: {required: "required",},
+        },
+        errorElement: 'span',
+        errorPlacement: function (error, element) {
+            error.addClass('invalid-feedback');
+            element.closest('.form-group').append(error);
+        },
+        highlight: function (element, errorClass, validClass) {
+            $(element).addClass('is-invalid');
+        },
+        unhighlight: function (element, errorClass, validClass) {
+            $(element).removeClass('is-invalid');
+        }
+    });
+
     /* Setting Up Event Listeners*/
 
     if (additional_fields.length > 0) {
@@ -220,7 +266,18 @@ $(document).ready(function () {
     })
 
 
-    $('#payment_method_id').select2()
+    $('#payment_method_id').select2().on('select2:open', function (event) {
+        let a = $(this).data('select2');
+        let doExits = a.$results.parents('.select2-results').find('button')
+
+        if (!doExits.length) {
+            a.$results.parents('.select2-results')
+                .append('<div><button  data-toggle="modal" data-target="#paymentMethodModal" class="btn btn-default text-primary underline btn-fw" style="width: 100%">+ Add Payment Method</button></div>')
+                .on('click', function (b) {
+                    $(event.target).select2("close");
+                });
+        }
+    })
     $('#deposit_to').select2()
 
     $('#paymentCheckBox').on('change', function () {

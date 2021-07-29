@@ -33,7 +33,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
           integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
           crossorigin="anonymous" referrerpolicy="no-referrer"/>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+            integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <link rel="icon" type="image/png" href="{{ asset('favicon.ico') }}"/>
     <link rel="icon" type="image/png" href="{{ asset('favicon-32x32.png') }}"/>
     <link rel="icon" type="image/png" href="{{ asset('favicon-16x16.png') }}"/>
@@ -48,9 +49,21 @@
             border-color: #065a92;
         }
 
+        .btn.btn-outline-success {
+            color: #065a92;
+            background-color: transparent;
+            border-color: #065a92;
+        }
+
         .btn.btn-primary {
             color: #065a92;
             background-color: transparent;
+            border-color: #065a92;
+        }
+
+        .btn.btn-success {
+            color: white;
+            background-color: #065a92;
             border-color: #065a92;
         }
 
@@ -127,18 +140,20 @@
                                      stroke-linejoin="round" class="feather feather-user fea icon-sm icons"><path
                                         d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7"
                                                                                                      r="4"></circle></svg>
-                                My Account @else <i  class="fa fa-sign-in-alt"></i>  Login @endauth   </span>
+                                My Account @else <i class="fa fa-sign-in-alt"></i>  Login @endauth   </span>
                             </div>
                             <div class="login-btn-primary">
                                 <span class="btn btn-pills btn-primary">
 
                                     @auth
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                             viewBox="0 0 24 24"
                                              fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                              stroke-linejoin="round" class="feather feather-user fea icon-sm icons"><path
-                                                d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7"
+                                                d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12"
+                                                                                                             cy="7"
                                                                                                              r="4"></circle></svg>
-                                        My Account @else <i  class="fa fa-sign-in-alt"></i>  Login @endauth </span>
+                                        My Account @else <i class="fa fa-sign-in-alt"></i>  Login @endauth </span>
                             </div>
                         </a>
                     </li>
@@ -174,7 +189,27 @@
 <script src="https://shreethemes.in/landrick/layouts/js/plugins.init.js"></script>
 <!--Note: All init js like tiny slider, counter, countdown, maintenance, lightbox, gallery, swiper slider, aos animation etc.-->
 <script src="https://shreethemes.in/landrick/layouts/js/app.js"></script>
-<!--Note: All important javascript like page loader, menu, sticky menu, menu-toggler, one page menu etc. -->
+
+<!-- Global Settings -->
+<script>
+    $(document).ready(function () {
+        $.ajaxSetup({
+            errorElement: 'span',
+            errorPlacement: function (error, element) {
+                error.addClass('invalid-feedback');
+                element.closest('.form-group').append(error);
+            },
+            highlight: function (element, errorClass, validClass) {
+                $(element).addClass('is-invalid');
+            },
+            unhighlight: function (element, errorClass, validClass) {
+                $(element).removeClass('is-invalid');
+            }
+        })
+    })
+</script>
+
+
 @yield('js')
 </body>
 </html>

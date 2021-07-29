@@ -83,7 +83,7 @@ class InvoicesController extends Controller
 
         $this->insertDataToOtherTable($invoice, $invoice_items, $extraFields, $additionalFields);
         $this->saveTermsNDNote($data);
-        return redirect()->route('invoices.invoice.index')
+        return redirect()->route('invoices.invoice.show', $invoice->id)
             ->with('success_message', 'Invoice was successfully added.');
 
     }
@@ -190,7 +190,7 @@ class InvoicesController extends Controller
         $this->saveTermsNDNote($data);
 
 
-        return redirect()->route('invoices.invoice.index')->with('success_message', 'Invoice was successfully updated.');
+        return redirect()->route('invoices.invoice.show', $invoice->id)->with('success_message', 'Invoice was successfully updated.');
 
     }
 

@@ -53,7 +53,17 @@
 
     <div class="">
         <div class="">
+            @if(Session::has('success_message'))
+                <div class="alert alert-success">
+                    <i class=" fas fa-fw fa-check" aria-hidden="true"></i>
+                    {!! session('success_message') !!}
 
+                    <button type="button" class="close" data-dismiss="alert" aria-label="close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+
+                </div>
+            @endif
 
             <div class="text-center">
 
@@ -92,19 +102,22 @@
 
         </div>
         <p class="clearfix"></p>
-        <div class=" text-center">
-            <div class="btn-group btn-group-sm d-print-none" style="font-size: 20px">
+        <div class="text-center bg-white mb-0" style="margin: 0px auto;max-width: 850px">
+            <div class="btn-group btn-group-sm d-print-none" style="width: 100%">
                 <button id="printBtn"
-                        class="btn btn-outline-info  btn-lg" style="font-size: 20px"><i
+                        class="btn btn-outline-secondary  btn-lg" style="font-size: 20px"><i
                         class="fa fa-print"></i> Print
                 </button>
                 <button id="downloadButton"
-                        class="btn btn-outline-success  btn-lg" style="font-size: 20px"><i
+                        class="btn btn-outline-secondary   btn-lg" style="font-size: 20px"><i
                         class="fa fa-download"></i> Download
                 </button>
-                <a href="{{ route('invoices.invoice.send',$invoice->id) }}"
-                   class="btn btn-outline-primary  btn-lg " style="font-size: 20px"><i
-                        class="fa fa-send"></i> Send Invoice To
+                <a href="{{ route('invoices.invoice.share',$invoice->secret) }}"
+                   class="btn btn-outline-secondary   btn-lg " style="font-size: 20px"><i
+                        class="fa fa-share"></i> Share
+                </a> <a href="{{ route('invoices.invoice.send',$invoice->id) }}"
+                   class="btn btn-outline-secondary   btn-lg " style="font-size: 20px"><i
+                        class="fa fa-inbox"></i> Email Invoice
                 </a>
             </div>
         </div>

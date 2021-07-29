@@ -204,20 +204,41 @@
         }
 
         .btn.btn-outline-primary {
-            color: #065a92;
-            background-color: transparent;
-            border-color: #065a92;
+            color: #065a92 !important;
+            background-color: transparent !important;
+            border-color: #065a92 !important;
+        }
+
+        .btn.btn-outline-primary:hover {
+            background-color: #065a92 !important;
+            color: white !important;
+            border-color: #065a92 !important;
         }
 
         .btn.btn-primary {
-            color: #065a92;
-            background-color: transparent;
-            border-color: #065a92;
+            background-color: #065a92 !important;
+            color: white !important;
+            border-color: #065a92 !important;
         }
 
         .btn.btn-primary:hover {
-            background-color: #053251 !important;
-            border-color: #053251;
+            background-color: transparent !important;
+            border-color: #065a92 !important;
+            color: #065a92 !important;
+
+        }
+
+        .btn.btn-success {
+            color: white !important;
+            background-color: #065a92 !important;
+            border-color: #065a92 !important;
+
+        }
+
+        .btn.btn-success:hover {
+            background-color: transparent !important;
+            color: #065a92 !important;
+            border-color: #065a92 !important;
         }
 
 
@@ -581,9 +602,9 @@
             "theme": {
                 "base": {
                     "white": "#ffffff",
-                    "primary": "#6993FF",
+                    "primary": "#065a92",
                     "secondary": "#E5EAEE",
-                    "success": "#1BC5BD",
+                    "success": "#065a92",
                     "info": "#8950FC",
                     "warning": "#FFA800",
                     "danger": "#F64E60",
