@@ -222,7 +222,8 @@
                         <select id="payment_method_id" class="form-control" name="payment_method_id">
                             @foreach ($paymentMethods as $paymentMethod )
                                 <option
-                                    value="{{ $paymentMethod->id }}" {{ optional($invoice)->payment_method_id == $paymentMethod->id ? 'selected' : '' }}>
+                                    value="{{ $paymentMethod->id }}"
+                                    {{ optional($invoice)->payment_method_id == $paymentMethod->id ? 'selected' : '' }} @if($invoice == null && $paymentMethod->is_default) selected @endif>
                                     {{ $paymentMethod->name }}
                                 </option>
                             @endforeach
@@ -494,6 +495,7 @@
 
 
 
+
     </script>
 @endverbatim
 @verbatim
@@ -620,6 +622,7 @@
 
 
 
+
     </script>
 @endverbatim
 @verbatim
@@ -644,6 +647,7 @@
               <td><span class="text-primary " on-click="@this.addAdditionalField()" style="cursor:pointer;">+ Add More</span></td>
               <td></td>
           </tr>
+
 
 
 
