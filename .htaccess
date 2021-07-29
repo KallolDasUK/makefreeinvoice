@@ -1,4 +1,7 @@
 <IfModule mod_rewrite.c>
     RewriteEngine On
     RewriteRule ^(.*)$ public/$1 [L]
+    RewriteCond %{HTTP_HOST} ^invoicepedia.com [NC,OR]
+    RewriteCond %{HTTP_HOST} ^www.invoicepedia.com [NC]
+    RewriteRule ^(.*)$ https://invoicepedia.com/$1 [L,R=301,NC]
 </IfModule>

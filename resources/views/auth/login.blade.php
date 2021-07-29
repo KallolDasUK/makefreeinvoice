@@ -1,266 +1,120 @@
-<!DOCTYPE html>
+@extends('landing.layouts.app')
+@section('content')
+    <div class=" my-auto" style="min-height: 100vh;padding-top: 100px;background-color: #065a92">
+        <div class="row justify-content-center">
+            <div class="col-lg-4 col-md-6">
+                <div class="card login-page bg-white shadow rounded border-0">
+                    <div class="card-body">
+                        <h4 class="card-title text-center">Login</h4>
 
-<html lang="en">
-<!--begin::Head-->
-<head>
 
-    <meta charset="utf-8"/>
-    <title>Login Page | QuickInvoice</title>
-    <meta name="description" content="Login page example"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
-    <link rel="canonical" href="https://keenthemes.com/metronic"/>
-    <!--begin::Fonts-->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700"/>
-    <!--end::Fonts-->
-    <!--begin::Page Custom Styles(used by this page)-->
-    <link
-        href="https://preview.keenthemes.com/metronic/theme/html/demo2/dist/assets/css/pages/login/classic/login-3.css?v=7.2.8"
-        rel="stylesheet" type="text/css"/>
-    <!--end::Page Custom Styles-->
-    <!--begin::Global Theme Styles(used by all pages)-->
-    <link
-        href="https://preview.keenthemes.com/metronic/theme/html/demo2/dist/assets/plugins/global/plugins.bundle.css?v=7.2.8"
-        rel="stylesheet" type="text/css"/>
-    <link
-        href="https://preview.keenthemes.com/metronic/theme/html/demo2/dist/assets/plugins/custom/prismjs/prismjs.bundle.css?v=7.2.8"
-        rel="stylesheet" type="text/css"/>
-    <link href="https://preview.keenthemes.com/metronic/theme/html/demo2/dist/assets/css/style.bundle.css?v=7.2.8"
-          rel="stylesheet" type="text/css"/>
-    <!--end::Global Theme Styles-->
-    <!--begin::Layout Themes(used by all pages)-->
-    <!--end::Layout Themes-->
-    <!-- Hotjar Tracking Code for keenthemes.com -->
-    <script>(function (h, o, t, j, a, r) {
-            h.hj = h.hj || function () {
-                (h.hj.q = h.hj.q || []).push(arguments)
-            };
-            h._hjSettings = {hjid: 1070954, hjsv: 6};
-            a = o.getElementsByTagName('head')[0];
-            r = o.createElement('script');
-            r.async = 1;
-            r.src = t + h._hjSettings.hjid + j + h._hjSettings.hjsv;
-            a.appendChild(r);
-        })(window, document, 'https://static.hotjar.com/c/hotjar-', '.js?sv=');</script>
-</head>
-<!--end::Head-->
-<!--begin::Body-->
-<body id="kt_body"
-      style="background-image: url(https://preview.keenthemes.com/metronic/theme/html/demo2/dist/assets/media/bg/bg-1.jpg)"
-      class="quick-panel-right demo-panel-right offcanvas-right header-fixed subheader-enabled page-loading">
-<!-- Google Tag Manager (noscript) -->
-<noscript>
-    <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5FS8GGP" height="0" width="0"
-            style="display:none;visibility:hidden"></iframe>
-</noscript>
-<!-- End Google Tag Manager (noscript) -->
-<!--begin::Main-->
-<div class="d-flex flex-column flex-root">
-    <!--begin::Login-->
-    <div class="login login-3 login-signin-on d-flex flex-row-fluid" id="kt_login">
-        <div class="d-flex flex-center bgi-size-cover bgi-no-repeat flex-row-fluid"
-             style="background-image: url(https://preview.keenthemes.com/metronic/theme/html/demo2/dist/assets/media/bg/bg-1.jpg);">
-            <div class="login-form text-center text-white p-7 position-relative overflow-hidden">
-                <!--begin::Login Header-->
-                <div class="d-flex flex-center mb-15">
-                    <a href="#">
-                        <img
-                            src="https://preview.keenthemes.com/metronic/theme/html/demo2/dist/assets/media/logos/logo-letter-9.png"
-                            class="max-h-100px" alt=""/>
-                    </a>
-                </div>
-                <!--end::Login Header-->
-                <!--begin::Login Sign in form-->
-                <div class="login-signin">
-                    <div class="mb-20">
-                        <h3>Sign In To Admin</h3>
-                        <p class="opacity-60 font-weight-bold">Enter your details to login to your account:</p>
+                        <form class="login-form mt-4" method="post" action="{{ route('login') }}">
+                            @csrf
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="mb-3">
+                                        <label class="form-label"> Email <span class="text-danger">*</span></label>
+                                        <div class="form-icon position-relative">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                                 stroke-linecap="round" stroke-linejoin="round"
+                                                 class="feather feather-mail fea icon-sm icons">
+                                                <path
+                                                    d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                                                <polyline points="22,6 12,13 2,6"></polyline>
+                                            </svg>
+                                            <input type="email"
+                                                   class="form-control ps-5 @error('email') is-invalid @enderror"
+                                                   placeholder="Email"
+                                                   name="email"
+                                                   value="{{ old('email') }}"
+                                                   style="background-image: url(&quot;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAASCAYAAABSO15qAAAAAXNSR0IArs4c6QAAAPhJREFUOBHlU70KgzAQPlMhEvoQTg6OPoOjT+JWOnRqkUKHgqWP4OQbOPokTk6OTkVULNSLVc62oJmbIdzd95NcuGjX2/3YVI/Ts+t0WLE2ut5xsQ0O+90F6UxFjAI8qNcEGONia08e6MNONYwCS7EQAizLmtGUDEzTBNd1fxsYhjEBnHPQNG3KKTYV34F8ec/zwHEciOMYyrIE3/ehKAqIoggo9inGXKmFXwbyBkmSQJqmUNe15IRhCG3byphitm1/eUzDM4qR0TTNjEixGdAnSi3keS5vSk2UDKqqgizLqB4YzvassiKhGtZ/jDMtLOnHz7TE+yf8BaDZXA509yeBAAAAAElFTkSuQmCC&quot;); background-repeat: no-repeat; background-attachment: scroll; background-size: 16px 18px; background-position: 98% 50%; cursor: auto;">
+
+                                            @error('email')
+                                            <small class="text-danger">{{ $message }}</small>
+                                            @enderror
+                                        </div>
+
+                                    </div>
+                                </div><!--end col-->
+
+                                <div class="col-lg-12">
+                                    <div class="mb-3">
+                                        <label class="form-label">Password <span class="text-danger">*</span></label>
+                                        <div class="form-icon position-relative">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                                 stroke-linecap="round" stroke-linejoin="round"
+                                                 class="feather feather-key fea icon-sm icons">
+                                                <path
+                                                    d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"></path>
+                                            </svg>
+                                            <input type="password"
+                                                   class="form-control ps-5  @error('password') is-invalid @enderror"
+                                                   placeholder="Password"
+                                                   name="password"
+                                                   autocomplete="off"
+                                                   value="{{ old('password') }}"
+                                                   style="background-image: url(&quot;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAASCAYAAABSO15qAAAAAXNSR0IArs4c6QAAAPhJREFUOBHlU70KgzAQPlMhEvoQTg6OPoOjT+JWOnRqkUKHgqWP4OQbOPokTk6OTkVULNSLVc62oJmbIdzd95NcuGjX2/3YVI/Ts+t0WLE2ut5xsQ0O+90F6UxFjAI8qNcEGONia08e6MNONYwCS7EQAizLmtGUDEzTBNd1fxsYhjEBnHPQNG3KKTYV34F8ec/zwHEciOMYyrIE3/ehKAqIoggo9inGXKmFXwbyBkmSQJqmUNe15IRhCG3byphitm1/eUzDM4qR0TTNjEixGdAnSi3keS5vSk2UDKqqgizLqB4YzvassiKhGtZ/jDMtLOnHz7TE+yf8BaDZXA509yeBAAAAAElFTkSuQmCC&quot;); background-repeat: no-repeat; background-attachment: scroll; background-size: 16px 18px; background-position: 98% 50%; cursor: auto;">
+                                            @error('password')
+                                            <small class="text-danger">{{ $message }}</small>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                </div><!--end col-->
+
+                                <div class="col-lg-12">
+                                    <div class="d-flex justify-content-between">
+                                        <div class="mb-3">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value=""
+                                                       id="flexCheckDefault">
+                                                <label class="form-check-label" for="flexCheckDefault">Remember
+                                                    me</label>
+                                            </div>
+                                        </div>
+                                        <p class="forgot-pass mb-0"><a href="auth-re-password-three.html"
+                                                                       class="text-dark fw-bold">Forgot password ?</a>
+                                        </p>
+                                    </div>
+                                </div><!--end col-->
+
+                                <div class="col-lg-12 mb-0">
+                                    <div class="d-grid">
+                                        <button class="btn btn-primary">Login</button>
+                                    </div>
+                                </div><!--end col-->
+
+                                <div class="col-lg-12 mt-4 text-center">
+                                    <h6>Or Login With</h6>
+                                    <div class="row">
+                                        <div class="col-6 mt-3">
+                                            <div class="d-grid">
+                                                <a href="{{ route('social.redirect','facebook') }}"
+                                                   class="btn btn-primary"><i
+                                                        class="fab fa-facebook-f"></i> Facebook</a>
+                                            </div>
+                                        </div><!--end col-->
+
+                                        <div class="col-6 mt-3">
+                                            <div class="d-grid">
+                                                <a href="{{ route('social.redirect','google') }}"
+                                                   class="btn btn-danger"><i class="fab fa-google"></i></i>
+                                                    Google</a>
+                                            </div>
+                                        </div><!--end col-->
+                                    </div>
+                                </div><!--end col-->
+
+                                <div class="col-12 text-center">
+                                    <p class="mb-0 mt-3"><small class="text-dark me-2">Don't have an account ?</small>
+                                        <a href="auth-signup-three.html" class="text-dark fw-bold">Sign Up</a></p>
+                                </div><!--end col-->
+                            </div><!--end row-->
+                        </form>
                     </div>
-                    <form class="form" id="kt_login_signin_form" action="{{ route('login') }}" method="post">
-                        @csrf
-                        <div class="form-group">
-                            <input
-                                class="form-control h-auto text-white placeholder-white opacity-70 bg-dark-o-70  @error('email') is-invalid @enderror rounded-pill border-0 py-4 px-8 mb-5"
-                                type="email" placeholder="Email"  name="email" value="{{ old('email') }}" autocomplete="off"/>
-                            @error('email')
-                            <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                            @enderror
-                        </div>
-                        <div class="form-group">
-                            <input
-                                class="form-control h-auto text-white placeholder-white opacity-70 bg-dark-o-70 rounded-pill border-0 py-4 px-8 mb-5"
-                                type="password" placeholder="Password" name="password"/>
-                        </div>
-                        <div class="form-group d-flex flex-wrap justify-content-between align-items-center px-8">
-                            <div class="checkbox-inline">
-                                <label class="checkbox checkbox-outline checkbox-white text-white m-0">
-                                    <input type="checkbox" name="remember"/>
-                                    <span></span>Remember me</label>
-                            </div>
-                            <a href="javascript:;" id="kt_login_forgot" class="text-white font-weight-bold">Forget
-                                Password ?</a>
-                        </div>
-                        <div class="form-group text-center mt-10">
-                            <button id="kt_login_signin_submit"
-                                    class="btn btn-pill btn-outline-white font-weight-bold opacity-90 px-15 py-3">Sign
-                                In
-                            </button>
-                        </div>
-                    </form>
-                    <div class="mt-10">
-                        <span class="opacity-70 mr-4">Don't have an account yet?</span>
-                        <a href="{{ route('register') }}" id="kt_login_signup" class="text-white font-weight-bold">Sign
-                            Up</a>
-                    </div>
-                </div>
-                <!--end::Login Sign in form-->
-                <!--begin::Login Sign up form-->
-                <div class="login-signup">
-                    <div class="mb-20">
-                        <h3>Sign Up</h3>
-                        <p class="opacity-60">Enter your details to create your account</p>
-                    </div>
-                    <form class="form text-center" id="kt_login_signup_form">
-                        <div class="form-group">
-                            <input
-                                class="form-control h-auto text-white placeholder-white opacity-70 bg-dark-o-70 rounded-pill border-0 py-4 px-8"
-                                type="text" placeholder="Fullname" name="fullname"/>
-                        </div>
-                        <div class="form-group">
-                            <input
-                                class="form-control h-auto text-white placeholder-white opacity-70 bg-dark-o-70 rounded-pill border-0 py-4 px-8"
-                                type="text" placeholder="Email" name="email" autocomplete="off"/>
-                        </div>
-                        <div class="form-group">
-                            <input
-                                class="form-control h-auto text-white placeholder-white opacity-70 bg-dark-o-70 rounded-pill border-0 py-4 px-8"
-                                type="password" placeholder="Password" name="password"/>
-                        </div>
-                        <div class="form-group">
-                            <input
-                                class="form-control h-auto text-white placeholder-white opacity-70 bg-dark-o-70 rounded-pill border-0 py-4 px-8"
-                                type="password" placeholder="Confirm Password" name="cpassword"/>
-                        </div>
-                        <div class="form-group text-left px-8">
-                            <div class="checkbox-inline">
-                                <label class="checkbox checkbox-outline checkbox-white text-white m-0">
-                                    <input type="checkbox" name="agree"/>
-                                    <span></span>I Agree the
-                                    <a href="#" class="text-white font-weight-bold ml-1">terms and
-                                        conditions</a>.</label>
-                            </div>
-                            <div class="form-text text-muted text-center"></div>
-                        </div>
-                        <div class="form-group">
-                            <button id="kt_login_signup_submit"
-                                    class="btn btn-pill btn-outline-white font-weight-bold opacity-90 px-15 py-3 m-2">
-                                Sign Up
-                            </button>
-                            <button id="kt_login_signup_cancel"
-                                    class="btn btn-pill btn-outline-white font-weight-bold opacity-70 px-15 py-3 m-2">
-                                Cancel
-                            </button>
-                        </div>
-                    </form>
-                </div>
-                <!--end::Login Sign up form-->
-                <!--begin::Login forgot password form-->
-                <div class="login-forgot">
-                    <div class="mb-20">
-                        <h3>Forgotten Password ?</h3>
-                        <p class="opacity-60">Enter your email to reset your password</p>
-                    </div>
-                    <form class="form" id="kt_login_forgot_form">
-                        <div class="form-group mb-10">
-                            <input
-                                class="form-control h-auto text-white placeholder-white opacity-70 bg-dark-o-70 rounded-pill border-0 py-4 px-8"
-                                type="text" placeholder="Email" name="email" autocomplete="off"/>
-                        </div>
-                        <div class="form-group">
-                            <button id="kt_login_forgot_submit"
-                                    class="btn btn-pill btn-outline-white font-weight-bold opacity-90 px-15 py-3 m-2">
-                                Request
-                            </button>
-                            <button id="kt_login_forgot_cancel"
-                                    class="btn btn-pill btn-outline-white font-weight-bold opacity-70 px-15 py-3 m-2">
-                                Cancel
-                            </button>
-                        </div>
-                    </form>
-                </div>
-                <!--end::Login forgot password form-->
-            </div>
-        </div>
+                </div><!---->
+            </div><!--end col-->
+        </div><!--end row-->
     </div>
-    <!--end::Login-->
-</div>
-<!--end::Main-->
-<script>var HOST_URL = "/metronic/theme/html/tools/preview";</script>
-<!--begin::Global Config(global config for global JS scripts)-->
-<script>var KTAppSettings = {"breakpoints": {"sm": 576, "md": 768, "lg": 992, "xl": 1200, "xxl": 1200},
-        "colors": {
-            "theme": {
-                "base": {
-                    "white": "#ffffff",
-                    "primary": "#6993FF",
-                    "secondary": "#E5EAEE",
-                    "success": "#1BC5BD",
-                    "info": "#8950FC",
-                    "warning": "#FFA800",
-                    "danger": "#F64E60",
-                    "light": "#F3F6F9",
-                    "dark": "#212121"
-                },
-                "light": {
-                    "white": "#ffffff",
-                    "primary": "#E1E9FF",
-                    "secondary": "#ECF0F3",
-                    "success": "#C9F7F5",
-                    "info": "#EEE5FF",
-                    "warning": "#FFF4DE",
-                    "danger": "#FFE2E5",
-                    "light": "#F3F6F9",
-                    "dark": "#D6D6E0"
-                },
-                "inverse": {
-                    "white": "#ffffff",
-                    "primary": "#ffffff",
-                    "secondary": "#212121",
-                    "success": "#ffffff",
-                    "info": "#ffffff",
-                    "warning": "#ffffff",
-                    "danger": "#ffffff",
-                    "light": "#464E5F",
-                    "dark": "#ffffff"
-                }
-            },
-            "gray": {
-                "gray-100": "#F3F6F9",
-                "gray-200": "#ECF0F3",
-                "gray-300": "#E5EAEE",
-                "gray-400": "#D6D6E0",
-                "gray-500": "#B5B5C3",
-                "gray-600": "#80808F",
-                "gray-700": "#464E5F",
-                "gray-800": "#1B283F",
-                "gray-900": "#212121"
-            }
-        },
-        "font-family": "Poppins"
-    };</script>
-<!--end::Global Config-->
-<!--begin::Global Theme Bundle(used by all pages)-->
-<script
-    src="https://preview.keenthemes.com/metronic/theme/html/demo2/dist/assets/plugins/global/plugins.bundle.js?v=7.2.8"></script>
-<script
-    src="https://preview.keenthemes.com/metronic/theme/html/demo2/dist/assets/plugins/custom/prismjs/prismjs.bundle.js?v=7.2.8"></script>
-<script
-    src="https://preview.keenthemes.com/metronic/theme/html/demo2/dist/assets/js/scripts.bundle.js?v=7.2.8"></script>
-<!--end::Global Theme Bundle-->
-<!--begin::Page Scripts(used by this page)-->
-{{--<script src="https://preview.keenthemes.com/metronic/theme/html/demo-panel-right2/dist/distassets/js/pages/custom/login/login-general.js?v=7.2.8"></script>--}}
-<!--end::Page Scripts-->
-</body>
-<!--end::Body-->
-</html>
+@endsection
