@@ -67,33 +67,33 @@
 
             <div class="text-center">
 
-                <form method="POST" action="{!! route('invoices.invoice.destroy', $invoice->id) !!}"
+                <form method="POST" action="{!! route('estimates.estimate.destroy', $estimate->id) !!}"
                       accept-charset="UTF-8">
                     <input name="_method" value="DELETE" type="hidden">
                     {{ csrf_field() }}
                     <div class="btn-group btn-group-sm" role="group">
-                        <a href="{{ route('invoices.invoice.index') }}" class="btn btn-primary mr-2"
+                        <a href="{{ route('estimates.estimate.index') }}" class="btn btn-primary mr-2"
                            title="Show All Invoice">
                             <i class=" fas fa-fw fa-th-list" aria-hidden="true"></i>
-                            Show All Invoice
+                            Show All Estimate
                         </a>
 
-                        <a href="{{ route('invoices.invoice.create') }}" class="btn btn-success mr-2"
-                           title="Create New Invoice">
+                        <a href="{{ route('estimates.estimate.create') }}" class="btn btn-success mr-2"
+                           title="Create New Estimate">
                             <i class=" fas fa-fw fa-plus" aria-hidden="true"></i>
-                            Create New Invoice
+                            Create New Estimate
                         </a>
 
-                        <a href="{{ route('invoices.invoice.edit', $invoice->id ) }}" class="btn btn-primary mr-2"
+                        <a href="{{ route('estimates.estimate.edit', $estimate->id ) }}" class="btn btn-primary mr-2"
                            title="Edit Invoice">
                             <i class=" fas fa-fw fa-pencil-alt" aria-hidden="true"></i>
-                            Edit Invoice
+                            Edit Estimate
                         </a>
 
                         <button type="submit" class="btn btn-danger" title="Delete Invoice"
                                 onclick="return confirm(&quot;Click Ok to delete Invoice.?&quot;)">
                             <i class=" fas fa-fw fa-trash-alt" aria-hidden="true"></i>
-                            Delete Invoice
+                            Delete Estimate
                         </button>
                     </div>
                 </form>
@@ -112,18 +112,23 @@
                         class="btn btn-outline-secondary   btn-lg" style="font-size: 20px"><i
                         class="fa fa-download"></i> Download
                 </button>
-                <a href="{{ route('invoices.invoice.share',$invoice->secret) }}"
+                <a href="{{ route('estimates.estimate.share',$estimate->secret) }}"
                    class="btn btn-outline-secondary   btn-lg " style="font-size: 20px"><i
                         class="fa fa-share"></i> Share
-                </a> <a href="{{ route('invoices.invoice.send',$invoice->id) }}"
-                   class="btn btn-outline-secondary   btn-lg " style="font-size: 20px"><i
-                        class="far fa-envelope-open"></i> Email Invoice
+                </a>
+                <a href="{{ route('estimates.estimate.send',$estimate->id) }}"
+                        class="btn btn-outline-secondary   btn-lg " style="font-size: 20px"><i
+                        class="far fa-envelope-open"></i> Email Estimate
+                </a>
+                <a href="{{ route('estimates.estimate.convert_to_invoice',$estimate->id) }}"
+                        class="btn btn-outline-secondary text-primary    " style="font-size: 20px"><i
+                        class="fas fa-random"></i> Convert To Invoice
                 </a>
             </div>
         </div>
         <p class="clearfix"></p>
 
-        @include('partials.invoice')
+        @include('partials.estimate')
 
     </div>
 
@@ -137,7 +142,7 @@
         })
         $('#downloadButton').on('click', function () {
             var element = document.getElementById('invoice-container');
-            let invoice_number = "{{ $invoice->invoice_number??'invoice_invoicepedia' }}"
+            let invoice_number = "{{ $estimate->invoice_number??'invoice_invoicepedia' }}"
             var opt = {
                 filename: invoice_number + '.pdf',
                 image: {type: 'jpeg', quality: 0.98},

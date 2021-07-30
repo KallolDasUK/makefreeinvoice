@@ -3,6 +3,7 @@
 use App\Http\Controllers\Ajax\AjaxController;
 use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\CustomersController;
+use App\Http\Controllers\Estimates\EstimatesController;
 use App\Http\Controllers\InvoicesController;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\SocialLoginController;
@@ -69,6 +70,23 @@ Route::group(['middleware' => 'auth:web'], function () {
         Route::post('/send/{invoice}', [InvoicesController::class, 'sendInvoiceMail'])->name('invoices.invoice.send_invoice_mail');
         Route::put('invoice/{invoice}', [InvoicesController::class, 'update'])->name('invoices.invoice.update')->where('id', '[0-9]+');
         Route::delete('/invoice/{invoice}', [InvoicesController::class, 'destroy'])->name('invoices.invoice.destroy')->where('id', '[0-9]+');
+
+    });
+
+
+    Route::group(['prefix' => 'estimates'], function () {
+
+        Route::get('/', [EstimatesController::class, 'index'])->name('estimates.estimate.index');
+        Route::get('/create', [EstimatesController::class, 'create'])->name('estimates.estimate.create');
+        Route::get('/show/{estimate}', [EstimatesController::class, 'show'])->name('estimates.estimate.show')->where('id', '[0-9]+');
+        Route::get('/share/{estimate}', [EstimatesController::class, 'share'])->name('estimates.estimate.share')->where('id', '[0-9]+')->withoutMiddleware('auth:web');
+        Route::get('/send/{estimate}', [EstimatesController::class, 'send'])->name('estimates.estimate.send')->where('id', '[0-9]+');
+        Route::get('/{estimate}/edit', [EstimatesController::class, 'edit'])->name('estimates.estimate.edit')->where('id', '[0-9]+');
+        Route::post('/', [EstimatesController::class, 'store'])->name('estimates.estimate.store');
+        Route::post('/send/{estimate}', [EstimatesController::class, 'sendestimateMail'])->name('estimates.estimate.send_estimate_mail');
+        Route::get('/convert-to-invoice/{estimate}', [EstimatesController::class, 'convertToInvoice'])->name('estimates.estimate.convert_to_invoice');
+        Route::put('estimate/{estimate}', [EstimatesController::class, 'update'])->name('estimates.estimate.update')->where('id', '[0-9]+');
+        Route::delete('/estimate/{estimate}', [EstimatesController::class, 'destroy'])->name('estimates.estimate.destroy')->where('id', '[0-9]+');
 
     });
 

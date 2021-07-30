@@ -35,67 +35,7 @@
     @endif
 
 
-    @include('modals.receive-payment-modal')
 
-    <div class="card rounded  mb-4">
-        <div class="">
-            <div class="row align-items-center">
-                <div class="col ">
-
-                    <div class="card " style="border: none">
-                        <div class="d-flex align-items-center justify-content-center">
-                            <div class="card-body ">
-                                Overdue
-                                <h3>$123.00</h3>
-                            </div>
-                            <div class="vertical-divider"></div>
-                        </div>
-
-                    </div>
-
-
-                </div>
-                <div class="col ">
-
-                    <div class="card " style="border: none">
-                        <div class="d-flex align-items-center justify-content-center">
-                            <div class="card-body ">
-                                Draft Amount
-                                <h3>$123.00</h3>
-                            </div>
-                            <div class="vertical-divider"></div>
-                        </div>
-
-                    </div>
-
-
-                </div>
-                <div class="col ">
-                    <div class="card" style="border: none">
-                        <div class="d-flex align-items-center justify-content-center">
-                            <div class="card-body ">
-                                Paid Amount
-                                <h3>$123.00</h3>
-                            </div>
-                            <div class="vertical-divider"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col ">
-                    <div class="card" style="border: none">
-                        <div class="d-flex align-items-center justify-content-center">
-                            <div class="card-body ">
-                                Due within next 30 days
-                                <h3>$123.00</h3>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
-        </div>
-    </div>
 
 
     <div class="card card-custom card-stretch gutter-b">
@@ -104,15 +44,15 @@
         <!--begin::Header-->
         <div class="card-header border-0 py-5">
             <h3 class="card-title align-items-start flex-column">
-                <span class="card-label font-weight-bolder text-dark">INVOICES</span>
+                <span class="card-label font-weight-bolder text-dark">Estimates</span>
                 <span class="text-muted mt-3 font-weight-bold font-size-sm">More than 400+ new members</span>
             </h3>
             <div class="card-toolbar">
-                <a href="{{ route('invoices.invoice.create') }}"
+                <a href="{{ route('estimates.estimate.create') }}"
                    class="btn btn-success btn-lg font-weight-bolder font-size-sm " style="font-size: 16px">
                     <i class="fas fa-fw fa-plus" aria-hidden="true"></i>
 
-                    </span>Create an invoice</a>
+                    </span>Create an estimate</a>
             </div>
         </div>
         <!--end::Header-->
@@ -129,11 +69,10 @@
                                 <span></span>
                             </label>
                         </th>
-                        <th class="text-center">Invoice Number</th>
+                        <th class="text-center">Estimate Number</th>
                         <th class="pr-0">Client</th>
-                        <th>Invoice Date</th>
-                        <th>Payment Status</th>
-                        <th>Due</th>
+                        <th>Estimate Date</th>
+
                         <th class="text-right">Amount</th>
                         <th class="pr-0 text-right" style="min-width: 150px">action</th>
                     </tr>
@@ -141,7 +80,7 @@
                     <tbody>
 
 
-                    @foreach($invoices as $invoice)
+                    @foreach($estimates as $estimate)
 
                         <tr>
 
@@ -153,66 +92,35 @@
                             </td>
                             <td class="text-center">
                                 <a class="font-weight-bolder d-block font-size-lg underline text-left"
-                                   href="{{ route('invoices.invoice.show',$invoice->id) }}">
+                                   href="{{ route('estimates.estimate.show',$estimate->id) }}">
                                     <i class="fa fa-external-link-alt font-normal text-secondary"
                                        style="font-size: 10px"></i>
-                                    {{ $invoice->invoice_number }}
+                                    {{ $estimate->estimate_number }}
                                 </a>
                             </td>
                             <td>
-                                <a href="{{ route('invoices.invoice.edit',$invoice->id) }}"
-                                   class="text-dark-75 font-weight-bolder d-block font-size-lg">{{ optional($invoice->customer)->name }}</a>
+                                <a href="{{ route('estimates.estimate.edit',$estimate->id) }}"
+                                   class="text-dark-75 font-weight-bolder d-block font-size-lg">{{ optional($estimate->customer)->name }}</a>
                                 <span
-                                    class="text-muted font-weight-bold">{{ optional($invoice->customer)->email }}</span>
+                                    class="text-muted font-weight-bold">{{ optional($estimate->customer)->email }}</span>
                             </td>
                             <td class="pl-0">
-                                <a href="{{ route('invoices.invoice.edit',$invoice->id) }}"
-                                   class="text-dark-75 font-weight-bolder text-hover-primary mb-1 font-size-lg">{{ \Carbon\Carbon::parse($invoice->invoice_date)->format('d/m/Y') }}</a>
+                                <a href="{{ route('estimates.estimate.edit',$estimate->id) }}"
+                                   class="text-dark-75 font-weight-bolder text-hover-primary mb-1 font-size-lg">{{ \Carbon\Carbon::parse($estimate->invoice_date)->format('d/m/Y') }}</a>
 
-                                @if($invoice->due_date)
+                                @if($estimate->due_date)
                                     <span
-                                        class="text-muted font-weight-bold text-muted d-block">Due on {{ \Carbon\Carbon::parse($invoice->due_date)->format('d/m/Y') }}</span>
+                                        class="text-muted font-weight-bold text-muted d-block">Due on {{ \Carbon\Carbon::parse($estimate->due_date)->format('d/m/Y') }}</span>
                                 @endif
                             </td>
-                            <td>
-                                <div class="font-weight-bolder  ">
-                                    @php
-                                        $class = '';
-                                        if ($invoice->payment_status == \App\Models\Invoice::Paid) {
-                                               $class = "badge badge-primary";
-                                            }elseif($invoice->payment_status == \App\Models\Invoice::Partial){
-                                            $class = "badge badge-warning";
-                                            }else{
-                                            $class = "badge badge-secondary";
 
-                                            }
-                                    @endphp
-                                    <span style="font-size: 16px"
-                                          class="{{ $class }}">{{ $invoice->payment_status }}</span>
-                                </div>
-                            </td>
-                            <td>
-                                @if($invoice->due>0)
-                                    <span
-                                        class="text-dark-75 font-weight-bolder text-hover-primary mb-1 font-size-lg">{{ $invoice->due }}</span>
-                                @endif
-
-                            </td>
                             <td class="text-right">
                                 <div class="font-weight-bolder  ">
                                     <span
-                                        style="font-size: 20px"><small>{{ $invoice->currency }}</small>{{ number_format($invoice->total,2) }} </span>
+                                        style="font-size: 20px"><small>{{ $estimate->currency }}</small>{{ number_format($estimate->total,2) }} </span>
                                 </div>
                             </td>
                             <td class="pr-0 text-right">
-                                @if($invoice->due > 0)
-                                    <span style="text-decoration: underline"
-                                          class=" font-weight-bolder text-success  font-size-lg underline  text-hover-danger cursor-pointer mx-4 recordPaymentBtn"
-                                          invoice_id="{{ $invoice->id }}" currency="{{ $invoice->currency }}"
-                                          invoice_number="{{ $invoice->invoice_number }}"
-                                          due="{{ $invoice->due }}"> Receive Payment</span>
-                                @endif
-
 
                                 <div class="dropdown d-inline">
                                     <span class=" dropdown-toggle mr-4 " type="button" style="font-size: 25px"
@@ -227,35 +135,36 @@
                                                 class=""></path></svg>
                                     </span>
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                        <a href="{{ route('invoices.invoice.send',$invoice->id) }}"
+                                        <a href="{{ route('estimates.estimate.send',$estimate->id) }}"
                                            class="dropdown-item btn">
-                                            <span class="far fa-envelope-open mx-4"></span> <strong> Invoice Email</strong>
+                                            <span class="far fa-envelope-open mx-4"></span> <strong> Invoice
+                                                Email</strong>
                                         </a>
                                         <a href="javascript:;"
-                                           share_link="{{ route('invoices.invoice.share',$invoice->secret) }}"
+                                           share_link="{{ route('estimates.estimate.share',$estimate->secret) }}"
 
                                            class="dropdown-item btn shareLink">
                                             <span class="fa fa-share mx-4"></span> <strong>Get Share Link</strong>
                                         </a>
-                                        <a href="{{ route('invoices.invoice.edit',$invoice->id) }}"
+                                        <a href="{{ route('estimates.estimate.edit',$estimate->id) }}"
                                            class="dropdown-item btn">
                                             <span class="fa fa-pencil-alt mx-4"></span> <strong>Edit</strong>
                                         </a>
 
-                                        <a class="dropdown-item btn" href="javascript:;"
-                                           onclick="return confirm('Click Ok to delete Invoice')">
-                                            <form method="POST"
-                                                  action="{!! route('invoices.invoice.destroy', $invoice->id) !!}">
-                                                {{ csrf_field() }}
 
-                                                @method('DELETE')
-                                                <span class="fa fa-trash-alt mx-4"></span>
-                                                <span>
-                                                    <strong>Delete</strong>
-                                                </span>
+                                        <form method="POST" class="text-danger "
+                                              action="{{route('estimates.estimate.destroy', $estimate->id) }}">
+                                            {{ csrf_field() }}
 
-                                            </form>
-                                        </a>
+                                            @method('DELETE')
+                                            <button type="submit" class="btn dropdown-item text-danger"
+                                                    onclick="if (!confirm('Are you sure?')) { return false }"><span>                                                 <span
+                                                    class="fa fa-trash-alt mx-4"></span>
+                                                    Delete</span></button>
+
+
+                                        </form>
+
                                     </div>
                                 </div>
 
@@ -268,7 +177,7 @@
                     </tbody>
                 </table>
                 <div class="float-right">
-                    {!! $invoices->links() !!}
+                    {!! $estimates->links() !!}
                 </div>
             </div>
             <!--end::Table-->

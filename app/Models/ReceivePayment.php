@@ -44,7 +44,7 @@ class ReceivePayment extends Model
 
     public function getInvoiceAttribute()
     {
-        return join(",", Invoice::find(ReceivePaymentItem::query()->where('receive_payment_id', $this->id)->pluck('invoice_id'))->pluck('invoice_number')->toArray());
+        return join(",", Estimate::find(ReceivePaymentItem::query()->where('receive_payment_id', $this->id)->pluck('invoice_id'))->pluck('invoice_number')->toArray());
     }
 
     protected static function boot()
