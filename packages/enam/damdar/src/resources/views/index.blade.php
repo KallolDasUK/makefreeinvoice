@@ -17,6 +17,15 @@
             font-size: inherit;
         }
 
+        .divider{
+            float: left;
+            height: 132px;
+            margin: 18px 10px 5px;
+            float: left;
+            padding: 8px;
+            text-align: center;
+
+        }
         .image {
             background-color: rgb(226, 231, 233);
             background-size: 80px;
@@ -84,8 +93,14 @@
         <div class="row card mt-4">
             <div class="card-body">
                 <div class="font-weight-bolder">
-                    SHORTCUTS
+                    INVOICE SHORTCUTS
                 </div>
+                <a href="{{ route('invoices.invoice.index') }}" class="sc-gPEVay eaBhby border rounded">
+                    <div class="sc-iRbamj image" style="background-image:url('images/manage_invoice.svg') ">
+
+                    </div>
+                    <div class="shortcuts-title  text-black">My Invoices</div>
+                </a>
                 <a href="{{ route('customers.customer.create') }}" class="sc-gPEVay eaBhby border rounded">
                     <div class="sc-iRbamj image" style="background-image:url('images/customer 1.svg') ">
 
@@ -99,13 +114,7 @@
                     </div>
                     <div class=" shortcuts-title sc-jlyJG gSoaLO">Add Invoice</div>
                 </a>
-                <a class="sc-gPEVay eaBhby  border rounded"
-                   href="{{ route('estimates.estimate.create') }}">
-                    <div class="sc-iRbamj image" style="background-image:url('images/estimate.svg') ">
 
-                    </div>
-                    <div class="shortcuts-title sc-jlyJG gSoaLO ">Add Estimate</div>
-                </a>
                 <a class="sc-gPEVay eaBhby border rounded"
                    href="{{ route('receive_payments.receive_payment.create') }}">
                     <div class="sc-iRbamj image" style="background-image:url('images/receive.svg') ">
@@ -113,6 +122,24 @@
                     </div>
                     <div class="shortcuts-title sc-jlyJG gSoaLO">Receive Payment</div>
                 </a>
+                <div class="divider justify-content-center align-items-center d-flex" >
+                    <span class="  vertical-divider m-auto"> </span>
+                </div>
+
+                <a class="sc-gPEVay eaBhby  border rounded"
+                   href="{{ route('estimates.estimate.create') }}">
+                    <div class="sc-iRbamj image" style="background-image:url('images/estimate.svg') ">
+
+                    </div>
+                    <div class="shortcuts-title sc-jlyJG gSoaLO ">Add Estimate</div>
+                </a>
+                <a href="{{ route('estimates.estimate.index') }}" class="sc-gPEVay eaBhby border rounded">
+                    <div class="sc-iRbamj image" style="background-image:url('images/manage_invoice.svg') ">
+
+                    </div>
+                    <div class="shortcuts-title  text-black">My Estimates</div>
+                </a>
+
             </div>
         </div>
         <p class="my-4"></p>
