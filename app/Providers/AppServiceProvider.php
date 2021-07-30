@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\Estimate;
 use App\Models\Invoice;
 use App\Models\MetaSetting;
 use App\Models\PaymentMethod;
@@ -34,11 +35,16 @@ class AppServiceProvider extends ServiceProvider
     {
         Paginator::useBootstrap();
         view()->composer('*', function ($view) {
-            if (optional(auth()->user())->client_id){
+            if (optional(auth()->user())->client_id) {
                 $settings = json_decode(MetaSetting::query()->pluck('value', 'key')->toJson());
                 $view->with('settings', $settings);
             }
 
+        });
+
+        Estimate::created(function ($estimate) {
+            $random = Str::random(40);
+            $estimate->secret = $random;
         });
 
         Invoice::created(function ($invoice) {

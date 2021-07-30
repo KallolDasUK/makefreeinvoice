@@ -6,15 +6,20 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ReceivePaymentItem extends Model
+class EstimateItem extends Model
 {
     use HasFactory;
 
     protected $guarded = [];
 
-    public function invoice()
+    public function product()
     {
-        return $this->belongsTo(Estimate::class, 'invoice_id');
+        return $this->belongsTo('App\Models\Product', 'product_id');
+    }
+
+    public function getAmountAttribute()
+    {
+        return $this->qnt * $this->price;
     }
     protected static function boot()
     {

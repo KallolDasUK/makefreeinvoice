@@ -6,16 +6,11 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ReceivePaymentItem extends Model
+class EstimateExtraField extends Model
 {
     use HasFactory;
 
     protected $guarded = [];
-
-    public function invoice()
-    {
-        return $this->belongsTo(Estimate::class, 'invoice_id');
-    }
     protected static function boot()
     {
         parent::boot();

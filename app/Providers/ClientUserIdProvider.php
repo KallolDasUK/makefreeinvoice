@@ -40,6 +40,8 @@ class ClientUserIdProvider extends ServiceProvider
             'payment_methods',
             'invoices',
             'invoice_items',
+            'estimates',
+            'estimate_items',
             'categories',
             'products',
             'taxes',

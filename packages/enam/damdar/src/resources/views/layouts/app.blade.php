@@ -203,6 +203,11 @@
             border-color: #065a92 !important;
         }
 
+        .border-primary {
+
+            border-color: #357294 !important;
+        }
+
         .btn.btn-outline-primary:hover {
             background-color: #065a92 !important;
             color: white !important;
@@ -235,7 +240,45 @@
             border-color: #065a92 !important;
         }
 
+        .rounded {
+            border-color: #065a92a3 !important;
+        }
 
+        .vertical-divider::after {
+            display: inline-block;
+            content: "";
+            height: 50px;
+            border-right: 1px solid lightgrey;
+            width: 1px;
+        }
+
+        .tooltip-inner {
+            background-color: #065a92;
+            color: white;
+        }
+
+        .tooltip.bs-tooltip-right .arrow:before {
+            border-right-color: #065a92 !important;
+        }
+
+        .tooltip.bs-tooltip-left .arrow:before {
+            border-left-color: #065a92 !important;
+        }
+
+        .tooltip.bs-tooltip-bottom .arrow:before {
+            border-bottom-color: #065a92 !important;
+        }
+
+        .tooltip.bs-tooltip-top .arrow:before {
+            border-top-color: #065a92 !important;
+        }
+
+        .form-control {
+            border: 1px solid #065a926b !important;
+        }
+        .select2-selection {
+            border: 1px solid #065a926b !important;
+        }
     </style>
 
 </head>
@@ -558,12 +601,34 @@
     </div>
     <div class=" card rounded mb-4 mt-4">
         <div class="row card-body">
-            <div class="col"><h4>{{ auth()->user()->email }}</h4>
-                <h5>{{ auth()->user()->name }}</h5></div>
+
+            <div class="col">
+                <div class="d-flex">
+                    <div class="text-center text-sm-left  mb-sm-0 mr-4">
+                        @if($settings->business_logo??false)
+                            <img
+                                class="rounded"
+                                src="{{ asset('storage/'.$settings->business_logo) }}"
+                                width="50"
+                                alt="">
+                        @endif
+                    </div>
+                    <div>
+                        <h4>{{ auth()->user()->name }}</h4>
+                        <strong class="mb-2">{{ auth()->user()->email }}</strong>
+                        <h5><a href="{{ route('accounting.settings.edit') }}"><i class="fa fa-cog"></i> Account Settings</a>
+                        </h5>
+                    </div>
+                </div>
+
+            </div>
+
             <div class="col text-right">
                 <form action="{{ route('logout') }}" method="post">
                     @csrf
-                    <button class="btn btn-light">Logout</button>
+                    <button class="btn btn-outline-danger" onclick="return confirm('Confirm Logout??')"><i
+                            class="fa fa-sign-out-alt"></i> Logout
+                    </button>
                 </form>
             </div>
         </div>

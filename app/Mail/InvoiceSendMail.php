@@ -2,7 +2,7 @@
 
 namespace App\Mail;
 
-use App\Models\Invoice;
+use App\Models\Estimate;
 use App\Models\MetaSetting;
 use ConsoleTVs\Invoices\Classes\PDF;
 use Illuminate\Bus\Queueable;
@@ -24,7 +24,7 @@ class InvoiceSendMail extends Mailable
     public $request_data;
 
 
-    public function __construct(Invoice $invoice, $request_data)
+    public function __construct(Estimate $invoice, $request_data)
     {
         $this->invoice = $invoice;
         $this->request_data = $request_data;

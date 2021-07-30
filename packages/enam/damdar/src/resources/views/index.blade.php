@@ -38,10 +38,6 @@
             font-weight: bolder;
         }
 
-        .rounded {
-            border-color: #065a92a3 !important;
-        }
-
 
     </style>
 @endsection
@@ -51,8 +47,9 @@
         @if(!\App\Models\Invoice::query()->exists())
 
             <div class="d-flex align-items-center justify-content-center " style="min-height: 200px;">
-                <div style="min-width: 200px" >
-                    <span>Welcome,</span> <h1 class="text-black"> {{ auth()->user()->name }}!</h1>
+                <div style="min-width: 200px">
+                    <span>Welcome,</span>
+                    <h1 class="text-black"> {{ auth()->user()->name }}!</h1>
                 </div>
                 <div class="">
                     <div style="max-width: 100%;vertical-align: middle">
@@ -102,8 +99,8 @@
                     </div>
                     <div class=" shortcuts-title sc-jlyJG gSoaLO">Add Invoice</div>
                 </a>
-                <a class="sc-gPEVay eaBhby development border rounded"
-                   href="#">
+                <a class="sc-gPEVay eaBhby  border rounded"
+                   href="{{ route('estimates.estimate.create') }}">
                     <div class="sc-iRbamj image" style="background-image:url('images/estimate.svg') ">
 
                     </div>
