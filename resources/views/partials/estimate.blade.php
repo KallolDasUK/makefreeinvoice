@@ -85,6 +85,7 @@
                         <tr>
                             <td class=" border-0"><strong>SL</strong></td>
                             <td class=" border-0"><strong>Description</strong></td>
+                            <td class=" text-center border-0"><strong>Unit</strong></td>
                             <td class=" text-center border-0"><strong>Rate</strong></td>
                             <td class=" text-center border-0"><strong>QTY</strong></td>
                             <td class=" text-right border-0"><strong>Amount</strong></td>
@@ -103,9 +104,10 @@
                                         <small> {{ $item->description }} </small>
                                     @endif
                                 </td>
-                                <td class="text-center">{{ $estimate->currency }}{{ number_format($item->price) }}</td>
-                                <td class="text-center ">{{ number_format($item->qnt) }}x</td>
-                                <td class="text-right">{{ $estimate->currency }}{{ number_format($item->amount) }}</td>
+                                <td class="text-center">{{ $item->unit }}</td>
+                                <td class="text-center">{{ $estimate->currency }}{{ decent_format($item->price) }}</td>
+                                <td class="text-center ">X{{ decent_format($item->qnt) }}</td>
+                                <td class="text-right">{{ $estimate->currency }}{{ decent_format($item->amount) }}</td>
                             </tr>
                         @endforeach
 
@@ -113,25 +115,25 @@
                         </tbody>
                         <tfoot class="card-footer">
                         <tr>
-                            <td colspan="4" class="text-right"><strong>Sub Total:</strong></td>
-                            <td class="text-right">{{ $estimate->currency }}{{ number_format($estimate->sub_total) }}</td>
+                            <td colspan="5" class="text-right"><strong>Sub Total:</strong></td>
+                            <td class="text-right">{{ $estimate->currency }}{{ decent_format($estimate->sub_total) }}</td>
                         </tr>
                         @if($estimate->discount && $estimate->discount != 0)
                             <tr>
-                                <td colspan="4" class="text-right"><strong>
+                                <td colspan="5" class="text-right"><strong>
                                         Discount @if($estimate->discount_type == '%') {{ $estimate->discount_value }}{{ $estimate->discount_type }} @endif
                                         :
                                     </strong></td>
                                 <td class="text-right">
-                                    - {{ $estimate->currency }}{{ number_format($estimate->discount) }}</td>
+                                    - {{ $estimate->currency }}{{ decent_format($estimate->discount) }}</td>
                             </tr>
                         @endif
                         @if($estimate->shipping_charge && $estimate->shipping_charge!=0)
                             <tr>
-                                <td colspan="4" class="text-right"><strong>Shipping Charge :</strong></td>
+                                <td colspan="5" class="text-right"><strong>Shipping Charge :</strong></td>
                                 <td class="text-right">
                                     @if(floatval($estimate->shipping_charge)<0)
-                                        - @endif {{ $estimate->currency }}{{ number_format($estimate->shipping_charge) }}</td>
+                                        - @endif {{ $estimate->currency }}{{ decent_format($estimate->shipping_charge) }}</td>
                             </tr>
                         @endif
                         @foreach($estimate->estimate_extra as $ie )
@@ -139,23 +141,23 @@
                                 @continue
                             @endif
                             <tr>
-                                <td colspan="4" class="text-right"><strong>{{ $ie->name }}:</strong></td>
+                                <td colspan="5" class="text-right"><strong>{{ $ie->name }}:</strong></td>
                                 <td class="text-right"> @if(floatval($ie->value)<0)
-                                        - @endif{{ $estimate->currency }}{{ number_format(floatval($ie->value)) }}</td>
+                                        - @endif{{ $estimate->currency }}{{ decent_format(floatval($ie->value)) }}</td>
                             </tr>
                         @endforeach
 
                         @foreach($estimate->taxes as $tax)
                             <tr>
-                                <td colspan="4" class="text-right"><strong>{{ $tax['tax_name'] }}:</strong></td>
+                                <td colspan="5" class="text-right"><strong>{{ $tax['tax_name'] }}:</strong></td>
                                 <td class="text-right"> {{ $estimate->currency }}{{ decent_format(floatval($tax['tax_amount'])) }}</td>
                             </tr>
                         @endforeach
 
                         <tr>
-                            <td colspan="4" class="text-right"><strong>Total:</strong></td>
+                            <td colspan="5" class="text-right"><strong>Total:</strong></td>
                             <td class="text-right">
-                                <strong>{{ $estimate->currency }}{{ number_format($estimate->total) }}</strong>
+                                <strong>{{ $estimate->currency }}{{ decent_format($estimate->total) }}</strong>
                             </td>
                         </tr>
                         </tfoot>
