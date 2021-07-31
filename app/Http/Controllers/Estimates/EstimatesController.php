@@ -11,6 +11,9 @@ use App\Models\ExtraField;
 use App\Models\Estimate;
 use App\Models\EstimateExtraField;
 use App\Models\EstimateItem;
+use App\Models\Invoice;
+use App\Models\InvoiceExtraField;
+use App\Models\InvoiceItem;
 use App\Models\MetaSetting;
 use App\Models\PaymentMethod;
 use App\Models\Product;
@@ -183,14 +186,19 @@ class EstimatesController extends Controller
     public function destroy($id)
     {
 
+        $this->delete($id);
+
+        return redirect()->route('estimates.estimate.index')->with('success_message', 'Invoice was successfully deleted.');
+
+    }
+
+    public function delete($id)
+    {
         $estimate = Estimate::findOrFail($id);
         EstimateExtraField::query()->where('estimate_id', $estimate->id)->delete();
         EstimateItem::query()->where('estimate_id', $estimate->id)->delete();
         ExtraField::query()->where('type', get_class($estimate))->where('type_id', $estimate->id)->delete();
         $estimate->delete();
-
-        return redirect()->route('estimates.estimate.index')->with('success_message', 'Invoice was successfully deleted.');
-
     }
 
 
@@ -307,11 +315,53 @@ class EstimatesController extends Controller
         return view('estimates.share', compact('estimate', 'settings'));
     }
 
-    public function convertToInvoice($estimate)
+    public function convertToInvoice(Estimate $estimate)
     {
-        dd('converting');
 
-        return view('estimates.share');
+        $invoiceData = $estimate->toArray();
+//        dd($estimate->estimate_extra()->get());
+        $invoiceData['invoice_number'] = Invoice::nextInvoiceNumber();
+        $invoiceData['invoice_date'] = $invoiceData['estimate_date'];
+        $invoiceData['is_payment'] = false;
+        $invoiceData['payment_method_id'] = null;
+        $invoiceData['deposit_to'] = null;
+        $invoiceData['payment_amount'] = null;
+
+        unset($invoiceData['id']);
+        unset($invoiceData['estimate_number']);
+        unset($invoiceData['estimate_date']);
+        unset($invoiceData['updated_at']);
+        unset($invoiceData['created_at']);
+
+        $invoice_id = Invoice::create($invoiceData)->id;
+        $invoiceItemData = $estimate->estimate_items()->get()->map(function ($item) use ($invoice_id) {
+            $item->invoice_id = $invoice_id;
+            unset($item->id);
+            unset($item->estimate_id);
+            unset($item->created_at);
+            unset($item->updated_at);
+            return $item;
+        })->toArray();
+        InvoiceItem::insert($invoiceItemData);
+
+        $invoiceExtraFieldData = $estimate->estimate_extra()->get()->map(function ($item) use ($invoice_id) {
+            $item->invoice_id = $invoice_id;
+            unset($item->id);
+            unset($item->estimate_id);
+            unset($item->created_at);
+            unset($item->updated_at);
+            return $item;
+        })->toArray();
+        InvoiceExtraField::insert($invoiceExtraFieldData);
+        ExtraField::query()
+            ->where('type', Estimate::class)
+            ->where('type_id', $estimate->id)
+            ->update(['type' => Invoice::class, 'type_id' => $invoice_id]);
+
+        // Deleting Estimate
+        $this->delete($estimate->id);
+
+        return redirect()->route('invoices.invoice.edit', $invoice_id);
     }
 
 }

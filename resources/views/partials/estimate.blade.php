@@ -145,6 +145,13 @@
                             </tr>
                         @endforeach
 
+                        @foreach($estimate->taxes as $tax)
+                            <tr>
+                                <td colspan="4" class="text-right"><strong>{{ $tax['tax_name'] }}:</strong></td>
+                                <td class="text-right"> {{ $estimate->currency }}{{ decent_format(floatval($tax['tax_amount'])) }}</td>
+                            </tr>
+                        @endforeach
+
                         <tr>
                             <td colspan="4" class="text-right"><strong>Total:</strong></td>
                             <td class="text-right">

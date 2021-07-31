@@ -301,6 +301,7 @@
             $('.development').on('click', function () {
                 swal.fire("Under Development!");
             })
+
         })
     </script>
 @endsection
