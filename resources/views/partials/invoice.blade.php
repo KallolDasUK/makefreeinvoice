@@ -85,6 +85,8 @@
                         <tr>
                             <td class=" border-0"><strong>SL</strong></td>
                             <td class=" border-0"><strong>Description</strong></td>
+                            <td class=" text-center border-0"><strong>Unit</strong></td>
+
                             <td class=" text-center border-0"><strong>Rate</strong></td>
                             <td class=" text-center border-0"><strong>QTY</strong></td>
                             <td class=" text-right border-0"><strong>Amount</strong></td>
@@ -103,6 +105,8 @@
                                         <small> {{ $item->description }} </small>
                                     @endif
                                 </td>
+                                <td class="text-center ">{{ $item->unit }}</td>
+
                                 <td class="text-center">{{ $invoice->currency }}{{ decent_format($item->price) }}</td>
                                 <td class="text-center ">X{{ decent_format($item->qnt) }}</td>
                                 <td class="text-right">{{ $invoice->currency }}{{ decent_format($item->amount) }}</td>
@@ -113,12 +117,12 @@
                         </tbody>
                         <tfoot class="card-footer">
                         <tr>
-                            <td colspan="4" class="text-right"><strong>Sub Total:</strong></td>
+                            <td colspan="5" class="text-right"><strong>Sub Total:</strong></td>
                             <td class="text-right">{{ $invoice->currency }}{{ decent_format($invoice->sub_total) }}</td>
                         </tr>
                         @if($invoice->discount && $invoice->discount != 0)
                             <tr>
-                                <td colspan="4" class="text-right"><strong>
+                                <td colspan="5" class="text-right"><strong>
                                         Discount @if($invoice->discount_type == '%') {{ $invoice->discount_value }}{{ $invoice->discount_type }} @endif
                                         :
                                     </strong></td>
@@ -128,7 +132,7 @@
                         @endif
                         @if($invoice->shipping_charge && $invoice->shipping_charge!=0)
                             <tr>
-                                <td colspan="4" class="text-right"><strong>Shipping Charge :</strong></td>
+                                <td colspan="5" class="text-right"><strong>Shipping Charge :</strong></td>
                                 <td class="text-right">
                                     @if(floatval($invoice->shipping_charge)<0)
                                         - @endif {{ $invoice->currency }}{{ decent_format($invoice->shipping_charge) }}</td>
@@ -139,20 +143,20 @@
                                 @continue
                             @endif
                             <tr>
-                                <td colspan="4" class="text-right"><strong>{{ $ie->name }}:</strong></td>
+                                <td colspan="5" class="text-right"><strong>{{ $ie->name }}:</strong></td>
                                 <td class="text-right"> @if(floatval($ie->value)<0)
                                         - @endif{{ $invoice->currency }} {{ decent_format(floatval(abs($ie->value))) }}</td>
                             </tr>
                         @endforeach
                         @foreach($invoice->taxes as $tax)
                             <tr>
-                                <td colspan="4" class="text-right"><strong>{{ $tax['tax_name'] }}:</strong></td>
+                                <td colspan="5" class="text-right"><strong>{{ $tax['tax_name'] }}:</strong></td>
                                 <td class="text-right"> {{ $invoice->currency }}{{ decent_format(floatval($tax['tax_amount'])) }}</td>
                             </tr>
                         @endforeach
 
                         <tr>
-                            <td colspan="4" class="text-right"><strong>Total:</strong></td>
+                            <td colspan="5" class="text-right"><strong>Total:</strong></td>
                             <td class="text-right">
                                 <strong>{{ $invoice->currency }}{{ decent_format($invoice->total) }}</strong>
                             </td>
