@@ -3,6 +3,16 @@
 use Enam\Acc\Models\TransactionDetail;
 use Enam\Acc\Utils\EntryType;
 
+if (!function_exists('decent_format')) {
+    function decent_format($number): string
+    {
+        $number = number_format($number, 2);
+        $number = str_replace('.00', '', $number);
+        return $number;
+    }
+}
+
+
 if (!function_exists('openingBalance')) {
     function openingBalance($ledger): int
     {
@@ -656,6 +666,8 @@ if (!function_exists('currencies')) {
         }
         return collect($co);
     }
+
+
 }
 
 

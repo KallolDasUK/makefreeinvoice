@@ -69,7 +69,7 @@
                                 <span></span>
                             </label>
                         </th>
-                        <th class="text-center">Estimate Number</th>
+                        <th class="text-start">Estimate Number</th>
                         <th class="pr-0">Client</th>
                         <th>Estimate Date</th>
 
@@ -91,7 +91,7 @@
                                 </label>
                             </td>
                             <td class="text-center">
-                                <a class="font-weight-bolder d-block font-size-lg underline text-left"
+                                <a class="font-weight-bolder d-block font-size-lg underline text-left estimate_number"
                                    href="{{ route('estimates.estimate.show',$estimate->id) }}">
                                     <i class="fa fa-external-link-alt font-normal text-secondary"
                                        style="font-size: 10px"></i>
@@ -99,14 +99,14 @@
                                 </a>
                             </td>
                             <td>
-                                <a href="{{ route('estimates.estimate.edit',$estimate->id) }}"
-                                   class="text-dark-75 font-weight-bolder d-block font-size-lg">{{ optional($estimate->customer)->name }}</a>
+                                <a href="{{ route('estimates.estimate.show',$estimate->id) }}"
+                                   class="text-dark-75 font-weight-bolder d-block font-size-lg estimate_number">{{ optional($estimate->customer)->name }}</a>
                                 <span
                                     class="text-muted font-weight-bold">{{ optional($estimate->customer)->email }}</span>
                             </td>
                             <td class="pl-0">
-                                <a href="{{ route('estimates.estimate.edit',$estimate->id) }}"
-                                   class="text-dark-75 font-weight-bolder text-hover-primary mb-1 font-size-lg">{{ \Carbon\Carbon::parse($estimate->invoice_date)->format('d/m/Y') }}</a>
+                                <a href="{{ route('estimates.estimate.show',$estimate->id) }}"
+                                   class="text-dark-75 font-weight-bolder text-hover-primary mb-1 font-size-lg estimate_number">{{ \Carbon\Carbon::parse($estimate->invoice_date)->format('d/m/Y') }}</a>
 
                                 @if($estimate->due_date)
                                     <span
@@ -120,8 +120,12 @@
                                         style="font-size: 20px"><small>{{ $estimate->currency }}</small>{{ number_format($estimate->total,2) }} </span>
                                 </div>
                             </td>
-                            <td class="pr-0 text-right">
-
+                            <td class="pr-0 index text-right">
+                                <a href="{{ route('estimates.estimate.convert_to_invoice',$estimate->id) }}"
+                                   onclick="return confirm('Are sure to convert estimate to invoice?')"
+                                   style="text-decoration: underline"
+                                   class=" font-weight-bolder text-success  font-size-lg underline  text-hover-danger cursor-pointer mx-4 recordPaymentBtn"
+                                > Make Invoice</a>
                                 <div class="dropdown d-inline">
                                     <span class=" dropdown-toggle mr-4 " type="button" style="font-size: 25px"
                                           id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
@@ -134,11 +138,11 @@
                                                 d="M157.1 216h197.8c10.7 0 16.1 13 8.5 20.5l-98.9 98.3c-4.7 4.7-12.2 4.7-16.9 0l-98.9-98.3c-7.7-7.5-2.3-20.5 8.4-20.5zM504 256c0 137-111 248-248 248S8 393 8 256 119 8 256 8s248 111 248 248zm-48 0c0-110.5-89.5-200-200-200S56 145.5 56 256s89.5 200 200 200 200-89.5 200-200z"
                                                 class=""></path></svg>
                                     </span>
-                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <div class="dropdown-menu float-left" aria-labelledby="dropdownMenuButton">
                                         <a href="{{ route('estimates.estimate.send',$estimate->id) }}"
                                            class="dropdown-item btn">
-                                            <span class="far fa-envelope-open mx-4"></span> <strong> Invoice
-                                                Email</strong>
+                                            <span class="far fa-envelope-open mx-4"></span> <strong>Email
+                                                Estimate</strong>
                                         </a>
                                         <a href="javascript:;"
                                            share_link="{{ route('estimates.estimate.share',$estimate->secret) }}"
@@ -159,7 +163,7 @@
                                             @method('DELETE')
                                             <button type="submit" class="btn dropdown-item text-danger"
                                                     onclick="if (!confirm('Are you sure?')) { return false }"><span>                                                 <span
-                                                    class="fa fa-trash-alt mx-4"></span>
+                                                        class="fa fa-trash-alt mx-4"></span>
                                                     Delete</span></button>
 
 
@@ -284,6 +288,8 @@
                 $.notify('I have a progress bar', {showProgressbar: true});
 
             })
+            $('.estimate_number').tooltip({'title': 'Show Estimate'});
+
         })
     </script>
 

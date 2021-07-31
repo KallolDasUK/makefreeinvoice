@@ -103,9 +103,9 @@
                                         <small> {{ $item->description }} </small>
                                     @endif
                                 </td>
-                                <td class="text-center">{{ $invoice->currency }}{{ number_format($item->price) }}</td>
-                                <td class="text-center ">{{ number_format($item->qnt) }}x</td>
-                                <td class="text-right">{{ $invoice->currency }}{{ number_format($item->amount) }}</td>
+                                <td class="text-center">{{ $invoice->currency }}{{ decent_format($item->price) }}</td>
+                                <td class="text-center ">X{{ decent_format($item->qnt) }}</td>
+                                <td class="text-right">{{ $invoice->currency }}{{ decent_format($item->amount) }}</td>
                             </tr>
                         @endforeach
 
@@ -114,7 +114,7 @@
                         <tfoot class="card-footer">
                         <tr>
                             <td colspan="4" class="text-right"><strong>Sub Total:</strong></td>
-                            <td class="text-right">{{ $invoice->currency }}{{ number_format($invoice->sub_total) }}</td>
+                            <td class="text-right">{{ $invoice->currency }}{{ decent_format($invoice->sub_total) }}</td>
                         </tr>
                         @if($invoice->discount && $invoice->discount != 0)
                             <tr>
@@ -123,7 +123,7 @@
                                         :
                                     </strong></td>
                                 <td class="text-right">
-                                    - {{ $invoice->currency }}{{ number_format($invoice->discount) }}</td>
+                                    - {{ $invoice->currency }}{{ decent_format($invoice->discount) }}</td>
                             </tr>
                         @endif
                         @if($invoice->shipping_charge && $invoice->shipping_charge!=0)
@@ -131,7 +131,7 @@
                                 <td colspan="4" class="text-right"><strong>Shipping Charge :</strong></td>
                                 <td class="text-right">
                                     @if(floatval($invoice->shipping_charge)<0)
-                                        - @endif {{ $invoice->currency }}{{ number_format($invoice->shipping_charge) }}</td>
+                                        - @endif {{ $invoice->currency }}{{ decent_format($invoice->shipping_charge) }}</td>
                             </tr>
                         @endif
                         @foreach($invoice->invoice_extra as $ie )
@@ -141,14 +141,20 @@
                             <tr>
                                 <td colspan="4" class="text-right"><strong>{{ $ie->name }}:</strong></td>
                                 <td class="text-right"> @if(floatval($ie->value)<0)
-                                        - @endif{{ $invoice->currency }}{{ number_format(floatval($ie->value)) }}</td>
+                                        - @endif{{ $invoice->currency }} {{ decent_format(floatval(abs($ie->value))) }}</td>
+                            </tr>
+                        @endforeach
+                        @foreach($invoice->taxes as $tax)
+                            <tr>
+                                <td colspan="4" class="text-right"><strong>{{ $tax['tax_name'] }}:</strong></td>
+                                <td class="text-right"> {{ $invoice->currency }}{{ decent_format(floatval($tax['tax_amount'])) }}</td>
                             </tr>
                         @endforeach
 
                         <tr>
                             <td colspan="4" class="text-right"><strong>Total:</strong></td>
                             <td class="text-right">
-                                <strong>{{ $invoice->currency }}{{ number_format($invoice->total) }}</strong>
+                                <strong>{{ $invoice->currency }}{{ decent_format($invoice->total) }}</strong>
                             </td>
                         </tr>
                         </tfoot>

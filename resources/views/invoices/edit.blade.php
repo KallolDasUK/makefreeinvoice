@@ -13,6 +13,13 @@
 
             <div class="btn-group btn-group-sm float-right" role="group">
 
+                <a href="{{ route('invoices.invoice.show',$invoice->id) }}"
+                   class="btn btn-outline-primary mr-2 " title="Show All Invoice"
+                style="font-size: 16px"
+                >
+                    <i class=" fas fa-fw fa-eye" aria-hidden="true"></i>
+                    Preview Invoice
+                </a>
                 <a href="{{ route('invoices.invoice.index') }}" class="btn btn-primary mr-2" title="Show All Invoice">
                     <i class=" fas fa-fw fa-th-list" aria-hidden="true"></i>
                     Show All Invoice

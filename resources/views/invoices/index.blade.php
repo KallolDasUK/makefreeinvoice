@@ -151,8 +151,8 @@
                                     <span></span>
                                 </label>
                             </td>
-                            <td class="text-center">
-                                <a class="font-weight-bolder d-block font-size-lg underline text-left"
+                            <td class="text-center ">
+                                <a class="font-weight-bolder d-block font-size-lg underline text-left invoice_number"
                                    href="{{ route('invoices.invoice.show',$invoice->id) }}">
                                     <i class="fa fa-external-link-alt font-normal text-secondary"
                                        style="font-size: 10px"></i>
@@ -160,14 +160,14 @@
                                 </a>
                             </td>
                             <td>
-                                <a href="{{ route('invoices.invoice.edit',$invoice->id) }}"
-                                   class="text-dark-75 font-weight-bolder d-block font-size-lg">{{ optional($invoice->customer)->name }}</a>
+                                <a href="{{ route('invoices.invoice.show',$invoice->id) }}"
+                                   class="text-dark-75 font-weight-bolder d-block font-size-lg invoice_number">{{ optional($invoice->customer)->name }}</a>
                                 <span
                                     class="text-muted font-weight-bold">{{ optional($invoice->customer)->email }}</span>
                             </td>
                             <td class="pl-0">
-                                <a href="{{ route('invoices.invoice.edit',$invoice->id) }}"
-                                   class="text-dark-75 font-weight-bolder text-hover-primary mb-1 font-size-lg">{{ \Carbon\Carbon::parse($invoice->invoice_date)->format('d/m/Y') }}</a>
+                                <a href="{{ route('invoices.invoice.show',$invoice->id) }}"
+                                   class="text-dark-75 font-weight-bolder text-hover-primary mb-1 font-size-lg invoice_number">{{ \Carbon\Carbon::parse($invoice->invoice_date)->format('d/m/Y') }}</a>
 
                                 @if($invoice->due_date)
                                     <span
@@ -229,7 +229,8 @@
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                         <a href="{{ route('invoices.invoice.send',$invoice->id) }}"
                                            class="dropdown-item btn">
-                                            <span class="far fa-envelope-open mx-4"></span> <strong> Invoice Email</strong>
+                                            <span class="far fa-envelope-open mx-4"></span> <strong> Invoice
+                                                Email</strong>
                                         </a>
                                         <a href="javascript:;"
                                            share_link="{{ route('invoices.invoice.share',$invoice->secret) }}"
@@ -375,6 +376,9 @@
                 $.notify('I have a progress bar', {showProgressbar: true});
 
             })
+
+            $('.invoice_number').tooltip({'title': 'Show Invoice'});
+
         })
     </script>
 
