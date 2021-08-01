@@ -176,6 +176,7 @@ class InvoicesController extends Controller
         $invoice_items = $data['invoice_items'] ?? [];
         $extraFields = $data['additional'] ?? [];
         $additionalFields = $data['additional_fields'] ?? [];
+//        dd($data);
         unset($data['invoice_items']);
         unset($data['additional']);
         unset($data['additional_fields']);
@@ -287,8 +288,13 @@ class InvoicesController extends Controller
         if (optional($invoice->customer)->email) {
             $to = optional($invoice->customer)->email;
         }
+        $customerName = optional($invoice->customer)->name ?? 'Customer';
         $subject = "Invoice #" . ($invoice->invoice_number ?? '') . ' from ' . ($this->settings->business_name ?? 'n/a');
-        $message = "Dear customer, The recurring invoice <b>($invoice->invoice_number)</b> for your customer, Customer, has been saved in your Zoho Books account. You can review the invoice and send it to your customer. Here's an overview of the auto-generated invoice: Invoice#: $invoice->invoice_number Date: $invoice->invoice_date Amount: $invoice->total";
+        $businessName = $this->settings->business_name ?? 'Company Name';
+        $businessEmail = $this->settings->email ?? '';
+        $businessPhone = $this->settings->phone ?? '';
+        $businessWebsite = $this->settings->website ?? '';
+        $message = "Hi $customerName ,<br><br> I hope you’re well! Please see attached invoice number [$invoice->invoice_number] , due on [$invoice->due_date]. Don’t hesitate to reach out if you have any questions. <br> Invoice#: $invoice->invoice_number  <br>Date: $invoice->invoice_date <br>Amount: $invoice->total <br> <br> Kind regards,  <br> $businessName <br> $businessEmail <br> $businessPhone <br> $businessWebsite";
 
 //        dd($message);
         return view('invoices.send', compact('invoice', 'title', 'from', 'to', 'subject', 'message'));

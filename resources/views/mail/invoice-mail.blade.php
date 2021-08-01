@@ -7,36 +7,26 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Invoice</title>
     <style>
-        body {
-            background-color: lightskyblue;
-        }
 
         .container {
             margin: 0 auto;
-            width: 80%;
-            background-color: white;
             padding: 20px;
-            border-radius: 5px;
         }
 
         .btn {
-            display: block;
+            display: inline-block;
+            margin-top: 10px;
             background-color: #0d71bb;
             color: white;
-            padding: 10px 20px;
-            width: 20%;
-            margin: 0 auto;
-            border-radius: 10px;
+            padding: 5px 20px;
             cursor: pointer;
-            font-size: 20px;
+            font-size: 16px;
             font-weight: bolder;
             text-align: center;
         }
 
-        .btn:hover {
-            background-color: white;
-            color: #0d71bb;
-            border: 1px solid #0d71bb;
+        .btn {
+            text-decoration: none;
         }
     </style>
 </head>
@@ -44,9 +34,11 @@
 <div class="container card ">
     <div class="card-body">
 
-        <h2 style="text-align: center">Invoice : {{ $invoice->invoice_number }}</h2>
+        <h4 >Invoice : {{ $invoice->invoice_number }} </h4>
         <p> {!! $request_data->message??'' !!} </p>
-        <a href="https://invoicepedia.com/invoices/share/{{ $invoice->secret }}" class="btn">View Invoice</a>
+        <p><a href="https://invoicepedia.com/invoices/share/{{ $invoice->secret }}" class="btn">View Invoice Online</a>
+        </p>
+        Mail was sent from <a href="https://invoicepedia.com">invoicepedia.com</a>.
 
     </div>
 

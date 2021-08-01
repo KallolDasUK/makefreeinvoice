@@ -7,47 +7,43 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Estimate</title>
     <style>
-        body {
-            background-color: lightskyblue;
-        }
+
 
         .container {
             margin: 0 auto;
-            width: 80%;
-            background-color: white;
             padding: 20px;
-            border-radius: 5px;
         }
 
         .btn {
-            display: block;
+            display: inline-block;
             background-color: #0d71bb;
             color: white;
-            padding: 10px 20px;
-            width: 20%;
-            margin: 0 auto;
-            border-radius: 10px;
+            padding: 5px 20px;
             cursor: pointer;
-            font-size: 20px;
+            font-size: 16px;
             font-weight: bolder;
             text-align: center;
         }
 
-        .btn:hover {
-            background-color: white;
-            color: #0d71bb;
-            border: 1px solid #0d71bb;
+        .btn {
+            text-decoration: none;
         }
+
+
     </style>
 </head>
 <body class="bg-secondary">
 <div class="container card ">
     <div class="card-body">
 
-        <h2 style="text-align: center">Estimate : {{ $estimate->estimate_number }}</h2>
+        <h4>Estimate : {{ $estimate->estimate_number }}</h4>
         <p> {!! $request_data->message??'' !!} </p>
-        <a href="https://invoicepedia.com/estimates/share/{{ $estimate->secret }}" class="btn">View Estimate Online</a>
 
+        <p><a href="https://invoicepedia.com/estimates/share/{{ $estimate->secret }}" class="btn">View Estimate
+                Online</a>
+        </p>
+
+        Mail was sent from <a href="https://invoicepedia.com">invoicepedia.com</a>.
 
     </div>
 

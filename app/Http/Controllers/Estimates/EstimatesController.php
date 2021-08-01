@@ -276,8 +276,10 @@ class EstimatesController extends Controller
         if (optional($estimate->customer)->email) {
             $to = optional($estimate->customer)->email;
         }
+        $customerName = optional($estimate->customer)->name ?? 'Customer';
         $subject = "Estimate #" . ($estimate->estimate_number ?? '') . ' from ' . ($this->settings->business_name ?? 'n/a');
-        $message = "Dear customer, The estimate <b>($estimate->estimate_number)</b> for your customer, Customer, has been saved in your Zoho Books account. You can review the invoice and send it to your customer. Here's an overview of the auto-generated invoice: Invoice#: $estimate->estimate_number Date: $estimate->estimate_date Amount: $estimate->total";
+        $businessName = $this->settings->business_name ?? 'Company Name';
+        $message = "Hi $customerName ,<br><br> I hope you’re well! Please see attached estimate number [$estimate->estimate_number] , expires on [$estimate->due_date]. Don’t hesitate to reach out if you have any questions. <br> Invoice#: $estimate->estimate_number  <br>Date: $estimate->estimate_date <br>Amount: $estimate->total <br> <br> Kind regards,  <br> $businessName";
 
 //        dd($message);
         return view('estimates.send', compact('estimate', 'title', 'from', 'to', 'subject', 'message'));
@@ -303,7 +305,7 @@ class EstimatesController extends Controller
         $estimate->save();
 
 
-        Mail::to($to)->queue(new EstimateSendMail($estimate, (object)$data,settings()));
+        Mail::to($to)->queue(new EstimateSendMail($estimate, (object)$data, settings()));
 
 
         return redirect()->route('estimates.estimate.index')->with('success_message', 'Invoice was sent successfully.');

@@ -56,7 +56,7 @@
                         <label class="font-weight-bolder" style="font-size: 16px"> Message <span
                                 class="text-danger">*</span></label>
                     </div>
-                    <div class="input-group col-lg-6">
+                    <div class="input-group col-lg-8">
                     <textarea type="text" name="message" id="message" class="form-control" rows="5">
                         {{ $message }}
                     </textarea>
@@ -69,7 +69,7 @@
                     <div class="input-group col-lg-6">
                     <span class=" form-check form-check-inline form-control-plaintext">
                         <input id="send_to_business" class="form-check-input" name="send_to_business"
-                               type="checkbox" checked>
+                               type="checkbox" >
                         &nbsp;
                         <label for="send_to_business" class="form-check-label">
                             <span class="text-secondary"> Send a copy to myself at <label
