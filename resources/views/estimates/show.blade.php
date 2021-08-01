@@ -117,11 +117,11 @@
                         class="fa fa-share"></i> Share
                 </a>
                 <a href="{{ route('estimates.estimate.send',$estimate->id) }}"
-                        class="btn btn-outline-secondary   btn-lg " style="font-size: 20px"><i
+                   class="btn btn-outline-secondary   btn-lg " style="font-size: 20px"><i
                         class="far fa-envelope-open"></i> Email Estimate
                 </a>
                 <a href="{{ route('estimates.estimate.convert_to_invoice',$estimate->id) }}"
-                        class="btn btn-outline-secondary text-primary    " style="font-size: 20px"><i
+                   class="btn btn-outline-secondary text-primary    " style="font-size: 20px"><i
                         class="fas fa-random"></i> Convert To Invoice
                 </a>
             </div>
@@ -136,7 +136,8 @@
 
 @push('js')
     <script>
-
+        let is_print = '{{ $is_print }}';
+        let is_download = '{{ $is_download }}';
         $('#printBtn').on('click', function () {
             window.print()
         })
@@ -151,7 +152,22 @@
             };
             html2pdf(element, opt);
         })
+        $(document).ready(function () {
+            if (is_print) {
+                window.print()
+                setTimeout(()=>{
+                    history.back()
 
+                },1000)
+            }
+            if (is_download){
+                $('#downloadButton').click()
+                setTimeout(()=>{
+                    history.back()
+
+                },1000)
+            }
+        })
 
     </script>
 @endpush

@@ -135,7 +135,7 @@ class InvoicesController extends Controller
     {
         $invoice = Invoice::with('customer')->findOrFail($id);
 
-       $invoice->taxes;
+        $invoice->taxes;
         return view('invoices.show', compact('invoice'));
     }
 
@@ -314,7 +314,7 @@ class InvoicesController extends Controller
         $invoice->save();
 
 
-        Mail::to($to)->queue(new InvoiceSendMail($invoice, (object)$data));
+        Mail::to($to)->queue(new InvoiceSendMail($invoice, (object)$data, settings()));
 
 
         return redirect()->route('invoices.invoice.index')->with('success_message', 'Invoice was sent successfully.');

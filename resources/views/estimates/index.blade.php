@@ -139,6 +139,15 @@
                                                 class=""></path></svg>
                                     </span>
                                     <div class="dropdown-menu float-left" aria-labelledby="dropdownMenuButton">
+                                        <a href="{{ route('estimates.estimate.show',[$estimate->id,'print'=>true]) }}"
+                                           class="dropdown-item btn" >
+                                            <span class="fa fa-print mx-4"></span> <strong>
+                                                Print</strong>
+                                        </a>
+                                        <a href="{{ route('estimates.estimate.show',[$estimate->id,'download'=>true]) }}"
+                                           class="dropdown-item btn" >
+                                            <span class="fa fa-download mx-4"></span> <strong>Download</strong>
+                                        </a>
                                         <a href="{{ route('estimates.estimate.send',$estimate->id) }}"
                                            class="dropdown-item btn">
                                             <span class="far fa-envelope-open mx-4"></span> <strong>Email

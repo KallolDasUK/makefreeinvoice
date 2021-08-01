@@ -18,6 +18,7 @@
             padding: 20px;
             border-radius: 5px;
         }
+
         .btn {
             display: block;
             background-color: #0d71bb;
@@ -31,7 +32,8 @@
             font-weight: bolder;
             text-align: center;
         }
-        .btn:hover{
+
+        .btn:hover {
             background-color: white;
             color: #0d71bb;
             border: 1px solid #0d71bb;
@@ -44,8 +46,7 @@
 
         <h2 style="text-align: center">Invoice : {{ $invoice->invoice_number }}</h2>
         <p> {!! $request_data->message??'' !!} </p>
-        <a href="{{ route('invoices.invoice.share',$invoice->secret) }}" class="btn">View Invoice</a>
-
+        <a href="https://invoicepedia.com/invoices/share/{{ $invoice->secret }}" class="btn">View Invoice</a>
 
     </div>
 

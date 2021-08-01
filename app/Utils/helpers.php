@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\MetaSetting;
 use Enam\Acc\Models\TransactionDetail;
 use Enam\Acc\Utils\EntryType;
 
@@ -9,6 +10,13 @@ if (!function_exists('decent_format')) {
         $number = number_format($number, 2);
         $number = str_replace('.00', '', $number);
         return $number;
+    }
+}
+if (!function_exists('settings')) {
+    function settings()
+    {
+        $settings = json_decode(MetaSetting::query()->pluck('value', 'key')->toJson());
+        return $settings;
     }
 }
 

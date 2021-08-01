@@ -10,7 +10,7 @@
 @section('content')
 
     <div class="card mx-auto rounded mt-4" style="width: 70%">
-        <form action="{{ route('estimates.estimate.send_invoice_mail',$invoice->id) }}" method="post">
+        <form action="{{ route('estimates.estimate.send_estimate_mail',$estimate->id) }}" method="post">
             @csrf
 
             <div class="card-body">

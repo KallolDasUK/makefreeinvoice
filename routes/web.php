@@ -10,7 +10,11 @@ use App\Http\Controllers\SocialLoginController;
 use App\Http\Controllers\TaxesController;
 use App\Http\Controllers\ReceivePaymentsController;
 use App\Http\Controllers\PaymentMethodsController;
+use App\Models\Estimate;
 use Illuminate\Support\Facades\Route;
+use LaravelDaily\Invoices\Classes\InvoiceItem;
+use LaravelDaily\Invoices\Classes\Party;
+use LaravelDaily\Invoices\Invoice;
 
 /*
 |--------------------------------------------------------------------------
@@ -171,9 +175,64 @@ Route::group(['middleware' => 'auth:web'], function () {
     });
 });
 Route::get('/test', function () {
-    $statement = DB::select("SHOW TABLE STATUS LIKE 'users'");
-    $nextId = $statement[0]->Auto_increment;
-    dd($nextId);
-    return view('mail.invoice-mail', compact('invoice'));
+
+    $estimate = Estimate::query()->first();
+    $client = new Party([
+        'name' => 'Roosevelt Lloyd',
+        'phone' => '(520) 318-9486',
+        'custom_fields' => [
+            'note' => 'IDDQD',
+            'business id' => '365#GG',
+        ],
+    ]);
+    $customer = new Party([
+        'name' => 'Ashley Medina',
+        'address' => 'The Green Street 12',
+        'code' => '#22663214',
+        'custom_fields' => [
+            'order number' => '> 654321 <',
+        ],
+    ]);
+    $items = [];
+    foreach ($estimate->estimate_items as $estimate_item) {
+        $items[] = (new InvoiceItem())->title($estimate_item->product->name)->pricePerUnit($estimate_item->price)->quantity($estimate_item->qnt)->units($estimate_item->unit);
+    }
+
+    $notes = [
+        $estimate->notes ?? '',
+        'Terms & Condition',
+        $estimate->terms_condition ?? ''
+    ];
+    $notes = implode("<br>", $notes);
+
+    $invoice = Invoice::make('Estimate')
+        ->series($estimate->estimate_number)
+        ->serialNumberFormat('{SERIES}')
+        ->taxableAmount($estimate->taxable_amount)
+        ->totalDiscount($estimate->discount)
+        ->shipping($estimate->shipping_charge)
+        ->date(\Carbon\Carbon::parse($estimate->estimate_date))
+        ->seller($client)
+        ->buyer($customer)
+        ->dateFormat('m/d/Y')
+        ->payUntilDays(14)
+        ->currencySymbol($estimate->currency)
+        ->currencyThousandsSeparator('.')
+        ->currencyDecimalPoint(',')
+        ->filename($client->name . ' ' . $customer->name)
+        ->addItems($items)
+        ->totalAmount($estimate->total)
+        ->notes($notes)
+        ->logo(public_path('/storage/' . (property_exists(settings(), 'business_logo') ? settings()->business_logo : 'logo.png')));
+
+    $invoice->taxes = $estimate->taxes;
+    $invoice->invoice = $estimate;
+    $invoice->expires_on = $estimate->due_date;
+    $invoice->extras = $estimate->extra_fields;
+    $invoice->cost_extra = $estimate->estimate_extra;
+    $link = $invoice->url();
+
+    return $invoice->stream();
 });
+
 
