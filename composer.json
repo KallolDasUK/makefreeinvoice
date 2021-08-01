@@ -10,7 +10,7 @@
     "require": {
         "php": "^7.3|^8.0",
         "ext-json": "*",
-        "consoletvs/invoices": "^1.8",
+        "barryvdh/laravel-dompdf": "^0.9",
         "fideloper/proxy": "^4.4",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
@@ -18,7 +18,9 @@
         "laravel/framework": "^8.12",
         "laravel/socialite": "^5.2",
         "laravel/tinker": "^2.5",
-        "laravel/ui": "^3.0"
+        "laravel/ui": "^3.0",
+        "laraveldaily/laravel-invoices": "^2.0",
+        "van-ons/laraberg": "^1.1"
     },
     "require-dev": {
         "crestapps/laravel-code-generator": "^2.4",

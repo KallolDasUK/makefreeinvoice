@@ -65,6 +65,15 @@ class Invoice extends Model
         }
     }
 
+    public function getTaxableAmountAttribute()
+    {
+        $taxable = 0;
+        foreach ($this->taxes as $tax) {
+            $taxable += $tax['tax_amount'];
+        }
+        return $taxable;
+    }
+
     protected static function boot()
     {
         parent::boot();

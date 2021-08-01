@@ -30,6 +30,7 @@ class Estimate extends Model
     {
         return ExtraField::query()->where('type', Estimate::class)->where('type_id', $this->id)->get();
     }
+
     public function getTaxesAttribute()
     {
         $taxes = [];
@@ -44,7 +45,7 @@ class Estimate extends Model
                         $taxes[$tax->id]['tax_amount'] += $taxAmount;
                         continue;
                     }
-                    $taxes[$tax->id] = ['tax_id' => $tax->id, 'tax_name' => $tax->name.'('.$tax->value.'%)', 'tax_amount' => $taxAmount];
+                    $taxes[$tax->id] = ['tax_id' => $tax->id, 'tax_name' => $tax->name . '(' . $tax->value . '%)', 'tax_amount' => $taxAmount];
                     $tax_id[] = $tax->id;
 
                 }
@@ -53,6 +54,16 @@ class Estimate extends Model
         }
         return $taxes;
     }
+
+    public function getTaxableAmountAttribute()
+    {
+        $taxable = 0;
+        foreach ($this->taxes as $tax) {
+            $taxable += $tax['tax_amount'];
+        }
+        return $taxable;
+    }
+
     protected static function boot()
     {
         parent::boot();

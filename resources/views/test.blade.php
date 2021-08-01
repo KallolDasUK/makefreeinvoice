@@ -1,85 +1,53 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+@extends('acc::layouts.app')
 
-    <link rel="stylesheet" type="text/css" href="{{ asset('css/semantic.min.css') }}">
-    <script src="{{ asset('js/app.js') }}"></script>
+@section('content')
 
-    <script src="{{ asset('js/semantic.min.js') }}"></script>
-</head>
-<body>
-<div style="width: 50%;margin: 0 auto">
-    <select class="ui search dropdown">
-        <div class="header">
-            <i class="tags icon"></i>
-            Filter by tag
+    <div class="card mx-auto" style="width: 50%">
+
+        <div class="card-header">
+
+            <h5 class="my-1 float-left">Create New Tax</h5>
+
+            <div class="btn-group btn-group-sm float-right" role="group">
+                <a href="{{ route('taxes.tax.index') }}" class="btn btn-primary" title="Show All Tax">
+                    <i class=" fas fa-fw fa-th-list" aria-hidden="true"></i>
+                    Show All Tax
+                </a>
+            </div>
+
         </div>
-        <option value="AL">Alabama</option>
-        <option value="bl"><a href="/sldfkjd"> + Create New</a></option>
-        <option value="AK">Alaska</option>
-        <option value="AZ">Arizona</option>
-        <option value="AR">Arkansas</option>
-        <option value="CA">California</option>
-        <option value="CO">Colorado</option>
-        <option value="CT">Connecticut</option>
-        <option value="DE">Delaware</option>
-        <option value="DC">District Of Columbia</option>
-        <option value="FL">Florida</option>
-        <option value="GA">Georgia</option>
-        <option value="HI">Hawaii</option>
-        <option value="ID">Idaho</option>
-        <option value="IL">Illinois</option>
-        <option value="IN">Indiana</option>
-        <option value="IA">Iowa</option>
-        <option value="KS">Kansas</option>
-        <option value="KY">Kentucky</option>
-        <option value="LA">Louisiana</option>
-        <option value="ME">Maine</option>
-        <option value="MD">Maryland</option>
-        <option value="MA">Massachusetts</option>
-        <option value="MI">Michigan</option>
-        <option value="MN">Minnesota</option>
-        <option value="MS">Mississippi</option>
-        <option value="MO">Missouri</option>
-        <option value="MT">Montana</option>
-        <option value="NE">Nebraska</option>
-        <option value="NV">Nevada</option>
-        <option value="NH">New Hampshire</option>
-        <option value="NJ">New Jersey</option>
-        <option value="NM">New Mexico</option>
-        <option value="NY">New York</option>
-        <option value="NC">North Carolina</option>
-        <option value="ND">North Dakota</option>
-        <option value="OH">Ohio</option>
-        <option value="OK">Oklahoma</option>
-        <option value="OR">Oregon</option>
-        <option value="PA">Pennsylvania</option>
-        <option value="RI">Rhode Island</option>
-        <option value="SC">South Carolina</option>
-        <option value="SD">South Dakota</option>
-        <option value="TN">Tennessee</option>
-        <option value="TX">Texas</option>
-        <option value="UT">Utah</option>
-        <option value="VT">Vermont</option>
-        <option value="VA">Virginia</option>
-        <option value="WA">Washington</option>
-        <option value="WV">West Virginia</option>
-        <option value="WI">Wisconsin</option>
-        <option value="WY">Wyoming</option>
-    </select>
-</div>
-</body>
 
-<script>
-    $(document).ready(function () {
-        $('.ui.dropdown')
-            .dropdown()
-        ;
-    })
-</script>
-</html>
+        <div class="card-body">
+
+
+            <form method="POST" action="{{ route('taxes.tax.store') }}" accept-charset="UTF-8" id="create_tax_form"
+                  name="create_tax_form" class="form-horizontal">
+                {{ csrf_field() }}
+                <textarea name="content" id="content" cols="30" rows="10"></textarea>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input class="btn btn-primary" type="submit" value="Add">
+                    </div>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+
+@endsection
+
+@section('js')
+
+    <link rel="stylesheet" href="{{asset('vendor/laraberg/css/laraberg.css')}}">
+    <script src="https://unpkg.com/react@16.8.6/umd/react.production.min.js"></script>
+
+    <script src="https://unpkg.com/react-dom@16.8.6/umd/react-dom.production.min.js"></script>
+
+    <script src="{{ asset('vendor/laraberg/js/laraberg.js') }}"></script>
+    <script>
+        Laraberg.init('content')
+
+    </script>
+@endsection
