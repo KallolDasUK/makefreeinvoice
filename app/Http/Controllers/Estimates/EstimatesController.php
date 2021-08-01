@@ -334,6 +334,7 @@ class EstimatesController extends Controller
         unset($invoiceData['estimate_date']);
         unset($invoiceData['updated_at']);
         unset($invoiceData['created_at']);
+        unset($invoiceData['estimate_status']);
 
         $invoice_id = Invoice::create($invoiceData)->id;
         $invoiceItemData = $estimate->estimate_items()->get()->map(function ($item) use ($invoice_id) {
