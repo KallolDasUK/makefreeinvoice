@@ -134,7 +134,7 @@
             <label class="font-weight-bolder" for="due_date">Shipping Date</label>
             <br>
             <input class="form-control  {{ $errors->has('shipping_date') ? 'is-invalid' : '' }}"
-                   name="due_date" type="date"
+                   name="shipping_date" type="date"
                    id="due_date" value="{{ old('shipping_date', optional($invoice)->shipping_date) }}">
 
         </div>
@@ -496,6 +496,7 @@
 
 
 
+
     </script>
 @endverbatim
 @verbatim
@@ -623,6 +624,7 @@
 
 
 
+
     </script>
 @endverbatim
 @verbatim
@@ -647,6 +649,7 @@
               <td><span class="text-primary " on-click="@this.addAdditionalField()" style="cursor:pointer;">+ Add More</span></td>
               <td></td>
           </tr>
+
 
 
 
