@@ -17,7 +17,7 @@
             font-size: inherit;
         }
 
-        .divider{
+        .divider {
             float: left;
             height: 132px;
             margin: 18px 10px 5px;
@@ -26,6 +26,7 @@
             text-align: center;
 
         }
+
         .image {
             background-color: rgb(226, 231, 233);
             background-size: 80px;
@@ -90,6 +91,8 @@
 
             </div>
         @endif
+
+
         <div class="row card mt-4">
             <div class="card-body">
                 <div class="font-weight-bolder">
@@ -122,7 +125,7 @@
                     </div>
                     <div class="shortcuts-title sc-jlyJG gSoaLO">Receive Payment</div>
                 </a>
-                <div class="divider justify-content-center align-items-center d-flex" >
+                <div class="divider justify-content-center align-items-center d-flex">
                     <span class="  vertical-divider m-auto"> </span>
                 </div>
 
@@ -138,6 +141,50 @@
 
                     </div>
                     <div class="shortcuts-title  text-black">My Estimates</div>
+                </a>
+
+            </div>
+        </div>
+        <div class="row card mt-4">
+            <div class="card-body">
+                <div class="font-weight-bolder">
+                    BILL SHORTCUTS
+                </div>
+                <a href="javascript:;" class="sc-gPEVay eaBhby border rounded development">
+                    <div class="sc-iRbamj image" style="background-image:url('images/manage_invoice.svg') ">
+
+                    </div>
+                    <div class="shortcuts-title  text-black">My Bills</div>
+                </a>
+
+                <a class="sc-gPEVay eaBhby border rounded development" href="javascript:;">
+                    <div class="sc-iRbamj image" style="background-image:url('images/invoice.svg') ">
+
+                    </div>
+                    <div class=" shortcuts-title sc-jlyJG gSoaLO">Add Bill</div>
+                </a>
+                <a href="{{ route('vendors.vendor.create') }}" class="sc-gPEVay eaBhby border rounded">
+                    <div class="sc-iRbamj image" style="background-image:url('images/customer 1.svg') ">
+
+                    </div>
+                    <div class="shortcuts-title  text-black">Add Vendors</div>
+                </a>
+
+                <div class="divider justify-content-center align-items-center d-flex">
+                    <span class="  vertical-divider m-auto"> </span>
+                </div>
+
+                <a href="{{ route('expenses.expense.create') }}" class="sc-gPEVay eaBhby border rounded ">
+                    <div class="sc-iRbamj image" style="background-image:url('images/manage_invoice.svg') ">
+
+                    </div>
+                    <div class="shortcuts-title  text-black">Add Expense</div>
+                </a>
+                <a href="{{ route('expenses.expense.index') }}" class="sc-gPEVay eaBhby border rounded">
+                    <div class="sc-iRbamj image" style="background-image:url('images/manage_invoice.svg') ">
+
+                    </div>
+                    <div class="shortcuts-title  text-black">My Expenses</div>
                 </a>
 
             </div>

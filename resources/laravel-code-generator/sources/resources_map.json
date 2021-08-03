@@ -23,5 +23,13 @@
         "model-name": "PaymentMethod",
         "resource-file": "payment_methods.json",
         "table-name": "payment_methods"
+    },
+    {
+        "model-name": "Vendor",
+        "resource-file": "vendors.json"
+    },
+    {
+        "model-name": "Expense",
+        "resource-file": "expenses.json"
     }
 ]

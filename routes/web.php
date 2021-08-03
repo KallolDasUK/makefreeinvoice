@@ -4,12 +4,14 @@ use App\Http\Controllers\Ajax\AjaxController;
 use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\CustomersController;
 use App\Http\Controllers\Estimates\EstimatesController;
+use App\Http\Controllers\ExpensesController;
 use App\Http\Controllers\InvoicesController;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\SocialLoginController;
 use App\Http\Controllers\TaxesController;
 use App\Http\Controllers\ReceivePaymentsController;
 use App\Http\Controllers\PaymentMethodsController;
+use App\Http\Controllers\VendorsController;
 use App\Models\Estimate;
 use Illuminate\Support\Facades\Route;
 use LaravelDaily\Invoices\Classes\InvoiceItem;
@@ -55,6 +57,23 @@ Route::group(['middleware' => 'auth:web'], function () {
         Route::put('customer/{customer}', [CustomersController::class, 'update'])->name('customers.customer.update')->where('id', '[0-9]+');
         Route::delete('/customer/{customer}', [CustomersController::class, 'destroy'])->name('customers.customer.destroy')->where('id', '[0-9]+');
 
+    });
+
+
+    /*
+     *  php artisan resource-file:create Vendor --fields=id,name,photo,company_name,phone,email,country,street_1,street_2,city,state,zip_post,address,website
+     *  php artisan create:scaffold Vendor  --layout-name="acc::layouts.app" --with-migration
+     * */
+
+    Route::group(['prefix' => 'vendors'], function () {
+
+        Route::get('/', [VendorsController::class, 'index'])->name('vendors.vendor.index');
+        Route::get('/create', [VendorsController::class, 'create'])->name('vendors.vendor.create');
+        Route::get('/show/{vendor}', [VendorsController::class, 'show'])->name('vendors.vendor.show')->where('id', '[0-9]+');
+        Route::get('/{vendor}/edit', [VendorsController::class, 'edit'])->name('vendors.vendor.edit')->where('id', '[0-9]+');
+        Route::post('/', [VendorsController::class, 'store'])->name('vendors.vendor.store');
+        Route::put('vendor/{vendor}', [VendorsController::class, 'update'])->name('vendors.vendor.update')->where('id', '[0-9]+');
+        Route::delete('/vendor/{vendor}', [VendorsController::class, 'destroy'])->name('vendors.vendor.destroy')->where('id', '[0-9]+');
     });
 
 
@@ -169,17 +188,39 @@ Route::group(['middleware' => 'auth:web'], function () {
 
     });
 
+    /*
+     * AJAX Form Requests Handler
+     * */
     Route::group(['prefix' => 'ajax'], function () {
         Route::post('/receive-payment-customers-invoice', [AjaxController::class, 'receivePaymentCustomerInvoice'])->name('receive-payment-customers-invoice');
         Route::post('/record-payment', [AjaxController::class, 'recordPayment'])->name('ajax.recordPayment');
     });
+
+
+    /*
+    *  php artisan resource-file:create Expense --fields=id,date,ledger_id,vendor_id,customer_id,ref,is_billable,files
+    *  php artisan create:scaffold Expense  --layout-name="acc::layouts.app" --with-migration
+    * */
+
+    Route::group(['prefix' => 'expenses'], function () {
+
+        Route::get('/', [ExpensesController::class, 'index'])->name('expenses.expense.index');
+        Route::get('/create', [ExpensesController::class, 'create'])->name('expenses.expense.create');
+        Route::get('/show/{expense}', [ExpensesController::class, 'show'])->name('expenses.expense.show')->where('id', '[0-9]+');
+        Route::get('/{expense}/edit', [ExpensesController::class, 'edit'])->name('expenses.expense.edit')->where('id', '[0-9]+');
+        Route::post('/', [ExpensesController::class, 'store'])->name('expenses.expense.store');
+        Route::put('expense/{expense}', [ExpensesController::class, 'update'])->name('expenses.expense.update')->where('id', '[0-9]+');
+        Route::delete('/expense/{expense}', [ExpensesController::class, 'destroy'])->name('expenses.expense.destroy')->where('id', '[0-9]+');
+
+    });
 });
+
+
 Route::get('/test', function () {
 
     $estimate = Estimate::query()->first();
 
 
-    return view('mail.estimate-mail',compact('estimate'));
+    return view('mail.estimate-mail', compact('estimate'));
 });
-
 
