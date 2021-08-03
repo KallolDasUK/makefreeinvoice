@@ -50,7 +50,7 @@
                     <h2> Expense Receipt</h2>
                     @if($settings->business_logo??false)
                         <img
-                            class="rounded text-center mx-auto"
+                            class="rounded text-center mx-auto my-2"
                             src="{{ asset('storage/'.$settings->business_logo) }}"
                             width="100"
                             alt="">
@@ -73,23 +73,23 @@
                             <br> {{ $settings->phone??'' }}
                         @endif
                     </address>
-                    <table class="table table-head-custom table-vertical-center" id="kt_advance_table_widget_1">
+                    <table class="table " style="width: 100%">
                         <tr>
-                            <th>Sl</th>
+
                             <th>Name</th>
-                            <th>Amount</th>
+                            <th class="text-right">Amount</th>
                         </tr>
                         @foreach($expense->expense_items as $expense_item)
                             <tr>
-                                <td class="">{{ $loop->iteration }}</td>
-                                <td>{{ $expense_item->ledger->ledger_name??'' }}</td>
-                                <td>{{ $expense_item->amount }}</td>
+                                <td>{{ $expense_item->ledger->ledger_name??'' }} <br>
+                                    <small>{{ $expense_item->notes }}</small>
+                                </td>
+                                <td class="text-right">{{ $expense_item->amount }}</td>
                             </tr>
                         @endforeach
                         <tr>
-                            <td></td>
                             <td>Taxable Amount</td>
-                            <td>{{ decent_format($expense->taxable_amount) }}</td>
+                            <td class="text-right">{{ decent_format($expense->taxable_amount) }}</td>
                         </tr>
                     </table>
                     <br>
