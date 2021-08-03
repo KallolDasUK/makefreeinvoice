@@ -23,7 +23,8 @@ class CreateExpensesTable extends Migration
             $table->string('ref')->nullable();
             $table->boolean('is_billable')->nullable();
             $table->string('file')->nullable();
-
+            $table->integer('user_id')->nullable();
+            $table->integer('client_id')->nullable();
         });
     }
 

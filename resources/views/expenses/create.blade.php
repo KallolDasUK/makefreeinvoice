@@ -40,10 +40,17 @@
 
 @section('js')
     <script>
+        var sample_expense = {ledger_id: '', notes: '', tax_id: '', amount: ''};
+        var expense_items = [jQuery.extend(true, {}, sample_expense)];
+        var ledgers = @json($ledgers);
+        var taxes = @json($taxes);
+        console.log(ledgers,taxes)
         $(document).ready(function () {
             $('#ledger_id').select2()
             $('#vendor_id').select2()
             $('#customer_id').select2()
+
+
         })
     </script>
     <script src="{{ asset('js/expenses/expense.js') }}"></script>
