@@ -32,7 +32,10 @@ class VendorsController extends Controller
 
         $data = $this->getData($request);
 
-        Vendor::create($data);
+        $vendor = Vendor::create($data);
+        if ($request->ajax()) {
+            return $vendor;
+        }
 
         return redirect()->route('vendors.vendor.index')
             ->with('success_message', 'Vendor was successfully added.');

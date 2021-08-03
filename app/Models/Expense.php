@@ -82,5 +82,51 @@ class Expense extends Model
         return $this->belongsTo('App\Models\Customer', 'customer_id');
     }
 
+    /**
+     * Get the customer for this model.
+     *
+     * @return App\Models\Customer
+     */
+    public function expense_items()
+    {
+        return $this->hasMany('App\Models\ExpenseItem', 'expense_id');
+    }
+
+    public function getAmountAttribute()
+    {
+        return $this->expense_items->sum('amount') + $this->taxable_amount;
+    }
+    public function getTaxesAttribute()
+    {
+        $taxes = [];
+        $tax_id = [];
+        foreach ($this->expense_items as $expense_item) {
+            $expense_item->tax = 0;
+            if ($expense_item->tax_id) {
+                $tax = Tax::find($expense_item->tax_id);
+                if ($tax) {
+                    $taxAmount = (floatval($tax->value) / 100) * $expense_item->amount;
+                    if (in_array($tax->id, $tax_id)) {
+                        $taxes[$tax->id]['tax_amount'] += $taxAmount;
+                        continue;
+                    }
+                    $taxes[$tax->id] = ['tax_id' => $tax->id, 'tax_name' => $tax->name . '(' . $tax->value . '%)', 'tax_amount' => $taxAmount];
+                    $tax_id[] = $tax->id;
+
+                }
+            }
+
+        }
+        return $taxes;
+    }
+    public function getTaxableAmountAttribute()
+    {
+        $taxable = 0;
+        foreach ($this->taxes as $tax) {
+            $taxable += $tax['tax_amount'];
+        }
+        return $taxable;
+    }
+
 
 }

@@ -37,8 +37,8 @@
         @else
             <div class="card-body">
 
-                <div class="table-responsive">
-                    <table class="table table-striped table-sm">
+                <div>
+                    <table class="table table-head-custom table-vertical-center" id="kt_advance_table_widget_1">
                         <thead>
                         <tr>
                             <th>SL</th>
@@ -49,22 +49,25 @@
                             <th>Customer</th>
 
                             <th>Is Billable</th>
+                            <th>Amount</th>
 
                             <th></th>
                         </tr>
                         </thead>
                         <tbody>
                         @foreach($expenses as $expense)
-                            <tr>
-                                <td>{{ $loop->iteration }}</td>
-                                <td>{{ $expense->date }}</td>
-                                <td>{{ $expense->ref }}</td>
+                            <tr class="text-dark-75 font-weight-bolder">
+                                <td class="text-dark-75 font-weight-bolder font-size-lg">{{ $loop->iteration }}</td>
+                                <td class="text-dark-75 font-weight-bolder font-size-lg"> <a href="{{ route('expenses.expense.show',$expense->id) }}">{{ $expense->date }}</a>
+                                </td>
+                                <td><a href="{{ route('expenses.expense.show',$expense->id) }}">{{ $expense->ref }}</a>
+                                </td>
 
                                 <td>{{ optional($expense->ledger)->id }}</td>
                                 <td>{{ optional($expense->vendor)->name }}</td>
                                 <td>{{ optional($expense->customer)->name }}</td>
-                                <td>{{ ($expense->is_billable) ? 'Yes' : 'No' }}</td>
-
+                                <td>{{ ($expense->is_billable) ? 'BILLABLE' : 'NON-BILLABLE' }}</td>
+                                <td>{{ decent_format($expense->amount ) }}</td>
                                 <td>
 
                                     <form method="POST" action="{!! route('expenses.expense.destroy', $expense->id) !!}"
@@ -112,17 +115,7 @@
 @section('scripts')
 
     <script>
-        $(document).ready(function () {
-            $('table').DataTable({
-                responsive: true,
-                "order": [],
-                dom: 'lBfrtip',
-                buttons: [
-                    'copy', 'excel', 'pdf', 'print'
-                ]
 
-            });
-        });
     </script>
 
     <style>

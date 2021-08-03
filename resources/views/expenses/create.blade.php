@@ -1,7 +1,10 @@
 @extends('acc::layouts.app')
 
 @section('content')
-
+    @include('partials.ajax-ledger-create-form')
+    @include('partials.ajax-customer-create-form')
+    @include('partials.ajax-tax-create-form')
+    @include('partials.ajax-vendor-create-form')
     <div class="float-left">
         <h2>Add an Expense</h2>
     </div>
@@ -44,14 +47,7 @@
         var expense_items = [jQuery.extend(true, {}, sample_expense)];
         var ledgers = @json($ledgers);
         var taxes = @json($taxes);
-        console.log(ledgers,taxes)
-        $(document).ready(function () {
-            $('#ledger_id').select2()
-            $('#vendor_id').select2()
-            $('#customer_id').select2()
 
-
-        })
     </script>
     <script src="{{ asset('js/expenses/expense.js') }}"></script>
     <script src="{{ asset('js/expenses/expense-crud.js') }}"></script>

@@ -50,7 +50,10 @@ class ClientUserIdProvider extends ServiceProvider
             'extra_fields',
             'meta_settings',
             'receive_payments',
-            'receive_payment_items'
+            'receive_payment_items',
+            'expenses',
+            'expense_items',
+            'vendors'
         ];
         foreach ($saasTable as $tableName) {
             $className = '\\App\\Models\\' . Str::studly(Str::singular($tableName));

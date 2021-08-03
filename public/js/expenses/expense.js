@@ -29,10 +29,10 @@ var ractive = new Ractive({
             let doExits = a.$results.parents('.select2-results').find('button')
             if (!doExits.length) {
                 a.$results.parents('.select2-results')
-                    .append('<div><button  data-toggle="modal" data-target="#productModal" class="btn btn-default text-primary underline btn-fw" style="width: 100%">+ Add Item</button></div>')
+                    .append('<div><button  data-toggle="modal" data-target="#ledgerModal" class="btn btn-default text-primary underline btn-fw" style="width: 100%">+ Add Item</button></div>')
                     .on('click', function (b) {
                         $(event.target).select2("close");
-                        $('#createProductForm').attr('index', i)
+                        $('#createLedgerForm').attr('index', i)
                     });
             }
         }).on('change', function (event) {
@@ -142,10 +142,10 @@ for (let i = 0; i < expense_items.length; i++) {
         let doExits = a.$results.parents('.select2-results').find('button')
         if (!doExits.length) {
             a.$results.parents('.select2-results')
-                .append('<div><button  data-toggle="modal" data-target="#productModal" class="btn btn-default text-primary underline btn-fw" style="width: 100%">+ Add Item</button></div>')
+                .append('<div><button  data-toggle="modal" data-target="#ledgerModal" class="btn btn-default text-primary underline btn-fw" style="width: 100%">+ Add Item</button></div>')
                 .on('click', function (b) {
                     $(event.target).select2("close");
-                    $('#createProductForm').attr('index', i)
+                    $('#createLedgerForm').attr('index', i)
                 });
         }
     }).on('change', function (event) {
