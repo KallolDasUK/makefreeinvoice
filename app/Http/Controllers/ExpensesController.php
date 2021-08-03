@@ -9,6 +9,7 @@ use App\Models\ExpenseItem;
 use App\Models\Tax;
 use App\Models\Vendor;
 use Enam\Acc\Models\Ledger;
+use Enam\Acc\Models\LedgerGroup;
 use Illuminate\Http\Request;
 use Exception;
 
@@ -26,10 +27,12 @@ class ExpensesController extends Controller
     public function create()
     {
         $ledgers = Ledger::query()->get();
+        $ledgerGroups = LedgerGroup::query()->get();
+
         $vendors = Vendor::pluck('name', 'id')->all();
         $customers = Customer::pluck('name', 'id')->all();
         $taxes = Tax::query()->latest()->get()->toArray();
-        return view('expenses.create', compact('ledgers', 'vendors', 'customers', 'taxes'));
+        return view('expenses.create', compact('ledgers', 'vendors', 'customers', 'taxes', 'ledgerGroups'));
     }
 
     public function store(Request $request)
@@ -44,7 +47,7 @@ class ExpensesController extends Controller
             ExpenseItem::create($expense_item + ['expense_id' => $expense->id]);
         }
 
-        return redirect()->route('expenses.expense.index')
+        return redirect()->route('expenses.expense.show', $expense->id)
             ->with('success_message', 'Expense was successfully added.');
 
     }

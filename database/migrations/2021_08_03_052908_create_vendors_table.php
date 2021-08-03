@@ -29,7 +29,8 @@ class CreateVendorsTable extends Migration
             $table->string('zip_post')->nullable();
             $table->string('address')->nullable();
             $table->string('website')->nullable();
-
+            $table->integer('user_id')->nullable();
+            $table->integer('client_id')->nullable();
         });
     }
 

@@ -36,7 +36,7 @@ class TaxesController extends Controller
 
         // sleep(5);
 
-        if ($request->acceptsJson()) {
+        if ($request->ajax()) {
             return $tax;
         }
         return redirect()->route('taxes.tax.index')

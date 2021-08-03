@@ -52,6 +52,9 @@ class LedgersController extends Controller
         if ($request->opening > 0) {
             $this->storeOpeningBalance($ledger, $request->opening, $request->opening_type);
         }
+        if ($request->ajax()) {
+            return $ledger;
+        }
 
         return redirect()->route('ledgers.ledger.index')
             ->with('success_message', 'Ledger was successfully added.');
