@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\Customer;
 use App\Models\Expense;
+use App\Models\ExpenseItem;
+use App\Models\Tax;
 use App\Models\Vendor;
 use Enam\Acc\Models\Ledger;
 use Illuminate\Http\Request;
@@ -23,11 +25,11 @@ class ExpensesController extends Controller
 
     public function create()
     {
-        $ledgers = Ledger::pluck('ledger_name', 'id')->all();
+        $ledgers = Ledger::query()->get();
         $vendors = Vendor::pluck('name', 'id')->all();
         $customers = Customer::pluck('name', 'id')->all();
-
-        return view('expenses.create', compact('ledgers', 'vendors', 'customers'));
+        $taxes = Tax::query()->latest()->get()->toArray();
+        return view('expenses.create', compact('ledgers', 'vendors', 'customers', 'taxes'));
     }
 
     public function store(Request $request)
@@ -35,8 +37,12 @@ class ExpensesController extends Controller
 
 
         $data = $this->getData($request);
-
-        Expense::create($data);
+        $expense_items = $data['expense_items'];
+        unset($data['expense_items']);
+        $expense = Expense::create($data);
+        foreach ($expense_items as $expense_item) {
+            ExpenseItem::create($expense_item + ['expense_id' => $expense->id]);
+        }
 
         return redirect()->route('expenses.expense.index')
             ->with('success_message', 'Expense was successfully added.');
@@ -55,11 +61,13 @@ class ExpensesController extends Controller
     public function edit($id)
     {
         $expense = Expense::findOrFail($id);
-        $ledgers = Ledger::pluck('id', 'id')->all();
+        $ledgers = Ledger::query()->get();
         $vendors = Vendor::pluck('name', 'id')->all();
         $customers = Customer::pluck('name', 'id')->all();
-
-        return view('expenses.edit', compact('expense', 'ledgers', 'vendors', 'customers'));
+        $expense_items = ExpenseItem::query()->where('expense_id', $expense->id)->get();
+        $taxes = Tax::query()->latest()->get()->toArray();
+//        dd($expense_items);
+        return view('expenses.edit', compact('expense', 'ledgers', 'vendors', 'customers', 'expense_items', 'taxes'));
     }
 
 
@@ -68,9 +76,15 @@ class ExpensesController extends Controller
 
 
         $data = $this->getData($request);
-
+        $expense_items = $data['expense_items'];
+        unset($data['expense_items']);
         $expense = Expense::findOrFail($id);
+        ExpenseItem::query()->where('expense_id', $expense->id)->delete();
         $expense->update($data);
+        foreach ($expense_items as $expense_item) {
+            ExpenseItem::create($expense_item + ['expense_id' => $expense->id]);
+        }
+
 
         return redirect()->route('expenses.expense.index')
             ->with('success_message', 'Expense was successfully updated.');
@@ -99,10 +113,14 @@ class ExpensesController extends Controller
             'customer_id' => 'nullable',
             'ref' => 'string|min:1|nullable',
             'is_billable' => 'boolean|nullable',
+            'expense_items' => 'nullable',
             'file' => ['file', 'nullable'],
         ];
 
         $data = $request->validate($rules);
+
+        $data['expense_items'] = json_decode($data['expense_items'] ?? '{}', true);
+//        dd($data);
         if ($request->has('custom_delete_file')) {
             $data['file'] = null;
         }

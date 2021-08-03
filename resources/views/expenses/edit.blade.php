@@ -36,9 +36,7 @@
             <form method="POST" action="{{ route('expenses.expense.update', $expense->id) }}" id="edit_expense_form" name="edit_expense_form" accept-charset="UTF-8" class="form-horizontal" enctype="multipart/form-data">
             {{ csrf_field() }}
             <input name="_method" type="hidden" value="PUT">
-            @include ('expenses.form', [
-                                        'expense' => $expense,
-                                      ])
+            @include ('expenses.form', [ 'expense' => $expense])
 
                 <div class="form-group">
                     <div class="float-right">
@@ -50,4 +48,22 @@
         </div>
     </div>
 
+@endsection
+@section('js')
+    <script>
+        var sample_expense = {ledger_id: '', notes: '', tax_id: '', amount: ''};
+        var expense_items = @json($expense_items);
+        var ledgers = @json($ledgers);
+        var taxes = @json($taxes);
+        console.log(ledgers,taxes)
+        $(document).ready(function () {
+            $('#ledger_id').select2()
+            $('#vendor_id').select2()
+            $('#customer_id').select2()
+
+
+        })
+    </script>
+    <script src="{{ asset('js/expenses/expense.js') }}"></script>
+    <script src="{{ asset('js/expenses/expense-crud.js') }}"></script>
 @endsection

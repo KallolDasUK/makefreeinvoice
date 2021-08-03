@@ -4,7 +4,7 @@
 
             <label for="date" class="col-4 text-right">Date <span class="text-danger font-bolder">*</span></label>
 
-            <input class="form-control  {{ $errors->has('date') ? 'is-invalid' : '' }}  col-6" name="date" type="date"
+            <input class="form-control  {{ $errors->has('date') ? 'is-invalid' : '' }}  col-6" name="date" type="date" required
                    id="date" value="{{ old('date', optional($expense)->date) }}">
         </div>
         {!! $errors->first('date', '<p class="form-text text-danger text-center">:message</p>') !!}
@@ -13,15 +13,15 @@
     <div class="col">
         <div class="form-group row align-items-center">
             <label for="ledger_id" class="col-4 text-right">Paid Through <span class="text-danger font-bolder">*</span></label>
-            <select class="form-control col-6" id="ledger_id" name="ledger_id">
+            <select class="form-control col-6" id="ledger_id" name="ledger_id" required>
                 <option value="" style="display: none;"
                         {{ old('ledger_id', optional($expense)->ledger_id ?: '') == '' ? 'selected' : '' }} disabled
                         selected>Select account
                 </option>
-                @foreach ($ledgers as $key => $ledger)
+                @foreach ($ledgers as  $ledger)
                     <option
-                        value="{{ $key }}" {{ old('ledger_id', optional($expense)->ledger_id) == $key ? 'selected' : '' }}>
-                        {{ $ledger }}
+                        value="{{ $ledger->id }}" {{ old('ledger_id', optional($expense)->ledger_id) == $ledger->id ? 'selected' : '' }}>
+                        {{ $ledger->ledger_name }}
                     </option>
                 @endforeach
             </select>
@@ -78,8 +78,10 @@
 
             <label for="ref" class="col-4 text-right">Ref#</label>
 
-            <input class="form-control  col-6  {{ $errors->has('ref') ? 'is-invalid' : '' }}" name="ref" type="text"
+            <input class="form-control input-sm  col-6  {{ $errors->has('ref') ? 'is-invalid' : '' }}" name="ref"
+                   type="text"
                    id="ref"
+                   placeholder="Reference Number (If have)"
                    value="{{ old('ref', optional($expense)->ref) }}">
 
             {!! $errors->first('ref', '<p class="form-text text-danger">:message</p>') !!}
@@ -140,6 +142,46 @@
     <div id="line_table" style="width: 100%"></div>
 </div>
 
+<div class="row mx-auto" style="width: 90%">
+    <div class="col"></div>
+    <div class="col">
+        <table class="table table-borderless">
+            <tr>
+                <td>
+                    <b class=" font-weight-bolder text-black mr-2" style="font-size: 14px">Sub Total</b>
+                </td>
+                <td style="text-align: end">
+                    <input type="number" step="any" id="subTotal" name="sub_total"
+                           value="{{ old('sub_total', optional($expense)->sub_total)??0 }}" readonly
+                           style="border: 1px solid transparent; outline: none;text-align: end">
+                    <span class="currency"></span>
+
+                </td>
+            </tr>
+            <tbody id="allTaxes">
+
+            </tbody>
+            <tr>
+                <td>
+                    <b class=" font-weight-bolder text-black mr-2" style="font-size: 18px"> Total Expense</b>
+                </td>
+                <td style="text-align: end">
+                    <input type="number" step="any" id="total" name="total"
+                           value="{{ old('sub_total', optional($expense)->total)??0.00 }}" readonly
+                           style="border: 1px solid transparent; outline: none;text-align: end;font-size: 20px">
+                    <span class="currency"></span>
+
+                </td>
+            </tr>
+
+        </table>
+    </div>
+
+    <div>
+        {{-- Hidden Element--}}
+        <input type="text" id="expense_items" name="expense_items" hidden>
+    </div>
+</div>
 
 @verbatim
     <script id="template" type="text/ractive">
@@ -163,19 +205,19 @@
 
                 <span class="fa fa-grip-vertical p-2" style="cursor: move"></span>
                 <select style="width: 100%" id='itemSelect{{ i }}' class="itemSelect form-control input-sm "
-                value="{{ product_id }}" index="{{ i }}" required>
+                value="{{ ledger_id }}" index="{{ i }}" required>
                             <option disabled selected value=""> -- </option>
-                            {{ #each products:i }}
-        <option value="{{ id }}" > {{ name }}</option>
+                            {{ #each ledgers:i }}
+        <option value="{{ id }}" > {{ ledger_name }}</option>
                             {{ /each }}
         </select>
         </div>
-   <input type="text" value="{{ description }}" style="border: none!important;" class="form-control  input-sm" placeholder="Item Description ...">
+
             </td>
-            <td> <input type="text" step="any" style="text-align: end"  class="form-control  input-sm rate" value="{{ notes }}" required></td>
+            <td> <textarea type="text" class="form-control  input-sm " value="{{ notes }}" ></textarea></td>
 
             <td >
-            <select index="{{i}}" id="itemTax{{i}}" class="form-control " value="{{ tax_id }}">
+            <select  style="width: 100%"  index="{{i}}" id="itemTax{{i}}" class="form-control " value="{{ tax_id }}">
                     <option value="" selected>--</option>
                     {{ #each taxes:index }}
         <option value="{{id}}">{{ name }} - {{value}}%</option>
@@ -185,19 +227,25 @@
         &nbsp;
      </td>
     <td >
-        <span class="font-weight-bolder" style="font-size: 16px"> {{ amount }}</span>
+        <input type="number" step="any" class="font-weight-bolder form-control  input-sm" style="font-size: 16px;text-align:right" value="{{ amount }}"/>
         <span class="currency d-inline font-weight-bolder" style="font-size: 16px">{{ currency }}</span></td>
             <td on-click="@this.delete(i)" style="cursor: pointer"> <i class="fa fa-trash text-danger" ></i></td>
          </tr>
 {{ /each}}
         </tbody>
         </table>
-        <br>
-        <br>
+
         <div class="">
-            <span role="button" on-click="@this.addExpenseItem()" class="p-4 text-center text-primary"
-                  style="cursor: pointer">+ Add Line</span>
+            <span role="button" on-click="@this.addExpenseItem()" class="p-2 text-center text-primary font-weight-bolder border border-primary "
+                  style="cursor: pointer"><i class="fa fa-plus-circle"></i> Add Another Line</span>
         </div>
+
+
+
+
+
+
+
 
 
 
@@ -240,6 +288,25 @@
     </script>
 @endverbatim
 
+@verbatim
+    <script id="taxTemplate" type="text/ractive">
+            {{#each appliedTax:i}}
+        <tr>
+            <td>
+                <span class="font-weight-bolder">{{ name }}</span>
+
+                    </td>
+                    <td style="text-align: end">
+                        <input type="number" value="{{ amount.toFixed(2) }}" readonly
+                        style="border: 1px solid transparent; outline: none;text-align: end">
+                        <span class="currency d-inline" style="font-size: 16px">{{ currency }}</span>
+                    </td>
+                </tr>
+
+             {{/each}}
+ </script>
+
+@endverbatim
 
 
 
