@@ -16,8 +16,9 @@
         .btn {
             display: inline-block;
             margin-top: 10px;
-            background-color: #0d71bb;
-            color: white;
+            color: #0d71bb;
+            background: white;
+            border: 1px solid #0d71bb;
             padding: 5px 20px;
             cursor: pointer;
             font-size: 16px;
@@ -34,7 +35,7 @@
 <div class="container card ">
     <div class="card-body">
 
-        <h4 >Invoice : {{ $invoice->invoice_number }} </h4>
+        <h4>Invoice : {{ $invoice->invoice_number }} </h4>
         <p> {!! $request_data->message??'' !!} </p>
         <p><a href="https://invoicepedia.com/invoices/share/{{ $invoice->secret }}" class="btn">View Invoice Online</a>
         </p>

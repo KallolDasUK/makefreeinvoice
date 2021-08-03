@@ -16,15 +16,16 @@
 
         .btn {
             display: inline-block;
-            background-color: #0d71bb;
-            color: white;
+            margin-top: 10px;
+            color: #0d71bb;
+            background: white;
+            border: 1px solid #0d71bb;
             padding: 5px 20px;
             cursor: pointer;
             font-size: 16px;
             font-weight: bolder;
             text-align: center;
         }
-
         .btn {
             text-decoration: none;
         }
