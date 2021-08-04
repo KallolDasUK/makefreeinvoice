@@ -31,5 +31,9 @@
     {
         "model-name": "Expense",
         "resource-file": "expenses.json"
+    },
+    {
+        "model-name": "Blog",
+        "resource-file": "blogs.json"
     }
 ]

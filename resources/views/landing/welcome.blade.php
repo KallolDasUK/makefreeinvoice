@@ -26,9 +26,9 @@
                     <div class="card shadow rounded border-0 ms-lg-5">
                         <div class="card-body">
                             <h5 class="card-title">Join Now</h5>
-{{--                            @if($errors->any())--}}
-{{--                                {{ implode('', $errors->all('<div>:message</div>')) }}--}}
-{{--                            @endif--}}
+                            {{--                            @if($errors->any())--}}
+                            {{--                                {{ implode('', $errors->all('<div>:message</div>')) }}--}}
+                            {{--                            @endif--}}
                             <div>
                                 <form class="login-form mt-4" action="{{ route('register') }}" method="post">
                                     @csrf
@@ -326,8 +326,38 @@
         </div><!--end container-->
 
 
-    </section><!--end section-->
+    </section><!--end section--> <h2 class="text-center">Blog Resources</h2>
+    <section class="section bg-dark">
 
+        <div class="container">
+
+            <div class="row">
+                @foreach($posts as $post)
+                    <div class="col-lg-4 col-md-6 col-12">
+                        <div class="card blog border-0 rounded shadow overflow-hidden">
+                            {{--                            <img src="#" class="img-fluid" alt="">--}}
+
+                            <div class="card-body content">
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <span class="badge bg-soft-primary">ICO</span>
+                                    <small class="text-muted">{{ $post->updated_at->format('d M Y') }}</small>
+                                </div>
+                                <a href="{{ route('blogs.blog.show',$post->slug) }}"
+                                   class="title text-dark h5">{{ $post->title }}</a>
+
+                                <div class="mt-3">
+                                    <a href="{{ route('blogs.blog.show',$post->slug) }}" class="link">Read More <i
+                                            class="uil uil-arrow-right align-middle"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div><!--end col-->
+                @endforeach
+
+            </div><!--end row-->
+
+        </div><!--end container-->
+    </section>
 
     <!-- Footer Start -->
     <footer class="footer">
