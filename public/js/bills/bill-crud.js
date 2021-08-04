@@ -74,24 +74,24 @@ $(document).ready(function () {
 
 
     /* Creating Customer Via Ajax With Validation */
-    $('#createCustomerForm').validate({
+    $('#createVendorForm').validate({
         submitHandler: function (form) {
             $.ajax({
                 url: form.action,
                 type: form.method,
                 data: $(form).serialize(),
                 beforeSend: () => {
-                    $('#storeCustomerBtn').prop('disabled', true)
+                    $('#storeVendorBtn').prop('disabled', true)
                     $('.spinner').removeClass('d-none')
                 },
                 success: function (response) {
-                    $('#customerModal').modal('hide')
-                    let customer = response;
-                    $("#customer_id").append(new Option(customer.name, customer.id));
-                    $("#customer_id").val(customer.id)
-                    $("#customer_id").trigger('change')
-                    $('#storeCustomerBtn').trigger("reset");
-                    $('#storeCustomerBtn').prop('disabled', false)
+                    $('#vendorModal').modal('hide')
+                    let vendor = response;
+                    $("#vendor_id").append(new Option(vendor.name, vendor.id));
+                    $("#vendor_id").val(vendor.id)
+                    $("#vendor_id").trigger('change')
+                    $('#storeVendorBtn').trigger("reset");
+                    $('#storeVendorBtn').prop('disabled', false)
                     $('.spinner').addClass('d-none')
 
                 }
@@ -118,6 +118,8 @@ $(document).ready(function () {
             $(element).removeClass('is-invalid');
         }
     });
+
+
 
 
     /* Creating Tax Via Ajax With Validation */

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Ajax\AjaxController;
+use App\Http\Controllers\BillsController;
 use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\CustomersController;
 use App\Http\Controllers\Estimates\EstimatesController;
@@ -93,6 +94,22 @@ Route::group(['middleware' => 'auth:web'], function () {
         Route::post('/send/{invoice}', [InvoicesController::class, 'sendInvoiceMail'])->name('invoices.invoice.send_invoice_mail');
         Route::put('invoice/{invoice}', [InvoicesController::class, 'update'])->name('invoices.invoice.update')->where('id', '[0-9]+');
         Route::delete('/invoice/{invoice}', [InvoicesController::class, 'destroy'])->name('invoices.invoice.destroy')->where('id', '[0-9]+');
+
+    });
+
+
+    Route::group(['prefix' => 'bills'], function () {
+
+        Route::get('/', [BillsController::class, 'index'])->name('bills.bill.index');
+        Route::get('/create', [BillsController::class, 'create'])->name('bills.bill.create');
+        Route::get('/show/{bill}', [BillsController::class, 'show'])->name('bills.bill.show')->where('id', '[0-9]+');
+        Route::get('/share/{bill}', [BillsController::class, 'share'])->name('bills.bill.share')->where('id', '[0-9]+')->withoutMiddleware('auth:web');
+        Route::get('/send/{bill}', [BillsController::class, 'send'])->name('bills.bill.send')->where('id', '[0-9]+');
+        Route::get('/{bill}/edit', [BillsController::class, 'edit'])->name('bills.bill.edit')->where('id', '[0-9]+');
+        Route::post('/', [BillsController::class, 'store'])->name('bills.bill.store');
+        Route::post('/send/{bill}', [BillsController::class, 'sendBillMail'])->name('bills.bill.send_bill_mail');
+        Route::put('bill/{bill}', [BillsController::class, 'update'])->name('bills.bill.update')->where('id', '[0-9]+');
+        Route::delete('/bill/{bill}', [BillsController::class, 'destroy'])->name('bills.bill.destroy')->where('id', '[0-9]+');
 
     });
 
