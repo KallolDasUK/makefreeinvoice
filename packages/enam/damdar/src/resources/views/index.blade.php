@@ -150,14 +150,14 @@
                 <div class="font-weight-bolder">
                     BILL SHORTCUTS
                 </div>
-                <a href="javascript:;" class="sc-gPEVay eaBhby border rounded development">
+                <a href="{{ route('bills.bill.index') }}" class="sc-gPEVay eaBhby border rounded ">
                     <div class="sc-iRbamj image" style="background-image:url('images/manage_invoice.svg') ">
 
                     </div>
                     <div class="shortcuts-title  text-black">My Bills</div>
                 </a>
 
-                <a class="sc-gPEVay eaBhby border rounded development" href="javascript:;">
+                <a class="sc-gPEVay eaBhby border rounded " href="{{ route('bills.bill.create') }}">
                     <div class="sc-iRbamj image" style="background-image:url('images/invoice.svg') ">
 
                     </div>

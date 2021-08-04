@@ -44,6 +44,10 @@ class ClientUserIdProvider extends ServiceProvider
             'estimate_items',
             'estimate_extra_fields',
 
+            'bills',
+            'bill_items',
+            'bill_extra_fields',
+
             'categories',
             'products',
             'taxes',
