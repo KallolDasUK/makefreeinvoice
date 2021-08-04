@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Ajax\AjaxController;
 use App\Http\Controllers\BillsController;
+use App\Http\Controllers\BlogsController;
 use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\CustomersController;
 use App\Http\Controllers\Estimates\EstimatesController;
@@ -31,7 +32,8 @@ use LaravelDaily\Invoices\Invoice;
 */
 
 Route::get('/', function () {
-    return view('landing.welcome');
+    $posts = \App\Models\Blog::all();
+    return view('landing.welcome', compact('posts'));
 });
 
 Auth::routes();
@@ -235,9 +237,25 @@ Route::group(['middleware' => 'auth:web'], function () {
 
 Route::get('/test', function () {
 
-    $estimate = Estimate::query()->first();
+//    $estimate = Estimate::query()->first();
 
 
-    return view('mail.estimate-mail', compact('estimate'));
+    return view('test');
 });
 
+/*
+ *  php artisan resource-file:create Blog --fields=id,title,slug,body,user_id,client_id
+ *  php artisan create:scaffold Blog  --layout-name="layouts.app" --with-migration
+ * */
+
+Route::group(['prefix' => 'blogs'], function () {
+
+    Route::get('/', [BlogsController::class, 'index'])->name('blogs.blog.index');
+    Route::get('/create', [BlogsController::class, 'create'])->name('blogs.blog.create');
+    Route::get('/{slug}', [BlogsController::class, 'show'])->name('blogs.blog.show')->where('id', '[0-9]+');
+    Route::get('/{blog}/edit', [BlogsController::class, 'edit'])->name('blogs.blog.edit')->where('id', '[0-9]+');
+    Route::post('/', [BlogsController::class, 'store'])->name('blogs.blog.store');
+    Route::put('blog/{blog}', [BlogsController::class, 'update'])->name('blogs.blog.update')->where('id', '[0-9]+');
+    Route::delete('/blog/{blog}', [BlogsController::class, 'destroy'])->name('blogs.blog.destroy')->where('id', '[0-9]+');
+
+});
