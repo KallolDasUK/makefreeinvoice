@@ -15,7 +15,7 @@
 
         </div>
     @endif
-
+    @include('partials.settings-tab',['page'=>'general_settings'])
     <form method="post" action="{{ route('accounting.settings.update') }}" style="margin-bottom: 50px"
           enctype="multipart/form-data">
         @csrf

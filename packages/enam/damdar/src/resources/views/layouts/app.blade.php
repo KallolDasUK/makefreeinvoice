@@ -348,11 +348,42 @@
         <!--end::Item-->
         <!--begin::Item-->
         <li class="nav-item">
-            <a href="#" class="nav-link rounded" data-toggle="tab" data-target="#kt_header_tab_2" role="tab"
+            <a href="#" class="nav-link rounded dropdown-toggle" data-toggle="dropdown" data-target="#kt_header_tab_2" role="tab"
                aria-selected="false">
                 <span class="nav-title text-uppercase">Bill</span>
                 <span class="nav-desc">Purchase &amp; Pay</span>
+                <i class="fas fa-sort-down"></i>
             </a>
+            <ul class="dropdown-menu">
+                <div class="row m-0">
+
+                    <div class="col" style="min-width: 500px">
+                        <p class="text-info text--cap border-bottom d-inline-block">
+                            Bill/Purchase Module</p>
+                        <div class="menu-icon-grid font-weight-bolder p-0">
+                            <a href="{{ route('bills.bill.create') }}"
+                               style="min-width: 100px">
+                                <i class="fa fa-plus" aria-hidden="true"></i>
+                                New <br> Bill</a>
+                            <a href="{{ route('bills.bill.index') }}"
+                               style="min-width: 100px"><i
+                                    class="fa fa-list-alt" aria-hidden="true"></i>Manage <br>
+                                Bills</a>
+
+                            <a href="{{ route('products.product.index') }}"
+                               style="min-width: 100px"><i class="fab fa-product-hunt"></i> Products
+                            </a>
+
+                            <a href="{{ route('vendors.vendor.index') }}"
+                               style="min-width: 100px"><i
+                                    class="fa fa-users" aria-hidden="true"></i>Vendors</a>
+
+
+                        </div>
+                    </div>
+
+                </div>
+            </ul>
         </li>
         <!--end::Item-->
         <!--begin::Item-->
