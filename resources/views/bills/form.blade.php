@@ -1,8 +1,8 @@
 <div>
 
-@if($errors->any())
-{!! implode('', $errors->all('<div>:message</div>')) !!}
-@endif
+    @if($errors->any())
+        {!! implode('', $errors->all('<div>:message</div>')) !!}
+    @endif
 </div>
 <div class="row">
 
@@ -150,7 +150,8 @@
                 <input id="paymentCheckBox" class="form-check-input" name="is_payment"
                        type="checkbox" {{ optional($bill)->is_payment?'checked':'' }}>
                 &nbsp;
-                <label for="paymentCheckBox" class="form-check-label"><span class="text-bold"> I have paid the bill </span></label>
+                <label for="paymentCheckBox" class="form-check-label"><span
+                        class="text-bold"> I have paid the bill </span></label>
             </label>
 
 
@@ -187,7 +188,7 @@
                 </div>
                 <div class="form-group row">
                     <div class="col-form-label col-lg-4 text-right required">
-                        <label class="font-weight-bolder " style="font-size: 14px"> Deposit Account <span
+                        <label class="font-weight-bolder " style="font-size: 14px"> From Account <span
                                 class="text-danger">*</span></label>
                     </div>
                     <div class="col-lg-6">
@@ -445,6 +446,7 @@
 
 
 
+
     </script>
 @endverbatim
 @verbatim
@@ -573,6 +575,7 @@
 
 
 
+
     </script>
 @endverbatim
 @verbatim
@@ -597,6 +600,7 @@
               <td><span class="text-primary " on-click="@this.addAdditionalField()" style="cursor:pointer;">+ Add More</span></td>
               <td></td>
           </tr>
+
 
 
 

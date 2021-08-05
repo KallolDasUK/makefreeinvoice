@@ -211,8 +211,9 @@ Route::group(['middleware' => 'auth:web'], function () {
      * AJAX Form Requests Handler
      * */
     Route::group(['prefix' => 'ajax'], function () {
-        Route::post('/receive-payment-customers-invoice', [AjaxController::class, 'receivePaymentCustomerInvoice'])->name('receive-payment-customers-invoice');
-        Route::post('/record-payment', [AjaxController::class, 'recordPayment'])->name('ajax.recordPayment');
+        Route::post('/invoice-payment-customers-invoice', [AjaxController::class, 'receivePaymentCustomerInvoice'])->name('receive-payment-customers-invoice');
+        Route::post('/invoice-payment', [AjaxController::class, 'invoicePayment'])->name('ajax.recordPayment');
+        Route::post('/bill-payment', [AjaxController::class, 'billPayment'])->name('ajax.billPayment');
     });
 
 

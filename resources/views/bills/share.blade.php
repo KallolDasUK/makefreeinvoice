@@ -5,7 +5,7 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Invoice {{ $invoice->invoice_number }}</title>
+    <title>Bill {{ $bill->bill_number }}</title>
 
     <!-- CSS only -->
     <link media="all" type="text/css" rel="stylesheet"
@@ -132,7 +132,7 @@
         </div>
     </div>
     <p class="clearfix"></p>
-    @include('partials.invoice')
+    @include('partials.bill')
 
 </div>
 
@@ -142,7 +142,6 @@
     $(document).ready(function () {
         $('#printBtn').on('click', function () {
             window.print()
-
         })
 
     })

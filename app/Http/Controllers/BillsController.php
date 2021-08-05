@@ -6,6 +6,8 @@ use App\Models\AppMail;
 use App\Models\Bill;
 use App\Models\BillExtraField;
 use App\Models\BillItem;
+use App\Models\BillPayment;
+use App\Models\BillPaymentItem;
 use App\Models\Category;
 use App\Models\Customer;
 use App\Models\ExtraField;
@@ -111,22 +113,22 @@ class BillsController extends Controller
         }
 
 
-//        if (!$bill->is_payment) return;
-//        $paymentSerial = 'PM' . str_pad(ReceivePayment::query()->count(), 3, '0', STR_PAD_LEFT);
-//
-//        $receivePayment = ReceivePayment::create([
-//            'payment_date' => $bill->payment_date,
-//            'bill_id' => $bill->id,
-//            'customer_id' => $bill->customer_id,
-//            'payment_method_id' => $bill->payment_method_id,
-//            'deposit_to' => $bill->deposit_to,
-//            'payment_sl' => $paymentSerial,
-//            'note' => $bill->notes
-//        ]);
-//
-//        ReceivePaymentItem::create(['receive_payment_id' => $receivePayment->id, 'bill_id' => $bill->id, 'amount' => $bill->payment_amount]);
-//        $bill->receive_payment_id = $receivePayment->id;
-//        $bill->save();
+        if (!$bill->is_payment) return;
+        $paymentSerial = 'BPM' . str_pad(BillPayment::query()->count(), 3, '0', STR_PAD_LEFT);
+
+        $billPayment = BillPayment::create([
+            'payment_date' => $bill->payment_date,
+            'bill_id' => $bill->id,
+            'vendor_id' => $bill->vendor_id,
+            'payment_method_id' => $bill->payment_method_id,
+            'ledger_id' => $bill->ledger_id,
+            'payment_sl' => $paymentSerial,
+            'note' => $bill->notes
+        ]);
+
+        BillPaymentItem::create(['bill_payment_id' => $billPayment->id, 'bill_id' => $bill->id, 'amount' => $bill->payment_amount]);
+        $bill->bill_payment_id = $billPayment->id;
+        $bill->save();
 
     }
 
@@ -185,8 +187,8 @@ class BillsController extends Controller
         BillExtraField::query()->where('bill_id', $bill->id)->delete();
         BillItem::query()->where('bill_id', $bill->id)->delete();
         ExtraField::query()->where('type', get_class($bill))->where('type_id', $bill->id)->delete();
-      //  ReceivePayment::query()->where('id', $bill->receive_payment_id)->delete();
-       // ReceivePaymentItem::query()->where('receive_payment_id', $bill->receive_payment_id)->delete();
+        BillPayment::query()->where('id', $bill->bill_payment_id)->delete();
+        BillPaymentItem::query()->where('bill_payment_id', $bill->bill_payment_id)->delete();
 
         $this->insertDataToOtherTable($bill, $bill_items, $extraFields, $additionalFields);
         $this->saveTermsNDNote($data);
@@ -322,7 +324,7 @@ class BillsController extends Controller
 
     public function share($secret)
     {
-        $bill = Bill::query()->with('customer')->where('secret', $secret)->firstOrFail();
+        $bill = Bill::query()->with('vendor')->where('secret', $secret)->firstOrFail();
         $settings = json_decode(MetaSetting::query()->where('client_id', $bill->client_id)->pluck('value', 'key')->toJson());
 //        dd($bill->client_id, $settings);
         return view('bills.share', compact('bill', 'settings'));

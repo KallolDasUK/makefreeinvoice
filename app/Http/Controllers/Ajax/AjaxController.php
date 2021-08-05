@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\Ajax;
 
 use App\Http\Controllers\Controller;
+use App\Models\Bill;
+use App\Models\BillPayment;
+use App\Models\BillPaymentItem;
 use App\Models\Customer;
 use App\Models\Invoice;
 use App\Models\ReceivePayment;
@@ -22,7 +25,7 @@ class AjaxController extends Controller
 
     }
 
-    public function recordPayment(Request $request)
+    public function invoicePayment(Request $request)
     {
 //        sleep(5);
 //        return $request->all();
@@ -45,4 +48,29 @@ class AjaxController extends Controller
         session()->flash('success_message', 'Payment Recorded Successfully for Invoice ' . $invoice->invoice_number);
         return ['success_message' => 'Payment Recorded Successfully for Invoice ' . $invoice->invoice_number];
     }
+
+    public function billPayment(Request $request)
+    {
+
+        $request->validate(['payment_date' => 'required', 'bill_id' => 'required']);
+        $paymentSerial = 'BPM' . str_pad(BillPayment::query()->count(), 3, '0', STR_PAD_LEFT);
+
+        $bill = Bill::find($request->bill_id);
+        $billPayment = BillPayment::create([
+            'payment_date' => $request->payment_date,
+            'bill_id' => $bill->id,
+            'vendor_id' => $bill->vendor_id,
+            'payment_method_id' => $request->payment_method_id,
+            'ledger_id' => $request->ledger_id,
+            'payment_sl' => $paymentSerial,
+            'note' => $request->notes
+        ]);
+
+
+        BillPaymentItem::create(['bill_payment_id' => $billPayment->id, 'bill_id' => $bill->id, 'amount' => $request->amount]);
+
+        session()->flash('success_message', 'Payment Recorded Successfully for Bill ' . $bill->bill_number);
+        return ['success_message' => 'Payment Recorded Successfully for Bill ' . $bill->bill_number];
+    }
+
 }
