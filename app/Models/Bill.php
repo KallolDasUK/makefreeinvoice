@@ -50,25 +50,25 @@ class Bill extends Model
 
     }
 
-//    public function payments()
-//    {
-//        return $this->hasMany(ReceivePaymentItem::class, 'bill_id');
-//    }
+    public function payments()
+    {
+        return $this->hasMany(BillPaymentItem::class, 'bill_id');
+    }
 
-//
-//    public function getPaymentStatusAttribute()
-//    {
-//        $paymentAmount = $this->payments->sum('amount');
-//        $this->total = floatval($this->total);
-////        dump($paymentAmount,$this->total);
-//        if ($this->total <= $paymentAmount) {
-//            return self::Paid;
-//        } else if ($paymentAmount > 0 && $paymentAmount < $this->total) {
-//            return self::Partial;
-//        } else {
-//            return self::UnPaid;
-//        }
-//    }
+
+    public function getPaymentStatusAttribute()
+    {
+        $paymentAmount = $this->payments->sum('amount');
+        $this->total = floatval($this->total);
+//        dump($paymentAmount,$this->total);
+        if ($this->total <= $paymentAmount) {
+            return self::Paid;
+        } else if ($paymentAmount > 0 && $paymentAmount < $this->total) {
+            return self::Partial;
+        } else {
+            return self::UnPaid;
+        }
+    }
 
     public function getTaxableAmountAttribute()
     {

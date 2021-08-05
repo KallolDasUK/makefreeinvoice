@@ -35,7 +35,7 @@
     @endif
 
 
-    @include('modals.receive-payment-modal')
+    @include('partials.bill-payment-modal')
 
 
 
@@ -47,7 +47,7 @@
         <div class="card-header border-0 py-5">
             <h3 class="card-title align-items-start flex-column">
                 <span class="card-label font-weight-bolder text-dark">Bills</span>
-                <span class="text-muted mt-3 font-weight-bold font-size-sm">More than 400+ new members</span>
+                <span class="text-muted mt-3 font-weight-bold font-size-sm">More than 4+ new vendor</span>
             </h3>
             <div class="card-toolbar">
                 <a href="{{ route('bills.bill.create') }}"
@@ -71,11 +71,10 @@
                                 <span></span>
                             </label>
                         </th>
-                        <th class="text-center">Invoice Number</th>
-                        <th class="pr-0">Client</th>
+                        <th class="text-left">Bill Number</th>
+                        <th class="pr-0">Vendor</th>
                         <th>Bill Date</th>
-                        <th>Payment Status</th>
-                        <th>Due</th>
+                        <th>Payment</th>
                         <th class="text-right">Amount</th>
                         <th class="pr-0 text-right" style="min-width: 150px">action</th>
                     </tr>
@@ -103,9 +102,9 @@
                             </td>
                             <td>
                                 <a href="{{ route('bills.bill.show',$bill->id) }}"
-                                   class="text-dark-75 font-weight-bolder d-block font-size-lg bill_number">{{ optional($bill->customer)->name }}</a>
+                                   class="text-dark-75 font-weight-bolder d-block font-size-lg bill_number">{{ optional($bill->vendor)->name }}</a>
                                 <span
-                                    class="text-muted font-weight-bold">{{ optional($bill->customer)->email }}</span>
+                                    class="text-muted font-weight-bold">{{ optional($bill->vendor)->email }}</span>
                             </td>
                             <td class="pl-0">
                                 <a href="{{ route('bills.bill.show',$bill->id) }}"
@@ -129,30 +128,32 @@
 
                                             }
                                     @endphp
-                                    <span style="font-size: 16px"
-                                          class="{{ $class }}">{{ $bill->payment_status }}</span>
+                                    <span style="font-size: 12px"
+                                          class="{{ $class }} ">{{ $bill->payment_status }}</span>
                                 </div>
                             </td>
-                            <td>
-                                @if($bill->due>0)
-                                    <span
-                                        class="text-dark-75 font-weight-bolder text-hover-primary mb-1 font-size-lg">{{ $bill->due }}</span>
-                                @endif
 
-                            </td>
                             <td class="text-right">
                                 <div class="font-weight-bolder  ">
                                     <span
                                         style="font-size: 20px"><small>{{ $bill->currency }}</small>{{ number_format($bill->total,2) }} </span>
+
                                 </div>
+                                @if($bill->due>0)
+
+
+                                    <span
+                                        class=" font-weight-bold text-info d-block">Due :  {{ decent_format($bill->due) }}</span>
+
+                                @endif
                             </td>
                             <td class="pr-0 text-right">
                                 @if($bill->due > 0)
                                     <span style="text-decoration: underline"
-                                          class=" font-weight-bolder text-success  font-size-lg underline  text-hover-danger cursor-pointer mx-4 recordPaymentBtn"
+                                          class=" font-weight-bolder text-success  font-size-lg underline  text-hover-danger cursor-pointer mx-4 billPaymentBtn"
                                           bill_id="{{ $bill->id }}" currency="{{ $bill->currency }}"
                                           bill_number="{{ $bill->bill_number }}"
-                                          due="{{ $bill->due }}"> Receive Payment</span>
+                                          due="{{ $bill->due }}">Record Payment</span>
                                 @endif
 
 
@@ -169,11 +170,7 @@
                                                 class=""></path></svg>
                                     </span>
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                        <a href="{{ route('bills.bill.send',$bill->id) }}"
-                                           class="dropdown-item btn">
-                                            <span class="far fa-envelope-open mx-4"></span> <strong> Bill
-                                                Email</strong>
-                                        </a>
+
                                         <a href="javascript:;"
                                            share_link="{{ route('bills.bill.share',$bill->secret) }}"
 
@@ -245,7 +242,7 @@
 
     <script>
         $(document).ready(function () {
-            $('.recordPaymentBtn').on('click', function () {
+            $('.billPaymentBtn').on('click', function () {
                 let bill_id = $(this).attr('bill_id')
                 let currency = $(this).attr('currency')
                 let due = $(this).attr('due')
@@ -257,11 +254,11 @@
                 setTimeout(() => {
                     $('#amount').focus()
                 }, 500)
-                $('#recordPaymentModal').modal('show')
+                $('#billPaymentModal').modal('show')
             });
             $('#payment_method_id').select2()
             $('#deposit_to').select2()
-            $('#recordPaymentForm').validate({
+            $('#billPaymentForm').validate({
                 submitHandler: function (form) {
                     $.ajax({
                         url: form.action,
@@ -271,12 +268,12 @@
                             $('button[type=submit]').prop('disabled', true)
                         },
                         success: function (response) {
-                            $('#recordPaymentModal').modal('hide');
+                            $('#billPaymentModal').modal('hide');
                             Swal.fire(response.success_message)
                                 .then(function (result) {
                                     window.location.reload()
                                 })
-                            $('#recordPaymentForm').trigger("reset");
+                            $('#billPaymentForm').trigger("reset");
                             $('button[type=submit]').prop('disabled', false)
 
                         },

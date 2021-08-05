@@ -113,9 +113,6 @@
                 <a href="{{ route('bills.bill.share',$bill->secret) }}"
                    class="btn btn-outline-secondary   btn-lg " style="font-size: 20px"><i
                         class="fa fa-share"></i> Share
-                </a> <a href="{{ route('bills.bill.send',$bill->id) }}"
-                        class="btn btn-outline-secondary   btn-lg " style="font-size: 20px"><i
-                        class="far fa-envelope-open"></i> Email Bill
                 </a>
             </div>
         </div>
