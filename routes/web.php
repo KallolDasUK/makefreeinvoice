@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Ajax\AjaxController;
+use App\Http\Controllers\BillingsController;
 use App\Http\Controllers\BillsController;
 use App\Http\Controllers\BlogsController;
 use App\Http\Controllers\CategoriesController;
@@ -14,6 +15,7 @@ use App\Http\Controllers\TaxesController;
 use App\Http\Controllers\ReceivePaymentsController;
 use App\Http\Controllers\PaymentMethodsController;
 use App\Http\Controllers\VendorsController;
+use App\Models\Blog;
 use App\Models\Estimate;
 use Illuminate\Support\Facades\Route;
 use LaravelDaily\Invoices\Classes\InvoiceItem;
@@ -32,7 +34,7 @@ use LaravelDaily\Invoices\Invoice;
 */
 
 Route::get('/', function () {
-    $posts = \App\Models\Blog::all();
+    $posts = Blog::all();
     return view('landing.welcome', compact('posts'));
 });
 
@@ -233,6 +235,12 @@ Route::group(['middleware' => 'auth:web'], function () {
         Route::delete('/expense/{expense}', [ExpensesController::class, 'destroy'])->name('expenses.expense.destroy')->where('id', '[0-9]+');
 
     });
+
+    Route::group(['prefix' => 'subscriptions'], function () {
+
+        Route::get('/', [BillingsController::class, 'index'])->name('subscriptions.settings');
+
+    });
 });
 
 
@@ -247,9 +255,11 @@ Route::get('/test', function () {
 /*
  *  php artisan resource-file:create Blog --fields=id,title,slug,body,user_id,client_id
  *  php artisan create:scaffold Blog  --layout-name="layouts.app" --with-migration
+ *
  * */
 
 Route::group(['prefix' => 'blogs'], function () {
+
 
     Route::get('/', [BlogsController::class, 'index'])->name('blogs.blog.index');
     Route::get('/create', [BlogsController::class, 'create'])->name('blogs.blog.create');
