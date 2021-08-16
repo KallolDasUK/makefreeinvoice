@@ -17,16 +17,22 @@ class EstimateItem extends Model
         return $this->belongsTo('App\Models\Product', 'product_id');
     }
 
+    public function estimate()
+    {
+        return $this->belongsTo('App\Models\Estimate', 'estimate_id');
+    }
+
     public function getAmountAttribute()
     {
         return $this->qnt * $this->price;
     }
+
     protected static function boot()
     {
         parent::boot();
 
         static::addGlobalScope('scopeClient', function (Builder $builder) {
-            if (optional(auth()->user())->client_id){
+            if (optional(auth()->user())->client_id) {
                 $builder->where('client_id', auth()->user()->client_id ?? -1);
             }
         });

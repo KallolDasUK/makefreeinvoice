@@ -3,7 +3,10 @@
 
 
 @section('css')
-    <style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" integrity="sha512-mSYUmp1HYZDFaVKK//63EcZq4iFWFjxSL+Z3T/aCt4IO9Cejm03q3NKKYN6pFQzY0SBOr8h+eCIAZHPXcpZaNw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
+<style>
         .dropdown-toggle:hover {
             color: #0d71bb !important;
         }
@@ -46,7 +49,7 @@
                         <div class="d-flex align-items-center justify-content-center">
                             <div class="card-body ">
                                 Overdue
-                                <h3>$123.00</h3>
+                                <h3>{{ $settings->currency??'$' }}{{ $overdue }}</h3>
                             </div>
                             <div class="vertical-divider"></div>
                         </div>
@@ -61,7 +64,7 @@
                         <div class="d-flex align-items-center justify-content-center">
                             <div class="card-body ">
                                 Draft Amount
-                                <h3>$123.00</h3>
+                                <h3>{{ $settings->currency??'$' }}{{ $draft }}</h3>
                             </div>
                             <div class="vertical-divider"></div>
                         </div>
@@ -75,7 +78,7 @@
                         <div class="d-flex align-items-center justify-content-center">
                             <div class="card-body ">
                                 Paid Amount
-                                <h3>$123.00</h3>
+                                <h3>{{ $settings->currency??'$' }}{{ $paid }}</h3>
                             </div>
                             <div class="vertical-divider"></div>
                         </div>
@@ -86,7 +89,7 @@
                         <div class="d-flex align-items-center justify-content-center">
                             <div class="card-body ">
                                 Due within next 30 days
-                                <h3>$123.00</h3>
+                                <h3>{{ $settings->currency??'$' }}{{ $due_next_30 }}</h3>
                             </div>
                         </div>
                     </div>
@@ -118,7 +121,57 @@
         <!--end::Header-->
         <!--begin::Body-->
         <div class="card-body py-0">
-            <!--begin::Table-->
+            <!--begin::Filter-->
+            <form action="{{ route('invoices.invoice.index') }}">
+                <div class="row align-items-center mb-4">
+
+                    <div class="col-lg-3 col-xl-2">
+                        <input name="q" type="text" class="form-control" placeholder="Invoice Number #"
+                               value="{{ $q }}"
+                        >
+                    </div>
+                    <div class="mx-2">
+                        <select name="customer" id="customer" class="form-control">
+                            <option></option>
+                            @foreach($customers as $customer)
+                                <option value="{{ $customer->id }}"
+                                        @if($customer->id == $customer_id) selected @endif>{{ $customer->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col">
+                        <div class="row align-items-center">
+                            <div class="input-daterange input-group" id="start_date">
+                                <input type="text" class="form-control col-2" name="start_date"
+                                       value="{{ $start_date }}"
+                                       placeholder="From">
+                                <div class="input-group-append">
+									<span class="input-group-text">
+										<i class="la la-ellipsis-h"></i>
+                                        To
+                                    </span>
+                                </div>
+                                <input type="text" class="form-control col-2" name="end_date" id="end_date"
+                                       value="{{ $end_date }}"
+
+                                       placeholder="To">
+                                <button role="button" type="submit"
+                                        class="btn btn-primary px-6 mx-2 col-3 font-weight-bold">
+                                    <i class="fas fa-sliders-h"></i>
+                                    Filter
+                                </button>
+
+                                @if($start_date != null || $end_date != null || $customer_id !=null || $q != null)
+                                    <a href="{{ route('invoices.invoice.index') }}" title="Clear Filter"
+                                       class="btn btn-icon btn-light-danger"> X</a>
+                                @endif
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </form>
             <div>
                 <table class="table table-head-custom table-vertical-center" id="kt_advance_table_widget_1">
                     <thead>
@@ -300,7 +353,9 @@
 @endsection
 
 @section('js')
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"
+            integrity="sha512-T/tUfKSV1bihCnd+MxKD0Hm1uBBroVYBOYSk1knyvQ9VyZJpc/ALb4P0r6ubwVPSGB2GvjeoMAJJImBG12TiaQ=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script>
         $(document).ready(function () {
             $('.recordPaymentBtn').on('click', function () {
@@ -378,6 +433,18 @@
             })
 
             $('.invoice_number').tooltip({'title': 'Show Invoice'});
+            $('#customer').select2({placeholder: 'Customer', allowClear: true})
+
+
+            var datepicker = $.fn.datepicker.noConflict();
+            $.fn.bootstrapDP = datepicker;
+            $("#start_date,#end_date").bootstrapDP({
+                autoclose: true,
+                format: "yyyy-mm-dd",
+                immediateUpdates: true,
+                todayBtn: true,
+                todayHighlight: true
+            });
 
         })
     </script>

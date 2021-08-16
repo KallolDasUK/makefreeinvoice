@@ -1,5 +1,28 @@
 @extends('acc::layouts.app')
+@section('js')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.8.1/html2pdf.bundle.min.js"
+            integrity="sha512-vDKWohFHe2vkVWXHp3tKvIxxXg0pJxeid5eo+UjdjME3DBFBn2F8yWOE0XmiFcFbXxrEOR1JriWEno5Ckpn15A=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>@endsection
+@section('css')
+    <style>
+        @media print {
+            body * {
+                visibility: hidden;
+            }
 
+            #receipt-container, #receipt-container * {
+                visibility: visible;
+            }
+
+            #receipt-container {
+                position: absolute;
+                left: 0;
+                top: 0;
+                right: 0;
+            }
+        }
+    </style>
+@endsection
 @section('content')
 
     <div>
@@ -44,8 +67,19 @@
 
         </div>
         <p class="clearfix"></p>
-        <div class=" mx-auto" style="width: 400px">
-            <div class="card">
+        <div class="btn-group btn-group-lg float-right bg-white" role="group" aria-label="Large button group">
+            <button id="printBtn" type="button" class="btn btn-outline-secondary">
+                <i class="fa fa-print text-danger"></i>
+                <b>Print Receipt</b>
+            </button>
+            <button id="downloadBtn" type="button" class="btn btn-outline-secondary">
+                <i class="fa fa-download text-primary"></i>
+
+                <b>Download</b>
+            </button>
+        </div>
+        <div id="receipt-container" class="receipt-container mx-auto" style="width: 400px">
+            <div class="card ">
                 <div class="card-body text-center">
                     <h2> Expense Receipt</h2>
                     @if($settings->business_logo??false)
@@ -119,8 +153,51 @@
                 </div>
             </div>
         </div>
+        @if($expense->file)
+            <div class="mx-auto">
+                <h2 class="text-center mx-auto">
+                    <img  src="{{ asset('storage/'.$expense->file) }} " style="width: 50%" class="card mx-auto"/></h2>
+            </div>
+        @endif
 
 
     </div>
 
 @endsection
+
+@push('js')
+    <script>
+
+        $('#printBtn').on('click', function () {
+            window.print()
+        })
+        $('#downloadBtn').on('click', function () {
+            var element = document.getElementById('receipt-container');
+            let invoice_number = "{{ $expense->ref??'expense'.$expense->id }}"
+            var opt = {
+                filename: invoice_number + '.pdf',
+                image: {type: 'jpeg', quality: 0.98},
+                html2canvas: {scale: 2},
+                jsPDF: {unit: 'in', format: 'letter', orientation: 'portrait'}
+            };
+            html2pdf(element, opt);
+        })
+        $(document).ready(() => {
+            let is_print = {{ $is_print }};
+            let is_download = {{ $is_download }};
+            if (is_print) {
+                $('#printBtn').click()
+                setTimeout(() => {
+                    window.location.href = "{{ route('expenses.expense.index') }}";
+                }, 100)
+            }
+            if (is_download) {
+                $('#downloadBtn').click()
+                setTimeout(() => {
+                    window.location.href = "{{ route('expenses.expense.index') }}";
+                }, 1000)
+            }
+        });
+
+    </script>
+@endpush

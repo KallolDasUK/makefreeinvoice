@@ -60,7 +60,55 @@
         <!--end::Header-->
         <!--begin::Body-->
         <div class="card-body py-0">
-            <!--begin::Table-->
+            <form action="{{ route('bills.bill.index') }}">
+                <div class="row align-items-center mb-4">
+
+                    <div class="col-lg-3 col-xl-2">
+                        <input name="q" type="text" class="form-control" placeholder="Bil Number #"
+                               value="{{ $q }}"
+                        >
+                    </div>
+                    <div class="mx-2">
+                        <select name="vendor" id="vendor" class="form-control">
+                            <option></option>
+                            @foreach($vendors as $vendor)
+                                <option value="{{ $vendor->id }}"
+                                        @if($vendor->id == $vendor_id) selected @endif>{{ $vendor->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col">
+                        <div class="row align-items-center">
+                            <div class="input-daterange input-group" id="start_date">
+                                <input type="text" class="form-control col-2" name="start_date"
+                                       value="{{ $start_date }}"
+                                       placeholder="From">
+                                <div class="input-group-append">
+									<span class="input-group-text">
+                                       ...
+                                    </span>
+                                </div>
+                                <input type="text" class="form-control col-2" name="end_date" id="end_date"
+                                       value="{{ $end_date }}"
+
+                                       placeholder="To">
+                                <button role="button" type="submit"
+                                        class="btn btn-primary px-6 mx-2 col-3 font-weight-bold">
+                                    <i class="fas fa-sliders-h"></i>
+                                    Filter
+                                </button>
+
+                                @if($start_date != null || $end_date != null || $vendor_id !=null || $q != null)
+                                    <a href="{{ route('bills.bill.index') }}" title="Clear Filter"
+                                       class="btn btn-icon btn-light-danger"> X</a>
+                                @endif
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </form>
             <div>
                 <table class="table table-head-custom table-vertical-center" id="kt_advance_table_widget_1">
                     <thead>
@@ -108,11 +156,11 @@
                             </td>
                             <td class="pl-0">
                                 <a href="{{ route('bills.bill.show',$bill->id) }}"
-                                   class="text-dark-75 font-weight-bolder text-hover-primary mb-1 font-size-lg bill_number">{{ \Carbon\Carbon::parse($bill->bill_date)->format('d/m/Y') }}</a>
+                                   class="text-dark-75 font-weight-bolder text-hover-primary mb-1 font-size-lg bill_number">{{ \Carbon\Carbon::parse($bill->bill_date)->toDateString() }}</a>
 
                                 @if($bill->due_date)
                                     <span
-                                        class="text-muted font-weight-bold text-muted d-block">Due on {{ \Carbon\Carbon::parse($bill->due_date)->format('d/m/Y') }}</span>
+                                        class="text-muted font-weight-bold text-muted d-block">Due on {{ \Carbon\Carbon::parse($bill->due_date)->toDateString() }}</span>
                                 @endif
                             </td>
                             <td>
@@ -239,7 +287,9 @@
 @endsection
 
 @section('js')
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"
+            integrity="sha512-T/tUfKSV1bihCnd+MxKD0Hm1uBBroVYBOYSk1knyvQ9VyZJpc/ALb4P0r6ubwVPSGB2GvjeoMAJJImBG12TiaQ=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script>
         $(document).ready(function () {
             $('.billPaymentBtn').on('click', function () {
@@ -317,7 +367,22 @@
             })
 
             $('.bill_number').tooltip({'title': 'Show Bill'});
+            $('#vendor').select2({placeholder: 'All Vendor', allowClear: true})
 
+
+
+            var datepicker = $.fn.datepicker.noConflict();
+            $.fn.bootstrapDP = datepicker;
+            $("#start_date,#end_date").bootstrapDP({
+
+                autoclose: true,
+                format: "yyyy-mm-dd",
+                immediateUpdates: true,
+                todayBtn: true,
+                todayHighlight: true,
+                clearBtn:true
+
+            });
         })
     </script>
 

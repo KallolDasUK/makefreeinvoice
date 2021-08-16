@@ -120,7 +120,7 @@ class Bill extends Model
 
     public static function nextInvoiceNumber()
     {
-        $next_invoice = 'BILL-' . str_pad(count(Invoice::query()->get()) + 1, 4, '0', STR_PAD_LEFT);
+        $next_invoice = 'BILL-' . str_pad(count(Bill::query()->get()) + 1, 4, '0', STR_PAD_LEFT);
         return $next_invoice;
     }
 

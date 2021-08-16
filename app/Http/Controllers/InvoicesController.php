@@ -17,6 +17,7 @@ use App\Models\ReceivePayment;
 use App\Models\ReceivePaymentItem;
 use App\Models\Tax;
 use App\Traits\SettingsTrait;
+use Carbon\Carbon;
 use Enam\Acc\Models\GroupMap;
 use Enam\Acc\Models\Ledger;
 use Enam\Acc\Traits\TransactionTrait;
@@ -36,15 +37,39 @@ class InvoicesController extends Controller
 //        dd($this->settings);
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $invoices = Invoice::with('customer')->latest()->paginate(10);
+        $start_date = $request->start_date;
+        $end_date = $request->end_date;
+        $customer_id = $request->customer;
+        $q = $request->q;
+        $invoices = Invoice::with('customer')
+            ->when($customer_id != null, function ($query) use ($customer_id) {
+                return $query->where('customer_id', $customer_id);
+            })->when($q != null, function ($query) use ($q) {
+                return $query->where('invoice_number', 'like', '%' . $q . '%');
+            })
+            ->when($start_date != null && $end_date != null, function ($query) use ($start_date, $end_date) {
+                $start_date = Carbon::parse($start_date)->toDateString();
+                $end_date = Carbon::parse($end_date)->toDateString();
+                return $query->whereBetween('invoice_date', [Carbon::parse($start_date), Carbon::parse($end_date)]);
+            })
+            ->latest()
+            ->paginate(10);
         $cashAcId = optional(GroupMap::query()->firstWhere('key', LedgerHelper::$CASH_AC))->value;
         $depositAccounts = Ledger::find($this->getAssetLedgers())->sortBy('ledger_name');
         $paymentMethods = PaymentMethod::query()->get();
-        return view('invoices.index', compact('invoices', 'cashAcId', 'depositAccounts', 'paymentMethods'));
+        $customers = Customer::all();
+
+        return view('invoices.index', compact('invoices', 'q', 'cashAcId', 'depositAccounts', 'paymentMethods', 'start_date', 'end_date', 'customer_id', 'customers') + $this->summaryReport());
     }
 
+    public function summaryReport()
+    {
+
+
+        return ['overdue' => Invoice::overdue(), 'draft' => Invoice::draft(), 'due_next_30' => Invoice::dueNext30(), 'paid' => Invoice::paid()];
+    }
 
     public function create()
     {
@@ -101,7 +126,7 @@ class InvoicesController extends Controller
 
             InvoiceItem::create(['invoice_id' => $invoice->id, 'product_id' => $product_id,
                 'description' => $invoice_item->description, 'qnt' => $invoice_item->qnt, 'unit' => $invoice_item->unit ?? '',
-                'price' => $invoice_item->price, 'amount' => $invoice_item->price * $invoice_item->qnt, 'tax_id' => $invoice_item->tax_id == '' ? 0 : $invoice_item->tax_id]);
+                'price' => $invoice_item->price, 'amount' => $invoice_item->price * $invoice_item->qnt, 'tax_id' => $invoice_item->tax_id == '' ? 0 : $invoice_item->tax_id, 'date' => $invoice->invoice_date]);
         }
         foreach ($extraFields as $additional) {
             InvoiceExtraField::create(['name' => $additional->name, 'value' => $additional->value, 'invoice_id' => $invoice->id]);

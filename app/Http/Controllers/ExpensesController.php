@@ -8,6 +8,7 @@ use App\Models\Expense;
 use App\Models\ExpenseItem;
 use App\Models\Tax;
 use App\Models\Vendor;
+use Carbon\Carbon;
 use Enam\Acc\Models\Ledger;
 use Enam\Acc\Models\LedgerGroup;
 use Illuminate\Http\Request;
@@ -16,11 +17,23 @@ use Exception;
 class ExpensesController extends Controller
 {
 
-    public function index()
+    public function index(Request $request)
     {
-        $expenses = Expense::with('ledger', 'vendor', 'customer')->paginate(25);
+        $start_date = $request->start_date;
+        $end_date = $request->end_date;
+        $q = $request->q;
+        $expenses = Expense::with('ledger', 'vendor', 'customer')
+            ->when($q != null, function ($query) use ($q) {
+                return $query->where('ref', 'like', '%' . $q . '%');
+            })->when($start_date != null && $end_date != null, function ($query) use ($start_date, $end_date) {
+                $start_date = Carbon::parse($start_date)->toDateString();
+                $end_date = Carbon::parse($end_date)->toDateString();
+                return $query->whereBetween('date', [$start_date, $end_date]);
+            })
+            ->latest()
+            ->paginate(25);
 
-        return view('expenses.index', compact('expenses'));
+        return view('expenses.index', compact('expenses', 'start_date', 'end_date', 'q'));
     }
 
 
@@ -44,7 +57,7 @@ class ExpensesController extends Controller
         unset($data['expense_items']);
         $expense = Expense::create($data);
         foreach ($expense_items as $expense_item) {
-            ExpenseItem::create($expense_item + ['expense_id' => $expense->id]);
+            ExpenseItem::create($expense_item + ['expense_id' => $expense->id, 'date' => $request->date ?? null]);
         }
 
         return redirect()->route('expenses.expense.show', $expense->id)
@@ -56,8 +69,10 @@ class ExpensesController extends Controller
     public function show($id)
     {
         $expense = Expense::with('ledger', 'vendor', 'customer')->findOrFail($id);
-
-        return view('expenses.show', compact('expense'));
+        $is_print = intval(request('print', 0));
+        $is_download = intval(request('download', 0));
+//        dd($is_print);
+        return view('expenses.show', compact('expense', 'is_download', 'is_print'));
     }
 
 
@@ -85,7 +100,7 @@ class ExpensesController extends Controller
         ExpenseItem::query()->where('expense_id', $expense->id)->delete();
         $expense->update($data);
         foreach ($expense_items as $expense_item) {
-            ExpenseItem::create($expense_item + ['expense_id' => $expense->id]);
+            ExpenseItem::create($expense_item + ['expense_id' => $expense->id, 'date' => $request->date ?? null]);
         }
 
 
@@ -99,6 +114,7 @@ class ExpensesController extends Controller
     {
 
         $expense = Expense::findOrFail($id);
+        ExpenseItem::query()->where('expense_id', $id)->delete();
         $expense->delete();
 
         return redirect()->route('expenses.expense.index')
