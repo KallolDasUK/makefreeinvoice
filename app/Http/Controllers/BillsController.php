@@ -19,6 +19,7 @@ use App\Models\ReceivePaymentItem;
 use App\Models\Tax;
 use App\Models\Vendor;
 use App\Traits\SettingsTrait;
+use Carbon\Carbon;
 use Enam\Acc\Models\GroupMap;
 use Enam\Acc\Models\Ledger;
 use Enam\Acc\Traits\TransactionTrait;
@@ -38,13 +39,30 @@ class BillsController extends Controller
 //        dd($this->settings);
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $bills = Bill::with('vendor')->latest()->paginate(10);
+        $start_date = $request->start_date;
+        $end_date = $request->end_date;
+        $vendor_id = $request->vendor;
+        $q = $request->q;
+        $bills = Bill::with('vendor')
+            ->when($vendor_id != null, function ($query) use ($vendor_id) {
+                return $query->where('vendor_id', $vendor_id);
+            })->when($q != null, function ($query) use ($q) {
+                return $query->where('bill_number', 'like', '%' . $q . '%');
+            })
+            ->when($start_date != null && $end_date != null, function ($query) use ($start_date, $end_date) {
+                $start_date = Carbon::parse($start_date)->toDateString();
+                $end_date = Carbon::parse($end_date)->toDateString();
+                return $query->whereBetween('bill_date', [$start_date, $end_date]);
+            })
+            ->latest()->paginate(10);
         $cashAcId = optional(GroupMap::query()->firstWhere('key', LedgerHelper::$CASH_AC))->value;
         $depositAccounts = Ledger::find($this->getAssetLedgers())->sortBy('ledger_name');
         $paymentMethods = PaymentMethod::query()->get();
-        return view('bills.index', compact('bills', 'cashAcId', 'depositAccounts', 'paymentMethods'));
+        $vendors = Vendor::all();
+        return view('bills.index', compact('bills', 'cashAcId', 'depositAccounts', 'paymentMethods',
+            'start_date', 'end_date', 'vendor_id', 'vendors', 'q'));
     }
 
 
@@ -102,7 +120,7 @@ class BillsController extends Controller
 
             BillItem::create(['bill_id' => $bill->id, 'product_id' => $product_id,
                 'description' => $bill_item->description, 'qnt' => $bill_item->qnt, 'unit' => $bill_item->unit ?? '',
-                'price' => $bill_item->price, 'amount' => $bill_item->price * $bill_item->qnt, 'tax_id' => $bill_item->tax_id == '' ? 0 : $bill_item->tax_id]);
+                'price' => $bill_item->price, 'amount' => $bill_item->price * $bill_item->qnt, 'tax_id' => $bill_item->tax_id == '' ? 0 : $bill_item->tax_id, 'date' => $bill->bill_date]);
         }
         foreach ($extraFields as $additional) {
             BillExtraField::create(['name' => $additional->name, 'value' => $additional->value, 'bill_id' => $bill->id]);

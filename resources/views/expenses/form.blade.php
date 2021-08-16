@@ -4,7 +4,8 @@
 
             <label for="date" class="col-4 text-right">Date <span class="text-danger font-bolder">*</span></label>
 
-            <input class="form-control  {{ $errors->has('date') ? 'is-invalid' : '' }}  col-6" name="date" type="date" required
+            <input class="form-control  {{ $errors->has('date') ? 'is-invalid' : '' }}  col-6" name="date" type="date"
+                   required
                    id="date" value="{{ old('date', optional($expense)->date) }}">
         </div>
         {!! $errors->first('date', '<p class="form-text text-danger text-center">:message</p>') !!}
@@ -84,12 +85,10 @@
                    placeholder="Reference Number (If have)"
                    value="{{ old('ref', optional($expense)->ref) }}">
 
-            {!! $errors->first('ref', '<p class="form-text text-danger">:message</p>') !!}
-
         </div>
     </div>
     <div class="col">
-        <div class="form-group row align-items-center">
+        <div class="form-group row align-items-center  d-none">
             <label for="is_billable" class="col-4 text-right">Is Billable</label>
             <div class=" col-6">
                 <label class="checkbox checkbox-lg">
@@ -97,7 +96,6 @@
                            value="1" {{ old('is_billable', optional($expense)->is_billable) == '1' ? 'checked' : '' }}>
                     <span class="mr-4"></span> Yes
                 </label>
-                {!! $errors->first('is_billable', '<p class="form-text text-danger">:message</p>') !!}
 
             </div>
         </div>
@@ -117,26 +115,36 @@
                 </label>
                 <input type="text" class="form-control uploaded-file-name" hidden>
             </div>
+        </div>
+    </div>
 
-            @if (isset($expense->file) && !empty($expense->file))
-                <div class="input-group input-width-input">
-                <span class="input-group-addon">
-                    <input type="checkbox" name="custom_delete_file" class="custom-delete-file" value="1" {{ old('custom_delete_file', '0') == '1' ? 'checked' : '' }}> Delete
+    <div class="col">
+
+
+    </div>
+</div>
+@if (isset($expense->file) && !empty($expense->file))
+    <div class="row">
+        <div class="col">
+            <div class="form-group row align-items-center">
+                <label for="delete" class="col-4 text-right">Delete?</label>
+                <div class="input-group uploaded-file-group col-6">
+                    <label class="input-group-btn">
+                <span class="btn btn-default">
+                  <input id="delete" type="checkbox" name="custom_delete_file" class="custom-delete-file" value="1" {{ old('custom_delete_file', '0') == '1' ? 'checked' : '' }} />
                 </span>
+                    </label>
+                    <img class="card" src="{{ asset('storage/'.$expense->file) }}" width="100"/></div>
+            </div>
+        </div>
 
-                    <span class="input-group-addon custom-delete-file-name">
-                   <img class="card" src="{{ asset('storage/'.$expense->file) }}" width="200">
+        <div class="col">
 
-                </span>
-                </div>
-            @endif
-
-            {!! $errors->first('file', '<p class="form-text text-danger">:message</p>') !!}
 
         </div>
     </div>
-    <div class="col"></div>
-</div>
+@endif
+
 
 <div class="row mx-auto" style="width: 90%">
     <div id="line_table" style="width: 100%"></div>
@@ -285,6 +293,8 @@
 
 
 
+
+
     </script>
 @endverbatim
 
@@ -304,7 +314,7 @@
                 </tr>
 
              {{/each}}
- </script>
+    </script>
 
 @endverbatim
 

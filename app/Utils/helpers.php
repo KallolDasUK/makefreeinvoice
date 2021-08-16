@@ -12,6 +12,17 @@ if (!function_exists('decent_format')) {
         return $number;
     }
 }
+if (!function_exists('decent_format_dash_if_zero')) {
+    function decent_format_dash_if_zero($number): string
+    {
+        if (floatval($number) == 0) {
+            return '-';
+        }
+        $number = number_format($number, 2);
+        $number = str_replace('.00', '', $number);
+        return (settings()->currency ?? '$') .''. $number;
+    }
+}
 if (!function_exists('settings')) {
     function settings()
     {

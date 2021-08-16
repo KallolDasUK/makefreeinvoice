@@ -13,8 +13,6 @@
 
     <meta name="csrf-token" content="{{ csrf_token() }}"/>
     <!-- plugin css -->
-    <link media="all" type="text/css" rel="stylesheet"
-          href="https://www.bootstrapdash.com/demo/connect-plus/laravel/template/demo_1/assets/plugins/flag-icon-css/css/flag-icon.css">
     <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900'
           type='text/css'>
 
@@ -23,27 +21,20 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
           integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
           crossorigin="anonymous" referrerpolicy="no-referrer"/>
-    {{--
-    <link media="all" type="text/css" rel="stylesheet"
-        href="https://www.bootstrapdash.com/demo/connect-plus/laravel/template/demo_1/assets/plugins/@mdi/font/css/materialdesignicons.min.css">
-    --}}
+
     <link media="all" type="text/css" rel="stylesheet" href="{{ asset('css/materialicon.css') }}">
     <link media="all" type="text/css" rel="stylesheet" href="{{ asset('css/style.css') }}">
     <link media="all" type="text/css" rel="stylesheet"
           href="https://preview.keenthemes.com/metronic/theme/html/demo2/dist/assets/css/style.bundle.css?v=7.2.8">
+    <link media="all" type="text/css" rel="stylesheet"
+          href="https://preview.keenthemes.com/metronic/theme/html/demo2/dist/assets/plugins/global/plugins.bundle.css?v=7.2.8">
+
     {{--    <link media="all" type="text/css" rel="stylesheet" href="{{ asset('css/bundle.min.css') }}">--}}
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css"
           integrity="sha512-nMNlpuaDPrqlEls3IX/Q56H36qvBASwb3ipuo3MxeWbsQB1881ox0cRv7UPTgBlriqoynt35KjEwgGUeUXIPnw=="
           crossorigin="anonymous" referrerpolicy="no-referrer"/>
     <link media="all" type="text/css" rel="stylesheet" href="{{ asset('css/select2-bootstrap.css') }}">
-
-    <link media="all" type="text/css" rel="stylesheet"
-          href="https://www.bootstrapdash.com/demo/connect-plus/laravel/template/demo_1/assets/plugins/perfect-scrollbar/perfect-scrollbar.css">
-    <!-- end plugin css -->
-
-    <link media="all" type="text/css" rel="stylesheet"
-          href="https://www.bootstrapdash.com/demo/connect-plus/laravel/template/demo_1/assets/plugins/icheck/skins/all.css">
 
 
     <!-- common css -->
@@ -54,19 +45,14 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/TableDnD/0.9.1/jquery.tablednd.js"
-            integrity="sha256-d3rtug+Hg1GZPB7Y/yTcRixO/wlI78+2m08tosoRn7A=" crossorigin="anonymous"></script>
+    {{--    <script src="https://cdnjs.cloudflare.com/ajax/libs/TableDnD/0.9.1/jquery.tablednd.js"--}}
+    {{--            integrity="sha256-d3rtug+Hg1GZPB7Y/yTcRixO/wlI78+2m08tosoRn7A=" crossorigin="anonymous"></script>--}}
 
     {{--    <script src="{{ asset('js/app.js') }}"></script>--}}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"
             integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ=="
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="https://cdn.jsdelivr.net/gh/jquery-form/form@4.3.0/dist/jquery.form.min.js"></script>
 
-    <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
-
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
 
     <link href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css" rel="stylesheet"/>
     <link media="all" type="text/css" rel="stylesheet"
@@ -277,6 +263,7 @@
         .form-control {
             border: 1px solid #065a926b !important;
         }
+
         .select2-selection {
             border: 1px solid #065a926b !important;
         }
@@ -342,7 +329,8 @@
         <!--end::Item-->
         <!--begin::Item-->
         <li class="nav-item">
-            <a href="#" class="nav-link rounded dropdown-toggle" data-toggle="dropdown" data-target="#kt_header_tab_2" role="tab"
+            <a href="#" class="nav-link rounded dropdown-toggle" data-toggle="dropdown" data-target="#kt_header_tab_2"
+               role="tab"
                aria-selected="false">
                 <span class="nav-title text-uppercase">Bill</span>
                 <span class="nav-desc">Purchase &amp; Pay</span>
@@ -464,6 +452,12 @@
         </li>
         <!--end::Item-->
         <!--begin::Item-->
+        <li class="nav-item">
+            <a href="{{ route('reports.report.index') }}" class="nav-link rounded">
+                <span class="nav-title text-uppercase">Reports</span>
+                <span class="nav-desc">Print, Send,  Save Reports</span>
+            </a>
+        </li>
         <li class="nav-item">
             <a href="{{ route('accounting.settings.edit') }}" class="nav-link rounded">
                 <span class="nav-title text-uppercase">Settings</span>
@@ -670,23 +664,6 @@
 </div>
 
 
-<script>
-    $(document).ready(function () {
-
-        $('.mainnav li').on('mouseover', function () {
-            $('.mainnav li').removeClass('active')
-            $(this).addClass('active')
-            // console.log('Hovered', this)
-        })
-        Date.prototype.addDays = function (days) {
-            var date = new Date(this.valueOf());
-            date.setDate(date.getDate() + days);
-            return date;
-        }
-
-
-    })
-</script>
 <script>var KTAppSettings = {
         "breakpoints": {"sm": 576, "md": 768, "lg": 992, "xl": 1200, "xxl": 1200},
         "colors": {
@@ -743,18 +720,33 @@
 
 <!-- base js -->
 <!-- JavaScript Bundle with Popper -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns"
-        crossorigin="anonymous"></script>
+
+
 <script src="https://cdn.jsdelivr.net/npm/ractive"></script>
 <script src="https://cdn.jsdelivr.net/npm/ractive-transitions-fade"></script>
 <script src="https://cdn.jsdelivr.net/npm/ractive-transitions-slide"></script>
 <script src="https://cdn.jsdelivr.net/npm/ractive-transitions-fly"></script>
+
+
+{{--<script src="https://preview.keenthemes.com/metronic/theme/html/demo2/dist/assets/plugins/global/plugins.bundle.js?v=7.2.8"></script>--}}
+<script
+    src="https://preview.keenthemes.com/metronic/theme/html/demo2/dist/assets/js/scripts.bundle.js?v=7.2.8"></script>
+
+
 <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.10.24/js/dataTables.bootstrap4.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js"></script>
-<script
-    src="https://preview.keenthemes.com/metronic/theme/html/demo2/dist/assets/js/scripts.bundle.js?v=7.2.8"></script>
+
+<script src="https://cdn.jsdelivr.net/gh/jquery-form/form@4.3.0/dist/jquery.form.min.js"></script>
+
+<script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
+
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns"
+        crossorigin="anonymous"></script>
+
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-notify/0.2.0/js/bootstrap-notify.min.js"
         integrity="sha512-vCgNjt5lPWUyLz/tC5GbiUanXtLX1tlPXVFaX5KAQrUHjwPcCwwPOLn34YBFqws7a7+62h7FRvQ1T0i/yFqANA=="
@@ -769,10 +761,24 @@
         integrity="sha512-RtZU3AyMVArmHLiW0suEZ9McadTdegwbgtiQl5Qqo9kunkVg1ofwueXD8/8wv3Af8jkME3DDe3yLfR8HSJfT2g=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
+    $(document).ready(function () {
+
+
+        Date.prototype.addDays = function (days) {
+            var date = new Date(this.valueOf());
+            date.setDate(date.getDate() + days);
+            return date;
+        }
+
+
+    })
+</script>
+<script>
     Ractive.DEBUG = true;
     $.fn.select2.defaults.set("theme", "bootstrap");
     var csrf = $('meta[name=csrf-token]').attr('content');
     $(document).ready(function () {
+
         $('.nav-item').mouseenter(function () {
             $(this).find('.nav-title').css('color', '#065a92')
             $(this).find('.nav-desc').css('color', '#065a92')
@@ -786,6 +792,9 @@
     })
 
 </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"
+        integrity="sha512-T/tUfKSV1bihCnd+MxKD0Hm1uBBroVYBOYSk1knyvQ9VyZJpc/ALb4P0r6ubwVPSGB2GvjeoMAJJImBG12TiaQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 @yield('js')
 @stack('js')
 

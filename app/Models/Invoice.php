@@ -13,6 +13,9 @@ class Invoice extends Model
     const UnPaid = "Unpaid";
 
     protected $guarded = [];
+    protected $dates = ['invoice_date'];
+    protected $appends = ['payment_status'];
+
 
     public function customer()
     {
@@ -35,6 +38,11 @@ class Invoice extends Model
     }
 
 
+    public function payments()
+    {
+        return $this->hasMany(ReceivePaymentItem::class, 'invoice_id');
+    }
+
     public function getDueAttribute()
     {
         $due = 0;
@@ -45,11 +53,11 @@ class Invoice extends Model
 
     }
 
-    public function payments()
+    public function getPaymentAttribute()
     {
-        return $this->hasMany(ReceivePaymentItem::class, 'invoice_id');
+        $paymentAmount = $this->payments->sum('amount');
+        return $paymentAmount;
     }
-
 
     public function getPaymentStatusAttribute()
     {
@@ -64,6 +72,7 @@ class Invoice extends Model
             return self::UnPaid;
         }
     }
+
 
     public function getTaxableAmountAttribute()
     {
@@ -119,5 +128,44 @@ class Invoice extends Model
         return $next_invoice;
     }
 
+    public static function overdue()
+    {
+        $overdue = 0;
+        Invoice::query()->where('due_date', '<=', today()->toDateString())->get()->map(function ($invoice) use (&$overdue) {
+//            dump($invoice);
+            if ($invoice->due > 0) {
+
+                $overdue += $invoice->due;
+            }
+        });
+        return $overdue;
+    }
+
+    public static function draft()
+    {
+        $draft = 0;
+        Invoice::query()->where('invoice_status', 'draft')->get()->map(function ($invoice) use (&$draft) {
+            if ($invoice->due > 0) $draft += $invoice->due;
+        });
+        return $draft;
+    }
+
+    public static function dueNext30()
+    {
+        $amount = 0;
+        Invoice::query()->whereBetween('due_date', [today()->toDateString(), today()->addDays(30)->toDateString()])->get()->map(function ($invoice) use (&$amount) {
+             $amount += $invoice->due;
+        });
+        return $amount;
+    }
+
+    public static function paid()
+    {
+        $amount = 0;
+        Invoice::query()->get()->map(function ($invoice) use (&$amount) {
+            $amount += $invoice->payment;
+        });
+        return $amount;
+    }
 
 }

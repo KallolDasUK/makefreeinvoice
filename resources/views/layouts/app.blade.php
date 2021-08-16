@@ -44,8 +44,7 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
+    {{--    <script src="https://cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>--}}
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet"/>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
 
@@ -54,11 +53,6 @@
           href="https://cdn.datatables.net/1.10.24/css/dataTables.bootstrap4.min.css">
 
 
-    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.css"/>
-    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css"/>
-
-    <script src="https://unpkg.com/swiper/swiper-bundle.js"></script>
-    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
     <!-- end plugin css -->
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/css/selectize.bootstrap3.min.css"
@@ -67,6 +61,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tether-drop/1.4.2/js/drop.min.js"
             integrity="sha512-Lvy+Fbz3bTkUx6BrU0hmCh/paXCkl0sWDE4JVASkehxQlUcQtzOJHin6dsR+zy+RYlMAy5wdY3mGyFTgENQaBA=="
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" integrity="sha512-mSYUmp1HYZDFaVKK//63EcZq4iFWFjxSL+Z3T/aCt4IO9Cejm03q3NKKYN6pFQzY0SBOr8h+eCIAZHPXcpZaNw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
     <script src="{{ asset('js/app.js') }}"></script>
     @yield('css')
     @stack('css')
@@ -648,8 +644,13 @@
         integrity="sha256-+C0A5Ilqmu4QcSPxrlGpaZxJ04VjsRjKu+G82kl5UJk="
         crossorigin="anonymous"></script>
 
+
     <script>
         Ractive.DEBUG = true;
+        $(document).ready(function(){
+
+        })
+
     </script>
 @yield('js')
 @stack('js')

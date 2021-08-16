@@ -105,7 +105,7 @@ class EstimatesController extends Controller
 
             EstimateItem::create(['estimate_id' => $estimate->id, 'product_id' => $product_id,
                 'description' => $estimate_item->description, 'qnt' => $estimate_item->qnt, 'unit' => $estimate_item->unit ?? '',
-                'price' => $estimate_item->price, 'amount' => $estimate_item->price * $estimate_item->qnt, 'tax_id' => $estimate_item->tax_id == '' ? 0 : $estimate_item->tax_id]);
+                'price' => $estimate_item->price, 'amount' => $estimate_item->price * $estimate_item->qnt, 'tax_id' => $estimate_item->tax_id == '' ? 0 : $estimate_item->tax_id, 'date' => $estimate->estimate_date]);
         }
         foreach ($extraFields as $additional) {
             EstimateExtraField::create(['name' => $additional->name, 'value' => $additional->value, 'estimate_id' => $estimate->id]);

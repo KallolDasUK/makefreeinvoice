@@ -10,17 +10,21 @@ use App\Http\Controllers\Estimates\EstimatesController;
 use App\Http\Controllers\ExpensesController;
 use App\Http\Controllers\InvoicesController;
 use App\Http\Controllers\ProductsController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SocialLoginController;
 use App\Http\Controllers\TaxesController;
 use App\Http\Controllers\ReceivePaymentsController;
 use App\Http\Controllers\PaymentMethodsController;
 use App\Http\Controllers\VendorsController;
+use App\Models\BillItem;
 use App\Models\Blog;
-use App\Models\Estimate;
+use App\Models\EstimateItem;
+use App\Models\ExpenseItem;
+use App\Models\InvoiceItem;
+use App\Models\Tax;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Route;
-use LaravelDaily\Invoices\Classes\InvoiceItem;
-use LaravelDaily\Invoices\Classes\Party;
-use LaravelDaily\Invoices\Invoice;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -244,14 +248,6 @@ Route::group(['middleware' => 'auth:web'], function () {
 });
 
 
-Route::get('/test', function () {
-
-//    $estimate = Estimate::query()->first();
-
-
-    return view('test');
-});
-
 /*
  *  php artisan resource-file:create Blog --fields=id,title,slug,body,user_id,client_id
  *  php artisan create:scaffold Blog  --layout-name="layouts.app" --with-migration
@@ -269,4 +265,35 @@ Route::group(['prefix' => 'blogs'], function () {
     Route::put('blog/{blog}', [BlogsController::class, 'update'])->name('blogs.blog.update')->where('id', '[0-9]+');
     Route::delete('/blog/{blog}', [BlogsController::class, 'destroy'])->name('blogs.blog.destroy')->where('id', '[0-9]+');
 
+});
+
+Route::group(['prefix' => 'reports'], function () {
+
+    Route::get('/', [ReportController::class, 'index'])->name('reports.report.index');
+    Route::get('/tax-report', [ReportController::class, 'taxReport'])->name('reports.report.tax_report');
+
+});
+
+
+
+
+
+Route::get('/task', function () {
+
+    InvoiceItem::withoutGlobalScope('client_id')->get()->map(function ($item) {
+        $item->date = $item->invoice->invoice_date;
+        $item->save();
+    });
+    EstimateItem::withoutGlobalScope('client_id')->get()->map(function ($item) {
+        $item->date = $item->estimate->estimate_date;
+        $item->save();
+    });
+    BillItem::withoutGlobalScope('client_id')->get()->map(function ($item) {
+        $item->date = $item->bill->bill_date;
+        $item->save();
+    });
+    ExpenseItem::withoutGlobalScope('client_id')->get()->map(function ($item) {
+        $item->date = $item->expense->date;
+        $item->save();
+    });
 });
