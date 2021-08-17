@@ -56,7 +56,7 @@
     <div>
 
         <div class="card">
-            <div class="card-body">
+            <div class="card-body" style="min-height: 500px">
                 <div class="mx-auto" style="width: 50%">
                     <input type="text" id="search" placeholder="Search Reports" class="form-control text-center"
                            style="font-size: 25px">
@@ -98,12 +98,11 @@
                 }).toArray();
                 let foundElement = titles.filter(item => item.toLowerCase().indexOf(terms) > -1);
                 $('.title').each(function () {
-                    $(this).parent('a').addClass('d-none')
+                    $(this).parent('a').fadeOut(0)
                 })
                 for (let i = 0; i < foundElement.length; i++) {
                     var title = foundElement[i];
-                    $(`div:contains('${title}')`).parent('a').removeClass('d-none')
-
+                    $(`div:contains('${title}')`).parent('a').fadeIn(50)ind
                 }
 
             })
