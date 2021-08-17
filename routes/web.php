@@ -271,11 +271,10 @@ Route::group(['prefix' => 'reports'], function () {
 
     Route::get('/', [ReportController::class, 'index'])->name('reports.report.index');
     Route::get('/tax-report', [ReportController::class, 'taxReport'])->name('reports.report.tax_report');
+    Route::get('/ar-aging-report', [ReportController::class, 'arAgingReport'])->name('reports.report.ar_aging_report');
+    Route::get('/ap-aging-report', [ReportController::class, 'apAgingReport'])->name('reports.report.ap_aging_report');
 
 });
-
-
-
 
 
 Route::get('/task', function () {

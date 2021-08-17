@@ -224,6 +224,11 @@ class BillsController extends Controller
         BillExtraField::query()->where('bill_id', $bill->id)->delete();
         BillItem::query()->where('bill_id', $bill->id)->delete();
         ExtraField::query()->where('type', get_class($bill))->where('type_id', $bill->id)->delete();
+
+        BillPayment::query()->where('id', $bill->bill_payment_id)->delete();
+        BillPaymentItem::query()->where('bill_payment_id', $bill->bill_payment_id)->get()->each(function ($model) {
+            $model->delete();
+        });
         $bill->delete();
 
         return redirect()->route('bills.bill.index')->with('success_message', 'Bill was successfully deleted.');

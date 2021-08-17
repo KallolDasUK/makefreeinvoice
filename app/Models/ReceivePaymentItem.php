@@ -14,7 +14,7 @@ class ReceivePaymentItem extends Model
 
     public function invoice()
     {
-        return $this->belongsTo(Estimate::class, 'invoice_id');
+        return $this->belongsTo(Invoice::class, 'invoice_id');
     }
     protected static function boot()
     {

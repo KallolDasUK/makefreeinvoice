@@ -46,6 +46,9 @@
                 top: 0;
                 right: 0;
             }
+            .tippy-tooltip.wv-popover-theme .wv-popover__content-wrapper {
+                padding: 24px;
+            }
         }
     </style>
 @endsection
@@ -81,8 +84,8 @@
                         <div class="col-lg-3 col-xl-2">
                             <label for="report_type">Report Type <span id="report_type_help" data-toggle="popover"
                                                                        data-html="true"
-                                                                       data-content='<div class="wv-popover__content"><span class="wv-text wv-text--body"><div class="sales-tax-report-filters__filter-controls__report-type-popover-paragraph"><strong class="wv-text--strong">Accrual (Paid &amp; Unpaid)</strong></div><div>Reflects all transactions, including unpaid invoices and bills.</div><div class="sales-tax-report-filters__filter-controls__report-type-popover-paragraph"><strong class="wv-text--strong">Cash Basis (Paid)</strong></div><div>Reflects all transactions except unpaid invoices and bills.</div><div class="sales-tax-report-filters__filter-controls__report-type-popover-paragraph"><a class="wv-text--link-external" href="https://www.google.com/search?q=Accrual+vs.+Cash-Basis+Reporting&oq=Accrual+vs.+Cash-Basis+Reporting" rel="noopener noreferrer" target="_blank">Learn more</a></div></span></div>'
-                                                                       class="fa fa-question rounded-full border p-2 text-primary ">?</span>
+                                                                       data-content='<div class="wv-popover__content" style="padding: 24px;"><span class="wv-text wv-text--body"><div class="sales-tax-report-filters__filter-controls__report-type-popover-paragraph"><strong class="wv-text--strong">Accrual (Paid &amp; Unpaid)</strong></div><div>Reflects all transactions, including unpaid invoices and bills.</div><div class="sales-tax-report-filters__filter-controls__report-type-popover-paragraph"><strong class="wv-text--strong">Cash Basis (Paid)</strong></div><div>Reflects all transactions except unpaid invoices and bills.</div><div class="sales-tax-report-filters__filter-controls__report-type-popover-paragraph"><a class="wv-text--link-external" href="https://www.google.com/search?q=Accrual+vs.+Cash-Basis+Reporting&oq=Accrual+vs.+Cash-Basis+Reporting" rel="noopener noreferrer" target="_blank">Learn more</a></div></span></div>'
+                                                                       class="fa fa-question rounded-full border p-2 text-primary "></span>
                             </label>
                             <select name="report_type" id="report_type" class="form-control form-control-select">
 
@@ -92,6 +95,7 @@
                                 <option value="cash" {{ $report_type == 'cash'?'selected':'' }}>Cash Basis (Paid)
                                 </option>
                             </select>
+
                         </div>
                         <div class="col">
                             <div class="row align-items-center">
@@ -149,7 +153,7 @@
                     @if($settings->business_name??false)
                         <h3>{{ $settings->business_name }}</h3>
                         <h1>Tax Summary</h1>
-                        <span>Basis: {{ $basis??'' }}</span> <br>
+                        <span>Basis: {{ $report_type??'' }}</span> <br>
                         <span>From {{ $start_date??'-' }} to {{ $end_date??'-' }}</span>
                     @endif
                 </div>
@@ -239,7 +243,7 @@
         $('#printBtn').on('click', function () {
             window.print()
         })
-        $('#downloadButton').on('click', function () {
+        $('#downloadBtn').on('click', function () {
             var element = document.getElementById('invoice-container');
             let invoice_number = "TaxSummary"
             var opt = {

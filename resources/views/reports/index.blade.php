@@ -58,14 +58,26 @@
         <div class="card">
             <div class="card-body">
                 <div class="mx-auto" style="width: 50%">
-                  <input type="text" placeholder="Search Reports" class="form-control text-center" style="font-size: 25px">
+                    <input type="text" id="search" placeholder="Search Reports" class="form-control text-center"
+                           style="font-size: 25px">
 
                 </div>
                 <a class="sc-gPEVay eaBhby  " href="{{ route('reports.report.tax_report') }}">
                     <div class="sc-iRbamj image" style="background-image:url('images/estimate.svg') ">
 
                     </div>
-                    <div class="shortcuts-title sc-jlyJG gSoaLO ">Tax Summary</div>
+                    <div class="shortcuts-title sc-jlyJG gSoaLO title">Tax Summary</div>
+                </a>
+                <a class="sc-gPEVay eaBhby  " href="{{ route('reports.report.ar_aging_report') }}">
+                    <div class="sc-iRbamj image" style="background-image:url('images/estimate.svg') ">
+
+                    </div>
+                    <div class="shortcuts-title sc-jlyJG gSoaLO title">Accounts Receivable Aging</div>
+                </a> <a class="sc-gPEVay eaBhby  " href="{{ route('reports.report.ap_aging_report') }}">
+                    <div class="sc-iRbamj image" style="background-image:url('images/estimate.svg') ">
+
+                    </div>
+                    <div class="shortcuts-title sc-jlyJG gSoaLO title">Accounts Payable Aging</div>
                 </a>
             </div>
 
@@ -79,7 +91,22 @@
     <script>
 
         $(document).ready(function () {
+            $('#search').on('input', function () {
+                let terms = $(this).val()
+                let titles = $('.title').map(function (title) {
+                    return $(this).text();
+                }).toArray();
+                let foundElement = titles.filter(item => item.toLowerCase().indexOf(terms) > -1);
+                $('.title').each(function () {
+                    $(this).parent('a').addClass('d-none')
+                })
+                for (let i = 0; i < foundElement.length; i++) {
+                    var title = foundElement[i];
+                    $(`div:contains('${title}')`).parent('a').removeClass('d-none')
 
+                }
+
+            })
         })
 
 

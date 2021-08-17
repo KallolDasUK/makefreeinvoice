@@ -9,8 +9,6 @@ class ReceivePayment extends Model
 {
 
 
-
-
     protected $fillable = [
         'customer_id',
         'payment_date',
@@ -44,7 +42,7 @@ class ReceivePayment extends Model
 
     public function getInvoiceAttribute()
     {
-        return join(",", Estimate::find(ReceivePaymentItem::query()->where('receive_payment_id', $this->id)->pluck('invoice_id'))->pluck('invoice_number')->toArray());
+        return join(",", Invoice::find(ReceivePaymentItem::query()->where('receive_payment_id', $this->id)->pluck('invoice_id'))->pluck('invoice_number')->toArray());
     }
 
     protected static function boot()
@@ -52,7 +50,7 @@ class ReceivePayment extends Model
         parent::boot();
 
         static::addGlobalScope('scopeClient', function (Builder $builder) {
-            if (optional(auth()->user())->client_id){
+            if (optional(auth()->user())->client_id) {
                 $builder->where('client_id', auth()->user()->client_id ?? -1);
             }
         });

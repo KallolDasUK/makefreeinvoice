@@ -104,8 +104,9 @@ class ReceivePaymentsController extends Controller
     {
 
         $receivePayment = ReceivePayment::findOrFail($id);
-        ReceivePaymentItem::query()->where('receive_payment_id', $receivePayment->id)->delete();
-
+        ReceivePaymentItem::query()->where('receive_payment_id', $receivePayment->id)->get()->each(function($model) {
+            $model->delete();
+        });
         $receivePayment->delete();
 
         return redirect()->route('receive_payments.receive_payment.index')

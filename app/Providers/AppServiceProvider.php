@@ -2,10 +2,14 @@
 
 namespace App\Providers;
 
+use App\Models\BillPayment;
+use App\Models\BillPaymentItem;
 use App\Models\Estimate;
 use App\Models\Invoice;
 use App\Models\MetaSetting;
 use App\Models\PaymentMethod;
+use App\Models\ReceivePayment;
+use App\Models\ReceivePaymentItem;
 use App\Models\User;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
@@ -52,10 +56,32 @@ class AppServiceProvider extends ServiceProvider
             $invoice->secret = $random;
         });
 
+
         User::created(function ($user) {
             if ($user->client_id == null) {
                 $user->client_id = $user->id;
             }
+        });
+
+        BillPaymentItem::created(function ($bill_payment) {
+            $bill = $bill_payment->bill;
+            $bill->payment_status = $bill->payment_status_text;
+            $bill->save();
+        });
+        BillPaymentItem::deleted(function ($bill_payment) {
+            $bill = $bill_payment->bill;
+            $bill->payment_status = $bill->payment_status_text;
+            $bill->save();
+        });
+        ReceivePaymentItem::created(function ($invoice_payment) {
+            $invoice = $invoice_payment->invoice;
+            $invoice->payment_status = $invoice->payment_status_text;
+            $invoice->save();
+        });
+        ReceivePaymentItem::deleted(function ($invoice_payment) {
+            $invoice = $invoice_payment->invoice;
+            $invoice->payment_status = $invoice->payment_status_text;
+            $invoice->save();
         });
 
     }

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
@@ -59,7 +60,7 @@ class Invoice extends Model
         return $paymentAmount;
     }
 
-    public function getPaymentStatusAttribute()
+    public function getPaymentStatusTextAttribute()
     {
         $paymentAmount = $this->payments->sum('amount');
         $this->total = floatval($this->total);
@@ -154,7 +155,7 @@ class Invoice extends Model
     {
         $amount = 0;
         Invoice::query()->whereBetween('due_date', [today()->toDateString(), today()->addDays(30)->toDateString()])->get()->map(function ($invoice) use (&$amount) {
-             $amount += $invoice->due;
+            $amount += $invoice->due;
         });
         return $amount;
     }
@@ -166,6 +167,15 @@ class Invoice extends Model
             $amount += $invoice->payment;
         });
         return $amount;
+    }
+
+    public function getAgeAttribute()
+    {
+        $age = 0;
+        if ($this->invoice_date <= today()->toDateString()) {
+            $age = Carbon::today()->diffInDays($this->invoice_date);
+        }
+        return $age;
     }
 
 }
