@@ -34,7 +34,7 @@ class InvoiceItem extends Model
             return $tax_amount;
         }
         $tax = Tax::find($this->tax_id);
-        $tax_amount = $tax->value * 100 / $this->amount;
+        $tax_amount = ($tax->value / 100) * $this->amount;
         return $tax_amount;
     }
 

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
@@ -56,7 +57,7 @@ class Bill extends Model
     }
 
 
-    public function getPaymentStatusAttribute()
+    public function getPaymentStatusTextAttribute()
     {
         $paymentAmount = $this->payments->sum('amount');
         $this->total = floatval($this->total);
@@ -123,6 +124,13 @@ class Bill extends Model
         $next_invoice = 'BILL-' . str_pad(count(Bill::query()->get()) + 1, 4, '0', STR_PAD_LEFT);
         return $next_invoice;
     }
-
+    public function getAgeAttribute()
+    {
+        $age = 0;
+        if ($this->bill_date <= today()->toDateString()) {
+            $age = Carbon::today()->diffInDays($this->bill_date);
+        }
+        return $age;
+    }
 
 }

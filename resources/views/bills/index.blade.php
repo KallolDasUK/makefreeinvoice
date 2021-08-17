@@ -230,20 +230,19 @@
                                             <span class="fa fa-pencil-alt mx-4"></span> <strong>Edit</strong>
                                         </a>
 
-                                        <a class="dropdown-item btn" href="javascript:;"
-                                           onclick="return confirm('Click Ok to delete Bill')">
-                                            <form method="POST"
-                                                  action="{!! route('bills.bill.destroy', $bill->id) !!}">
-                                                {{ csrf_field() }}
 
+                                        <form method="POST"
+                                              action="{!! route('bills.bill.destroy', $bill->id) !!}">>
+                                            {{ csrf_field() }}
+                                            <button class="dropdown-item "
+                                                    onclick="return confirm('Click Ok to delete Bill')">
                                                 @method('DELETE')
-                                                <span class="fa fa-trash-alt mx-4"></span>
+                                                <span class="fa fa-trash-alt mx-4 text-danger"></span>
                                                 <span>
                                                     <strong>Delete</strong>
                                                 </span>
-
-                                            </form>
-                                        </a>
+                                            </button>
+                                        </form>
                                     </div>
                                 </div>
 

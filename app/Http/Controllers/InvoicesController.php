@@ -230,6 +230,10 @@ class InvoicesController extends Controller
         InvoiceExtraField::query()->where('invoice_id', $invoice->id)->delete();
         InvoiceItem::query()->where('invoice_id', $invoice->id)->delete();
         ExtraField::query()->where('type', get_class($invoice))->where('type_id', $invoice->id)->delete();
+        ReceivePayment::query()->where('id', $invoice->receive_payment_id)->delete();
+        ReceivePaymentItem::query()->where('receive_payment_id', $invoice->receive_payment_id)->get()->each(function($model) {
+            $model->delete();
+        });
         $invoice->delete();
 
         return redirect()->route('invoices.invoice.index')->with('success_message', 'Invoice was successfully deleted.');

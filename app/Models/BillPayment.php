@@ -10,4 +10,6 @@ class BillPayment extends Model
     use HasFactory;
 
     protected $guarded = [];
+
+
 }

@@ -64,7 +64,6 @@
                                 <td>{{ $receivePayment->amount }}</td>
 
                                 <td>
-
                                     <form method="POST"
                                           action="{!! route('receive_payments.receive_payment.destroy', $receivePayment->id) !!}"
                                           accept-charset="UTF-8">
