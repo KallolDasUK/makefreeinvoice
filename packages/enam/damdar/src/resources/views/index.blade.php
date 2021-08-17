@@ -344,7 +344,7 @@
     <script>
         $(document).ready(function () {
 
-            $('input').focus()
+            // $('input').focus()
             $('.development').on('click', function () {
                 swal.fire("Under Development!");
             })
