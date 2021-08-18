@@ -102,7 +102,7 @@
                 })
                 for (let i = 0; i < foundElement.length; i++) {
                     var title = foundElement[i];
-                    $(`div:contains('${title}')`).parent('a').fadeIn(50)ind
+                    $(`div:contains('${title}')`).parent('a').fadeIn(50)
                 }
 
             })
