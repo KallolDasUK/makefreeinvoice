@@ -3,9 +3,15 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\PaymentMethod;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
+use Artisan;
+use Enam\Acc\Models\Ledger;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -43,6 +49,30 @@ class RegisterController extends Controller
         ]);
     }
 
+    public function register(Request $request)
+    {
+        $this->validator($request->all())->validate();
+
+        event(new Registered($user = $this->create($request->all())));
+
+        $this->guard()->login($user);
+        if (!Ledger::query()->exists()) {
+
+            Artisan::call('db:seed --class=AccountingSeeder');
+            PaymentMethod::create(['name' => 'Cash']);
+            PaymentMethod::create(['name' => 'Bank Transfer']);
+            PaymentMethod::create(['name' => 'Credit Card']);
+            PaymentMethod::create(['name' => 'Visa Card']);
+        }
+        if ($response = $this->registered($request, $user)) {
+            return $response;
+        }
+
+        return $request->wantsJson()
+            ? new JsonResponse([], 201)
+            : redirect($this->redirectPath());
+    }
+
 
     protected function create(array $data)
     {
@@ -53,5 +83,7 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
             'client_id' => User::getNextUserID()]);
+
     }
+
 }

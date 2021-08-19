@@ -2,6 +2,7 @@
 
 namespace Enam\Acc\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -63,6 +64,15 @@ class LedgerGroup extends Model
         return $this->hasMany(Ledger::class);
 
     }
+    protected static function boot()
+    {
+        parent::boot();
 
+        static::addGlobalScope('scopeClient', function (Builder $builder) {
+            if (optional(auth()->user())->client_id) {
+                $builder->where('client_id', auth()->user()->client_id ?? -1);
+            }
+        });
+    }
 
 }

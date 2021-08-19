@@ -16,12 +16,19 @@ class ReceivePaymentItem extends Model
     {
         return $this->belongsTo(Invoice::class, 'invoice_id');
     }
+
+    public function receive_payment()
+    {
+        return $this->belongsTo(ReceivePayment::class, 'receive_payment_id');
+    }
+
+
     protected static function boot()
     {
         parent::boot();
 
         static::addGlobalScope('scopeClient', function (Builder $builder) {
-            if (optional(auth()->user())->client_id){
+            if (optional(auth()->user())->client_id) {
                 $builder->where('client_id', auth()->user()->client_id ?? -1);
             }
         });

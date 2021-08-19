@@ -97,7 +97,9 @@ class ExpensesController extends Controller
         $expense_items = $data['expense_items'];
         unset($data['expense_items']);
         $expense = Expense::findOrFail($id);
-        ExpenseItem::query()->where('expense_id', $expense->id)->delete();
+        ExpenseItem::query()->where('expense_id', $expense->id)->get()->each(function($model) {
+            $model->delete();
+        });
         $expense->update($data);
         foreach ($expense_items as $expense_item) {
             ExpenseItem::create($expense_item + ['expense_id' => $expense->id, 'date' => $request->date ?? null]);
@@ -114,7 +116,9 @@ class ExpensesController extends Controller
     {
 
         $expense = Expense::findOrFail($id);
-        ExpenseItem::query()->where('expense_id', $id)->delete();
+        ExpenseItem::query()->where('expense_id', $id)->get()->each(function($model) {
+            $model->delete();
+        });;
         $expense->delete();
 
         return redirect()->route('expenses.expense.index')

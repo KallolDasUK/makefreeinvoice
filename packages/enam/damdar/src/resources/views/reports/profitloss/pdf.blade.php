@@ -15,9 +15,9 @@
 
         <tr>
             <th>Particulars</th>
-            <th>Amount</th>
+            <th style="text-align: center">Amount</th>
             <th>Particulars</th>
-            <th>Amount</th>
+            <th style="text-align: center">Amount</th>
         </tr>
 
         </thead>

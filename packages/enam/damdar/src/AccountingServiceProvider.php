@@ -23,8 +23,7 @@ class AccountingServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-
-
+//        dd(auth());
 
         /*
          * Optional methods to load your package assets
@@ -63,12 +62,7 @@ class AccountingServiceProvider extends ServiceProvider
             $model->save();
         });
 
-        View::composer('*', function ($view) {
-            if (optional(auth()->user())->client_id){
-                $settings = json_decode(MetaSetting::query()->pluck('value', 'key')->toJson());
-                $view->with('settings', $settings);
-            }
-        });
+
 
 
     }

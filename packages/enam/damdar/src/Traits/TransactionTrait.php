@@ -174,7 +174,6 @@ trait TransactionTrait
         $ledgersWithFirstParent = [];
         $ledgers = Ledger::withTransactions($start, $end, $branch_id);
 
-        $profit = 0;
         $income = 0;
         $expense = 0;
         foreach ($ledgers as $ledger) {
@@ -190,9 +189,8 @@ trait TransactionTrait
             }
             $ledgersWithFirstParent[$group][] = $ledger;
         }
-        $profit = $income - $expense;
 
-        return array($ledgersWithFirstParent, $profit);
+        return array($ledgersWithFirstParent);
 
 
     }

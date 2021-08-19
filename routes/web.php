@@ -279,6 +279,10 @@ Route::group(['prefix' => 'reports'], function () {
 
 Route::get('/task', function () {
 
+//    Artisan::call('db:seed --class=AccountingSeeder');
+
+    dd('task completed');
+
     InvoiceItem::withoutGlobalScope('client_id')->get()->map(function ($item) {
         $item->date = $item->invoice->invoice_date;
         $item->save();

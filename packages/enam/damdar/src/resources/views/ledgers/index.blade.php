@@ -44,7 +44,7 @@
             <div class="card-body card-body-with-table">
                 <div >
 
-                    <table class="table table-bordered table-striped ">
+                    <table class="table table-bordered table-sm ">
                         <thead>
                         <tr>
                             <th>Ledger Name</th>
@@ -72,21 +72,21 @@
                                         <input name="_method" value="DELETE" type="hidden">
                                         {{ csrf_field() }}
 
-                                        <div class="btn-group btn-group-xs float-right" role="group">
+                                        <div class="btn-group btn-group-xs btn-group-sm float-right" role="group">
                                             <a href="{{ route('ledgers.ledger.show', $ledger->id ) }}"
-                                               class="btn btn-info mr-2" title="Show Ledger">
+                                               class="mr-2" title="Show Ledger">
 
-                                                <i class="mdi mdi-eye"></i>
+                                                <i class="fa fa-eye text-info"></i>
                                             </a>
                                             <a href="{{ route('ledgers.ledger.edit', $ledger->id ) }}"
-                                               class="btn btn-primary  mr-2" title="Edit Ledger">
-                                                <span class="mdi mdi-pencil" aria-hidden="true"></span>
+                                               class=" mr-2" title="Edit Ledger">
+                                                <span class="fas fa-edit text-primary" aria-hidden="true"></span>
                                             </a>
 
-                                            <button type="submit" class="btn btn-danger" title="Delete Ledger"
+                                            <span type="submit" class="" title="Delete Ledger"
                                                     onclick="return confirm(&quot;Click Ok to delete Ledger.&quot;)">
-                                                <span class="mdi mdi-delete" aria-hidden="true"></span>
-                                            </button>
+                                                <span class="fas  fa-trash text-danger" aria-hidden="true"></span>
+                                            </span>
                                         </div>
 
                                     </form>
@@ -111,7 +111,6 @@
         $(document).ready(function () {
             $('.table').dataTable({"order": [] });
             $('a[title="Create New Ledger"]').focus()
-
         })
     </script>
 @endsection
