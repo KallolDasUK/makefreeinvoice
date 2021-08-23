@@ -35,5 +35,14 @@
     {
         "model-name": "Blog",
         "resource-file": "blogs.json"
+    },
+    {
+        "model-name": "InventoryAdjustment",
+        "resource-file": "inventory_adjustments.json"
+    },
+    {
+        "model-name": "Reason",
+        "resource-file": "reasons.json",
+        "table-name": "reasons"
     }
 ]

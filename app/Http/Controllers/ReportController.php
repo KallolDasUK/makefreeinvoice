@@ -33,6 +33,18 @@ class ReportController extends Controller
 
         return view('reports.tax-report', compact('title', 'start_date', 'end_date', 'report_type', 'taxes'));
     }
+    public function stockReport(Request $request)
+    {
+        $start_date = $request->start_date ?? today()->startOfYear()->toDateString();
+        $end_date = $request->end_date ?? today()->toDateString();
+        $report_type = $request->report_type ?? 'accrual';
+        $title = "Stock Report Summary";
+
+        $records = $this->getStockReport($start_date, $end_date);
+
+
+        return view('reports.stock-report', compact('title', 'start_date', 'end_date', 'report_type', 'records'));
+    }
 
     public function arAgingReport(Request $request)
     {

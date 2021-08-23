@@ -542,6 +542,7 @@ trait TransactionTrait
             $receipt = Transaction::query()
                 ->where('branch_id', $branch->id)
                 ->where('txn_type', VoucherType::$RECEIVE)
+                ->orWhere('txn_type', VoucherType::$CUSTOMER_PAYMENT)
                 ->whereMonth('date', $month)
                 ->whereYear('date', $year)
                 ->sum('amount');
@@ -552,7 +553,8 @@ trait TransactionTrait
                 ->where('branch_id', $branch->id)
                 ->whereMonth('date', $month)
                 ->whereYear('date', $year)
-                ->where('txn_type', VoucherType::$PAYMENT);
+                ->where('txn_type', VoucherType::$PAYMENT)
+                ->orWhere('txn_type', VoucherType::$VENDOR_PAYMENT);
             $record['payment'] = $paymentReceipt->sum('amount');
 
 

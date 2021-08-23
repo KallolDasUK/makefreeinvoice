@@ -280,6 +280,28 @@
 
         </div>
     </div>
+
+    <div class="row card mt-4">
+        <div class="card-body">
+            <div class="font-weight-bolder">
+                Inventory SHORTCUTS
+            </div>
+            <a href="{{ route('inventory_adjustments.inventory_adjustment.index') }}" class="sc-gPEVay eaBhby border rounded ">
+                <div class="sc-iRbamj image" style="background-image:url('images/manage_invoice.svg') ">
+
+                </div>
+                <div class="shortcuts-title  text-black">My Adjustment</div>
+            </a>
+            <a href="{{ route('inventory_adjustments.inventory_adjustment.create') }}" class="sc-gPEVay eaBhby border rounded ">
+                <div class="sc-iRbamj image" style="background-image:url('images/manage_invoice.svg') ">
+
+                </div>
+                <div class="shortcuts-title  text-black">Add Adjustment</div>
+            </a>
+
+
+        </div>
+    </div>
     <p class="my-4"></p>
     <div class="float-right">
         <form>

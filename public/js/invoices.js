@@ -62,6 +62,8 @@ var ractive = new Ractive({
                     .append('<div><button  data-toggle="modal" data-target="#taxModal" class="btn btn-default text-primary underline btn-fw" style="width: 100%">+ Add Tax</button></div>')
                     .on('click', function (b) {
                         $(event.target).select2("close");
+                        $('#createTaxForm').attr('index',i)
+
                     });
             }
         }).on('change', function (event) {
@@ -228,7 +230,8 @@ for (let i = 0; i < invoice_items.length; i++) {
                 .append('<div><button  data-toggle="modal" data-target="#taxModal" class="btn btn-default text-primary underline btn-fw" style="width: 100%">+ Add Tax</button></div>')
                 .on('click', function (b) {
                     $(event.target).select2("close");
-                    $('#createTaxForm').attr('index', i)
+                    $('#createTaxForm').attr('index',i)
+
                 });
         }
     }).on('change', function (event) {

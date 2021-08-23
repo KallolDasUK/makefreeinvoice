@@ -8,8 +8,10 @@ use App\Models\Bill;
 use App\Models\BillItem;
 use App\Models\Customer;
 use App\Models\ExpenseItem;
+use App\Models\InventoryAdjustmentItem;
 use App\Models\Invoice;
 use App\Models\InvoiceItem;
+use App\Models\Product;
 use App\Models\Tax;
 use App\Models\Vendor;
 use Carbon\Carbon;
@@ -98,6 +100,78 @@ trait ReportService
         return $records;
     }
 
+    public function openingStock($product, $start_date, $end_date)
+    {
+        $enteredOpening = $product->opening_stock ?? 0;
+        $sold = InvoiceItem::query()
+            ->where('product_id', $product->id)
+            ->where('date', '>',$start_date)
+            ->sum('qnt');
+
+        $purchase = BillItem::query()
+            ->where('product_id', $product->id)
+            ->where('date', '>',$start_date)
+            ->sum('qnt');
+
+        $added = InventoryAdjustmentItem::query()
+            ->where('product_id', $product->id)
+            ->where('date', '>',$start_date)
+            ->sum('add_qnt');
+
+        $removed = InventoryAdjustmentItem::query()
+            ->where('product_id', $product->id)
+            ->where('date', '>',$start_date)
+            ->sum('sub_qnt');
+
+
+        $opening_stock= ($enteredOpening + $purchase + $added) - ($sold + $removed);
+        return $opening_stock;
+    }
+
+    public function getStockReport($start_date, $end_date)
+    {
+        $records = [];
+
+        $products = Product::all();
+        foreach ($products as $product) {
+            $record = ['name' => $product->name, 'opening_stock' => 0, 'purchase' => 0, 'sold' => 0, 'added' => 0, 'removed' => 0, 'stock' => 0];
+
+            $opening_stock = $this->openingStock($product, $start_date, $end_date);
+            $record['opening_stock'] = $opening_stock;
+
+            $sold = InvoiceItem::query()
+                ->where('product_id', $product->id)
+                ->whereBetween('date', [$start_date, $end_date])
+                ->sum('qnt');
+
+            $purchase = BillItem::query()
+                ->where('product_id', $product->id)
+                ->whereBetween('date', [$start_date, $end_date])
+                ->sum('qnt');
+
+            $added = InventoryAdjustmentItem::query()
+                ->where('product_id', $product->id)
+                ->whereBetween('date', [$start_date, $end_date])
+                ->sum('add_qnt');
+
+            $removed = InventoryAdjustmentItem::query()
+                ->where('product_id', $product->id)
+                ->whereBetween('date', [$start_date, $end_date])
+                ->sum('sub_qnt');
+
+            $record['sold'] = $sold;
+            $record['purchase'] = $purchase;
+            $record['added'] = $added;
+            $record['removed'] = $removed;
+            $record['stock'] = ($opening_stock + $purchase + $added) - ($sold + $removed);
+
+            $records[] = (object)$record;
+        }
+
+        return $records;
+
+    }
+
     public function getArAgingReport()
     {
         $records = [];
@@ -122,7 +196,7 @@ trait ReportService
                 }
                 $record['total'] += $invoice->due;
             }
-            if ($record['total'] > 0){
+            if ($record['total'] > 0) {
                 $records[] = (object)$record;
             }
 
@@ -154,7 +228,7 @@ trait ReportService
                 }
                 $record['total'] += $bill->due;
             }
-            if ($record['total'] > 0){
+            if ($record['total'] > 0) {
                 $records[] = (object)$record;
             }
         }

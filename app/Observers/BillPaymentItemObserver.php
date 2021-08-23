@@ -3,60 +3,43 @@
 namespace App\Observers;
 
 use App\Models\BillPaymentItem;
+use Enam\Acc\AccountingFacade;
 
 class BillPaymentItemObserver
 {
-    /**
-     * Handle the BillPaymentItem "created" event.
-     *
-     * @param  \App\Models\BillPaymentItem  $billPaymentItem
-     * @return void
-     */
-    public function created(BillPaymentItem $billPaymentItem)
+
+    public function created(BillPaymentItem $billPayment)
+    {
+        $bill = $billPayment->bill;
+//        $bill->payment_status = $bill->payment_status_text;
+//        $bill->saveQuietly();
+        $accounting = new AccountingFacade();
+        $accounting->on_bill_payment_create($billPayment);
+    }
+
+
+    public function updated(BillPaymentItem $billPayment)
+    {
+        $accounting = new AccountingFacade();
+        $accounting->on_bill_payment_delete($billPayment);
+        $accounting->on_bill_payment_create($billPayment);
+    }
+
+
+    public function deleted(BillPaymentItem $billPayment)
+    {
+        $accounting = new AccountingFacade();
+        $accounting->on_bill_payment_delete($billPayment);
+    }
+
+
+    public function restored(BillPaymentItem $billPayment)
     {
         //
     }
 
-    /**
-     * Handle the BillPaymentItem "updated" event.
-     *
-     * @param  \App\Models\BillPaymentItem  $billPaymentItem
-     * @return void
-     */
-    public function updated(BillPaymentItem $billPaymentItem)
-    {
-        //
-    }
 
-    /**
-     * Handle the BillPaymentItem "deleted" event.
-     *
-     * @param  \App\Models\BillPaymentItem  $billPaymentItem
-     * @return void
-     */
-    public function deleted(BillPaymentItem $billPaymentItem)
-    {
-        //
-    }
-
-    /**
-     * Handle the BillPaymentItem "restored" event.
-     *
-     * @param  \App\Models\BillPaymentItem  $billPaymentItem
-     * @return void
-     */
-    public function restored(BillPaymentItem $billPaymentItem)
-    {
-        //
-    }
-
-    /**
-     * Handle the BillPaymentItem "force deleted" event.
-     *
-     * @param  \App\Models\BillPaymentItem  $billPaymentItem
-     * @return void
-     */
-    public function forceDeleted(BillPaymentItem $billPaymentItem)
+    public function forceDeleted(BillPaymentItem $billPayment)
     {
         //
     }

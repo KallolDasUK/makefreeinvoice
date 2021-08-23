@@ -33,7 +33,7 @@ class ProductsController extends Controller
         $data = $this->getData($request);
 
         $product = Product::create($data);
-        if ($request->acceptsJson()) {
+        if ($request->ajax()) {
             return $product;
         }
 

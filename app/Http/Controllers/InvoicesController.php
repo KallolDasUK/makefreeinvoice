@@ -219,7 +219,9 @@ class InvoicesController extends Controller
         InvoiceItem::query()->where('invoice_id', $invoice->id)->delete();
         ExtraField::query()->where('type', get_class($invoice))->where('type_id', $invoice->id)->delete();
         ReceivePayment::query()->where('id', $invoice->receive_payment_id)->delete();
-        ReceivePaymentItem::query()->where('receive_payment_id', $invoice->receive_payment_id)->delete();
+        ReceivePaymentItem::query()->where('receive_payment_id', $invoice->receive_payment_id)->get()->each(function ($model) {
+            $model->delete();
+        });
 
 
         $invoice->update($data);
@@ -240,9 +242,11 @@ class InvoicesController extends Controller
         InvoiceItem::query()->where('invoice_id', $invoice->id)->delete();
         ExtraField::query()->where('type', get_class($invoice))->where('type_id', $invoice->id)->delete();
 
-
-        ReceivePayment::query()->where('id', $invoice->receive_payment_id)->delete();
-        ReceivePaymentItem::query()->where('receive_payment_id', $invoice->receive_payment_id)->get()->each(function ($model) {
+        ReceivePaymentItem::query()->where('invoice_id', $invoice->id)->get()->each(function ($model) {
+            try {
+                $model->receive_payment->delete();
+            }catch (\Exception $exception){
+            }
             $model->delete();
         });
         $invoice->delete();

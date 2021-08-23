@@ -33,9 +33,10 @@ $(document).ready(function () {
                     ractive.push('products', response)
                     $('#productModal').modal('hide');
                     let i = $('#createProductForm').attr('index') || 0;
-                    ractive.set(`invoice_items.${i}.product_id`, response.id)
-                    ractive.set(`invoice_items.${i}.price`, response.sell_price)
-                    ractive.set(`invoice_items.${i}.sell_unit`, response.sell_unit || 'unit')
+                    ractive.set(`bill_items.${i}.product_id`, response.id)
+                    ractive.set(`bill_items.${i}.price`, response.purchase_price)
+                    ractive.set(`bill_items.${i}.unit`, response.sell_unit || 'unit')
+                    ractive.set(`bill_items.${i}.description`, response.description || '')
                     $(`#row${i}`).find('.qnt').focus()
                     $('#createProductForm').trigger("reset");
                     $('#storeProduct').prop('disabled', false)
@@ -137,7 +138,7 @@ $(document).ready(function () {
                     $('#taxModal').modal('hide');
                     let i = $('#createTaxForm').attr('index') || 0;
                     ractive.push('taxes', response)
-                    ractive.set(`invoice_items.${i}.tax_id`, response.id)
+                    ractive.set(`bill_items.${i}.tax_id`, response.id)
                     console.log(ractive.get('taxes'))
                     $('#createTaxForm').trigger("reset");
                     $('#storeTax').prop('disabled', false)

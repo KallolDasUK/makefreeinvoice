@@ -10,8 +10,14 @@ class BillPaymentItem extends Model
     use HasFactory;
 
     protected $guarded = [];
+
     public function bill()
     {
-        return $this->belongsTo('App\Models\Bill', 'bill_id');
+        return $this->belongsTo(Bill::class, 'bill_id');
+    }
+
+    public function bill_payment()
+    {
+        return $this->belongsTo(BillPayment::class, 'bill_payment_id');
     }
 }

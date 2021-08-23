@@ -82,7 +82,7 @@
                                             <button type="submit" style="border: none;background: transparent"
                                                     title="Delete Product"
                                                     onclick="return confirm(&quot;Click Ok to delete Product.&quot;)">
-                                                <i class=" fas  fa-trash text-danger" aria-hidden="true"></i>
+                                                <i class="fas  fa-trash text-danger" aria-hidden="true"></i>
                                             </button>
                                         </div>
 

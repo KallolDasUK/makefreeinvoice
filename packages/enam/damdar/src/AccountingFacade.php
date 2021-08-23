@@ -4,6 +4,7 @@ namespace Enam\Acc;
 
 use App\Models\Bill;
 use App\Models\BillItem;
+use App\Models\BillPaymentItem;
 use App\Models\Expense;
 use App\Models\ExpenseItem;
 use App\Models\Invoice;
@@ -198,6 +199,24 @@ class AccountingFacade extends Facade
     {
         Transaction::query()->where(['type' => Bill::class, 'type_id' => $bill->id])->forceDelete();
         TransactionDetail::query()->where(['type' => Bill::class, 'type_id' => $bill->id])->forceDelete();
+    }
+
+
+    public function on_bill_payment_create(BillPaymentItem $billPaymentItem)
+    {
+        $bill = $billPaymentItem->bill;
+        $accounts_payable_ledger = GroupMap::query()->where('key', LedgerHelper::$ACCOUNTS_PAYABLE)->first()->value ?? null;
+
+        self::addTransaction($accounts_payable_ledger, $billPaymentItem->bill_payment->ledger_id, $billPaymentItem->amount,
+            $billPaymentItem->bill_payment->notes, $billPaymentItem->bill_payment->payment_date,
+            'Vendor Payment', BillPaymentItem::class, $billPaymentItem->id,
+            $bill->bill_number, optional($bill->vendor)->name);
+    }
+
+    public function on_bill_payment_delete(BillPaymentItem $billPaymentItem)
+    {
+        Transaction::query()->where(['type' => BillPaymentItem::class, 'type_id' => $billPaymentItem->id])->forceDelete();
+        TransactionDetail::query()->where(['type' => BillPaymentItem::class, 'type_id' => $billPaymentItem->id])->forceDelete();
     }
 
 
