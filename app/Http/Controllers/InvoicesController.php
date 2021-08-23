@@ -194,7 +194,7 @@ class InvoicesController extends Controller
         $invoiceExtraField = InvoiceExtraField::query()->where('invoice_id', $invoice->id)->get();
         $extraFields = ExtraField::query()->where('type', Invoice::class)->where('type_id', $invoice->id)->get();
         $products = Product::query()->latest()->get();
-
+//        dd($invoice_items);
         return view('invoices.edit', compact('invoice', 'customers', 'taxes', 'invoice_items', 'invoiceExtraField', 'products', 'extraFields', 'categories', 'cashAcId', 'depositAccounts', 'paymentMethods'));
     }
 

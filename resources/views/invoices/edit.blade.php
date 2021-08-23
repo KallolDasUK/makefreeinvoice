@@ -103,6 +103,6 @@
 
         });
     </script>
-    <script src="{{ asset('js/adjustment.js') }}"></script>
+    <script src="{{ asset('js/invoices.js') }}"></script>
     <script src="{{ asset('js/invoice-crud.js') }}"></script>
 @endsection
