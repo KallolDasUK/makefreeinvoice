@@ -73,11 +73,61 @@
 
                     </div>
                     <div class="shortcuts-title sc-jlyJG gSoaLO title">Accounts Receivable Aging</div>
-                </a> <a class="sc-gPEVay eaBhby  " href="{{ route('reports.report.ap_aging_report') }}">
+                </a>
+                <a class="sc-gPEVay eaBhby  " href="{{ route('reports.report.ap_aging_report') }}">
                     <div class="sc-iRbamj image" style="background-image:url('images/estimate.svg') ">
 
                     </div>
                     <div class="shortcuts-title sc-jlyJG gSoaLO title">Accounts Payable Aging</div>
+                </a>
+                <a class="sc-gPEVay eaBhby  " href="{{ route('accounting.report.trial-balance') }}">
+                    <div class="sc-iRbamj image" style="background-image:url('images/estimate.svg') ">
+
+                    </div>
+                    <div class="shortcuts-title sc-jlyJG gSoaLO title">Trial Balance</div>
+                </a>
+                <a class="sc-gPEVay eaBhby  " href="{{ route('accounting.report.receipt-payment-branch') }}">
+                    <div class="sc-iRbamj image" style="background-image:url('images/estimate.svg') ">
+
+                    </div>
+                    <div class="shortcuts-title sc-jlyJG gSoaLO title">Receipt Payment</div>
+                </a>
+                <a class="sc-gPEVay eaBhby  " href="{{ route('accounting.report.ledger') }}">
+                    <div class="sc-iRbamj image" style="background-image:url('images/estimate.svg') ">
+
+                    </div>
+                    <div class="shortcuts-title sc-jlyJG gSoaLO title">Ledger Report</div>
+                </a> <a class="sc-gPEVay eaBhby  " href="{{ route('accounting.report.profit-loss') }}">
+                    <div class="sc-iRbamj image" style="background-image:url('images/estimate.svg') ">
+
+                    </div>
+                    <div class="shortcuts-title sc-jlyJG gSoaLO title">Profit Loss</div>
+                </a>
+                <a class="sc-gPEVay eaBhby  " href="{{ route('accounting.report.voucher') }}">
+                    <div class="sc-iRbamj image" style="background-image:url('images/estimate.svg') ">
+
+                    </div>
+                    <div class="shortcuts-title sc-jlyJG gSoaLO title">Voucher Report</div>
+                </a> <a class="sc-gPEVay eaBhby  " href="{{ route('accounting.report.cashbook') }}">
+                    <div class="sc-iRbamj image" style="background-image:url('images/estimate.svg') ">
+
+                    </div>
+                    <div class="shortcuts-title sc-jlyJG gSoaLO title">Cash Book</div>
+                </a> <a class="sc-gPEVay eaBhby  " href="{{ route('accounting.report.daybook') }}">
+                    <div class="sc-iRbamj image" style="background-image:url('images/estimate.svg') ">
+
+                    </div>
+                    <div class="shortcuts-title sc-jlyJG gSoaLO title">Day Book</div>
+                </a><a class="sc-gPEVay eaBhby  " href="{{ route('accounting.report.balance-sheet') }}">
+                    <div class="sc-iRbamj image" style="background-image:url('images/estimate.svg') ">
+
+                    </div>
+                    <div class="shortcuts-title sc-jlyJG gSoaLO title">Balance Sheet</div>
+                </a><a class="sc-gPEVay eaBhby  " href="{{ route('reports.report.stock-report') }}">
+                    <div class="sc-iRbamj image" style="background-image:url('images/estimate.svg') ">
+
+                    </div>
+                    <div class="shortcuts-title sc-jlyJG gSoaLO title">Stock Report</div>
                 </a>
             </div>
 

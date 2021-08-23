@@ -43,5 +43,10 @@ abstract class LedgerHelper
     public static $SALARY_AC = "Salary A/C";
     public static $SERVICE_REVENUE_AC = "Service Revenue A/C";
 
+    public static $COST_OF_GOODS_SOLD = "Cost of Goods Sold";
+    public static $ADVANCE_TAX = "Advance Tax";
+    public static $TAX_PAYABLE = "Tax Payable";
+    public static $OTHER_CHARGES = "Other Charges";
+
 
 }

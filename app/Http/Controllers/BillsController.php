@@ -113,7 +113,7 @@ class BillsController extends Controller
         foreach ($bill_items as $bill_item) {
             $product_id = $bill_item->product_id;
             if (!is_numeric($product_id)) {
-                $product = Product::create(['product_type' => 'Service', 'name' => $bill_item->product_id, 'sell_price' => $bill_item->price, 'sell_unit' => $bill_item->unit ?? '',
+                $product = Product::create(['product_type' => 'Service', 'name' => $bill_item->product_id, 'purchase_price' => $bill_item->price, 'sell_unit' => $bill_item->unit ?? '',
                     'description' => $bill_item->description]);
                 $product_id = $product->id;
             }
@@ -139,7 +139,7 @@ class BillsController extends Controller
             'bill_id' => $bill->id,
             'vendor_id' => $bill->vendor_id,
             'payment_method_id' => $bill->payment_method_id,
-            'ledger_id' => $bill->ledger_id,
+            'ledger_id' => $bill->deposit_to,
             'payment_sl' => $paymentSerial,
             'note' => $bill->notes
         ]);
@@ -201,12 +201,15 @@ class BillsController extends Controller
         unset($data['additional_fields']);
 
         $bill = Bill::findOrFail($id);
-        $bill->update($data);
         BillExtraField::query()->where('bill_id', $bill->id)->delete();
         BillItem::query()->where('bill_id', $bill->id)->delete();
         ExtraField::query()->where('type', get_class($bill))->where('type_id', $bill->id)->delete();
         BillPayment::query()->where('id', $bill->bill_payment_id)->delete();
-        BillPaymentItem::query()->where('bill_payment_id', $bill->bill_payment_id)->delete();
+        BillPaymentItem::query()->where('bill_payment_id', $bill->bill_payment_id)->get()->each(function ($model) {
+            $model->delete();
+        });
+        $bill->update($data);
+
 
         $this->insertDataToOtherTable($bill, $bill_items, $extraFields, $additionalFields);
         $this->saveTermsNDNote($data);
@@ -225,8 +228,10 @@ class BillsController extends Controller
         BillItem::query()->where('bill_id', $bill->id)->delete();
         ExtraField::query()->where('type', get_class($bill))->where('type_id', $bill->id)->delete();
 
-        BillPayment::query()->where('id', $bill->bill_payment_id)->delete();
-        BillPaymentItem::query()->where('bill_payment_id', $bill->bill_payment_id)->get()->each(function ($model) {
+        BillPayment::query()->where('bill_id', $bill->id)->get()->each(function ($model) {
+            $model->delete();
+        });
+        BillPaymentItem::query()->where('bill_id', $bill->id)->get()->each(function ($model) {
             $model->delete();
         });
         $bill->delete();

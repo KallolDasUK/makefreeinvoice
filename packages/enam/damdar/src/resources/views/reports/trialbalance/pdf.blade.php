@@ -54,7 +54,7 @@
             @endforeach
         @endforeach
         <tr style="font-weight: bolder;text-align: center">
-            <td colspan="2">Profit {{ $profit }}</td>
+            <td colspan="2"></td>
             <td colspan=""> {{ $dr }} </td>
             <td colspan="">{{ $cr }} </td>
             <td colspan="">{{ $cdr }} </td>

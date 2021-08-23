@@ -3,6 +3,7 @@
 namespace Enam\Acc\Models;
 
 use Enam\Acc\Utils\EntryType;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
@@ -106,13 +107,13 @@ class Ledger extends Model
     {
         return self::query()->get()->map(function ($ledger) use ($start_date, $end_date, $branch_id) {
             $openingBalance = 0;
-            $transaction_details = TransactionDetail::query()
-                ->where('ledger_id', $ledger->id)
-                ->where('note', '!=', "OpeningBalance")
-                ->when($branch_id != 'All', function ($query) use ($branch_id) {
-                    return $query->where('branch_id', $branch_id);
-                })
-                ->whereBetween('date', [$start_date, $end_date])->get();
+            $transaction_details = $ledger->transaction_details()
+                                    ->where('type', '!=', Ledger::class)
+                                    ->where('ledger_id', $ledger->id)
+                                    ->when($branch_id != 'All', function ($query) use ($branch_id) {
+                                        return $query->where('branch_id', $branch_id);
+                                    })
+                                    ->whereBetween('date', [$start_date, $end_date])->get();
 
 
             // Opening Balance
@@ -121,6 +122,8 @@ class Ledger extends Model
                 ->when($branch_id != 'All', function ($query) use ($branch_id) {
                     return $query->where('branch_id', $branch_id);
                 })->whereDate('date', '<', $start_date)->get();
+
+
             $openingBalance = self::getLedgerBalance($opening_tr, false);
             $totalFreshAmount = floatval(str_replace('Cr', '', str_replace('Dr', '', $openingBalance)));
             $openingBalanceType = null;
@@ -148,11 +151,12 @@ class Ledger extends Model
             }
 
 
+            $totalDebit = $transaction_details->where('entry_type', EntryType::$DR)->sum('amount');
             $totalCredit = $transaction_details->where('entry_type', EntryType::$CR)->sum('amount');
 
-            $totalDebit = $transaction_details->where('entry_type', EntryType::$DR)->sum('amount');
 
-//            dd($openingBalance);
+//            dump(TransactionDetail::query()
+//                ->where('ledger_id', $ledger->id)->get(),$ledger->ledger_name);
 
 
             $closingDebit = 0;
@@ -253,6 +257,15 @@ class Ledger extends Model
         }
         return $currentBalance;
     }
+    protected static function boot()
+    {
+        parent::boot();
 
+        static::addGlobalScope('scopeClient', function (Builder $builder) {
+            if (optional(auth()->user())->client_id) {
+                $builder->where('client_id', auth()->user()->client_id ?? -1);
+            }
+        });
+    }
 
 }

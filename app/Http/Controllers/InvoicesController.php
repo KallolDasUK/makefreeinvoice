@@ -16,6 +16,7 @@ use App\Models\Product;
 use App\Models\ReceivePayment;
 use App\Models\ReceivePaymentItem;
 use App\Models\Tax;
+use App\Observers\InvoiceObserver;
 use App\Traits\SettingsTrait;
 use Carbon\Carbon;
 use Enam\Acc\Models\GroupMap;
@@ -108,6 +109,10 @@ class InvoicesController extends Controller
 
         $this->insertDataToOtherTable($invoice, $invoice_items, $extraFields, $additionalFields);
         $this->saveTermsNDNote($data);
+        $invoice_observer = new InvoiceObserver;
+        $invoice_observer->invoice_item_created($invoice);
+
+
         return redirect()->route('invoices.invoice.show', $invoice->id)
             ->with('success_message', 'Invoice was successfully added.');
 
@@ -141,12 +146,13 @@ class InvoicesController extends Controller
         $paymentSerial = 'PM' . str_pad(ReceivePayment::query()->count(), 3, '0', STR_PAD_LEFT);
 
         $receivePayment = ReceivePayment::create([
-            'payment_date' => $invoice->payment_date,
+            'payment_date' => $invoice->invoice_date,
             'invoice_id' => $invoice->id,
             'customer_id' => $invoice->customer_id,
             'payment_method_id' => $invoice->payment_method_id,
             'deposit_to' => $invoice->deposit_to,
             'payment_sl' => $paymentSerial,
+            'payment_sl' => $invoice->invoice_date,
             'note' => $invoice->notes
         ]);
 
@@ -188,7 +194,7 @@ class InvoicesController extends Controller
         $invoiceExtraField = InvoiceExtraField::query()->where('invoice_id', $invoice->id)->get();
         $extraFields = ExtraField::query()->where('type', Invoice::class)->where('type_id', $invoice->id)->get();
         $products = Product::query()->latest()->get();
-
+//        dd($invoice_items);
         return view('invoices.edit', compact('invoice', 'customers', 'taxes', 'invoice_items', 'invoiceExtraField', 'products', 'extraFields', 'categories', 'cashAcId', 'depositAccounts', 'paymentMethods'));
     }
 
@@ -207,17 +213,22 @@ class InvoicesController extends Controller
         unset($data['additional_fields']);
 
         $invoice = Invoice::findOrFail($id);
-        $invoice->update($data);
+
+
         InvoiceExtraField::query()->where('invoice_id', $invoice->id)->delete();
         InvoiceItem::query()->where('invoice_id', $invoice->id)->delete();
         ExtraField::query()->where('type', get_class($invoice))->where('type_id', $invoice->id)->delete();
         ReceivePayment::query()->where('id', $invoice->receive_payment_id)->delete();
-        ReceivePaymentItem::query()->where('receive_payment_id', $invoice->receive_payment_id)->delete();
+        ReceivePaymentItem::query()->where('receive_payment_id', $invoice->receive_payment_id)->get()->each(function ($model) {
+            $model->delete();
+        });
 
+
+        $invoice->update($data);
         $this->insertDataToOtherTable($invoice, $invoice_items, $extraFields, $additionalFields);
         $this->saveTermsNDNote($data);
-
-
+        $invoice_observer = new InvoiceObserver;
+        $invoice_observer->invoice_item_updated($invoice);
         return redirect()->route('invoices.invoice.show', $invoice->id)->with('success_message', 'Invoice was successfully updated.');
 
     }
@@ -230,8 +241,12 @@ class InvoicesController extends Controller
         InvoiceExtraField::query()->where('invoice_id', $invoice->id)->delete();
         InvoiceItem::query()->where('invoice_id', $invoice->id)->delete();
         ExtraField::query()->where('type', get_class($invoice))->where('type_id', $invoice->id)->delete();
-        ReceivePayment::query()->where('id', $invoice->receive_payment_id)->delete();
-        ReceivePaymentItem::query()->where('receive_payment_id', $invoice->receive_payment_id)->get()->each(function($model) {
+
+        ReceivePaymentItem::query()->where('invoice_id', $invoice->id)->get()->each(function ($model) {
+            try {
+                $model->receive_payment->delete();
+            }catch (\Exception $exception){
+            }
             $model->delete();
         });
         $invoice->delete();

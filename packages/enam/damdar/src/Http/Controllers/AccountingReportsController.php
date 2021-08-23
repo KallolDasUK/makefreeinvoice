@@ -88,11 +88,11 @@ class AccountingReportsController extends Controller
 
     public function trialBalancePDF(Request $request)
     {
-        list($records, $profit) = $this->getTrialBalanceReport($request);
-//        dd($profit);
+        list($records) = $this->getTrialBalanceReport($request);
+//        dd($records);
         $branch_name = optional(Branch::find($request->branch_id))->name ?? "All";
 
-        $pdf = PDF::loadView('acc::reports.trialbalance.pdf', ['records' => $records, 'profit' => $profit, 'start_date' => $request->start_date, 'end_date' => $request->end_date, 'branch_name' => $branch_name]);
+        $pdf = PDF::loadView('acc::reports.trialbalance.pdf', ['records' => $records, 'start_date' => $request->start_date, 'end_date' => $request->end_date, 'branch_name' => $branch_name]);
         return $pdf->stream('acc::pdf.transaction-print');
 
     }

@@ -174,7 +174,6 @@ trait TransactionTrait
         $ledgersWithFirstParent = [];
         $ledgers = Ledger::withTransactions($start, $end, $branch_id);
 
-        $profit = 0;
         $income = 0;
         $expense = 0;
         foreach ($ledgers as $ledger) {
@@ -190,9 +189,8 @@ trait TransactionTrait
             }
             $ledgersWithFirstParent[$group][] = $ledger;
         }
-        $profit = $income - $expense;
 
-        return array($ledgersWithFirstParent, $profit);
+        return array($ledgersWithFirstParent);
 
 
     }
@@ -544,6 +542,7 @@ trait TransactionTrait
             $receipt = Transaction::query()
                 ->where('branch_id', $branch->id)
                 ->where('txn_type', VoucherType::$RECEIVE)
+                ->orWhere('txn_type', VoucherType::$CUSTOMER_PAYMENT)
                 ->whereMonth('date', $month)
                 ->whereYear('date', $year)
                 ->sum('amount');
@@ -554,7 +553,8 @@ trait TransactionTrait
                 ->where('branch_id', $branch->id)
                 ->whereMonth('date', $month)
                 ->whereYear('date', $year)
-                ->where('txn_type', VoucherType::$PAYMENT);
+                ->where('txn_type', VoucherType::$PAYMENT)
+                ->orWhere('txn_type', VoucherType::$VENDOR_PAYMENT);
             $record['payment'] = $paymentReceipt->sum('amount');
 
 

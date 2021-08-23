@@ -2,15 +2,27 @@
 
 namespace App\Providers;
 
+use App\Models\Bill;
 use App\Models\BillPayment;
 use App\Models\BillPaymentItem;
 use App\Models\Estimate;
+use App\Models\ExpenseItem;
 use App\Models\Invoice;
 use App\Models\MetaSetting;
 use App\Models\PaymentMethod;
 use App\Models\ReceivePayment;
 use App\Models\ReceivePaymentItem;
 use App\Models\User;
+use App\Observers\BillObserver;
+use App\Observers\BillPaymentItemObserver;
+use App\Observers\ExpenseItemObserver;
+use App\Observers\InvoiceObserver;
+use App\Observers\ReceivePaymentItemObserver;
+use Enam\Acc\AccountingFacade;
+use Enam\Acc\Http\Controllers\TransactionsController;
+use Enam\Acc\Models\Ledger;
+use Enam\Acc\Models\TransactionDetail;
+use Enam\Acc\Traits\TransactionTrait;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Queue;
@@ -41,19 +53,27 @@ class AppServiceProvider extends ServiceProvider
         view()->composer('*', function ($view) {
             if (optional(auth()->user())->client_id) {
                 $settings = json_decode(MetaSetting::query()->pluck('value', 'key')->toJson());
+//                dd(settings());
                 $view->with('settings', $settings);
             }
 
         });
+//        $txn = TransactionDetail::query()
+//            ->where('type', '!=', Ledger::class)
+//            ->where('ledger_id', 3)->get();
+//        dd($txn);
+//        dd(TransactionDetail::query()->get()->toArray());
+//        dd(Ledger::find(3)->transaction_details);
+
+        Invoice::observe(InvoiceObserver::class);
+        Bill::observe(BillObserver::class);
+        ExpenseItem::observe(ExpenseItemObserver::class);
+        ReceivePaymentItem::observe(ReceivePaymentItemObserver::class);
+        BillPaymentItem::observe(BillPaymentItemObserver::class);
 
         Estimate::created(function ($estimate) {
             $random = Str::random(40);
             $estimate->secret = $random;
-        });
-
-        Invoice::created(function ($invoice) {
-            $random = Str::random(40);
-            $invoice->secret = $random;
         });
 
 
@@ -73,16 +93,7 @@ class AppServiceProvider extends ServiceProvider
             $bill->payment_status = $bill->payment_status_text;
             $bill->save();
         });
-        ReceivePaymentItem::created(function ($invoice_payment) {
-            $invoice = $invoice_payment->invoice;
-            $invoice->payment_status = $invoice->payment_status_text;
-            $invoice->save();
-        });
-        ReceivePaymentItem::deleted(function ($invoice_payment) {
-            $invoice = $invoice_payment->invoice;
-            $invoice->payment_status = $invoice->payment_status_text;
-            $invoice->save();
-        });
+
 
     }
 }

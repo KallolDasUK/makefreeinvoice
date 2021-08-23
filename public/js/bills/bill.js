@@ -61,6 +61,7 @@ var ractive = new Ractive({
                 a.$results.parents('.select2-results')
                     .append('<div><button  data-toggle="modal" data-target="#taxModal" class="btn btn-default text-primary underline btn-fw" style="width: 100%">+ Add Tax</button></div>')
                     .on('click', function (b) {
+                        $('#createTaxForm').attr('index',i)
                         $(event.target).select2("close");
                     });
             }
@@ -258,8 +259,9 @@ function calculate(product_id, lineIndex) {
     if (product.length)
         product = product[0];
     if (product.sell_price) {
-        ractive.set(`bill_items.${lineIndex}.price`, product.sell_price)
-        ractive.set(`bill_items.${lineIndex}.unit`, product.sell_unit || 'unit')
+        ractive.set(`bill_items.${lineIndex}.price`, product.purchase_price || product.sell_price)
+        ractive.set(`bill_items.${lineIndex}.unit`, product.purchase_unit || product.sell_unit)
+        ractive.set(`bill_items.${lineIndex}.description`, product.description || '')
 
     }
 

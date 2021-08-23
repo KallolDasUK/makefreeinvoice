@@ -36,7 +36,6 @@ class SocialLoginController extends Controller
             $nextId = $statement[0]->Auto_increment;
             $isUserExits = User::create(['name' => $user->name ?? '', 'email' => $user->email, 'password' => \Hash::make(\Str::random(8)), 'client_id' => $nextId]);
 
-
         }
         Auth::login($isUserExits);
         if ($needSeed) {

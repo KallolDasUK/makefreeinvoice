@@ -35,7 +35,8 @@ $(document).ready(function () {
                     let i = $('#createProductForm').attr('index') || 0;
                     ractive.set(`invoice_items.${i}.product_id`, response.id)
                     ractive.set(`invoice_items.${i}.price`, response.sell_price)
-                    ractive.set(`invoice_items.${i}.sell_unit`, response.sell_unit || 'unit')
+                    ractive.set(`invoice_items.${i}.unit`, response.sell_unit || 'unit')
+                    ractive.set(`invoice_items.${i}.description`, response.description || '')
                     $(`#row${i}`).find('.qnt').focus()
                     $('#createProductForm').trigger("reset");
                     $('#storeProduct').prop('disabled', false)

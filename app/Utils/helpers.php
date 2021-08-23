@@ -22,6 +22,16 @@ if (!function_exists('decent_format_dash_if_zero')) {
         $number = str_replace('.00', '', $number);
         return (settings()->currency ?? '$') .''. $number;
     }
+}if (!function_exists('decent_format_dash')) {
+    function decent_format_dash($number): string
+    {
+        if (floatval($number) == 0) {
+            return '-';
+        }
+        $number = number_format($number, 2);
+        $number = str_replace('.00', '', $number);
+        return ''. $number;
+    }
 }
 if (!function_exists('settings')) {
     function settings()

@@ -14,7 +14,6 @@ class Invoice extends Model
     const UnPaid = "Unpaid";
 
     protected $guarded = [];
-    protected $dates = ['invoice_date'];
     protected $appends = ['payment_status'];
 
 

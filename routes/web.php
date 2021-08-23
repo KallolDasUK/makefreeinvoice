@@ -8,8 +8,10 @@ use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\CustomersController;
 use App\Http\Controllers\Estimates\EstimatesController;
 use App\Http\Controllers\ExpensesController;
+use App\Http\Controllers\InventoryAdjustmentsController;
 use App\Http\Controllers\InvoicesController;
 use App\Http\Controllers\ProductsController;
+use App\Http\Controllers\ReasonsController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SocialLoginController;
 use App\Http\Controllers\TaxesController;
@@ -21,6 +23,7 @@ use App\Models\Blog;
 use App\Models\EstimateItem;
 use App\Models\ExpenseItem;
 use App\Models\InvoiceItem;
+use App\Models\Reason;
 use App\Models\Tax;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Route;
@@ -273,11 +276,18 @@ Route::group(['prefix' => 'reports'], function () {
     Route::get('/tax-report', [ReportController::class, 'taxReport'])->name('reports.report.tax_report');
     Route::get('/ar-aging-report', [ReportController::class, 'arAgingReport'])->name('reports.report.ar_aging_report');
     Route::get('/ap-aging-report', [ReportController::class, 'apAgingReport'])->name('reports.report.ap_aging_report');
+    Route::get('/stock-report', [ReportController::class, 'stockReport'])->name('reports.report.stock-report');
 
 });
 
 
 Route::get('/task', function () {
+
+//    Artisan::call('db:seed --class=AccountingSeeder');
+
+    Reason::create(['name'=>'Reason 1']);
+    Reason::create(['name'=>'Reason 2']);
+    dd('task completed');
 
     InvoiceItem::withoutGlobalScope('client_id')->get()->map(function ($item) {
         $item->date = $item->invoice->invoice_date;
@@ -295,4 +305,39 @@ Route::get('/task', function () {
         $item->date = $item->expense->date;
         $item->save();
     });
+});
+
+
+/*
+    *  php artisan resource-file:create InventoryAdjustment --fields=id,date,ref,ledger_id,reason_id,description
+    *  php artisan create:scaffold InventoryAdjustment  --layout-name="acc::layouts.app" --with-migration
+    *
+    * */
+
+Route::group([
+    'prefix' => 'inventory_adjustments',
+], function () {
+
+    Route::get('/', [InventoryAdjustmentsController::class,'index'])->name('inventory_adjustments.inventory_adjustment.index');
+    Route::get('/create',[InventoryAdjustmentsController::class,'create'])->name('inventory_adjustments.inventory_adjustment.create');
+    Route::get('/show/{inventoryAdjustment}',[InventoryAdjustmentsController::class,'show'])->name('inventory_adjustments.inventory_adjustment.show')->where('id', '[0-9]+');
+    Route::get('/{inventoryAdjustment}/edit',[InventoryAdjustmentsController::class,'edit'])->name('inventory_adjustments.inventory_adjustment.edit')->where('id', '[0-9]+');
+    Route::post('/', [InventoryAdjustmentsController::class,'store'])->name('inventory_adjustments.inventory_adjustment.store');
+    Route::put('inventory_adjustment/{inventoryAdjustment}', [InventoryAdjustmentsController::class,'update'])->name('inventory_adjustments.inventory_adjustment.update')->where('id', '[0-9]+');
+    Route::delete('/inventory_adjustment/{inventoryAdjustment}',[InventoryAdjustmentsController::class,'destroy'])->name('inventory_adjustments.inventory_adjustment.destroy')->where('id', '[0-9]+');
+
+});
+
+// php artisan create:scaffold Reason  --layout-name="acc::layouts.app" --with-migration
+
+Route::group(['prefix' => 'reasons'], function () {
+
+    Route::get('/', [ReasonsController::class,'index'])->name('reasons.reason.index');
+    Route::get('/create',[ReasonsController::class,'create'])->name('reasons.reason.create');
+    Route::get('/show/{reason}',[ReasonsController::class,'show'])->name('reasons.reason.show');
+    Route::get('/{reason}/edit',[ReasonsController::class,'edit'])->name('reasons.reason.edit');
+    Route::post('/', [ReasonsController::class,'store'])->name('reasons.reason.store');
+    Route::put('reason/{reason}', [ReasonsController::class,'update'])->name('reasons.reason.update');
+    Route::delete('/reason/{reason}',[ReasonsController::class,'destroy'])->name('reasons.reason.destroy');
+
 });
