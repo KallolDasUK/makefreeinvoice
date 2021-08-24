@@ -258,7 +258,7 @@ function calculate(product_id, lineIndex) {
     let product = products.filter((item) => item.id === parseInt(product_id));
     if (product.length)
         product = product[0];
-    if (product.sell_price) {
+    if (product) {
         ractive.set(`bill_items.${lineIndex}.price`, product.purchase_price || product.sell_price)
         ractive.set(`bill_items.${lineIndex}.unit`, product.purchase_unit || product.sell_unit)
         ractive.set(`bill_items.${lineIndex}.description`, product.description || '')
