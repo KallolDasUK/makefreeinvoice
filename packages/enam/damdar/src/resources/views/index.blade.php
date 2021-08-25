@@ -53,7 +53,7 @@
 @endsection
 @section('content')
     <div class="" style="min-height: 100vh">
-
+        @include('subscriptions.subscribe-modal')
         @if(!\App\Models\Invoice::query()->exists())
             <div class="row mb-4" style="margin-bottom: 10px!important;">
                 <div class="col ">
@@ -454,6 +454,8 @@
 @endsection
 
 @section('js')
+    <script src="{{ asset('js/subscriptions/subscribe.js') }}"></script>
+
     <script>
         $(document).ready(function () {
 
@@ -462,6 +464,8 @@
                 swal.fire("Under Development!");
             })
 
+            $('#subscribeModal').modal('show')
         })
     </script>
+
 @endsection

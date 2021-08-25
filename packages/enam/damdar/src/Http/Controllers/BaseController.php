@@ -27,7 +27,10 @@ class BaseController extends Controller
         $journal = Transaction::query()->where('txn_type', VoucherType::$JOURNAL)->whereMonth('date', $date->month)->whereYear('date', $date->year)->sum('amount');
         $contra = Transaction::query()->where('txn_type', VoucherType::$CONTRA)->whereMonth('date', $date->month)->whereYear('date', $date->year)->sum('amount');
         $date = $date->format('Y-m');
-        return \view('acc::index', compact('date', 'payment', 'receive', 'journal', 'contra'));
+        $intent = auth()->user()->createSetupIntent();
+        $invoices = auth()->user()->invoices();
+        $upcoming_invoice = auth()->user()->upcomingInvoice();
+        return \view('acc::index', compact('date', 'payment', 'receive', 'journal', 'contra', 'intent','invoices','upcoming_invoice'));
     }
 
     public $data = [];

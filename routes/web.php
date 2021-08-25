@@ -14,6 +14,7 @@ use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\ReasonsController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SocialLoginController;
+use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\TaxesController;
 use App\Http\Controllers\ReceivePaymentsController;
 use App\Http\Controllers\PaymentMethodsController;
@@ -285,9 +286,13 @@ Route::get('/task', function () {
 
 //    Artisan::call('db:seed --class=AccountingSeeder');
 
-    Reason::create(['name'=>'Reason 1']);
-    Reason::create(['name'=>'Reason 2']);
-    dd('task completed');
+//    Reason::create(['name' => 'Reason 1']);
+//    Reason::create(['name' => 'Reason 2']);
+    $user = auth()->user();
+    if (auth()->user()->subscribed('default')) {
+        $user->subscription('default')->cancelNow();
+    }
+    dd('task completed', auth()->user()->subscribed('default'), auth()->user()->invoices());
 
     InvoiceItem::withoutGlobalScope('client_id')->get()->map(function ($item) {
         $item->date = $item->invoice->invoice_date;
@@ -318,13 +323,13 @@ Route::group([
     'prefix' => 'inventory_adjustments',
 ], function () {
 
-    Route::get('/', [InventoryAdjustmentsController::class,'index'])->name('inventory_adjustments.inventory_adjustment.index');
-    Route::get('/create',[InventoryAdjustmentsController::class,'create'])->name('inventory_adjustments.inventory_adjustment.create');
-    Route::get('/show/{inventoryAdjustment}',[InventoryAdjustmentsController::class,'show'])->name('inventory_adjustments.inventory_adjustment.show')->where('id', '[0-9]+');
-    Route::get('/{inventoryAdjustment}/edit',[InventoryAdjustmentsController::class,'edit'])->name('inventory_adjustments.inventory_adjustment.edit')->where('id', '[0-9]+');
-    Route::post('/', [InventoryAdjustmentsController::class,'store'])->name('inventory_adjustments.inventory_adjustment.store');
-    Route::put('inventory_adjustment/{inventoryAdjustment}', [InventoryAdjustmentsController::class,'update'])->name('inventory_adjustments.inventory_adjustment.update')->where('id', '[0-9]+');
-    Route::delete('/inventory_adjustment/{inventoryAdjustment}',[InventoryAdjustmentsController::class,'destroy'])->name('inventory_adjustments.inventory_adjustment.destroy')->where('id', '[0-9]+');
+    Route::get('/', [InventoryAdjustmentsController::class, 'index'])->name('inventory_adjustments.inventory_adjustment.index');
+    Route::get('/create', [InventoryAdjustmentsController::class, 'create'])->name('inventory_adjustments.inventory_adjustment.create');
+    Route::get('/show/{inventoryAdjustment}', [InventoryAdjustmentsController::class, 'show'])->name('inventory_adjustments.inventory_adjustment.show')->where('id', '[0-9]+');
+    Route::get('/{inventoryAdjustment}/edit', [InventoryAdjustmentsController::class, 'edit'])->name('inventory_adjustments.inventory_adjustment.edit')->where('id', '[0-9]+');
+    Route::post('/', [InventoryAdjustmentsController::class, 'store'])->name('inventory_adjustments.inventory_adjustment.store');
+    Route::put('inventory_adjustment/{inventoryAdjustment}', [InventoryAdjustmentsController::class, 'update'])->name('inventory_adjustments.inventory_adjustment.update')->where('id', '[0-9]+');
+    Route::delete('/inventory_adjustment/{inventoryAdjustment}', [InventoryAdjustmentsController::class, 'destroy'])->name('inventory_adjustments.inventory_adjustment.destroy')->where('id', '[0-9]+');
 
 });
 
@@ -332,12 +337,18 @@ Route::group([
 
 Route::group(['prefix' => 'reasons'], function () {
 
-    Route::get('/', [ReasonsController::class,'index'])->name('reasons.reason.index');
-    Route::get('/create',[ReasonsController::class,'create'])->name('reasons.reason.create');
-    Route::get('/show/{reason}',[ReasonsController::class,'show'])->name('reasons.reason.show');
-    Route::get('/{reason}/edit',[ReasonsController::class,'edit'])->name('reasons.reason.edit');
-    Route::post('/', [ReasonsController::class,'store'])->name('reasons.reason.store');
-    Route::put('reason/{reason}', [ReasonsController::class,'update'])->name('reasons.reason.update');
-    Route::delete('/reason/{reason}',[ReasonsController::class,'destroy'])->name('reasons.reason.destroy');
+    Route::get('/', [ReasonsController::class, 'index'])->name('reasons.reason.index');
+    Route::get('/create', [ReasonsController::class, 'create'])->name('reasons.reason.create');
+    Route::get('/show/{reason}', [ReasonsController::class, 'show'])->name('reasons.reason.show');
+    Route::get('/{reason}/edit', [ReasonsController::class, 'edit'])->name('reasons.reason.edit');
+    Route::post('/', [ReasonsController::class, 'store'])->name('reasons.reason.store');
+    Route::put('reason/{reason}', [ReasonsController::class, 'update'])->name('reasons.reason.update');
+    Route::delete('/reason/{reason}', [ReasonsController::class, 'destroy'])->name('reasons.reason.destroy');
 
 });
+
+
+Route::get('/subscribe', [SubscriptionController::class, 'showSubscription'])->name('subscribe.index');
+Route::post('/subscribe', [SubscriptionController::class, 'purchaseSubscription'])->name('subscribe.store');
+
+Route::get('/welcome', [SubscriptionController::class, 'showWelcome'])->middleware('subscribed');
