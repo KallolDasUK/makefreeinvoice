@@ -41,8 +41,9 @@
                         <thead>
                         <tr>
                             <th>SL</th>
-                            <th>Product Type</th>
+                            <th>Type</th>
                             <th>Name</th>
+                            <th>Stock</th>
                             <th>Category</th>
                             <th>Sell Price</th>
                             <th>Purchase Price</th>
@@ -57,6 +58,7 @@
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $product->product_type }}</td>
                                 <td>{{ $product->name }}</td>
+                                <td>{{ $product->stock }}</td>
                                 <td>{{ optional($product->category)->name }}</td>
                                 <td>{{ $product->sell_price }}</td>
                                 <td>{{ $product->purchase_price }}</td>

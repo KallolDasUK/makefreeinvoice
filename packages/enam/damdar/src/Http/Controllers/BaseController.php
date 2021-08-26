@@ -27,26 +27,8 @@ class BaseController extends Controller
         $journal = Transaction::query()->where('txn_type', VoucherType::$JOURNAL)->whereMonth('date', $date->month)->whereYear('date', $date->year)->sum('amount');
         $contra = Transaction::query()->where('txn_type', VoucherType::$CONTRA)->whereMonth('date', $date->month)->whereYear('date', $date->year)->sum('amount');
         $date = $date->format('Y-m');
-        $intent = auth()->user()->createSetupIntent();
-        $invoices = auth()->user()->invoices();
-        $upcoming_invoice = auth()->user()->upcomingInvoice();
 
-        $key = \config('services.stripe.secret');
-        $stripe = new \Stripe\StripeClient($key);
-        $currentPlan = null;
-        $price = null;
-        if ($user->subscribed('default')) {
-            $subscription = $user->subscriptions->first();
-            $sub_stripe_id = $subscription->stripe_id;
-            $sub = $stripe->subscriptions->retrieve($sub_stripe_id);
-            $sub->product = $stripe->products->retrieve(
-                $sub->plan->product, []
-            );
-            $currentPlan = $sub;
-//            dd($sub->toArray());
-
-        }
-        return \view('acc::index', compact('date', 'payment','currentPlan', 'receive', 'journal', 'contra', 'intent', 'invoices', 'upcoming_invoice'));
+        return \view('acc::index', compact('date', 'payment', 'receive', 'journal', 'contra'));
     }
 
     public $data = [];

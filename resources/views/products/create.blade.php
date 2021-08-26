@@ -40,11 +40,7 @@
 @endsection
 
 @section('js')
-    <script>
-        $(document).ready(function () {
-            $('select').select2()
-        })
-    </script>
+    <script src="{{ asset('js/product.js') }}"></script>
 
 @endsection
 
