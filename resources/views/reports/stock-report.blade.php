@@ -158,8 +158,9 @@
                                 <tr>
                                     <td class=" border-0"><strong>SL</strong></td>
                                     <td class=" border-0"><strong>Item</strong></td>
+                                    <td class=" border-0"><strong>Rate</strong></td>
                                     <td class="text-right  border-0"> Opening <br>
-                                        Quantity (As of {{ $start_date }})
+                                        Quantity (As on {{ $start_date }})
                                     </td>
 
                                     <td class="text-right border-0">Purchase</td>
@@ -168,6 +169,7 @@
                                     <td class="text-right border-0 ">Stock <br> Adjusted (Removed -)</td>
 
                                     <td class="text-right border-0">Stock</td>
+                                    <td class="text-right border-0">Stock Value</td>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -175,12 +177,14 @@
                                     <tr>
                                         <td class=" border-0">{{ $loop->iteration }}</td>
                                         <td class="text-start border-0">{{ $record->name }}</td>
+                                        <td class="text-start border-0">{{ $record->price }}</td>
                                         <td class="text-right border-0">{{ decent_format_dash($record->opening_stock) }}</td>
                                         <td class="text-right border-0">{{ decent_format_dash($record->purchase) }}</td>
                                         <td class="text-right border-0">{{ decent_format_dash($record->sold) }}</td>
                                         <td class="text-right border-0">{{ decent_format_dash($record->added) }}</td>
                                         <td class="text-right border-0  ">{{ decent_format_dash($record->removed) }}</td>
                                         <td class="text-right border-0">{{ decent_format_dash($record->stock) }}</td>
+                                        <td class="text-right border-0">{{ decent_format_dash_if_zero($record->stockValue) }}</td>
 
                                     </tr>
                                 @endforeach
@@ -191,12 +195,14 @@
                                 <tr>
                                     <td class="text-right border-0"></td>
                                     <td class="text-start border-0"></td>
+                                    <td class="text-start border-0"></td>
                                     <td class="text-right border-0 font-weight-bolder">{{ decent_format_dash(collect($records)->sum('opening_stock')) }}</td>
                                     <td class="text-right border-0 font-weight-bolder">{{ decent_format_dash(collect($records)->sum('purchase')) }}</td>
                                     <td class="text-right border-0 font-weight-bolder">{{ decent_format_dash(collect($records)->sum('sold')) }}</td>
                                     <td class="text-right border-0 font-weight-bolder">{{ decent_format_dash(collect($records)->sum('added')) }}</td>
                                     <td class="text-right border-0 font-weight-bolder  ">{{ decent_format_dash(collect($records)->sum('removed')) }}</td>
                                     <td class="text-right border-0 font-weight-bolder  ">{{ decent_format_dash(collect($records)->sum('stock')) }}</td>
+                                    <td class="text-right border-0 font-weight-bolder  ">{{ decent_format_dash_if_zero(collect($records)->sum('stockValue')) }}</td>
 
 
                                 </tr>

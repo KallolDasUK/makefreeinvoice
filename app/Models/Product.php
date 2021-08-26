@@ -33,6 +33,21 @@ class Product extends Model
 
     }
 
+    public function getPriceAttribute()
+    {
+        $price = $this->purchase_price;
+        if ($price == null) {
+            $lastPurchase = BillItem::query()->where('product_id', $this->id)->latest()->first();
+            if ($lastPurchase) {
+                $price = $lastPurchase->price;
+            }
+        }
+
+        return $price;
+
+    }
+
+
     public function currentStock($product, $start_date)
     {
         $enteredOpening = $product->opening_stock ?? 0;

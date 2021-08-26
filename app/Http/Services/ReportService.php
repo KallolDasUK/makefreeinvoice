@@ -134,7 +134,7 @@ trait ReportService
 
         $products = Product::all();
         foreach ($products as $product) {
-            $record = ['name' => $product->name, 'opening_stock' => 0, 'purchase' => 0, 'sold' => 0, 'added' => 0, 'removed' => 0, 'stock' => 0];
+            $record = ['name' => $product->name, 'price' => $product->price, 'opening_stock' => 0, 'purchase' => 0, 'sold' => 0, 'added' => 0, 'removed' => 0, 'stock' => 0, 'stockValue' => 0];
 
             $opening_stock = $this->openingStock($product, $start_date, $end_date);
 
@@ -166,6 +166,7 @@ trait ReportService
             $record['added'] = $added;
             $record['removed'] = $removed;
             $record['stock'] = ($opening_stock + $purchase + $added) - ($sold + $removed);
+            $record['stockValue'] = $record['price'] * $record['stock'];
 
             $records[] = (object)$record;
         }
