@@ -272,7 +272,26 @@
 </head>
 
 <body class="">
+<div class="modal fade" id="subscribeModal" tabindex="-1" role="dialog" aria-labelledby="subscribeModal"
+     aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content" style="min-height: 400px">
 
+            <div class="modal-body d-flex align-items-center justify-content-center" style="width: 100%;height: 100%"
+                 id="modalContent">
+
+                <img class="m-auto" style="text-align: center;height: 100%;"
+                     src="https://cdn.website-editor.net/6c0e2b50d21d4c9eadf0308619dad381/dms3rep/multi/Geduld.gif"
+                     alt="" width="100">
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="container ribbon ribbon-clip ribbon-left">
     <div class="ribbon-target" style="top: 2px;">
         <span class="ribbon-inner bg-danger"></span>In Development
@@ -619,6 +638,13 @@
 
 
     <div class="mt-4" style="min-height: 70vh">
+        @if(!auth()->user()->subscribed('default'))
+            <p class="text-center"><strong>You are using limited free version. <a href="javascript:;"
+                                                                                  class="subscribeModal btn btn-sm btn-info">Upgrade
+                        Now</a> & unlock the treasure</strong></p>
+
+
+        @endif
         <b class="text-black font-weight-bolder mb-2 mt-2" style="font-size: 20px"> {{ $title??'' }} </b>
 
         @yield('content')
@@ -641,7 +667,23 @@
                     </div>
                     <div>
                         <h4>{{ auth()->user()->name }}</h4>
+                        @if(auth()->user()->subscribed('default'))
+                            <strong>{{ $settings->plan_name }} ({{ $settings->plan_price }}
+                                / {{ $settings->plan_interval }} <span
+                                    class="subscribeModal text-primary">view details</span>)</strong>
+                            <br>
+                        @else
+
+                            <strong> Free Plan <a class="font-weight-bolder subscribeModal" href="javascript:;">Upgrade
+                                    Now</a>
+
+                            </strong>
+                            <br>
+
+
+                        @endif
                         <strong class="mb-2">{{ auth()->user()->email }}</strong>
+
                         <h5><a href="{{ route('accounting.settings.edit') }}"><i class="fa fa-cog"></i> Account Settings</a>
                         </h5>
                     </div>
@@ -789,9 +831,25 @@
             $(this).find('.nav-desc').css('color', 'white')
 
         })
+
+        $('.subscribeModal').on('click', function (e) {
+            $('#subscribeModal').modal('show')
+            $.ajax({
+                url: "{{ route('subscriptions.modal') }}",
+                success: function (result) {
+
+                    $("#modalContent").removeClass('d-flex align-items-center justify-content-center');
+                    $("#modalContent").html(result);
+                    $.getScript('https://js.stripe.com/v3/')
+                    $.getScript("{{ asset('js/subscriptions/subscribe.js') }}")
+                }
+            });
+        })
+
     })
 
 </script>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"
         integrity="sha512-T/tUfKSV1bihCnd+MxKD0Hm1uBBroVYBOYSk1knyvQ9VyZJpc/ALb4P0r6ubwVPSGB2GvjeoMAJJImBG12TiaQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>

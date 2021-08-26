@@ -21,7 +21,7 @@ class BaseController extends Controller
         $date = $request->date ?? today()->toDateString();
         $date = Carbon::parse($date);
         View::share('title', 'Overview');
-
+        $user = auth()->user();
         $payment = Transaction::query()->where('txn_type', VoucherType::$PAYMENT)->whereMonth('date', $date->month)->whereYear('date', $date->year)->sum('amount');
         $receive = Transaction::query()->where('txn_type', VoucherType::$RECEIVE)->whereMonth('date', $date->month)->whereYear('date', $date->year)->sum('amount');
         $journal = Transaction::query()->where('txn_type', VoucherType::$JOURNAL)->whereMonth('date', $date->month)->whereYear('date', $date->year)->sum('amount');
@@ -30,7 +30,23 @@ class BaseController extends Controller
         $intent = auth()->user()->createSetupIntent();
         $invoices = auth()->user()->invoices();
         $upcoming_invoice = auth()->user()->upcomingInvoice();
-        return \view('acc::index', compact('date', 'payment', 'receive', 'journal', 'contra', 'intent','invoices','upcoming_invoice'));
+
+        $key = \config('services.stripe.secret');
+        $stripe = new \Stripe\StripeClient($key);
+        $currentPlan = null;
+        $price = null;
+        if ($user->subscribed('default')) {
+            $subscription = $user->subscriptions->first();
+            $sub_stripe_id = $subscription->stripe_id;
+            $sub = $stripe->subscriptions->retrieve($sub_stripe_id);
+            $sub->product = $stripe->products->retrieve(
+                $sub->plan->product, []
+            );
+            $currentPlan = $sub;
+//            dd($sub->toArray());
+
+        }
+        return \view('acc::index', compact('date', 'payment','currentPlan', 'receive', 'journal', 'contra', 'intent', 'invoices', 'upcoming_invoice'));
     }
 
     public $data = [];

@@ -326,7 +326,7 @@
                                     </div>
                                     <!--end::Mobile Pricing Table-->
                                     <div class="mt-7">
-                                        <button data="price_1JSG8rJTQ8w0F4DGLNrygw9b" type="button" id="basicY-btn"
+                                        <button data="price_1JSG8rJTQ8w0F4DGLNrygw9b" type="button" id="basicY_btn"
                                                 class="btn btn-primary text-uppercase font-weight-bolder px-15 py-3">
                                             Subscribe
                                         </button>
@@ -474,31 +474,51 @@
     </div>
 @else
     <div class="">
-        <div class="row">
-            <div class="col align-self-center">
-                <h3>Plan Name</h3>
+        <div class="row mt-4">
+            <div class="col-4 align-self-start">
+                <div class="my-4"></div>
+                <div class="card">
+                    <div class="card-body">
+                        <h2>{{ $currentPlan->product->name }} </h2>
+                        <h3>{{ $currentPlan->plan->amount /100 }} {{ $currentPlan->plan->currency }}
+                            / {{ strtoupper($currentPlan->plan->interval) }}</h3>
+
+                        <p class="badge badge-secondary">{{ \Illuminate\Support\Str::title($currentPlan->collection_method) }}</p>
+                        <p>Current Period Started
+                            At {{ \Carbon\Carbon::createFromTimestamp($currentPlan->current_period_start)->format('d M Y') }}</p>
+                        <p>Current Period Ends
+                            At {{  \Carbon\Carbon::createFromTimestamp($currentPlan->current_period_end)->format('d M Y')  }}</p>
+
+
+                        <form action="{{ route('subscriptions.cancel') }}" method="post">
+                            @csrf
+                            <button class="btn btn-danger btn-sm">Cancel Subscription</button>
+                        </form>
+                    </div>
+                </div>
+
             </div>
             <div class="col">
 
 
                 <label for="">Next Bill At </label>
                 <br>
-                <table class="table table-bordered">
+                <table class="table table-bordered bg-white">
 
-                        <tr>
-                            <td>{{ $upcoming_invoice->date()->toFormattedDateString() }}</td>
-                            <td>{{ $upcoming_invoice->total() }}</td>
-                            <td><a href="/user/invoice/{{ $upcoming_invoice->id }}">Download</a></td>
-                        </tr>
+                    <tr>
+                        <td>{{ $upcoming_invoice->date()->toFormattedDateString() }}</td>
+                        <td>{{ $upcoming_invoice->total() }}</td>
+                        {{--                        <td><a href="{{ route('subscriptions.download-invoice',[$upcoming_invoice->id]) }}">Download</a></td>--}}
+                    </tr>
 
                 </table>
-                <label for="">Paid Invoices</label>
-                <table class="table table-bordered">
+                <label for="">Paid Bill</label>
+                <table class="table table-bordered bg-white">
                     @foreach ($invoices as $invoice)
                         <tr>
                             <td>{{ $invoice->date()->toFormattedDateString() }}</td>
                             <td>{{ $invoice->total() }}</td>
-                            <td><a href="/user/invoice/{{ $invoice->id }}">Download</a></td>
+                            <td><a href="{{ route('subscriptions.download-invoice',[$invoice->id]) }}">Download</a></td>
                         </tr>
                     @endforeach
                 </table>

@@ -22,6 +22,7 @@ class SubscriptionController extends Controller
             $prod = $stripe->products->retrieve(
                 $plan->product, []
             );
+
             $plan->product = $prod;
         }
         return $plans;
@@ -39,27 +40,5 @@ class SubscriptionController extends Controller
         ]);
     }
 
-    public function purchaseSubscription(Request $request)
-    {
-        $user = auth()->user();
-        $paymentMethod = $request->input('paymentMethod');
 
-        if ($request->ajax()) {
-//            auth()->user()->newSubscription('cashier', $request->api_id)->create($request->paymentMethod);
-            $user->createOrGetStripeCustomer();
-            $user->addPaymentMethod($paymentMethod);
-            try {
-                $user->newSubscription('default', $request->api_id)->create($paymentMethod, [
-                    'email' => $user->email
-                ]);
-                return [$request->all(), auth()->user()];
-            } catch (\Exception $e) {
-                return $e->getTrace();
-            }
-
-        }
-
-
-        return redirect('dashboard');
-    }
 }
