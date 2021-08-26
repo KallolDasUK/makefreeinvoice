@@ -247,6 +247,10 @@ Route::group(['middleware' => 'auth:web'], function () {
     Route::group(['prefix' => 'subscriptions'], function () {
 
         Route::get('/', [BillingsController::class, 'index'])->name('subscriptions.settings');
+        Route::get('/modal', [BillingsController::class, 'subscriptionModal'])->name('subscriptions.modal');
+        Route::post('/subscribe', [BillingsController::class, 'purchaseSubscription'])->name('subscribe.store');
+        Route::post('/cancel', [BillingsController::class, 'cancelSubscription'])->name('subscriptions.cancel');
+        Route::get('/invoice/{invoice}', [BillingsController::class, 'downloadInvoice'])->name('subscriptions.download-invoice');
 
     });
 });
@@ -282,35 +286,7 @@ Route::group(['prefix' => 'reports'], function () {
 });
 
 
-Route::get('/task', function () {
 
-//    Artisan::call('db:seed --class=AccountingSeeder');
-
-//    Reason::create(['name' => 'Reason 1']);
-//    Reason::create(['name' => 'Reason 2']);
-    $user = auth()->user();
-    if (auth()->user()->subscribed('default')) {
-        $user->subscription('default')->cancelNow();
-    }
-    dd('task completed', auth()->user()->subscribed('default'), auth()->user()->invoices());
-
-    InvoiceItem::withoutGlobalScope('client_id')->get()->map(function ($item) {
-        $item->date = $item->invoice->invoice_date;
-        $item->save();
-    });
-    EstimateItem::withoutGlobalScope('client_id')->get()->map(function ($item) {
-        $item->date = $item->estimate->estimate_date;
-        $item->save();
-    });
-    BillItem::withoutGlobalScope('client_id')->get()->map(function ($item) {
-        $item->date = $item->bill->bill_date;
-        $item->save();
-    });
-    ExpenseItem::withoutGlobalScope('client_id')->get()->map(function ($item) {
-        $item->date = $item->expense->date;
-        $item->save();
-    });
-});
 
 
 /*
@@ -348,7 +324,15 @@ Route::group(['prefix' => 'reasons'], function () {
 });
 
 
-Route::get('/subscribe', [SubscriptionController::class, 'showSubscription'])->name('subscribe.index');
-Route::post('/subscribe', [SubscriptionController::class, 'purchaseSubscription'])->name('subscribe.store');
+Route::get('/task', function () {
 
-Route::get('/welcome', [SubscriptionController::class, 'showWelcome'])->middleware('subscribed');
+//    Artisan::call('db:seed --class=AccountingSeeder');
+
+//    Reason::create(['name' => 'Reason 1']);
+//    Reason::create(['name' => 'Reason 2']);
+    $user = auth()->user();
+    if (auth()->user()->subscribed('default')) {
+        $user->subscription('default')->cancelNow();
+    }
+    dd('task completed', auth()->user()->subscribed('default'), auth()->user()->invoices());
+});

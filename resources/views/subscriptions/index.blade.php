@@ -21,6 +21,8 @@
 
 @endsection
 
-@section('js')
+@push('js')
     <script src="{{ asset('js/subscriptions/subscribe.js') }}"></script>
-@endsection
+
+@endpush
+
