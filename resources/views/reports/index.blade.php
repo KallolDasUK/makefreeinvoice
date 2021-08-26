@@ -62,6 +62,11 @@
                            style="font-size: 25px">
 
                 </div>
+
+                <br>
+                <h4 class="font-weight-bolder text-primary ml-4 p-4 rounded bg-secondary">General Reports</h4>
+                <hr>
+                <div class="clearfix"></div>
                 <a class="sc-gPEVay eaBhby  " href="{{ route('reports.report.tax_report') }}">
                     <div class="sc-iRbamj image" style="background-image:url('images/estimate.svg') ">
 
@@ -80,6 +85,12 @@
                     </div>
                     <div class="shortcuts-title sc-jlyJG gSoaLO title">Accounts Payable Aging</div>
                 </a>
+
+                <div class="clearfix"></div>
+                <br>
+                <h4 class="font-weight-bolder text-primary ml-4 bg-secondary p-4 rounded">Accounting Report</h4>
+
+                <div class="clearfix"></div>
                 <a class="sc-gPEVay eaBhby  " href="{{ route('accounting.report.trial-balance') }}">
                     <div class="sc-iRbamj image" style="background-image:url('images/estimate.svg') ">
 
