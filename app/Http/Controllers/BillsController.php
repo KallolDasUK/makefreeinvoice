@@ -177,7 +177,10 @@ class BillsController extends Controller
         $bill = Bill::findOrFail($id);
         $customers = Customer::pluck('name', 'id')->all();
         $taxes = Tax::query()->latest()->get()->toArray();
-        $bill_items = BillItem::query()->where('bill_id', $bill->id)->get();
+        $bill_items = BillItem::query()->where('bill_id', $bill->id)->get()->map(function ($item) {
+            $item->stock = optional(Product::find($item->product_id))->stock ?? 0;
+            return $item;
+        });
         $categories = Category::query()->latest()->get();
         $billExtraField = BillExtraField::query()->where('bill_id', $bill->id)->get();
         $extraFields = ExtraField::query()->where('type', Bill::class)->where('type_id', $bill->id)->get();

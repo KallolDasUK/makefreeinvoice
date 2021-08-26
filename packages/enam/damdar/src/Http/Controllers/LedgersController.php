@@ -18,7 +18,7 @@ class LedgersController extends Controller
 
     public function index()
     {
-        View::share('title', 'Ledgers');
+        View::share('title', 'Accounts');
         $ledgers = Ledger::with('ledgergroup')->latest()->get();
 
         return view('acc::ledgers.index', compact('ledgers'));

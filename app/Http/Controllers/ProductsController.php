@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\ProductUnit;
 use Illuminate\Http\Request;
 
 class ProductsController extends Controller
@@ -14,6 +15,7 @@ class ProductsController extends Controller
     {
         $products = Product::with('category')->latest()->get();
 
+//        dd($products->toArray());
         return view('products.index', compact('products'));
     }
 
@@ -21,8 +23,8 @@ class ProductsController extends Controller
     public function create()
     {
         $categories = Category::pluck('name', 'id')->all();
-
-        return view('products.create', compact('categories'));
+        $units = ProductUnit::all();
+        return view('products.create', compact('categories', 'units'));
     }
 
 
@@ -55,8 +57,9 @@ class ProductsController extends Controller
     {
         $product = Product::findOrFail($id);
         $categories = Category::pluck('name', 'id')->all();
+        $units = ProductUnit::all();
 
-        return view('products.edit', compact('product', 'categories'));
+        return view('products.edit', compact('product', 'categories', 'units'));
     }
 
 
@@ -112,10 +115,16 @@ class ProductsController extends Controller
         if ($request->hasFile('photo')) {
             $data['photo'] = $this->moveFile($request->file('photo'));
         }
-        if (array_key_exists('category_id',$data)) {
+        if (array_key_exists('category_id', $data)) {
             if (!is_numeric($data['category_id'])) {
                 $data['category_id'] = Category::create(['name' => $data['category_id']])->id;
             }
+        }
+        if (array_key_exists('sell_unit', $data)) {
+            ProductUnit::query()->firstOrCreate(['name' => $data['sell_unit']], ['name' => $data['sell_unit']]);
+        }
+        if (array_key_exists('purchase_unit', $data)) {
+            ProductUnit::query()->firstOrCreate(['name' => $data['purchase_unit']], ['name' => $data['purchase_unit']]);
         }
 
 

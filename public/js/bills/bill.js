@@ -262,6 +262,8 @@ function calculate(product_id, lineIndex) {
         ractive.set(`bill_items.${lineIndex}.price`, product.purchase_price || product.sell_price)
         ractive.set(`bill_items.${lineIndex}.unit`, product.purchase_unit || product.sell_unit)
         ractive.set(`bill_items.${lineIndex}.description`, product.description || '')
+        ractive.set(`bill_items.${lineIndex}.stock`, product.stock || '-')
+        // alert(product.stock)
 
     }
 

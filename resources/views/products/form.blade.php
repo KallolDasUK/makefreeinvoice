@@ -119,10 +119,10 @@
                         {{ old('sell_unit', optional($product)->sell_unit ?: '') == '' ? 'selected' : '' }} disabled
                         selected>--
                 </option>
-                @foreach (['KG','M', 'CM','BOX','LT.'] as $key => $text)
+                @foreach ($units as $unit)
                     <option
-                        value="{{ $text }}" {{ old('sell_unit', optional($product)->sell_unit) == $text ? 'selected' : '' }}>
-                        {{ $text }}
+                        value="{{ $unit->name }}" {{ old('sell_unit', optional($product)->sell_unit) == $unit->name ? 'selected' : '' }}>
+                        {{ $unit->name }}
                     </option>
                 @endforeach
             </select>
@@ -152,10 +152,10 @@
                         {{ old('purchase_unit', optional($product)->purchase_unit ?: '') == '' ? 'selected' : '' }} disabled
                         selected>--
                 </option>
-                @foreach (['KG','M','CM','BOX','LT.'] as $key => $text)
+                @foreach ($units as $unit)
                     <option
-                        value="{{ $text }}" {{ old('purchase_unit', optional($product)->purchase_unit) == $text ? 'selected' : '' }}>
-                        {{ $text }}
+                        value="{{ $unit->name }}" {{ old('purchase_unit', optional($product)->purchase_unit) == $unit->name ? 'selected' : '' }}>
+                        {{ $unit->name }}
                     </option>
                 @endforeach
             </select>

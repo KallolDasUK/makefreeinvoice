@@ -53,7 +53,7 @@
 
     <script>
         var sample_item = {
-            product_id: '', description: '', price: '', qnt: 1, tax_id: '', unit: 'unit'
+            product_id: '', description: '', price: '', qnt: 1, tax_id: '', unit: 'unit', stock: '-'
         };
         var copiedObject = jQuery.extend(true, {}, sample_item)
         var pair = @json($bill_fields);

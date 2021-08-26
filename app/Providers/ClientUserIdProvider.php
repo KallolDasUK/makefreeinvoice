@@ -50,6 +50,7 @@ class ClientUserIdProvider extends ServiceProvider
 
             'categories',
             'products',
+            'product_units',
             'taxes',
             'extra_fields',
             'meta_settings',

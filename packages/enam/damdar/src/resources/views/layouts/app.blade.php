@@ -411,7 +411,7 @@
                         <div class="menu-icon-grid w-auto p-0">
                             <a href="{{ route('ledgers.ledger.index') }}">
                                 <i class="fa fa-address-book" aria-hidden="true"></i>
-                                Ledger</a>
+                                Accounts</a>
                             <a href="{{ route('ledger_groups.ledger_group.index') }}"><i
                                     class="fa fa-users" aria-hidden="true"></i>Group</a>
                             <a href="{{ route('branches.branch.index') }}"><i
@@ -846,8 +846,10 @@
 
                     $("#modalContent").removeClass('d-flex align-items-center justify-content-center');
                     $("#modalContent").html(result);
-                    $.getScript('https://js.stripe.com/v3/')
-                    $.getScript("{{ asset('js/subscriptions/subscribe.js') }}")
+                    $.getScript('https://js.stripe.com/v3/',function(){
+                        $.getScript("{{ asset('js/subscriptions/subscribe.js') }}")
+                    })
+
                 }
             });
         })
