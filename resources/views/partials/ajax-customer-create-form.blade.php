@@ -46,7 +46,7 @@
                                           style="margin-top: 0px; margin-bottom: 0px; height: 62px;"></textarea>
                             </div>
                             <div class="col">
-                                <textarea placeholder="Street 1" id="street_1" name="street_1" class="form-control"
+                                <textarea placeholder="Street 1" id="street_2" name="street_2" class="form-control"
                                           style="margin-top: 0px; margin-bottom: 0px; height: 62px;"></textarea>
                             </div>
                         </div>
@@ -54,12 +54,19 @@
 
                     </div>
                     <div class="row">
+                        <div class="col-lg-4 mb-4">
+                            <select id="country" class="form-control" name="country">
+                                <option value="" disabled selected></option>
+                                @foreach(countries() as $country)
+                                    <option value="{{ $country }}"> {{ $country }}</option>
+                                @endforeach
+                            </select>                        </div>
                         <div class="col-lg-4">
                             <input placeholder="City" id="city" name="city" class="form-control" type="text">
                         </div>
                         <div class="col-lg-4">
                             <div>
-                                <input placeholder="State/Province *" class="form-control" type="text" name="state">
+                                <input placeholder="State/Province " class="form-control" type="text" name="state">
 
                             </div>
                         </div>

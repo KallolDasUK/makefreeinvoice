@@ -51,3 +51,10 @@
     </div>
 
 @endsection
+@section('js')
+    <script>
+        $(document).ready(function () {
+            $('select').select2({placeholder:'Select Country'})
+        })
+    </script>
+@endsection

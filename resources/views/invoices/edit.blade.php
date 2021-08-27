@@ -86,6 +86,8 @@
         var create = false;
         console.log(pair, 'pairs')
         $(document).ready(function () {
+            $('#country').select2({placeholder: 'Select Country'})
+
             $('.customer').select2({
                 placeholder: "Choose or New Customer"
             }).on('select2:open', function () {

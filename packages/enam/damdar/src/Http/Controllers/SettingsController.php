@@ -20,18 +20,10 @@ class SettingsController extends Controller
     use TransactionTrait;
 
 
-    /**
-     * Show the form for editing the specified ledger.
-     *
-     * @param int $id
-     *
-     * @return Illuminate\View\View
-     */
+
     public function edit()
     {
         View::share('title', 'Settings');
-//        dd(MetaSetting::all()->toArray());
-
         return view('acc::settings.settings');
     }
 
@@ -40,8 +32,6 @@ class SettingsController extends Controller
     {
 
         $params = $request->all();
-//        dd($request->all());
-
         if ($request->hasFile('business_logo')) {
             $params['business_logo'] = $this->moveFile($request->file('business_logo'));
         }
