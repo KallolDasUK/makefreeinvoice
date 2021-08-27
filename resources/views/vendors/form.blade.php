@@ -91,20 +91,13 @@
     <div class="col-md-10">
         <label for="country">Country</label>
 
-
-        <select class="form-control" id="country" name="country">
-            <option value="" style="display: none;"
-                    {{ old('country', optional($vendor)->country ?: '') == '' ? 'selected' : '' }} disabled selected>
-                Enter country here...
-            </option>
-            @foreach ([ 'Test Country','Test Country 2'] as  $text)
-                <option value="{{ $text }}" {{ old('country', optional($vendor)->country) == $text ? 'selected' : '' }}>
-                    {{ $text }}
-                </option>
+        <select id="country" class="form-control" name="country">
+            <option value="" disabled selected></option>
+            @foreach(countries() as $country)
+                <option value="{{ $country }}"{{ old('country', optional($vendor)->country) == $country ? 'selected' : '' }}> {{ $country }}</option>
             @endforeach
         </select>
 
-        {!! $errors->first('country', '<p class="form-text text-danger">:message</p>') !!}
 
     </div>
 </div>
