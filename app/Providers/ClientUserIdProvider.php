@@ -49,6 +49,7 @@ class ClientUserIdProvider extends ServiceProvider
             'bill_extra_fields',
 
             'categories',
+            'brands',
             'products',
             'product_units',
             'taxes',
