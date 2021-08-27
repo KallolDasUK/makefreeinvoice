@@ -77,6 +77,7 @@ var ractive = new Ractive({
         });
 
         $("#bill_item_table tbody").sortable();
+        $('.qnt').tooltip({'trigger': 'focus', 'title': 'Hit Enter to add new Line'});
 
 
     },
