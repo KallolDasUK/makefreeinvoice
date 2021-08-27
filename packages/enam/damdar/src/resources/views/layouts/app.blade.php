@@ -72,7 +72,9 @@
     <link href="https://unpkg.com/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css"/>
     <link href="https://ckeditor.com/docs/ckeditor5/latest/assets/snippet-styles.css" rel="stylesheet" type="text/css"/>
     <link href="https://cdn.quilljs.com/1.0.0/quill.snow.css" rel="stylesheet">
-
+    <link rel="icon" type="image/png" href="{{ asset('favicon.ico') }}"/>
+    <link rel="icon" type="image/png" href="{{ asset('favicon-32x32.png') }}"/>
+    <link rel="icon" type="image/png" href="{{ asset('favicon-16x16.png') }}"/>
     @yield('css')
     @stack('css')
 
