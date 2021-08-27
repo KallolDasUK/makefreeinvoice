@@ -306,13 +306,15 @@ $(document).ready(function () {
 // });
 
 $('.qnt').tooltip({'trigger': 'focus', 'title': 'Hit Enter to add new Line'});
-
+$(document).on('focus', '.select2', function() {
+    $(this).siblings('select').select2('open');
+});
 $(document).on('keypress', '.qnt', function (e) {
     var keyCode = e.keyCode || e.which;
     if (keyCode === 13) {
         ractive.addInvoiceItem();
-
-        $('.qnt').tooltip({'trigger': 'focus', 'title': 'Hit Enter to add new Line'});
+        let index = parseInt($(e.target).attr('index'))+1
+        $('#itemSelect'+index).select2('open');
         e.preventDefault();
         return false;
     }
