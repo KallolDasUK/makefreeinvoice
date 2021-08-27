@@ -174,8 +174,6 @@
                     </div>
 
 
-
-
                     <div class="row">
                         <div class="col">
                             <div class="form-group">
@@ -185,7 +183,7 @@
                                 <div class="checkbox">
                                     <label for="is_track_1">
                                         <input id="is_track_1" class="" name="is_track" type="checkbox"
-                                               value="1">
+                                               value="1" checked>
                                         Yes
                                     </label>
                                 </div>

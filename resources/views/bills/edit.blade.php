@@ -3,7 +3,7 @@
 @section('content')
 
     @include('partials.ajax-product-create-form')
-    @include('partials.ajax-customer-create-form')
+    @include('partials.ajax-vendor-create-form')
     @include('partials.ajax-tax-create-form')
     <div class="card">
 
@@ -87,7 +87,7 @@
         console.log(pair, 'pairs')
         $(document).ready(function () {
             $('#vendor_id').select2({
-                placeholder: "Choose or New Customer"
+                placeholder: "Choose or New Vendor"
             }).on('select2:open', function () {
                 let a = $(this).data('select2');
                 let doExits = a.$results.parents('.select2-results').find('button')
@@ -98,7 +98,6 @@
                             $("#vendor_id").select2("close");
                         });
                 }
-
             })
 
         });
