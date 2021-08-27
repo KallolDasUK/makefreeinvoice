@@ -50,7 +50,7 @@ Auth::routes();
 Route::get('/auth/redirect/{provider}', [SocialLoginController::class, 'redirect'])->name('social.redirect');
 Route::get('/auth/callback/{provider}', [SocialLoginController::class, 'callback'])->name('social.callback');
 
-Route::group(['middleware' => 'auth:web'], function () {
+Route::group(['middleware' => 'auth:web','prefix'=>'app'], function () {
 
 
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
