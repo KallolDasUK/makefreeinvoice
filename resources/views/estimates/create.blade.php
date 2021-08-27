@@ -90,7 +90,7 @@
         });
     </script>
     <script src="{{ asset('js/estimates.js') }}"></script>
-    <script src="{{ asset('js/invoice-crud.js') }}"></script>
+    <script src="{{ asset('js/estimate-crud.js') }}"></script>
 
 @endsection
 
