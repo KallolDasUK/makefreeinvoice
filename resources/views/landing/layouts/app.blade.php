@@ -16,8 +16,7 @@
     {!! OpenGraph::generate() !!}
     {!! Twitter::generate() !!}
     {!! JsonLd::generate() !!}
-    // OR with multi
-{!! JsonLdMulti::generate() !!}
+    {!! JsonLdMulti::generate() !!}
     <!-- Bootstrap -->
     <link href="https://shreethemes.in/landrick/layouts/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
     <!-- Icons -->
