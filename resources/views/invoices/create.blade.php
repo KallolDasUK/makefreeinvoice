@@ -62,7 +62,7 @@
         var create = true;
         console.log(products)
         $(document).ready(function () {
-
+            $('#country').select2({placeholder: 'Select Country'})
             $('.customer').select2({
                 placeholder: "Choose or New Customer"
             }).on('select2:open', function () {

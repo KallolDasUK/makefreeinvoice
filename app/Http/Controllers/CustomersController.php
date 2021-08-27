@@ -11,11 +11,14 @@ class CustomersController extends Controller
 {
 
 
-    public function index()
+    public function index(Request $request)
     {
-        $customers = Customer::query()->paginate(10);
-
-        return view('customers.index', compact('customers'));
+        $q = $request->q;
+        $customers = Customer::query()
+            ->when($q != null, function ($builder) use ($q) {
+                return $builder->where('name', 'like', '%' . $q . '%')->orWhere('phone', 'like', '%' . $q . '%')->orWhere('email', 'like', '%' . $q . '%');
+            })->paginate(10);
+        return view('customers.index', compact('customers', 'q'));
     }
 
 

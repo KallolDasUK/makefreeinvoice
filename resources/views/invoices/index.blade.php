@@ -3,10 +3,13 @@
 
 
 @section('css')
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" integrity="sha512-mSYUmp1HYZDFaVKK//63EcZq4iFWFjxSL+Z3T/aCt4IO9Cejm03q3NKKYN6pFQzY0SBOr8h+eCIAZHPXcpZaNw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css"
+          integrity="sha512-mSYUmp1HYZDFaVKK//63EcZq4iFWFjxSL+Z3T/aCt4IO9Cejm03q3NKKYN6pFQzY0SBOr8h+eCIAZHPXcpZaNw=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
 
 
-<style>
+    <style>
         .dropdown-toggle:hover {
             color: #0d71bb !important;
         }
@@ -176,12 +179,7 @@
                 <table class="table table-head-custom table-vertical-center" id="kt_advance_table_widget_1">
                     <thead>
                     <tr class="text-left">
-                        <th class="pl-0" style="width: 20px">
-                            <label class="checkbox checkbox-lg checkbox-inline">
-                                <input type="checkbox" value="1">
-                                <span></span>
-                            </label>
-                        </th>
+                        <th></th>
                         <th class="text-center">Invoice Number</th>
                         <th class="pr-0">Client</th>
                         <th>Invoice Date</th>
@@ -197,13 +195,8 @@
                     @foreach($invoices as $invoice)
 
                         <tr>
+                            <td>{{ $loop->iteration }}</td>
 
-                            <td class="pl-0">
-                                <label class="checkbox checkbox-lg checkbox-inline">
-                                    <input type="checkbox" value="1">
-                                    <span></span>
-                                </label>
-                            </td>
                             <td class="text-center ">
                                 <a class="font-weight-bolder d-block font-size-lg underline text-left invoice_number"
                                    href="{{ route('invoices.invoice.show',$invoice->id) }}">

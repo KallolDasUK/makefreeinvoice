@@ -41,3 +41,11 @@
 @endsection
 
 
+@section('js')
+    <script>
+        $(document).ready(function () {
+            $('select').select2({placeholder:'Select Country'})
+            $('table').DataTable()
+        })
+    </script>
+@endsection

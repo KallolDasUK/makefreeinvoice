@@ -21,7 +21,7 @@
             <h5 class="my-1 float-left">Products</h5>
 
             <div class="btn-group btn-group-sm float-right" role="group">
-                <a href="{{ route('products.product.create') }}" class="btn btn-success" title="Create New Product">
+                <a href="{{ route('products.product.create') }}" class="btn btn-success btn-lg font-weight-bolder font-size-sm" style="font-size: 16px" title="Create New Product">
                     <i class="fas fa-fw fa-plus" aria-hidden="true"></i>
                     Create New Product
                 </a>

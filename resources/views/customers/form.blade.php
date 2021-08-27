@@ -1,13 +1,13 @@
-
 <div class="form-group">
     <div class="col-md-10">
         <label for="name">Name</label>
 
 
-            @if(' required="true"'===' required="true"') <span class="text-danger font-bolder">*</span> @endif
-        <input class="form-control  {{ $errors->has('name') ? 'is-invalid' : '' }}" name="name" type="text" id="name" value="{{ old('name', optional($customer)->name) }}" minlength="1" maxlength="255" data=" required="true""  placeholder="Enter name here...">
+        <span class="text-danger font-bolder">*</span>
+        <input class="form-control  {{ $errors->has('name') ? 'is-invalid' : '' }}" name="name" type="text" id="name"
+               value="{{ old('name', optional($customer)->name) }}" minlength="1" maxlength="255">
 
-            {!! $errors->first('name', '<p class="form-text text-danger">:message</p>') !!}
+        {!! $errors->first('name', '<p class="form-text text-danger">:message</p>') !!}
 
     </div>
 </div>
@@ -17,7 +17,7 @@
         <label for="photo">Profile Photo</label>
 
 
-            <div class="input-group uploaded-file-group">
+        <div class="input-group uploaded-file-group">
             <label class="input-group-btn">
                 <span class="btn btn-default">
                      <input type="file" name="photo" id="photo" class="form-control-file">
@@ -39,7 +39,7 @@
             </div>
         @endif
 
-            {!! $errors->first('photo', '<p class="form-text text-danger">:message</p>') !!}
+        {!! $errors->first('photo', '<p class="form-text text-danger">:message</p>') !!}
 
     </div>
 </div>
@@ -47,12 +47,9 @@
 <div class="form-group">
     <div class="col-md-10">
         <label for="company_name">Company Name</label>
-
-
-            @if(''===' required="true"') <span class="text-danger font-bolder">*</span> @endif
-        <input class="form-control  {{ $errors->has('company_name') ? 'is-invalid' : '' }}" name="company_name" type="text" id="company_name" value="{{ old('company_name', optional($customer)->company_name) }}" minlength="1" data=""  placeholder="Enter company name here...">
-
-            {!! $errors->first('company_name', '<p class="form-text text-danger">:message</p>') !!}
+        <input class="form-control  {{ $errors->has('company_name') ? 'is-invalid' : '' }}" name="company_name"
+               type="text" id="company_name" value="{{ old('company_name', optional($customer)->company_name) }}"
+               minlength="1" data="" placeholder="Enter company name here...">
 
     </div>
 </div>
@@ -62,10 +59,12 @@
         <label for="phone">Phone</label>
 
 
-            @if(''===' required="true"') <span class="text-danger font-bolder">*</span> @endif
-        <input class="form-control  {{ $errors->has('phone') ? 'is-invalid' : '' }}" name="phone" type="text" id="phone" value="{{ old('phone', optional($customer)->phone) }}" minlength="1" data=""  placeholder="Enter phone here...">
+        @if(''===' required="true"') <span class="text-danger font-bolder">*</span> @endif
+        <input class="form-control  {{ $errors->has('phone') ? 'is-invalid' : '' }}" name="phone" type="text" id="phone"
+               value="{{ old('phone', optional($customer)->phone) }}" minlength="1" data=""
+               placeholder="Enter phone here...">
 
-            {!! $errors->first('phone', '<p class="form-text text-danger">:message</p>') !!}
+        {!! $errors->first('phone', '<p class="form-text text-danger">:message</p>') !!}
 
     </div>
 </div>
@@ -75,10 +74,12 @@
         <label for="email">Email</label>
 
 
-            @if(''===' required="true"') <span class="text-danger font-bolder">*</span> @endif
-        <input class="form-control  {{ $errors->has('email') ? 'is-invalid' : '' }}" name="email" type="email" id="email" value="{{ old('email', optional($customer)->email) }}" data=""  placeholder="Enter email here...">
+        @if(''===' required="true"') <span class="text-danger font-bolder">*</span> @endif
+        <input class="form-control  {{ $errors->has('email') ? 'is-invalid' : '' }}" name="email" type="email"
+               id="email" value="{{ old('email', optional($customer)->email) }}" data=""
+               placeholder="Enter email here...">
 
-            {!! $errors->first('email', '<p class="form-text text-danger">:message</p>') !!}
+        {!! $errors->first('email', '<p class="form-text text-danger">:message</p>') !!}
 
     </div>
 </div>
@@ -88,49 +89,29 @@
         <label for="country">Country</label>
 
 
-            @if(''===' required="true"') <span class="text-danger font-bolder">*</span> @endif
-        <input class="form-control  {{ $errors->has('country') ? 'is-invalid' : '' }}" name="country" type="text" id="country" value="{{ old('country', optional($customer)->country) }}" maxlength="191" data="" >
-
-            {!! $errors->first('country', '<p class="form-text text-danger">:message</p>') !!}
-
-    </div>
-</div>
-
-<div class="form-group">
-    <div class="col-md-10">
-        <label for="address">Address</label>
-
-
-            @if(' required="true"'===' required="true"') <span class="text-danger font-bolder">*</span> @endif
-        <input class="form-control  {{ $errors->has('address') ? 'is-invalid' : '' }}" name="address" type="text" id="address" value="{{ old('address', optional($customer)->address) }}" minlength="1" maxlength="191" data=" required="true""  placeholder="Enter address here...">
-
-            {!! $errors->first('address', '<p class="form-text text-danger">:message</p>') !!}
-
+        <select id="country" class="form-control" name="country">
+            <option value="" disabled selected></option>
+            @foreach(countries() as $country)
+                <option value="{{ $country }}"
+                        @if(optional($customer)->country === $country) selected @endif> {{ $country }}</option>
+            @endforeach
+        </select>
     </div>
 </div>
 
 <div class="form-group">
     <div class="col-md-10">
         <label for="street_1">Street 1</label>
-
-
-            @if(''===' required="true"') <span class="text-danger font-bolder">*</span> @endif
-        <input class="form-control  {{ $errors->has('street_1') ? 'is-invalid' : '' }}" name="street_1" type="text" id="street_1" value="{{ old('street_1', optional($customer)->street_1) }}" maxlength="191" data="" >
-
-            {!! $errors->first('street_1', '<p class="form-text text-danger">:message</p>') !!}
-
+        <input class="form-control  {{ $errors->has('street_1') ? 'is-invalid' : '' }}" name="street_1" type="text"
+               id="street_1" value="{{ old('street_1', optional($customer)->street_1) }}" maxlength="191" data="">
     </div>
 </div>
 
 <div class="form-group">
     <div class="col-md-10">
         <label for="street_2">Street 2</label>
-
-
-            @if(''===' required="true"') <span class="text-danger font-bolder">*</span> @endif
-        <input class="form-control  {{ $errors->has('street_2') ? 'is-invalid' : '' }}" name="street_2" type="text" id="street_2" value="{{ old('street_2', optional($customer)->street_2) }}" maxlength="191" data="" >
-
-            {!! $errors->first('street_2', '<p class="form-text text-danger">:message</p>') !!}
+        <input class="form-control  {{ $errors->has('street_2') ? 'is-invalid' : '' }}" name="street_2" type="text"
+               id="street_2" value="{{ old('street_2', optional($customer)->street_2) }}" maxlength="191" data="">
 
     </div>
 </div>
@@ -138,12 +119,9 @@
 <div class="form-group">
     <div class="col-md-10">
         <label for="city">City</label>
+        <input class="form-control  {{ $errors->has('city') ? 'is-invalid' : '' }}" name="city" type="text" id="city"
+               value="{{ old('city', optional($customer)->city) }}" maxlength="191" data="">
 
-
-            @if(''===' required="true"') <span class="text-danger font-bolder">*</span> @endif
-        <input class="form-control  {{ $errors->has('city') ? 'is-invalid' : '' }}" name="city" type="text" id="city" value="{{ old('city', optional($customer)->city) }}" maxlength="191" data="" >
-
-            {!! $errors->first('city', '<p class="form-text text-danger">:message</p>') !!}
 
     </div>
 </div>
@@ -152,11 +130,8 @@
     <div class="col-md-10">
         <label for="state">State</label>
 
-
-            @if(''===' required="true"') <span class="text-danger font-bolder">*</span> @endif
-        <input class="form-control  {{ $errors->has('state') ? 'is-invalid' : '' }}" name="state" type="text" id="state" value="{{ old('state', optional($customer)->state) }}" maxlength="191" data="" >
-
-            {!! $errors->first('state', '<p class="form-text text-danger">:message</p>') !!}
+        <input class="form-control  {{ $errors->has('state') ? 'is-invalid' : '' }}" name="state" type="text" id="state"
+               value="{{ old('state', optional($customer)->state) }}" maxlength="191" data="">
 
     </div>
 </div>
@@ -164,25 +139,18 @@
 <div class="form-group">
     <div class="col-md-10">
         <label for="zip_post">Zip/Post Code</label>
-
-
-            @if(''===' required="true"') <span class="text-danger font-bolder">*</span> @endif
-        <input class="form-control  {{ $errors->has('zip_post') ? 'is-invalid' : '' }}" name="zip_post" type="text" id="zip_post" value="{{ old('zip_post', optional($customer)->zip_post) }}" maxlength="191" data="" >
-
-            {!! $errors->first('zip_post', '<p class="form-text text-danger">:message</p>') !!}
-
+        <input class="form-control  {{ $errors->has('zip_post') ? 'is-invalid' : '' }}" name="zip_post" type="text"
+               id="zip_post" value="{{ old('zip_post', optional($customer)->zip_post) }}" maxlength="191" data="">
     </div>
 </div>
 
 <div class="form-group">
     <div class="col-md-10">
         <label for="website">Website</label>
+        <input class="form-control  {{ $errors->has('website') ? 'is-invalid' : '' }}" name="website" type="text"
+               id="website" value="{{ old('website', optional($customer)->website) }}" minlength="1" data=""
+               placeholder="Enter website here...">
 
-
-            @if(''===' required="true"') <span class="text-danger font-bolder">*</span> @endif
-        <input class="form-control  {{ $errors->has('website') ? 'is-invalid' : '' }}" name="website" type="text" id="website" value="{{ old('website', optional($customer)->website) }}" minlength="1" data=""  placeholder="Enter website here...">
-
-            {!! $errors->first('website', '<p class="form-text text-danger">:message</p>') !!}
 
     </div>
 </div>
