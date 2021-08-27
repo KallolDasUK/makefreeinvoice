@@ -260,6 +260,7 @@ function calculate(product_id, lineIndex) {
     if (product.sell_price) {
         ractive.set(`estimate_items.${lineIndex}.price`, product.sell_price)
         ractive.set(`estimate_items.${lineIndex}.unit`, product.sell_unit || 'unit')
+        ractive.set(`estimate_items.${lineIndex}.description`, product.description || '')
 
     }
 
