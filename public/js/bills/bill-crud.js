@@ -37,6 +37,7 @@ $(document).ready(function () {
                     ractive.set(`bill_items.${i}.price`, response.purchase_price)
                     ractive.set(`bill_items.${i}.unit`, response.sell_unit || 'unit')
                     ractive.set(`bill_items.${i}.description`, response.description || '')
+                    ractive.set(`bill_items.${i}.stock`, response.stock || '')
                     $(`#row${i}`).find('.qnt').focus()
                     $('#createProductForm').trigger("reset");
                     $('#storeProduct').prop('disabled', false)
@@ -119,8 +120,6 @@ $(document).ready(function () {
             $(element).removeClass('is-invalid');
         }
     });
-
-
 
 
     /* Creating Tax Via Ajax With Validation */
@@ -298,3 +297,37 @@ $(document).ready(function () {
 })
 
 
+$('.qnt').tooltip({'trigger': 'focus', 'title': 'Hit Enter to add new Line'});
+
+$(document).on('keypress', '.qnt', function (e) {
+    var keyCode = e.keyCode || e.which;
+    if (keyCode === 13) {
+        ractive.addBillItem();
+
+        $('.qnt').tooltip({'trigger': 'focus', 'title': 'Hit Enter to add new Line'});
+        e.preventDefault();
+        return false;
+    }
+})
+
+$(document).on('keyup keypress', '.rate', function (e) {
+    var keyCode = e.keyCode || e.which;
+    if (keyCode === 13) {
+        e.preventDefault();
+        return false;
+    }
+})
+$(document).on('keyup keypress', '.unit', function (e) {
+    var keyCode = e.keyCode || e.which;
+    if (keyCode === 13) {
+        e.preventDefault();
+        return false;
+    }
+})
+$(document).on('keyup keypress', '.description', function (e) {
+    var keyCode = e.keyCode || e.which;
+    if (keyCode === 13) {
+        e.preventDefault();
+        return false;
+    }
+})

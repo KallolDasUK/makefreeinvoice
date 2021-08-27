@@ -62,7 +62,7 @@ var ractive = new Ractive({
                     .append('<div><button  data-toggle="modal" data-target="#taxModal" class="btn btn-default text-primary underline btn-fw" style="width: 100%">+ Add Tax</button></div>')
                     .on('click', function (b) {
                         $(event.target).select2("close");
-                        $('#createTaxForm').attr('index',i)
+                        $('#createTaxForm').attr('index', i)
 
                     });
             }
@@ -220,8 +220,10 @@ for (let i = 0; i < invoice_items.length; i++) {
     })
 
     // Test
-    $(`#itemTax${i}`).select2({placeholder: "Select or Add Item",
-        allowClear: true}).on('select2:open', function (event) {
+    $(`#itemTax${i}`).select2({
+        placeholder: "Select or Add Item",
+        allowClear: true
+    }).on('select2:open', function (event) {
         let a = $(this).data('select2');
         let doExits = a.$results.parents('.select2-results').find('button')
 
@@ -230,7 +232,7 @@ for (let i = 0; i < invoice_items.length; i++) {
                 .append('<div><button  data-toggle="modal" data-target="#taxModal" class="btn btn-default text-primary underline btn-fw" style="width: 100%">+ Add Tax</button></div>')
                 .on('click', function (b) {
                     $(event.target).select2("close");
-                    $('#createTaxForm').attr('index',i)
+                    $('#createTaxForm').attr('index', i)
 
                 });
         }
@@ -251,6 +253,7 @@ function onProductChangeEvent(e) {
     let id = e.target.value;
     let lineIndex = parseInt($(e.target).attr('index'));
     calculate(id, lineIndex)
+
 }
 
 function calculate(product_id, lineIndex) {
@@ -262,6 +265,7 @@ function calculate(product_id, lineIndex) {
         ractive.set(`invoice_items.${lineIndex}.price`, product.sell_price)
         ractive.set(`invoice_items.${lineIndex}.unit`, product.sell_unit || 'unit')
         ractive.set(`invoice_items.${lineIndex}.description`, product.description || '')
+        ractive.set(`invoice_items.${lineIndex}.stock`, product.stock || '')
     }
 
     calculateOthers()
@@ -310,11 +314,11 @@ function calculateOthers() {
     // alert(tax)
 
     $('#total').val(total.toFixed(2))
-    if (create){
+    if (create) {
         $('#paymentAmount').val(total.toFixed(2))
     }
 
-    $('#paymentAmount').prop('max',total.toFixed(2))
+    $('#paymentAmount').prop('max', total.toFixed(2))
 
     $('#invoice_items').val(JSON.stringify(ractive.get('invoice_items')))
     $('#additional').val(JSON.stringify(ractiveExtra.get('pairs').filter((pair) => pair.value !== '' && pair.value !== 0)))
