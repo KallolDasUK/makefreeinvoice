@@ -13,10 +13,9 @@ use Enam\Acc\Http\Controllers\LedgerGroupsController;
 use Enam\Acc\Http\Controllers\LedgersController;
 use Enam\Acc\Http\Controllers\BranchesController;
 
-Route::middleware(['web', 'auth:web'])
-    ->group(function () {
+Route::middleware(['web', 'auth:web'])->prefix('app')->group(function () {
 
-        Route::get('/accounting', [BaseControllerAlias::class, 'index'])->name('acc.home');
+        Route::get('/', [BaseControllerAlias::class, 'index'])->name('acc.home');
 
         /*############ Accounting #######*/
 
