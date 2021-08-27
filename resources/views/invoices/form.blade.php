@@ -408,7 +408,8 @@
                     <thead>
                     <tr class="">
                         <th  class="font-weight-bold" style="text-align: start;">Items <span class="text-danger">*</span></th>
-                        <th style="width: 13%" scope="col" class="font-weight-bold">Rate</th>
+                        <th style="width: 13%" scope="col" class="font-weight-bold">Stock</th>
+                         <th style="width: 13%" scope="col" class="font-weight-bold">Rate</th>
                         <th style="width: 13%"  scope="col" class="font-weight-bold">Quantity</th>
                         <th  style="width: 20%"  scope="col" class="font-weight-bold">Tax <sup><a target="_blank" href="/taxes">view taxes</a></sup></th>
                         <th  style="width: 13%" scope="col" class="font-weight-bold">Amount</th>
@@ -431,11 +432,12 @@
                             {{ /each }}
         </select>
         </div>
-   <input type="text" value="{{ description }}" style="border: none!important;" class="form-control  input-sm" placeholder="Item Description ...">
+   <input type="text" value="{{ description }}" style="border: none!important;" class="form-control  input-sm description" placeholder="Item Description ...">
             </td>
+            <td>{{ stock }}</td>
             <td> <input type="number" step="any" style="text-align: end"  class="form-control  input-sm rate" value="{{ price }}" required></td>
             <td> <input type="number" step="any" style="text-align: end"  class="form-control   input-sm qnt" value="{{ qnt }}" required>
-            <input class="text-right form-control input-sm" type="text" style="outline: none;border:0 !important;text-align: end; text-decoration: underline;text-decoration-style: dashed;text-decoration-color: red"  value="{{ unit }}"/>
+            <input class="text-right form-control input-sm unit" type="text" style="outline: none;border:0 !important;text-align: end; text-decoration: underline;text-decoration-style: dashed;text-decoration-color: red"  value="{{ unit }}"/>
              </td>
             <td >
             <select index="{{i}}" id="itemTax{{i}}" class="form-control " value="{{ tax_id }}">

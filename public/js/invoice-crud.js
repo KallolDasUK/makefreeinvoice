@@ -37,6 +37,7 @@ $(document).ready(function () {
                     ractive.set(`invoice_items.${i}.price`, response.sell_price)
                     ractive.set(`invoice_items.${i}.unit`, response.sell_unit || 'unit')
                     ractive.set(`invoice_items.${i}.description`, response.description || '')
+                    ractive.set(`invoice_items.${i}.stock`, response.stock || '')
                     $(`#row${i}`).find('.qnt').focus()
                     $('#createProductForm').trigger("reset");
                     $('#storeProduct').prop('disabled', false)
@@ -295,4 +296,46 @@ $(document).ready(function () {
     })
 })
 
+//
+// $('form').on('keyup keypress', function (e) {
+//     var keyCode = e.keyCode || e.which;
+//     if (keyCode === 13) {
+//         e.preventDefault();
+//         return false;
+//     }
+// });
 
+$('.qnt').tooltip({'trigger': 'focus', 'title': 'Hit Enter to add new Line'});
+
+$(document).on('keypress', '.qnt', function (e) {
+    var keyCode = e.keyCode || e.which;
+    if (keyCode === 13) {
+        ractive.addInvoiceItem();
+
+        $('.qnt').tooltip({'trigger': 'focus', 'title': 'Hit Enter to add new Line'});
+        e.preventDefault();
+        return false;
+    }
+})
+
+$(document).on('keyup keypress', '.rate', function (e) {
+    var keyCode = e.keyCode || e.which;
+    if (keyCode === 13) {
+        e.preventDefault();
+        return false;
+    }
+})
+$(document).on('keyup keypress', '.unit', function (e) {
+    var keyCode = e.keyCode || e.which;
+    if (keyCode === 13) {
+        e.preventDefault();
+        return false;
+    }
+})
+$(document).on('keyup keypress', '.description', function (e) {
+    var keyCode = e.keyCode || e.which;
+    if (keyCode === 13) {
+        e.preventDefault();
+        return false;
+    }
+})
