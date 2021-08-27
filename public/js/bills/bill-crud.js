@@ -248,7 +248,10 @@ $(document).ready(function () {
             if (ariaControl.includes('category_id')) {
                 $('#category_id').append(newState).val(e.target.value).trigger('change');
                 $('#category_id').select2("close")
-            } else if (ariaControl.includes('sell_unit')) {
+            } else if (ariaControl.includes('brand_id')) {
+                $('#brand_id').append(newState).val(e.target.value).trigger('change');
+                $('#brand_id').select2("close")
+            }else if (ariaControl.includes('sell_unit')) {
                 $('#sell_unit').append(newState).val(e.target.value).trigger('change');
                 $('#sell_unit').select2("close")
 

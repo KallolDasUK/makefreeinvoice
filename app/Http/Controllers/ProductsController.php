@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\ProductUnit;
@@ -15,7 +16,6 @@ class ProductsController extends Controller
     {
         $products = Product::with('category')->latest()->get();
 
-//        dd($products->toArray());
         return view('products.index', compact('products'));
     }
 
@@ -23,8 +23,9 @@ class ProductsController extends Controller
     public function create()
     {
         $categories = Category::pluck('name', 'id')->all();
+        $brands = Brand::pluck('name', 'id')->all();
         $units = ProductUnit::all();
-        return view('products.create', compact('categories', 'units'));
+        return view('products.create', compact('categories', 'units', 'brands'));
     }
 
 
@@ -58,8 +59,9 @@ class ProductsController extends Controller
         $product = Product::findOrFail($id);
         $categories = Category::pluck('name', 'id')->all();
         $units = ProductUnit::all();
+        $brands = Brand::pluck('name', 'id')->all();
 
-        return view('products.edit', compact('product', 'categories', 'units'));
+        return view('products.edit', compact('product', 'categories', 'units', 'brands'));
     }
 
 
@@ -98,6 +100,7 @@ class ProductsController extends Controller
             'sku' => 'nullable|string|min:0|max:255',
             'photo' => ['file', 'nullable'],
             'category_id' => 'nullable',
+            'brand_id' => 'nullable',
             'sell_price' => 'required|nullable|numeric',
             'sell_unit' => 'nullable',
             'purchase_price' => 'nullable|numeric',
@@ -118,6 +121,11 @@ class ProductsController extends Controller
         if (array_key_exists('category_id', $data)) {
             if (!is_numeric($data['category_id'])) {
                 $data['category_id'] = Category::create(['name' => $data['category_id']])->id;
+            }
+        }
+        if (array_key_exists('brand_id', $data)) {
+            if (!is_numeric($data['brand_id'])) {
+                $data['brand_id'] = Brand::create(['name' => $data['brand_id']])->id;
             }
         }
         if (array_key_exists('sell_unit', $data)) {

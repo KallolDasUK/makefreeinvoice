@@ -15,7 +15,8 @@
 
                                     <div class="radio">
                                         <label for="product_type_0">
-                                            <input id="product_type_0" class="" name="product_type" type="radio" value="Goods"
+                                            <input id="product_type_0" class="" name="product_type" type="radio"
+                                                   value="Goods"
                                                    checked>
                                             Goods
                                         </label>
@@ -53,7 +54,6 @@
                     </div>
 
 
-
                     <div class="row">
                         <div class="col">
                             <div class="form-group">
@@ -83,12 +83,22 @@
                             </div>
                         </div>
 
-
                     </div>
-
-
                     <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="brand_id">Brand</label>
+                                <select class="form-control form-control-sm" id="brand_id" name="brand_id">
+                                    <option value="" style="display: none;" disabled
+                                            selected>Select Brand
+                                    </option>
+                                    @foreach (\App\Models\Brand::query()->pluck('name','id') as $key => $brand)
+                                        <option value="{{ $key }}">{{ $brand }}</option>
+                                    @endforeach
+                                </select>
 
+                            </div>
+                        </div>
                         <div class="col">
                             <div class="form-group">
                                 <label for="sell_price">Sell Price *</label>
@@ -99,6 +109,9 @@
 
                             </div>
                         </div>
+                    </div>
+
+                    <div class="row">
                         <div class="col">
                             <div class="form-group">
                                 <label for="sell_unit">Sell Unit</label>
@@ -117,9 +130,6 @@
 
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
-
                         <div class="col">
                             <div class="form-group">
                                 <label for="purchase_price">Purchase Price</label>
@@ -131,6 +141,8 @@
 
                             </div>
                         </div>
+                    </div>
+                    <div class="row">
                         <div class="col">
                             <div class="form-group">
                                 <label for="purchase_unit">Purchase Unit</label>
@@ -147,19 +159,22 @@
 
                             </div>
                         </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="description">Description</label>
+
+
+                                <textarea class="form-control " name="description" cols="50" rows="4"
+                                          id="description"
+                                          maxlength="1000"></textarea>
+
+
+                            </div>
+                        </div>
                     </div>
 
 
-                    <div class="form-group">
-                        <label for="description">Description</label>
 
-
-                        <textarea class="form-control " name="description" cols="50" rows="4"
-                                  id="description"
-                                  maxlength="1000"></textarea>
-
-
-                    </div>
 
                     <div class="row">
                         <div class="col">
