@@ -78,25 +78,49 @@
     </div>
 </div>
 
+<div class="row">
+    <div class="col">
+        <div class="form-group">
+            <label for="category_id">Category</label>
+            <select class="form-control form-control-sm" id="category_id" name="category_id">
+                <option value="" style="display: none;"
+                        {{ old('category_id', optional($product)->category_id ?: '') == '' ? 'selected' : '' }} disabled
+                        selected>Select category
+                </option>
+                @foreach ($categories as $key => $category)
+                    <option
+                        value="{{ $key }}" {{ old('category_id', optional($product)->category_id) == $key ? 'selected' : '' }}>
+                        {{ $category }}
+                    </option>
+                @endforeach
+            </select>
 
-<div class="form-group">
-    <label for="category_id">Category</label>
-    <select class="form-control form-control-sm" id="category_id" name="category_id">
-        <option value="" style="display: none;"
-                {{ old('category_id', optional($product)->category_id ?: '') == '' ? 'selected' : '' }} disabled
-                selected>Select category
-        </option>
-        @foreach ($categories as $key => $category)
-            <option
-                value="{{ $key }}" {{ old('category_id', optional($product)->category_id) == $key ? 'selected' : '' }}>
-                {{ $category }}
-            </option>
-        @endforeach
-    </select>
+            {!! $errors->first('category_id', '<p class="form-text text-danger">:message</p>') !!}
 
-    {!! $errors->first('category_id', '<p class="form-text text-danger">:message</p>') !!}
+        </div>
+    </div>
+    <div class="col">
+        <div class="form-group">
+            <label for="category_id">Brand</label>
+            <select class="form-control form-control-sm" id="brand_id" name="brand_id">
+                <option value="" style="display: none;"
+                        {{ old('category_id', optional($product)->brand_id ?: '') == '' ? 'selected' : '' }} disabled
+                        selected>Select category
+                </option>
+                @foreach ($brands as $key => $brand)
+                    <option
+                        value="{{ $key }}" {{ old('category_id', optional($product)->brand_id) == $key ? 'selected' : '' }}>
+                        {{ $brand }}
+                    </option>
+                @endforeach
+            </select>
 
+            {!! $errors->first('category_id', '<p class="form-text text-danger">:message</p>') !!}
+
+        </div>
+    </div>
 </div>
+
 
 <div class="row">
     <div class="col">
