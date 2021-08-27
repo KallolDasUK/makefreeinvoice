@@ -71,7 +71,7 @@ class BillsController extends Controller
         $cashAcId = optional(GroupMap::query()->firstWhere('key', LedgerHelper::$CASH_AC))->value;
         $depositAccounts = Ledger::find($this->getAssetLedgers())->sortBy('ledger_name');
         $paymentMethods = PaymentMethod::query()->get();
-        $customers = Vendor::pluck('name', 'id')->all();
+        $vendors = Vendor::pluck('name', 'id')->all();
         $products = Product::query()->latest()->get();
         $categories = Category::query()->latest()->get();
         $taxes = Tax::query()->latest()->get()->toArray();
@@ -79,7 +79,7 @@ class BillsController extends Controller
         $bill_fields = optional(Bill::query()->latest()->first())->bill_extra ?? [];
         $next_invoice = Bill::nextInvoiceNumber();
 
-        return view('bills.create', compact('customers', 'products', 'taxes', 'next_invoice', 'categories', 'extraFields', 'bill_fields', 'cashAcId', 'depositAccounts', 'paymentMethods'));
+        return view('bills.create', compact('vendors', 'products', 'taxes', 'next_invoice', 'categories', 'extraFields', 'bill_fields', 'cashAcId', 'depositAccounts', 'paymentMethods'));
     }
 
 
@@ -175,7 +175,7 @@ class BillsController extends Controller
         $depositAccounts = Ledger::find($this->getAssetLedgers())->sortBy('ledger_name');
         $paymentMethods = PaymentMethod::query()->get();
         $bill = Bill::findOrFail($id);
-        $customers = Customer::pluck('name', 'id')->all();
+        $vendors = Vendor::pluck('name', 'id')->all();
         $taxes = Tax::query()->latest()->get()->toArray();
         $bill_items = BillItem::query()->where('bill_id', $bill->id)->get()->map(function ($item) {
             $item->stock = optional(Product::find($item->product_id))->stock ?? 0;
@@ -186,7 +186,7 @@ class BillsController extends Controller
         $extraFields = ExtraField::query()->where('type', Bill::class)->where('type_id', $bill->id)->get();
         $products = Product::query()->latest()->get();
 
-        return view('bills.edit', compact('bill', 'customers', 'taxes', 'bill_items', 'billExtraField', 'products', 'extraFields', 'categories', 'cashAcId', 'depositAccounts', 'paymentMethods'));
+        return view('bills.edit', compact('bill', 'vendors', 'taxes', 'bill_items', 'billExtraField', 'products', 'extraFields', 'categories', 'cashAcId', 'depositAccounts', 'paymentMethods'));
     }
 
 
