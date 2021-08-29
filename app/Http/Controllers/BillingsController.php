@@ -94,6 +94,10 @@ class BillingsController extends Controller
     {
         $user = auth()->user();
         if (auth()->user()->subscribed('default')) {
+            MetaSetting::query()->updateOrCreate(['key' => 'plan_name'], ['value' => null]);
+            MetaSetting::query()->updateOrCreate(['key' => 'plan_price'], ['value' => null]);
+            MetaSetting::query()->updateOrCreate(['key' => 'plan_interval'], ['value' => null]);
+
             $user->subscription('default')->cancelNow();
         }
         return back();

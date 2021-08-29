@@ -6,12 +6,11 @@
             width: 140px;
             height: 132px;
             margin: 18px 10px 5px;
-            float: left;
             padding: 8px;
             text-align: center;
             border-radius: 8px;
             cursor: pointer;
-            display: block;
+            display: inline-block;
             background-color: initial;
             border: none;
             font-size: inherit;
@@ -216,9 +215,7 @@
                 </div>
                 <div class="shortcuts-title sc-jlyJG gSoaLO">Receive Payment</div>
             </a>
-            <div class="divider justify-content-center align-items-center d-flex">
-                <span class="  vertical-divider m-auto"> </span>
-            </div>
+
 
             <a class="sc-gPEVay eaBhby  border rounded"
                href="{{ route('estimates.estimate.create') }}">
@@ -241,15 +238,19 @@
             <div class="font-weight-bolder">
                 BILL SHORTCUTS
             </div>
-            <a href="{{ route('bills.bill.index') }}" class="sc-gPEVay eaBhby border rounded ">
-                <div class="sc-iRbamj image" style="background-image:url('images/manage_invoice.svg') ">
+            <a href="{{ route('bills.bill.index') }}"
+               style="position: relative"
+               class="sc-gPEVay eaBhby border rounded @cannot('viewAny',\App\Models\Bill::class) pro-tag @endcannot">
+                <div class="sc-iRbamj image"
+                     style="background-image:url('images/manage_invoice.svg'); ">
 
                 </div>
-                <div class="shortcuts-title  text-black">My Bills</div>
+                <div class="shortcuts-title text-black">My Bills</div>
             </a>
 
-            <a class="sc-gPEVay eaBhby border rounded " href="{{ route('bills.bill.create') }}">
-                <div class="sc-iRbamj image" style="background-image:url('images/invoice.svg') ">
+            <a class="sc-gPEVay eaBhby border rounded @cannot('create',\App\Models\Bill::class) pro-tag @endcannot"
+               href="{{ route('bills.bill.create') }}" style="position:relative;">
+                <div class="sc-iRbamj image" style="background-image:url('images/invoice.svg') ;">
 
                 </div>
                 <div class=" shortcuts-title sc-jlyJG gSoaLO">Add Bill</div>
@@ -261,9 +262,6 @@
                 <div class="shortcuts-title  text-black">Add Vendors</div>
             </a>
 
-            <div class="divider justify-content-center align-items-center d-flex">
-                <span class="  vertical-divider m-auto"> </span>
-            </div>
 
             <a href="{{ route('expenses.expense.create') }}" class="sc-gPEVay eaBhby border rounded ">
                 <div class="sc-iRbamj image" style="background-image:url('images/manage_invoice.svg') ">
@@ -286,13 +284,15 @@
             <div class="font-weight-bolder">
                 Inventory SHORTCUTS
             </div>
-            <a href="{{ route('inventory_adjustments.inventory_adjustment.index') }}" class="sc-gPEVay eaBhby border rounded ">
+            <a href="{{ route('inventory_adjustments.inventory_adjustment.index') }}"
+               class="sc-gPEVay eaBhby border rounded ">
                 <div class="sc-iRbamj image" style="background-image:url('images/manage_invoice.svg') ">
 
                 </div>
                 <div class="shortcuts-title  text-black">My Adjustment</div>
             </a>
-            <a href="{{ route('inventory_adjustments.inventory_adjustment.create') }}" class="sc-gPEVay eaBhby border rounded ">
+            <a href="{{ route('inventory_adjustments.inventory_adjustment.create') }}"
+               class="sc-gPEVay eaBhby border rounded ">
                 <div class="sc-iRbamj image" style="background-image:url('images/manage_invoice.svg') ">
 
                 </div>

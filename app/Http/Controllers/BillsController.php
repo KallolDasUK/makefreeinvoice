@@ -41,6 +41,8 @@ class BillsController extends Controller
 
     public function index(Request $request)
     {
+        $this->authorize('viewAny', Bill::class);
+//        dd('test');
         $start_date = $request->start_date;
         $end_date = $request->end_date;
         $vendor_id = $request->vendor;
@@ -68,6 +70,8 @@ class BillsController extends Controller
 
     public function create()
     {
+        $this->authorize('create', Bill::class);
+
         $cashAcId = optional(GroupMap::query()->firstWhere('key', LedgerHelper::$CASH_AC))->value;
         $depositAccounts = Ledger::find($this->getAssetLedgers())->sortBy('ledger_name');
         $paymentMethods = PaymentMethod::query()->get();
