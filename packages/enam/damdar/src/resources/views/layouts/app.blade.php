@@ -269,6 +269,28 @@
         .select2-selection {
             border: 1px solid #065a926b !important;
         }
+
+        .pro-tag::before {
+            content: "Pro";
+            float: right;
+            position: absolute;
+            left: 5px;
+            color: white;
+            background: #e91e63;
+            padding: 1px 2px;
+            font-size: 10px;
+            border-radius: 2px;
+        }
+
+        .pro-tag {
+            cursor: no-drop;
+            text-decoration: none;
+            color: black;
+        }
+
+
+
+
     </style>
 
 </head>
@@ -365,12 +387,15 @@
                             Bill/Purchase Module</p>
                         <div class="menu-icon-grid font-weight-bolder p-0">
                             <a href="{{ route('bills.bill.create') }}"
-                               style="min-width: 100px">
+                               class="@cannot('create',\App\Models\Bill::class) pro-tag @endcannot"
+                               style="min-width: 100px;position: relative">
+
                                 <i class="fa fa-plus" aria-hidden="true"></i>
                                 New <br> Bill</a>
                             <a href="{{ route('bills.bill.index') }}"
-                               style="min-width: 100px"><i
-                                    class="fa fa-list-alt" aria-hidden="true"></i>Manage <br>
+                               class="@cannot('viewAny',\App\Models\Bill::class) pro-tag @endcannot"
+                               style="min-width: 100px;position: relative"><i
+                                    class="fa fa-list-alt ribbon" aria-hidden="true"></i>Manage <br>
                                 Bills</a>
 
                             <a href="{{ route('products.product.index') }}"
@@ -705,6 +730,31 @@
 
 
     </div>
+
+
+    <!-- Modal-->
+    <div class="modal fade" id="proModal" tabindex="-1" role="dialog" aria-labelledby="proModal" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="proModal">Upgrade required</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <i aria-hidden="true" class="ki ki-close"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    This is a pro feature. Upgrade to unlock the feature.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">Close
+                    </button>
+                    <button type="button" class="btn btn-primary font-weight-bold subscribeModal" data-dismiss="modal">
+                        Upgrade Pro
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 
@@ -842,12 +892,17 @@
 
                     $("#modalContent").removeClass('d-flex align-items-center justify-content-center');
                     $("#modalContent").html(result);
-                    $.getScript('https://js.stripe.com/v3/',function(){
+                    $.getScript('https://js.stripe.com/v3/', function () {
                         $.getScript("{{ asset('js/subscriptions/subscribe.js') }}")
                     })
 
                 }
             });
+        })
+
+        $('.pro-tag').attr('href', 'javascript:;')
+        $('.pro-tag').on('click', function () {
+            $('#proModal').modal('show')
         })
 
     })
