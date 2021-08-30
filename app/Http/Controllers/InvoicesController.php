@@ -40,6 +40,7 @@ class InvoicesController extends Controller
 
     public function index(Request $request)
     {
+        $this->authorize('viewAny', Invoice::class);
         $start_date = $request->start_date;
         $end_date = $request->end_date;
         $customer_id = $request->customer;
@@ -74,6 +75,7 @@ class InvoicesController extends Controller
 
     public function create()
     {
+        $this->authorize('create', Invoice::class);
         $cashAcId = optional(GroupMap::query()->firstWhere('key', LedgerHelper::$CASH_AC))->value;
         $depositAccounts = Ledger::find($this->getAssetLedgers())->sortBy('ledger_name');
         $paymentMethods = PaymentMethod::query()->get();
@@ -91,6 +93,7 @@ class InvoicesController extends Controller
 
     public function store(Request $request)
     {
+        $this->authorize('create', Invoice::class);
 
 
         $data = $this->getData($request);
@@ -164,7 +167,9 @@ class InvoicesController extends Controller
 
     public function show($id)
     {
+
         $invoice = Invoice::with('customer')->findOrFail($id);
+        $this->authorize('view', $invoice);
 
         $invoice->taxes;
         return view('invoices.show', compact('invoice'));
@@ -183,10 +188,14 @@ class InvoicesController extends Controller
 
     public function edit($id)
     {
+
+
         $cashAcId = optional(GroupMap::query()->firstWhere('key', LedgerHelper::$CASH_AC))->value;
         $depositAccounts = Ledger::find($this->getAssetLedgers())->sortBy('ledger_name');
         $paymentMethods = PaymentMethod::query()->get();
         $invoice = Invoice::findOrFail($id);
+
+        $this->authorize('update', $invoice);
         $customers = Customer::pluck('name', 'id')->all();
         $taxes = Tax::query()->latest()->get()->toArray();
         $invoice_items = InvoiceItem::query()->where('invoice_id', $invoice->id)->get();
@@ -202,6 +211,8 @@ class InvoicesController extends Controller
     public function update($id, Request $request)
     {
 
+        $invoice = Invoice::findOrFail($id);
+        $this->authorize('update', $invoice);
 
         $data = $this->getData($request);
         $invoice_items = $data['invoice_items'] ?? [];
@@ -211,8 +222,6 @@ class InvoicesController extends Controller
         unset($data['invoice_items']);
         unset($data['additional']);
         unset($data['additional_fields']);
-
-        $invoice = Invoice::findOrFail($id);
 
 
         InvoiceExtraField::query()->where('invoice_id', $invoice->id)->delete();
@@ -238,6 +247,7 @@ class InvoicesController extends Controller
     {
 
         $invoice = Invoice::findOrFail($id);
+        $this->authorize('delete', $invoice);
         InvoiceExtraField::query()->where('invoice_id', $invoice->id)->delete();
         InvoiceItem::query()->where('invoice_id', $invoice->id)->delete();
         ExtraField::query()->where('type', get_class($invoice))->where('type_id', $invoice->id)->delete();
@@ -245,7 +255,7 @@ class InvoicesController extends Controller
         ReceivePaymentItem::query()->where('invoice_id', $invoice->id)->get()->each(function ($model) {
             try {
                 $model->receive_payment->delete();
-            }catch (\Exception $exception){
+            } catch (\Exception $exception) {
             }
             $model->delete();
         });

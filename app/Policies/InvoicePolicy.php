@@ -2,16 +2,18 @@
 
 namespace App\Policies;
 
-use App\Models\Bill;
 use App\Models\GlobalSetting;
+use App\Models\Invoice;
 use App\Models\MetaSetting;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 use Illuminate\Support\Str;
+use mysql_xdevapi\Exception;
 
-class BillPolicy
+class InvoicePolicy
 {
     use HandlesAuthorization;
+
 
     public $settings = null;
     public $global_settings = null;
@@ -29,39 +31,47 @@ class BillPolicy
 
     }
 
-
-    public function viewAny(User $user)
+    private function has_access($ability)
     {
-        $has_access = $this->global_settings[$this->plan . '_bills_viewAny'];
+        try {
+            $has_access = $this->global_settings[$this->plan . '_invoices_' . $ability];
+        } catch (\Exception $exception) {
+            $has_access = false;
+        }
         return boolval($has_access);
     }
 
-
-    public function view(User $user, Bill $bill)
+    public function viewAny(User $user)
     {
-        $has_access = $this->global_settings[$this->plan . '_bills_view'];
-        return boolval($has_access);
+        return $this->has_access(__FUNCTION__);
+    }
+
+
+    public function view(User $user, Invoice $invoice)
+    {
+        return $this->has_access(__FUNCTION__);
+
     }
 
 
     public function create(User $user)
     {
-        $has_access = $this->global_settings[$this->plan . '_bills_create'];
-        return boolval($has_access);
+        return $this->has_access(__FUNCTION__);
+
     }
 
 
-    public function update(User $user, Bill $bill)
+    public function update(User $user, Invoice $invoice)
     {
-        $has_access = $this->global_settings[$this->plan . '_bills_update'];
-        return boolval($has_access);
+        return $this->has_access(__FUNCTION__);
+
     }
 
 
-    public function delete(User $user, Bill $bill)
+    public function delete(User $user, Invoice $invoice)
     {
-        $has_access = $this->global_settings[$this->plan . '_bills_delete'];
-        return boolval($has_access);
+        return $this->has_access(__FUNCTION__);
     }
+
 
 }

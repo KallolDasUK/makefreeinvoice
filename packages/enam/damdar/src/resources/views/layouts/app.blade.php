@@ -280,10 +280,10 @@
             content: "Pro";
             float: right;
             position: absolute;
-            left: 5px;
+            left: -5px;
             color: white;
-            background: #e91e63;
-            padding: 1px 2px;
+            background: #8950fc;
+            padding: 1px 5px;
             font-size: 10px;
             border-radius: 2px;
         }
@@ -293,8 +293,6 @@
             text-decoration: none;
             color: black;
         }
-
-
 
 
     </style>
@@ -350,22 +348,26 @@
                     <div class="col" style="min-width: 500px">
                         <p class="text-info text--cap border-bottom d-inline-block">
                             Invoice Module</p>
-                        <div class="menu-icon-grid font-weight-bolder p-0">
+                        <div class="menu-icon-grid font-weight-bolder p-0 ">
                             <a href="{{ route('invoices.invoice.create') }}"
-                               style="min-width: 100px">
+                               class="@cannot('create',\App\Models\Invoice::class) pro-tag @endcannot"
+                               style="min-width: 100px;position:relative;">
                                 <i class="fa fa-plus" aria-hidden="true"></i>
                                 New <br> Invoice</a>
                             <a href="{{ route('invoices.invoice.index') }}"
-                               style="min-width: 100px"><i
+                               class="@cannot('viewAny',\App\Models\Invoice::class) pro-tag @endcannot"
+                               style="min-width: 100px;position:relative;"><i
                                     class="fa fa-list-alt" aria-hidden="true"></i>Manage <br>
                                 Invoices</a>
 
                             <a href="{{ route('products.product.index') }}"
-                               style="min-width: 100px"><i class="fab fa-product-hunt"></i> Products
+                               class="@cannot('create',\App\Models\Invoice::class) pro-tag @endcannot"
+                               style="min-width: 100px;position:relative;"><i class="fab fa-product-hunt"></i> Products
                             </a>
 
                             <a href="{{ route('customers.customer.index') }}"
-                               style="min-width: 100px"><i
+                               class="@cannot('create',\App\Models\Invoice::class) pro-tag @endcannot"
+                               style="min-width: 100px;position:relative;"><i
                                     class="fa fa-users" aria-hidden="true"></i>Customers</a>
 
 
@@ -400,17 +402,20 @@
                                 New <br> Bill</a>
                             <a href="{{ route('bills.bill.index') }}"
                                class="@cannot('viewAny',\App\Models\Bill::class) pro-tag @endcannot"
-                               style="min-width: 100px;position: relative"><i
-                                    class="fa fa-list-alt ribbon" aria-hidden="true"></i>Manage <br>
+                               style="min-width: 100px;position: relative">
+                                <i class="fa fa-list-alt ribbon" aria-hidden="true"></i>Manage <br>
                                 Bills</a>
 
                             <a href="{{ route('products.product.index') }}"
-                               style="min-width: 100px"><i class="fab fa-product-hunt"></i> Products
+                               class="@cannot('viewAny',\App\Models\Bill::class) pro-tag @endcannot"
+                               style="min-width: 100px;position: relative">
+                                <i class="fab fa-product-hunt"></i> Products
                             </a>
 
                             <a href="{{ route('vendors.vendor.index') }}"
-                               style="min-width: 100px"><i
-                                    class="fa fa-users" aria-hidden="true"></i>Vendors</a>
+                               class="@cannot('viewAny',\App\Models\Bill::class) pro-tag @endcannot"
+                               style="min-width: 100px;position: relative">
+                                <i class="fa fa-users" aria-hidden="true"></i>Vendors</a>
 
 
                         </div>

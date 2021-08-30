@@ -6,6 +6,7 @@ use App\Http\Services\ReportService;
 use App\Models\BillItem;
 use App\Models\ExpenseItem;
 use App\Models\InvoiceItem;
+use App\Models\Report;
 use App\Models\Tax;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -23,6 +24,8 @@ class ReportController extends Controller
 
     public function taxReport(Request $request)
     {
+
+        $this->authorize('tax_summary');
         $start_date = $request->start_date ?? today()->startOfYear()->toDateString();
         $end_date = $request->end_date ?? today()->toDateString();
         $report_type = $request->report_type ?? 'accrual';
@@ -33,6 +36,7 @@ class ReportController extends Controller
 
         return view('reports.tax-report', compact('title', 'start_date', 'end_date', 'report_type', 'taxes'));
     }
+
     public function stockReport(Request $request)
     {
         $start_date = $request->start_date ?? today()->startOfYear()->toDateString();
@@ -48,12 +52,16 @@ class ReportController extends Controller
 
     public function arAgingReport(Request $request)
     {
+        $this->authorize('ar_aging');
+
         $records = $this->getArAgingReport();
         return view('reports.ar-aging-report', compact('records'));
     }
 
     public function apAgingReport(Request $request)
     {
+        $this->authorize('ap_aging', Report::class);
+
         $records = $this->getApAgingReport();
         return view('reports.ap-aging-report', compact('records'));
     }

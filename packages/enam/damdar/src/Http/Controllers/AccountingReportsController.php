@@ -25,6 +25,8 @@ class AccountingReportsController extends Controller
 
     public function rpbFilter(Request $request)
     {
+        $this->authorize('receipt_payment');
+
         $month = $request->month;
         $branches = Branch::pluck('name', 'id')->all();
         View::share('title', 'Receipt & Payment (Branch Wise)');
@@ -79,6 +81,8 @@ class AccountingReportsController extends Controller
 
     public function trialBalanceFilter(Request $request)
     {
+        $this->authorize('trial_balance');
+
         $start_date = today()->startOfMonth()->toDateString();
         $end_date = today()->toDateString();
         $branches = Branch::pluck('name', 'id')->all();
@@ -101,6 +105,8 @@ class AccountingReportsController extends Controller
     /* Profit Loss Statement */
     public function profitLossFilter(Request $request)
     {
+        $this->authorize('profit_loss');
+
         $start_date = today()->startOfMonth()->toDateString();
         $end_date = today()->toDateString();
         $branches = Branch::pluck('name', 'id')->all();
@@ -119,6 +125,8 @@ class AccountingReportsController extends Controller
     /* Profit Loss Statement */
     public function balanceSheetFilter(Request $request)
     {
+        $this->authorize('balance_sheet');
+
         $start_date = today()->startOfMonth()->toDateString();
         $end_date = today()->toDateString();
         $branches = Branch::pluck('name', 'id')->all();
@@ -139,6 +147,7 @@ class AccountingReportsController extends Controller
     /* Ledger Report */
     public function ledgerFilter(Request $request)
     {
+        $this->authorize('ledger');
 
         $start_date = today()->startOfMonth()->toDateString();
         $end_date = today()->toDateString();
@@ -164,6 +173,7 @@ class AccountingReportsController extends Controller
     /* Ledger Report */
     public function voucherFilter(Request $request)
     {
+        $this->authorize('voucher');
 
         $start_date = today()->startOfMonth()->toDateString();
         $end_date = today()->toDateString();
@@ -204,6 +214,7 @@ class AccountingReportsController extends Controller
     /* Ledger Report */
     public function cashbookFilter(Request $request)
     {
+        $this->authorize('cash_book');
 
         $start_date = today()->startOfMonth()->toDateString();
         $end_date = today()->toDateString();
@@ -226,9 +237,7 @@ class AccountingReportsController extends Controller
             });
             $ledgersName = $ledgersName->implode(',');
             $record->ledgersName = $ledgersName;
-//            dd($ops);
         }
-//        dd($data);
         $pdf = PDF::loadView('acc::reports.cashbook.pdf', $data);
         return $pdf->stream('acc::reports.cashbook.pdf');
 
@@ -236,6 +245,7 @@ class AccountingReportsController extends Controller
 
     public function daybookFilter(Request $request)
     {
+        $this->authorize('day_book');
 
         $start_date = today()->startOfMonth()->toDateString();
         $end_date = today()->toDateString();
@@ -247,27 +257,9 @@ class AccountingReportsController extends Controller
 
     public function daybookPDF(Request $request)
     {
-
         $data = $this->getDayBookReport($request);
-//        dd($data);
-//        $cashAc = optional(GroupMap::query()->where('key', LedgerHelper::$CASH_AC)->first())->value;
-//
-//        foreach ($data['txn_details'] as $index => $record) {
-//            $ledgersName = $record->transaction->transaction_details->map(function ($item) {
-//                return $item->ledger->ledger_name;
-//            });
-//            $ledgersName = $ledgersName->implode(',');
-//            $record->ledgersName = $ledgersName;
-////            dd($ops);
-//        }
-//        dd($data);
         $pdf = PDF::loadView('acc::reports.daybook.pdf', $data);
         return $pdf->stream('acc::reports.daybook.pdf');
-
     }
 
-
-//$pdf = \App::make('dompdf.wrapper');
-//$pdf->loadHTML('<h1>Test</h1>');
-//return $pdf->stream();
 }

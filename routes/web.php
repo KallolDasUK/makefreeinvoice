@@ -10,6 +10,7 @@ use App\Http\Controllers\Estimates\EstimatesController;
 use App\Http\Controllers\ExpensesController;
 use App\Http\Controllers\InventoryAdjustmentsController;
 use App\Http\Controllers\InvoicesController;
+use App\Http\Controllers\MasterController;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\ReasonsController;
 use App\Http\Controllers\ReportController;
@@ -332,4 +333,14 @@ Route::get('/task', function () {
         $user->subscription('default')->cancelNow();
     }
     dd('task completed', auth()->user()->subscribed('default'), auth()->user()->invoices());
+});
+
+
+Route::group(['prefix' => 'master', 'middleware' => ['auth:web', 'isMaster']], function () {
+    Route::get('/', [MasterController::class, 'index'])->name('master.index');
+    Route::get('/subscriptions', [MasterController::class, 'subscriptions'])->name('master.subscriptions');
+    Route::post('/subscriptions/free-plan', [MasterController::class, 'freePlanSettings'])->name('master.subscriptions.free_plan');
+    Route::post('/subscriptions/basic-plan', [MasterController::class, 'basicPlanSettings'])->name('master.subscriptions.basic_plan');
+    Route::post('/subscriptions/premium-plan', [MasterController::class, 'premiumPlanSettings'])->name('master.subscriptions.premium_plan');
+    Route::get('/users', [MasterController::class, 'users'])->name('master.users');
 });
