@@ -236,7 +236,7 @@
 
 
                                         <form method="POST"
-                                              action="{!! route('bills.bill.destroy', $bill->id) !!}">>
+                                              action="{!! route('bills.bill.destroy', $bill->id) !!}">
                                             {{ csrf_field() }}
                                             <button class="dropdown-item "
                                                     onclick="return confirm('Click Ok to delete Bill')">
