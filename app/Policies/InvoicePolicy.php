@@ -10,26 +10,11 @@ use Illuminate\Auth\Access\HandlesAuthorization;
 use Illuminate\Support\Str;
 use mysql_xdevapi\Exception;
 
-class InvoicePolicy
+class InvoicePolicy extends BasePolicy
 {
     use HandlesAuthorization;
 
 
-    public $settings = null;
-    public $global_settings = null;
-    public $plan = null;
-
-    public function __construct()
-    {
-        $this->settings = json_decode(MetaSetting::query()->pluck('value', 'key')->toJson());
-        $this->global_settings = json_decode(GlobalSetting::query()->pluck('value', 'key')->toJson(), true);
-        $this->plan = $this->settings->plan_name ?? null;
-        if ($this->plan != null) {
-            if (Str::contains($this->plan, 'basic')) $this->plan = 'basic';
-            elseif (Str::contains($this->plan, 'premium')) $this->plan = 'premium';
-        } else$this->plan = 'free';
-
-    }
 
     private function has_access($ability)
     {
