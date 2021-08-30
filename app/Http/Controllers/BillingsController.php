@@ -92,7 +92,9 @@ class BillingsController extends Controller
 
     public function cancelSubscription(Request $request)
     {
+//        dd(MetaSetting::query()->get()->toArray());
         $user = auth()->user();
+//        dd($user->client_id);
         if (auth()->user()->subscribed('default')) {
             MetaSetting::query()->updateOrCreate(['key' => 'plan_name'], ['value' => null]);
             MetaSetting::query()->updateOrCreate(['key' => 'plan_price'], ['value' => null]);

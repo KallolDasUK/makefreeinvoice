@@ -15,6 +15,7 @@
             <tr>
                 <th>Name</th>
                 <th>Role</th>
+                <th>On Plan</th>
                 <th>Invoices</th>
                 <th>Bills</th>
                 <th>Estimate</th>
@@ -29,6 +30,7 @@
                 <tr>
                     <td>{{ $user->name }}-<small>{{ $user->email }}</small></td>
                     <td>{{ Str::title($user->role) }}</td>
+                    <td>{{ $user->plan }}</td>
                     <td>{{ count($user->invoices)==0?'-':count($user->invoices) }}</td>
                     <td>{{ count($user->bills)==0?'-':count($user->bills) }}</td>
                     <td>{{ count($user->estimates)==0?'-':count($user->estimates) }}</td>
