@@ -15,7 +15,7 @@ class MasterController extends Controller
 
     public function users()
     {
-        $users = User::query()->orderBy('role', 'desc')->get();
+        $users = User::query()->orderBy('role', 'desc')->paginate(25);
         return view('master.users', compact('users'));
     }
 
@@ -34,7 +34,7 @@ class MasterController extends Controller
         foreach ($params as $key => $value) {
             GlobalSetting::query()->updateOrCreate(['key' => 'free_' . $key], ['value' => $value]);
         }
-        return back();
+        return back()->with('message', 'Free Plan Setting Saved');
     }
 
     public function basicPlanSettings(Request $request)
@@ -45,7 +45,7 @@ class MasterController extends Controller
         foreach ($params as $key => $value) {
             GlobalSetting::query()->updateOrCreate(['key' => 'basic_' . $key], ['value' => $value]);
         }
-        return back();
+        return back()->with('message', 'Basic Plan Setting Saved');
 
     }
 
@@ -57,7 +57,7 @@ class MasterController extends Controller
         foreach ($params as $key => $value) {
             GlobalSetting::query()->updateOrCreate(['key' => 'premium_' . $key], ['value' => $value]);
         }
-        return back();
+        return back()->with('message', 'Premium Plan Setting Saved');
 
     }
 }

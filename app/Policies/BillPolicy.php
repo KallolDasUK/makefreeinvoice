@@ -3,105 +3,65 @@
 namespace App\Policies;
 
 use App\Models\Bill;
+use App\Models\GlobalSetting;
 use App\Models\MetaSetting;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use Illuminate\Support\Str;
 
 class BillPolicy
 {
     use HandlesAuthorization;
 
     public $settings = null;
+    public $global_settings = null;
     public $plan = null;
 
     public function __construct()
     {
         $this->settings = json_decode(MetaSetting::query()->pluck('value', 'key')->toJson());
+        $this->global_settings = json_decode(GlobalSetting::query()->pluck('value', 'key')->toJson(), true);
         $this->plan = $this->settings->plan_name ?? null;
-//        dd($this->plan,$this->settings);
+        if ($this->plan != null) {
+            if (Str::contains($this->plan, 'basic')) $this->plan = 'basic';
+            elseif (Str::contains($this->plan, 'premium')) $this->plan = 'premium';
+        } else$this->plan = 'free';
 
     }
 
-    /**
-     * Determine whether the user can view any models.
-     *
-     * @param \App\Models\User $user
-     * @return \Illuminate\Auth\Access\Response|bool
-     */
+
     public function viewAny(User $user)
     {
-        return $this->plan != null;
-//        return  true;
+        $has_access = $this->global_settings[$this->plan . '_bills_viewAny'];
+        return boolval($has_access);
     }
 
-    /**
-     * Determine whether the user can view the model.
-     *
-     * @param \App\Models\User $user
-     * @param \App\Models\Bill $bill
-     * @return \Illuminate\Auth\Access\Response|bool
-     */
+
     public function view(User $user, Bill $bill)
     {
-        return $this->plan != null;
+        $has_access = $this->global_settings[$this->plan . '_bills_view'];
+        return boolval($has_access);
     }
 
-    /**
-     * Determine whether the user can create models.
-     *
-     * @param \App\Models\User $user
-     * @return \Illuminate\Auth\Access\Response|bool
-     */
+
     public function create(User $user)
     {
-        return $this->plan != null;
+        $has_access = $this->global_settings[$this->plan . '_bills_create'];
+        return boolval($has_access);
     }
 
-    /**
-     * Determine whether the user can update the model.
-     *
-     * @param \App\Models\User $user
-     * @param \App\Models\Bill $bill
-     * @return \Illuminate\Auth\Access\Response|bool
-     */
+
     public function update(User $user, Bill $bill)
     {
-        return $this->plan != null;
+        $has_access = $this->global_settings[$this->plan . '_bills_update'];
+        return boolval($has_access);
     }
 
-    /**
-     * Determine whether the user can delete the model.
-     *
-     * @param \App\Models\User $user
-     * @param \App\Models\Bill $bill
-     * @return \Illuminate\Auth\Access\Response|bool
-     */
+
     public function delete(User $user, Bill $bill)
     {
-        return $this->plan != null;
+        $has_access = $this->global_settings[$this->plan . '_bills_delete'];
+        return boolval($has_access);
     }
 
-    /**
-     * Determine whether the user can restore the model.
-     *
-     * @param \App\Models\User $user
-     * @param \App\Models\Bill $bill
-     * @return \Illuminate\Auth\Access\Response|bool
-     */
-    public function restore(User $user, Bill $bill)
-    {
-        return $this->plan != null;
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     *
-     * @param \App\Models\User $user
-     * @param \App\Models\Bill $bill
-     * @return \Illuminate\Auth\Access\Response|bool
-     */
-    public function forceDelete(User $user, Bill $bill)
-    {
-        return $this->plan != null;
-    }
 }

@@ -17,7 +17,11 @@
 @endsection
 @section('content')
     <h2>Subscription Configurations</h2>
-
+    @if(session()->has('message'))
+        <div class="alert alert-success">
+            {{ session('message') }}
+        </div>
+    @endif
     {{-- Free Plan --}}
     <div class="card">
         <div class="card-header">
@@ -249,23 +253,28 @@
                         <label>Account Group</label>
                         <ul class="manu">
                             <li>
-                                <input type="checkbox" name="ledger_groups.viewAny"  {{ $global_settings->free_ledger_groups_viewAny??false?'checked':''}}/>
+                                <input type="checkbox"
+                                       name="ledger_groups.viewAny" {{ $global_settings->free_ledger_groups_viewAny??false?'checked':''}}/>
                                 <label>Show List</label>
                             </li>
                             <li>
-                                <input type="checkbox" name="ledger_groups.view"  {{ $global_settings->free_ledger_groups_view??false?'checked':''}}/>
+                                <input type="checkbox"
+                                       name="ledger_groups.view" {{ $global_settings->free_ledger_groups_view??false?'checked':''}}/>
                                 <label>View Single</label>
                             </li>
                             <li>
-                                <input type="checkbox" name="ledger_groups.create"  {{ $global_settings->free_ledger_groups_create??false?'checked':''}}/>
+                                <input type="checkbox"
+                                       name="ledger_groups.create" {{ $global_settings->free_ledger_groups_create??false?'checked':''}}/>
                                 <label>Create</label>
                             </li>
                             <li>
-                                <input type="checkbox" name="ledger_groups.update"  {{ $global_settings->free_ledger_groups_update??false?'checked':''}}/>
+                                <input type="checkbox"
+                                       name="ledger_groups.update" {{ $global_settings->free_ledger_groups_update??false?'checked':''}}/>
                                 <label>Edit</label>
                             </li>
                             <li>
-                                <input type="checkbox" name="ledger_groups.delete"  {{ $global_settings->free_ledger_groups_delete??false?'checked':''}}/>
+                                <input type="checkbox"
+                                       name="ledger_groups.delete" {{ $global_settings->free_ledger_groups_delete??false?'checked':''}}/>
                                 <label>Delete</label>
                             </li>
                         </ul>
@@ -275,23 +284,28 @@
                         <label>Branches</label>
                         <ul class="manu">
                             <li>
-                                <input type="checkbox" name="branches.viewAny" {{ $global_settings->free_branches_viewAny??false?'checked':''}}/>
+                                <input type="checkbox"
+                                       name="branches.viewAny" {{ $global_settings->free_branches_viewAny??false?'checked':''}}/>
                                 <label>Show List</label>
                             </li>
                             <li>
-                                <input type="checkbox" name="branches.view" {{ $global_settings->free_branches_view??false?'checked':''}}/>
+                                <input type="checkbox"
+                                       name="branches.view" {{ $global_settings->free_branches_view??false?'checked':''}}/>
                                 <label>View Single</label>
                             </li>
                             <li>
-                                <input type="checkbox" name="branches.create" {{ $global_settings->free_branches_create??false?'checked':''}}/>
+                                <input type="checkbox"
+                                       name="branches.create" {{ $global_settings->free_branches_create??false?'checked':''}}/>
                                 <label>Create</label>
                             </li>
                             <li>
-                                <input type="checkbox" name="branches.update" {{ $global_settings->free_branches_update??false?'checked':''}}/>
+                                <input type="checkbox"
+                                       name="branches.update" {{ $global_settings->free_branches_update??false?'checked':''}}/>
                                 <label>Edit</label>
                             </li>
                             <li>
-                                <input type="checkbox" name="branches.delete" {{ $global_settings->free_branches_delete??false?'checked':''}}/>
+                                <input type="checkbox"
+                                       name="branches.delete" {{ $global_settings->free_branches_delete??false?'checked':''}}/>
                                 <label>Delete</label>
                             </li>
 
@@ -303,19 +317,23 @@
                         <label>Vouchers</label>
                         <ul class="manu">
                             <li>
-                                <input type="checkbox" name="vouchers.payment"  {{ $global_settings->free_vouchers_payment??false?'checked':''}}/>
+                                <input type="checkbox"
+                                       name="vouchers.payment" {{ $global_settings->free_vouchers_payment??false?'checked':''}}/>
                                 <label>Payment (CRUD)</label>
                             </li>
                             <li>
-                                <input type="checkbox" name="vouchers.receipt" {{ $global_settings->free_vouchers_receipt??false?'checked':''}}/>
+                                <input type="checkbox"
+                                       name="vouchers.receipt" {{ $global_settings->free_vouchers_receipt??false?'checked':''}}/>
                                 <label>Receipt (CRUD)</label>
                             </li>
                             <li>
-                                <input type="checkbox" name="vouchers.journal" {{ $global_settings->free_vouchers_journal??false?'checked':''}}/>
+                                <input type="checkbox"
+                                       name="vouchers.journal" {{ $global_settings->free_vouchers_journal??false?'checked':''}}/>
                                 <label>Journal (CRUD)</label>
                             </li>
                             <li>
-                                <input type="checkbox" name="vouchers.contra" {{ $global_settings->free_vouchers_contra??false?'checked':''}}/>
+                                <input type="checkbox"
+                                       name="vouchers.contra" {{ $global_settings->free_vouchers_contra??false?'checked':''}}/>
                                 <label>Contra (CRUD)</label>
                             </li>
 
@@ -327,51 +345,63 @@
                         <label>Reports</label>
                         <ul class="manu">
                             <li>
-                                <input type="checkbox" name="reports.tax_summary" {{ $global_settings->free_reports_tax_summary??false?'checked':''}}/>
+                                <input type="checkbox"
+                                       name="reports.tax_summary" {{ $global_settings->free_reports_tax_summary??false?'checked':''}}/>
                                 <label>Tax Summary</label>
                             </li>
                             <li>
-                                <input type="checkbox" name="reports.ar_aging" {{ $global_settings->free_reports_ar_aging??false?'checked':''}}/>
+                                <input type="checkbox"
+                                       name="reports.ar_aging" {{ $global_settings->free_reports_ar_aging??false?'checked':''}}/>
                                 <label>AR Aging</label>
                             </li>
                             <li>
-                                <input type="checkbox" name="reports.ap_aging" {{ $global_settings->free_reports_ap_aging??false?'checked':''}}/>
+                                <input type="checkbox"
+                                       name="reports.ap_aging" {{ $global_settings->free_reports_ap_aging??false?'checked':''}}/>
                                 <label>AP Aging</label>
                             </li>
                             <li>
-                                <input type="checkbox" name="reports.trial_balance" {{ $global_settings->free_reports_trial_balance??false?'checked':''}}/>
+                                <input type="checkbox"
+                                       name="reports.trial_balance" {{ $global_settings->free_reports_trial_balance??false?'checked':''}}/>
                                 <label>Trial Balance</label>
                             </li>
                             <li>
-                                <input type="checkbox" name="reports.receipt_payment" {{ $global_settings->free_reports_receipt_payment??false?'checked':''}}/>
+                                <input type="checkbox"
+                                       name="reports.receipt_payment" {{ $global_settings->free_reports_receipt_payment??false?'checked':''}}/>
                                 <label>Receipt Payment</label>
                             </li>
                             <li>
-                                <input type="checkbox" name="reports.ledger" {{ $global_settings->free_reports_ledger??false?'checked':''}}/>
+                                <input type="checkbox"
+                                       name="reports.ledger" {{ $global_settings->free_reports_ledger??false?'checked':''}}/>
                                 <label>Ledger</label>
                             </li>
                             <li>
-                                <input type="checkbox" name="reports.profit_loss" {{ $global_settings->free_reports_profit_loss??false?'checked':''}}/>
+                                <input type="checkbox"
+                                       name="reports.profit_loss" {{ $global_settings->free_reports_profit_loss??false?'checked':''}}/>
                                 <label>Profit Loss</label>
                             </li>
                             <li>
-                                <input type="checkbox" name="reports.voucher" {{ $global_settings->free_reports_voucher??false?'checked':''}}/>
+                                <input type="checkbox"
+                                       name="reports.voucher" {{ $global_settings->free_reports_voucher??false?'checked':''}}/>
                                 <label>Voucher</label>
                             </li>
                             <li>
-                                <input type="checkbox" name="reports.cash_book" {{ $global_settings->free_reports_cash_book??false?'checked':''}}/>
+                                <input type="checkbox"
+                                       name="reports.cash_book" {{ $global_settings->free_reports_cash_book??false?'checked':''}}/>
                                 <label>Cash Book</label>
                             </li>
                             <li>
-                                <input type="checkbox" name="reports.day_book" {{ $global_settings->free_reports_day_book??false?'checked':''}}/>
+                                <input type="checkbox"
+                                       name="reports.day_book" {{ $global_settings->free_reports_day_book??false?'checked':''}}/>
                                 <label>Day Book</label>
                             </li>
                             <li>
-                                <input type="checkbox" name="reports.balance_sheet" {{ $global_settings->free_reports_balance_sheet??false?'checked':''}}/>
+                                <input type="checkbox"
+                                       name="reports.balance_sheet" {{ $global_settings->free_reports_balance_sheet??false?'checked':''}}/>
                                 <label>Balance Sheet</label>
                             </li>
                             <li>
-                                <input type="checkbox" name="reports.stock_report" {{ $global_settings->free_reports_stock_report??false?'checked':''}}/>
+                                <input type="checkbox"
+                                       name="reports.stock_report" {{ $global_settings->free_reports_stock_report??false?'checked':''}}/>
                                 <label>Stock Report</label>
                             </li>
                         </ul>
@@ -402,33 +432,37 @@
                         <ul class="manu">
                             <li>
                                 <input type="checkbox"
-                                       name="invoices.viewAny" {{ $global_settings->basic_invoices_viewAny??false?'checked':'' }}/>
+                                       name="invoices.viewAny" {{ $global_settings->basic_invoices_viewAny??false?'checked':''}}/>
                                 <label>Show List</label>
                             </li>
                             <li>
                                 <input type="checkbox"
-                                       name="invoices.view" {{ $global_settings->basic_invoices_view??false?'checked':'' }}/>
+                                       name="invoices.view" {{ $global_settings->basic_invoices_view??false?'checked':''}}/>
                                 <label>View Single</label>
                             </li>
                             <li>
                                 <input type="checkbox"
-                                       name="invoices.create" {{ $global_settings->basic_invoices_create??false?'checked':'' }}/>
+                                       name="invoices.create" {{ $global_settings->basic_invoices_create??false?'checked':''}}/>
                                 <label>Create</label>
                             </li>
                             <li>
-                                <input type="checkbox" name="invoices.update"/>
+                                <input type="checkbox"
+                                       name="invoices.update" {{ $global_settings->basic_invoices_update??false?'checked':''}}/>
                                 <label>Edit</label>
                             </li>
                             <li>
-                                <input type="checkbox" name="invoices.delete"/>
+                                <input type="checkbox"
+                                       name="invoices.delete" {{ $global_settings->basic_invoices_delete??false?'checked':''}}/>
                                 <label>Delete</label>
                             </li>
                             <li>
-                                <input type="checkbox" name="invoices.share"/>
+                                <input type="checkbox"
+                                       name="invoices.share"{{ $global_settings->basic_invoices_share??false?'checked':''}}/>
                                 <label>Share</label>
                             </li>
                             <li>
-                                <input type="checkbox" name="invoices.email"/>
+                                <input type="checkbox"
+                                       name="invoices.email"{{ $global_settings->basic_invoices_email??false?'checked':''}}/>
                                 <label>Email</label>
                             </li>
                         </ul>
@@ -438,27 +472,33 @@
                         <label>Estimates/Quotation</label>
                         <ul class="manu">
                             <li>
-                                <input type="checkbox" name="estimates.viewAny"/>
+                                <input type="checkbox"
+                                       name="estimates.viewAny" {{ $global_settings->basic_estimates_viewAny??false?'checked':''}}/>
                                 <label>Show List</label>
                             </li>
                             <li>
-                                <input type="checkbox" name="estimates.view"/>
+                                <input type="checkbox"
+                                       name="estimates.view" {{ $global_settings->basic_estimates_view??false?'checked':''}}/>
                                 <label>View Single</label>
                             </li>
                             <li>
-                                <input type="checkbox" name="estimates.create"/>
+                                <input type="checkbox"
+                                       name="estimates.create" {{ $global_settings->basic_estimates_create??false?'checked':''}}/>
                                 <label>Create</label>
                             </li>
                             <li>
-                                <input type="checkbox" name="estimates.update"/>
+                                <input type="checkbox"
+                                       name="estimates.update" {{ $global_settings->basic_estimates_update??false?'checked':''}}/>
                                 <label>Edit</label>
                             </li>
                             <li>
-                                <input type="checkbox" name="estimates.delete"/>
+                                <input type="checkbox"
+                                       name="estimates.delete" {{ $global_settings->basic_estimates_delete??false?'checked':''}}/>
                                 <label>Delete</label>
                             </li>
                             <li>
-                                <input type="checkbox" name="estimates.share"/>
+                                <input type="checkbox"
+                                       name="estimates.share" {{ $global_settings->basic_estimates_share??false?'checked':''}}/>
                                 <label>Share</label>
                             </li>
 
@@ -469,27 +509,33 @@
                         <label>Bills/Purchase</label>
                         <ul class="manu">
                             <li>
-                                <input type="checkbox" name="bills.viewAny"/>
+                                <input type="checkbox"
+                                       name="bills.viewAny" {{ $global_settings->basic_bills_viewAny??false?'checked':''}}/>
                                 <label>Show List</label>
                             </li>
                             <li>
-                                <input type="checkbox" name="bills.view"/>
+                                <input type="checkbox"
+                                       name="bills.view" {{ $global_settings->basic_bills_view??false?'checked':''}}/>
                                 <label>View Single</label>
                             </li>
                             <li>
-                                <input type="checkbox" name="bills.create"/>
+                                <input type="checkbox"
+                                       name="bills.create" {{ $global_settings->basic_bills_create??false?'checked':''}}/>
                                 <label>Create</label>
                             </li>
                             <li>
-                                <input type="checkbox" name="bills.update"/>
+                                <input type="checkbox"
+                                       name="bills.update" {{ $global_settings->basic_bills_update??false?'checked':''}}/>
                                 <label>Edit</label>
                             </li>
                             <li>
-                                <input type="checkbox" name="bills.delete"/>
+                                <input type="checkbox"
+                                       name="bills.delete" {{ $global_settings->basic_bills_delete??false?'checked':''}}/>
                                 <label>Delete</label>
                             </li>
                             <li>
-                                <input type="checkbox" name="bills.share"/>
+                                <input type="checkbox"
+                                       name="bills.share" {{ $global_settings->basic_bills_share??false?'checked':''}}/>
                                 <label>Share</label>
                             </li>
 
@@ -500,23 +546,28 @@
                         <label>Expenses</label>
                         <ul class="manu">
                             <li>
-                                <input type="checkbox" name="expenses.viewAny"/>
+                                <input type="checkbox"
+                                       name="expenses.viewAny" {{ $global_settings->basic_expenses_viewAny??false?'checked':''}}/>
                                 <label>Show List</label>
                             </li>
                             <li>
-                                <input type="checkbox" name="expenses.view"/>
+                                <input type="checkbox"
+                                       name="expenses.view" {{ $global_settings->basic_expenses_view??false?'checked':''}}/>
                                 <label>View Single</label>
                             </li>
                             <li>
-                                <input type="checkbox" name="expenses.create"/>
+                                <input type="checkbox"
+                                       name="expenses.create" {{ $global_settings->basic_expenses_create??false?'checked':''}}/>
                                 <label>Create</label>
                             </li>
                             <li>
-                                <input type="checkbox" name="expenses.update"/>
+                                <input type="checkbox"
+                                       name="expenses.update" {{ $global_settings->basic_expenses_update??false?'checked':''}}/>
                                 <label>Edit</label>
                             </li>
                             <li>
-                                <input type="checkbox" name="expenses.delete"/>
+                                <input type="checkbox"
+                                       name="expenses.delete" {{ $global_settings->basic_expenses_delete??false?'checked':''}}/>
                                 <label>Delete</label>
                             </li>
 
@@ -527,23 +578,28 @@
                         <label>Stock Adjustment</label>
                         <ul class="manu">
                             <li>
-                                <input type="checkbox" name="inventory_adjustment.viewAny"/>
+                                <input type="checkbox"
+                                       name="inventory_adjustment.viewAny" {{ $global_settings->basic_inventory_adjustment_viewAny??false?'checked':''}}/>
                                 <label>Show List</label>
                             </li>
                             <li>
-                                <input type="checkbox" name="inventory_adjustment.view"/>
+                                <input type="checkbox"
+                                       name="inventory_adjustment.view" {{ $global_settings->basic_inventory_adjustment_view??false?'checked':''}}/>
                                 <label>View Single</label>
                             </li>
                             <li>
-                                <input type="checkbox" name="inventory_adjustment.create"/>
+                                <input type="checkbox"
+                                       name="inventory_adjustment.create" {{ $global_settings->basic_inventory_adjustment_create??false?'checked':''}} />
                                 <label>Create</label>
                             </li>
                             <li>
-                                <input type="checkbox" name="inventory_adjustment.update"/>
+                                <input type="checkbox"
+                                       name="inventory_adjustment.update" {{ $global_settings->basic_inventory_adjustment_update??false?'checked':''}}/>
                                 <label>Edit</label>
                             </li>
                             <li>
-                                <input type="checkbox" name="inventory_adjustment.delete"/>
+                                <input type="checkbox"
+                                       name="inventory_adjustment.delete" {{ $global_settings->basic_inventory_adjustment_delete??false?'checked':''}}/>
                                 <label>Delete</label>
                             </li>
 
@@ -558,23 +614,28 @@
                         <label>Accounts/Ledger</label>
                         <ul class="manu">
                             <li>
-                                <input type="checkbox" name="ledgers.viewAny"/>
+                                <input type="checkbox"
+                                       name="ledgers.viewAny" {{ $global_settings->basic_ledgers_viewAny??false?'checked':''}}/>
                                 <label>Show List</label>
                             </li>
                             <li>
-                                <input type="checkbox" name="ledgers.view"/>
+                                <input type="checkbox"
+                                       name="ledgers.view" {{ $global_settings->basic_ledgers_view??false?'checked':''}}/>
                                 <label>View Single</label>
                             </li>
                             <li>
-                                <input type="checkbox" name="ledgers.create"/>
+                                <input type="checkbox"
+                                       name="ledgers.create" {{ $global_settings->basic_ledgers_create??false?'checked':''}}/>
                                 <label>Create</label>
                             </li>
                             <li>
-                                <input type="checkbox" name="ledgers.update"/>
+                                <input type="checkbox"
+                                       name="ledgers.update" {{ $global_settings->basic_ledgers_update??false?'checked':''}}/>
                                 <label>Edit</label>
                             </li>
                             <li>
-                                <input type="checkbox" name="ledgers.delete"/>
+                                <input type="checkbox"
+                                       name="ledgers.delete" {{ $global_settings->basic_ledgers_delete??false?'checked':''}}/>
                                 <label>Delete</label>
                             </li>
 
@@ -585,23 +646,28 @@
                         <label>Account Group</label>
                         <ul class="manu">
                             <li>
-                                <input type="checkbox" name="ledger_groups.viewAny"/>
+                                <input type="checkbox"
+                                       name="ledger_groups.viewAny" {{ $global_settings->basic_ledger_groups_viewAny??false?'checked':''}}/>
                                 <label>Show List</label>
                             </li>
                             <li>
-                                <input type="checkbox" name="ledger_groups.view"/>
+                                <input type="checkbox"
+                                       name="ledger_groups.view" {{ $global_settings->basic_ledger_groups_view??false?'checked':''}}/>
                                 <label>View Single</label>
                             </li>
                             <li>
-                                <input type="checkbox" name="ledger_groups.create"/>
+                                <input type="checkbox"
+                                       name="ledger_groups.create" {{ $global_settings->basic_ledger_groups_create??false?'checked':''}}/>
                                 <label>Create</label>
                             </li>
                             <li>
-                                <input type="checkbox" name="ledger_groups.update"/>
+                                <input type="checkbox"
+                                       name="ledger_groups.update" {{ $global_settings->basic_ledger_groups_update??false?'checked':''}}/>
                                 <label>Edit</label>
                             </li>
                             <li>
-                                <input type="checkbox" name="ledger_groups.delete"/>
+                                <input type="checkbox"
+                                       name="ledger_groups.delete" {{ $global_settings->basic_ledger_groups_delete??false?'checked':''}}/>
                                 <label>Delete</label>
                             </li>
                         </ul>
@@ -611,23 +677,28 @@
                         <label>Branches</label>
                         <ul class="manu">
                             <li>
-                                <input type="checkbox" name="branches.viewAny"/>
+                                <input type="checkbox"
+                                       name="branches.viewAny" {{ $global_settings->basic_branches_viewAny??false?'checked':''}}/>
                                 <label>Show List</label>
                             </li>
                             <li>
-                                <input type="checkbox" name="branches.view"/>
+                                <input type="checkbox"
+                                       name="branches.view" {{ $global_settings->basic_branches_view??false?'checked':''}}/>
                                 <label>View Single</label>
                             </li>
                             <li>
-                                <input type="checkbox" name="branches.create"/>
+                                <input type="checkbox"
+                                       name="branches.create" {{ $global_settings->basic_branches_create??false?'checked':''}}/>
                                 <label>Create</label>
                             </li>
                             <li>
-                                <input type="checkbox" name="branches.update"/>
+                                <input type="checkbox"
+                                       name="branches.update" {{ $global_settings->basic_branches_update??false?'checked':''}}/>
                                 <label>Edit</label>
                             </li>
                             <li>
-                                <input type="checkbox" name="branches.delete"/>
+                                <input type="checkbox"
+                                       name="branches.delete" {{ $global_settings->basic_branches_delete??false?'checked':''}}/>
                                 <label>Delete</label>
                             </li>
 
@@ -639,19 +710,23 @@
                         <label>Vouchers</label>
                         <ul class="manu">
                             <li>
-                                <input type="checkbox" name="vouchers.payment"/>
+                                <input type="checkbox"
+                                       name="vouchers.payment" {{ $global_settings->basic_vouchers_payment??false?'checked':''}}/>
                                 <label>Payment (CRUD)</label>
                             </li>
                             <li>
-                                <input type="checkbox" name="vouchers.receipt"/>
+                                <input type="checkbox"
+                                       name="vouchers.receipt" {{ $global_settings->basic_vouchers_receipt??false?'checked':''}}/>
                                 <label>Receipt (CRUD)</label>
                             </li>
                             <li>
-                                <input type="checkbox" name="vouchers.journal"/>
+                                <input type="checkbox"
+                                       name="vouchers.journal" {{ $global_settings->basic_vouchers_journal??false?'checked':''}}/>
                                 <label>Journal (CRUD)</label>
                             </li>
                             <li>
-                                <input type="checkbox" name="vouchers.contra"/>
+                                <input type="checkbox"
+                                       name="vouchers.contra" {{ $global_settings->basic_vouchers_contra??false?'checked':''}}/>
                                 <label>Contra (CRUD)</label>
                             </li>
 
@@ -663,51 +738,63 @@
                         <label>Reports</label>
                         <ul class="manu">
                             <li>
-                                <input type="checkbox" name="reports.tax_summary"/>
+                                <input type="checkbox"
+                                       name="reports.tax_summary" {{ $global_settings->basic_reports_tax_summary??false?'checked':''}}/>
                                 <label>Tax Summary</label>
                             </li>
                             <li>
-                                <input type="checkbox" name="reports.ar_aging"/>
+                                <input type="checkbox"
+                                       name="reports.ar_aging" {{ $global_settings->basic_reports_ar_aging??false?'checked':''}}/>
                                 <label>AR Aging</label>
                             </li>
                             <li>
-                                <input type="checkbox" name="reports.ap_aging"/>
+                                <input type="checkbox"
+                                       name="reports.ap_aging" {{ $global_settings->basic_reports_ap_aging??false?'checked':''}}/>
                                 <label>AP Aging</label>
                             </li>
                             <li>
-                                <input type="checkbox" name="reports.trial_balance"/>
+                                <input type="checkbox"
+                                       name="reports.trial_balance" {{ $global_settings->basic_reports_trial_balance??false?'checked':''}}/>
                                 <label>Trial Balance</label>
                             </li>
                             <li>
-                                <input type="checkbox" name="reports.receipt_payment"/>
+                                <input type="checkbox"
+                                       name="reports.receipt_payment" {{ $global_settings->basic_reports_receipt_payment??false?'checked':''}}/>
                                 <label>Receipt Payment</label>
                             </li>
                             <li>
-                                <input type="checkbox" name="reports.ledger"/>
+                                <input type="checkbox"
+                                       name="reports.ledger" {{ $global_settings->basic_reports_ledger??false?'checked':''}}/>
                                 <label>Ledger</label>
                             </li>
                             <li>
-                                <input type="checkbox" name="reports.profit_loss"/>
+                                <input type="checkbox"
+                                       name="reports.profit_loss" {{ $global_settings->basic_reports_profit_loss??false?'checked':''}}/>
                                 <label>Profit Loss</label>
                             </li>
                             <li>
-                                <input type="checkbox" name="reports.voucher"/>
+                                <input type="checkbox"
+                                       name="reports.voucher" {{ $global_settings->basic_reports_voucher??false?'checked':''}}/>
                                 <label>Voucher</label>
                             </li>
                             <li>
-                                <input type="checkbox" name="reports.cash_book"/>
+                                <input type="checkbox"
+                                       name="reports.cash_book" {{ $global_settings->basic_reports_cash_book??false?'checked':''}}/>
                                 <label>Cash Book</label>
                             </li>
                             <li>
-                                <input type="checkbox" name="reports.day_book"/>
+                                <input type="checkbox"
+                                       name="reports.day_book" {{ $global_settings->basic_reports_day_book??false?'checked':''}}/>
                                 <label>Day Book</label>
                             </li>
                             <li>
-                                <input type="checkbox" name="reports.balance_sheet"/>
+                                <input type="checkbox"
+                                       name="reports.balance_sheet" {{ $global_settings->basic_reports_balance_sheet??false?'checked':''}}/>
                                 <label>Balance Sheet</label>
                             </li>
                             <li>
-                                <input type="checkbox" name="reports.stock_report"/>
+                                <input type="checkbox"
+                                       name="reports.stock_report" {{ $global_settings->basic_reports_stock_report??false?'checked':''}}/>
                                 <label>Stock Report</label>
                             </li>
                         </ul>
@@ -730,35 +817,42 @@
                 @csrf
                 <ul class="checkbox-tree root row">
                     <li class="col">
-                        <input type="checkbox" checked="checked"/>
+                        <input type="checkbox"/>
                         <label>Invoices/Sale</label>
                         <ul class="manu">
                             <li>
-                                <input type="checkbox" name="invoices.viewAny"/>
+                                <input type="checkbox"
+                                       name="invoices.viewAny" {{ $global_settings->premium_invoices_viewAny??false?'checked':''}}/>
                                 <label>Show List</label>
                             </li>
                             <li>
-                                <input type="checkbox" name="invoices.view"/>
+                                <input type="checkbox"
+                                       name="invoices.view" {{ $global_settings->premium_invoices_view??false?'checked':''}}/>
                                 <label>View Single</label>
                             </li>
                             <li>
-                                <input type="checkbox" name="invoices.create"/>
+                                <input type="checkbox"
+                                       name="invoices.create" {{ $global_settings->premium_invoices_create??false?'checked':''}}/>
                                 <label>Create</label>
                             </li>
                             <li>
-                                <input type="checkbox" name="invoices.update"/>
+                                <input type="checkbox"
+                                       name="invoices.update" {{ $global_settings->premium_invoices_update??false?'checked':''}}/>
                                 <label>Edit</label>
                             </li>
                             <li>
-                                <input type="checkbox" name="invoices.delete"/>
+                                <input type="checkbox"
+                                       name="invoices.delete" {{ $global_settings->premium_invoices_delete??false?'checked':''}}/>
                                 <label>Delete</label>
                             </li>
                             <li>
-                                <input type="checkbox" name="invoices.share"/>
+                                <input type="checkbox"
+                                       name="invoices.share"{{ $global_settings->premium_invoices_share??false?'checked':''}}/>
                                 <label>Share</label>
                             </li>
                             <li>
-                                <input type="checkbox" name="invoices.email"/>
+                                <input type="checkbox"
+                                       name="invoices.email"{{ $global_settings->premium_invoices_email??false?'checked':''}}/>
                                 <label>Email</label>
                             </li>
                         </ul>
@@ -768,27 +862,33 @@
                         <label>Estimates/Quotation</label>
                         <ul class="manu">
                             <li>
-                                <input type="checkbox" name="estimates.viewAny"/>
+                                <input type="checkbox"
+                                       name="estimates.viewAny" {{ $global_settings->premium_estimates_viewAny??false?'checked':''}}/>
                                 <label>Show List</label>
                             </li>
                             <li>
-                                <input type="checkbox" name="estimates.view"/>
+                                <input type="checkbox"
+                                       name="estimates.view" {{ $global_settings->premium_estimates_view??false?'checked':''}}/>
                                 <label>View Single</label>
                             </li>
                             <li>
-                                <input type="checkbox" name="estimates.create"/>
+                                <input type="checkbox"
+                                       name="estimates.create" {{ $global_settings->premium_estimates_create??false?'checked':''}}/>
                                 <label>Create</label>
                             </li>
                             <li>
-                                <input type="checkbox" name="estimates.update"/>
+                                <input type="checkbox"
+                                       name="estimates.update" {{ $global_settings->premium_estimates_update??false?'checked':''}}/>
                                 <label>Edit</label>
                             </li>
                             <li>
-                                <input type="checkbox" name="estimates.delete"/>
+                                <input type="checkbox"
+                                       name="estimates.delete" {{ $global_settings->premium_estimates_delete??false?'checked':''}}/>
                                 <label>Delete</label>
                             </li>
                             <li>
-                                <input type="checkbox" name="estimates.share"/>
+                                <input type="checkbox"
+                                       name="estimates.share" {{ $global_settings->premium_estimates_share??false?'checked':''}}/>
                                 <label>Share</label>
                             </li>
 
@@ -799,27 +899,33 @@
                         <label>Bills/Purchase</label>
                         <ul class="manu">
                             <li>
-                                <input type="checkbox" name="bills.viewAny"/>
+                                <input type="checkbox"
+                                       name="bills.viewAny" {{ $global_settings->premium_bills_viewAny??false?'checked':''}}/>
                                 <label>Show List</label>
                             </li>
                             <li>
-                                <input type="checkbox" name="bills.view"/>
+                                <input type="checkbox"
+                                       name="bills.view" {{ $global_settings->premium_bills_view??false?'checked':''}}/>
                                 <label>View Single</label>
                             </li>
                             <li>
-                                <input type="checkbox" name="bills.create"/>
+                                <input type="checkbox"
+                                       name="bills.create" {{ $global_settings->premium_bills_create??false?'checked':''}}/>
                                 <label>Create</label>
                             </li>
                             <li>
-                                <input type="checkbox" name="bills.update"/>
+                                <input type="checkbox"
+                                       name="bills.update" {{ $global_settings->premium_bills_update??false?'checked':''}}/>
                                 <label>Edit</label>
                             </li>
                             <li>
-                                <input type="checkbox" name="bills.delete"/>
+                                <input type="checkbox"
+                                       name="bills.delete" {{ $global_settings->premium_bills_delete??false?'checked':''}}/>
                                 <label>Delete</label>
                             </li>
                             <li>
-                                <input type="checkbox" name="bills.share"/>
+                                <input type="checkbox"
+                                       name="bills.share" {{ $global_settings->premium_bills_share??false?'checked':''}}/>
                                 <label>Share</label>
                             </li>
 
@@ -830,23 +936,28 @@
                         <label>Expenses</label>
                         <ul class="manu">
                             <li>
-                                <input type="checkbox" name="expenses.viewAny"/>
+                                <input type="checkbox"
+                                       name="expenses.viewAny" {{ $global_settings->premium_expenses_viewAny??false?'checked':''}}/>
                                 <label>Show List</label>
                             </li>
                             <li>
-                                <input type="checkbox" name="expenses.view"/>
+                                <input type="checkbox"
+                                       name="expenses.view" {{ $global_settings->premium_expenses_view??false?'checked':''}}/>
                                 <label>View Single</label>
                             </li>
                             <li>
-                                <input type="checkbox" name="expenses.create"/>
+                                <input type="checkbox"
+                                       name="expenses.create" {{ $global_settings->premium_expenses_create??false?'checked':''}}/>
                                 <label>Create</label>
                             </li>
                             <li>
-                                <input type="checkbox" name="expenses.update"/>
+                                <input type="checkbox"
+                                       name="expenses.update" {{ $global_settings->premium_expenses_update??false?'checked':''}}/>
                                 <label>Edit</label>
                             </li>
                             <li>
-                                <input type="checkbox" name="expenses.delete"/>
+                                <input type="checkbox"
+                                       name="expenses.delete" {{ $global_settings->premium_expenses_delete??false?'checked':''}}/>
                                 <label>Delete</label>
                             </li>
 
@@ -857,23 +968,28 @@
                         <label>Stock Adjustment</label>
                         <ul class="manu">
                             <li>
-                                <input type="checkbox" name="inventory_adjustment.viewAny"/>
+                                <input type="checkbox"
+                                       name="inventory_adjustment.viewAny" {{ $global_settings->premium_inventory_adjustment_viewAny??false?'checked':''}}/>
                                 <label>Show List</label>
                             </li>
                             <li>
-                                <input type="checkbox" name="inventory_adjustment.view"/>
+                                <input type="checkbox"
+                                       name="inventory_adjustment.view" {{ $global_settings->premium_inventory_adjustment_view??false?'checked':''}}/>
                                 <label>View Single</label>
                             </li>
                             <li>
-                                <input type="checkbox" name="inventory_adjustment.create"/>
+                                <input type="checkbox"
+                                       name="inventory_adjustment.create" {{ $global_settings->premium_inventory_adjustment_create??false?'checked':''}} />
                                 <label>Create</label>
                             </li>
                             <li>
-                                <input type="checkbox" name="inventory_adjustment.update"/>
+                                <input type="checkbox"
+                                       name="inventory_adjustment.update" {{ $global_settings->premium_inventory_adjustment_update??false?'checked':''}}/>
                                 <label>Edit</label>
                             </li>
                             <li>
-                                <input type="checkbox" name="inventory_adjustment.delete"/>
+                                <input type="checkbox"
+                                       name="inventory_adjustment.delete" {{ $global_settings->premium_inventory_adjustment_delete??false?'checked':''}}/>
                                 <label>Delete</label>
                             </li>
 
@@ -888,23 +1004,28 @@
                         <label>Accounts/Ledger</label>
                         <ul class="manu">
                             <li>
-                                <input type="checkbox" name="ledgers.viewAny"/>
+                                <input type="checkbox"
+                                       name="ledgers.viewAny" {{ $global_settings->premium_ledgers_viewAny??false?'checked':''}}/>
                                 <label>Show List</label>
                             </li>
                             <li>
-                                <input type="checkbox" name="ledgers.view"/>
+                                <input type="checkbox"
+                                       name="ledgers.view" {{ $global_settings->premium_ledgers_view??false?'checked':''}}/>
                                 <label>View Single</label>
                             </li>
                             <li>
-                                <input type="checkbox" name="ledgers.create"/>
+                                <input type="checkbox"
+                                       name="ledgers.create" {{ $global_settings->premium_ledgers_create??false?'checked':''}}/>
                                 <label>Create</label>
                             </li>
                             <li>
-                                <input type="checkbox" name="ledgers.update"/>
+                                <input type="checkbox"
+                                       name="ledgers.update" {{ $global_settings->premium_ledgers_update??false?'checked':''}}/>
                                 <label>Edit</label>
                             </li>
                             <li>
-                                <input type="checkbox" name="ledgers.delete"/>
+                                <input type="checkbox"
+                                       name="ledgers.delete" {{ $global_settings->premium_ledgers_delete??false?'checked':''}}/>
                                 <label>Delete</label>
                             </li>
 
@@ -915,23 +1036,28 @@
                         <label>Account Group</label>
                         <ul class="manu">
                             <li>
-                                <input type="checkbox" name="ledger_groups.viewAny"/>
+                                <input type="checkbox"
+                                       name="ledger_groups.viewAny" {{ $global_settings->premium_ledger_groups_viewAny??false?'checked':''}}/>
                                 <label>Show List</label>
                             </li>
                             <li>
-                                <input type="checkbox" name="ledger_groups.view"/>
+                                <input type="checkbox"
+                                       name="ledger_groups.view" {{ $global_settings->premium_ledger_groups_view??false?'checked':''}}/>
                                 <label>View Single</label>
                             </li>
                             <li>
-                                <input type="checkbox" name="ledger_groups.create"/>
+                                <input type="checkbox"
+                                       name="ledger_groups.create" {{ $global_settings->premium_ledger_groups_create??false?'checked':''}}/>
                                 <label>Create</label>
                             </li>
                             <li>
-                                <input type="checkbox" name="ledger_groups.update"/>
+                                <input type="checkbox"
+                                       name="ledger_groups.update" {{ $global_settings->premium_ledger_groups_update??false?'checked':''}}/>
                                 <label>Edit</label>
                             </li>
                             <li>
-                                <input type="checkbox" name="ledger_groups.delete"/>
+                                <input type="checkbox"
+                                       name="ledger_groups.delete" {{ $global_settings->premium_ledger_groups_delete??false?'checked':''}}/>
                                 <label>Delete</label>
                             </li>
                         </ul>
@@ -941,23 +1067,28 @@
                         <label>Branches</label>
                         <ul class="manu">
                             <li>
-                                <input type="checkbox" name="branches.viewAny"/>
+                                <input type="checkbox"
+                                       name="branches.viewAny" {{ $global_settings->premium_branches_viewAny??false?'checked':''}}/>
                                 <label>Show List</label>
                             </li>
                             <li>
-                                <input type="checkbox" name="branches.view"/>
+                                <input type="checkbox"
+                                       name="branches.view" {{ $global_settings->premium_branches_view??false?'checked':''}}/>
                                 <label>View Single</label>
                             </li>
                             <li>
-                                <input type="checkbox" name="branches.create"/>
+                                <input type="checkbox"
+                                       name="branches.create" {{ $global_settings->premium_branches_create??false?'checked':''}}/>
                                 <label>Create</label>
                             </li>
                             <li>
-                                <input type="checkbox" name="branches.update"/>
+                                <input type="checkbox"
+                                       name="branches.update" {{ $global_settings->premium_branches_update??false?'checked':''}}/>
                                 <label>Edit</label>
                             </li>
                             <li>
-                                <input type="checkbox" name="branches.delete"/>
+                                <input type="checkbox"
+                                       name="branches.delete" {{ $global_settings->premium_branches_delete??false?'checked':''}}/>
                                 <label>Delete</label>
                             </li>
 
@@ -969,19 +1100,23 @@
                         <label>Vouchers</label>
                         <ul class="manu">
                             <li>
-                                <input type="checkbox" name="vouchers.payment"/>
+                                <input type="checkbox"
+                                       name="vouchers.payment" {{ $global_settings->premium_vouchers_payment??false?'checked':''}}/>
                                 <label>Payment (CRUD)</label>
                             </li>
                             <li>
-                                <input type="checkbox" name="vouchers.receipt"/>
+                                <input type="checkbox"
+                                       name="vouchers.receipt" {{ $global_settings->premium_vouchers_receipt??false?'checked':''}}/>
                                 <label>Receipt (CRUD)</label>
                             </li>
                             <li>
-                                <input type="checkbox" name="vouchers.journal"/>
+                                <input type="checkbox"
+                                       name="vouchers.journal" {{ $global_settings->premium_vouchers_journal??false?'checked':''}}/>
                                 <label>Journal (CRUD)</label>
                             </li>
                             <li>
-                                <input type="checkbox" name="vouchers.contra"/>
+                                <input type="checkbox"
+                                       name="vouchers.contra" {{ $global_settings->premium_vouchers_contra??false?'checked':''}}/>
                                 <label>Contra (CRUD)</label>
                             </li>
 
@@ -993,51 +1128,63 @@
                         <label>Reports</label>
                         <ul class="manu">
                             <li>
-                                <input type="checkbox" name="reports.tax_summary"/>
+                                <input type="checkbox"
+                                       name="reports.tax_summary" {{ $global_settings->premium_reports_tax_summary??false?'checked':''}}/>
                                 <label>Tax Summary</label>
                             </li>
                             <li>
-                                <input type="checkbox" name="reports.ar_aging"/>
+                                <input type="checkbox"
+                                       name="reports.ar_aging" {{ $global_settings->premium_reports_ar_aging??false?'checked':''}}/>
                                 <label>AR Aging</label>
                             </li>
                             <li>
-                                <input type="checkbox" name="reports.ap_aging"/>
+                                <input type="checkbox"
+                                       name="reports.ap_aging" {{ $global_settings->premium_reports_ap_aging??false?'checked':''}}/>
                                 <label>AP Aging</label>
                             </li>
                             <li>
-                                <input type="checkbox" name="reports.trial_balance"/>
+                                <input type="checkbox"
+                                       name="reports.trial_balance" {{ $global_settings->premium_reports_trial_balance??false?'checked':''}}/>
                                 <label>Trial Balance</label>
                             </li>
                             <li>
-                                <input type="checkbox" name="reports.receipt_payment"/>
+                                <input type="checkbox"
+                                       name="reports.receipt_payment" {{ $global_settings->premium_reports_receipt_payment??false?'checked':''}}/>
                                 <label>Receipt Payment</label>
                             </li>
                             <li>
-                                <input type="checkbox" name="reports.ledger"/>
+                                <input type="checkbox"
+                                       name="reports.ledger" {{ $global_settings->premium_reports_ledger??false?'checked':''}}/>
                                 <label>Ledger</label>
                             </li>
                             <li>
-                                <input type="checkbox" name="reports.profit_loss"/>
+                                <input type="checkbox"
+                                       name="reports.profit_loss" {{ $global_settings->premium_reports_profit_loss??false?'checked':''}}/>
                                 <label>Profit Loss</label>
                             </li>
                             <li>
-                                <input type="checkbox" name="reports.voucher"/>
+                                <input type="checkbox"
+                                       name="reports.voucher" {{ $global_settings->premium_reports_voucher??false?'checked':''}}/>
                                 <label>Voucher</label>
                             </li>
                             <li>
-                                <input type="checkbox" name="reports.cash_book"/>
+                                <input type="checkbox"
+                                       name="reports.cash_book" {{ $global_settings->premium_reports_cash_book??false?'checked':''}}/>
                                 <label>Cash Book</label>
                             </li>
                             <li>
-                                <input type="checkbox" name="reports.day_book"/>
+                                <input type="checkbox"
+                                       name="reports.day_book" {{ $global_settings->premium_reports_day_book??false?'checked':''}}/>
                                 <label>Day Book</label>
                             </li>
                             <li>
-                                <input type="checkbox" name="reports.balance_sheet"/>
+                                <input type="checkbox"
+                                       name="reports.balance_sheet" {{ $global_settings->premium_reports_balance_sheet??false?'checked':''}}/>
                                 <label>Balance Sheet</label>
                             </li>
                             <li>
-                                <input type="checkbox" name="reports.stock_report"/>
+                                <input type="checkbox"
+                                       name="reports.stock_report" {{ $global_settings->premium_reports_stock_report??false?'checked':''}}/>
                                 <label>Stock Report</label>
                             </li>
                         </ul>

@@ -43,9 +43,7 @@ class BillsController extends Controller
     {
 
 
-
         $this->authorize('viewAny', Bill::class);
-
 
 
 //        dd('test');
@@ -162,7 +160,9 @@ class BillsController extends Controller
 
     public function show($id)
     {
+
         $bill = Bill::with('vendor')->findOrFail($id);
+        $this->authorize('view', $bill);
 
         $bill->taxes;
         return view('bills.show', compact('bill'));
@@ -181,10 +181,12 @@ class BillsController extends Controller
 
     public function edit($id)
     {
+
         $cashAcId = optional(GroupMap::query()->firstWhere('key', LedgerHelper::$CASH_AC))->value;
         $depositAccounts = Ledger::find($this->getAssetLedgers())->sortBy('ledger_name');
         $paymentMethods = PaymentMethod::query()->get();
         $bill = Bill::findOrFail($id);
+        $this->authorize('update', $bill);
         $vendors = Vendor::pluck('name', 'id')->all();
         $taxes = Tax::query()->latest()->get()->toArray();
         $bill_items = BillItem::query()->where('bill_id', $bill->id)->get()->map(function ($item) {
@@ -202,6 +204,7 @@ class BillsController extends Controller
 
     public function update($id, Request $request)
     {
+        $this->authorize('update', Bill::class);
 
 
         $data = $this->getData($request);
@@ -237,6 +240,7 @@ class BillsController extends Controller
     {
 
         $bill = Bill::findOrFail($id);
+        $this->authorize('delete', $bill);
         BillExtraField::query()->where('bill_id', $bill->id)->delete();
         BillItem::query()->where('bill_id', $bill->id)->delete();
         ExtraField::query()->where('type', get_class($bill))->where('type_id', $bill->id)->delete();

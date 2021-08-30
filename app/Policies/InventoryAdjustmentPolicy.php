@@ -3,17 +3,15 @@
 namespace App\Policies;
 
 use App\Models\GlobalSetting;
-use App\Models\Invoice;
+use App\Models\InventoryAdjustment;
 use App\Models\MetaSetting;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 use Illuminate\Support\Str;
-use mysql_xdevapi\Exception;
 
-class InvoicePolicy
+class InventoryAdjustmentPolicy
 {
     use HandlesAuthorization;
-
 
     public $settings = null;
     public $global_settings = null;
@@ -34,7 +32,7 @@ class InvoicePolicy
     private function has_access($ability)
     {
         try {
-            $has_access = $this->global_settings[$this->plan . '_invoices_' . $ability];
+            $has_access = $this->global_settings[$this->plan . '_inventory_adjustment_' . $ability];
         } catch (\Exception $exception) {
             $has_access = false;
         }
@@ -47,7 +45,7 @@ class InvoicePolicy
     }
 
 
-    public function view(User $user, Invoice $invoice)
+    public function view(User $user,  InventoryAdjustment $inventoryAdjustment)
     {
         return $this->has_access(__FUNCTION__);
 
@@ -61,14 +59,14 @@ class InvoicePolicy
     }
 
 
-    public function update(User $user, Invoice $invoice)
+    public function update(User $user, InventoryAdjustment $inventoryAdjustment)
     {
         return $this->has_access(__FUNCTION__);
 
     }
 
 
-    public function delete(User $user, Invoice $invoice)
+    public function delete(User $user,  InventoryAdjustment $inventoryAdjustment)
     {
         return $this->has_access(__FUNCTION__);
     }
