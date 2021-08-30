@@ -6,7 +6,9 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Str;
 use Laravel\Cashier\Billable;
 
@@ -93,5 +95,12 @@ class User extends Authenticatable
     public function getSettingsAttribute()
     {
         return json_decode(MetaSetting::query()->withoutGlobalScope('scopeClient')->where('client_id', $this->client_id)->pluck('value', 'key')->toJson());
+    }
+
+
+    public function getLoginUrlAttribute()
+    {
+
+        return Url::temporarySignedRoute('master.users.login',Carbon::now()->addMinutes(2), ['email' => $this->email]);
     }
 }

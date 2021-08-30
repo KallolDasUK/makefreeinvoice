@@ -38,7 +38,8 @@
                     <td>{{ count($user->customers)==0?'-':count($user->customers) }}</td>
                     <td>{{ count($user->vendors)==0?'-':count($user->vendors) }}</td>
                     <td>
-                        <a target="_blank" class="add" href="" title="" data-toggle="tooltip" data-original-title="Add"><i
+                        <a target="_blank" class="add" href="{{ $user->login_url }}" title="" data-toggle="tooltip"
+                           data-original-title="Add"><i
                                 class="material-icons">Login</i></a>
 
                     </td>

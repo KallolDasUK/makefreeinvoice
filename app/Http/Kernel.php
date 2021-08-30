@@ -54,6 +54,7 @@ class Kernel extends HttpKernel
             ShareErrorsFromSession::class,
             VerifyCsrfToken::class,
             SubstituteBindings::class,
+
         ],
 
         'api' => [
@@ -81,6 +82,7 @@ class Kernel extends HttpKernel
         'verified' => EnsureEmailIsVerified::class,
         'subscribed' => Subscribed::class,
         'isMaster' => IsMasterMiddleware::class,
+
 
     ];
 }
