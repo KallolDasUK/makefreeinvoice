@@ -10,6 +10,7 @@
             text-align: center;
             border-radius: 8px;
             cursor: pointer;
+            position: relative;
             display: inline-block;
             background-color: initial;
             border: none;

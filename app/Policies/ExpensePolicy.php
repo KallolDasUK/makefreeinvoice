@@ -17,7 +17,7 @@ class ExpensePolicy extends BasePolicy
     private function has_access($ability)
     {
         try {
-            $has_access = $this->global_settings[$this->plan . '_estimates_' . $ability];
+            $has_access = $this->global_settings[$this->plan . '_expenses_' . $ability];
         } catch (\Exception $exception) {
             $has_access = false;
         }
