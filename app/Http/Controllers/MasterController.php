@@ -5,7 +5,12 @@ namespace App\Http\Controllers;
 use App\Models\GlobalSetting;
 use App\Models\Invoice;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Routing\UrlGenerator;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\URL;
 
 class MasterController extends Controller
 {
@@ -61,6 +66,37 @@ class MasterController extends Controller
             GlobalSetting::query()->updateOrCreate(['key' => 'premium_' . $key], ['value' => $value]);
         }
         return back()->with('message', 'Premium Plan Setting Saved');
+
+    }
+
+    public function hasValidSignature(Request $request, $absolute = true)
+    {
+        $url = $absolute ? $request->url() : '/' . $request->path();
+
+        //dd($url);
+
+        $original = rtrim($url . '?' . Arr::query(
+                Arr::except($request->query(), 'signature')
+            ), '?');
+
+//        dd($original);
+        $expires = Arr::get($request->query(), 'expires');
+
+        $signature = hash_hmac('sha256', $original, call_user_func($this->keyResolver));
+
+        return hash_equals($signature, (string)$request->query('signature', '')) &&
+            !($expires && Carbon::now()->getTimestamp() > $expires);
+    }
+
+    public function loginClient(Request $request, $email)
+    {
+
+        if (Url::hasValidSignature($request) && $email != null) {
+            $user = User::whereEmail($email)->firstOrFail();
+            Auth::login($user);
+            return redirect(route('acc.home'));
+        } else
+            abort(404);
 
     }
 }

@@ -344,3 +344,4 @@ Route::group(['prefix' => 'master', 'middleware' => ['auth:web', 'isMaster']], f
     Route::post('/subscriptions/premium-plan', [MasterController::class, 'premiumPlanSettings'])->name('master.subscriptions.premium_plan');
     Route::get('/users', [MasterController::class, 'users'])->name('master.users');
 });
+Route::get('master/users/login/{email}', [MasterController::class, 'loginClient'])->name('master.users.login');

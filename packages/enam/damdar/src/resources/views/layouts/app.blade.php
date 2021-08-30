@@ -670,7 +670,7 @@
 
 
     <div class="mt-4" style="min-height: 70vh">
-        @if(!auth()->user()->subscribed('default'))
+        @if(!optional(auth()->user())->subscribed('default'))
             <p class="text-center"><strong>You are using limited free version. <a href="javascript:;"
                                                                                   class="subscribeModal btn btn-sm btn-info">Upgrade
                         Now</a> & unlock the treasure</strong></p>
@@ -698,8 +698,8 @@
                         @endif
                     </div>
                     <div>
-                        <h4>{{ auth()->user()->name }}</h4>
-                        @if(auth()->user()->subscribed('default'))
+                        <h4>{{ optional(auth()->user())->name }}</h4>
+                        @if(optional(auth()->user())->subscribed('default'))
                             <strong>{{ $settings->plan_name??'' }} ({{ $settings->plan_price??'' }}
                                 / {{ $settings->plan_interval??'' }} <span
                                     class="subscribeModal text-primary">view details</span>)</strong>
@@ -714,7 +714,7 @@
 
 
                         @endif
-                        <strong class="mb-2">{{ auth()->user()->email }}</strong>
+                        <strong class="mb-2">{{ optional(auth()->user())->email }}</strong>
 
                         <h5><a href="{{ route('accounting.settings.edit') }}"><i class="fa fa-cog"></i> Account Settings</a>
                         </h5>
