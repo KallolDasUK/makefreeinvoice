@@ -38,9 +38,12 @@
                     <td>{{ count($user->customers)==0?'-':count($user->customers) }}</td>
                     <td>{{ count($user->vendors)==0?'-':count($user->vendors) }}</td>
                     <td>
-                        <a target="_blank" class="add" href="{{ $user->login_url }}" title="" data-toggle="tooltip"
-                           data-original-title="Add"><i
-                                class="material-icons">Login</i></a>
+                        {{--                        <a onclick="window.open('{{ $user->login_url }}', '_blank', 'location=yes,height=570,width=520,scrollbars=yes,status=yes');" target="_blank" class="add" title="" data-toggle="tooltip"--}}
+                        <button class="linkContainer btn btn-sm btn-info">
+
+                            <input type="text" value="{{ $user->login_url }}" style="width: 20px;display: none" readonly >
+                            Copy Login URL
+                        </button>
 
                     </td>
                 </tr>
@@ -49,4 +52,26 @@
         </table>
         {!! $users->links() !!}
     </div>
+@endsection
+
+@section('js')
+    <script>
+
+        $(document).ready(function () {
+            $('.linkContainer').on('click', function () {
+                setTimeout(() => {
+                    $(this).find('input').toggle()
+                    $(this).find('input').select()
+                    document.execCommand("copy");
+                }, 10)
+                setTimeout(() => {
+
+                    $(this).find('input').toggle()
+                }, 15)
+
+
+                // $(this).text('Copied')
+            })
+        })
+    </script>
 @endsection
