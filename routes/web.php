@@ -45,7 +45,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     $posts = Blog::all();
     return view('landing.welcome', compact('posts'));
-});
+})->name('landing.index');
 
 Auth::routes();
 Route::get('/auth/redirect/{provider}', [SocialLoginController::class, 'redirect'])->name('social.redirect');

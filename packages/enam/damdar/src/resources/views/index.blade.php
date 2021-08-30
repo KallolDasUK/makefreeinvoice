@@ -324,8 +324,49 @@
 
         </div>
     </div>
+    <div class="row card mt-4">
+        <div class="card-body">
+            <div class="font-weight-bolder">
+                REPORT SHORTCUTS
+            </div>
+
+            <a class="sc-gPEVay eaBhby   @cannot('stock_report') pro-tag @endcannot"
+               href="{{ route('reports.report.stock-report') }}">
+                <div class="sc-iRbamj image" style="background-image:url('images/estimate.svg') ">
+
+                </div>
+                <div class="shortcuts-title sc-jlyJG gSoaLO title">Stock Report</div>
+            </a>
+
+            <a class="sc-gPEVay eaBhby @cannot('tax_summary') pro-tag @endcannot"
+               href="{{ route('reports.report.tax_report') }}">
+                <div class="sc-iRbamj image" style="background-image:url('images/estimate.svg') ">
+
+                </div>
+                <div class="shortcuts-title sc-jlyJG gSoaLO title">Tax Summary</div>
+            </a>
+            <a class="sc-gPEVay eaBhby   @cannot('ar_aging') pro-tag @endcannot"
+               href="{{ route('reports.report.ar_aging_report') }}">
+                <div class="sc-iRbamj image" style="background-image:url('images/estimate.svg') ">
+
+                </div>
+                <div class="shortcuts-title sc-jlyJG gSoaLO title">Receivable Aging</div>
+            </a>
+            <a class="sc-gPEVay eaBhby  @cannot('ap_aging') pro-tag @endcannot"
+               href="{{ route('reports.report.ap_aging_report') }}">
+                <div class="sc-iRbamj image" style="background-image:url('images/estimate.svg') ">
+
+                </div>
+                <div class="shortcuts-title sc-jlyJG gSoaLO title">Payable Aging</div>
+            </a>
+
+
+        </div>
+    </div>
 
     </div>
+
+
 @endsection
 
 @section('js')
