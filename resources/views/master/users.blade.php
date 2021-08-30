@@ -28,9 +28,9 @@
             <tbody>
             @foreach($users as $user)
                 <tr>
-                    <td>{{ $user->name }}-<small>{{ $user->email }}</small></td>
+                    <td>{{ $user->name }} <br><small>{{ $user->email }}</small></td>
                     <td>{{ Str::title($user->role) }}</td>
-                    <td>{{ $user->plan }}</td>
+                    <td>{{ Str::title($user->plan) }}</td>
                     <td>{{ count($user->invoices)==0?'-':count($user->invoices) }}</td>
                     <td>{{ count($user->bills)==0?'-':count($user->bills) }}</td>
                     <td>{{ count($user->estimates)==0?'-':count($user->estimates) }}</td>
