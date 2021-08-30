@@ -31,6 +31,7 @@ class BillPolicy
     public function viewAny(User $user)
     {
         return $this->plan != null;
+//        return  true;
     }
 
     /**
