@@ -136,11 +136,11 @@
                         >
                     </div>
                     <div class="mx-2">
-                        <select name="customer" id="customer" class="form-control">
+                        <select name="customer" id="customer" class="form-control" style="min-width: 200px">
                             <option></option>
                             @foreach($customers as $customer)
                                 <option value="{{ $customer->id }}"
-                                        @if($customer->id == $customer_id) selected @endif>{{ $customer->name }}</option>
+                                        @if($customer->id == $customer_id) selected @endif>{{ $customer->name }} {{ $customer->phone }} </option>
                             @endforeach
                         </select>
                     </div>
@@ -186,8 +186,9 @@
                         <th class="pr-0">Client</th>
                         <th>Invoice Date</th>
                         <th>Payment Status</th>
-                        <th>Due</th>
-                        <th class="text-right">Amount</th>
+
+                        <th class="text-right">Amount
+                        </th>
                         <th class="pr-0 text-right" style="min-width: 150px">action</th>
                     </tr>
                     </thead>
@@ -215,7 +216,7 @@
                             </td>
                             <td class="pl-0">
                                 <a href="{{ route('invoices.invoice.show',$invoice->id) }}"
-                                   class="text-dark-75 font-weight-bolder text-hover-primary mb-1 font-size-lg invoice_number">{{ \Carbon\Carbon::parse($invoice->invoice_date)->format('d/m/Y') }}</a>
+                                   class="text-dark-75 font-weight-bolder text-hover-primary mb-1 font-size-lg ">{{ \Carbon\Carbon::parse($invoice->invoice_date)->format('d/m/Y') }}</a>
 
                                 @if($invoice->due_date)
                                     <span
@@ -239,18 +240,20 @@
                                           class="{{ $class }}">{{ $invoice->payment_status }}</span>
                                 </div>
                             </td>
-                            <td>
-                                @if($invoice->due>0)
-                                    <span
-                                        class="text-dark-75 font-weight-bolder text-hover-primary mb-1 font-size-lg">{{ $invoice->due }}</span>
-                                @endif
 
-                            </td>
                             <td class="text-right">
                                 <div class="font-weight-bolder  ">
                                     <span
-                                        style="font-size: 20px"><small>{{ $invoice->currency }}</small>{{ number_format($invoice->total,2) }} </span>
+                                        style="font-size: 20px"><small>{{ $invoice->currency }}</small>{{ decent_format($invoice->total,2) }} </span>
                                 </div>
+
+                                @if($invoice->due>0)
+
+
+                                    <span
+                                        class=" font-weight-bold text-info d-block">Due :  {{ decent_format($invoice->due) }}</span>
+
+                                @endif
                             </td>
                             <td class="pr-0 text-right">
                                 @if($invoice->due > 0)
@@ -269,9 +272,9 @@
                                         <svg
                                             style="height: 35px;width: 35px"
                                             aria-hidden="true" focusable="false" data-prefix="far"
-                                             data-icon="caret-circle-down" role="img" xmlns="http://www.w3.org/2000/svg"
-                                             viewBox="0 0 512 512"
-                                             class="svg-inline--fa fa-caret-circle-down fa-w-16 fa-3x"><path
+                                            data-icon="caret-circle-down" role="img" xmlns="http://www.w3.org/2000/svg"
+                                            viewBox="0 0 512 512"
+                                            class="svg-inline--fa fa-caret-circle-down fa-w-16 fa-3x"><path
                                                 fill="currentColor"
                                                 d="M157.1 216h197.8c10.7 0 16.1 13 8.5 20.5l-98.9 98.3c-4.7 4.7-12.2 4.7-16.9 0l-98.9-98.3c-7.7-7.5-2.3-20.5 8.4-20.5zM504 256c0 137-111 248-248 248S8 393 8 256 119 8 256 8s248 111 248 248zm-48 0c0-110.5-89.5-200-200-200S56 145.5 56 256s89.5 200 200 200 200-89.5 200-200z"
                                                 class=""></path></svg>

@@ -89,4 +89,9 @@ class User extends Authenticatable
 //        dump($plan);
         return $plan;
     }
+
+    public function getSettingsAttribute()
+    {
+        return json_decode(MetaSetting::query()->withoutGlobalScope('scopeClient')->where('client_id', $this->client_id)->pluck('value', 'key')->toJson());
+    }
 }
