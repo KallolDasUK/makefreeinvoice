@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use Laravel\Cashier\Billable;
 
 class User extends Authenticatable
@@ -75,5 +76,17 @@ class User extends Authenticatable
     public function vendors()
     {
         return $this->hasMany(Vendor::class, 'user_id')->withoutGlobalScope('scopeClient');
+    }
+
+    public function getPlanAttribute()
+    {
+        $settings = json_decode(MetaSetting::query()->withoutGlobalScope('scopeClient')->where('client_id', $this->client_id)->pluck('value', 'key')->toJson());
+        $plan = $settings->plan_name ?? null;
+        if ($plan != null) {
+            if (Str::contains(strtolower($plan), 'basic')) $plan = 'basic';
+            elseif (Str::contains(strtolower($plan), 'premium')) $plan = 'premium';
+        } else $plan = 'free';
+//        dump($plan);
+        return $plan;
     }
 }

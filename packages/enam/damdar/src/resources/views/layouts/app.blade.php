@@ -700,8 +700,8 @@
                     <div>
                         <h4>{{ auth()->user()->name }}</h4>
                         @if(auth()->user()->subscribed('default'))
-                            <strong>{{ $settings->plan_name }} ({{ $settings->plan_price }}
-                                / {{ $settings->plan_interval }} <span
+                            <strong>{{ $settings->plan_name??'' }} ({{ $settings->plan_price??'' }}
+                                / {{ $settings->plan_interval??'' }} <span
                                     class="subscribeModal text-primary">view details</span>)</strong>
                             <br>
                         @else
