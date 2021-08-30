@@ -46,4 +46,34 @@ class User extends Authenticatable
 
         return $statement[0]->Auto_increment;
     }
+
+    public function invoices()
+    {
+        return $this->hasMany(Invoice::class, 'user_id');
+    }
+
+    public function bills()
+    {
+        return $this->hasMany(Bill::class, 'user_id');
+    }
+
+    public function estimates()
+    {
+        return $this->hasMany(Estimate::class, 'user_id');
+    }
+
+    public function expenses()
+    {
+        return $this->hasMany(Expense::class, 'user_id');
+    }
+
+    public function customers()
+    {
+        return $this->hasMany(Customer::class, 'user_id');
+    }
+
+    public function vendors()
+    {
+        return $this->hasMany(Vendor::class, 'user_id');
+    }
 }
