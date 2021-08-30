@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\GlobalSetting;
+use App\Models\Invoice;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -16,6 +17,8 @@ class MasterController extends Controller
     public function users()
     {
         $users = User::query()->orderBy('role', 'desc')->paginate(25);
+
+
         return view('master.users', compact('users'));
     }
 

@@ -49,31 +49,31 @@ class User extends Authenticatable
 
     public function invoices()
     {
-        return $this->hasMany(Invoice::class, 'user_id');
+        return $this->hasMany(Invoice::class, 'user_id')->withoutGlobalScope('scopeClient');
     }
 
     public function bills()
     {
-        return $this->hasMany(Bill::class, 'user_id');
+        return $this->hasMany(Bill::class, 'user_id')->withoutGlobalScope('scopeClient');
     }
 
     public function estimates()
     {
-        return $this->hasMany(Estimate::class, 'user_id');
+        return $this->hasMany(Estimate::class, 'user_id')->withoutGlobalScope('scopeClient');
     }
 
     public function expenses()
     {
-        return $this->hasMany(Expense::class, 'user_id');
+        return $this->hasMany(Expense::class, 'user_id')->withoutGlobalScope('scopeClient');
     }
 
     public function customers()
     {
-        return $this->hasMany(Customer::class, 'user_id');
+        return $this->hasMany(Customer::class, 'user_id')->withoutGlobalScope('scopeClient');
     }
 
     public function vendors()
     {
-        return $this->hasMany(Vendor::class, 'user_id');
+        return $this->hasMany(Vendor::class, 'user_id')->withoutGlobalScope('scopeClient');
     }
 }
