@@ -12,9 +12,11 @@
             color: #0d71bb !important;
         }
 
-        .dropdown-toggle::after {
+        .dropdown-toggle::before {
             content: "";
-            border-top: 0em solid;
+
+            border-right: 0em solid !important;
+
         }
 
 
@@ -205,11 +207,13 @@
                                 @endif
 
 
-                                <div class="dropdown d-inline">
+                                <div class="dropdown d-inline dropleft">
                                     <span class=" dropdown-toggle mr-4 " type="button" style="font-size: 25px"
                                           id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
                                           aria-expanded="false">
-                                        <svg aria-hidden="true" focusable="false" data-prefix="far"
+                                        <svg
+                                            style="height: 35px;width: 35px"
+                                            aria-hidden="true" focusable="false" data-prefix="far"
                                              data-icon="caret-circle-down" role="img" xmlns="http://www.w3.org/2000/svg"
                                              viewBox="0 0 512 512"
                                              class="svg-inline--fa fa-caret-circle-down fa-w-16 fa-3x"><path
