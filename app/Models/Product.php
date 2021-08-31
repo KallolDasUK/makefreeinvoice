@@ -13,7 +13,12 @@ class Product extends Model
 
     public function category()
     {
-        return $this->belongsTo('App\Models\Category', 'category_id');
+        return $this->belongsTo(Category::class, 'category_id');
+    }
+
+    public function brand()
+    {
+        return $this->belongsTo(Brand::class, 'brand_id');
     }
 
     protected static function boot()

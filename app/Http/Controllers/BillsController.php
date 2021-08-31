@@ -204,7 +204,6 @@ class BillsController extends Controller
 
     public function update($id, Request $request)
     {
-        $this->authorize('update', Bill::class);
 
 
         $data = $this->getData($request);
@@ -217,6 +216,8 @@ class BillsController extends Controller
         unset($data['additional_fields']);
 
         $bill = Bill::findOrFail($id);
+        $this->authorize('update', $bill);
+
         BillExtraField::query()->where('bill_id', $bill->id)->delete();
         BillItem::query()->where('bill_id', $bill->id)->delete();
         ExtraField::query()->where('type', get_class($bill))->where('type_id', $bill->id)->delete();

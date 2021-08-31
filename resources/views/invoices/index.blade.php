@@ -54,7 +54,7 @@
                         <div class="d-flex align-items-center justify-content-center">
                             <div class="card-body ">
                                 Overdue
-                                <h3>{{ $settings->currency??'$' }}{{ $overdue }}</h3>
+                                <h3>{{ $settings->currency??'$' }}{{ decent_format_dash($overdue) }}</h3>
                             </div>
                             <div class="vertical-divider"></div>
                         </div>
@@ -69,7 +69,7 @@
                         <div class="d-flex align-items-center justify-content-center">
                             <div class="card-body ">
                                 Draft Amount
-                                <h3>{{ $settings->currency??'$' }}{{ $draft }}</h3>
+                                <h3>{{ $settings->currency??'$' }}{{ decent_format_dash($draft) }}</h3>
                             </div>
                             <div class="vertical-divider"></div>
                         </div>
@@ -83,18 +83,31 @@
                         <div class="d-flex align-items-center justify-content-center">
                             <div class="card-body ">
                                 Paid Amount
-                                <h3>{{ $settings->currency??'$' }}{{ $paid }}</h3>
+                                <h3>{{ $settings->currency??'$' }}{{ decent_format_dash($paid) }}</h3>
                             </div>
                             <div class="vertical-divider"></div>
                         </div>
                     </div>
                 </div>
+
+                {{-- TOTAL DUE --}}
                 <div class="col ">
                     <div class="card" style="border: none">
                         <div class="d-flex align-items-center justify-content-center">
                             <div class="card-body ">
-                                Due within next 30 days
-                                <h3>{{ $settings->currency??'$' }}{{ $due_next_30 }}</h3>
+                                Total Due
+                                <h3>{{ $settings->currency??'$' }}{{ decent_format_dash($due) }}</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{-- TOTAL AMOUNT --}}
+                <div class="col ">
+                    <div class="card" style="border: none">
+                        <div class="d-flex align-items-center justify-content-center">
+                            <div class="card-body ">
+                                Total Amount
+                                <h3>{{ $settings->currency??'$' }}{{ decent_format_dash($total) }}</h3>
                             </div>
                         </div>
                     </div>
@@ -244,7 +257,7 @@
                             <td class="text-right">
                                 <div class="font-weight-bolder  ">
                                     <span
-                                        style="font-size: 20px"><small>{{ $invoice->currency }}</small>{{ decent_format($invoice->total,2) }} </span>
+                                        style="font-size: 20px"><small>{{ $invoice->currency }}</small>{{ decent_format($invoice->total) }} </span>
                                 </div>
 
                                 @if($invoice->due>0)

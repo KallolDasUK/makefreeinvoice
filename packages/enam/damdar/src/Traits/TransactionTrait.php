@@ -165,11 +165,8 @@ trait TransactionTrait
         return $voucher;
     }
 
-    public function getTrialBalanceReport(Request $request)
+    public function getTrialBalanceReport($start, $end, $branch_id = null)
     {
-        $branch_id = $request->branch_id;
-        $start = $request->start_date;
-        $end = $request->end_date;
 
         $ledgersWithFirstParent = [];
         $ledgers = Ledger::withTransactions($start, $end, $branch_id);
@@ -179,7 +176,6 @@ trait TransactionTrait
         foreach ($ledgers as $ledger) {
             $group = $ledger->ledgerGroup->group_name ?? 'Others';
 
-//            dd($this->getRootParent($ledger));
             $nature = $this->getRootParent($ledger)->nature;
             if ($nature === 'Asset' || $nature === 'Income') {
                 $income += $ledger->total_debit;
@@ -196,11 +192,8 @@ trait TransactionTrait
     }
 
 
-    public function getProfitLossReport(Request $request)
+    public function getProfitLossReport($start_date, $end_date, $branch_id)
     {
-        $branch_id = $request->branch_id;
-        $start_date = $request->start_date;
-        $end_date = $request->end_date;
 
         /* Income Query */
         $incomeLedgers = [];
@@ -209,12 +202,23 @@ trait TransactionTrait
         foreach ($income_ids as $ledger_id) {
             $ledger = Ledger::find($ledger_id);
             if (is_null($ledger)) continue;
-            $amount = TransactionDetail::query()->when($branch_id != 'All', function ($query) use ($branch_id) {
-                return $query->where('branch_id', $branch_id);
-            })->whereBetween('date', [$start_date, $end_date])->where('ledger_id', $ledger_id)->sum('amount');
+            $cr_amount = TransactionDetail::query()
+                ->when($branch_id != 'All', function ($query) use ($branch_id) {
+                    return $query->where('branch_id', $branch_id);
+                })->whereBetween('date', [$start_date, $end_date])
+                ->where('ledger_id', $ledger_id)
+                ->where('entry_type', EntryType::$CR)->sum('amount');
+            $dr_amount = TransactionDetail::query()
+                ->when($branch_id != 'All', function ($query) use ($branch_id) {
+                    return $query->where('branch_id', $branch_id);
+                })->whereBetween('date', [$start_date, $end_date])
+                ->where('ledger_id', $ledger_id)->where('entry_type', EntryType::$DR)->sum('amount');
+            $amount = $cr_amount - $dr_amount;
+
+
             if (!$amount) continue;
 
-            $incomeLedgers[$ledger->ledgerGroup->group_name][] = ['ledger_name' => $ledger->ledger_name, 'amount' => $amount];
+            $incomeLedgers[$ledger->ledgerGroup->group_name][] = ['ledger_name' => $ledger->ledger_name, 'amount' => $amount, 'id' => $ledger->id];
             $totalIncome += $amount;
         }
 
@@ -227,23 +231,32 @@ trait TransactionTrait
         foreach ($expense_ids as $ledger_id) {
             $ledger = Ledger::find($ledger_id);
             if (is_null($ledger)) continue;
-            $amount = TransactionDetail::query()->when($branch_id != 'All', function ($query) use ($branch_id) {
-                return $query->where('branch_id', $branch_id);
-            })->whereBetween('date', [$start_date, $end_date])->where('ledger_id', $ledger_id)->sum('amount');
-            if (!$amount) continue;
 
-            $expenseLedgers[$ledger->ledgerGroup->group_name][] = ['ledger_name' => $ledger->ledger_name, 'amount' => $amount];
+
+            $cr_amount = TransactionDetail::query()
+                ->when($branch_id != 'All', function ($query) use ($branch_id) {
+                    return $query->where('branch_id', $branch_id);
+                })->whereBetween('date', [$start_date, $end_date])
+                ->where('ledger_id', $ledger_id)
+                ->where('entry_type', EntryType::$CR)->sum('amount');
+            $dr_amount = TransactionDetail::query()
+                ->when($branch_id != 'All', function ($query) use ($branch_id) {
+                    return $query->where('branch_id', $branch_id);
+                })->whereBetween('date', [$start_date, $end_date])
+                ->where('ledger_id', $ledger_id)->where('entry_type', EntryType::$DR)->sum('amount');
+            $amount = $dr_amount - $cr_amount;
+
+            if ($amount == 0) continue;
+//            dd($ledger, $amount, $dr_amount, $cr_amount);
+            $expenseLedgers[$ledger->ledgerGroup->group_name][] = ['ledger_name' => $ledger->ledger_name, 'amount' => $amount, 'id' => $ledger->id];
             $totalExpense += $amount;
 
         }
 
 
-//        dd($incomeLedgers, $expenseLedgers);
-
-        $branch_name = optional(Branch::find($request->branch_id))->name ?? 'All';
         $data = ['expenseLedgers' => $expenseLedgers, 'incomeLedgers' => $incomeLedgers,
-            'start_date' => $request->start_date, 'end_date' => $request->end_date, 'branch_name' => $branch_name,
             'totalIncome' => $totalIncome, 'totalExpense' => $totalExpense];
+
         return $data;
 
     }
@@ -316,19 +329,26 @@ trait TransactionTrait
 
     {
 
+        $data = ['start_date' => $start_date, 'end_date' => $end_date,
+            'ledger_name' => '', 'ledger' => '', 'records' => [],
+            'opening_credit' => 0, 'opening_debit' => 0,
+            'closing_credit' => 0, 'closing_debit' => 0
+        ];
 
         $branch_name = optional(Branch::find($branch_id))->name;
-        $ledger = Ledger::findOrFail($ledger_id);
-        $ledger_name = $ledger->ledger_name;
+        $ledger = Ledger::find($ledger_id);
+        if ($ledger == null) {
+//            dd($ledger);
+            return (object)$data;
+        }
         $transaction_details = TransactionDetail::query()
+            ->where('type', '!=', Ledger::class)
             ->where('ledger_id', $ledger->id)
-            ->where('note', '!=', "OpeningBalance")
             ->when($branch_id != 'All', function ($query) use ($branch_id) {
                 return $query->where('branch_id', $branch_id);
             })
             ->whereBetween('date', [$start_date, $end_date])
-            ->orderBy('date')->orderBy('voucher_no')->get();
-//        dd($transaction_details);
+            ->orderBy('date')->get();
 
         $openingDebit = (int)TransactionDetail::query()
             ->where('ledger_id', $ledger->id)
@@ -378,12 +398,12 @@ trait TransactionTrait
         }
 
         $ledgerTransactions = $transaction_details;
-        $data = ['start_date' => $start_date, 'end_date' => $end_date, 'branch_name' => $branch_name,
-            'ledger_name' => $ledger_name, 'ledger' => $ledger, 'ledgerTransactions' => $ledgerTransactions,
+//        dd($ledgerTransactions->toArray());
+        $data = ['records' => $ledgerTransactions,
             'opening_credit' => $openingCredit, 'opening_debit' => $openingDebit,
             'closing_credit' => $closingCredit, 'closing_debit' => $closingDebit
         ];
-        return $data;
+        return (object)$data;
 
     }
 

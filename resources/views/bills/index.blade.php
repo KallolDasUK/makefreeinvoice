@@ -56,7 +56,7 @@
                    class="btn btn-success btn-lg font-weight-bolder font-size-sm " style="font-size: 16px">
                     <i class="fas fa-fw fa-plus" aria-hidden="true"></i>
 
-                    </span>Create an bill</a>
+                    </span>Create a bill</a>
             </div>
         </div>
         <!--end::Header-->

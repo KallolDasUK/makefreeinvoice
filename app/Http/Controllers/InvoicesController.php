@@ -63,14 +63,14 @@ class InvoicesController extends Controller
         $paymentMethods = PaymentMethod::query()->get();
         $customers = Customer::all();
 
-        return view('invoices.index', compact('invoices', 'q', 'cashAcId', 'depositAccounts', 'paymentMethods', 'start_date', 'end_date', 'customer_id', 'customers') + $this->summaryReport());
+        return view('invoices.index', compact('invoices', 'q', 'cashAcId', 'depositAccounts', 'paymentMethods', 'start_date', 'end_date', 'customer_id', 'customers') + $this->summaryReport($start_date, $end_date));
     }
 
-    public function summaryReport()
+    public function summaryReport($start_date, $end_date)
     {
 
 
-        return ['overdue' => Invoice::overdue(), 'draft' => Invoice::draft(), 'due_next_30' => Invoice::dueNext30(), 'paid' => Invoice::paid()];
+        return ['overdue' => Invoice::overdue($start_date, $end_date), 'draft' => Invoice::draft($start_date, $end_date), 'paid' => Invoice::paid($start_date, $end_date), 'due' => Invoice::due($start_date, $end_date), 'total' => Invoice::total($start_date, $end_date)];
     }
 
     public function create()

@@ -14,7 +14,7 @@ class AddIsDefaultToLedgersTable extends Migration
     public function up()
     {
         Schema::table('ledgers', function (Blueprint $table) {
-            $table->boolean('is_default');
+            $table->boolean('is_default')->default(false)->nullable()->change();
         });
     }
 

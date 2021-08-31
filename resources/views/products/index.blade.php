@@ -45,6 +45,7 @@
                             <th>Name</th>
                             <th>Stock</th>
                             <th>Category</th>
+                            <th>Brand</th>
                             <th>Sell Price</th>
                             <th>Purchase Price</th>
 
@@ -60,6 +61,7 @@
                                 <td>{{ $product->name }}</td>
                                 <td>{{ $product->stock }}</td>
                                 <td>{{ optional($product->category)->name }}</td>
+                                <td>{{ optional($product->brand)->name }}</td>
                                 <td>{{ $product->sell_price }}</td>
                                 <td>{{ $product->purchase_price }}</td>
 

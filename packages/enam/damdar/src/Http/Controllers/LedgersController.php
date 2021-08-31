@@ -153,6 +153,7 @@ class LedgersController extends Controller
             'opening' => 'nullable|numeric',
             'opening_type' => 'nullable',
             'active' => 'string|min:1|nullable',
+            'is_default' => 'nullable',
         ];
         if ($request->opening > 0) {
             $rules['opening_type'] = 'required';
