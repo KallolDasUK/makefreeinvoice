@@ -128,43 +128,70 @@ class Invoice extends Model
         return $next_invoice;
     }
 
-    public static function overdue()
+    public static function overdue($start_date, $end_date)
     {
         $overdue = 0;
-        Invoice::query()->where('due_date', '<=', today()->toDateString())->get()->map(function ($invoice) use (&$overdue) {
+        Invoice::query()
+            ->when($start_date != null, function ($query) use ($start_date, $end_date) {
+                return $query->whereBetween('invoice_date', [$start_date, $end_date]);
+            })
+            ->where('due_date', '<=', today()->toDateString())
+            ->get()->map(function ($invoice) use (&$overdue) {
 //            dump($invoice);
-            if ($invoice->due > 0) {
+                if ($invoice->due > 0) {
 
-                $overdue += $invoice->due;
-            }
-        });
+                    $overdue += $invoice->due;
+                }
+            });
         return $overdue;
     }
 
-    public static function draft()
+    public static function draft($start_date, $end_date)
     {
         $draft = 0;
-        Invoice::query()->where('invoice_status', 'draft')->get()->map(function ($invoice) use (&$draft) {
-            if ($invoice->due > 0) $draft += $invoice->due;
-        });
+        Invoice::query()
+            ->when($start_date != null, function ($query) use ($start_date, $end_date) {
+                return $query->whereBetween('invoice_date', [$start_date, $end_date]);
+            })->where('invoice_status', 'draft')->get()->map(function ($invoice) use (&$draft) {
+                if ($invoice->due > 0) $draft += $invoice->due;
+            });
         return $draft;
     }
 
-    public static function dueNext30()
+
+    public static function paid($start_date, $end_date)
     {
         $amount = 0;
-        Invoice::query()->whereBetween('due_date', [today()->toDateString(), today()->addDays(30)->toDateString()])->get()->map(function ($invoice) use (&$amount) {
-            $amount += $invoice->due;
-        });
+        Invoice::query()
+            ->when($start_date != null, function ($query) use ($start_date, $end_date) {
+                return $query->whereBetween('invoice_date', [$start_date, $end_date]);
+            })->get()->map(function ($invoice) use (&$amount) {
+                $amount += $invoice->payment;
+            });
         return $amount;
     }
 
-    public static function paid()
+    public static function due($start_date, $end_date)
     {
         $amount = 0;
-        Invoice::query()->get()->map(function ($invoice) use (&$amount) {
-            $amount += $invoice->payment;
-        });
+        Invoice::query()
+            ->when($start_date != null, function ($query) use ($start_date, $end_date) {
+                return $query->whereBetween('invoice_date', [$start_date, $end_date]);
+            })->get()->map(function ($invoice) use (&$amount) {
+                $amount += $invoice->due;
+            });
+        return $amount;
+    }
+
+    public static function total($start_date, $end_date)
+    {
+        $amount = 0;
+        Invoice::query()
+            ->when($start_date != null, function ($query) use ($start_date, $end_date) {
+                return $query->whereBetween('invoice_date', [$start_date, $end_date]);
+            })->get()->map(function ($invoice) use (&$amount) {
+                $amount += $invoice->total;
+            });
         return $amount;
     }
 

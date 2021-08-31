@@ -9,9 +9,12 @@ use App\Models\InvoiceItem;
 use App\Models\Report;
 use App\Models\Tax;
 use Carbon\Carbon;
+use Enam\Acc\Http\Controllers\AccountingReportsController;
+use Enam\Acc\Models\Branch;
+use Enam\Acc\Models\Ledger;
 use Illuminate\Http\Request;
 
-class ReportController extends Controller
+class ReportController extends AccountingReportsController
 {
 
     use ReportService;
@@ -50,6 +53,7 @@ class ReportController extends Controller
         return view('reports.stock-report', compact('title', 'start_date', 'end_date', 'report_type', 'records'));
     }
 
+
     public function arAgingReport(Request $request)
     {
         $this->authorize('ar_aging');
@@ -66,5 +70,56 @@ class ReportController extends Controller
         return view('reports.ap-aging-report', compact('records'));
     }
 
+    public function trialBalance(Request $request)
+    {
+        $start_date = $request->start_date ?? today()->startOfYear()->toDateString();
+        $end_date = $request->end_date ?? today()->toDateString();
+        $branch_id = $request->branch_id ?? null;
+        $title = "Trial Balance";
+        $branches = Branch::pluck('name', 'id')->all();
+
+        list($records) = $this->getTrialBalanceReport($start_date, $end_date, $branch_id);
+        $branch_name = optional(Branch::find($request->branch_id))->name ?? "All";
+
+        return view('reports.trial-balance', compact('title', 'start_date', 'end_date', 'branch_name', 'records', 'branches', 'branch_id'));
+    }
+
+    public function lossProfitReport(Request $request)
+    {
+
+        $this->authorize('profit_loss');
+        $start_date = $request->start_date ?? today()->startOfYear()->toDateString();
+        $end_date = $request->end_date ?? today()->toDateString();
+        $branch_id = $request->branch_id ?? null;
+        $title = "Loss Profit Report";
+        $branches = Branch::pluck('name', 'id')->all();
+
+        $data = $this->getProfitLossReport($start_date, $end_date, $branch_id);
+//        dd($data);
+        $branch_name = optional(Branch::find($request->branch_id))->name ?? "All";
+
+        return view('reports.loss-profit', compact('title', 'start_date', 'end_date', 'branch_name', 'branches', 'branch_id') + $data);
+    }
+
+    public function ledgerReport(Request $request)
+    {
+        $start_date = $request->start_date ?? today()->startOfYear()->toDateString();
+        $end_date = $request->end_date ?? today()->toDateString();
+        $branch_id = $request->branch_id ?? null;
+        $ledger_id = $request->ledger_id ?? null;
+        $title = "Ledger Reports";
+        $branches = Branch::pluck('name', 'id')->all();
+        $ledgers = Ledger::pluck('ledger_name', 'id')->all();
+
+//        dd(auth()->user()->client_id);
+
+        $data = $this->getLedgerReport($branch_id, $ledger_id, $start_date, $end_date);
+
+        $branch_name = optional(Branch::find($request->branch_id))->name ?? "All";
+
+        return view('reports.ledger-report', compact('title', 'start_date',
+            'end_date', 'ledgers', 'ledger_id', 'data', 'branches', 'branch_name',
+            'branch_id'));
+    }
 
 }

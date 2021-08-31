@@ -11,6 +11,9 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-12">
+                            <img src="{{ asset('images/payment methods.PNG') }}" alt="Payment Method" height="80" style="width: 100%">
+                        </div>
+                        <div class="col-12">
                             <div class="p-4">
                                 <div class="pb-5" data-wizard-type="step-content" data-wizard-state="current">
                                     <h4 class="mb-10 font-weight-bold text-dark">Enter your Payment Details</h4>
@@ -37,6 +40,7 @@
                                 </div>
                             </div>
                         </div>
+
                     </div>
 
 

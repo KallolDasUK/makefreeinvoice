@@ -28,6 +28,7 @@
                                 </select>
                             </div>
                         </div>
+                        <input type="text" name="is_default" hidden value="0">
 
 
                     </div>

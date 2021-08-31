@@ -95,7 +95,7 @@
 
                 <div class="clearfix"></div>
                 <a class="sc-gPEVay eaBhby @cannot('trial_balance') pro-tag @endcannot "
-                   href="{{ route('accounting.report.trial-balance') }}">
+                   href="{{ route('reports.report.trial_balance') }}">
                     <div class="sc-iRbamj image" style="background-image:url('images/estimate.svg') ">
 
                     </div>
@@ -110,14 +110,14 @@
                 </a>
 
                 <a class="sc-gPEVay eaBhby  @cannot('ledger') pro-tag @endcannot"
-                   href="{{ route('accounting.report.ledger') }}">
+                   href="{{ route('reports.report.ledger_report') }}">
                     <div class="sc-iRbamj image" style="background-image:url('images/estimate.svg') ">
 
                     </div>
                     <div class="shortcuts-title sc-jlyJG gSoaLO title">Ledger Report</div>
                 </a>
                 <a class="sc-gPEVay eaBhby  @cannot('profit_loss') pro-tag @endcannot"
-                   href="{{ route('accounting.report.profit-loss') }}">
+                   href="{{ route('reports.report.loss_profit_report') }}">
                     <div class="sc-iRbamj image" style="background-image:url('images/estimate.svg') ">
 
                     </div>

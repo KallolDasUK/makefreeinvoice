@@ -11,11 +11,15 @@ class VendorsController extends Controller
 {
 
 
-    public function index()
+    public function index(Request $request)
     {
-        $vendors = Vendor::paginate(25);
+        $q = $request->q;
 
-        return view('vendors.index', compact('vendors'));
+        $vendors = Vendor::query()->when($q != null, function ($builder) use ($q) {
+            return $builder->where('name', 'like', '%' . $q . '%')->orWhere('phone', 'like', '%' . $q . '%')->orWhere('email', 'like', '%' . $q . '%');
+        })->paginate(25);
+
+        return view('vendors.index', compact('vendors', 'q'));
     }
 
 

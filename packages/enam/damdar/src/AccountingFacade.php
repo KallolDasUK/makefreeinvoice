@@ -185,13 +185,13 @@ class AccountingFacade extends Facade
         $accounts_payable_ledger = GroupMap::query()->where('key', LedgerHelper::$ACCOUNTS_PAYABLE)->first()->value ?? null;
         $purchase_ledger = GroupMap::query()->where('key', LedgerHelper::$PURCHASE_AC)->first()->value ?? null;
         self::addTransaction($purchase_ledger, $accounts_payable_ledger, $bill->total, $bill->notes,
-            $bill->bill_date, 'Invoice', Bill::class, $bill->id,
+            $bill->bill_date, 'Bill', Bill::class, $bill->id,
             $bill->bill_number, optional($bill->vendor)->name);
 
         $inventory_ledger = GroupMap::query()->where('key', LedgerHelper::$INVENTORY_AC)->first()->value ?? null;
         $purchase_ledger = GroupMap::query()->where('key', LedgerHelper::$PURCHASE_AC)->first()->value ?? null;
         self::addTransaction($inventory_ledger, $purchase_ledger, $bill->total, $bill->notes,
-            $bill->bill_date, 'Invoice', Bill::class, $bill->id,
+            $bill->bill_date, 'Bill', Bill::class, $bill->id,
             $bill->bill_number, optional($bill->vendor)->name);
     }
 

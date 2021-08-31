@@ -92,8 +92,10 @@ class AccountingReportsController extends Controller
 
     public function trialBalancePDF(Request $request)
     {
-        list($records) = $this->getTrialBalanceReport($request);
-//        dd($records);
+        $branch_id = $request->branch_id;
+        $start = $request->start_date;
+        $end = $request->end_date;
+        list($records) = $this->getTrialBalanceReport($branch_id, $start, $end);
         $branch_name = optional(Branch::find($request->branch_id))->name ?? "All";
 
         $pdf = PDF::loadView('acc::reports.trialbalance.pdf', ['records' => $records, 'start_date' => $request->start_date, 'end_date' => $request->end_date, 'branch_name' => $branch_name]);
@@ -163,7 +165,7 @@ class AccountingReportsController extends Controller
             'ledger_id' => 'required',
         ]);
         $data = $this->getLedgerReport($request->branch_id, $request->ledger_id, $request->start_date, $request->end_date);
-//        dd($data);
+
         $pdf = PDF::loadView('acc::reports.ledger.pdf', $data);
         return $pdf->stream('acc::reports.ledger.pdf');
 

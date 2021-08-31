@@ -72,7 +72,7 @@
 
             <br>
 
-            <select class="vendor form-control select2" id="vendor_id" name="vendor_id">
+            <select class="vendor form-control select2" id="vendor_id" name="vendor_id" required>
                 <option value="" disabled
                         selected></option>
                 @foreach ($vendors as $key => $vendor)
@@ -385,7 +385,8 @@
             </td>
              <td> {{ stock }}</td>
             <td> <input type="number" step="any" style="text-align: end"  class="form-control  input-sm rate" value="{{ price }}" required></td>
-            <td> <input type="number" step="any" style="text-align: end"  class="form-control   input-sm qnt" index="{{ i }}" value="{{ qnt }}" required>
+            <td> <input type="number" step="any" style="text-align: end"  class="form-control   input-sm qnt" index="{{ i }}
+        " value="{{ qnt }}" required>
             <input class="text-right form-control input-sm unit" type="text" style="outline: none;border:0 !important;text-align: end; text-decoration: underline;text-decoration-style: dashed;text-decoration-color: red"  value="{{ unit }}"/>
              </td>
             <td >
@@ -412,6 +413,7 @@
             <span role="button" on-click="@this.addBillItem()" class="btn btn-sm btn-primary"
                   style="cursor: pointer"><i class="fa fa-plus-circle"></i> Add Line</span>
         </div>
+
 
 
 
@@ -578,6 +580,7 @@
 
 
 
+
     </script>
 @endverbatim
 @verbatim
@@ -602,6 +605,7 @@
               <td><span class="text-primary " on-click="@this.addAdditionalField()" style="cursor:pointer;">+ Add More</span></td>
               <td></td>
           </tr>
+
 
 
 
