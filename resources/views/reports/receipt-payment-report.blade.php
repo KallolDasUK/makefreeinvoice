@@ -197,7 +197,7 @@
                             @endforeach
                             <tr style="font-weight: bolder;text-align: center">
                                 <td></td>
-                                <td colspan="4" class="text-left">TOTAL RECEIPT/RECEIVED</td>
+                                <td colspan="4" class="text-right">TOTAL RECEIPT/RECEIVED</td>
                                 <td>{{ decent_format_dash($amount) }}</td>
 
                             </tr>
@@ -210,7 +210,7 @@
                             @foreach($payments ?? [] as $txn)
                                 <tr>
                                     <td class="text-left">{{ $loop->iteration }} </td>
-                                    <td class="text-left">{{ \Carbon\Carbon::parse($txn->date)->toDateString() }}</td>
+                                    <td class="text-left">{{ $txn->date}}</td>
                                     <td class="text-left">{{ optional($txn->transaction_details->first())->transaction_details }}</td>
                                     <td class="text-left">{{ $txn->txn_type }}</td>
                                     <td class="text-left">{{ optional($txn->transaction_details->first())->ref ?? $txn->voucher_no }}</td>
@@ -220,7 +220,7 @@
                             @endforeach
                             <tr style="font-weight: bolder;text-align: center">
                                 <td></td>
-                                <td colspan="4" class="text-left">TOTAL PAYMENT</td>
+                                <td colspan="4" class="text-right">TOTAL PAYMENT</td>
                                 <td>{{ decent_format_dash($amount) }}</td>
 
                             </tr>

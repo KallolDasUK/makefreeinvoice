@@ -124,7 +124,7 @@ class ReportController extends AccountingReportsController
     {
         $start_date = $request->start_date ?? today()->startOfYear()->toDateString();
         $end_date = $request->end_date ?? today()->toDateString();
-        $branch_id = $request->branch_id ?? null;
+        $branch_id = $request->branch_id ?? 'All';
         $title = "Receipt & Payment Reports";
         $branches = Branch::pluck('name', 'id')->all();
         $receipts = $this->getReceiptReport($branch_id, $start_date, $end_date);

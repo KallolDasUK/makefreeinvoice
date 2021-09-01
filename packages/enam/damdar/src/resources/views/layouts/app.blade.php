@@ -477,7 +477,7 @@
                                     Balance</a>
                             </li>
                             <li>
-                                <a href="{{ route('accounting.report.receipt-payment-branch') }}">Receipt
+                                <a href="{{ route('reports.report.receipt_payment_report') }}">Receipt
                                     & Payment </a>
                             </li>
                             <li>
@@ -624,7 +624,7 @@
                                                         Balance</a>
                                                 </li>
                                                 <li>
-                                                    <a href="{{ route('accounting.report.receipt-payment-branch') }}">Receipt
+                                                    <a href="{{ route('reports.report.receipt_payment_report') }}">Receipt
                                                         & Payment </a>
                                                 </li>
                                                 <li>
