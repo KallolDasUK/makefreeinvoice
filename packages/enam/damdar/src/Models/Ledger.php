@@ -5,6 +5,7 @@ namespace Enam\Acc\Models;
 use Enam\Acc\Traits\TransactionTrait;
 use Enam\Acc\Utils\EntryType;
 use Enam\Acc\Utils\LedgerHelper;
+use Enam\Acc\Utils\Nature;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -252,11 +253,36 @@ class Ledger extends Model
         return GroupMap::query()->where('key', LedgerHelper::$COST_OF_GOODS_SOLD)->first()->value ?? null;
     }
 
+    public function getNatureAttribute()
+    {
+        $group = LedgerGroup::find($this->ledger_group_id);
+
+        return $this->nature($group);
+    }
+
+    public function nature($group)
+    {
+        if ($group->parent != -1) {
+            $g = LedgerGroup::find($group->parent);
+            return $this->nature($g);
+        } else {
+            return $group->nature;
+        }
+    }
+
     public function closingBalance($branch_id, $start_date, $end_date)
     {
 
 
         $report = $this->getLedgerReport($branch_id, $this->id, $start_date, $end_date);
-        return $report->closing_debit + $report->closing_credit;
+        $nature = $this->nature;
+//        dd($nature);
+        if ($nature == Nature::$ASSET) {
+            return $report->closing_debit - $report->closing_credit;
+
+        } elseif ($nature == Nature::$LIABILITIES) {
+            return $report->closing_credit - $report->closing_debit;
+        }
+        return $report->closing_credit + $report->closing_debit;
     }
 }
