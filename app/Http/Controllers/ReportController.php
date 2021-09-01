@@ -141,28 +141,93 @@ class ReportController extends AccountingReportsController
     {
 
         $this->authorize('balance_sheet');
-
-        $data = [];
-        foreach (['Asset', 'Liabilities', 'Income', 'Expense'] as $acc) {
-
-            $groups = LedgerGroup::query()->where('nature', $acc)->get();
-            $nodes = [];
-            foreach ($groups as $group) {
-                $nodes[] = ['text' => $group->group_name, 'nodes' => $group->group_name];
-            }
-            $data[$acc][] = ['text' => $acc, 'nodes' => $nodes];
-        }
-
-        dd($data,'Working');
         $start_date = $request->start_date ?? today()->startOfYear()->toDateString();
         $end_date = $request->end_date ?? today()->toDateString();
         $branch_id = $request->branch_id ?? null;
+        $assets = [];
+        $asset_account = 'Asset';
+
+
+        $groups = LedgerGroup::query()->where('nature', $asset_account)->get();
+        foreach ($groups as $group) {
+            $record = [];
+            $child_groups = LedgerGroup::query()->where('parent', $group->id)->get();
+            $child_accounts = Ledger::query()->where('ledger_group_id', $group->id)->get();
+            foreach ($child_groups as $g) {
+                $closing_balance = 0;
+                $ledgers = Ledger::query()->where('ledger_group_id', $g->id)->get();
+                foreach ($ledgers as $ledger) {
+                    $closing_balance += $ledger->closingBalance($branch_id, $start_date, $end_date);
+                }
+                if ($closing_balance == 0) {
+                    continue;
+                }
+
+                $record[] = (object)['account_name' => $g->group_name,
+                    'amount' => $closing_balance, 'is_account' => false, 'id' => $g->id];
+            }
+            foreach ($child_accounts as $account) {
+                $closing_balance = $account->closingBalance($branch_id, $start_date, $end_date);
+                if ($closing_balance == 0) {
+                    continue;
+                }
+                $record[] = (object)['account_name' => $account->ledger_name,
+                    'amount' => $closing_balance,
+                    'is_account' => true, 'id' => $account->id];
+            }
+            if (count($record)) {
+                $assets[$group->group_name] = $record;
+            }
+
+        }
+
+
+        $libs = [];
+        $lib_accounts = 'Liabilities';
+
+
+        $groups = LedgerGroup::query()->where('nature', $lib_accounts)->get();
+        foreach ($groups as $group) {
+            $record = [];
+            $child_groups = LedgerGroup::query()->where('parent', $group->id)->get();
+            $child_accounts = Ledger::query()->where('ledger_group_id', $group->id)->get();
+            foreach ($child_groups as $g) {
+                $closing_balance = 0;
+                $ledgers = Ledger::query()->where('ledger_group_id', $g->id)->get();
+                foreach ($ledgers as $ledger) {
+                    $closing_balance += $ledger->closingBalance($branch_id, $start_date, $end_date);
+                }
+                if ($closing_balance == 0) {
+                    continue;
+                }
+
+                $record[] = (object)['account_name' => $g->group_name,
+                    'amount' => $closing_balance, 'is_account' => false, 'id' => $g->id];
+            }
+            foreach ($child_accounts as $account) {
+                $closing_balance = $account->closingBalance($branch_id, $start_date, $end_date);
+                if ($closing_balance == 0) {
+                    continue;
+                }
+                $record[] = (object)['account_name' => $account->ledger_name,
+                    'amount' => $closing_balance,
+                    'is_account' => true, 'id' => $account->id];
+            }
+            if (count($record)) {
+                $libs[$group->group_name] = $record;
+            }
+        }
+        $lossProfitReport = $this->getProfitLossReport($start_date, $end_date, $branch_id);
+        $profit = $lossProfitReport['totalIncome'] - $lossProfitReport['totalExpense'];
+        $libs['Equity'][] = (object)['account_name' => 'Retained Earnings </br> <span class="ml-4"></span>(Profit between ' . Carbon::parse($start_date)->format('M d Y') . '-' . Carbon::parse($end_date)->format('M d Y') . ')', 'amount' => $profit, 'is_account' => false];
+//        dd($libs);
+
+//        dd($assets, 'Working');
+
         $title = "Balance Sheet Report";
         $branches = Branch::pluck('name', 'id')->all();
-
-        $data = $this->getProfitLossReport($start_date, $end_date, $branch_id);
         $branch_name = optional(Branch::find($request->branch_id))->name ?? "All";
 
-        return view('reports.balance-sheet-report', compact('title', 'start_date', 'end_date', 'branch_name', 'branches', 'branch_id') + $data);
+        return view('reports.balance-sheet-report', compact('title', 'start_date', 'end_date', 'branch_name', 'branches', 'branch_id', 'assets', 'libs'));
     }
 }
