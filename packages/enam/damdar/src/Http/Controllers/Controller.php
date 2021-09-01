@@ -66,7 +66,7 @@ class Controller extends BaseController
     {
 
         $rules = [
-            'voucher_no' => 'required|unique:transactions',
+            'voucher_no' => 'required',
             'branch_id' => 'nullable',
             'date' => 'required',
             'txn_type' => 'nullable',
@@ -76,7 +76,8 @@ class Controller extends BaseController
         if ($id) {
             $rules = [
                 'branch_id' => 'nullable',
-                'voucher_no' => 'required|unique:transactions,voucher_no,' . $id,
+//                'voucher_no' => 'required|unique:transactions,voucher_no,' . $id,
+                'voucher_no' => 'required',
                 'date' => 'required',
                 'txn_type' => 'nullable',
                 'note' => 'nullable'

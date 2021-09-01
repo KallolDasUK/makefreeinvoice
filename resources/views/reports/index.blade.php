@@ -124,7 +124,7 @@
                     <div class="shortcuts-title sc-jlyJG gSoaLO title">Profit Loss</div>
                 </a>
                 <a class="sc-gPEVay eaBhby @cannot('voucher') pro-tag @endcannot"
-                   href="{{ route('accounting.report.voucher') }}">
+                   href="{{ route('reports.report.voucher_report') }}">
                     <div class="sc-iRbamj image" style="background-image:url('images/estimate.svg') ">
 
                     </div>

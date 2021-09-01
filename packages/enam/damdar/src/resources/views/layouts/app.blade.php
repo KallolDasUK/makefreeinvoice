@@ -488,7 +488,7 @@
                                 <a href="{{ route('reports.report.ledger_report') }}">Ledger</a>
                             </li>
                             <li>
-                                <a href="{{ route('accounting.report.voucher') }}">Voucher </a>
+                                <a href="{{ route('reports.report.voucher_report') }}">Voucher </a>
                             </li>
                             <li>
                                 <a href="{{ route('reports.report.cashbook') }}">Cashbook</a>
@@ -635,7 +635,7 @@
                                                     <a href="{{ route('reports.report.ledger_report') }}">Ledger</a>
                                                 </li>
                                                 <li>
-                                                    <a href="{{ route('accounting.report.voucher') }}">Voucher </a>
+                                                    <a href="{{ route('reports.report.voucher_report') }}">Voucher </a>
                                                 </li>
                                                 <li>
                                                     <a href="{{ route('reports.report.cashbook') }}">Cashbook</a>

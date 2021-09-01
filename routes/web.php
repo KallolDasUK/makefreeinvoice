@@ -289,6 +289,7 @@ Route::group(['prefix' => 'reports'], function () {
     Route::get('/cash-book', [ReportController::class, 'cashbookReport'])->name('reports.report.cashbook');
     Route::get('/balance-sheet', [ReportController::class, 'balanceSheetReport'])->name('reports.report.balance_sheet_report');
     Route::get('/receipt-payment', [ReportController::class, 'receiptPaymentReport'])->name('reports.report.receipt_payment_report');
+    Route::get('/voucher-report', [ReportController::class, 'voucherReport'])->name('reports.report.voucher_report');
 
 });
 
