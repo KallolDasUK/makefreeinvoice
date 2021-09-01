@@ -102,7 +102,7 @@
                     <div class="shortcuts-title sc-jlyJG gSoaLO title">Trial Balance</div>
                 </a>
                 <a class="sc-gPEVay eaBhby  @cannot('receipt_payment') pro-tag @endcannot"
-                   href="{{ route('accounting.report.receipt-payment-branch') }}">
+                   href="{{ route('reports.report.receipt_payment_report') }}">
                     <div class="sc-iRbamj image" style="background-image:url('images/estimate.svg') ">
 
                     </div>
