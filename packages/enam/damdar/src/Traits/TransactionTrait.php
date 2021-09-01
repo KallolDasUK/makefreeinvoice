@@ -621,10 +621,11 @@ trait TransactionTrait
 
     public function getPaymentReport($branch_id, $start_date, $end_date)
     {
-
+//        dd($start_date, $end_date,Carbon::parse($end_date)->addDay()->toDateString());
         $records = Transaction::query()
-//            ->whereBetween('date', [$start_date, $end_date])
-//            ->when($branch_id != 'All' || $branch_id != null, function ($query) use ($branch_id) {
+//            ->where('date', '<', $start_date)
+//            ->where('date', '>', $end_date)
+//            ->when($branch_id != 'All', function ($query) use ($branch_id) {
 //                return $query->where('branch_id', $branch_id);
 //            })
             ->whereIn('txn_type', [VoucherType::$VENDOR_PAYMENT, VoucherType::$PAYMENT])->get();
@@ -635,10 +636,10 @@ trait TransactionTrait
     public function getReceiptReport($branch_id, $start_date, $end_date)
     {
         $records = Transaction::query()
-//            ->whereBetween('date', [$start_date, $end_date])
-//            ->when($branch_id != 'All' || $branch_id != null, function ($query) use ($branch_id) {
-//                return $query->where('branch_id', $branch_id);
-//            })
+            ->whereBetween('date', [$start_date, $end_date])
+            ->when($branch_id != 'All', function ($query) use ($branch_id) {
+                return $query->where('branch_id', $branch_id);
+            })
             ->whereIn('txn_type', [VoucherType::$CUSTOMER_PAYMENT, VoucherType::$RECEIVE])->get();
 //        dd($records);
         return $records;
