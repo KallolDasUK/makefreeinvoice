@@ -489,7 +489,7 @@
                             </li>
 
                             <li>
-                                <a href="{{ route('reports.report.trial_balance') }}">Balance
+                                <a href="{{ route('reports.report.balance_sheet_report') }}">Balance
                                     Sheet </a>
                             </li>
 

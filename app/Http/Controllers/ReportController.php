@@ -120,6 +120,22 @@ class ReportController extends AccountingReportsController
             'branch_id'));
     }
 
+    public function receiptPaymentReport(Request $request)
+    {
+        $start_date = $request->start_date ?? today()->startOfYear()->toDateString();
+        $end_date = $request->end_date ?? today()->toDateString();
+        $branch_id = $request->branch_id ?? null;
+        $title = "Receipt & Payment Reports";
+        $branches = Branch::pluck('name', 'id')->all();
+        $receipts = $this->getReceiptReport($branch_id, $start_date, $end_date);
+        $payments = $this->getPaymentReport($branch_id, $start_date, $end_date);
+        $branch_name = optional(Branch::find($request->branch_id))->name ?? "All";
+
+        return view('reports.receipt-payment-report', compact('title', 'start_date',
+            'end_date', 'receipts', 'payments', 'branches', 'branch_name',
+            'branch_id'));
+    }
+
     public function cashbookReport(Request $request)
     {
         $start_date = $request->start_date ?? today()->startOfYear()->toDateString();

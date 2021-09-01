@@ -480,9 +480,10 @@ trait TransactionTrait
 
         $branch_name = optional(Branch::find($branch_id))->name ?? 'All';
 
-        $txn_details = TransactionDetail::query()->when($branch_id != 'All', function ($query) use ($branch_id) {
-            return $query->where('branch_id', $branch_id);
-        })
+        $txn_details = TransactionDetail::query()
+            ->when($branch_id != 'All', function ($query) use ($branch_id) {
+                return $query->where('branch_id', $branch_id);
+            })
             ->whereBetween('date', [$start_date, $end_date])
             ->orderBy('date')
             ->get()->reject(function ($item) {
@@ -583,9 +584,6 @@ trait TransactionTrait
                         return ['ledger_name' => $txn->ledger->ledger_name, 'amount' => $txn->amount];
                     });
 
-                if ($branch->name == 'Healthcare Pharmaceuticals Limited') {
-//                    dd($paymentVoucher->transaction_details()->where('entry_type', EntryType::$DR)->get());
-                }
                 foreach ($txns as $txn) {
                     $ledgerName = $txn['ledger_name'];
                     if (array_key_exists($ledgerName, $record)) {
@@ -615,10 +613,35 @@ trait TransactionTrait
             } else return true;
         });
 
-//        dd($records, $ledgers);
         return array($records, $ledgers);
 
 
+    }
+
+
+    public function getPaymentReport($branch_id, $start_date, $end_date)
+    {
+
+        $records = Transaction::query()
+//            ->whereBetween('date', [$start_date, $end_date])
+//            ->when($branch_id != 'All' || $branch_id != null, function ($query) use ($branch_id) {
+//                return $query->where('branch_id', $branch_id);
+//            })
+            ->whereIn('txn_type', [VoucherType::$VENDOR_PAYMENT, VoucherType::$PAYMENT])->get();
+//        dd($records);
+        return $records;
+    }
+
+    public function getReceiptReport($branch_id, $start_date, $end_date)
+    {
+        $records = Transaction::query()
+//            ->whereBetween('date', [$start_date, $end_date])
+//            ->when($branch_id != 'All' || $branch_id != null, function ($query) use ($branch_id) {
+//                return $query->where('branch_id', $branch_id);
+//            })
+            ->whereIn('txn_type', [VoucherType::$CUSTOMER_PAYMENT, VoucherType::$RECEIVE])->get();
+//        dd($records);
+        return $records;
     }
 
 }
