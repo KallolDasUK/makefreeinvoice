@@ -212,13 +212,13 @@
                                             <td>{{ $txnDetail->ledger->ledger_name }}</td>
 
                                             @if($txnDetail->entry_type == \Enam\Acc\Utils\EntryType::$CR)
-                                                <td style="text-align: center">{{ $txnDetail->amount }}</td>
-                                                <td style="text-align: center">0</td>
+                                                <td style="text-align: center">{{ decent_format_dash($txnDetail->amount) }}</td>
+                                                <td style="text-align: center">-</td>
                                                 @php($cr+=$txnDetail->amount)
 
                                             @else
-                                                <td style="text-align: center">0</td>
-                                                <td style="text-align: center">{{ $txnDetail->amount }}</td>
+                                                <td style="text-align: center">-</td>
+                                                <td style="text-align: center">{{ decent_format_dash($txnDetail->amount) }}</td>
                                                 @php($dr+=$txnDetail->amount)
 
                                             @endif
@@ -229,8 +229,8 @@
 
                                 <tr style="font-weight: bolder;text-align: center">
                                     <td colspan="3" style="text-align: start">Grand Total</td>
-                                    <td>{{ $cr }}</td>
-                                    <td>{{ $dr }}</td>
+                                    <td>{{ decent_format_dash($cr) }}</td>
+                                    <td>{{ decent_format_dash($dr) }}</td>
 
                                 </tr>
                                 </tbody>
