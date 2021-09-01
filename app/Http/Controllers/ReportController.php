@@ -75,7 +75,7 @@ class ReportController extends AccountingReportsController
     {
         $start_date = $request->start_date ?? today()->startOfYear()->toDateString();
         $end_date = $request->end_date ?? today()->toDateString();
-        $branch_id = $request->branch_id ?? null;
+        $branch_id = $request->branch_id ?? 'All';
         $title = "Trial Balance";
         $branches = Branch::pluck('name', 'id')->all();
 
@@ -91,7 +91,7 @@ class ReportController extends AccountingReportsController
         $this->authorize('profit_loss');
         $start_date = $request->start_date ?? today()->startOfYear()->toDateString();
         $end_date = $request->end_date ?? today()->toDateString();
-        $branch_id = $request->branch_id ?? null;
+        $branch_id = $request->branch_id ?? 'All';
         $title = "Loss Profit Report";
         $branches = Branch::pluck('name', 'id')->all();
 
@@ -107,7 +107,7 @@ class ReportController extends AccountingReportsController
     {
         $start_date = $request->start_date ?? today()->startOfYear()->toDateString();
         $end_date = $request->end_date ?? today()->toDateString();
-        $branch_id = $request->branch_id ?? null;
+        $branch_id = $request->branch_id ?? 'All';
         $ledger_id = $request->ledger_id ?? null;
         $title = "Account/Ledger Reports";
         $branches = Branch::pluck('name', 'id')->all();
@@ -140,7 +140,7 @@ class ReportController extends AccountingReportsController
     {
         $start_date = $request->start_date ?? today()->startOfYear()->toDateString();
         $end_date = $request->end_date ?? today()->toDateString();
-        $branch_id = $request->branch_id ?? null;
+        $branch_id = $request->branch_id ?? 'All';
         $ledger_id = Ledger::CASH_AC();
         $title = "Cash Book Reports";
         $branches = Branch::pluck('name', 'id')->all();
@@ -152,6 +152,7 @@ class ReportController extends AccountingReportsController
             'end_date', 'ledgers', 'ledger_id', 'data', 'branches', 'branch_name',
             'branch_id'));
     }
+
 
     public function balanceSheetReport(Request $request)
     {
@@ -245,5 +246,22 @@ class ReportController extends AccountingReportsController
         $branch_name = optional(Branch::find($request->branch_id))->name ?? "All";
 
         return view('reports.balance-sheet-report', compact('title', 'start_date', 'end_date', 'branch_name', 'branches', 'branch_id', 'assets', 'libs'));
+    }
+
+
+    public function voucherReport(Request $request)
+    {
+        $start_date = $request->start_date ?? today()->startOfYear()->toDateString();
+        $end_date = $request->end_date ?? today()->toDateString();
+        $branch_id = $request->branch_id ?? 'All';
+        $title = 'Voucher Reports';
+        $voucher_type = $request->voucher_type;
+        $branches = Branch::pluck('name', 'id')->all();
+
+        $records = $this->getVoucherReport($branch_id, $voucher_type, $start_date, $end_date);
+        $branch_name = optional(Branch::find($request->branch_id))->name ?? "All";
+        return view('reports.voucher-report', compact('title', 'start_date',
+            'end_date', 'voucher_type', 'branches', 'branch_name', 'records',
+            'branch_id'));
     }
 }

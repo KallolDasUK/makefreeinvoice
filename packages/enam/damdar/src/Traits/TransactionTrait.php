@@ -340,14 +340,15 @@ trait TransactionTrait
             return (object)$data;
         }
         $transaction_details = TransactionDetail::query()
-            ->where('type', '!=', Ledger::class)
             ->where('ledger_id', $ledger->id)
             ->when($branch_id != 'All', function ($query) use ($branch_id) {
                 return $query->where('branch_id', $branch_id);
             })
             ->whereBetween('date', [$start_date, $end_date])
             ->orderBy('date')->get();
-
+        $transaction_details = $transaction_details->filter(function ($txn_item){
+            return $txn_item->note != EntryType::$OPENING_BALANCE;
+        });
         $openingDebit = (int)TransactionDetail::query()
             ->where('ledger_id', $ledger->id)
             ->where('entry_type', EntryType::$DR)
@@ -405,29 +406,18 @@ trait TransactionTrait
     }
 
 
-    public function getVoucherReport(Request $request)
+    public function getVoucherReport($branch_id, $voucher_type, $start_date, $end_date)
     {
-        $branch_id = $request->branch_id;
-        $start_date = $request->start_date;
-        $end_date = $request->end_date;
-
-        $branch_name = optional(Branch::find($branch_id))->name ?? 'All';
-
 
         $txns = Transaction::query()->when($branch_id != 'All', function ($query) use ($branch_id) {
             return $query->where('branch_id', $branch_id);
         })
-            ->where('txn_type', $request->voucher_type)
+            ->where('txn_type', $voucher_type)
             ->whereBetween('date', [$start_date, $end_date])
             ->orderBy('date')
             ->get();
 
-
-        $data = ['start_date' => $start_date, 'end_date' => $end_date, 'branch_name' => $branch_name,
-            'voucher_type' => $request->voucher_type,
-            'txns' => $txns
-        ];
-        return $data;
+        return $txns;
 
     }
 

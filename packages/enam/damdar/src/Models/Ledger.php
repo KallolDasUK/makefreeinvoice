@@ -273,14 +273,15 @@ class Ledger extends Model
     public function closingBalance($branch_id, $start_date, $end_date)
     {
 
-
         $report = $this->getLedgerReport($branch_id, $this->id, $start_date, $end_date);
         $nature = $this->nature;
-//        dd($nature);
         if ($nature == Nature::$ASSET) {
             return $report->closing_debit - $report->closing_credit;
-
         } elseif ($nature == Nature::$LIABILITIES) {
+            return $report->closing_credit - $report->closing_debit;
+        } elseif ($nature == Nature::$EXPENSE) {
+            return $report->closing_debit - $report->closing_credit;
+        } elseif ($nature == Nature::$Income) {
             return $report->closing_credit - $report->closing_debit;
         }
         return $report->closing_credit + $report->closing_debit;
