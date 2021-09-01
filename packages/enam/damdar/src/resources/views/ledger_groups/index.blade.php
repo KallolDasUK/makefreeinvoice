@@ -26,29 +26,23 @@
         </div>
     @endif
 
-    <div>
-        <div class="btn-group btn-group-sm float-right" role="group">
 
-            <a href="{{ route('ledger_groups.ledger_group.trash') }}" class="btn btn-danger mx-2"
-               title="Trashed Ledger Group">
-                <span class="mdi mdi-trash-can" aria-hidden="true"></span>
-                Trashed ({{ \Enam\Acc\Models\LedgerGroup::onlyTrashed()->count() }})
-            </a>
-            <a href="{{ route('ledger_groups.ledger_group.create') }}" class="btn btn-success"
-               title="Create New Ledger Group">
-                <span class="mdi mdi-plus" aria-hidden="true"></span>
-                Create New Ledger Group
-            </a>
+    <div class="btn-group btn-group-sm float-right" role="group">
 
-        </div>
+        <a href="{{ route('ledger_groups.ledger_group.trash') }}" class="btn btn-danger mx-2"
+           title="Trashed Ledger Group">
+            <span class="mdi mdi-trash-can" aria-hidden="true"></span>
+            Trashed ({{ \Enam\Acc\Models\LedgerGroup::onlyTrashed()->count() }})
+        </a>
+        <a href="{{ route('ledger_groups.ledger_group.create') }}" class="btn btn-success"
+           title="Create New Ledger Group">
+            <span class="mdi mdi-plus" aria-hidden="true"></span>
+            Create New Ledger Group
+        </a>
     </div>
 
+    <p class="clearfix"></p>
     <div class="card">
-
-        <div class="card-heading clearfix">
-
-
-        </div>
 
         @if(count($ledgerGroups) == 0)
             <div class="card-body text-center">

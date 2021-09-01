@@ -473,7 +473,7 @@
                             Reports</p>
                         <ul class="links">
                             <li>
-                                <a href="{{ route('accounting.report.trial-balance') }}">Trial
+                                <a href="{{ route('reports.report.trial_balance') }}">Trial
                                     Balance</a>
                             </li>
                             <li>
@@ -481,23 +481,21 @@
                                     & Payment </a>
                             </li>
                             <li>
-                                <a href="{{ route('accounting.report.profit-loss') }}">Profit &
+                                <a href="{{ route('reports.report.loss_profit_report') }}">Profit &
                                     Loss </a>
                             </li>
                             <li>
-                                <a href="{{ route('accounting.report.ledger') }}">Ledger</a>
+                                <a href="{{ route('reports.report.ledger_report') }}">Ledger</a>
                             </li>
                             <li>
                                 <a href="{{ route('accounting.report.voucher') }}">Voucher </a>
                             </li>
                             <li>
-                                <a href="{{ route('accounting.report.cashbook') }}">Cashbook</a>
+                                <a href="{{ route('reports.report.cashbook') }}">Cashbook</a>
                             </li>
+
                             <li>
-                                <a href="{{ route('accounting.report.daybook') }}">Daybook </a>
-                            </li>
-                            <li>
-                                <a href="{{ route('accounting.report.voucher') }}">Balance
+                                <a href="{{ route('reports.report.trial_balance') }}">Balance
                                     Sheet </a>
                             </li>
 
@@ -622,7 +620,7 @@
                                                 Reports</p>
                                             <ul class="links">
                                                 <li>
-                                                    <a href="{{ route('accounting.report.trial-balance') }}">Trial
+                                                    <a href="{{ route('reports.report.trial_balance') }}">Trial
                                                         Balance</a>
                                                 </li>
                                                 <li>
@@ -634,17 +632,15 @@
                                                         Loss </a>
                                                 </li>
                                                 <li>
-                                                    <a href="{{ route('accounting.report.ledger') }}">Ledger</a>
+                                                    <a href="{{ route('reports.report.ledger_report') }}">Ledger</a>
                                                 </li>
                                                 <li>
                                                     <a href="{{ route('accounting.report.voucher') }}">Voucher </a>
                                                 </li>
                                                 <li>
-                                                    <a href="{{ route('accounting.report.cashbook') }}">Cashbook</a>
+                                                    <a href="{{ route('reports.report.cashbook') }}">Cashbook</a>
                                                 </li>
-                                                <li>
-                                                    <a href="{{ route('accounting.report.daybook') }}">Daybook </a>
-                                                </li>
+
                                                 <li>
                                                     <a href="{{ route('accounting.report.voucher') }}">Balance
                                                         Sheet </a>

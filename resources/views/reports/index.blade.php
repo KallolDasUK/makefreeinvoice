@@ -132,21 +132,15 @@
                 </a>
 
                 <a class="sc-gPEVay eaBhby @cannot('cash_book') pro-tag @endcannot"
-                   href="{{ route('accounting.report.cashbook') }}">
+                   href="{{ route('reports.report.cashbook') }}">
                     <div class="sc-iRbamj image" style="background-image:url('images/estimate.svg') ">
 
                     </div>
                     <div class="shortcuts-title sc-jlyJG gSoaLO title">Cash Book</div>
                 </a>
-                <a class="sc-gPEVay eaBhby @cannot('day_book') pro-tag @endcannot"
-                   href="{{ route('accounting.report.daybook') }}">
-                    <div class="sc-iRbamj image" style="background-image:url('images/estimate.svg') ">
 
-                    </div>
-                    <div class="shortcuts-title sc-jlyJG gSoaLO title">Day Book</div>
-                </a>
                 <a class="sc-gPEVay eaBhby  @cannot('balance_sheet') pro-tag @endcannot"
-                   href="{{ route('accounting.report.balance-sheet') }}">
+                   href="{{ route('reports.report.balance_sheet_report') }}">
                     <div class="sc-iRbamj image" style="background-image:url('images/estimate.svg') ">
 
                     </div>
