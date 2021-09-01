@@ -2,6 +2,7 @@
 
 namespace Enam\Acc\Models;
 
+use Enam\Acc\Traits\TransactionTrait;
 use Enam\Acc\Utils\EntryType;
 use Enam\Acc\Utils\LedgerHelper;
 use Illuminate\Database\Eloquent\Builder;
@@ -14,26 +15,9 @@ use function PHPUnit\Framework\isEmpty;
 class Ledger extends Model
 {
     use SoftDeletes;
+    use TransactionTrait;
 
-    /**
-     * The database table used by the model.
-     *
-     * @var string
-     */
-    protected $table = 'ledgers';
 
-    /**
-     * The database primary key value.
-     *
-     * @var string
-     */
-    protected $primaryKey = 'id';
-
-    /**
-     * Attributes that should be mass-assignable.
-     *
-     * @var array
-     */
     protected $fillable = [
         'ledger_name',
         'ledger_group_id',
@@ -44,24 +28,7 @@ class Ledger extends Model
         'type'
     ];
 
-    /**
-     * The attributes that should be mutated to dates.
-     *
-     * @var array
-     */
 
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
-    protected $casts = [];
-
-    /**
-     * Get the ledgerGroup for this model.
-     *
-     * @return Enam\Acc\Models\LedgerGroup
-     */
     public function ledgerGroup()
     {
         return $this->belongsTo('Enam\Acc\Models\LedgerGroup', 'ledger_group_id');
@@ -285,4 +252,11 @@ class Ledger extends Model
         return GroupMap::query()->where('key', LedgerHelper::$COST_OF_GOODS_SOLD)->first()->value ?? null;
     }
 
+    public function closingBalance($branch_id, $start_date, $end_date)
+    {
+
+
+        $report = $this->getLedgerReport($branch_id, $this->id, $start_date, $end_date);
+        return $report->closing_debit + $report->closing_credit;
+    }
 }

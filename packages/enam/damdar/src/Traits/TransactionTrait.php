@@ -335,10 +335,8 @@ trait TransactionTrait
             'closing_credit' => 0, 'closing_debit' => 0
         ];
 
-        $branch_name = optional(Branch::find($branch_id))->name;
         $ledger = Ledger::find($ledger_id);
         if ($ledger == null) {
-//            dd($ledger);
             return (object)$data;
         }
         $transaction_details = TransactionDetail::query()
@@ -364,7 +362,6 @@ trait TransactionTrait
             ->where('note', '!=', EntryType::$OPENING_BALANCE)
             ->where('date', '<', $start_date)
             ->sum('amount');
-
 
 //        dd($openingDebit, $openingCredit);
         if ($ledger->opening) {

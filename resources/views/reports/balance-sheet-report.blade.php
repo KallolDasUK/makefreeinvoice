@@ -160,80 +160,100 @@
 
                 <hr>
 
-                <div class="row">
+                <div class="row" style="min-height: 300px">
 
-
-                    <table class="col table mb-0  table-head-custom table-vertical-center ">
-                        <thead>
-                        <tr>
-                            <th>Particulars</th>
-                            <th style="text-align: center">Amount</th>
-                        </tr>
-                        </thead>
-                        @php($amount = 0)
-                        @foreach($incomeLedgers as $group_name=> $record)
+                    <div class="col"><table class=" table mb-0  table-head-custom table-vertical-center ">
+                            <thead>
                             <tr>
-                                <td style="font-weight: bolder"> {{ $group_name }}</td>
-                                <td></td>
+                                <th>Assets</th>
+                                <th style="text-align: center">Amount</th>
                             </tr>
-                            @foreach($record as $ledger)
+                            </thead>
+                            @php($asset = 0)
+                            @foreach($assets as $group_name => $records)
                                 <tr>
-                                    <td> <span
-                                            class="text-primary font-weight-bolder">→</span> <a
-                                            href="{{ route('reports.report.ledger_report',['ledger_id'=>$ledger['id']]) }}"> {{ $ledger['ledger_name'] }}
-                                    </td>
-                                    <td style="text-align: center"> {{ decent_format_dash($ledger['amount']) }}</td>
+                                    <td style="font-weight: bolder"> {{ $group_name }}</td>
+                                    <td></td>
                                 </tr>
-                                @php($amount = $amount + floatval($ledger['amount']))
+                                @php($amount = 0)
+                                @foreach($records as $record)
+                                    <tr>
+                                        <td>
+                                            <span class="text-primary font-weight-bolder">→</span>
+                                            @if($record->is_account)
+                                                <a href="{{ route('reports.report.ledger_report',['ledger_id'=>$record->id]) }}">
+                                                    {{ $record->account_name }}
+                                                </a>
+                                            @else
+                                                <span> {{ $record->account_name }}</span>
+                                            @endif
+                                        </td>
+                                        <td style="text-align: center"> {{ decent_format_dash($record->amount) }}</td>
+                                    </tr>
+                                    @php($amount = $amount + floatval($record->amount))
 
+                                @endforeach
+                                @if($amount!=0)
+                                    <tr>
+                                        <td style="font-weight: bolder">TOTAL {{ strtoupper($group_name) }}</td>
+                                        <td style="text-align: center"><b>{{ decent_format_dash($amount) }} </b></td>
+                                    </tr>
+                                @endif
+                                @php($asset += $amount)
                             @endforeach
-                        @endforeach
-                        <tr>
-                            <td><b>GROSS PROFIT</b></td>
-                            <td style="text-align: center"><b>{{ decent_format_dash($amount) }}</b></td>
-                        </tr>
-                    </table>
-
-                    <table class="col table mb-0  table-head-custom table-vertical-center ">
-
-                        <thead>
-                        <tr>
-                            <th>Particulars</th>
-                            <th style="text-align: center">Amount</th>
-
-                        </tr>
-                        </thead>
-                        @php($amount = 0)
-
-                        @foreach($expenseLedgers as $group_name=> $record)
                             <tr>
-                                <td style="font-weight: bolder"> {{ $group_name }}</td>
+                                <td><b>TOTAL ASSET</b></td>
+                                <td style="text-align: center"><b>{{ decent_format_dash($asset) }}</b></td>
                             </tr>
-                            @foreach($record as $ledger)
-                                <tr style="margin:15px">
-                                    <td> <span
-                                            class="text-primary font-weight-bolder">→</span> <a
-                                            href="{{ route('reports.report.ledger_report',['ledger_id'=>$ledger['id']]) }}"> {{ $ledger['ledger_name'] }}
-                                    </td>
-                                    <td style="text-align: center"> {{ decent_format_dash($ledger['amount']) }}</td>
+                        </table></div>
+                    <div class="col">
+                        <table class=" table mb-0  table-head-custom table-vertical-center ">
+                            <thead>
+                            <tr>
+                                <th>Liabilities & Equity</th>
+                                <th style="text-align: center">Amount</th>
+                            </tr>
+                            </thead>
+                            @php($lib = 0)
+                            @foreach($libs as $group_name => $records)
+                                <tr>
+                                    <td style="font-weight: bolder"> {{ $group_name }}</td>
+                                    <td></td>
                                 </tr>
-                                @php($amount = $amount + intval($ledger['amount']))
+                                @php($amount = 0)
+                                @foreach($records as $record)
+                                    <tr>
+                                        <td>
+                                            <span class="text-primary font-weight-bolder">→</span>
+                                            @if($record->is_account)
+                                                <a href="{{ route('reports.report.ledger_report',['ledger_id'=>$record->id]) }}">
+                                                    {{ $record->account_name }}
+                                                </a>
+                                            @else
+                                                <span> {!! $record->account_name !!}</span>
+                                            @endif
+                                        </td>
+                                        <td style="text-align: center"> {{ decent_format_dash($record->amount) }}</td>
+                                    </tr>
+                                    @php($amount = $amount + floatval($record->amount))
 
+                                @endforeach
+                                @if($amount!=0)
+                                    <tr>
+                                        <td style="font-weight: bolder">TOTAL {{ strtoupper($group_name) }}</td>
+                                        <td style="text-align: center"><b>{{ decent_format_dash($amount) }} </b></td>
+                                    </tr>
+                                @endif
+                                @php($lib += $amount)
                             @endforeach
-                        @endforeach
-                        <tr>
-                            <td>TOTAL EXPENSE</td>
-                            <td style="text-align: center">{{ decent_format_dash($amount) }}</td>
-                        </tr>
-                        <tr>
-                            <td style="color: black!important;" class="font-weight-bolder"> NET PROFIT (GROSS PROFIT -
-                                TOTAL EXPENSE)
-                            </td>
-                            <td style="text-align: center;color: black!important;">
-                                <b>{{ decent_format_dash($totalIncome-$totalExpense) }}</b></td>
-                        </tr>
+                            <tr>
+                                <td><b>TOTAL LIABILITIES</b></td>
+                                <td style="text-align: center"><b>{{ decent_format_dash($lib) }}</b></td>
+                            </tr>
+                        </table>
+                    </div>
 
-                    </table>
+
 
                 </div>
 
