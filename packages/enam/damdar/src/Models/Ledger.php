@@ -3,6 +3,7 @@
 namespace Enam\Acc\Models;
 
 use Enam\Acc\Utils\EntryType;
+use Enam\Acc\Utils\LedgerHelper;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -108,12 +109,12 @@ class Ledger extends Model
         return self::query()->get()->map(function ($ledger) use ($start_date, $end_date, $branch_id) {
             $openingBalance = 0;
             $transaction_details = $ledger->transaction_details()
-                                    ->where('type', '!=', Ledger::class)
-                                    ->where('ledger_id', $ledger->id)
-                                    ->when($branch_id != 'All', function ($query) use ($branch_id) {
-                                        return $query->where('branch_id', $branch_id);
-                                    })
-                                    ->whereBetween('date', [$start_date, $end_date])->get();
+                ->where('type', '!=', Ledger::class)
+                ->where('ledger_id', $ledger->id)
+                ->when($branch_id != 'All', function ($query) use ($branch_id) {
+                    return $query->where('branch_id', $branch_id);
+                })
+                ->whereBetween('date', [$start_date, $end_date])->get();
 
 
             // Opening Balance
@@ -257,6 +258,7 @@ class Ledger extends Model
         }
         return $currentBalance;
     }
+
     protected static function boot()
     {
         parent::boot();
@@ -266,6 +268,21 @@ class Ledger extends Model
                 $builder->where('client_id', auth()->user()->client_id ?? -1);
             }
         });
+    }
+
+    public static function CASH_AC()
+    {
+        return GroupMap::query()->where('key', LedgerHelper::$CASH_AC)->first()->value ?? null;
+    }
+
+    public static function PURCHASE_AC()
+    {
+        return GroupMap::query()->where('key', LedgerHelper::$PURCHASE_AC)->first()->value ?? null;
+    }
+
+    public static function COST_OF_GOODS_SOLD()
+    {
+        return GroupMap::query()->where('key', LedgerHelper::$COST_OF_GOODS_SOLD)->first()->value ?? null;
     }
 
 }

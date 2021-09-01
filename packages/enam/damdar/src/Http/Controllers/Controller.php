@@ -3,6 +3,7 @@
 namespace Enam\Acc\Http\Controllers;
 
 use Enam\Acc\Models\Ledger;
+use Enam\Acc\Models\LedgerGroup;
 use Enam\Acc\Models\Transaction;
 use Enam\Acc\Models\TransactionDetail;
 use Enam\Acc\Utils\EntryType;
@@ -123,5 +124,23 @@ class Controller extends BaseController
             unset($txnData['id']);
             TransactionDetail::create($txnData);
         }
+    }
+    public function getNode($group_id)
+    {
+        $g = LedgerGroup::find($group_id);
+
+        $groups = LedgerGroup::query()->where('parent', $group_id)->get();
+        $ledger = Ledger::query()->where('ledger_group_id', $g->id)->get()->map(function ($ledger) {
+            return ['text' => $ledger->ledger_name, 'href' => route('ledgers.ledger.edit', $ledger->id)];
+        })->toArray();
+        $nodes = $ledger;
+
+        foreach ($groups as $group) {
+            $ledger = Ledger::query()->where('ledger_group_id', $group->id)->get()->map(function ($ledger) {
+                return ['text' => $ledger->ledger_name, 'href' => route('ledgers.ledger.edit', $ledger->id)];
+            })->toArray();
+            $nodes[] = ['text' => $group->group_name, 'nodes' => $ledger + $this->getNode($group->id)];
+        }
+        return $nodes;
     }
 }

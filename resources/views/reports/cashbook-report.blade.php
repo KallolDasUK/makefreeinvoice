@@ -79,22 +79,28 @@
 
         <div class="card mb-2">
             <div class="card-body">
-                <form action="{{ route('reports.report.loss_profit_report') }}">
+                <form action="{{ route('reports.report.ledger_report') }}">
                     <div class="row align-items-end mb-4 mx-auto justify-content-center">
 
                         <div class="col">
                             <div class="row align-items-center">
-                                <div class="col-2"></div>
 
                                 <div class="input-daterange input-group" id="start_date">
+                                    <select id="ledger_id" name="ledger_id" class="col-2 form-control mr-2 " required style="display: none">
+                                        @foreach($ledgers as $id => $text)
+                                            <option value="{{ $id }}" @if($id == $ledger_id) selected @endif>{{ $text }}</option>
+                                        @endforeach
+                                    </select>
 
-                                    <select name="branch_id" class="col-2 form-control mr-2" title="Branch">
+                                    <select name="branch_id" class="col-2 form-control mx-2" title="Branch">
                                         <option> All</option>
                                         @foreach($branches as $id => $text)
                                             <option value="{{ $id }}"
                                                     @if($id == $branch_id) selected @endif>{{ $text }}</option>
                                         @endforeach
                                     </select>
+
+
                                     <input type="text" class="form-control col-2" name="start_date"
                                            value="{{ $start_date??'' }}"
                                            placeholder="Start">
@@ -139,107 +145,101 @@
         </div>
 
         <p class="clearfix"></p>
-        <div id="invoice-container" class="container-fluid invoice-container">
+        @if(count($data->records)>0)
+            <div id="invoice-container" class="container-fluid invoice-container">
 
-            <!-- Header -->
-            <header>
-                <div class="text-center">
+                <!-- Header -->
+                <header>
+                    <div class="text-center">
 
-                    @if($settings->business_name??false)
-                        <h3>{{ $settings->business_name }}</h3>
-                        <h1>Loss Profit Report</h1>
-                        <span>From {{ $start_date??'-' }} to {{ $end_date??'-' }}</span>
-                    @endif
-                </div>
+                        @if($settings->business_name??false)
+                            <h3>{{ $settings->business_name }}</h3>
+                            <h1>Cash Book Report </h1>
+                            <span>From {{ $start_date??'-' }} to {{ $end_date??'-' }}</span>
+                        @endif
+                    </div>
 
-                <hr>
-            </header>
+                    <hr>
+                </header>
 
-            <!-- Main Content -->
-            <main>
+                <!-- Main Content -->
+                <main>
 
-                <hr>
+                    <hr>
 
-                <div class="row">
+                    <div class="card">
 
+                        <div class="card-body p-0">
+                            <table class="table mb-0  table-head-custom table-vertical-center text-center">
+                                <thead>
 
-                    <table class="col table mb-0  table-head-custom table-vertical-center ">
-                        <thead>
-                        <tr>
-                            <th>Particulars</th>
-                            <th style="text-align: center">Amount</th>
-                        </tr>
-                        </thead>
-                        @php($amount = 0)
-                        @foreach($incomeLedgers as $group_name=> $record)
-                            <tr>
-                                <td style="font-weight: bolder"> {{ $group_name }}</td>
-                                <td></td>
-                            </tr>
-                            @foreach($record as $ledger)
                                 <tr>
-                                    <td> <span
-                                            class="text-primary font-weight-bolder">→</span> <a
-                                            href="{{ route('reports.report.ledger_report',['ledger_id'=>$ledger['id']]) }}">  {{ $ledger['ledger_name'] }}</td>
-                                    <td style="text-align: center"> {{ decent_format_dash($ledger['amount']) }}</td>
+                                    <th class="text-left">SL</th>
+                                    <th class="text-left">Date</th>
+                                    <th class="text-left">Details</th>
+                                    <th class="text-left">Type</th>
+                                    <th  class="text-left">REF</th>
+                                    <th style="text-align: center">Debit</th>
+                                    <th style="text-align: center">Credit</th>
                                 </tr>
-                                @php($amount = $amount + floatval($ledger['amount']))
 
-                            @endforeach
-                        @endforeach
-                        <tr>
-                            <td><b>GROSS PROFIT</b></td>
-                            <td style="text-align: center"><b>{{ decent_format_dash($amount) }}</b></td>
-                        </tr>
-                    </table>
-
-                    <table class="col table mb-0  table-head-custom table-vertical-center ">
-
-                        <thead>
-                        <tr>
-                            <th>Particulars</th>
-                            <th style="text-align: center">Amount</th>
-
-                        </tr>
-                        </thead>
-                        @php($amount = 0)
-
-                        @foreach($expenseLedgers as $group_name=> $record)
-                            <tr>
-                                <td style="font-weight: bolder"> {{ $group_name }}</td>
-                            </tr>
-                            @foreach($record as $ledger)
-                                <tr style="margin:15px">
-                                    <td> <span
-                                            class="text-primary font-weight-bolder">→</span> <a
-                                            href="{{ route('reports.report.ledger_report',['ledger_id'=>$ledger['id']]) }}">  {{ $ledger['ledger_name'] }}</td>
-                                    <td style="text-align: center"> {{ decent_format_dash($ledger['amount']) }}</td>
+                                </thead>
+                                <tbody>
+                                <tr style="font-weight: bolder;text-align: center">
+                                    <td></td>
+                                    <td colspan="4" class="text-left">OPENING BALANCE</td>
+                                    <td>{{ decent_format_dash($data->opening_debit??0) }}</td>
+                                    <td>{{ decent_format_dash($data->opening_credit??0) }}</td>
                                 </tr>
-                                @php($amount = $amount + intval($ledger['amount']))
 
-                            @endforeach
-                        @endforeach
-                        <tr>
-                            <td>TOTAL EXPENSE</td>
-                            <td style="text-align: center">{{ decent_format_dash($amount) }}</td>
-                        </tr>
-                        <tr>
-                            <td style="color: black!important;" class="font-weight-bolder"> NET PROFIT (GROSS PROFIT - TOTAL EXPENSE)</td>
-                            <td style="text-align: center;color: black!important;"><b>{{ decent_format_dash($totalIncome-$totalExpense) }}</b></td>
-                        </tr>
+                                @php($dr = $data->opening_debit??0)
+                                @php($cr = $data->opening_credit??0)
+                                @foreach($data->records??[] as $txnDetail)
+                                    <tr>
+                                        <td  class="text-left">{{ $loop->iteration }} </td>
+                                        <td  class="text-left">{{ \Carbon\Carbon::parse($txnDetail->date)->toDateString() }}</td>
+                                        <td  class="text-left">{!! str_replace('\n','</br>',$txnDetail->transaction_details) !!}</td>
+                                        <td  class="text-left">{{ optional($txnDetail->transaction)->txn_type }}</td>
+                                        <td  class="text-left">{{ $txnDetail->ref??optional($txnDetail->transaction)->voucher_no }}</td>
 
-                    </table>
+                                        @if($txnDetail->entry_type == \Enam\Acc\Utils\EntryType::$DR)
+                                            <td style="text-align: center">{{ decent_format_dash($txnDetail->amount )}}</td>
+                                            <td style="text-align: center">-</td>
+                                            @php($dr +=$txnDetail->amount)
+                                        @else
+                                            <td style="text-align: center">-</td>
+                                            <td style="text-align: center">{{ decent_format_dash($txnDetail->amount) }}</td>
+                                            @php($cr +=$txnDetail->amount)
 
-                </div>
+                                        @endif
+
+                                    </tr>
+                                @endforeach
+                                <tr style="font-weight: bolder;text-align: center">
+                                    <td></td>
+                                    <td  class="text-left" colspan="4">CLOSING BALANCE</td>
+                                    @if($dr>$cr)
+                                        <td>{{ decent_format_dash($dr-$cr) }}</td>
+                                        <td>-</td>
+                                    @else
+                                        <td>-</td>
+
+                                        <td>{{ decent_format_dash($cr-$dr) }}</td>
+                                    @endif
+                                </tr>
 
 
+                                </tbody>
+                            </table>
+                        </div>
 
-            </main>
-            <!-- Footer -->
+                    </div>
+                </main>
+                <!-- Footer -->
 
 
-        </div>
-
+            </div>
+        @endif
 
     </div>
 
@@ -279,5 +279,8 @@
         $('[data-toggle="popover"]').popover()
 
 
+        $(document).ready(function () {
+            // $('#ledger_id').select2({placeholder: 'Select Ledger'})
+        })
     </script>
 @endpush

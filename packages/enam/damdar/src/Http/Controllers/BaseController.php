@@ -37,10 +37,10 @@ class BaseController extends Controller
     {
         View::share('title', 'Chart of Accounts');
 
-        $data = [];
 
         $ledger_groups = LedgerGroup::all();
         $ledger = Ledger::all();
+        $data = [];
         foreach (['Asset', 'Liabilities', 'Income', 'Expense'] as $acc) {
 
             $groups = LedgerGroup::query()->where('nature', $acc)->get();
@@ -49,35 +49,12 @@ class BaseController extends Controller
                 $nodes[] = ['text' => $group->group_name, 'nodes' => $this->getNode($group->id)];
             }
             $data[] = ['text' => $acc, 'nodes' => $nodes];
-//            if (empty($data[1]['nodes'])) {
-//                unset($data[1]['nodes']);
-//            }
-
         }
-//        dd($data);
-//        dd(json_encode($data));
-//        return json_encode($data);
+
         return view('acc::others.coa', compact('data'));
     }
 
-    public function getNode($group_id)
-    {
-        $g = LedgerGroup::find($group_id);
 
-        $groups = LedgerGroup::query()->where('parent', $group_id)->get();
-        $ledger = Ledger::query()->where('ledger_group_id', $g->id)->get()->map(function ($ledger) {
-            return ['text' => $ledger->ledger_name, 'href' => route('ledgers.ledger.edit', $ledger->id)];
-        })->toArray();
-        $nodes = $ledger;
-
-        foreach ($groups as $group) {
-            $ledger = Ledger::query()->where('ledger_group_id', $group->id)->get()->map(function ($ledger) {
-                return ['text' => $ledger->ledger_name, 'href' => route('ledgers.ledger.edit', $ledger->id)];
-            })->toArray();
-            $nodes[] = ['text' => $group->group_name, 'nodes' => $ledger + $this->getNode($group->id)];
-        }
-        return $nodes;
-    }
 
 
 }

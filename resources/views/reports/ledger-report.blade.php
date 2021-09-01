@@ -86,7 +86,8 @@
                             <div class="row align-items-center">
 
                                 <div class="input-daterange input-group" id="start_date">
-                                    <select id="ledger_id" name="ledger_id" class="col-2 form-control mr-2" required>
+                                    <select id="ledger_id" name="ledger_id" class="col-3 form-control mr-2" required>
+                                        <option ></option>
                                         @foreach($ledgers as $id => $text)
                                             <option value="{{ $id }}" @if($id == $ledger_id) selected @endif>{{ $text }}</option>
                                         @endforeach
@@ -154,7 +155,7 @@
 
                         @if($settings->business_name??false)
                             <h3>{{ $settings->business_name }}</h3>
-                            <h1>Account Transactions </h1>
+                            <h1>Account/Ledger Transactions </h1>
                             <h3>{{ optional(\Enam\Acc\Models\Ledger::find($ledger_id))->ledger_name }}</h3>
                             <span>From {{ $start_date??'-' }} to {{ $end_date??'-' }}</span>
                         @endif
@@ -188,7 +189,7 @@
                                 <tbody>
                                 <tr style="font-weight: bolder;text-align: center">
                                     <td></td>
-                                    <td colspan="4" class="text-left">Opening Balance</td>
+                                    <td colspan="4" class="text-left">OPENING BALANCE</td>
                                     <td>{{ decent_format_dash($data->opening_debit??0) }}</td>
                                     <td>{{ decent_format_dash($data->opening_credit??0) }}</td>
                                 </tr>
@@ -218,7 +219,7 @@
                                 @endforeach
                                 <tr style="font-weight: bolder;text-align: center">
                                     <td></td>
-                                    <td  class="text-left" colspan="4">Closing Balance</td>
+                                    <td  class="text-left" colspan="4">CLOSING BALANCE</td>
                                     @if($dr>$cr)
                                         <td>{{ decent_format_dash($dr-$cr) }}</td>
                                         <td>-</td>
@@ -281,7 +282,7 @@
 
 
         $(document).ready(function () {
-            $('#ledger_id').select2({placeholder: 'Select Ledger'})
+            $('#ledger_id').select2({placeholder: 'Select Account/Ledger'})
         })
     </script>
 @endpush

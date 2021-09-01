@@ -12,6 +12,7 @@ use Carbon\Carbon;
 use Enam\Acc\Http\Controllers\AccountingReportsController;
 use Enam\Acc\Models\Branch;
 use Enam\Acc\Models\Ledger;
+use Enam\Acc\Models\LedgerGroup;
 use Illuminate\Http\Request;
 
 class ReportController extends AccountingReportsController
@@ -101,20 +102,17 @@ class ReportController extends AccountingReportsController
         return view('reports.loss-profit', compact('title', 'start_date', 'end_date', 'branch_name', 'branches', 'branch_id') + $data);
     }
 
+
     public function ledgerReport(Request $request)
     {
         $start_date = $request->start_date ?? today()->startOfYear()->toDateString();
         $end_date = $request->end_date ?? today()->toDateString();
         $branch_id = $request->branch_id ?? null;
         $ledger_id = $request->ledger_id ?? null;
-        $title = "Ledger Reports";
+        $title = "Account/Ledger Reports";
         $branches = Branch::pluck('name', 'id')->all();
         $ledgers = Ledger::pluck('ledger_name', 'id')->all();
-
-//        dd(auth()->user()->client_id);
-
         $data = $this->getLedgerReport($branch_id, $ledger_id, $start_date, $end_date);
-
         $branch_name = optional(Branch::find($request->branch_id))->name ?? "All";
 
         return view('reports.ledger-report', compact('title', 'start_date',
@@ -122,4 +120,49 @@ class ReportController extends AccountingReportsController
             'branch_id'));
     }
 
+    public function cashbookReport(Request $request)
+    {
+        $start_date = $request->start_date ?? today()->startOfYear()->toDateString();
+        $end_date = $request->end_date ?? today()->toDateString();
+        $branch_id = $request->branch_id ?? null;
+        $ledger_id = Ledger::CASH_AC();
+        $title = "Cash Book Reports";
+        $branches = Branch::pluck('name', 'id')->all();
+        $ledgers = Ledger::pluck('ledger_name', 'id')->all();
+        $data = $this->getLedgerReport($branch_id, $ledger_id, $start_date, $end_date);
+        $branch_name = optional(Branch::find($request->branch_id))->name ?? "All";
+
+        return view('reports.cashbook-report', compact('title', 'start_date',
+            'end_date', 'ledgers', 'ledger_id', 'data', 'branches', 'branch_name',
+            'branch_id'));
+    }
+
+    public function balanceSheetReport(Request $request)
+    {
+
+        $this->authorize('balance_sheet');
+
+        $data = [];
+        foreach (['Asset', 'Liabilities', 'Income', 'Expense'] as $acc) {
+
+            $groups = LedgerGroup::query()->where('nature', $acc)->get();
+            $nodes = [];
+            foreach ($groups as $group) {
+                $nodes[] = ['text' => $group->group_name, 'nodes' => $group->group_name];
+            }
+            $data[$acc][] = ['text' => $acc, 'nodes' => $nodes];
+        }
+
+        dd($data,'Working');
+        $start_date = $request->start_date ?? today()->startOfYear()->toDateString();
+        $end_date = $request->end_date ?? today()->toDateString();
+        $branch_id = $request->branch_id ?? null;
+        $title = "Balance Sheet Report";
+        $branches = Branch::pluck('name', 'id')->all();
+
+        $data = $this->getProfitLossReport($start_date, $end_date, $branch_id);
+        $branch_name = optional(Branch::find($request->branch_id))->name ?? "All";
+
+        return view('reports.balance-sheet-report', compact('title', 'start_date', 'end_date', 'branch_name', 'branches', 'branch_id') + $data);
+    }
 }

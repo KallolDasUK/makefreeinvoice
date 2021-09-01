@@ -286,6 +286,8 @@ Route::group(['prefix' => 'reports'], function () {
     Route::get('/trial-balance', [ReportController::class, 'trialBalance'])->name('reports.report.trial_balance');
     Route::get('/ledger-report', [ReportController::class, 'ledgerReport'])->name('reports.report.ledger_report');
     Route::get('/loss-profit', [ReportController::class, 'lossProfitReport'])->name('reports.report.loss_profit_report');
+    Route::get('/cash-book', [ReportController::class, 'cashbookReport'])->name('reports.report.cashbook');
+    Route::get('/balance-sheet', [ReportController::class, 'balanceSheetReport'])->name('reports.report.balance_sheet_report');
 
 });
 
