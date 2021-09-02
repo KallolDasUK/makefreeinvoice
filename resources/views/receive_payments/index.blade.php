@@ -37,8 +37,8 @@
         @else
             <div class="card-body">
 
-                <div class="table-responsive">
-                    <table class="table table-bordered">
+                <div>
+                    <table class=" table mb-0  table-head-custom table-vertical-center ">
                         <thead>
                         <tr>
                             <th>SL</th>

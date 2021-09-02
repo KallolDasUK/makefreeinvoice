@@ -36,8 +36,7 @@
         @else
         <div class="card-body">
 
-            <div class="table-responsive">
-                <table class="table table-striped table-sm">
+                <table class=" table mb-0  table-head-custom table-vertical-center ">
                     <thead>
                         <tr>
                                 <th>Date</th>
@@ -81,7 +80,6 @@
                     </tbody>
                 </table>
 
-            </div>
         </div>
 
         <div class="card-footer">

@@ -99,9 +99,9 @@
                 value="{{ product_id }}" index="{{ i }}" required>
                             <option disabled selected value=""> -- </option>
                             {{ #each products:i }}
-        <option value="{{ id }}" > {{ name }}</option>
+                             <option value="{{ id }}" > {{ name }}</option>
                             {{ /each }}
-        </select>
+                 </select>
         </div>
             </td>
             <td><select style="width: 100%" id='reasonSelect{{ i }}' class="reasonSelect form-control input-sm "

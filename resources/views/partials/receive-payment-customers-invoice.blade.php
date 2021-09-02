@@ -1,12 +1,14 @@
 @foreach($invoices as $invoice)
     <tr>
         <td> {{ $invoice->invoice_date }} <br>
-            @if($invoice->due_date)
-                <small> <span class="text-muted">Due Date</span>: {{ $invoice->due_date }} </small>
-            @endif
+
 
         </td>
-        <td> {{ $invoice->invoice_number }} </td>
+        <td><a target="_blank"
+               href="{{ route('invoices.invoice.show',$invoice->id) }}">{{ $invoice->invoice_number }}</a></td>
+        <td> {{ $invoice->due_date??'-' }} </td>
+
+
         <td class="text-right"> {{ $invoice->total }} </td>
         <td class="text-right"> {{ $invoice->due }} </td>
         <td class="text-right" style="width:16%; position: relative;">
@@ -19,7 +21,8 @@
     </tr>
 @endforeach
 <tr>
-    <td colspan="2" style="padding-top: 0px;"></td>
+    <td colspan="3" style="padding-top: 0px;"></td>
     <td colspan="2" class="text-right">Total</td>
-    <td class="text-right"><input type="text" name="totalAmount" class="form-control" style="cursor: no-drop" id="totalAmount"/></td>
+    <td class="text-right"><input type="text" name="totalAmount" class="form-control" readonly style="cursor: no-drop"
+                                  id="totalAmount"/></td>
 </tr>

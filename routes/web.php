@@ -223,6 +223,7 @@ Route::group(['middleware' => 'auth:web', 'prefix' => 'app'], function () {
      * */
     Route::group(['prefix' => 'ajax'], function () {
         Route::post('/invoice-payment-customers-invoice', [AjaxController::class, 'receivePaymentCustomerInvoice'])->name('receive-payment-customers-invoice');
+        Route::post('/invoice-payment-transactions/{invoice}', [AjaxController::class, 'invoicePaymentTransactions'])->name('invoices.invoice.payments');
         Route::post('/invoice-payment', [AjaxController::class, 'invoicePayment'])->name('ajax.recordPayment');
         Route::post('/bill-payment', [AjaxController::class, 'billPayment'])->name('ajax.billPayment');
     });

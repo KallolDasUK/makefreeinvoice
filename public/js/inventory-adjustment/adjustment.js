@@ -111,6 +111,7 @@ function calculate(product_id, lineIndex) {
     if (product.length)
         product = product[0];
     ractive.set(`inventory_adjustment_items.${lineIndex}.product_id`, product.id)
+    ractive.set(`inventory_adjustment_items.${lineIndex}.stock`, product.stock)
 
 
     calculateOthers()
@@ -141,7 +142,6 @@ $('#createReasonForm').validate({
                 let i = $('#createReasonForm').attr('index') || 0;
                 ractive.push('reasons', response)
                 ractive.set(`inventory_adjustment_items.${i}.reason_id`, response.id)
-
 
 
                 $('#createReasonForm').trigger("reset");

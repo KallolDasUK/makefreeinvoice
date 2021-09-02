@@ -19,8 +19,23 @@ class AjaxController extends Controller
     {
         $customer = Customer::find($request->customer_id);
 
-        $invoices = Invoice::query()->where('customer_id', $customer->id)->get();
+        $invoices = Invoice::query()
+            ->where('customer_id', $customer->id)
+            ->where('payment_status', '!=', Invoice::Paid)
+            ->get();
         return view('partials.receive-payment-customers-invoice', compact('invoices'));
+
+
+    }
+
+    public function invoicePaymentTransactions(Request $request, $invoice)
+    {
+
+//        dd($request->all(), $invoice);
+        $invoice = Invoice::find($invoice);
+        $payments = $invoice->payments()->get();
+
+        return view('partials.invoice_payment_transactions', compact('payments'));
 
 
     }
@@ -71,6 +86,12 @@ class AjaxController extends Controller
 
         session()->flash('success_message', 'Payment Recorded Successfully for Bill ' . $bill->bill_number);
         return ['success_message' => 'Payment Recorded Successfully for Bill ' . $bill->bill_number];
+    }
+
+
+    public function getInvoicePaymentList(Request $request, $invoice)
+    {
+
     }
 
 }
