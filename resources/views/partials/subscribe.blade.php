@@ -63,8 +63,8 @@
                                     </div>
                                     <h4 class="font-size-h3 mb-10 text-dark">Free Plan</h4>
                                     <div class="d-flex flex-column pb-7 text-dark-50">
-                                        <span>Lorem ipsum dolor adipiscing</span>
-                                        <span>do eiusmod tempors</span>
+                                        <span>For small business </span>
+                                        <span>with basic needs</span>
                                     </div>
                                     <span class="font-size-h1 font-weight-boldest text-dark">0
 															<sup
@@ -72,31 +72,31 @@
                                     <!--begin::Mobile Pricing Table-->
                                     <div class="d-lg-none">
                                         <div class="bg-gray-100 py-3">
-                                            <span class="font-weight-boldest">Number Of Users</span>
-                                            <span>Up to 10k</span>
+                                            <span class="font-weight-boldest">Number Of Invoices</span>
+                                            <span>Unlimited</span>
                                         </div>
                                         <div class="py-3">
-                                            <span class="font-weight-boldest">Domains</span>
-                                            <span>1</span>
-                                        </div>
-                                        <div class="bg-gray-100 py-3">
-                                            <span class="font-weight-boldest">Projects</span>
-                                            <span>5</span>
-                                        </div>
-                                        <div class="py-3">
-                                            <span class="font-weight-boldest">Storage</span>
-                                            <span>5GB</span>
-                                        </div>
-                                        <div class="bg-gray-100 py-3">
-                                            <span class="font-weight-boldest">Supporet</span>
-                                            <span>No</span>
-                                        </div>
-                                        <div class="py-3">
-                                            <span class="font-weight-boldest">Tutorials</span>
+                                            <span class="font-weight-boldest">Bills</span>
                                             <span>No</span>
                                         </div>
                                         <div class="bg-gray-100 py-3">
-                                            <span class="font-weight-boldest">Cancelation</span>
+                                            <span class="font-weight-boldest">Expense</span>
+                                            <span>No</span>
+                                        </div>
+                                        <div class="py-3">
+                                            <span class="font-weight-boldest">Stock Management</span>
+                                            <span>No</span>
+                                        </div>
+                                        <div class="bg-gray-100 py-3">
+                                            <span class="font-weight-boldest">Accounting</span>
+                                            <span>No</span>
+                                        </div>
+                                        <div class="py-3">
+                                            <span class="font-weight-boldest">Unlimited Customer</span>
+                                            <span>Yes</span>
+                                        </div>
+                                        <div class="bg-gray-100 py-3">
+                                            <span class="font-weight-boldest">Unlimited Vendors</span>
                                             <span>Yes</span>
                                         </div>
                                     </div>
@@ -136,10 +136,10 @@
                                                                     <!--end::Svg Icon-->
 																</span>
                                     </div>
-                                    <h4 class="font-size-h3 mb-10 text-dark">Standard</h4>
+                                    <h4 class="font-size-h3 mb-10 text-dark">Basic</h4>
                                     <div class="d-flex flex-column pb-7 text-dark-50">
-                                        <span>Lorem ipsum dolor adipiscing</span>
-                                        <span>do eiusmod tempors</span>
+                                        <span>For Medium Business</span>
+                                        <span>Best fits for small business and freelancers</span>
                                     </div>
                                     <span class="font-size-h1 font-weight-boldest text-dark">3.99
 															<sup
@@ -147,31 +147,31 @@
                                     <!--begin::Mobile Pricing Table-->
                                     <div class="d-lg-none">
                                         <div class="bg-gray-100 py-3">
-                                            <span class="font-weight-boldest">Number Of Users</span>
-                                            <span>Up to 100k</span>
+                                            <span class="font-weight-boldest">Number Of Invoices</span>
+                                            <span>Unlimited</span>
                                         </div>
                                         <div class="py-3">
-                                            <span class="font-weight-boldest">Domains</span>
-                                            <span>20</span>
-                                        </div>
-                                        <div class="bg-gray-100 py-3">
-                                            <span class="font-weight-boldest">Projects</span>
-                                            <span>100</span>
-                                        </div>
-                                        <div class="py-3">
-                                            <span class="font-weight-boldest">Storage</span>
-                                            <span>200GB</span>
-                                        </div>
-                                        <div class="bg-gray-100 py-3">
-                                            <span class="font-weight-boldest">Supporet</span>
-                                            <span>Yes</span>
-                                        </div>
-                                        <div class="py-3">
-                                            <span class="font-weight-boldest">Tutorials</span>
+                                            <span class="font-weight-boldest">Bills</span>
                                             <span>Yes</span>
                                         </div>
                                         <div class="bg-gray-100 py-3">
-                                            <span class="font-weight-boldest">Cancelation</span>
+                                            <span class="font-weight-boldest">Expense</span>
+                                            <span>Yes</span>
+                                        </div>
+                                        <div class="py-3">
+                                            <span class="font-weight-boldest">Stock Management</span>
+                                            <span>Yes</span>
+                                        </div>
+                                        <div class="bg-gray-100 py-3">
+                                            <span class="font-weight-boldest">Accounting</span>
+                                            <span>No</span>
+                                        </div>
+                                        <div class="py-3">
+                                            <span class="font-weight-boldest">Unlimited Customer</span>
+                                            <span>Yes</span>
+                                        </div>
+                                        <div class="bg-gray-100 py-3">
+                                            <span class="font-weight-boldest">Unlimited Vendors</span>
                                             <span>Yes</span>
                                         </div>
                                     </div>
@@ -210,10 +210,10 @@
                                                                     <!--end::Svg Icon-->
 																</span>
                                     </div>
-                                    <h4 class="font-size-h3 mb-10 text-dark">Enterprise</h4>
+                                    <h4 class="font-size-h3 mb-10 text-dark">Premium</h4>
                                     <div class="d-flex flex-column pb-7 text-dark-50">
-                                        <span>Lorem ipsum dolor adipiscing</span>
-                                        <span>do eiusmod tempors</span>
+                                        <span>For Large Scale Business</span>
+                                        <span>Lots of extensive features</span>
                                     </div>
                                     <span class="font-size-h1 font-weight-boldest text-dark">9.99
 															<sup
@@ -285,10 +285,10 @@
                                                                     <!--end::Svg Icon-->
 																</span>
                                     </div>
-                                    <h4 class="font-size-h3 mb-10 text-dark">Standard</h4>
+                                    <h4 class="font-size-h3 mb-10 text-dark">Basic</h4>
                                     <div class="d-flex flex-column pb-7 text-dark-50">
-                                        <span>Lorem ipsum dolor adipiscing</span>
-                                        <span>do eiusmod tempors</span>
+                                        <span>For Medium Business</span>
+                                        <span>Best fits for small business and freelancers</span>
                                     </div>
                                     <span class="font-size-h1 font-weight-boldest text-dark">21.00
 															<sup
@@ -296,31 +296,31 @@
                                     <!--begin::Mobile Pricing Table-->
                                     <div class="d-lg-none">
                                         <div class="bg-gray-100 py-3">
-                                            <span class="font-weight-boldest">Number Of Users</span>
-                                            <span>Up to 100k</span>
+                                            <span class="font-weight-boldest">Number Of Invoices</span>
+                                            <span>Unlimited</span>
                                         </div>
                                         <div class="py-3">
-                                            <span class="font-weight-boldest">Domains</span>
-                                            <span>20</span>
-                                        </div>
-                                        <div class="bg-gray-100 py-3">
-                                            <span class="font-weight-boldest">Projects</span>
-                                            <span>100</span>
-                                        </div>
-                                        <div class="py-3">
-                                            <span class="font-weight-boldest">Storage</span>
-                                            <span>200GB</span>
-                                        </div>
-                                        <div class="bg-gray-100 py-3">
-                                            <span class="font-weight-boldest">Supporet</span>
-                                            <span>Yes</span>
-                                        </div>
-                                        <div class="py-3">
-                                            <span class="font-weight-boldest">Tutorials</span>
+                                            <span class="font-weight-boldest">Bills</span>
                                             <span>Yes</span>
                                         </div>
                                         <div class="bg-gray-100 py-3">
-                                            <span class="font-weight-boldest">Cancelation</span>
+                                            <span class="font-weight-boldest">Expense</span>
+                                            <span>Yes</span>
+                                        </div>
+                                        <div class="py-3">
+                                            <span class="font-weight-boldest">Stock Management</span>
+                                            <span>Yes</span>
+                                        </div>
+                                        <div class="bg-gray-100 py-3">
+                                            <span class="font-weight-boldest">Accounting</span>
+                                            <span>No</span>
+                                        </div>
+                                        <div class="py-3">
+                                            <span class="font-weight-boldest">Unlimited Customer</span>
+                                            <span>Yes</span>
+                                        </div>
+                                        <div class="bg-gray-100 py-3">
+                                            <span class="font-weight-boldest">Unlimited Vendors</span>
                                             <span>Yes</span>
                                         </div>
                                     </div>
@@ -360,10 +360,10 @@
                                                                     <!--end::Svg Icon-->
 																</span>
                                     </div>
-                                    <h4 class="font-size-h3 mb-10 text-dark">Enterprise</h4>
+                                    <h4 class="font-size-h3 mb-10 text-dark">Premium</h4>
                                     <div class="d-flex flex-column pb-7 text-dark-50">
-                                        <span>Lorem ipsum dolor adipiscing</span>
-                                        <span>do eiusmod tempors</span>
+                                        <span>For Large Business </span>
+                                        <span>Lots of extensive features</span>
                                     </div>
                                     <span class="font-size-h1 font-weight-boldest text-dark">49.99
 															<sup
@@ -371,31 +371,31 @@
                                     <!--begin::Mobile Pricing Table-->
                                     <div class="d-lg-none">
                                         <div class="bg-gray-100 py-3">
-                                            <span class="font-weight-boldest">Number Of Users</span>
+                                            <span class="font-weight-boldest">Number Of Invoices</span>
                                             <span>Unlimited</span>
                                         </div>
                                         <div class="py-3">
-                                            <span class="font-weight-boldest">Domains</span>
-                                            <span>100</span>
-                                        </div>
-                                        <div class="bg-gray-100 py-3">
-                                            <span class="font-weight-boldest">Projects</span>
-                                            <span>500</span>
-                                        </div>
-                                        <div class="py-3">
-                                            <span class="font-weight-boldest">Storage</span>
-                                            <span>Unlimited</span>
-                                        </div>
-                                        <div class="bg-gray-100 py-3">
-                                            <span class="font-weight-boldest">Supporet</span>
-                                            <span>Yes</span>
-                                        </div>
-                                        <div class="py-3">
-                                            <span class="font-weight-boldest">Tutorials</span>
+                                            <span class="font-weight-boldest">Bills</span>
                                             <span>Yes</span>
                                         </div>
                                         <div class="bg-gray-100 py-3">
-                                            <span class="font-weight-boldest">Cancelation</span>
+                                            <span class="font-weight-boldest">Expense</span>
+                                            <span>Yes</span>
+                                        </div>
+                                        <div class="py-3">
+                                            <span class="font-weight-boldest">Stock Management</span>
+                                            <span>Yes</span>
+                                        </div>
+                                        <div class="bg-gray-100 py-3">
+                                            <span class="font-weight-boldest">Accounting</span>
+                                            <span>Yes</span>
+                                        </div>
+                                        <div class="py-3">
+                                            <span class="font-weight-boldest">Unlimited Customer</span>
+                                            <span>Yes</span>
+                                        </div>
+                                        <div class="bg-gray-100 py-3">
+                                            <span class="font-weight-boldest">Unlimited Vendors</span>
                                             <span>Yes</span>
                                         </div>
                                     </div>
@@ -417,52 +417,49 @@
                         <div class="row bg-gray-100 py-5 font-weight-bold text-center">
                             <div class="col-3 text-left px-5 font-weight-boldest">Plan</div>
                             <div class="col-3 font-weight-boldest">Free</div>
-                            <div class="col-3 font-weight-boldest">Standard</div>
-                            <div class="col-3 font-weight-boldest">Enterprise</div>
+                            <div class="col-3 font-weight-boldest">Basic</div>
+                            <div class="col-3 font-weight-boldest">Premium</div>
                         </div>
                         <!-- begin: Bottom Table-->
                         <div class="row bg-gray-100 py-5 font-weight-bold text-center">
-                            <div class="col-3 text-left px-5 font-weight-boldest">Number Of Users</div>
-                            <div class="col-3">Up to 10k</div>
-                            <div class="col-3">Up to 100k</div>
-                            <div class="col-3">Unlimited</div>
-                        </div>
-                        <div class="row bg-white py-5 font-weight-bold text-center">
-                            <div class="col-3 text-left px-5 font-weight-boldest">Domains</div>
-                            <div class="col-3">1</div>
-                            <div class="col-3">20</div>
-                            <div class="col-3">10</div>
-                        </div>
-                        <div class="row bg-gray-100 py-5 font-weight-bold text-center">
-                            <div class="col-3 text-left px-5 font-weight-boldest">Projects</div>
-                            <div class="col-3">5</div>
-                            <div class="col-3">100</div>
-                            <div class="col-3">500</div>
-                        </div>
-                        <div class="row bg-white py-5 font-weight-bold text-center">
-                            <div class="col-3 text-left px-5 font-weight-boldest">Storage</div>
-                            <div class="col-3">5GB</div>
-                            <div class="col-3">200GB</div>
-                            <div class="col-3">Unlimited</div>
-                        </div>
-                        <div class="row bg-gray-100 py-5 font-weight-bold text-center">
-                            <div class="col-3 text-left px-5 font-weight-boldest">Supporet</div>
-                            <div class="col-3">No</div>
+                            <div class="col-3 text-left px-5 font-weight-boldest">Invoice</div>
                             <div class="col-3">Yes</div>
                             <div class="col-3">Yes</div>
+                            <div class="col-3">Yes</div>
+
+                        </div>
+                        <div class="row bg-gray-100 py-5 font-weight-bold text-center">
+                            <div class="col-3 text-left px-5 font-weight-boldest">Estimates</div>
+                            <div class="col-3">Yes</div>
+                            <div class="col-3">Yes</div>
+                            <div class="col-3">Yes</div>
+
                         </div>
                         <div class="row bg-white py-5 font-weight-bold text-center">
-                            <div class="col-3 text-left px-5 font-weight-boldest">Tutorials</div>
+                            <div class="col-3 text-left px-5 font-weight-boldest">Bill</div>
                             <div class="col-3">No</div>
                             <div class="col-3">Yes</div>
                             <div class="col-3">Yes</div>
                         </div>
                         <div class="row bg-gray-100 py-5 font-weight-bold text-center">
-                            <div class="col-3 text-left px-5 font-weight-boldest">Cancelation</div>
-                            <div class="col-3">Yes</div>
+                            <div class="col-3 text-left px-5 font-weight-boldest">Expense</div>
+                            <div class="col-3">No</div>
                             <div class="col-3">Yes</div>
                             <div class="col-3">Yes</div>
                         </div>
+                        <div class="row bg-white py-5 font-weight-bold text-center">
+                            <div class="col-3 text-left px-5 font-weight-boldest">Stock Management</div>
+                            <div class="col-3">No</div>
+                            <div class="col-3">Yes</div>
+                            <div class="col-3">Yes</div>
+                        </div>
+                        <div class="row bg-gray-100 py-5 font-weight-bold text-center">
+                            <div class="col-3 text-left px-5 font-weight-boldest">Accounting</div>
+                            <div class="col-3">No</div>
+                            <div class="col-3">No</div>
+                            <div class="col-3">Yes</div>
+                        </div>
+
                         <!-- end: Bottom Table-->
                     </div>
                 </div>

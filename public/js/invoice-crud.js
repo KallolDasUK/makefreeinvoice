@@ -46,7 +46,7 @@ $(document).ready(function () {
             });
         },
         rules: {
-            name_on_card: {
+            name: {
                 required: true,
             },
             sell_price: {
