@@ -320,6 +320,27 @@
                     </div>
                     <div class="shortcuts-title sc-jlyJG gSoaLO title">Cashbook</div>
                 </a>
+                <a class="sc-gPEVay eaBhby  @cannot('create',\App\Models\Invoice::class) pro-tag @endcannot"
+                        href="{{ route('products.product.index') }}">
+                    <div class="sc-iRbamj image" style="background-image:url('images/estimate.svg') ">
+
+                    </div>
+                    <div class="shortcuts-title sc-jlyJG gSoaLO title">Products</div>
+                </a>
+                <a class="sc-gPEVay eaBhby  @cannot('create',\App\Models\Invoice::class) pro-tag @endcannot"
+                        href="{{ route('customers.customer.index') }}">
+                    <div class="sc-iRbamj image" style="background-image:url('images/estimate.svg') ">
+
+                    </div>
+                    <div class="shortcuts-title sc-jlyJG gSoaLO title">Customers</div>
+                </a>
+                <a class="sc-gPEVay eaBhby @cannot('create',\App\Models\Bill::class) pro-tag @endcannot"
+                        href="{{ route('vendors.vendor.index') }}">
+                    <div class="sc-iRbamj image" style="background-image:url('images/estimate.svg') ">
+
+                    </div>
+                    <div class="shortcuts-title sc-jlyJG gSoaLO title">Vendors</div>
+                </a>
 
 
             </div>
