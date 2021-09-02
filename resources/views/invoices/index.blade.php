@@ -304,6 +304,12 @@
                                            class="dropdown-item btn shareLink">
                                             <span class="fa fa-share mx-4"></span> <strong>Get Share Link</strong>
                                         </a>
+                                        <a href="javascript:;"
+                                           link="{{ route('invoices.invoice.payments',$invoice->id) }}"
+
+                                           class="dropdown-item btn view_payments">
+                                            <span class="fa fa-money-check mx-4"></span> <strong>View Payments</strong>
+                                        </a>
                                         <a href="{{ route('invoices.invoice.edit',$invoice->id) }}"
                                            class="dropdown-item btn">
                                             <span class="fa fa-pencil-alt mx-4"></span> <strong>Edit</strong>
@@ -361,6 +367,27 @@
                 </div>
             </div>
         </div>
+        <div class="modal fade" id="viewPaymentModal" tabindex="-1" role="dialog"
+             aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Payment Transactions</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body" id="viewPaymentContent">
+
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!--end::Body-->
     </div>
 @endsection
@@ -459,7 +486,35 @@
                 todayHighlight: true
             });
 
+            $('.view_payments').on('click', function () {
+                getInvoicePayments($(this).attr('link'))
+            })
+
         })
+
+        function getInvoicePayments(url) {
+            // if (!customer_id) return;
+            $.ajax({
+                url: url,
+                type: "post",
+                data: {
+                    _token: csrf
+                },
+                beforeSend: () => {
+
+                },
+                success: function (response) {
+                    $('#viewPaymentModal').modal('show')
+                    $('#viewPaymentContent').html(response)
+                    console.log(response.length, response)
+                },
+                error: function () {
+                    $('#viewPaymentModal').modal('hide')
+
+                }
+
+            });
+        }
     </script>
 
 @endsection

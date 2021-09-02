@@ -22,9 +22,15 @@
     <!-- Main Content -->
     <main>
         <div class="row">
-            <div class="col-sm-6">
+            <div class="col-sm-4">
                 <strong>Date:</strong> {{ \Carbon\Carbon::parse($invoice->date)->format('d/m/y') }}</div>
-            <div class="col-sm-6 text-sm-right"><strong>Invoice No:</strong> {{ $invoice->invoice_number }}
+
+            <div class="col-sm-4 text-center">
+                @if($invoice->due_date)
+                    <strong> Due Date:</strong> {{ \Carbon\Carbon::parse($invoice->due_date)->format('d/m/y') }}
+                @endif
+            </div>
+            <div class="col-sm-4 text-sm-right"><strong>Invoice No:</strong> {{ $invoice->invoice_number }}
             </div>
 
         </div>

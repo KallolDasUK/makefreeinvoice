@@ -38,8 +38,8 @@
     <input class="form-control col-lg-4 {{ $errors->has('payment_sl') ? 'is-invalid' : '' }}" name="payment_sl"
            type="text" id="payment_sl"
            value="{{ old('payment_sl', optional($receivePayment)->payment_sl)??$paymentSerial }}"
-           style="cursor:no-drop;"
-           readonly>
+
+           >
     {!! $errors->first('payment_sl', '<p class="form-text text-danger">:message</p>') !!}
 
 </div>
@@ -91,6 +91,8 @@
         <tr class="line-item-header">
             <th>Date</th>
             <th>Invoice Number</th>
+            <th>Due Date</th>
+
             <th class="text-right">Invoice Amount</th>
             <th class="text-right"> Amount Due</th> <!----><!---->
             <th class="text-right" style="width:16%;">Payment</th>

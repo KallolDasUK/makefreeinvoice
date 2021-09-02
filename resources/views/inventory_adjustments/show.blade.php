@@ -41,25 +41,25 @@
                         <a href="{{ route('inventory_adjustments.inventory_adjustment.index') }}"
                            class="btn btn-primary mr-2" title="Show All Inventory Adjustment">
                             <i class=" fas fa-fw fa-th-list" aria-hidden="true"></i>
-                            Show All Inventory Adjustment
+                            Show All  Adjustment
                         </a>
 
                         <a href="{{ route('inventory_adjustments.inventory_adjustment.create') }}"
                            class="btn btn-success mr-2" title="Create New Inventory Adjustment">
                             <i class=" fas fa-fw fa-plus" aria-hidden="true"></i>
-                            Create New Inventory Adjustment
+                            Create New  Adjustment
                         </a>
 
                         <a href="{{ route('inventory_adjustments.inventory_adjustment.edit', $inventoryAdjustment->id ) }}"
                            class="btn btn-primary mr-2" title="Edit Inventory Adjustment">
                             <i class=" fas fa-fw fa-pencil-alt" aria-hidden="true"></i>
-                            Edit Inventory Adjustment
+                            Edit  Adjustment
                         </a>
 
                         <button type="submit" class="btn btn-danger" title="Delete Inventory Adjustment"
                                 onclick="return confirm(&quot;Click Ok to delete Inventory Adjustment.?&quot;)">
                             <i class=" fas fa-fw fa-trash-alt" aria-hidden="true"></i>
-                            Delete Inventory Adjustment
+                            Delete  Adjustment
                         </button>
                     </div>
                 </form>
@@ -67,9 +67,9 @@
             </div>
 
         </div>
-
         <p class="clearfix"></p>
-        <div class="btn-group btn-group-lg float-right bg-white" role="group" aria-label="Large button group">
+
+        <div class="btn-group btn-group-lg float-right bg-white mt-4" role="group" aria-label="Large button group">
             <button id="printBtn" type="button" class="btn btn-outline-secondary">
                 <i class="fa fa-print text-danger"></i>
                 <b>Print Receipt</b>
@@ -79,17 +79,38 @@
 
                 <b>Download</b>
             </button>
-        </div>        <div id="receipt-container" class="card mx-auto my-4" style="width: 50%">
+        </div>
+        <p class="clearfix"></p>
+
+
+        <div id="receipt-container" class="card mx-auto my-4" style="width: 80%">
 
 
             <div class="card-body">
+
+                <header>
+                    <div class="text-center">
+
+                        @if($settings->business_name??false)
+                            <h3>{{ $settings->business_name }}</h3>
+                            <h1>Adjustment Report</h1>
+                        @endif
+                    </div>
+
+                    <hr>
+                </header>
                 <dl class="dl-horizontal">
-                    <dt>Date</dt>
-                    <dd>{{ $inventoryAdjustment->date }}</dd>
-                    <dt>Ref</dt>
-                    <dd>{{ $inventoryAdjustment->ref }}</dd>
-                    <dt>Accounts</dt>
-                    <dd>{{ optional($inventoryAdjustment->ledger)->ledger_name }}</dd>
+                    <div class="row align-items-between justify-content-between">
+                        <div class="col"> <dt>Date</dt>
+                            <dd>{{ $inventoryAdjustment->date }}</dd></div>
+                        <div class="col"><dt>Ref</dt>
+                            <dd>{{ $inventoryAdjustment->ref }}</dd></div>
+                        <div class="col"><dt>Accounts</dt>
+                            <dd>{{ optional($inventoryAdjustment->ledger)->ledger_name }}</dd></div>
+                    </div>
+
+
+
                     <dt>Note</dt>
                     <dd>{{ $inventoryAdjustment->description }}</dd>
 
