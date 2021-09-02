@@ -128,6 +128,7 @@
             <label for="sell_price" class="text-danger">Sell Price *</label>
             <input class="form-control form-control-sm  {{ $errors->has('sell_price') ? 'is-invalid' : '' }}"
                    name="sell_price"
+                   step="any"
                    type="number" id="sell_price" value="{{ old('sell_price', optional($product)->sell_price) }}">
 
             {!! $errors->first('sell_price', '<p class="form-text text-danger">:message</p>') !!}
@@ -161,6 +162,8 @@
 
             <input class="form-control form-control-sm  {{ $errors->has('purchase_price') ? 'is-invalid' : '' }}"
                    name="purchase_price"
+                   step="any"
+
                    type="number" id="purchase_price"
                    value="{{ old('purchase_price', optional($product)->purchase_price) }}">
 
@@ -203,14 +206,14 @@
 </div>
 
 <div class="row">
-    <div class="col">
+    <div class="col d-none">
         <div class="form-group">
             <label for="is_track">Is Track</label>
 
 
             <div class="checkbox">
                 <label for="is_track_1">
-                    <input id="is_track_1" class="" name="is_track" type="checkbox"
+                    <input id="is_track_1" class="" name="is_track" type="checkbox" checked
                            value="1" {{ old('is_track', optional($product)->is_track) == '1' ? 'checked' : '' }}>
                     Yes
                 </label>
@@ -225,6 +228,7 @@
             <input class="form-control form-control-sm  {{ $errors->has('opening_stock') ? 'is-invalid' : '' }}"
                    name="opening_stock"
                    type="number" id="opening_stock"
+                   step="any"
                    value="{{ old('opening_stock', optional($product)->opening_stock) }}">
 
             {!! $errors->first('opening_stock', '<p class="form-text text-danger">:message</p>') !!}
@@ -235,6 +239,8 @@
             <label for="opening_stock_price">Opening Stock Price</label>
             <input class="form-control form-control-sm  {{ $errors->has('opening_stock_price') ? 'is-invalid' : '' }}"
                    name="opening_stock_price" type="number" id="opening_stock_price"
+                   step="any"
+                   readonly
                    value="{{ old('opening_stock_price', optional($product)->opening_stock_price) }}">
             {!! $errors->first('opening_stock_price', '<p class="form-text text-danger">:message</p>') !!}
         </div>

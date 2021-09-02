@@ -53,30 +53,30 @@
 @endsection
 @section('content')
 
+    <div>
+        @if(!\App\Models\Invoice::query()->exists())
 
-    @if(!\App\Models\Invoice::query()->exists())
+            <div class="d-flex align-items-center justify-content-between " style="min-height: 200px;">
+                <div style="max-width: 320px;min-width: 320px;">
+                    <span class="text-primary"><b>WELCOME,</b></span>
+                    <hr>
+                    <h1 class="text-black"> {{ auth()->user()->name??'Anonymous' }}!</h1>
+                </div>
 
-        <div class="d-flex align-items-center justify-content-between " style="min-height: 200px;">
-            <div style="max-width: 320px;min-width: 320px;">
-                <span class="text-primary"><b>WELCOME,</b></span>
-                <hr>
-                <h1 class="text-black"> {{ auth()->user()->name??'Anonymous' }}!</h1>
-            </div>
+                @if(!($settings->business_name??false))
+                    <div class="d-flex flex-row align-items-center mr-4 ">
+                        <div class="d-block mr-4">
+                            <span class="d-block " style="text-align: center;font-size: 20px;">Settings</span>
 
-            @if(!($settings->business_name??false))
-                <div class="d-flex flex-row align-items-center mr-4 ">
-                    <div class="d-block mr-4">
-                        <span class="d-block " style="text-align: center;font-size: 20px;">Settings</span>
-
-                        <img height="30px"
-                             style="transform: rotate(180deg); "
-                             src="https://my.freshbooks.com/assets/images/onboarding/arrow-left-8a0848d364cd87602821c18e77cea9ce.png"
-                             alt="Arrow">
-                    </div>
-                    <div style="max-width: 100%;vertical-align: middle">
-                        <a href="{{ route('accounting.settings.edit') }}">
-                            <div class="m-auto  text-center d-flex"
-                                 style="width: 200px;height: 150px;border: 2px dashed gray;cursor: pointer">
+                            <img height="30px"
+                                 style="transform: rotate(180deg); "
+                                 src="https://my.freshbooks.com/assets/images/onboarding/arrow-left-8a0848d364cd87602821c18e77cea9ce.png"
+                                 alt="Arrow">
+                        </div>
+                        <div style="max-width: 100%;vertical-align: middle">
+                            <a href="{{ route('accounting.settings.edit') }}">
+                                <div class="m-auto  text-center d-flex"
+                                     style="width: 200px;height: 150px;border: 2px dashed gray;cursor: pointer">
 
                     <span style="text-align: center;font-size: 20px;" data-link-to="link"
                           class="m-auto text-black ">
@@ -86,18 +86,18 @@
                         </div>
                     </span>
 
-                            </div>
+                                </div>
 
-                        </a>
+                            </a>
+                        </div>
+
                     </div>
-
-                </div>
-            @endif
-            <div class="d-flex flex-row align-items-center  ">
-                <div style="max-width: 100%;vertical-align: middle">
-                    <a href="{{ route('invoices.invoice.create') }}">
-                        <div class="m-auto  text-center d-flex"
-                             style="width: 200px;height: 150px;border: 2px dashed gray;cursor: pointer">
+                @endif
+                <div class="d-flex flex-row align-items-center  ">
+                    <div style="max-width: 100%;vertical-align: middle">
+                        <a href="{{ route('invoices.invoice.create') }}">
+                            <div class="m-auto  text-center d-flex"
+                                 style="width: 200px;height: 150px;border: 2px dashed gray;cursor: pointer">
 
                     <span style="text-align: center;font-size: 20px;" data-link-to="link"
                           class="m-auto text-black ">
@@ -107,211 +107,225 @@
                         </div>
                     </span>
 
-                        </div>
+                            </div>
 
-                    </a>
+                        </a>
+                    </div>
+
+                    <div class="text-start ml-4">
+
+                        <img height="30px"
+                             src="https://my.freshbooks.com/assets/images/onboarding/arrow-left-8a0848d364cd87602821c18e77cea9ce.png"
+                             alt="Arrow">
+                        <span class="d-block "
+                              style="text-align: center;font-size: 20px;">Create your first invoice !</span>
+
+                    </div>
+
                 </div>
 
-                <div class="text-start ml-4">
-
-                    <img height="30px"
-                         src="https://my.freshbooks.com/assets/images/onboarding/arrow-left-8a0848d364cd87602821c18e77cea9ce.png"
-                         alt="Arrow">
-                    <span class="d-block "
-                          style="text-align: center;font-size: 20px;">Create your first invoice !</span>
-
-                </div>
 
             </div>
 
+        @endif
 
-        </div>
+        <p class="clearfix"></p>
+        <div class="row card mt-4" style="margin-top: 20px">
+            <div class="card-body">
+                <div class="font-weight-bolder">
+                    INVOICE SHORTCUTS
+                </div>
+                <a href="{{ route('invoices.invoice.index') }}"
+                   style="position:relative;"
 
-    @endif
+                   class="sc-gPEVay eaBhby border rounded @cannot('viewAny',\App\Models\Invoice::class) pro-tag @endcannot">
+                    <div class="sc-iRbamj image" style="background-image:url('images/manage_invoice.svg') ">
 
-    <p class="clearfix"></p>
-    <div class="row card mt-4" style="margin-top: 20px">
-        <div class="card-body">
-            <div class="font-weight-bolder">
-                INVOICE SHORTCUTS
+                    </div>
+                    <div class="shortcuts-title  text-black">My Invoices</div>
+                </a>
+                <a href="{{ route('customers.customer.create') }}"
+                   style="position:relative;"
+                   class="sc-gPEVay eaBhby border rounded @cannot('create',\App\Models\Invoice::class) pro-tag @endcannot">
+                    <div class="sc-iRbamj image" style="background-image:url('images/customer 1.svg') ">
+
+                    </div>
+                    <div class="shortcuts-title  text-black">Add Customer</div>
+                </a>
+                <a class="sc-gPEVay eaBhby border rounded @cannot('create',\App\Models\Invoice::class) pro-tag @endcannot"
+                   style="position:relative;"
+                   href="{{ route('invoices.invoice.create') }}">
+                    <div class="sc-iRbamj image" style="background-image:url('images/invoice.svg') ">
+
+                    </div>
+                    <div class=" shortcuts-title sc-jlyJG gSoaLO">Add Invoice</div>
+                </a>
+
+                <a class="sc-gPEVay eaBhby border rounded @cannot('create',\App\Models\Invoice::class) pro-tag @endcannot"
+                   style="position:relative;"
+
+                   href="{{ route('receive_payments.receive_payment.create') }}">
+                    <div class="sc-iRbamj image" style="background-image:url('images/receive.svg') ">
+
+                    </div>
+                    <div class="shortcuts-title sc-jlyJG gSoaLO">Receive Payment</div>
+                </a>
+
+
+                <a class="sc-gPEVay eaBhby  border rounded @cannot('create',\App\Models\Estimate::class) pro-tag @endcannot"
+                   style="position:relative;"
+                   href="{{ route('estimates.estimate.create') }}">
+                    <div class="sc-iRbamj image" style="background-image:url('images/estimate.svg') ">
+
+                    </div>
+                    <div class="shortcuts-title sc-jlyJG gSoaLO ">Add Estimate</div>
+                </a>
+                <a href="{{ route('estimates.estimate.index') }}"
+                   style="position:relative;"
+
+                   class="sc-gPEVay eaBhby border rounded @cannot('viewAny',\App\Models\Estimate::class) pro-tag @endcannot">
+                    <div class="sc-iRbamj image" style="background-image:url('images/manage_invoice.svg') ">
+
+                    </div>
+                    <div class="shortcuts-title  text-black">My Estimates</div>
+                </a>
+
             </div>
-            <a href="{{ route('invoices.invoice.index') }}"
-               style="position:relative;"
-
-               class="sc-gPEVay eaBhby border rounded @cannot('viewAny',\App\Models\Invoice::class) pro-tag @endcannot">
-                <div class="sc-iRbamj image" style="background-image:url('images/manage_invoice.svg') ">
-
-                </div>
-                <div class="shortcuts-title  text-black">My Invoices</div>
-            </a>
-            <a href="{{ route('customers.customer.create') }}"
-               style="position:relative;"
-               class="sc-gPEVay eaBhby border rounded @cannot('create',\App\Models\Invoice::class) pro-tag @endcannot">
-                <div class="sc-iRbamj image" style="background-image:url('images/customer 1.svg') ">
-
-                </div>
-                <div class="shortcuts-title  text-black">Add Customer</div>
-            </a>
-            <a class="sc-gPEVay eaBhby border rounded @cannot('create',\App\Models\Invoice::class) pro-tag @endcannot"
-               style="position:relative;"
-               href="{{ route('invoices.invoice.create') }}">
-                <div class="sc-iRbamj image" style="background-image:url('images/invoice.svg') ">
-
-                </div>
-                <div class=" shortcuts-title sc-jlyJG gSoaLO">Add Invoice</div>
-            </a>
-
-            <a class="sc-gPEVay eaBhby border rounded @cannot('create',\App\Models\Invoice::class) pro-tag @endcannot"
-               style="position:relative;"
-
-               href="{{ route('receive_payments.receive_payment.create') }}">
-                <div class="sc-iRbamj image" style="background-image:url('images/receive.svg') ">
-
-                </div>
-                <div class="shortcuts-title sc-jlyJG gSoaLO">Receive Payment</div>
-            </a>
-
-
-            <a class="sc-gPEVay eaBhby  border rounded @cannot('create',\App\Models\Estimate::class) pro-tag @endcannot"
-               style="position:relative;"
-               href="{{ route('estimates.estimate.create') }}">
-                <div class="sc-iRbamj image" style="background-image:url('images/estimate.svg') ">
-
-                </div>
-                <div class="shortcuts-title sc-jlyJG gSoaLO ">Add Estimate</div>
-            </a>
-            <a href="{{ route('estimates.estimate.index') }}"
-               style="position:relative;"
-
-               class="sc-gPEVay eaBhby border rounded @cannot('viewAny',\App\Models\Estimate::class) pro-tag @endcannot">
-                <div class="sc-iRbamj image" style="background-image:url('images/manage_invoice.svg') ">
-
-                </div>
-                <div class="shortcuts-title  text-black">My Estimates</div>
-            </a>
-
         </div>
-    </div>
-    <div class="row card mt-4">
-        <div class="card-body">
-            <div class="font-weight-bolder">
-                BILL SHORTCUTS
+        <div class="row card mt-4">
+            <div class="card-body">
+                <div class="font-weight-bolder">
+                    BILL SHORTCUTS
+                </div>
+                <a href="{{ route('bills.bill.index') }}"
+                   style="position: relative"
+                   class="sc-gPEVay eaBhby border rounded @cannot('viewAny',\App\Models\Bill::class) pro-tag @endcannot">
+                    <div class="sc-iRbamj image"
+                         style="background-image:url('images/manage_invoice.svg'); ">
+
+                    </div>
+                    <div class="shortcuts-title text-black">My Bills</div>
+                </a>
+
+                <a class="sc-gPEVay eaBhby border rounded @cannot('create',\App\Models\Bill::class) pro-tag @endcannot"
+                   href="{{ route('bills.bill.create') }}" style="position:relative;">
+                    <div class="sc-iRbamj image" style="background-image:url('images/invoice.svg') ;">
+
+                    </div>
+                    <div class=" shortcuts-title sc-jlyJG gSoaLO">Add Bill</div>
+                </a>
+                <a href="{{ route('vendors.vendor.create') }}"
+                   style="position:relative; "
+                   class="sc-gPEVay eaBhby border rounded @cannot('create',\App\Models\Bill::class) pro-tag @endcannot">
+                    <div class="sc-iRbamj image" style="background-image:url('images/customer 1.svg');">
+
+                    </div>
+                    <div class="shortcuts-title  text-black">Add Vendors</div>
+                </a>
+
+
+                <a href="{{ route('expenses.expense.create') }}"
+                   style="position:relative;"
+
+                   class="sc-gPEVay eaBhby border rounded @cannot('create',\App\Models\Expense::class) pro-tag @endcannot">
+                    <div class="sc-iRbamj image" style="background-image:url('images/manage_invoice.svg') ">
+
+                    </div>
+                    <div class="shortcuts-title  text-black">Add Expense</div>
+                </a>
+                <a href="{{ route('expenses.expense.index') }}"
+                   style="position:relative;"
+
+                   class="sc-gPEVay eaBhby border rounded @cannot('viewAny',\App\Models\Expense::class) pro-tag @endcannot">
+                    <div class="sc-iRbamj image" style="background-image:url('images/manage_invoice.svg') ">
+
+                    </div>
+                    <div class="shortcuts-title  text-black">My Expenses</div>
+                </a>
+
             </div>
-            <a href="{{ route('bills.bill.index') }}"
-               style="position: relative"
-               class="sc-gPEVay eaBhby border rounded @cannot('viewAny',\App\Models\Bill::class) pro-tag @endcannot">
-                <div class="sc-iRbamj image"
-                     style="background-image:url('images/manage_invoice.svg'); ">
-
-                </div>
-                <div class="shortcuts-title text-black">My Bills</div>
-            </a>
-
-            <a class="sc-gPEVay eaBhby border rounded @cannot('create',\App\Models\Bill::class) pro-tag @endcannot"
-               href="{{ route('bills.bill.create') }}" style="position:relative;">
-                <div class="sc-iRbamj image" style="background-image:url('images/invoice.svg') ;">
-
-                </div>
-                <div class=" shortcuts-title sc-jlyJG gSoaLO">Add Bill</div>
-            </a>
-            <a href="{{ route('vendors.vendor.create') }}"
-               style="position:relative; "
-               class="sc-gPEVay eaBhby border rounded @cannot('create',\App\Models\Bill::class) pro-tag @endcannot">
-                <div class="sc-iRbamj image" style="background-image:url('images/customer 1.svg');">
-
-                </div>
-                <div class="shortcuts-title  text-black">Add Vendors</div>
-            </a>
-
-
-            <a href="{{ route('expenses.expense.create') }}"
-               style="position:relative;"
-
-               class="sc-gPEVay eaBhby border rounded @cannot('create',\App\Models\Expense::class) pro-tag @endcannot">
-                <div class="sc-iRbamj image" style="background-image:url('images/manage_invoice.svg') ">
-
-                </div>
-                <div class="shortcuts-title  text-black">Add Expense</div>
-            </a>
-            <a href="{{ route('expenses.expense.index') }}"
-               style="position:relative;"
-
-               class="sc-gPEVay eaBhby border rounded @cannot('viewAny',\App\Models\Expense::class) pro-tag @endcannot">
-                <div class="sc-iRbamj image" style="background-image:url('images/manage_invoice.svg') ">
-
-                </div>
-                <div class="shortcuts-title  text-black">My Expenses</div>
-            </a>
-
         </div>
-    </div>
 
-    <div class="row card mt-4">
-        <div class="card-body">
-            <div class="font-weight-bolder">
-                ADJUSTMENT SHORTCUTS
+        <div class="row card mt-4">
+            <div class="card-body">
+                <div class="font-weight-bolder">
+                    ADJUSTMENT SHORTCUTS
+                </div>
+                <a href="{{ route('inventory_adjustments.inventory_adjustment.index') }}"
+                   style="position:relative;"
+                   class="sc-gPEVay eaBhby border rounded @cannot('viewAny',\App\Models\InventoryAdjustment::class) pro-tag @endcannot">
+                    <div class="sc-iRbamj image" style="background-image:url('images/manage_invoice.svg') ">
+
+                    </div>
+                    <div class="shortcuts-title  text-black">My Adjustment</div>
+                </a>
+                <a href="{{ route('inventory_adjustments.inventory_adjustment.create') }}"
+                   style="position:relative;"
+                   class="sc-gPEVay eaBhby border rounded @cannot('viewAny',\App\Models\InventoryAdjustment::class) pro-tag @endcannot">
+                    <div class="sc-iRbamj image" style="background-image:url('images/manage_invoice.svg') ">
+
+                    </div>
+                    <div class="shortcuts-title  text-black">Add Adjustment</div>
+                </a>
+
+
             </div>
-            <a href="{{ route('inventory_adjustments.inventory_adjustment.index') }}"
-               style="position:relative;"
-               class="sc-gPEVay eaBhby border rounded @cannot('viewAny',\App\Models\InventoryAdjustment::class) pro-tag @endcannot">
-                <div class="sc-iRbamj image" style="background-image:url('images/manage_invoice.svg') ">
-
-                </div>
-                <div class="shortcuts-title  text-black">My Adjustment</div>
-            </a>
-            <a href="{{ route('inventory_adjustments.inventory_adjustment.create') }}"
-               style="position:relative;"
-               class="sc-gPEVay eaBhby border rounded @cannot('viewAny',\App\Models\InventoryAdjustment::class) pro-tag @endcannot">
-                <div class="sc-iRbamj image" style="background-image:url('images/manage_invoice.svg') ">
-
-                </div>
-                <div class="shortcuts-title  text-black">Add Adjustment</div>
-            </a>
-
-
         </div>
-    </div>
-    <div class="row card mt-4">
-        <div class="card-body">
-            <div class="font-weight-bolder">
-                REPORT SHORTCUTS
+        <div class="row card mt-4">
+            <div class="card-body">
+                <div class="font-weight-bolder">
+                    REPORT SHORTCUTS
+                </div>
+
+                <a class="sc-gPEVay eaBhby   @cannot('stock_report') pro-tag @endcannot"
+                   href="{{ route('reports.report.stock-report') }}">
+                    <div class="sc-iRbamj image" style="background-image:url('images/estimate.svg') ">
+
+                    </div>
+                    <div class="shortcuts-title sc-jlyJG gSoaLO title">Stock Report</div>
+                </a>
+
+                <a class="sc-gPEVay eaBhby @cannot('tax_summary') pro-tag @endcannot"
+                   href="{{ route('reports.report.tax_report') }}">
+                    <div class="sc-iRbamj image" style="background-image:url('images/estimate.svg') ">
+
+                    </div>
+                    <div class="shortcuts-title sc-jlyJG gSoaLO title">Tax Summary</div>
+                </a>
+                <a class="sc-gPEVay eaBhby   @cannot('ar_aging') pro-tag @endcannot"
+                   href="{{ route('reports.report.ar_aging_report') }}">
+                    <div class="sc-iRbamj image" style="background-image:url('images/estimate.svg') ">
+
+                    </div>
+                    <div class="shortcuts-title sc-jlyJG gSoaLO title">Receivable Aging</div>
+                </a>
+                <a class="sc-gPEVay eaBhby  @cannot('ap_aging') pro-tag @endcannot"
+                   href="{{ route('reports.report.ap_aging_report') }}">
+                    <div class="sc-iRbamj image" style="background-image:url('images/estimate.svg') ">
+
+                    </div>
+                    <div class="shortcuts-title sc-jlyJG gSoaLO title">Payable Aging</div>
+                </a>
+                <a class="sc-gPEVay eaBhby  @cannot('ap_aging') pro-tag @endcannot"
+                   href="{{ route('reports.report.loss_profit_report') }}">
+                    <div class="sc-iRbamj image" style="background-image:url('images/estimate.svg') ">
+
+                    </div>
+                    <div class="shortcuts-title sc-jlyJG gSoaLO title">Profit & Loss</div>
+                </a>
+                <a class="sc-gPEVay eaBhby  @cannot('ap_aging') pro-tag @endcannot"
+                   href="{{ route('reports.report.cashbook') }}">
+                    <div class="sc-iRbamj image" style="background-image:url('images/estimate.svg') ">
+
+                    </div>
+                    <div class="shortcuts-title sc-jlyJG gSoaLO title">Cashbook</div>
+                </a>
+
+
             </div>
-
-            <a class="sc-gPEVay eaBhby   @cannot('stock_report') pro-tag @endcannot"
-               href="{{ route('reports.report.stock-report') }}">
-                <div class="sc-iRbamj image" style="background-image:url('images/estimate.svg') ">
-
-                </div>
-                <div class="shortcuts-title sc-jlyJG gSoaLO title">Stock Report</div>
-            </a>
-
-            <a class="sc-gPEVay eaBhby @cannot('tax_summary') pro-tag @endcannot"
-               href="{{ route('reports.report.tax_report') }}">
-                <div class="sc-iRbamj image" style="background-image:url('images/estimate.svg') ">
-
-                </div>
-                <div class="shortcuts-title sc-jlyJG gSoaLO title">Tax Summary</div>
-            </a>
-            <a class="sc-gPEVay eaBhby   @cannot('ar_aging') pro-tag @endcannot"
-               href="{{ route('reports.report.ar_aging_report') }}">
-                <div class="sc-iRbamj image" style="background-image:url('images/estimate.svg') ">
-
-                </div>
-                <div class="shortcuts-title sc-jlyJG gSoaLO title">Receivable Aging</div>
-            </a>
-            <a class="sc-gPEVay eaBhby  @cannot('ap_aging') pro-tag @endcannot"
-               href="{{ route('reports.report.ap_aging_report') }}">
-                <div class="sc-iRbamj image" style="background-image:url('images/estimate.svg') ">
-
-                </div>
-                <div class="shortcuts-title sc-jlyJG gSoaLO title">Payable Aging</div>
-            </a>
-
-
         </div>
     </div>
 
-    </div>
 
 
 @endsection

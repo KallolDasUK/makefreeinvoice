@@ -36,9 +36,7 @@
             <form method="POST" action="{{ route('products.product.update', $product->id) }}" id="edit_product_form" name="edit_product_form" accept-charset="UTF-8" class="form-horizontal" enctype="multipart/form-data">
             {{ csrf_field() }}
             <input name="_method" type="hidden" value="PUT">
-            @include ('products.form', [
-                                        'product' => $product,
-                                      ])
+            @include ('products.form', ['product' => $product])
 
                 <div class="form-group">
                     <div class="col-md-offset-2 col-md-10">

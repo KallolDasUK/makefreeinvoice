@@ -65,10 +65,7 @@ class LedgersController extends Controller
     {
         $txn = Transaction::where('txn_type', 'OpeningBalance')->where('type', Ledger::class)->where('type_id', $ledger->id)->first();
         if ($txn) {
-            Transaction::where('txn_type', 'Opening')
-                ->where('type', Ledger::class)
-                ->where('type_id', $ledger->id)
-                ->update(['amount' => $amount,'type' => Ledger::class,
+            $txn->update(['amount' => $amount,'type' => Ledger::class,
                     'type_id' => $ledger->id]);
 
             TransactionDetail::where('transaction_id', $txn->id)

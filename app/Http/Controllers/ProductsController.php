@@ -6,11 +6,16 @@ use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\ProductUnit;
+use Enam\Acc\Models\Ledger;
+use Enam\Acc\Models\Transaction;
+use Enam\Acc\Models\TransactionDetail;
+use Enam\Acc\Traits\TransactionTrait;
+use Enam\Acc\Utils\EntryType;
 use Illuminate\Http\Request;
 
 class ProductsController extends Controller
 {
-
+    use TransactionTrait;
 
     public function index()
     {
@@ -36,12 +41,43 @@ class ProductsController extends Controller
         $data = $this->getData($request);
 
         $product = Product::create($data);
+        if ($product->opening_stock_price) {
+            $this->storeOpeningStock($product, $product->opening_stock_price, EntryType::$DR);
+        }
         if ($request->ajax()) {
             return $product;
         }
 
         return redirect()->route('products.product.index')
             ->with('success_message', 'Product was successfully added.');
+
+    }
+
+    protected function storeOpeningStock(Product $product, $amount, $entry_type)
+    {
+        $inventory_ledger_id = Ledger::INVENTORY_AC();
+        $ledger = Ledger::find($inventory_ledger_id);
+
+        $txn = Transaction::where('txn_type', EntryType::$OPENING_STOCK)->where('type', Product::class)->where('type_id', $product->id)->first();
+        if ($txn) {
+            $txn
+                ->update(['amount' => $amount, 'type' => Product::class,
+                    'type_id' => $product->id]);
+
+            TransactionDetail::where('transaction_id', $txn->id)
+                ->update(['entry_type' => $entry_type, 'amount' => $amount, 'type' => Product::class,
+                    'type_id' => $product->id, 'ref' => $product->name]);
+        } else {
+            $voucher_no = $this->getVoucherID();
+            $txn = Transaction::create(['ledger_name' => $ledger->ledger_name, 'voucher_no' => $voucher_no,
+                'amount' => $amount, 'note' => EntryType::$OPENING_STOCK, 'txn_type' => EntryType::$OPENING_STOCK, 'type' => Product::class,
+                'type_id' => $product->id, 'date' => today()->toDateString()]);
+
+            TransactionDetail::create(['transaction_id' => $txn->id, 'ledger_id' => $ledger->id, 'entry_type' => $entry_type, 'amount' => $amount,
+                'voucher_no' => $voucher_no, 'date' => today()->toDateString(), 'note' => EntryType::$OPENING_STOCK, 'type' => Product::class,
+                'type_id' => $product->id, 'ref' => $product->name]);
+
+        }
 
     }
 
@@ -73,7 +109,12 @@ class ProductsController extends Controller
 
         $product = Product::findOrFail($id);
         $product->update($data);
-
+        if ($product->opening_stock_price) {
+            $this->storeOpeningStock($product, $product->opening_stock_price, EntryType::$DR);
+        } else {
+            Transaction::where('type', Product::class)->where('type_id', $product->id)->delete();
+            TransactionDetail::where('type', Product::class)->where('type_id', $product->id)->delete();
+        }
         return redirect()->route('products.product.index')
             ->with('success_message', 'Product was successfully updated.');
 
@@ -84,6 +125,8 @@ class ProductsController extends Controller
     {
 
         $product = Product::findOrFail($id);
+        Transaction::where('type', Product::class)->where('type_id', $product->id)->delete();
+        TransactionDetail::where('type', Product::class)->where('type_id', $product->id)->delete();
         $product->delete();
 
         return redirect()->route('products.product.index')

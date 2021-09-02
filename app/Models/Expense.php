@@ -10,25 +10,6 @@ class Expense extends Model
 {
 
 
-    /**
-     * The database table used by the model.
-     *
-     * @var string
-     */
-    protected $table = 'expenses';
-
-    /**
-     * The database primary key value.
-     *
-     * @var string
-     */
-    protected $primaryKey = 'id';
-
-    /**
-     * Attributes that should be mass-assignable.
-     *
-     * @var array
-     */
     protected $fillable = [
         'date',
         'ledger_id',
@@ -39,55 +20,26 @@ class Expense extends Model
         'file'
     ];
 
-    /**
-     * The attributes that should be mutated to dates.
-     *
-     * @var array
-     */
-    protected $dates = [];
+    protected $appends = ['amount'];
 
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
-    protected $casts = [];
-
-    /**
-     * Get the ledger for this model.
-     *
-     * @return App\Models\Ledger
-     */
     public function ledger()
     {
         return $this->belongsTo(Ledger::class, 'ledger_id');
     }
 
-    /**
-     * Get the vendor for this model.
-     *
-     * @return App\Models\Vendor
-     */
+
     public function vendor()
     {
         return $this->belongsTo('App\Models\Vendor', 'vendor_id');
     }
 
-    /**
-     * Get the customer for this model.
-     *
-     * @return App\Models\Customer
-     */
+
     public function customer()
     {
         return $this->belongsTo('App\Models\Customer', 'customer_id');
     }
 
-    /**
-     * Get the customer for this model.
-     *
-     * @return App\Models\Customer
-     */
+
     public function expense_items()
     {
         return $this->hasMany('App\Models\ExpenseItem', 'expense_id');
@@ -97,6 +49,7 @@ class Expense extends Model
     {
         return $this->expense_items->sum('amount') + $this->taxable_amount;
     }
+
     public function getTaxesAttribute()
     {
         $taxes = [];
@@ -120,6 +73,7 @@ class Expense extends Model
         }
         return $taxes;
     }
+
     public function getTaxableAmountAttribute()
     {
         $taxable = 0;

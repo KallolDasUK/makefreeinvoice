@@ -235,7 +235,7 @@
         &nbsp;
      </td>
     <td >
-        <input type="number" step="any" class="font-weight-bolder form-control  input-sm" style="font-size: 16px;text-align:right" value="{{ amount }}" required/>
+        <input type="number" step="any" class="font-weight-bolder form-control amount input-sm" index="{{i}}" style="font-size: 16px;text-align:right" value="{{ amount }}" required/>
         <span class="currency d-inline font-weight-bolder" style="font-size: 16px">{{ currency }}</span></td>
             <td on-click="@this.delete(i)" style="cursor: pointer"> <i class="fa fa-trash text-danger" ></i></td>
          </tr>
