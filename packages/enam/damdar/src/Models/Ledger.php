@@ -74,17 +74,20 @@ class Ledger extends Model
 
     public static function withTransactions($start_date, $end_date, $branch_id)
     {
+//        dd(self::query()->get()->toArray());
+
         return self::query()->get()->map(function ($ledger) use ($start_date, $end_date, $branch_id) {
             $openingBalance = 0;
             $transaction_details = $ledger->transaction_details()
-                ->where('type', '!=', Ledger::class)
                 ->where('ledger_id', $ledger->id)
                 ->when($branch_id != 'All', function ($query) use ($branch_id) {
                     return $query->where('branch_id', $branch_id);
                 })
                 ->whereBetween('date', [$start_date, $end_date])->get();
 
-
+            $transaction_details = $transaction_details->filter(function ($txn_item){
+                return $txn_item->note != EntryType::$OPENING_BALANCE;
+            });
             // Opening Balance
             $opening_tr = $ledger->transaction_details()
                 ->where('note', '!=', "OpeningBalance")
