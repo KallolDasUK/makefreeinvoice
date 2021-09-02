@@ -16,6 +16,7 @@ class ReceivePaymentItemObserver
         $invoice->saveQuietly();
         $accounting = new AccountingFacade();
         $accounting->on_invoice_payment_create($invoice_payment);
+//        dd(ReceivePaymentItemObserver::class);
 
     }
 

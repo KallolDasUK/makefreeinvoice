@@ -11,8 +11,7 @@ class BillPaymentItemObserver
     public function created(BillPaymentItem $billPayment)
     {
         $bill = $billPayment->bill;
-//        $bill->payment_status = $bill->payment_status_text;
-//        $bill->saveQuietly();
+
         $accounting = new AccountingFacade();
         $accounting->on_bill_payment_create($billPayment);
     }

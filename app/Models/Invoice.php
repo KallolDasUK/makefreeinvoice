@@ -122,9 +122,12 @@ class Invoice extends Model
         return $taxes;
     }
 
-    public static function nextInvoiceNumber()
+    public static function nextInvoiceNumber($increment = 1)
     {
-        $next_invoice = 'INV-' . str_pad(count(Invoice::query()->get()) + 1, 4, '0', STR_PAD_LEFT);
+        $next_invoice = 'INV-' . str_pad(count(self::query()->get()) + $increment, 4, '0', STR_PAD_LEFT);
+        if (self::query()->where('invoice_number', $next_invoice)->exists()) {
+            return self::nextInvoiceNumber($increment + 1);
+        }
         return $next_invoice;
     }
 

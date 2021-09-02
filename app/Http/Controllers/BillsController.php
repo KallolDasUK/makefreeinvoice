@@ -155,7 +155,8 @@ class BillsController extends Controller
             'payment_method_id' => $bill->payment_method_id,
             'ledger_id' => $bill->deposit_to,
             'payment_sl' => $paymentSerial,
-            'note' => $bill->notes
+            'note' => $bill->notes,
+            'payment_date' => $bill->bill_date
         ]);
 
         BillPaymentItem::create(['bill_payment_id' => $billPayment->id, 'bill_id' => $bill->id, 'amount' => $bill->payment_amount]);

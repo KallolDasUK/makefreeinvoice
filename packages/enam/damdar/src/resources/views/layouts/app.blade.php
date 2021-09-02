@@ -314,10 +314,8 @@
         </div>
     </div>
 </div>
-<div class="container ribbon ribbon-clip ribbon-left">
-    <div class="ribbon-target" style="top: 2px;">
-        <span class="ribbon-inner bg-danger"></span>In Development
-    </div>
+<div class="container">
+
 
     <ul class="header-tabs nav flex-column-auto mt-4" role="tablist">
         <!--begin::Item-->

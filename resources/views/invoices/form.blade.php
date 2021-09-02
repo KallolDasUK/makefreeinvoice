@@ -240,7 +240,7 @@
                         <select id="deposit_to" class="form-control" name="deposit_to">
                             @foreach ($depositAccounts as $account)
                                 <option
-                                    value="{{ $account->id }}" {{ $account->id == optional($invoice)->deposit_to?'selected':'' }} >
+                                    value="{{ $account->id }}" {{ $account->id == optional($invoice)->deposit_to?'selected':'' }} @if($invoice == null) {{ $account->id == \Enam\Acc\Models\Ledger::CASH_AC()?'selected':'' }} @endif>
                                     {{ $account->ledger_name }}
                                 </option>
                             @endforeach
@@ -436,7 +436,8 @@
             </td>
             <td>{{ stock }}</td>
             <td> <input type="number" step="any" style="text-align: end"  class="form-control  input-sm rate" value="{{ price }}" required></td>
-            <td> <input type="number" step="any" style="text-align: end"  class="form-control   input-sm qnt" index="{{i}}" value="{{ qnt }}" required>
+            <td> <input type="number" step="any" style="text-align: end"  class="form-control   input-sm qnt" index="{{i}}
+        " value="{{ qnt }}" required>
             <input class="text-right form-control input-sm unit" type="text" style="outline: none;border:0 !important;text-align: end; text-decoration: underline;text-decoration-style: dashed;text-decoration-color: red"  value="{{ unit }}"/>
              </td>
             <td >
@@ -463,6 +464,7 @@
             <span role="button" on-click="@this.addInvoiceItem()" class="btn btn-sm btn-primary"
                   style="cursor: pointer"><i class="fa fa-plus-circle"></i> Add Line</span>
         </div>
+
 
 
 
@@ -627,6 +629,7 @@
 
 
 
+
     </script>
 @endverbatim
 @verbatim
@@ -651,6 +654,7 @@
               <td><span class="text-primary " on-click="@this.addAdditionalField()" style="cursor:pointer;">+ Add More</span></td>
               <td></td>
           </tr>
+
 
 
 

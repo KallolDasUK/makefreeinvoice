@@ -61,7 +61,7 @@ var ractive = new Ractive({
                 a.$results.parents('.select2-results')
                     .append('<div><button  data-toggle="modal" data-target="#taxModal" class="btn btn-default text-primary underline btn-fw" style="width: 100%">+ Add Tax</button></div>')
                     .on('click', function (b) {
-                        $('#createTaxForm').attr('index',i)
+                        $('#createTaxForm').attr('index', i)
                         $(event.target).select2("close");
                     });
             }
@@ -82,7 +82,7 @@ var ractive = new Ractive({
 
     },
     delete(index) {
-        if (ractive.get('bill_items').length > 1){
+        if (ractive.get('bill_items').length > 1) {
 
             ractive.splice('bill_items', index, 1);
         }
@@ -317,9 +317,9 @@ function calculateOthers() {
     // alert(tax)
 
     $('#total').val(total.toFixed(2))
-    if (create) {
-        $('#paymentAmount').val(total.toFixed(2))
-    }
+
+    $('#paymentAmount').val(total.toFixed(2))
+
 
     $('#paymentAmount').prop('max', total.toFixed(2))
 

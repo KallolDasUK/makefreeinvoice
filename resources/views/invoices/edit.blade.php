@@ -15,7 +15,7 @@
 
                 <a href="{{ route('invoices.invoice.show',$invoice->id) }}"
                    class="btn btn-outline-primary mr-2 " title="Show All Invoice"
-                style="font-size: 16px"
+                   style="font-size: 16px"
                 >
                     <i class=" fas fa-fw fa-eye" aria-hidden="true"></i>
                     Preview Invoice
@@ -83,7 +83,7 @@
         var invoice_items = @json($invoice_items);
         var products = @json($products);
         var additional_fields = @json($extraFields);
-        var create = false;
+
         console.log(pair, 'pairs')
         $(document).ready(function () {
             $('#country').select2({placeholder: 'Select Country'})
@@ -102,6 +102,19 @@
                 }
 
             })
+
+            setTimeout(() => {
+                let paymentAmount = {{ $invoice->payment_amount??0 }};
+                if (paymentAmount) {
+
+                    $('#paymentAmount').val(paymentAmount)
+                } else {
+
+                    $('#paymentAmount').val($('#total').val())
+                }
+                console.log('payment amount', paymentAmount)
+
+            }, 1000)
 
         });
     </script>

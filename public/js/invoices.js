@@ -318,9 +318,9 @@ function calculateOthers() {
     // alert(tax)
 
     $('#total').val(total.toFixed(2))
-    if (create) {
-        $('#paymentAmount').val(total.toFixed(2))
-    }
+
+    $('#paymentAmount').val(total.toFixed(2))
+
 
     $('#paymentAmount').prop('max', total.toFixed(2))
 

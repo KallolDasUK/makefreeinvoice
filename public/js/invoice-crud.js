@@ -291,9 +291,12 @@ $(document).ready(function () {
         if ($('#paymentCheckBox').is(':checked')) {
             console.log('checked')
             $('#paymentAmount').prop('required', true)
+            $('#paymentAmount').val($('#total').val())
         } else {
             console.log('not checked')
             $('#paymentAmount').prop('required', false)
+            $('#paymentAmount').val('')
+
         }
         $('.paymentContainer').toggle(100)
     })
