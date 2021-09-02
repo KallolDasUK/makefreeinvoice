@@ -173,10 +173,14 @@ trait ReportService
 
     }
 
-    public function getArAgingReport()
+    public function getArAgingReport($q)
     {
         $records = [];
-        $customers = Customer::all();
+        $customers = Customer::query()
+            ->when($q != null, function ($builder) use ($q) {
+                return $builder->where('name', 'like', '%' . $q . '%')->orWhere('phone', 'like', '%' . $q . '%')->orWhere('email', 'like', '%' . $q . '%');
+            })
+            ->get();
         foreach ($customers as $customer) {
             $record = ['name' => $customer->name, '_0_30' => 0, '_31_60' => 0, '_61_90' => 0, '_90' => 0, 'total' => 0];
             $invoices = Invoice::query()
@@ -205,10 +209,12 @@ trait ReportService
         return $records;
     }
 
-    public function getApAgingReport()
+    public function getApAgingReport($q)
     {
         $records = [];
-        $vendors = Vendor::all();
+        $vendors = Vendor::query()->when($q != null, function ($builder) use ($q) {
+            return $builder->where('name', 'like', '%' . $q . '%')->orWhere('phone', 'like', '%' . $q . '%')->orWhere('email', 'like', '%' . $q . '%');
+        })->get();
         foreach ($vendors as $vendor) {
             $record = ['name' => $vendor->name, '_0_30' => 0, '_31_60' => 0, '_61_90' => 0, '_90' => 0, 'total' => 0];
             $bills = Bill::query()

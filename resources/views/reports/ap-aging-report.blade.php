@@ -76,21 +76,49 @@
 
         </div>
 
+        <div class="row">
+            <div class="col">
+                <form action="{{ route('reports.report.ap_aging_report') }}">
+                    <div class="row align-items-center mb-4" style="min-width: 200px">
 
-        <div class="float-right">
-            <div class="btn-group btn-group-lg float-right bg-white" role="group" aria-label="Large button group">
-                <button id="printBtn" type="button" class="btn btn-outline-secondary">
-                    <i class="fa fa-print text-danger"></i>
-                    <b>Print Receipt</b>
-                </button>
-                <button id="downloadBtn" type="button" class="btn btn-outline-secondary">
-                    <i class="fa fa-download text-primary"></i>
+                        <div class="col-6">
+                            <input name="q" type="text" class="form-control" placeholder="Name, Phone, Email"
+                                   value="{{ $q }}" >
+                        </div>
+                        <div class="col-6">
 
-                    <b>Download</b>
-                </button>
+                            <button role="button" type="submit" class="btn btn-primary ">
+                                <i class="fas fa-sliders-h"></i>
+                                Filter
+                            </button>
+
+                            @if( $q != null)
+                                <a href="{{ route('reports.report.ap_aging_report') }}" title="Clear Filter"
+                                   class="btn btn-icon btn-light-danger"> X</a>
+                            @endif
+
+
+                        </div>
+
+                    </div>
+                </form>
             </div>
+            <div class="col">
+                <div class="btn-group btn-group-lg float-right bg-white" role="group"
+                     aria-label="Large button group">
+                    <button id="printBtn" type="button" class="btn btn-outline-secondary">
+                        <i class="fa fa-print text-danger"></i>
+                        <b>Print Receipt</b>
+                    </button>
+                    <button id="downloadBtn" type="button" class="btn btn-outline-secondary">
+                        <i class="fa fa-download text-primary"></i>
 
+                        <b>Download</b>
+                    </button>
+                </div>
+            </div>
         </div>
+
 
         <p class="clearfix"></p>
         <div id="invoice-container" class="container-fluid invoice-container">

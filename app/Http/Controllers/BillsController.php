@@ -62,13 +62,19 @@ class BillsController extends Controller
                 $end_date = Carbon::parse($end_date)->toDateString();
                 return $query->whereBetween('bill_date', [$start_date, $end_date]);
             })
-            ->latest()->paginate(10);
+            ->latest();
+//        dd($bills->get()->toArray());
+        $totalAmount = $bills->get()->sum('total');
+        $totalDue = $bills->get()->sum('due');
+        $totalPaid = $bills->get()->sum('paid');
+//        dd($totalAmount);
+        $bills = $bills->paginate(10);
         $cashAcId = optional(GroupMap::query()->firstWhere('key', LedgerHelper::$CASH_AC))->value;
         $depositAccounts = Ledger::find($this->getAssetLedgers())->sortBy('ledger_name');
         $paymentMethods = PaymentMethod::query()->get();
         $vendors = Vendor::all();
         return view('bills.index', compact('bills', 'cashAcId', 'depositAccounts', 'paymentMethods',
-            'start_date', 'end_date', 'vendor_id', 'vendors', 'q'));
+            'start_date', 'end_date', 'vendor_id', 'vendors', 'q', 'totalAmount', 'totalDue', 'totalPaid'));
     }
 
 

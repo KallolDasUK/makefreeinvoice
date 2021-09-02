@@ -21,6 +21,7 @@ class ExpensesController extends Controller
     {
         $start_date = $request->start_date;
         $end_date = $request->end_date;
+
         $q = $request->q;
         $expenses = Expense::with('ledger', 'vendor', 'customer')
             ->when($q != null, function ($query) use ($q) {
@@ -30,10 +31,11 @@ class ExpensesController extends Controller
                 $end_date = Carbon::parse($end_date)->toDateString();
                 return $query->whereBetween('date', [$start_date, $end_date]);
             })
-            ->latest()
-            ->paginate(25);
-
-        return view('expenses.index', compact('expenses', 'start_date', 'end_date', 'q'));
+            ->latest();
+//        dd($expenses->get()->sum('amount'));
+        $totalExpense = $expenses->get()->sum('amount');
+        $expenses = $expenses->paginate(10);
+        return view('expenses.index', compact('expenses', 'start_date', 'end_date', 'q', 'totalExpense'));
     }
 
 
@@ -97,7 +99,7 @@ class ExpensesController extends Controller
         $expense_items = $data['expense_items'];
         unset($data['expense_items']);
         $expense = Expense::findOrFail($id);
-        ExpenseItem::query()->where('expense_id', $expense->id)->get()->each(function($model) {
+        ExpenseItem::query()->where('expense_id', $expense->id)->get()->each(function ($model) {
             $model->delete();
         });
         $expense->update($data);
@@ -116,7 +118,7 @@ class ExpensesController extends Controller
     {
 
         $expense = Expense::findOrFail($id);
-        ExpenseItem::query()->where('expense_id', $id)->get()->each(function($model) {
+        ExpenseItem::query()->where('expense_id', $id)->get()->each(function ($model) {
             $model->delete();
         });;
         $expense->delete();

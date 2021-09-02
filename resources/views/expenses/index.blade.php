@@ -34,6 +34,32 @@
         </div>
     @endif
 
+
+    <div class="card rounded  mb-4">
+        <div class="">
+            <div class="row align-items-center">
+                <div class="col ">
+
+                    <div class="card " style="border: none">
+                        <div class="d-flex align-items-center justify-content-center">
+                            <div class="card-body ">
+                                Total Expense
+                                <h3>{{ $settings->currency??'$' }}{{ decent_format_dash($totalExpense??'') }}</h3>
+                            </div>
+                            <div class="vertical-divider"></div>
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+        </div>
+    </div>
+
     <div class="card">
 
         <div class="card-header">
@@ -212,7 +238,6 @@
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script>
         $(function () {
-
 
 
             var datepicker = $.fn.datepicker.noConflict();

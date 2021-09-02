@@ -72,10 +72,14 @@ var ractive = new Ractive({
 
         $("#invoice_item_table tbody").sortable();
 
+        $('.amount').tooltip({'trigger': 'focus', 'title': 'Hit Enter to add new Line'});
 
     },
     delete(index) {
-        ractive.splice('expense_items', index, 1);
+        if (ractive.get('expense_items').length > 1) {
+            ractive.splice('expense_items', index, 1);
+
+        }
     },
     observe: {
         'expense_items': (newValue) => {

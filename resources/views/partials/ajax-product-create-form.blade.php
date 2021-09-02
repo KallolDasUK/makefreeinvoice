@@ -104,6 +104,8 @@
                                 <label for="sell_price">Sell Price *</label>
                                 <input class="form-control input-sm"
                                        name="sell_price"
+                                       step="any"
+
                                        type="number" id="sell_price">
 
 
@@ -136,6 +138,8 @@
 
                                 <input class="form-control input-sm"
                                        name="purchase_price"
+                                       step="any"
+
                                        type="number" id="purchase_price">
 
 
@@ -175,7 +179,7 @@
 
 
                     <div class="row">
-                        <div class="col">
+                        <div class="col d-none">
                             <div class="form-group">
                                 <label for="is_track">Track?</label>
 
@@ -203,6 +207,7 @@
                             <div class="form-group">
                                 <label for="opening_stock_price">O. Stock Price <small>per item</small></label>
                                 <input
+                                    readonly
                                     class="form-control input-sm  {{ $errors->has('opening_stock_price') ? 'is-invalid' : '' }}"
                                     name="opening_stock_price" type="number" id="opening_stock_price">
                             </div>
@@ -222,4 +227,12 @@
     </div>
 </div>
 
+<script>
+    $(document).ready(function () {
+
+        $('#purchase_price,#opening_stock').on('input', function () {
+            $('#opening_stock_price').val(parseFloat(($('#purchase_price').val() || 0) * ($('#opening_stock').val() || 0)))
+        })
+    })
+</script>
 

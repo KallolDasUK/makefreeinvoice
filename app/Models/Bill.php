@@ -13,6 +13,8 @@ class Bill extends Model
     const Paid = "Paid";
     const UnPaid = "Unpaid";
 
+    protected $appends = ['paid', 'due'];
+
     protected $guarded = [];
 
     public function vendor()
@@ -41,7 +43,7 @@ class Bill extends Model
         $due = 0;
         try {
             $payment = optional($this->payments)->sum('amount');
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
             $payment = 0;
         }
 
@@ -49,6 +51,12 @@ class Bill extends Model
 
         return number_format((float)$due, 2, '.', '');
 
+    }
+
+
+    public function getPaidAttribute()
+    {
+        return optional($this->payments)->sum('amount');
     }
 
     public function payments()
@@ -124,6 +132,7 @@ class Bill extends Model
         $next_invoice = 'BILL-' . str_pad(count(Bill::query()->get()) + 1, 4, '0', STR_PAD_LEFT);
         return $next_invoice;
     }
+
     public function getAgeAttribute()
     {
         $age = 0;

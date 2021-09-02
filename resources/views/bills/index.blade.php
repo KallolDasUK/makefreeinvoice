@@ -39,7 +39,60 @@
 
     @include('partials.bill-payment-modal')
 
+    <div class="card rounded  mb-4">
+        <div class="">
+            <div class="row align-items-center">
+                <div class="col ">
 
+                    <div class="card " style="border: none">
+                        <div class="d-flex align-items-center justify-content-center">
+                            <div class="card-body ">
+                                Total Amount
+                                <h3>{{ $settings->currency??'$' }}{{ decent_format_dash($totalAmount??'') }}</h3>
+                            </div>
+                            <div class="vertical-divider"></div>
+                        </div>
+
+                    </div>
+
+
+                </div>
+                <div class="col ">
+
+                    <div class="card " style="border: none">
+                        <div class="d-flex align-items-center justify-content-center">
+                            <div class="card-body ">
+                                Total Due
+                                <h3>{{ $settings->currency??'$' }}{{ decent_format_dash($totalDue??'') }}</h3>
+                            </div>
+                            <div class="vertical-divider"></div>
+                        </div>
+
+                    </div>
+
+
+                </div>
+                <div class="col ">
+
+                    <div class="card " style="border: none">
+                        <div class="d-flex align-items-center justify-content-center">
+                            <div class="card-body ">
+                                Total Paid
+                                <h3>{{ $settings->currency??'$' }}{{ decent_format_dash($totalPaid??'') }}</h3>
+                            </div>
+                            <div class="vertical-divider"></div>
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+        </div>
+    </div>
 
 
     <div class="card card-custom card-stretch gutter-b">

@@ -22,9 +22,17 @@
     <!-- Main Content -->
     <main>
         <div class="row">
-            <div class="col-sm-6">
-                <strong>Date:</strong> {{ \Carbon\Carbon::parse($estimate->date)->format('d/m/y') }}</div>
-            <div class="col-sm-6 text-sm-right"><strong>Estimate No:</strong> {{ $estimate->estimate_number }}
+            <div class="col-sm-4">
+                <strong>Date:</strong> {{ \Carbon\Carbon::parse($estimate->date)->format('d/m/y') }}
+
+
+            </div>
+            <div class="col-sm-4 text-center">
+                @if($estimate->due_date)
+                    <strong> Expires On:</strong> {{ \Carbon\Carbon::parse($estimate->due_date)->format('d/m/y') }}
+                @endif
+            </div>
+            <div class="col-sm-4 text-sm-right"><strong>Estimate No:</strong> {{ $estimate->estimate_number }}
             </div>
 
         </div>

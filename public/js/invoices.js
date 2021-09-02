@@ -83,7 +83,10 @@ var ractive = new Ractive({
 
     },
     delete(index) {
-        ractive.splice('invoice_items', index, 1);
+        if (ractive.get('invoice_items').length > 1) {
+
+            ractive.splice('invoice_items', index, 1);
+        }
     },
     observe: {
         'invoice_items': (newValue) => {

@@ -85,7 +85,7 @@ class Ledger extends Model
                 })
                 ->whereBetween('date', [$start_date, $end_date])->get();
 
-            $transaction_details = $transaction_details->filter(function ($txn_item){
+            $transaction_details = $transaction_details->filter(function ($txn_item) {
                 return $txn_item->note != EntryType::$OPENING_BALANCE;
             });
             // Opening Balance
@@ -242,6 +242,11 @@ class Ledger extends Model
     public static function CASH_AC()
     {
         return GroupMap::query()->where('key', LedgerHelper::$CASH_AC)->first()->value ?? null;
+    }
+
+    public static function INVENTORY_AC()
+    {
+        return GroupMap::query()->where('key', LedgerHelper::$INVENTORY_AC)->first()->value ?? null;
     }
 
     public static function PURCHASE_AC()

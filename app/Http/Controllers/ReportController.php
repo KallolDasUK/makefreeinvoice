@@ -58,17 +58,18 @@ class ReportController extends AccountingReportsController
     public function arAgingReport(Request $request)
     {
         $this->authorize('ar_aging');
+        $q = $request->q;
 
-        $records = $this->getArAgingReport();
-        return view('reports.ar-aging-report', compact('records'));
+        $records = $this->getArAgingReport($q);
+        return view('reports.ar-aging-report', compact('records', 'q'));
     }
 
     public function apAgingReport(Request $request)
     {
         $this->authorize('ap_aging', Report::class);
-
-        $records = $this->getApAgingReport();
-        return view('reports.ap-aging-report', compact('records'));
+        $q = $request->q;
+        $records = $this->getApAgingReport($q);
+        return view('reports.ap-aging-report', compact('records', 'q'));
     }
 
     public function trialBalance(Request $request)
