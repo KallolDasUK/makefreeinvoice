@@ -100,6 +100,19 @@
                 }
             })
 
+            setTimeout(() => {
+                let paymentAmount = {{ $bill->payment_amount??0 }};
+                if (paymentAmount) {
+
+                    $('#paymentAmount').val(paymentAmount)
+                } else {
+
+                    $('#paymentAmount').val($('#total').val())
+                }
+                console.log('payment amount', paymentAmount)
+
+            }, 1000)
+
         });
     </script>
     <script src="{{ asset('js/bills/bill.js') }}"></script>

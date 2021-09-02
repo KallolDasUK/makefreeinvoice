@@ -6,18 +6,16 @@ namespace Enam\Acc\Traits;
 
 use Carbon\Carbon;
 use Enam\Acc\Models\Branch;
-use Enam\Acc\Utils\EntryType;
-use \PDF;
 use Enam\Acc\Models\GroupMap;
 use Enam\Acc\Models\Ledger;
 use Enam\Acc\Models\LedgerGroup;
 use Enam\Acc\Models\Transaction;
 use Enam\Acc\Models\TransactionDetail;
+use Enam\Acc\Utils\EntryType;
 use Enam\Acc\Utils\LedgerHelper;
 use Enam\Acc\Utils\Nature;
 use Enam\Acc\Utils\VoucherType;
 use Illuminate\Http\Request;
-use phpDocumentor\Reflection\Types\This;
 
 trait TransactionTrait
 {
@@ -140,16 +138,16 @@ trait TransactionTrait
     }
 
 
-    public function getVoucherID($type = "VN")
+    public function getVoucherID($type = "VN", $increment = 1)
     {
         if ($type == "VN") {
-            $totalAcc = Transaction::withTrashed()->where('voucher_no', 'like', '%VN%')->count();
+            $totalAcc = Transaction::withoutTrashed()->where('voucher_no', 'like', '%VN%')->count();
         } else {
-            $totalAcc = Transaction::withTrashed()->where('txn_type', $type)->count();
+            $totalAcc = Transaction::withoutTrashed()->where('txn_type', $type)->count();
         }
-        $voucher_id = str_pad(++$totalAcc, 8, '0', STR_PAD_LEFT);
-//        dd($v);
-//        dd($totalAcc);
+        $totalAcc += $increment;
+        $voucher_id = str_pad($totalAcc, 8, '0', STR_PAD_LEFT);
+
         $voucher = "";
         $prefix = $type;
         if ($type == VoucherType::$RECEIVE) {
@@ -162,6 +160,11 @@ trait TransactionTrait
             $prefix = "CV";
         }
         $voucher = $prefix . '-' . $voucher_id;
+//        dd($voucher_id);
+        if (Transaction::withoutTrashed()->where('voucher_no', $voucher_id)->exists()) {
+            return $this->getVoucherID($type, $increment + 1);
+        }
+
         return $voucher;
     }
 
@@ -346,7 +349,7 @@ trait TransactionTrait
             })
             ->whereBetween('date', [$start_date, $end_date])
             ->orderBy('date')->get();
-        $transaction_details = $transaction_details->filter(function ($txn_item){
+        $transaction_details = $transaction_details->filter(function ($txn_item) {
             return $txn_item->note != EntryType::$OPENING_BALANCE;
         });
         $openingDebit = (int)TransactionDetail::query()

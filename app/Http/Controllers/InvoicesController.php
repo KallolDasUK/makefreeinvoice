@@ -85,7 +85,7 @@ class InvoicesController extends Controller
         $taxes = Tax::query()->latest()->get()->toArray();
         $extraFields = optional(Invoice::query()->latest()->first())->extra_fields ?? [];
         $invoice_fields = optional(Invoice::query()->latest()->first())->invoice_extra ?? [];
-        $next_invoice = 'INV-' . str_pad(count(Invoice::query()->get()) + 1, 4, '0', STR_PAD_LEFT);
+        $next_invoice = Invoice::nextInvoiceNumber();
 
         return view('invoices.create', compact('customers', 'products', 'taxes', 'next_invoice', 'categories', 'extraFields', 'invoice_fields', 'cashAcId', 'depositAccounts', 'paymentMethods'));
     }
@@ -156,7 +156,8 @@ class InvoicesController extends Controller
             'deposit_to' => $invoice->deposit_to,
             'payment_sl' => $paymentSerial,
             'payment_sl' => $invoice->invoice_date,
-            'note' => $invoice->notes
+            'note' => $invoice->notes,
+            'payment_date' => $invoice->invoice_date
         ]);
 
         ReceivePaymentItem::create(['receive_payment_id' => $receivePayment->id, 'invoice_id' => $invoice->id, 'amount' => $invoice->payment_amount]);

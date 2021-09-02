@@ -251,7 +251,7 @@ $(document).ready(function () {
             } else if (ariaControl.includes('brand_id')) {
                 $('#brand_id').append(newState).val(e.target.value).trigger('change');
                 $('#brand_id').select2("close")
-            }else if (ariaControl.includes('sell_unit')) {
+            } else if (ariaControl.includes('sell_unit')) {
                 $('#sell_unit').append(newState).val(e.target.value).trigger('change');
                 $('#sell_unit').select2("close")
 
@@ -291,9 +291,13 @@ $(document).ready(function () {
         if ($('#paymentCheckBox').is(':checked')) {
             console.log('checked')
             $('#paymentAmount').prop('required', true)
+            $('#paymentAmount').val($('#total').val())
+
         } else {
             console.log('not checked')
             $('#paymentAmount').prop('required', false)
+            $('#paymentAmount').val('')
+
         }
         $('.paymentContainer').toggle(100)
     })
@@ -306,14 +310,14 @@ $(document).on('keypress', '.qnt', function (e) {
     var keyCode = e.keyCode || e.which;
     if (keyCode === 13) {
         ractive.addBillItem();
-        let index = parseInt($(e.target).attr('index'))+1
-        $('#itemSelect'+index).select2('open');
+        let index = parseInt($(e.target).attr('index')) + 1
+        $('#itemSelect' + index).select2('open');
         e.preventDefault();
         return false;
     }
 })
 
-$(document).on('focus', '.select2', function() {
+$(document).on('focus', '.select2', function () {
     $(this).siblings('select').select2('open');
 });
 $(document).on('keyup keypress', '.rate', function (e) {
