@@ -116,10 +116,8 @@ class Ledger extends Model
                     $totalFreshAmount = $openingBalanceTransaction->amount - $totalFreshAmount;
                     if ($totalFreshAmount > 0) {
                         $openingBalanceType = $openingBalanceTransaction->entry_type;
-//                        dd($openingBalanceType);
                     }
                 }
-//                dd($totalFreshAmount);
             }
 
 
