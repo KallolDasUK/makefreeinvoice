@@ -6,7 +6,9 @@
     <title>{{ $title ?? env('APP_NAME') }}</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=1024">
+
+    <meta name="viewport" content="width=1024">
+
 
     <link rel="shortcut icon"
           href="https://www.bootstrapdash.com/demo/connect-plus/laravel/template/demo_1/favicon.ico">

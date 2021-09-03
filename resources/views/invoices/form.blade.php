@@ -268,11 +268,11 @@
 
                 </td>
             </tr>
-            <tr>
-                <td>
+            <tr >
+                <td class="d-flex align-items-center">
                     <b class=" font-weight-bolder text-black mr-2" style="font-size: 14px">Discount</b>
                     <input type="number" step="any" class="input-sm form-control d-inline-block"
-                           style="max-width: 100px; text-align: end" id="discountValue" name="discount_value"
+                           style="max-width: 100px; text-align: end;min-width: 100px" id="discountValue" name="discount_value"
                            value="{{ old('discount_value', optional($invoice)->discount_value) }}">
                     <select class="input-sm small-input d-inline" id="discount_type" name="discount_type">
 
@@ -288,7 +288,7 @@
 
                     <input type="number" step="any" id="discount" name="discount"
                            value="{{ old('discount', optional($invoice)->discount) }}>" readonly
-                           style="border: 1px solid transparent; outline: none;text-align: end" hidden>
+                           style="border: 1px solid transparent; outline: none;text-align: end;" hidden>
 
                     <input type="number" step="any" id="discountShown"
                            value="{{ old('discount', optional($invoice)->discount) }}" readonly
@@ -298,7 +298,7 @@
                 </td>
             </tr>
             <tr>
-                <td><b class="font-weight-bolder text-black mr-2" style="font-size: 14px">Shipping Charges</b>
+                <td class="d-flex align-items-center"><b class="font-weight-bolder text-black mr-2" style="font-size: 14px">Shipping Charges</b>
 
                     <input type="number" step="any" class="input-sm form-control d-inline-block"
                            style="max-width: 100px;text-align: end"
