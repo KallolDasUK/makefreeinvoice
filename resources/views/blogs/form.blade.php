@@ -41,6 +41,20 @@
 
 <div class="form-group">
     <div class="col-md-10">
+        <label for="title">Meta For SEO</label>
+
+        <span class="text-danger font-bolder">*</span>
+        <input class="form-control  {{ $errors->has('meta') ? 'is-invalid' : '' }}" name="meta" type="text" id="meta"
+               value="{{ old('meta', optional($blog)->meta) }}"
+               placeholder="Enter Meta (Max 160 character) ">
+        <span class="metaLength"></span>
+        {!! $errors->first('meta', '<p class="form-text text-danger">:message</p>') !!}
+
+    </div>
+</div>
+
+<div class="form-group">
+    <div class="col-md-10">
         <label for="body">Body</label>
 
         <span class="text-danger font-bolder">*</span>

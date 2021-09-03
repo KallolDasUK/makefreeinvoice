@@ -61,6 +61,9 @@
             $('#title').on('input', function () {
                 $('#slug').val(convertToSlug($('#title').val()))
             })
+            $('#meta').on('input', function () {
+                $('.metaLength').text($('#meta').val().length)
+            })
         })
 
     </script>
