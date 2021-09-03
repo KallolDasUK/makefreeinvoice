@@ -280,6 +280,9 @@ class Ledger extends Model
     {
 
         $report = $this->getLedgerReport($branch_id, $this->id, $start_date, $end_date);
+        if ($this->id == 189){
+//        dd($report);
+        }
         $nature = $this->nature;
         if ($nature == Nature::$ASSET) {
             return $report->closing_debit - $report->closing_credit;

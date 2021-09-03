@@ -79,7 +79,7 @@
 
         <div class="card mb-2">
             <div class="card-body">
-                <form action="{{ route('reports.report.loss_profit_report') }}">
+                <form action="{{ route('reports.report.balance_sheet_report') }}">
                     <div class="row align-items-end mb-4 mx-auto justify-content-center">
 
                         <div class="col">

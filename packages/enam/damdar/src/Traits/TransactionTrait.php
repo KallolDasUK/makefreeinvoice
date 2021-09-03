@@ -352,11 +352,14 @@ trait TransactionTrait
         $transaction_details = $transaction_details->filter(function ($txn_item) {
             return $txn_item->note != EntryType::$OPENING_BALANCE;
         });
+
+
         $openingDebit = (int)TransactionDetail::query()
             ->where('ledger_id', $ledger->id)
             ->where('entry_type', EntryType::$DR)
             ->where('note', '!=', EntryType::$OPENING_BALANCE)
             ->where('date', '<', $start_date)
+            ->where('date', '>', $end_date)
             ->sum('amount');
 
 
@@ -365,8 +368,12 @@ trait TransactionTrait
             ->where('entry_type', EntryType::$CR)
             ->where('note', '!=', EntryType::$OPENING_BALANCE)
             ->where('date', '<', $start_date)
+            ->where('date', '>', $end_date)
             ->sum('amount');
 
+//        if ($ledger->id == 189) {
+//            dd($transaction_details, $openingDebit, $openingCredit);
+//        }
 //        dd($openingDebit, $openingCredit);
         if ($ledger->opening) {
             if ($ledger->opening_type == EntryType::$DR) {
