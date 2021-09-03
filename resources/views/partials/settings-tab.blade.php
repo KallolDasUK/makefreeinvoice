@@ -2,9 +2,17 @@
 
     <ul class="nav nav-tabs nav-tabs-line">
         <li class="nav-item cursor-pointer">
-            <a class="nav-link {{ $page === 'general_settings'?'active':'' }} p-4" href="{{ route('accounting.settings.edit') }}">
+            <a class="nav-link {{ $page === 'general_settings'?'active':'' }} p-4"
+               href="{{ route('accounting.settings.edit') }}">
                 <span class="nav-icon"><i class="fa fa-cog"></i></span>
                 <span class="nav-text font-weight-bolder">General Settings</span>
+            </a>
+        </li>
+        <li class="nav-item cursor-pointer">
+            <a class="nav-link {{ $page === 'change_password'?'active':'' }} p-4"
+               href="{{ route('settings.update_password') }}">
+                <span class="nav-icon"><i class="fa fa-cog"></i></span>
+                <span class="nav-text font-weight-bolder">Change Password</span>
             </a>
         </li>
         <li class="nav-item cursor-pointer">

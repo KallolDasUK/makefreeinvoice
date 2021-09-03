@@ -250,6 +250,7 @@ Route::group(['middleware' => 'auth:web', 'prefix' => 'app'], function () {
     Route::group(['prefix' => 'subscriptions'], function () {
 
         Route::get('/', [BillingsController::class, 'index'])->name('subscriptions.settings');
+        Route::get('/update-password', [BillingsController::class, 'index'])->name('settings.update_password');
         Route::get('/modal', [BillingsController::class, 'subscriptionModal'])->name('subscriptions.modal');
         Route::post('/subscribe', [BillingsController::class, 'purchaseSubscription'])->name('subscribe.store');
         Route::post('/cancel', [BillingsController::class, 'cancelSubscription'])->name('subscriptions.cancel');
