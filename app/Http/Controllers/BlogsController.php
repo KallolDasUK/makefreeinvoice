@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Blog;
+use App\Models\BlogTag;
 use App\Models\User;
 use Artesaos\SEOTools\Facades\JsonLd;
 use Artesaos\SEOTools\Facades\JsonLdMulti;
@@ -25,8 +26,9 @@ class BlogsController extends Controller
 
     public function create()
     {
-
-        return view('blogs.create');
+        $blogTags = BlogTag::all();
+        $tags = [];
+        return view('blogs.create', compact('blogTags', 'tags'));
     }
 
 
@@ -47,26 +49,34 @@ class BlogsController extends Controller
     {
         $blog = Blog::query()->firstWhere('slug', $slug);
         view()->share('title', $blog->title);
-        SEOMeta::setTitle($blog->title);
-        SEOMeta::setDescription($blog->body);
-        SEOMeta::addMeta('article:published_time', $blog->created_at->toW3CString(), 'property');
-        SEOMeta::addMeta('article:section', $blog->category, 'property');
-        SEOMeta::addKeyword(['key1', 'key2', 'key3']);
+        $description = strip_tags(preg_replace('<!--*-->', '', $blog->body));
 
-        OpenGraph::setDescription($blog->body);
+        SEOMeta::setTitle($blog->title);
+        SEOMeta::setDescription($description);
+        SEOMeta::addMeta('article:published_time', $blog->created_at->toW3CString(), 'property');
+
+        SEOMeta::addMeta('article:section', $blog->title . ' ' . implode(',', $blog->blog_tag_names), 'property');
+        SEOMeta::addKeyword($blog->blog_tag_names);
+//        dd($description);
+        OpenGraph::setDescription($description);
         OpenGraph::setTitle($blog->title);
-        OpenGraph::setUrl('http://current.url.com');
+        OpenGraph::setUrl(route('blogs.blog.show', $blog->slug));
         OpenGraph::addProperty('type', 'article');
         OpenGraph::addProperty('locale', 'pt-br');
         OpenGraph::addProperty('locale:alternate', ['pt-pt', 'en-us']);
 
-//        OpenGraph::addImage($blog->cover->url);
-//        OpenGraph::addImage($blog->images->list('url'));
-        OpenGraph::addImage(['url' => 'http://image.url.com/cover.jpg', 'size' => 300]);
-        OpenGraph::addImage('http://image.url.com/cover.jpg', ['height' => 300, 'width' => 300]);
+
+        $content = $blog->body;
+        preg_match_all('~<img.*?src=["\']+(.*?)["\']+~', $content, $urls);
+
+        foreach ($urls as $url) {
+            OpenGraph::addImage(['url' => $url, 'size' => 300]);
+
+        }
+
 
         JsonLd::setTitle($blog->title);
-        JsonLd::setDescription($blog->body);
+        JsonLd::setDescription($description);
         JsonLd::setType('Article');
 //        JsonLd::addImage($blog->images->list('url'));
 
@@ -84,16 +94,15 @@ class BlogsController extends Controller
 
         // Namespace URI: http://ogp.me/ns/article#
         // article
-        OpenGraph::setTitle('Article')
-            ->setDescription('Some Article')
+        OpenGraph::setTitle($blog->title)
+            ->setDescription($description)
             ->setType('article')
             ->setArticle([
-                'published_time' => 'datetime',
-                'modified_time' => 'datetime',
-                'expiration_time' => 'datetime',
-                'author' => 'profile / array',
-                'section' => 'string',
-                'tag' => 'string / array'
+                'published_time' => $blog->created_at,
+                'modified_time' => $blog->updated_at,
+                'author' => 'Invoice/Online Billing',
+                'section' => 'Invoice/Online Billing',
+                'tag' => $blog->blog_tag_names,
             ]);
 
         // Namespace URI: http://ogp.me/ns/book#
@@ -235,18 +244,21 @@ class BlogsController extends Controller
 
     public function edit($id)
     {
+        $blogTags = BlogTag::all();
         $blog = Blog::findOrFail($id);
+        $tags = json_decode($blog->tags ?? '[]') ?? [];
+//        dd($tags);
 
-        return view('blogs.edit', compact('blog'));
+        return view('blogs.edit', compact('blog', 'blogTags', 'tags'));
     }
 
     public function update($id, Request $request)
     {
 
 
-        $data = $this->getData($request);
-
         $blog = Blog::findOrFail($id);
+        $data = $this->getData($request, $blog);
+
         $blog->update($data);
 
         return redirect()->route('blogs.blog.index')
@@ -267,15 +279,30 @@ class BlogsController extends Controller
     }
 
 
-    protected function getData(Request $request)
+    protected function getData(Request $request, Blog $blog = null)
     {
+
+
         $rules = [
             'title' => 'required',
-            'body' => 'required'
+            'slug' => 'required|unique:blogs,slug',
+            'body' => 'required',
+            'tags' => 'nullable',
         ];
+        if ($blog) {
+            $rules = [
+                'title' => 'required',
+                'slug' => 'required|unique:blogs,slug,' . $blog->id,
+                'body' => 'required',
+                'tags' => 'nullable',
+            ];
+        }
+//        dd($rules);
+
 
         $data = $request->validate($rules);
-
+        $data['tags'] = json_encode($data['tags'] ?? []);
+//        dd($data);
 
         return $data;
     }

@@ -44,5 +44,10 @@
         "model-name": "Reason",
         "resource-file": "reasons.json",
         "table-name": "reasons"
+    },
+    {
+        "model-name": "BlogTag",
+        "resource-file": "blog_tags.json",
+        "table-name": "blog_tags"
     }
 ]

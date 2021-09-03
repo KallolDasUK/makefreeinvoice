@@ -11,9 +11,13 @@
 
     <!-- Bootstrap core CSS -->
     <link href="https://getbootstrap.com/docs/4.0/dist/css/bootstrap.min.css" rel="stylesheet">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+          integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
     <!-- Custom styles for this template -->
     <link href="{{ asset('js/master/dashboard.css') }}" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" integrity="sha512-nMNlpuaDPrqlEls3IX/Q56H36qvBASwb3ipuo3MxeWbsQB1881ox0cRv7UPTgBlriqoynt35KjEwgGUeUXIPnw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     @yield('css')
     @push('css')
 </head>
@@ -52,6 +56,18 @@
                             Users
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('blogs.blog.index') }}">
+                            <span data-feather="users"></span>
+                            Articles
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('blog_tags.blog_tag.index') }}">
+                            <span data-feather="users"></span>
+                            Article Tag
+                        </a>
+                    </li>
 
                 </ul>
 
@@ -62,12 +78,12 @@
                     </a>
                 </h6>
                 <ul class="nav flex-column mb-2">
-{{--                    <li class="nav-item">--}}
-{{--                        <a class="nav-link" href="#">--}}
-{{--                            <span data-feather="file-text"></span>--}}
-{{--                            Current month--}}
-{{--                        </a>--}}
-{{--                    </li>--}}
+                    {{--                    <li class="nav-item">--}}
+                    {{--                        <a class="nav-link" href="#">--}}
+                    {{--                            <span data-feather="file-text"></span>--}}
+                    {{--                            Current month--}}
+                    {{--                        </a>--}}
+                    {{--                    </li>--}}
 
                 </ul>
             </div>
@@ -95,6 +111,8 @@
 
 <!-- Graphs -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js" integrity="sha512-2ImtlRlf2VVmiGZsjm9bEyhjGW4dU7B6TNwh/hx/iSByxNENtj3WVE6o/9Lj4TJeVXPi4bnOIMXFIJJAeufa0A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
 <script>
     var ctx = document.getElementById("myChart");
     var myChart = new Chart(ctx, {
