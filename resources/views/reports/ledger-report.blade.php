@@ -87,9 +87,10 @@
 
                                 <div class="input-daterange input-group" id="start_date">
                                     <select id="ledger_id" name="ledger_id" class="col-3 form-control mr-2" required>
-                                        <option ></option>
+                                        <option></option>
                                         @foreach($ledgers as $id => $text)
-                                            <option value="{{ $id }}" @if($id == $ledger_id) selected @endif>{{ $text }}</option>
+                                            <option value="{{ $id }}"
+                                                    @if($id == $ledger_id) selected @endif>{{ $text }}</option>
                                         @endforeach
                                     </select>
 
@@ -178,9 +179,10 @@
                                 <tr>
                                     <th class="text-left">SL</th>
                                     <th class="text-left">Date</th>
+                                    <th class="text-left">Participants</th>
                                     <th class="text-left">Details</th>
                                     <th class="text-left">Type</th>
-                                    <th  class="text-left">REF</th>
+                                    <th class="text-left">REF</th>
                                     <th style="text-align: center">Debit</th>
                                     <th style="text-align: center">Credit</th>
                                 </tr>
@@ -198,11 +200,13 @@
                                 @php($cr = $data->opening_credit??0)
                                 @foreach($data->records??[] as $txnDetail)
                                     <tr>
-                                        <td  class="text-left">{{ $loop->iteration }} </td>
-                                        <td  class="text-left">{{ \Carbon\Carbon::parse($txnDetail->date)->toDateString() }}</td>
-                                        <td  class="text-left">{!! str_replace('\n','</br>',$txnDetail->transaction_details) !!}</td>
-                                        <td  class="text-left">{{ optional($txnDetail->transaction)->txn_type }}</td>
-                                        <td  class="text-left">{{ $txnDetail->ref??optional($txnDetail->transaction)->voucher_no }}</td>
+                                        <td class="text-left">{{ $loop->iteration }} </td>
+                                        <td class="text-left">{{ \Carbon\Carbon::parse($txnDetail->date)->toDateString() }}</td>
+                                        <td class="text-left" style="max-width: 200px">{{ implode(',',participants($txnDetail->transaction->id,$txnDetail->ledger_id)) }}</td>
+
+                                        <td class="text-left">{!! str_replace('\n','</br>',$txnDetail->transaction_details) !!}</td>
+                                        <td class="text-left">{{ optional($txnDetail->transaction)->txn_type }}</td>
+                                        <td class="text-left">{{ $txnDetail->ref??optional($txnDetail->transaction)->voucher_no }}</td>
 
                                         @if($txnDetail->entry_type == \Enam\Acc\Utils\EntryType::$DR)
                                             <td style="text-align: center">{{ decent_format_dash($txnDetail->amount )}}</td>
@@ -219,7 +223,7 @@
                                 @endforeach
                                 <tr style="font-weight: bolder;text-align: center">
                                     <td></td>
-                                    <td  class="text-left" colspan="4">CLOSING BALANCE</td>
+                                    <td class="text-left" colspan="4">CLOSING BALANCE</td>
                                     @if($dr>$cr)
                                         <td>{{ decent_format_dash($dr-$cr) }}</td>
                                         <td>-</td>

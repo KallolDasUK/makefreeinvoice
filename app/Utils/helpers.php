@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\MetaSetting;
+use Enam\Acc\Models\Ledger;
 use Enam\Acc\Models\TransactionDetail;
 use Enam\Acc\Utils\EntryType;
 
@@ -20,9 +21,10 @@ if (!function_exists('decent_format_dash_if_zero')) {
         }
         $number = number_format($number, 2);
         $number = str_replace('.00', '', $number);
-        return (settings()->currency ?? '$') .''. $number;
+        return (settings()->currency ?? '$') . '' . $number;
     }
-}if (!function_exists('decent_format_dash')) {
+}
+if (!function_exists('decent_format_dash')) {
     function decent_format_dash($number): string
     {
         if (floatval($number) == 0) {
@@ -30,7 +32,7 @@ if (!function_exists('decent_format_dash_if_zero')) {
         }
         $number = number_format($number, 2);
         $number = str_replace('.00', '', $number);
-        return ''. $number;
+        return '' . $number;
     }
 }
 if (!function_exists('settings')) {
@@ -699,4 +701,18 @@ if (!function_exists('currencies')) {
 
 }
 
-
+if (!function_exists('participants')) {
+    function participants($txn_id, $ledger_id)
+    {
+        $participants = [];
+        $ledger_ids = TransactionDetail::query()
+            ->where('transaction_id', $txn_id)
+            ->where('ledger_id', '!=', $ledger_id)
+            ->pluck('ledger_id')->toArray();
+        $ledgers = Ledger::find($ledger_ids);
+        if ($ledgers) {
+            $participants = $ledgers->pluck('ledger_name')->toArray();
+        }
+        return $participants;
+    }
+}
