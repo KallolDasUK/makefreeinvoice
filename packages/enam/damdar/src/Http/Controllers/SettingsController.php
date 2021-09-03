@@ -20,7 +20,6 @@ class SettingsController extends Controller
     use TransactionTrait;
 
 
-
     public function edit()
     {
         View::share('title', 'Settings');
@@ -53,6 +52,26 @@ class SettingsController extends Controller
         $saved = $file->store('public/' . $path, config('filesystems.default'));
 
         return substr($saved, 7);
+    }
+
+    public function updatePasswordView()
+    {
+        return view('settings.update-password');
+
+    }
+
+    public function storePassword(Request $request)
+    {
+
+        $data = $request->validate([
+            'new_password' => 'required',
+            'confirmed_password' => 'required|same:new_password',
+        ]);
+
+        auth()->user()->update(['password' => \Hash::make($data['new_password'])]);
+        session()->flash('success_message', 'Password changed successfully.');
+
+        return back();
     }
 
 }
