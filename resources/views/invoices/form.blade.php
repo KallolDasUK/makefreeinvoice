@@ -272,7 +272,7 @@
                 <td class="d-flex align-items-center">
                     <b class=" font-weight-bolder text-black mr-2" style="font-size: 14px">Discount</b>
                     <input type="number" step="any" class="input-sm form-control d-inline-block"
-                           style="max-width: 100px; text-align: end;min-width: 100px" id="discountValue" name="discount_value"
+                           style="max-width: 50px; text-align: end;min-width: 100px" id="discountValue" name="discount_value"
                            value="{{ old('discount_value', optional($invoice)->discount_value) }}">
                     <select class="input-sm small-input d-inline" id="discount_type" name="discount_type">
 
