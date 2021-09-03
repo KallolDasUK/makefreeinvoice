@@ -34,6 +34,7 @@ class Blog extends Model
         'body',
         'tags',
         'user_id',
+        'meta',
         'client_id'
     ];
 

@@ -165,8 +165,8 @@
                         <span class="text-muted para-desc mb-0 mx-auto">Start working with <span
                                 class="text-primary fw-bold"><span style="color: #0d71bb">Invoice</span><span
                                     style="color: red">Pedia</span></span>
-                        that can provide easy solution to <h1 class="d-inline"
-                                                              style="font-size: 16px !important;display: inline"> <strong>create invoices online</strong></h1> and send it to your
+                        that can provide easy solution to <h2 class="d-inline"
+                                                              style="font-size: 16px !important;display: inline"> <strong>create invoices online</strong></h2> and send it to your
                         business client.
                         Making an invoice is sometimes like a hard-nut-crack for almost every business person. A lot of
                         work needs to be done, like, itemizing charges, calculating taxes, managing online payments and

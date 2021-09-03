@@ -49,16 +49,15 @@ class BlogsController extends Controller
     {
         $blog = Blog::query()->firstWhere('slug', $slug);
         view()->share('title', $blog->title);
-        $description = strip_tags(preg_replace('<!--*-->', '', $blog->body));
 
         SEOMeta::setTitle($blog->title);
-        SEOMeta::setDescription($description);
+        SEOMeta::setDescription($blog->meta);
         SEOMeta::addMeta('article:published_time', $blog->created_at->toW3CString(), 'property');
 
         SEOMeta::addMeta('article:section', $blog->title . ' ' . implode(',', $blog->blog_tag_names), 'property');
         SEOMeta::addKeyword($blog->blog_tag_names);
 //        dd($description);
-        OpenGraph::setDescription($description);
+        OpenGraph::setDescription($blog->meta);
         OpenGraph::setTitle($blog->title);
         OpenGraph::setUrl(route('blogs.blog.show', $blog->slug));
         OpenGraph::addProperty('type', 'article');
@@ -76,7 +75,7 @@ class BlogsController extends Controller
 
 
         JsonLd::setTitle($blog->title);
-        JsonLd::setDescription($description);
+        JsonLd::setDescription($blog->meta);
         JsonLd::setType('Article');
 //        JsonLd::addImage($blog->images->list('url'));
 
@@ -94,8 +93,8 @@ class BlogsController extends Controller
 
         // Namespace URI: http://ogp.me/ns/article#
         // article
-        OpenGraph::setTitle($blog->title)
-            ->setDescription($description)
+        OpenGraph::setTitle('Article')
+            ->setDescription($blog->meta)
             ->setType('article')
             ->setArticle([
                 'published_time' => $blog->created_at,
@@ -105,138 +104,6 @@ class BlogsController extends Controller
                 'tag' => $blog->blog_tag_names,
             ]);
 
-        // Namespace URI: http://ogp.me/ns/book#
-        // book
-        OpenGraph::setTitle('Book')
-            ->setDescription('Some Book')
-            ->setType('book')
-            ->setBook([
-                'author' => 'profile / array',
-                'isbn' => 'string',
-                'release_date' => 'datetime',
-                'tag' => 'string / array'
-            ]);
-
-        // Namespace URI: http://ogp.me/ns/profile#
-        // profile
-        OpenGraph::setTitle('Profile')
-            ->setDescription('Some Person')
-            ->setType('profile')
-            ->setProfile([
-                'first_name' => 'string',
-                'last_name' => 'string',
-                'username' => 'string',
-                'gender' => 'enum(male, female)'
-            ]);
-
-        // Namespace URI: http://ogp.me/ns/music#
-        // music.song
-        OpenGraph::setType('music.song')
-            ->setMusicSong([
-                'duration' => 'integer',
-                'album' => 'array',
-                'album:disc' => 'integer',
-                'album:track' => 'integer',
-                'musician' => 'array'
-            ]);
-
-        // music.album
-        OpenGraph::setType('music.album')
-            ->setMusicAlbum([
-                'song' => 'music.song',
-                'song:disc' => 'integer',
-                'song:track' => 'integer',
-                'musician' => 'profile',
-                'release_date' => 'datetime'
-            ]);
-
-        //music.playlist
-        OpenGraph::setType('music.playlist')
-            ->setMusicPlaylist([
-                'song' => 'music.song',
-                'song:disc' => 'integer',
-                'song:track' => 'integer',
-                'creator' => 'profile'
-            ]);
-
-        // music.radio_station
-        OpenGraph::setType('music.radio_station')
-            ->setMusicRadioStation([
-                'creator' => 'profile'
-            ]);
-
-        // Namespace URI: http://ogp.me/ns/video#
-        // video.movie
-        OpenGraph::setType('video.movie')
-            ->setVideoMovie([
-                'actor' => 'profile / array',
-                'actor:role' => 'string',
-                'director' => 'profile /array',
-                'writer' => 'profile / array',
-                'duration' => 'integer',
-                'release_date' => 'datetime',
-                'tag' => 'string / array'
-            ]);
-
-        // video.episode
-        OpenGraph::setType('video.episode')
-            ->setVideoEpisode([
-                'actor' => 'profile / array',
-                'actor:role' => 'string',
-                'director' => 'profile /array',
-                'writer' => 'profile / array',
-                'duration' => 'integer',
-                'release_date' => 'datetime',
-                'tag' => 'string / array',
-                'series' => 'video.tv_show'
-            ]);
-
-        // video.tv_show
-        OpenGraph::setType('video.tv_show')
-            ->setVideoTVShow([
-                'actor' => 'profile / array',
-                'actor:role' => 'string',
-                'director' => 'profile /array',
-                'writer' => 'profile / array',
-                'duration' => 'integer',
-                'release_date' => 'datetime',
-                'tag' => 'string / array'
-            ]);
-
-        // video.other
-        OpenGraph::setType('video.other')
-            ->setVideoOther([
-                'actor' => 'profile / array',
-                'actor:role' => 'string',
-                'director' => 'profile /array',
-                'writer' => 'profile / array',
-                'duration' => 'integer',
-                'release_date' => 'datetime',
-                'tag' => 'string / array'
-            ]);
-
-        // og:video
-        OpenGraph::addVideo('http://example.com/movie.swf', [
-            'secure_url' => 'https://example.com/movie.swf',
-            'type' => 'application/x-shockwave-flash',
-            'width' => 400,
-            'height' => 300
-        ]);
-
-        // og:audio
-        OpenGraph::addAudio('http://example.com/sound.mp3', [
-            'secure_url' => 'https://secure.example.com/sound.mp3',
-            'type' => 'audio/mpeg'
-        ]);
-
-        // og:place
-        OpenGraph::setTitle('Place')
-            ->setDescription('Some Place')
-            ->setType('place')
-            ->setPlace([
-                'location:latitude' => 'float',
-                'location:longitude' => 'float',
-            ]);
 
         return view('blogs.show', compact('blog'));
     }
@@ -288,6 +155,7 @@ class BlogsController extends Controller
             'slug' => 'required|unique:blogs,slug',
             'body' => 'required',
             'tags' => 'nullable',
+            'meta' => 'nullable',
         ];
         if ($blog) {
             $rules = [
@@ -295,6 +163,8 @@ class BlogsController extends Controller
                 'slug' => 'required|unique:blogs,slug,' . $blog->id,
                 'body' => 'required',
                 'tags' => 'nullable',
+                'meta' => 'nullable',
+
             ];
         }
 //        dd($rules);
