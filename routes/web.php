@@ -4,6 +4,7 @@ use App\Http\Controllers\Ajax\AjaxController;
 use App\Http\Controllers\BillingsController;
 use App\Http\Controllers\BillsController;
 use App\Http\Controllers\BlogsController;
+use App\Http\Controllers\BlogTagsController;
 use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\CustomersController;
 use App\Http\Controllers\Estimates\EstimatesController;
@@ -263,19 +264,10 @@ Route::group(['middleware' => 'auth:web', 'prefix' => 'app'], function () {
  *  php artisan create:scaffold Blog  --layout-name="layouts.app" --with-migration
  *
  * */
+Route::get('p/{slug}', [BlogsController::class, 'show'])->name('blogs.blog.show')->where('id', '[0-9]+');
 
-Route::group(['prefix' => 'blogs'], function () {
 
 
-    Route::get('/', [BlogsController::class, 'index'])->name('blogs.blog.index');
-    Route::get('/create', [BlogsController::class, 'create'])->name('blogs.blog.create');
-    Route::get('/{slug}', [BlogsController::class, 'show'])->name('blogs.blog.show')->where('id', '[0-9]+');
-    Route::get('/{blog}/edit', [BlogsController::class, 'edit'])->name('blogs.blog.edit')->where('id', '[0-9]+');
-    Route::post('/', [BlogsController::class, 'store'])->name('blogs.blog.store');
-    Route::put('blog/{blog}', [BlogsController::class, 'update'])->name('blogs.blog.update')->where('id', '[0-9]+');
-    Route::delete('/blog/{blog}', [BlogsController::class, 'destroy'])->name('blogs.blog.destroy')->where('id', '[0-9]+');
-
-});
 
 Route::group(['prefix' => 'reports'], function () {
 
@@ -351,5 +343,33 @@ Route::group(['prefix' => 'master', 'middleware' => ['auth:web', 'isMaster']], f
     Route::post('/subscriptions/basic-plan', [MasterController::class, 'basicPlanSettings'])->name('master.subscriptions.basic_plan');
     Route::post('/subscriptions/premium-plan', [MasterController::class, 'premiumPlanSettings'])->name('master.subscriptions.premium_plan');
     Route::get('/users', [MasterController::class, 'users'])->name('master.users');
+
+    Route::group(['prefix' => 'blogs'], function () {
+
+
+        Route::get('/', [BlogsController::class, 'index'])->name('blogs.blog.index');
+        Route::get('/create', [BlogsController::class, 'create'])->name('blogs.blog.create');
+        Route::get('/{blog}/edit', [BlogsController::class, 'edit'])->name('blogs.blog.edit')->where('id', '[0-9]+');
+        Route::post('/', [BlogsController::class, 'store'])->name('blogs.blog.store');
+        Route::put('blog/{blog}', [BlogsController::class, 'update'])->name('blogs.blog.update')->where('id', '[0-9]+');
+        Route::delete('/blog/{blog}', [BlogsController::class, 'destroy'])->name('blogs.blog.destroy')->where('id', '[0-9]+');
+
+    });
+
+    Route::group([
+        'prefix' => 'blog_tags',
+    ], function () {
+
+        Route::get('/', [BlogTagsController::class,'index'])->name('blog_tags.blog_tag.index');
+        Route::get('/create',[BlogTagsController::class,'create'])->name('blog_tags.blog_tag.create');
+        Route::get('/show/{blogTag}',[BlogTagsController::class,'show'])->name('blog_tags.blog_tag.show');
+        Route::get('/{blogTag}/edit',[BlogTagsController::class,'edit'])->name('blog_tags.blog_tag.edit');
+        Route::post('/', [BlogTagsController::class,'store'])->name('blog_tags.blog_tag.store');
+        Route::put('blog_tag/{blogTag}', [BlogTagsController::class,'update'])->name('blog_tags.blog_tag.update');
+        Route::delete('/blog_tag/{blogTag}',[BlogTagsController::class,'destroy'])->name('blog_tags.blog_tag.destroy');
+
+    });
 });
 Route::get('master/users/login/{email}', [MasterController::class, 'loginClient'])->name('master.users.login');
+
+

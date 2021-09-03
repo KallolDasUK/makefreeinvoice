@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use FontLib\Table\Type\name;
 use Illuminate\Database\Eloquent\Model;
 
 class Blog extends Model
@@ -16,10 +17,10 @@ class Blog extends Model
     protected $table = 'blogs';
 
     /**
-    * The database primary key value.
-    *
-    * @var string
-    */
+     * The database primary key value.
+     *
+     * @var string
+     */
     protected $primaryKey = 'id';
 
     /**
@@ -28,12 +29,13 @@ class Blog extends Model
      * @var array
      */
     protected $fillable = [
-                  'title',
-                  'slug',
-                  'body',
-                  'user_id',
-                  'client_id'
-              ];
+        'title',
+        'slug',
+        'body',
+        'tags',
+        'user_id',
+        'client_id'
+    ];
 
     /**
      * The attributes that should be mutated to dates.
@@ -49,23 +51,41 @@ class Blog extends Model
      */
     protected $casts = [];
 
-protected static function boot()
-{
-    parent::boot();
-    // registering a callback to be executed upon the creation of an activity AR
-    static::creating(function($activity) {
+    protected static function boot()
+    {
+        parent::boot();
+        // registering a callback to be executed upon the creation of an activity AR
+        static::creating(function ($activity) {
 
-        // produce a slug based on the activity title
-        $slug = \Str::slug($activity->title);
+            // produce a slug based on the activity title
+            $slug = \Str::slug($activity->title);
 
-        // check to see if any other slugs exist that are the same & count them
-        $count = static::whereRaw("slug RLIKE '^{$slug}(-[0-9]+)?$'")->count();
+            // check to see if any other slugs exist that are the same & count them
+            $count = static::whereRaw("slug RLIKE '^{$slug}(-[0-9]+)?$'")->count();
 
-        // if other slugs exist that are the same, append the count to the slug
-        $activity->slug = $count ? "{$slug}-{$count}" : $slug;
+            // if other slugs exist that are the same, append the count to the slug
+            $activity->slug = $count ? "{$slug}-{$count}" : $slug;
 
-    });
-}
+        });
+    }
+
+    public function getBlogTagsAttribute()
+    {
+        $ids = json_decode($this->tags ?? '[]') ?? [];
+        $blogTags = BlogTag::find($ids);
+        return $blogTags;
+    }
+
+    public function getBlogTagNamesAttribute()
+    {
+        $ids = json_decode($this->tags ?? '[]') ?? [];
+        $names = [];
+        $blogTags = BlogTag::find($ids);
+        if ($blogTags) {
+            $names = $blogTags->pluck('name')->toArray();
+        }
+        return $names;
+    }
 
 
 }

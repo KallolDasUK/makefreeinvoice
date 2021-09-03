@@ -1,12 +1,12 @@
 {{--@extends('acc::layouts.app')--}}
-@extends('super_admin.layouts.app')
+@extends('master.master-layout')
 @section('content')
 
     <div class="card">
 
         <div class="card-header">
 
-            <h5  class="my-1 float-left">Create New Blog</h5>
+            <h5 class="my-1 float-left">Create New Blog</h5>
 
             <div class="btn-group btn-group-sm float-right" role="group">
                 <a href="{{ route('blogs.blog.index') }}" class="btn btn-primary" title="Show All Blog">
@@ -20,10 +20,10 @@
         <div class="card-body">
 
 
-
-            <form method="POST" action="{{ route('blogs.blog.store') }}" accept-charset="UTF-8" id="create_blog_form" name="create_blog_form" class="form-horizontal">
-            {{ csrf_field() }}
-            @include ('blogs.form', ['blog' => null])
+            <form method="POST" action="{{ route('blogs.blog.store') }}" accept-charset="UTF-8" id="create_blog_form"
+                  name="create_blog_form" class="form-horizontal">
+                {{ csrf_field() }}
+                @include ('blogs.form', ['blog' => null])
 
                 <div class="form-group">
                     <div class="col-md-offset-2 col-md-10">
@@ -47,7 +47,21 @@
     <link rel="stylesheet" href="{{asset('vendor/laraberg/css/laraberg.css')}}">
 
     <script>
+        function convertToSlug(Text) {
+            return Text
+                .toLowerCase()
+                .replace(/ /g, '-')
+                .replace(/[^\w-]+/g, '')
+                ;
+        }
+
         Laraberg.init('body')
+        $(document).ready(function () {
+            $('#tags').select2()
+            $('#title').on('input', function () {
+                $('#slug').val(convertToSlug($('#title').val()))
+            })
+        })
 
     </script>
 @endsection

@@ -1,4 +1,4 @@
-@extends('super_admin.layouts.app')
+@extends('master.master-layout')
 
 @section('content')
 
@@ -61,6 +61,19 @@
     <script>
         Laraberg.init('body')
 
+        function convertToSlug(Text) {
+            return Text
+                .toLowerCase()
+                .replace(/ /g, '-')
+                .replace(/[^\w-]+/g, '')
+                ;
+        }
+        $(document).ready(function () {
+            $('#tags').select2()
+            $('#title').on('input', function () {
+                $('#slug').val(convertToSlug($('#title').val()))
+            })
+        })
     </script>
 @endsection
 

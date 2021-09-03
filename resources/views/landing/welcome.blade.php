@@ -339,7 +339,11 @@
 
                             <div class="card-body content">
                                 <div class="d-flex justify-content-between align-items-center mb-3">
-                                    <span class="badge bg-soft-primary">ICO</span>
+
+                                    @foreach($post->blog_tags as $tag)
+                                        <span class="badge bg-soft-primary">{{ $tag->name }}</span>
+
+                                    @endforeach
                                     <small class="text-muted">{{ $post->updated_at->format('d M Y') }}</small>
                                 </div>
                                 <a href="{{ route('blogs.blog.show',$post->slug) }}"

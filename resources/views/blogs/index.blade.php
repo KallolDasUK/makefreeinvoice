@@ -1,4 +1,4 @@
-@extends('super_admin.layouts.app')
+@extends('master.master-layout')
 
 @section('content')
 
@@ -18,7 +18,7 @@
 
         <div class="card-header">
 
-            <h5  class="my-1 float-left">Blogs</h5>
+            <h5 class="my-1 float-left">Blogs</h5>
 
             <div class="btn-group btn-group-sm float-right" role="group">
                 <a href="{{ route('blogs.blog.create') }}" class="btn btn-success" title="Create New Blog">
@@ -34,11 +34,11 @@
                 <h4>No Blogs Available.</h4>
             </div>
         @else
-        <div class="card-body">
+            <div class="card-body">
 
-            <div >
-                <table class="table table-bordered table-sm">
-                    <thead>
+                <div>
+                    <table class="table table-bordered table-sm">
+                        <thead>
                         <tr>
                             <th>Title</th>
                             <th>Slug</th>
@@ -46,48 +46,54 @@
 
                             <th></th>
                         </tr>
-                    </thead>
-                    <tbody>
-                    @foreach($blogs as $blog)
-                        <tr>
-                                <td>{{ $blog->title }}</td>
-                            <td>{{ $blog->slug }}</td>
+                        </thead>
+                        <tbody>
+                        @foreach($blogs as $blog)
+                            <tr>
+                                <td><a target="_blank"
+                                       href="{{ route('blogs.blog.show',$blog->slug) }}"> {{ $blog->title }}</a></td>
+
+                                <td><a target="_blank"
+                                       href="{{ route('blogs.blog.show',$blog->slug) }}"> {{ $blog->slug }}</a></td>
 
 
+                                <td>
 
-                            <td>
+                                    <form method="POST" action="{!! route('blogs.blog.destroy', $blog->id) !!}"
+                                          accept-charset="UTF-8">
+                                        <input name="_method" value="DELETE" type="hidden">
+                                        {{ csrf_field() }}
 
-                                <form method="POST" action="{!! route('blogs.blog.destroy', $blog->id) !!}" accept-charset="UTF-8">
-                                <input name="_method" value="DELETE" type="hidden">
-                                {{ csrf_field() }}
+                                        <div class="btn-group btn-group-sm float-right " role="group">
+                                            <a href="{{ route('blogs.blog.show', $blog->slug ) }}" title="Show Blog">
+                                                <i class="fa fa-eye text-info" aria-hidden="true"></i>
+                                            </a>
+                                            <a href="{{ route('blogs.blog.edit', $blog->id ) }}" class="mx-4"
+                                               title="Edit Blog">
+                                                <i class="fas fa-edit text-primary" aria-hidden="true"></i>
+                                            </a>
 
-                                    <div class="btn-group btn-group-sm float-right " role="group">
-                                        <a href="{{ route('blogs.blog.show', $blog->slug ) }}" title="Show Blog">
-                                            <i class="fa fa-eye text-info" aria-hidden="true"></i>
-                                        </a>
-                                        <a href="{{ route('blogs.blog.edit', $blog->id ) }}" class="mx-4" title="Edit Blog">
-                                            <i class="fas fa-edit text-primary" aria-hidden="true"></i>
-                                        </a>
+                                            <button type="submit" style="border: none;background: transparent"
+                                                    title="Delete Blog"
+                                                    onclick="return confirm(&quot;Click Ok to delete Blog.&quot;)">
+                                                <i class=" fas  fa-trash text-danger" aria-hidden="true"></i>
+                                            </button>
+                                        </div>
 
-                                        <button type="submit" style="border: none;background: transparent"  title="Delete Blog" onclick="return confirm(&quot;Click Ok to delete Blog.&quot;)">
-                                            <i class=" fas  fa-trash text-danger" aria-hidden="true"></i>
-                                        </button>
-                                    </div>
+                                    </form>
 
-                                </form>
+                                </td>
+                            </tr>
+                        @endforeach
+                        </tbody>
+                    </table>
 
-                            </td>
-                        </tr>
-                    @endforeach
-                    </tbody>
-                </table>
-
+                </div>
             </div>
-        </div>
 
-        <div class="card-footer">
-            {!! $blogs->render() !!}
-        </div>
+            <div class="card-footer">
+                {!! $blogs->render() !!}
+            </div>
 
         @endif
 
@@ -96,27 +102,30 @@
 
 @section('scripts')
 
-     <script>
-         $(document).ready(function () {
-             $('table').DataTable({
-                 responsive: true,
-                 "order": [],
-                 dom: 'lBfrtip',
-                 buttons: [
-                     'copy', 'excel', 'pdf', 'print'
-                 ]
+    <script>
+        $(document).ready(function () {
+            $('table').DataTable({
+                responsive: true,
+                "order": [],
+                dom: 'lBfrtip',
+                buttons: [
+                    'copy', 'excel', 'pdf', 'print'
+                ]
 
-             });
-         });
-     </script>
+            });
+        });
+    </script>
 
-     <style>
-         .dataTables_filter {
-             float: right;
-         }
-        i:hover { color: #0248fa !important; }
+    <style>
+        .dataTables_filter {
+            float: right;
+        }
 
-     </style>
+        i:hover {
+            color: #0248fa !important;
+        }
+
+    </style>
 
 
 @endsection
