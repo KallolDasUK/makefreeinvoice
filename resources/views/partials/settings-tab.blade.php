@@ -11,7 +11,7 @@
         <li class="nav-item cursor-pointer">
             <a class="nav-link {{ $page === 'change_password'?'active':'' }} p-4"
                href="{{ route('settings.update_password') }}">
-                <span class="nav-icon"><i class="fa fa-cog"></i></span>
+                <span class="nav-icon"><i class="fa fa-lock"></i></span>
                 <span class="nav-text font-weight-bolder">Change Password</span>
             </a>
         </li>

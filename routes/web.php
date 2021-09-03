@@ -29,6 +29,7 @@ use App\Models\InvoiceItem;
 use App\Models\Reason;
 use App\Models\Tax;
 use Carbon\Carbon;
+use Enam\Acc\Http\Controllers\SettingsController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -250,7 +251,8 @@ Route::group(['middleware' => 'auth:web', 'prefix' => 'app'], function () {
     Route::group(['prefix' => 'subscriptions'], function () {
 
         Route::get('/', [BillingsController::class, 'index'])->name('subscriptions.settings');
-        Route::get('/update-password', [BillingsController::class, 'index'])->name('settings.update_password');
+        Route::get('/update-password', [SettingsController::class, 'updatePasswordView'])->name('settings.update_password');
+        Route::post('/update-password', [SettingsController::class, 'storePassword'])->name('settings.update_password.store');
         Route::get('/modal', [BillingsController::class, 'subscriptionModal'])->name('subscriptions.modal');
         Route::post('/subscribe', [BillingsController::class, 'purchaseSubscription'])->name('subscribe.store');
         Route::post('/cancel', [BillingsController::class, 'cancelSubscription'])->name('subscriptions.cancel');
@@ -266,8 +268,6 @@ Route::group(['middleware' => 'auth:web', 'prefix' => 'app'], function () {
  *
  * */
 Route::get('p/{slug}', [BlogsController::class, 'show'])->name('blogs.blog.show')->where('id', '[0-9]+');
-
-
 
 
 Route::group(['prefix' => 'reports'], function () {
@@ -361,13 +361,13 @@ Route::group(['prefix' => 'master', 'middleware' => ['auth:web', 'isMaster']], f
         'prefix' => 'blog_tags',
     ], function () {
 
-        Route::get('/', [BlogTagsController::class,'index'])->name('blog_tags.blog_tag.index');
-        Route::get('/create',[BlogTagsController::class,'create'])->name('blog_tags.blog_tag.create');
-        Route::get('/show/{blogTag}',[BlogTagsController::class,'show'])->name('blog_tags.blog_tag.show');
-        Route::get('/{blogTag}/edit',[BlogTagsController::class,'edit'])->name('blog_tags.blog_tag.edit');
-        Route::post('/', [BlogTagsController::class,'store'])->name('blog_tags.blog_tag.store');
-        Route::put('blog_tag/{blogTag}', [BlogTagsController::class,'update'])->name('blog_tags.blog_tag.update');
-        Route::delete('/blog_tag/{blogTag}',[BlogTagsController::class,'destroy'])->name('blog_tags.blog_tag.destroy');
+        Route::get('/', [BlogTagsController::class, 'index'])->name('blog_tags.blog_tag.index');
+        Route::get('/create', [BlogTagsController::class, 'create'])->name('blog_tags.blog_tag.create');
+        Route::get('/show/{blogTag}', [BlogTagsController::class, 'show'])->name('blog_tags.blog_tag.show');
+        Route::get('/{blogTag}/edit', [BlogTagsController::class, 'edit'])->name('blog_tags.blog_tag.edit');
+        Route::post('/', [BlogTagsController::class, 'store'])->name('blog_tags.blog_tag.store');
+        Route::put('blog_tag/{blogTag}', [BlogTagsController::class, 'update'])->name('blog_tags.blog_tag.update');
+        Route::delete('/blog_tag/{blogTag}', [BlogTagsController::class, 'destroy'])->name('blog_tags.blog_tag.destroy');
 
     });
 });
