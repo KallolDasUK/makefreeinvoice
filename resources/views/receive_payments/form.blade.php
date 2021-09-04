@@ -72,7 +72,7 @@
 
         @foreach ($depositAccounts as $account)
             <option
-                value="{{ $account->id }}" {{ old('deposit_to', optional($receivePayment)->deposit_to) == $account->id ? 'selected' : '' }} @if($receivePaymnet??null) {{ $account->id == ($cashAcId??null)?'selected':'' }} @endif>
+                value="{{ $account->id }}" {{ old('deposit_to', optional($receivePayment)->deposit_to) == $account->id ? 'selected' : '' }} @if($receivePayment == null) {{ $account->id == \Enam\Acc\Models\Ledger::CASH_AC()?'selected':'' }} @endif>
                 {{ $account->ledger_name }}
             </option>
         @endforeach
