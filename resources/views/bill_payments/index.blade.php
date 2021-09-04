@@ -18,33 +18,33 @@
 
         <div class="card-header">
 
-            <h5 class="my-1 float-left">Receive Payments</h5>
+            <h5 class="my-1 float-left">Bill Payments</h5>
 
             <div class="btn-group btn-group-sm float-right" role="group">
-                <a href="{{ route('receive_payments.receive_payment.create') }}" class="btn btn-success"
-                   title="Create New Receive Payment">
+                <a href="{{ route('bill_payments.bill_payment.create') }}" class="btn btn-success"
+                   title="Create New Bill Payment">
                     <i class="fas fa-fw fa-plus" aria-hidden="true"></i>
-                    Create New Receive Payment
+                    Create New Bill Payment
                 </a>
             </div>
 
         </div>
 
-        @if(count($receivePayments) == 0)
+        @if(count($billPayments) == 0)
             <div class="card-body text-center">
-                <h4>No Receive Payments Available.</h4>
+                <h4>No Bill Payments Available.</h4>
             </div>
         @else
             <div class="card-body">
 
-                <div class="table-responsive">
-                    <table class="table table-bordered">
+                <div>
+                    <table class=" table mb-0  table-head-custom table-vertical-center ">
                         <thead>
                         <tr>
                             <th>SL</th>
                             <th>Payment Sl</th>
-                            <th>Customer</th>
-                            <th>Invoices</th>
+                            <th>Vendor</th>
+                            <th>Bills</th>
                             <th>Payment Date</th>
                             <th>Payment Method</th>
                             <th>Amount</th>
@@ -53,39 +53,37 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach($receivePayments as $receivePayment)
+                        @foreach($billPayments as $billPayment)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
-                                <td>{{ $receivePayment->payment_sl }}</td>
-                                <td>{{ optional($receivePayment->customer)->name }}</td>
-                                <td>{{ $receivePayment->invoice }}</td>
-                                <td>{{ $receivePayment->payment_date }}</td>
-                                <td>{{ optional($receivePayment->paymentMethod)->name }}</td>
-                                <td>{{ $receivePayment->amount }}</td>
+                                <td>{{ $billPayment->payment_sl }}</td>
+                                <td>{{ optional($billPayment->vendor)->name }}</td>
+                                <td>{{ $billPayment->bill }}</td>
 
+                                <td>{{ $billPayment->payment_date }}</td>
+                                <td>{{ optional($billPayment->paymentMethod)->name }}</td>
+                                <td>{{ $billPayment->amount }}</td>
                                 <td>
 
                                     <form method="POST"
-                                          action="{!! route('receive_payments.receive_payment.destroy', $receivePayment->id) !!}"
+                                          action="{!! route('bill_payments.bill_payment.destroy', $billPayment->id) !!}"
                                           accept-charset="UTF-8">
                                         <input name="_method" value="DELETE" type="hidden">
                                         {{ csrf_field() }}
 
                                         <div class="btn-group btn-group-sm float-right " role="group">
-
-                                            <a href="{{ route('receive_payments.receive_payment.show', $receivePayment->id ) }}"
-                                               title="Show Receive Payment">
+                                            <a href="{{ route('bill_payments.bill_payment.show', $billPayment->id ) }}"
+                                               title="Show Bill Payment">
                                                 <i class="fa fa-eye text-info" aria-hidden="true"></i>
                                             </a>
-
-                                            <a href="{{ route('receive_payments.receive_payment.edit', $receivePayment->id ) }}"
-                                               class="mx-4" title="Edit Receive Payment">
+                                            <a href="{{ route('bill_payments.bill_payment.edit', $billPayment->id ) }}"
+                                               class="mx-4" title="Edit Bill Payment">
                                                 <i class="fas fa-edit text-primary" aria-hidden="true"></i>
                                             </a>
 
                                             <button type="submit" style="border: none;background: transparent"
-                                                    title="Delete Receive Payment"
-                                                    onclick="return confirm(&quot;Click Ok to delete Receive Payment.&quot;)">
+                                                    title="Delete Bill Payment"
+                                                    onclick="return confirm(&quot;Click Ok to delete Bill Payment.&quot;)">
                                                 <i class=" fas  fa-trash text-danger" aria-hidden="true"></i>
                                             </button>
                                         </div>
@@ -102,7 +100,7 @@
             </div>
 
             <div class="card-footer">
-                {!! $receivePayments->links() !!}
+                {!! $billPayments->render() !!}
             </div>
 
         @endif

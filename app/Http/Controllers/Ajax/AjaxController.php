@@ -10,6 +10,7 @@ use App\Models\Customer;
 use App\Models\Invoice;
 use App\Models\ReceivePayment;
 use App\Models\ReceivePaymentItem;
+use App\Models\Vendor;
 use Illuminate\Http\Request;
 
 class AjaxController extends Controller
@@ -24,6 +25,21 @@ class AjaxController extends Controller
             ->where('payment_status', '!=', Invoice::Paid)
             ->get();
         return view('partials.receive-payment-customers-invoice', compact('invoices'));
+
+
+    }
+
+    public function vendorUnpaidBill(Request $request)
+    {
+        $vendor = Vendor::find($request->vendor_id);
+
+        $bills = Bill::query()
+            ->where('vendor_id', $vendor->id)
+            ->where('payment_status', '!=', Bill::Paid)
+            ->get();
+
+
+        return view('partials.vendor_unpaid_bills', compact('bills'));
 
 
     }
