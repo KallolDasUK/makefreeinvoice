@@ -78,16 +78,6 @@ class AppServiceProvider extends ServiceProvider
             }
         });
 
-        BillPaymentItem::created(function ($bill_payment) {
-            $bill = $bill_payment->bill;
-            $bill->payment_status = $bill->payment_status_text;
-            $bill->save();
-        });
-        BillPaymentItem::deleted(function ($bill_payment) {
-            $bill = $bill_payment->bill;
-            $bill->payment_status = $bill->payment_status_text;
-            $bill->save();
-        });
 
 
         Gate::define('tax_summary', [ReportPolicy::class, 'tax_summary']);

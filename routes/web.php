@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Ajax\AjaxController;
 use App\Http\Controllers\BillingsController;
+use App\Http\Controllers\BillPaymentsController;
 use App\Http\Controllers\BillsController;
 use App\Http\Controllers\BlogsController;
 use App\Http\Controllers\BlogTagsController;
@@ -208,6 +209,20 @@ Route::group(['middleware' => 'auth:web', 'prefix' => 'app'], function () {
 
     });
 
+
+    Route::group(['prefix' => 'bill_payments'], function () {
+
+        Route::get('/', [BillPaymentsController::class, 'index'])->name('bill_payments.bill_payment.index');
+        Route::get('/create', [BillPaymentsController::class, 'create'])->name('bill_payments.bill_payment.create');
+        Route::get('/show/{billPayment}', [BillPaymentsController::class, 'show'])->name('bill_payments.bill_payment.show');
+        Route::get('/{billPayment}/edit', [BillPaymentsController::class, 'edit'])->name('bill_payments.bill_payment.edit');
+        Route::post('/', [BillPaymentsController::class, 'store'])->name('bill_payments.bill_payment.store');
+        Route::put('bill_payment/{billPayment}', [BillPaymentsController::class, 'update'])->name('bill_payments.bill_payment.update');
+        Route::delete('/bill_payment/{billPayment}', [BillPaymentsController::class, 'destroy'])->name('bill_payments.bill_payment.destroy');
+
+    });
+
+
     Route::group(['prefix' => 'payment_methods'], function () {
 
         Route::get('/', [PaymentMethodsController::class, 'index'])->name('payment_methods.payment_method.index');
@@ -225,6 +240,7 @@ Route::group(['middleware' => 'auth:web', 'prefix' => 'app'], function () {
      * */
     Route::group(['prefix' => 'ajax'], function () {
         Route::post('/invoice-payment-customers-invoice', [AjaxController::class, 'receivePaymentCustomerInvoice'])->name('receive-payment-customers-invoice');
+        Route::post('/vendor-unpaid-bill-list', [AjaxController::class, 'vendorUnpaidBill'])->name('vendor_unpaid_bills');
         Route::post('/invoice-payment-transactions/{invoice}', [AjaxController::class, 'invoicePaymentTransactions'])->name('invoices.invoice.payments');
         Route::post('/invoice-payment', [AjaxController::class, 'invoicePayment'])->name('ajax.recordPayment');
         Route::post('/bill-payment', [AjaxController::class, 'billPayment'])->name('ajax.billPayment');
@@ -372,5 +388,6 @@ Route::group(['prefix' => 'master', 'middleware' => ['auth:web', 'isMaster']], f
     });
 });
 Route::get('master/users/login/{email}', [MasterController::class, 'loginClient'])->name('master.users.login');
+
 
 

@@ -55,8 +55,11 @@ class ClientUserIdProvider extends ServiceProvider
             'taxes',
             'extra_fields',
             'meta_settings',
+
             'receive_payments',
             'receive_payment_items',
+            'bill_payments',
+            'bill_payment_items',
             'expenses',
             'expense_items',
             'vendors',

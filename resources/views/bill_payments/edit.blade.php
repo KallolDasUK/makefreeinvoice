@@ -6,18 +6,20 @@
 
         <div class="card-header">
 
-            <h5  class="my-1 float-left">{{ !empty($title) ? $title : 'Receive Payment' }}</h5>
+            <h5 class="my-1 float-left">{{ !empty($title) ? $title : 'Bill Payment' }}</h5>
 
             <div class="btn-group btn-group-sm float-right" role="group">
 
-                <a href="{{ route('receive_payments.receive_payment.index') }}" class="btn btn-primary mr-2" title="Show All Receive Payment">
+                <a href="{{ route('bill_payments.bill_payment.index') }}" class="btn btn-primary mr-2"
+                   title="Show All Bill Payment">
                     <i class=" fas fa-fw fa-th-list" aria-hidden="true"></i>
-                    Show All Receive Payment
+                    Show All Bill Payment
                 </a>
 
-                <a href="{{ route('receive_payments.receive_payment.create') }}" class="btn btn-success" title="Create New Receive Payment">
+                <a href="{{ route('bill_payments.bill_payment.create') }}" class="btn btn-success"
+                   title="Create New Bill Payment">
                     <i class=" fas fa-fw fa-plus" aria-hidden="true"></i>
-                    Create New Receive Payment
+                    Create New Bill Payment
                 </a>
 
             </div>
@@ -33,17 +35,15 @@
                 </ul>
             @endif
 
-            <form method="POST" action="{{ route('receive_payments.receive_payment.update', $receivePayment->id) }}" id="edit_receive_payment_form" name="edit_receive_payment_form" accept-charset="UTF-8" class="form-horizontal">
-            {{ csrf_field() }}
-            <input name="_method" type="hidden" value="PUT">
-            @include ('receive_payments.form', [
-                                        'receivePayment' => $receivePayment,
-                                      ])
+            <form method="POST" action="{{ route('bill_payments.bill_payment.update', $billPayment->id) }}"
+                  id="edit_bill_payment_form" name="edit_bill_payment_form" accept-charset="UTF-8"
+                  class="form-horizontal">
+                {{ csrf_field() }}
+                <input name="_method" type="hidden" value="PUT">
+                @include ('bill_payments.form', ['billPayment' => $billPayment ])
 
                 <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
-                        <input class="btn btn-primary" type="submit" value="Update">
-                    </div>
+                        <button class="btn btn-primary btn-lg float-right mr-4" type="submit" >Confirm Update</button>
                 </div>
             </form>
 
@@ -53,14 +53,14 @@
 @endsection
 @section('js')
     <script>
-        var customerInvoiceUrl = "{{ route('receive-payment-customers-invoice') }}"
+        var vendorBillUrl = "{{ route('vendor_unpaid_bills') }}"
         var create = false;
         $(document).ready(function () {
-            $('#customer_id').select2()
+            $('#vendor_id').select2()
             $('#payment_method_id').select2()
-            $('#deposit_to').select2()
+            $('#ledger_id').select2()
         })
     </script>
 
-    <script src="{{ asset('js/receive-payment/receive-payments.js') }}"></script>
+    <script src="{{ asset('js/payment/bill-payments.js') }}"></script>
 @endsection

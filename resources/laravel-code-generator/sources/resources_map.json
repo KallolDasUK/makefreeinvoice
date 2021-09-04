@@ -49,5 +49,15 @@
         "model-name": "BlogTag",
         "resource-file": "blog_tags.json",
         "table-name": "blog_tags"
+    },
+    {
+        "model-name": "BillPayment\\",
+        "resource-file": "bill_payment\\.json",
+        "table-name": "bill_payment\\"
+    },
+    {
+        "model-name": "BillPayment",
+        "resource-file": "bill_payments.json",
+        "table-name": "bill_payments"
     }
 ]

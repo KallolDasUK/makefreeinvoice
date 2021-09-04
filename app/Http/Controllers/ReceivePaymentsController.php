@@ -89,7 +89,9 @@ class ReceivePaymentsController extends Controller
 
         $receivePayment = ReceivePayment::findOrFail($id);
         $receivePayment->update($data);
-        ReceivePaymentItem::query()->where('receive_payment_id', $receivePayment->id)->delete();
+        ReceivePaymentItem::query()->where('receive_payment_id', $receivePayment->id)->get()->each(function ($model) {
+            $model->delete();
+        });;
         $payments = json_decode($request->data ?? '{}');
         foreach ($payments as $payment) {
             ReceivePaymentItem::create(['invoice_id' => $payment->invoice_id, 'receive_payment_id' => $receivePayment->id, 'amount' => $payment->amount]);
