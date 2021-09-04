@@ -354,11 +354,19 @@
                                style="min-width: 100px;position:relative;">
                                 <i class="fa fa-plus" aria-hidden="true"></i>
                                 New <br> Invoice</a>
+
+
                             <a href="{{ route('invoices.invoice.index') }}"
                                class="@cannot('viewAny',\App\Models\Invoice::class) pro-tag @endcannot"
                                style="min-width: 100px;position:relative;"><i
                                     class="fa fa-list-alt" aria-hidden="true"></i>Manage <br>
                                 Invoices</a>
+
+                            <a href="{{ route('receive_payments.receive_payment.create') }}"
+                               class="@cannot('create',\App\Models\Invoice::class) pro-tag @endcannot"
+                               style="min-width: 100px;position:relative;">
+                                <i class="fa fa-money-bill" aria-hidden="true"></i>
+                                Receive <br> Payment</a>
 
                             <a href="{{ route('products.product.index') }}"
                                class="@cannot('create',\App\Models\Invoice::class) pro-tag @endcannot"
@@ -405,7 +413,12 @@
                                style="min-width: 100px;position: relative">
                                 <i class="fa fa-list-alt ribbon" aria-hidden="true"></i>Manage <br>
                                 Bills</a>
+                            <a href="{{ route('bill_payments.bill_payment.create') }}"
+                               class="@cannot('create',\App\Models\Bill::class) pro-tag @endcannot"
+                               style="min-width: 100px;position: relative">
 
+                                <i class="fa fa-money-bill" aria-hidden="true"></i>
+                                Pay <br> Bill</a>
                             <a href="{{ route('products.product.index') }}"
                                class="@cannot('viewAny',\App\Models\Bill::class) pro-tag @endcannot"
                                style="min-width: 100px;position: relative">

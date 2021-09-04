@@ -222,7 +222,7 @@
                     </div>
                     <div class="shortcuts-title  text-black">Add Vendors</div>
                 </a>
-                <a href="{{ route('bill_payments.bill_payment.index') }}"
+                <a href="{{ route('bill_payments.bill_payment.create') }}"
                    style="position:relative; "
                    class="sc-gPEVay eaBhby border rounded @cannot('create',\App\Models\Bill::class) pro-tag @endcannot">
                     <div class="sc-iRbamj image" style="background-image:url('images/receive.svg');">
