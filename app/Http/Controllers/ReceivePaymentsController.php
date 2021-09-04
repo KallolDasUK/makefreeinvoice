@@ -30,13 +30,14 @@ class ReceivePaymentsController extends Controller
 
     public function create()
     {
+        $title = "Receive Payment";
         $paymentSerial = 'PM' . str_pad(ReceivePayment::query()->count(), 3, '0', STR_PAD_LEFT);
         $customers = Customer::pluck('name', 'id')->all();
         $cashAcId = optional(GroupMap::query()->firstWhere('key', LedgerHelper::$CASH_AC))->value;
         $depositAccounts = Ledger::find($this->getAssetLedgers())->sortBy('ledger_name');
         $paymentMethods = PaymentMethod::query()->get();
 
-        return view('receive_payments.create', compact('customers', 'paymentMethods', 'paymentSerial', 'depositAccounts', 'cashAcId'));
+        return view('receive_payments.create', compact('customers', 'title', 'paymentMethods', 'paymentSerial', 'depositAccounts', 'cashAcId'));
     }
 
 
@@ -106,7 +107,7 @@ class ReceivePaymentsController extends Controller
     {
 
         $receivePayment = ReceivePayment::findOrFail($id);
-        ReceivePaymentItem::query()->where('receive_payment_id', $receivePayment->id)->get()->each(function($model) {
+        ReceivePaymentItem::query()->where('receive_payment_id', $receivePayment->id)->get()->each(function ($model) {
             $model->delete();
         });
         $receivePayment->delete();
