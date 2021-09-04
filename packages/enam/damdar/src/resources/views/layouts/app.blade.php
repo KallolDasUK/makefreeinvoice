@@ -3,7 +3,7 @@
 <html>
 
 <head>
-    <title>{{ $title ?? env('APP_NAME') }}</title>
+    <title>{{ $title ?? config('app.name')}}</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=1024">
