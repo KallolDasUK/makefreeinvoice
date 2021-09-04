@@ -115,6 +115,12 @@
 
 
                                 </div>
+                                <div class="col-6 align-items-center d-flex mt-4">
+                                    <input id="prevent_opening" name="prevent_opening" type="checkbox" class="mr-4"
+                                           @if($prevent_opening) checked @endif>
+                                    <label for="prevent_opening">Dont include previous closing balance As on <span
+                                            id="prevent_date">{{ $start_date }}</span></label>
+                                </div>
 
                             </div>
                         </div>
@@ -162,7 +168,8 @@
 
                 <div class="row" style="min-height: 300px">
 
-                    <div class="col"><table class=" table mb-0  table-head-custom table-vertical-center ">
+                    <div class="col">
+                        <table class=" table mb-0  table-head-custom table-vertical-center ">
                             <thead>
                             <tr>
                                 <th>Assets</th>
@@ -205,7 +212,8 @@
                                 <td><b>TOTAL ASSET</b></td>
                                 <td style="text-align: center"><b>{{ decent_format_dash($asset) }}</b></td>
                             </tr>
-                        </table></div>
+                        </table>
+                    </div>
                     <div class="col">
                         <table class=" table mb-0  table-head-custom table-vertical-center ">
                             <thead>
@@ -254,7 +262,6 @@
                     </div>
 
 
-
                 </div>
 
 
@@ -299,6 +306,10 @@
             clearBtn: true
 
         });
+        $('#start_date').on('change',function () {
+
+            $('#prevent_date').text($('[name=start_date]').val())
+        })
 
         $('[data-toggle="popover"]').popover()
 

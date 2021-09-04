@@ -328,7 +328,7 @@ trait TransactionTrait
     }
 
 
-    public function getLedgerReport($branch_id, $ledger_id, $start_date, $end_date)
+    public function getLedgerReport($branch_id, $ledger_id, $start_date, $end_date, $prevent_opening = false)
 
     {
 
@@ -359,7 +359,6 @@ trait TransactionTrait
             ->where('entry_type', EntryType::$DR)
             ->where('note', '!=', EntryType::$OPENING_BALANCE)
             ->where('date', '<', $start_date)
-            ->where('date', '>', $end_date)
             ->sum('amount');
 
 
@@ -368,28 +367,34 @@ trait TransactionTrait
             ->where('entry_type', EntryType::$CR)
             ->where('note', '!=', EntryType::$OPENING_BALANCE)
             ->where('date', '<', $start_date)
-            ->where('date', '>', $end_date)
             ->sum('amount');
-
+        if ($prevent_opening){
+            $openingDebit = 0;
+            $openingCredit = 0;
+        }
 //        if ($ledger->id == 189) {
 //            dd($transaction_details, $openingDebit, $openingCredit);
 //        }
-//        dd($openingDebit, $openingCredit);
-        if ($ledger->opening) {
-            if ($ledger->opening_type == EntryType::$DR) {
-                $openingDebit += $ledger->opening;
-            } else {
-                $openingCredit += $ledger->opening;
-            }
-        }
 
-        if ($openingDebit > $openingCredit) {
-            $openingDebit = $openingDebit - $openingCredit;
-            $openingCredit = 0;
-        } else {
-            $openingCredit = $openingCredit - $openingDebit;
-            $openingDebit = 0;
-        }
+
+
+            if ($ledger->opening) {
+                if ($ledger->opening_type == EntryType::$DR) {
+                    $openingDebit += $ledger->opening;
+                } else {
+                    $openingCredit += $ledger->opening;
+                }
+            }
+
+            if ($openingDebit > $openingCredit) {
+                $openingDebit = $openingDebit - $openingCredit;
+                $openingCredit = 0;
+            } else {
+                $openingCredit = $openingCredit - $openingDebit;
+                $openingDebit = 0;
+            }
+
+
 
         $TrDebit = $transaction_details->where('entry_type', EntryType::$DR)->sum('amount');
         $TrCredit = $transaction_details->where('entry_type', EntryType::$CR)->sum('amount');

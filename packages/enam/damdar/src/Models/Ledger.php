@@ -276,11 +276,11 @@ class Ledger extends Model
         }
     }
 
-    public function closingBalance($branch_id, $start_date, $end_date)
+    public function closingBalance($branch_id, $start_date, $end_date, $prevent_opening = false)
     {
 
-        $report = $this->getLedgerReport($branch_id, $this->id, $start_date, $end_date);
-        if ($this->id == 189){
+        $report = $this->getLedgerReport($branch_id, $this->id, $start_date, $end_date, $prevent_opening);
+        if ($this->id == 189) {
 //        dd($report);
         }
         $nature = $this->nature;
