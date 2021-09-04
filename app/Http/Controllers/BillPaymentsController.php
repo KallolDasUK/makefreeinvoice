@@ -20,18 +20,20 @@ class BillPaymentsController extends Controller
 
     public function index()
     {
+        $title = "Bill Payments";
+
         $billPayments = BillPayment::with('vendor', 'bill', 'paymentmethod', 'ledger')
             ->latest()
             ->paginate(25);
 
-        return view('bill_payments.index', compact('billPayments'));
+        return view('bill_payments.index', compact('billPayments', 'title'));
     }
 
 
     public function create()
     {
         $paymentSerial = 'VPM' . str_pad(BillPayment::query()->count(), 3, '0', STR_PAD_LEFT);
-
+        $title = "Pay Bill";
         $vendors = Vendor::pluck('name', 'id')->all();
         $bills = Bill::pluck('bill_number', 'id')->all();
         $paymentMethods = PaymentMethod::query()->get();
@@ -39,7 +41,7 @@ class BillPaymentsController extends Controller
 
         $ledgers = Ledger::pluck('id', 'id')->all();
 
-        return view('bill_payments.create', compact('vendors', 'bills', 'paymentMethods', 'ledgers', 'paymentSerial', 'depositAccounts'));
+        return view('bill_payments.create', compact('vendors', 'title', 'bills', 'paymentMethods', 'ledgers', 'paymentSerial', 'depositAccounts'));
     }
 
 
@@ -70,12 +72,14 @@ class BillPaymentsController extends Controller
 
     public function edit($id)
     {
+        $title = "Edit Pay Bill";
+
         $billPayment = BillPayment::findOrFail($id);
         $vendors = Vendor::pluck('name', 'id')->all();
         $bills = Bill::pluck('bill_number', 'id')->all();
         $paymentMethods = PaymentMethod::query()->get();
         $depositAccounts = Ledger::find($this->getAssetLedgers())->sortBy('ledger_name');
-        return view('bill_payments.edit', compact('billPayment', 'vendors', 'bills', 'paymentMethods', 'depositAccounts'));
+        return view('bill_payments.edit', compact('billPayment', 'title', 'vendors', 'bills', 'paymentMethods', 'depositAccounts'));
     }
 
 
