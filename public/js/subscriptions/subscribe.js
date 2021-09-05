@@ -8,7 +8,7 @@ $('#basicM_btn,#premiumM_btn,#basicY_btn,#premiumY_btn')
 
     });
 
-var stripe = Stripe('pk_test_XqTcOJsBGeTStLhQ07eGQ464004BKwNG28');
+var stripe = Stripe('pk_live_51JVJpVI8TcFb3W7t6bikYaJd74v76XvdNG0nNkT9s0JlN09yrEOevpQV4bYhkOZRUSKPn79wueWGonbuHmVwG7NL003E8Vw0SV');
 // Create an instance of the card Element.
 var elements = stripe.elements();
 
