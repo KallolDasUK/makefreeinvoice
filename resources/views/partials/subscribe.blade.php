@@ -141,7 +141,7 @@
                                         <span>For Medium Business</span>
                                         <span>Best fits for small business and freelancers</span>
                                     </div>
-                                    <span class="font-size-h1 font-weight-boldest text-dark">3.99
+                                    <span class="font-size-h1 font-weight-boldest text-dark">4.99
 															<sup
                                                                 class="font-size-h3 font-weight-normal pl-1">$</sup>/Month</span>
                                     <!--begin::Mobile Pricing Table-->
@@ -177,7 +177,7 @@
                                     </div>
                                     <!--end::Mobile Pricing Table-->
                                     <div class="mt-7">
-                                        <button data="price_1JRxCAJTQ8w0F4DGtJHeAmAF" type="button" id="basicM_btn"
+                                        <button data="price_1JWHMFI8TcFb3W7tbHGjC9CA" type="button" id="basicM_btn"
                                                 class="btn btn-primary text-uppercase font-weight-bolder px-15 py-3">
                                             Subscribe
                                         </button>
@@ -251,7 +251,7 @@
                                     </div>
                                     <!--end::Mobile Pricing Table-->
                                     <div class="mt-7">
-                                        <button data="price_1JRxCwJTQ8w0F4DGcugiTVbJ" type="button" id="premiumM_btn"
+                                        <button data="price_1JWHOeI8TcFb3W7tp4LBX2ZW" type="button" id="premiumM_btn"
                                                 class="btn btn-primary text-uppercase font-weight-bolder px-15 py-3">
                                             Subscribe
                                         </button>
@@ -290,7 +290,7 @@
                                         <span>For Medium Business</span>
                                         <span>Best fits for small business and freelancers</span>
                                     </div>
-                                    <span class="font-size-h1 font-weight-boldest text-dark">21.00
+                                    <span class="font-size-h1 font-weight-boldest text-dark">49.99
 															<sup
                                                                 class="font-size-h3 font-weight-normal pl-1">$</sup>/Year</span>
                                     <!--begin::Mobile Pricing Table-->
@@ -326,7 +326,7 @@
                                     </div>
                                     <!--end::Mobile Pricing Table-->
                                     <div class="mt-7">
-                                        <button data="price_1JSG8rJTQ8w0F4DGLNrygw9b" type="button" id="basicY_btn"
+                                        <button data="price_1JWHMFI8TcFb3W7tnqWx9Wlq" type="button" id="basicY_btn"
                                                 class="btn btn-primary text-uppercase font-weight-bolder px-15 py-3">
                                             Subscribe
                                         </button>
@@ -365,7 +365,7 @@
                                         <span>For Large Business </span>
                                         <span>Lots of extensive features</span>
                                     </div>
-                                    <span class="font-size-h1 font-weight-boldest text-dark">49.99
+                                    <span class="font-size-h1 font-weight-boldest text-dark">99.99
 															<sup
                                                                 class="font-size-h3 font-weight-normal pl-1">$</sup>/Year</span>
                                     <!--begin::Mobile Pricing Table-->
@@ -401,7 +401,7 @@
                                     </div>
                                     <!--end::Mobile Pricing Table-->
                                     <div class="mt-7">
-                                        <button data="price_1JSGBLJTQ8w0F4DG7ycexVlh" type="button" id="premiumY_btn"
+                                        <button data="price_1JWHOeI8TcFb3W7teWIOf8Si" type="button" id="premiumY_btn"
                                                 class="btn btn-primary text-uppercase font-weight-bolder px-15 py-3">
                                             Subscribe
                                         </button>

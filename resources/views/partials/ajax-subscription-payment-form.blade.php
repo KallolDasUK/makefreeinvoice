@@ -11,7 +11,8 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-12">
-                            <img src="{{ asset('images/payment methods.PNG') }}" alt="Payment Method" height="80" style="width: 100%">
+                            <img src="{{ asset('images/payment methods.PNG') }}" alt="Payment Method" height="80"
+                                 style="width: 100%">
                         </div>
                         <div class="col-12">
                             <div class="p-4">
@@ -32,8 +33,11 @@
                                         </div>
                                         <div class="col-12">
                                             <div id="card-element"></div>
-                                            <div id="card-errors" role="alert"></div>
-                                            <!--end::Input-->
+                                            <div id="card-errors" role="alert" class="text-danger mt-4"></div>
+                                            <div class="mt-4"><small><em>Note:We do not store your card information. Your card will charge
+                                                        monthly or yearly depending on your selected package.
+                                                        You can cancel subscription anytime. Thanks for being with us.
+                                                    </em></small></div>
                                         </div>
                                     </div>
 
