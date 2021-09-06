@@ -350,6 +350,15 @@
                     <div class="shortcuts-title sc-jlyJG gSoaLO title">Vendors</div>
                 </a>
 
+                <a class="sc-gPEVay eaBhby  "
+                   href="{{ route('reports.report.customer_statement') }}">
+                    <div class="sc-iRbamj image" style="background-image:url('images/customer 1.svg') ">
+
+                    </div>
+                    <div class="shortcuts-title sc-jlyJG gSoaLO title">Customer Statement</div>
+                </a>
+
+
 
             </div>
         </div>
