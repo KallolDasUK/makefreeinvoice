@@ -34,8 +34,26 @@
         @media print {
             body * {
                 visibility: hidden;
+                font-size: 1.5rem;
+                color: #181818 !important;
+
             }
 
+            h1 {
+                font-size: 4rem;
+            }
+
+            h2 {
+                font-size: 3rem;
+            }
+
+            h2 {
+                font-size: 2rem;
+            }
+
+            .invoice-container {
+                /*margin: 0px;*/
+            }
             #invoice-container, #invoice-container * {
                 visibility: visible;
             }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Services\ReportService;
 use App\Models\BillItem;
+use App\Models\Customer;
 use App\Models\ExpenseItem;
 use App\Models\InvoiceItem;
 use App\Models\Report;
@@ -39,6 +40,24 @@ class ReportController extends AccountingReportsController
 
 
         return view('reports.tax-report', compact('title', 'start_date', 'end_date', 'report_type', 'taxes'));
+    }
+
+    public function customerStatement(Request $request)
+    {
+
+        $this->authorize('tax_summary');
+        $start_date = $request->start_date ?? today()->startOfYear()->toDateString();
+        $end_date = $request->end_date ?? today()->toDateString();
+        $customer_id = $request->customer_id;
+        $customers = Customer::all();
+
+        $customer = Customer::find($customer_id);
+
+        $title = "Customer Statement";
+        $records = $this->getCustomerStatement($start_date, $end_date, $customer_id);
+
+
+        return view('reports.customer-statement', compact('title', 'start_date', 'end_date', 'customers', 'records', 'customer_id', 'customer'));
     }
 
     public function stockReport(Request $request)
@@ -162,7 +181,7 @@ class ReportController extends AccountingReportsController
         $start_date = $request->start_date ?? today()->startOfYear()->toDateString();
         $end_date = $request->end_date ?? today()->toDateString();
         $branch_id = $request->branch_id ?? null;
-        $prevent_opening = boolval($request->prevent_opening?? false) ;
+        $prevent_opening = boolval($request->prevent_opening ?? false);
         $assets = [];
         $asset_account = 'Asset';
 
@@ -176,7 +195,7 @@ class ReportController extends AccountingReportsController
                 $closing_balance = 0;
                 $ledgers = Ledger::query()->where('ledger_group_id', $g->id)->get();
                 foreach ($ledgers as $ledger) {
-                    $closing_balance += $ledger->closingBalance($branch_id, $start_date, $end_date,$prevent_opening);
+                    $closing_balance += $ledger->closingBalance($branch_id, $start_date, $end_date, $prevent_opening);
                 }
                 if ($closing_balance == 0) {
                     continue;
@@ -186,7 +205,7 @@ class ReportController extends AccountingReportsController
                     'amount' => $closing_balance, 'is_account' => false, 'id' => $g->id];
             }
             foreach ($child_accounts as $account) {
-                $closing_balance = $account->closingBalance($branch_id, $start_date, $end_date,$prevent_opening);
+                $closing_balance = $account->closingBalance($branch_id, $start_date, $end_date, $prevent_opening);
                 if ($closing_balance == 0) {
                     continue;
                 }
@@ -247,7 +266,7 @@ class ReportController extends AccountingReportsController
         $branches = Branch::pluck('name', 'id')->all();
         $branch_name = optional(Branch::find($request->branch_id))->name ?? "All";
 
-        return view('reports.balance-sheet-report', compact('title', 'start_date', 'end_date', 'branch_name', 'branches', 'branch_id', 'assets', 'libs','prevent_opening'));
+        return view('reports.balance-sheet-report', compact('title', 'start_date', 'end_date', 'branch_name', 'branches', 'branch_id', 'assets', 'libs', 'prevent_opening'));
     }
 
 

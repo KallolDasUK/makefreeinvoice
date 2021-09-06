@@ -19,6 +19,25 @@ use Carbon\Carbon;
 trait ReportService
 {
 
+    public function getCustomerStatement($start_date, $end_date, $customer_id)
+    {
+        $records = [];
+        $invoices = Invoice::query()->where('customer_id', $customer_id)->get();
+        foreach ($invoices as $invoice) {
+            $record = ['date' => $invoice->invoice_date, 'invoice' => $invoice->invoice_number, 'description' => 'New Invoice Created', 'payment' => 0, 'amount' => $invoice->total];
+            $records[] = (object)$record;
+            if ($invoice->payments()->sum('amount') > 0) {
+                foreach ($invoice->payments as $payment) {
+                    $record = ['date' => $payment->receive_payment->payment_date, 'invoice' => $invoice->invoice_number, 'description' => 'Payment Received', 'payment' => $payment->amount, 'amount' => 0];
+                    $records[] = (object)$record;
+                }
+            }
+        }
+
+
+        return $records;
+    }
+
     function getTaxReport($start_date, $end_date, $report_type)
     {
         $taxes = Tax::query()->get();

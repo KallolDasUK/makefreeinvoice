@@ -266,6 +266,7 @@ Route::group(['middleware' => 'auth:web', 'prefix' => 'app'], function () {
 
     Route::group(['prefix' => 'subscriptions'], function () {
 
+
         Route::get('/', [BillingsController::class, 'index'])->name('subscriptions.settings');
         Route::get('/update-password', [SettingsController::class, 'updatePasswordView'])->name('settings.update_password');
         Route::post('/update-password', [SettingsController::class, 'storePassword'])->name('settings.update_password.store');
@@ -273,6 +274,7 @@ Route::group(['middleware' => 'auth:web', 'prefix' => 'app'], function () {
         Route::post('/subscribe', [BillingsController::class, 'purchaseSubscription'])->name('subscribe.store');
         Route::post('/cancel', [BillingsController::class, 'cancelSubscription'])->name('subscriptions.cancel');
         Route::get('/invoice/{invoice}', [BillingsController::class, 'downloadInvoice'])->name('subscriptions.download-invoice');
+
 
     });
 });
@@ -300,6 +302,7 @@ Route::group(['prefix' => 'reports'], function () {
     Route::get('/balance-sheet', [ReportController::class, 'balanceSheetReport'])->name('reports.report.balance_sheet_report');
     Route::get('/receipt-payment', [ReportController::class, 'receiptPaymentReport'])->name('reports.report.receipt_payment_report');
     Route::get('/voucher-report', [ReportController::class, 'voucherReport'])->name('reports.report.voucher_report');
+    Route::get('/customer-statement', [ReportController::class, 'customerStatement'])->name('reports.report.customer_statement');
 
 });
 
