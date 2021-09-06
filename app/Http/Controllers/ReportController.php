@@ -55,9 +55,9 @@ class ReportController extends AccountingReportsController
 
         $title = "Customer Statement";
         $records = $this->getCustomerStatement($start_date, $end_date, $customer_id);
-
-
-        return view('reports.customer-statement', compact('title', 'start_date', 'end_date', 'customers', 'records', 'customer_id', 'customer'));
+        $previous = $this->getCustomerOpeningBalance($start_date, $end_date, $customer_id);
+        $opening = $previous->amount - $previous->payment;
+        return view('reports.customer-statement', compact('title', 'start_date', 'end_date', 'customers', 'records', 'customer_id', 'customer', 'previous', 'opening'));
     }
 
     public function stockReport(Request $request)

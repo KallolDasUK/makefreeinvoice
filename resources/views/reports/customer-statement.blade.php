@@ -165,7 +165,7 @@
                 <div class="mt-8">
                     @if($settings->business_name??false)
                         <h1 class="float-left">{{ $settings->business_name }}</h1>
-                        <h1 class="float-right">Statement</h1>
+                        <h1 class="float-right">Customer Statement</h1>
                     @endif
                     <span class="clearfix"></span>
                     <div class="row align-items-baseline justify-content-around">
@@ -217,19 +217,19 @@
                                 <table class="table table-sm">
                                     <tr>
                                         <td>Previous Balance</td>
-                                        <td>{{ $settings->currency??'$' }} 0</td>
+                                        <td class="">{{ decent_format_dash_if_zero($opening) }} </td>
                                     </tr>
                                     <tr>
                                         <td>Payments</td>
-                                        <td>{{ $settings->currency??'$' }} 0</td>
+                                      <td class="">{{ decent_format_dash_if_zero(collect($records)->sum('payment')) }} </td>
                                     </tr>
                                     <tr>
                                         <td>New Charges</td>
-                                        <td>{{ $settings->currency??'$' }} 0</td>
+                                      <td class="">{{ decent_format_dash_if_zero(collect($records)->sum('amount')) }} </td>
                                     </tr>
                                       <tr>
                                         <td>Total Balance Due</td>
-                                        <td>{{ $settings->currency??'$' }} 0</td>
+                                        <td>{{ decent_format_dash_if_zero(($opening + collect($records)->sum('amount'))+ collect($records)->sum('payment')) }}</td>
                                     </tr>
                                 </table>
                             </span>
@@ -249,7 +249,7 @@
 
                 <hr>
 
-                <div class="card">
+                <div class="card" style="min-height: 300px">
                     <div class="card-body p-0">
                         <div class="">
                             <table class="table mb-0 table-bordered">
@@ -271,24 +271,54 @@
                                     @php($balance = ($balance + $record->amount) - $record->payment)
 
                                     <tr>
-                                        <td class="text-right border-0">{{ $loop->iteration }}</td>
+                                        <td class=" border-0">{{ $loop->iteration }}</td>
                                         <td class="text-start border-0">{{ $record->date }}</td>
                                         <td class="text-right border-0">{{ $record->invoice }}</td>
                                         <td class="text-right border-0">{{ $record->description }}</td>
-                                        <td class="text-right border-0">{{ $record->payment }}</td>
-                                        <td class="text-right border-0">{{ $record->amount }}</td>
-                                        <td class="text-right border-0  bg-secondary">{{ $balance }}</td>
+                                        <td class="text-right border-0">{{ decent_format_dash_if_zero($record->payment) }}</td>
+                                        <td class="text-right border-0">{{ decent_format_dash_if_zero($record->amount) }}</td>
+                                        <td class="text-right border-0  bg-secondary font-weight-bolder">{{ decent_format_dash_if_zero($balance) }}</td>
                                     </tr>
                                 @endforeach
 
                                 </tbody>
                                 <tfoot class="card-footer">
-
+                                <tr>
+                                    <td colspan="6" class="text-right border-0">Current Balance</td>
+                                    <td class="text-right border-0  bg-secondary  font-weight-bolder">{{ decent_format_dash_if_zero($balance) }}</td>
+                                </tr>
                                 </tfoot>
                             </table>
+
+
                         </div>
                     </div>
                 </div>
+                <div style="width: 60%;">
+                    <div class="m-auto text-center mt-8">
+
+                        <address class="text-left">
+                            <b>if you have any questions about this statement please contact</b> <br>
+                            {{ $settings->business_name??'n/a' }}
+                            @if($settings->street_1??'')
+                                <br> {{ $settings->street_1??'' }}
+                            @endif
+                            @if($settings->street_2??'')
+                                <br> {{ $settings->street_2??'' }}
+                            @endif
+                            @if(($settings->state??'') || ($settings->zip_post??'') )
+                                <br> {{ $settings->state??'' }} {{ $settings->zip_post??'' }}
+                            @endif
+                            @if($settings->email??'')
+                                <br> {{ $settings->email??'' }}
+                            @endif
+                            @if($settings->phone??'')
+                                <br> {{ $settings->phone??'' }}
+                            @endif
+                        </address>
+                    </div>
+                </div>
+                <h2 class="text-center">Thanks for your business</h2>
             </main>
             <!-- Footer -->
 
