@@ -19,10 +19,44 @@ use Carbon\Carbon;
 trait ReportService
 {
 
+    public function getCustomerOpeningBalance($start_date, $end_date, $customer_id)
+    {
+        $records = [];
+        $invoices = Invoice::query()
+            ->where('customer_id', $customer_id)
+            ->where('invoice_date', '<', $start_date)
+            ->get();
+        foreach ($invoices as $invoice) {
+            $record = ['date' => $invoice->invoice_date, 'invoice' => $invoice->invoice_number, 'description' => 'New Invoice Created', 'payment' => 0, 'amount' => $invoice->total];
+            $records[] = (object)$record;
+            if ($invoice->payments()->sum('amount') > 0) {
+                foreach ($invoice->payments as $payment) {
+                    if ($payment->receive_payment->payment_date < $start_date) {
+                        $record = ['date' => $payment->receive_payment->payment_date, 'invoice' => $invoice->invoice_number, 'description' => 'Payment Received', 'payment' => $payment->amount, 'amount' => 0];
+                        $records[] = (object)$record;
+                    }
+                }
+            }
+        }
+        $amount = collect($records)->sum('amount');
+        $payment = collect($records)->sum('payment');
+        $balance = $amount - $payment;
+        return (object)['amount' => $amount, 'payment' => $payment, 'balance' => $balance];
+
+    }
+
     public function getCustomerStatement($start_date, $end_date, $customer_id)
     {
         $records = [];
-        $invoices = Invoice::query()->where('customer_id', $customer_id)->get();
+        $previous = $this->getCustomerOpeningBalance($start_date, $end_date, $customer_id);
+        $record = ['date' => 'As on ' . $start_date, 'invoice' => '', 'description' => 'Balance Forward', 'payment' => 0, 'amount' => 0];
+        $records[] = (object)$record;
+
+
+        $invoices = Invoice::query()
+            ->where('customer_id', $customer_id)
+            ->whereBetween('invoice_date', [$start_date, $end_date])
+            ->get();
         foreach ($invoices as $invoice) {
             $record = ['date' => $invoice->invoice_date, 'invoice' => $invoice->invoice_number, 'description' => 'New Invoice Created', 'payment' => 0, 'amount' => $invoice->total];
             $records[] = (object)$record;
