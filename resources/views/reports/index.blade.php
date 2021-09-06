@@ -93,7 +93,7 @@
                     <div class="sc-iRbamj image" style="background-image:url('images/customer 1.svg') ">
 
                     </div>
-                    <div class="shortcuts-title sc-jlyJG gSoaLO title">Customer Statement (<small>In Dev</small>)</div>
+                    <div class="shortcuts-title sc-jlyJG gSoaLO title">Customer Statement</div>
                 </a>
 
                 <div class="clearfix"></div>
