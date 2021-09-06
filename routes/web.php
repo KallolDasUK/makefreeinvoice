@@ -303,7 +303,7 @@ Route::group(['prefix' => 'reports'], function () {
     Route::get('/receipt-payment', [ReportController::class, 'receiptPaymentReport'])->name('reports.report.receipt_payment_report');
     Route::get('/voucher-report', [ReportController::class, 'voucherReport'])->name('reports.report.voucher_report');
     Route::get('/customer-statement', [ReportController::class, 'customerStatement'])->name('reports.report.customer_statement');
-
+// Test Comment
 });
 
 

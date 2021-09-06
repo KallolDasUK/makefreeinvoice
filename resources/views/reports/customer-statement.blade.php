@@ -229,7 +229,7 @@
                                     </tr>
                                       <tr>
                                         <td>Total Balance Due</td>
-                                        <td>{{ decent_format_dash_if_zero(($opening + collect($records)->sum('amount'))+ collect($records)->sum('payment')) }}</td>
+                                        <td>{{ decent_format_dash_if_zero(($opening + collect($records)->sum('amount')) - collect($records)->sum('payment')) }}</td>
                                     </tr>
                                 </table>
                             </span>

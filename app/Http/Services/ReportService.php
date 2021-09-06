@@ -62,8 +62,11 @@ trait ReportService
             $records[] = (object)$record;
             if ($invoice->payments()->sum('amount') > 0) {
                 foreach ($invoice->payments as $payment) {
-                    $record = ['date' => $payment->receive_payment->payment_date, 'invoice' => $invoice->invoice_number, 'description' => 'Payment Received', 'payment' => $payment->amount, 'amount' => 0];
-                    $records[] = (object)$record;
+                    if ($payment->receive_payment->payment_date > $start_date && $payment->receive_payment->payment_date <= $end_date) {
+                        $record = ['date' => $payment->receive_payment->payment_date, 'invoice' => $invoice->invoice_number, 'description' => 'Payment Received', 'payment' => $payment->amount, 'amount' => 0];
+                        $records[] = (object)$record;
+                    }
+
                 }
             }
         }
