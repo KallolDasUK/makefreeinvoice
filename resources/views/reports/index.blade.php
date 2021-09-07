@@ -88,7 +88,7 @@
                     </div>
                     <div class="shortcuts-title sc-jlyJG gSoaLO title">Accounts Payable Aging</div>
                 </a>
-                <a class="sc-gPEVay eaBhby  new-tag"
+                <a class="sc-gPEVay eaBhby"
                    style="position: relative"
                    href="{{ route('reports.report.customer_statement') }}">
                     <div class="sc-iRbamj image" style="background-image:url('images/customer 1.svg') ">
@@ -96,7 +96,7 @@
                     </div>
                     <div class="shortcuts-title sc-jlyJG gSoaLO title">Customer Statement</div>
                 </a>
-                <a class="sc-gPEVay eaBhby  new-tag"
+                <a class="sc-gPEVay eaBhby"
                    style="position:relative;"
                    href="{{ route('reports.report.vendor_statement') }}">
                     <div class="sc-iRbamj image" style="background-image:url('images/customer 1.svg') ">
