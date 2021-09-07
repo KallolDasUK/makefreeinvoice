@@ -53,6 +53,7 @@
 
             .invoice-container {
                 /*margin: 0px;*/
+                max-width: 100%;
             }
             #invoice-container, #invoice-container * {
                 visibility: visible;
