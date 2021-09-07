@@ -89,18 +89,18 @@
 
         <div class="card mb-2">
             <div class="card-body">
-                <form action="{{ route('reports.report.customer_statement') }}">
+                <form action="{{ route('reports.report.vendor_statement') }}">
                     <div class="row align-items-end mb-4 mx-auto justify-content-center">
 
                         <div class="col-lg-3 col-xl-2">
 
-                            <select name="customer_id" id="customer_id" class="form-control form-control-select"
+                            <select name="vendor_id" id="vendor_id" class="form-control form-control-select"
                                     required>
                                 <option></option>
-                                @foreach($customers as $customer)
+                                @foreach($vendors as $vendor)
                                     <option
-                                        value="{{ $customer->id }}" {{ $customer_id == $customer->id?'selected':'' }}>
-                                        {{ $customer->name }}
+                                        value="{{ $vendor->id }}" {{ $vendor_id == $vendor->id?'selected':'' }}>
+                                        {{ $vendor->name }}
                                     </option>
                                 @endforeach
                             </select>
@@ -127,8 +127,8 @@
                                         Update Report
                                     </button>
 
-                                    @if( $customer_id !=null)
-                                        <a href="{{ route('reports.report.customer_statement') }}" title="Clear Filter"
+                                    @if( $vendor_id !=null)
+                                        <a href="{{ route('reports.report.vendor_statement') }}" title="Clear Filter"
                                            class="btn btn-icon btn-light-danger"> X</a>
                                     @endif
 
@@ -142,7 +142,7 @@
                 </form>
             </div>
         </div>
-        <div class="float-right {{ $customer_id == null?'d-none':'' }}">
+        <div class="float-right {{ $vendor_id == null?'d-none':'' }}">
             <div class="btn-group btn-group-lg float-right bg-white" role="group" aria-label="Large button group">
                 <button id="printBtn" type="button" class="btn btn-outline-secondary">
                     <i class="fa fa-print text-danger"></i>
@@ -158,7 +158,7 @@
         </div>
 
         <p class="clearfix"></p>
-        <div id="invoice-container" class=" invoice-container {{ $customer_id == null?'d-none':'' }}">
+        <div id="invoice-container" class=" invoice-container {{ $vendor_id == null?'d-none':'' }}">
 
             <!-- Header -->
             <header>
@@ -176,29 +176,29 @@
                             @endif
                         </h1>
                         <h1 class="float-right">
-                            Customer Statement
+                            Vendor Statement
                         </h1>
 
                     @endif
                     <span class="clearfix"></span>
                     <div class="row align-items-baseline justify-content-around">
-                        <div class="col"> Bill To:
+                        <div class="col"> Bill From:
                             <address style="max-width: 300px;margin-left: 35px">
-                                <b>{{ $customer->company_name?? $customer->name??'N/A' }}</b>
+                                <b>{{ $vendor->company_name?? $vendor->name??'N/A' }}</b>
                                 <br>
-                                @if($customer->street_1)
-                                    {{ $customer->street_1??'' }} <br>
+                                @if($vendor->street_1)
+                                    {{ $vendor->street_1??'' }} <br>
                                 @endif
 
-                                @if($customer->street_2)
-                                    {{ $customer->street_2??'' }}<br>
+                                @if($vendor->street_2)
+                                    {{ $vendor->street_2??'' }}<br>
                                 @endif
-                                {{ $customer->state??'' }} {{ $customer->zip_post??'' }}
-                                @if($customer->email)
-                                    <br> {{ $customer->email??'' }}
+                                {{ $vendor->state??'' }} {{ $vendor->zip_post??'' }}
+                                @if($vendor->email)
+                                    <br> {{ $vendor->email??'' }}
                                 @endif
-                                @if($customer->phone)
-                                    <br> {{ $customer->phone??'' }}
+                                @if($vendor->phone)
+                                    <br> {{ $vendor->phone??'' }}
                                 @endif
                             </address>
                         </div>
@@ -214,8 +214,8 @@
                                     </span>
                                      <br>
                                     <span>
-                                        Customer ID : <input type="text" style="max-width: 100px"
-                                                             value="[{{$customer->id}}]">
+                                        Vendor ID : <input type="text" style="max-width: 100px"
+                                                           value="[{{$vendor->id}}]">
                                     </span>
                                 </div>
 
@@ -271,7 +271,7 @@
                                 <tr>
                                     <td class=" border-0"><strong>SL</strong></td>
                                     <td class=" border-0"><strong>Date</strong></td>
-                                    <td class="text-right  border-0">Invoice</td>
+                                    <td class="text-right  border-0">Bill</td>
                                     <td class="text-right border-0">Description</td>
                                     <td class="text-right border-0">Payment</td>
                                     <td class="text-right border-0 ">Amount</td>
@@ -287,7 +287,7 @@
                                     <tr>
                                         <td class=" border-0">{{ $loop->iteration }}</td>
                                         <td class="text-start border-0">{{ $record->date }}</td>
-                                        <td class="text-right border-0">{{ $record->invoice }}</td>
+                                        <td class="text-right border-0">{{ $record->bill }}</td>
                                         <td class="text-right border-0">{{ $record->description }}</td>
                                         <td class="text-right border-0">{{ decent_format_dash_if_zero($record->payment) }}</td>
                                         <td class="text-right border-0">{{ decent_format_dash_if_zero($record->amount) }}</td>
@@ -375,7 +375,7 @@
 
         });
 
-        $('#customer_id').select2({placeholder: 'Select Customer', allowClear: true})
+        $('#vendor_id').select2({placeholder: 'Select Vendor', allowClear: true})
 
 
     </script>

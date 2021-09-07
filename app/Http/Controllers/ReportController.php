@@ -9,6 +9,7 @@ use App\Models\ExpenseItem;
 use App\Models\InvoiceItem;
 use App\Models\Report;
 use App\Models\Tax;
+use App\Models\Vendor;
 use Carbon\Carbon;
 use Enam\Acc\Http\Controllers\AccountingReportsController;
 use Enam\Acc\Models\Branch;
@@ -45,7 +46,6 @@ class ReportController extends AccountingReportsController
     public function customerStatement(Request $request)
     {
 
-        $this->authorize('tax_summary');
         $start_date = $request->start_date ?? today()->startOfYear()->toDateString();
         $end_date = $request->end_date ?? today()->toDateString();
         $customer_id = $request->customer_id;
@@ -58,6 +58,23 @@ class ReportController extends AccountingReportsController
         $previous = $this->getCustomerOpeningBalance($start_date, $end_date, $customer_id);
         $opening = $previous->amount - $previous->payment;
         return view('reports.customer-statement', compact('title', 'start_date', 'end_date', 'customers', 'records', 'customer_id', 'customer', 'previous', 'opening'));
+    }
+
+    public function vendorStatement(Request $request)
+    {
+
+        $start_date = $request->start_date ?? today()->startOfYear()->toDateString();
+        $end_date = $request->end_date ?? today()->toDateString();
+        $vendor_id = $request->vendor_id;
+        $vendors = Vendor::all();
+
+        $vendor = Vendor::find($vendor_id);
+
+        $title = "Vendor Statement";
+        $records = $this->getVendorStatement($start_date, $end_date, $vendor_id);
+        $previous = $this->getVendorOpeningBalance($start_date, $end_date, $vendor_id);
+        $opening = $previous->amount - $previous->payment;
+        return view('reports.vendor-statement', compact('title', 'start_date', 'end_date', 'vendors', 'records', 'vendor_id', 'vendor', 'previous', 'opening'));
     }
 
     public function stockReport(Request $request)
