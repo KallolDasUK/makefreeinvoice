@@ -72,7 +72,7 @@
                     <div class="sc-iRbamj image" style="background-image:url('images/estimate.svg') ">
 
                     </div>
-                    <div class="shortcuts-title sc-jlyJG gSoaLO title">Tax Summary</div>
+                    <div class="shortcuts-title sc-jlyJG gSoaLO title">Tax Summary <br> <span class="text-white">.</span></div>
                 </a>
                 <a class="sc-gPEVay eaBhby   @cannot('ar_aging') pro-tag @endcannot"
                    href="{{ route('reports.report.ar_aging_report') }}">
@@ -88,12 +88,21 @@
                     </div>
                     <div class="shortcuts-title sc-jlyJG gSoaLO title">Accounts Payable Aging</div>
                 </a>
-                <a class="sc-gPEVay eaBhby  "
+                <a class="sc-gPEVay eaBhby  new-tag"
+                   style="position: relative"
                    href="{{ route('reports.report.customer_statement') }}">
                     <div class="sc-iRbamj image" style="background-image:url('images/customer 1.svg') ">
 
                     </div>
                     <div class="shortcuts-title sc-jlyJG gSoaLO title">Customer Statement</div>
+                </a>
+                <a class="sc-gPEVay eaBhby  new-tag"
+                   style="position:relative;"
+                   href="{{ route('reports.report.vendor_statement') }}">
+                    <div class="sc-iRbamj image" style="background-image:url('images/customer 1.svg') ">
+
+                    </div>
+                    <div class="shortcuts-title sc-jlyJG gSoaLO title">Vendor <br> Statement</div>
                 </a>
 
                 <div class="clearfix"></div>

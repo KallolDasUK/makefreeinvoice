@@ -45,6 +45,32 @@ trait ReportService
 
     }
 
+    public function getVendorOpeningBalance($start_date, $end_date, $vendor_id)
+    {
+        $records = [];
+        $bills = Bill::query()
+            ->where('vendor_id', $vendor_id)
+            ->where('bill_date', '<', $start_date)
+            ->get();
+        foreach ($bills as $bill) {
+            $record = ['date' => $bill->bill_date, 'bill' => $bill->bill_number, 'description' => 'New Bill Created', 'payment' => 0, 'amount' => $bill->total];
+            $records[] = (object)$record;
+            if ($bill->payments()->sum('amount') > 0) {
+                foreach ($bill->payments as $payment) {
+                    if ($payment->bill_payment->payment_date < $start_date) {
+                        $record = ['date' => $payment->bill_payment->payment_date, 'bill' => $bill->bill_number, 'description' => 'Paid', 'payment' => $payment->amount, 'amount' => 0];
+                        $records[] = (object)$record;
+                    }
+                }
+            }
+        }
+        $amount = collect($records)->sum('amount');
+        $payment = collect($records)->sum('payment');
+        $balance = $amount - $payment;
+        return (object)['amount' => $amount, 'payment' => $payment, 'balance' => $balance];
+
+    }
+
     public function getCustomerStatement($start_date, $end_date, $customer_id)
     {
         $records = [];
@@ -64,6 +90,36 @@ trait ReportService
                 foreach ($invoice->payments as $payment) {
                     if ($payment->receive_payment->payment_date > $start_date && $payment->receive_payment->payment_date <= $end_date) {
                         $record = ['date' => $payment->receive_payment->payment_date, 'invoice' => $invoice->invoice_number, 'description' => 'Payment Received', 'payment' => $payment->amount, 'amount' => 0];
+                        $records[] = (object)$record;
+                    }
+
+                }
+            }
+        }
+
+
+        return $records;
+    }
+
+    public function getVendorStatement($start_date, $end_date, $vendor_id)
+    {
+        $records = [];
+        $previous = $this->getVendorOpeningBalance($start_date, $end_date, $vendor_id);
+        $record = ['date' => 'As on ' . $start_date, 'bill' => '', 'description' => 'Balance Forward', 'payment' => 0, 'amount' => 0];
+        $records[] = (object)$record;
+
+
+        $bills = Bill::query()
+            ->where('vendor_id', $vendor_id)
+            ->whereBetween('bill_date', [$start_date, $end_date])
+            ->get();
+        foreach ($bills as $bill) {
+            $record = ['date' => $bill->bill_date, 'bill' => $bill->bill_number, 'description' => 'New Bill Created', 'payment' => 0, 'amount' => $bill->total];
+            $records[] = (object)$record;
+            if ($bill->payments()->sum('amount') > 0) {
+                foreach ($bill->payments as $payment) {
+                    if ($payment->bill_payment->payment_date > $start_date && $payment->bill_payment->payment_date <= $end_date) {
+                        $record = ['date' => $payment->bill_payment->payment_date, 'bill' => $bill->bill_number, 'description' => 'Paid by '.$payment->bill_payment->paymentMethod->name, 'payment' => $payment->amount, 'amount' => 0];
                         $records[] = (object)$record;
                     }
 

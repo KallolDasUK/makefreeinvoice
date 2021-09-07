@@ -289,6 +289,21 @@
             font-size: 10px;
             border-radius: 2px;
         }
+        .new-tag::before {
+            content: "New";
+            float: right;
+            position: absolute;
+            left: -5px;
+            color: white;
+            background: #065a92;
+            padding: 1px 5px;
+            font-size: 10px;
+            border-radius: 2px;
+            -webkit-animation: BLINK 1s infinite;  /* Safari 4+ */
+            -moz-animation: BLINK 1s infinite;  /* Fx 5+ */
+            -o-animation: BLINK 1s infinite;  /* Opera 12+ */
+            animation: BLINK 1s infinite;  /* IE 10+, Fx 29+ */
+        }
 
         .pro-tag {
             cursor: no-drop;
@@ -297,6 +312,14 @@
         }
 
 
+        @-webkit-keyframes BLINK {
+            0%, 49% {
+                background-color: #065a92;
+            }
+            50%, 100% {
+                background-color: #e50000;
+            }
+        }
     </style>
 
 </head>
