@@ -124,7 +124,7 @@
                         >
                     </div>
                     <div class="mx-2">
-                        <select name="vendor" id="vendor" class="form-control" style="min-width: 200px">
+                        <select name="vendor" id="vendor" class="form-control" style="min-width: 200px;max-width: 200px">
                             <option></option>
                             @foreach($vendors as $vendor)
                                 <option value="{{ $vendor->id }}"
