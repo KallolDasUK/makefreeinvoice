@@ -4,6 +4,8 @@
 namespace Enam\Acc\Traits;
 
 
+use App\Models\Bill;
+use App\Models\Invoice;
 use Carbon\Carbon;
 use Enam\Acc\Models\Branch;
 use Enam\Acc\Models\GroupMap;
@@ -368,7 +370,7 @@ trait TransactionTrait
             ->where('note', '!=', EntryType::$OPENING_BALANCE)
             ->where('date', '<', $start_date)
             ->sum('amount');
-        if ($prevent_opening){
+        if ($prevent_opening) {
             $openingDebit = 0;
             $openingCredit = 0;
         }
@@ -377,23 +379,21 @@ trait TransactionTrait
 //        }
 
 
-
-            if ($ledger->opening) {
-                if ($ledger->opening_type == EntryType::$DR) {
-                    $openingDebit += $ledger->opening;
-                } else {
-                    $openingCredit += $ledger->opening;
-                }
-            }
-
-            if ($openingDebit > $openingCredit) {
-                $openingDebit = $openingDebit - $openingCredit;
-                $openingCredit = 0;
+        if ($ledger->opening) {
+            if ($ledger->opening_type == EntryType::$DR) {
+                $openingDebit += $ledger->opening;
             } else {
-                $openingCredit = $openingCredit - $openingDebit;
-                $openingDebit = 0;
+                $openingCredit += $ledger->opening;
             }
+        }
 
+        if ($openingDebit > $openingCredit) {
+            $openingDebit = $openingDebit - $openingCredit;
+            $openingCredit = 0;
+        } else {
+            $openingCredit = $openingCredit - $openingDebit;
+            $openingDebit = 0;
+        }
 
 
         $TrDebit = $transaction_details->where('entry_type', EntryType::$DR)->sum('amount');
@@ -650,6 +650,33 @@ trait TransactionTrait
         return $records;
     }
 
+    public function getSalesReport($start_date, $end_date, $customer_id, $invoice_id, $payment_status)
+    {
+        $records = Invoice::query()
+            ->whereBetween('invoice_date', [$start_date, $end_date])
+            ->when($customer_id != null, function ($query) use ($customer_id) {
+                return $query->where('customer_id', $customer_id);
+            })->when($invoice_id != null, function ($query) use ($invoice_id) {
+                return $query->where('id', $invoice_id);
+            })->when($payment_status != null, function ($query) use ($payment_status) {
+                return $query->where('payment_status', $payment_status);
+            })->get();
+        return $records;
+    }
+
+    public function getPurchaseReport($start_date, $end_date, $vendor_id, $bill_Id, $payment_status)
+    {
+        $records = Bill::query()
+            ->whereBetween('bill_date', [$start_date, $end_date])
+            ->when($vendor_id != null, function ($query) use ($vendor_id) {
+                return $query->where('customer_id', $vendor_id);
+            })->when($bill_Id != null, function ($query) use ($bill_Id) {
+                return $query->where('id', $bill_Id);
+            })->when($payment_status != null, function ($query) use ($payment_status) {
+                return $query->where('payment_status', $payment_status);
+            })->get();
+        return $records;
+    }
 }
 
 

@@ -367,7 +367,22 @@
                     <div class="shortcuts-title sc-jlyJG gSoaLO title">Vendor <br> Statement</div>
                 </a>
 
+                <a class="sc-gPEVay eaBhby"
+                   style="position:relative;"
+                   href="{{ route('reports.report.sales_report') }}">
+                    <div class="sc-iRbamj image" style="background-image:url('images/estimate.svg') ">
 
+                    </div>
+                    <div class="shortcuts-title sc-jlyJG gSoaLO title">Sales <br> Report</div>
+                </a>
+                <a class="sc-gPEVay eaBhby"
+                   style="position:relative;"
+                   href="{{ route('reports.report.purchase_report') }}">
+                    <div class="sc-iRbamj image" style="background-image:url('images/estimate.svg') ">
+
+                    </div>
+                    <div class="shortcuts-title sc-jlyJG gSoaLO title">Purchase <br> Report</div>
+                </a>
 
             </div>
         </div>

@@ -304,6 +304,8 @@ Route::group(['prefix' => 'reports'], function () {
     Route::get('/voucher-report', [ReportController::class, 'voucherReport'])->name('reports.report.voucher_report');
     Route::get('/customer-statement', [ReportController::class, 'customerStatement'])->name('reports.report.customer_statement');
     Route::get('/vendor-statement', [ReportController::class, 'vendorStatement'])->name('reports.report.vendor_statement');
+    Route::get('/sales-report', [ReportController::class, 'salesReport'])->name('reports.report.sales_report');
+    Route::get('/purchase-report', [ReportController::class, 'purchaseReport'])->name('reports.report.purchase_report');
 // Test Comment
 });
 
