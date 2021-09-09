@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Services\ReportService;
+use App\Models\Bill;
 use App\Models\BillItem;
 use App\Models\Customer;
 use App\Models\ExpenseItem;
+use App\Models\Invoice;
 use App\Models\InvoiceItem;
 use App\Models\Report;
 use App\Models\Tax;
@@ -302,4 +304,35 @@ class ReportController extends AccountingReportsController
             'end_date', 'voucher_type', 'branches', 'branch_name', 'records',
             'branch_id'));
     }
+
+    public function salesReport(Request $request)
+    {
+        $start_date = $request->start_date ?? today()->startOfMonth()->toDateString();
+        $end_date = $request->end_date ?? today()->toDateString();
+        $customer_id = $request->customer_id;
+        $invoice_id = $request->invoice_id;
+        $payment_status = $request->payment_status;
+        $records = $this->getSalesReport($start_date, $end_date, $customer_id, $invoice_id, $payment_status);
+        $title = 'Sales Report';
+
+        $invoices = Invoice::all();
+        $customers = Customer::all();
+        return view('reports.sales-report', compact('title', 'records', 'invoices', 'customers', 'start_date', 'end_date', 'customer_id', 'invoice_id', 'payment_status'));
+    }
+
+    public function purchaseReport(Request $request)
+    {
+        $start_date = $request->start_date ?? today()->startOfMonth()->toDateString();
+        $end_date = $request->end_date ?? today()->toDateString();
+        $vendor_id = $request->vendor;
+        $bill_id = $request->bill_id;
+        $payment_status = $request->payment_status;
+        $records = $this->getPurchaseReport($start_date, $end_date, $vendor_id, $bill_id, $payment_status);
+        $title = 'Purchase Report';
+
+        $bills = Bill::all();
+        $vendors = Vendor::all();
+        return view('reports.purchase-report', compact('title', 'records', 'bills', 'vendors', 'start_date', 'end_date', 'vendor_id', 'bill_id', 'payment_status'));
+    }
+
 }

@@ -59,6 +59,11 @@ class Bill extends Model
         return optional($this->payments)->sum('amount');
     }
 
+    public function getPaymentAttribute()
+    {
+        return optional($this->payments)->sum('amount');
+    }
+
     public function payments()
     {
         return $this->hasMany(BillPaymentItem::class, 'bill_id');
@@ -127,8 +132,6 @@ class Bill extends Model
         return $taxes;
     }
 
-
-
     public static function nextInvoiceNumber($increment = 1)
     {
         $next_invoice = 'BILL-' . str_pad(count(self::query()->get()) + $increment, 4, '0', STR_PAD_LEFT);
@@ -137,6 +140,7 @@ class Bill extends Model
         }
         return $next_invoice;
     }
+
     public function getAgeAttribute()
     {
         $age = 0;
@@ -144,6 +148,22 @@ class Bill extends Model
             $age = Carbon::today()->diffInDays($this->bill_date);
         }
         return $age;
+    }
+
+    public function getChargesAttribute()
+    {
+        return $this->bill_extra()->sum('value');
+    }
+
+    public function getDiscountAttribute()
+    {
+        $discount = 0;
+        if ($this->discount_type == 'Flat') {
+            $discount = $this->discount_value;
+        } else {
+            $discount = ($this->discount_value * $this->sub_total) / 100;
+        }
+        return $discount;
     }
 
 }

@@ -207,4 +207,20 @@ class Invoice extends Model
         return $age;
     }
 
+    public function getChargesAttribute()
+    {
+        return $this->invoice_extra()->sum('value');
+    }
+
+    public function getDiscountAttribute()
+    {
+        $discount = 0;
+        if ($this->discount_type == 'Flat') {
+            $discount = $this->discount_value;
+        } else {
+            $discount = ($this->discount_value *  $this->sub_total) /   100;
+        }
+        return $discount;
+    }
+
 }
