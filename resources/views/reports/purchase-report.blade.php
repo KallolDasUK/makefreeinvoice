@@ -203,8 +203,8 @@
                                 <tr>
                                     <th class="text-left">SL</th>
                                     <th class="text-left">Date</th>
-                                    <th class="text-left">Invoice</th>
-                                    <th class="text-left">Customer</th>
+                                    <th class="text-left">Bill</th>
+                                    <th class="text-left">Vendor</th>
                                     <th style="text-align: center">Amount</th>
                                     <th style="text-align: center">Discount</th>
                                     <th style="text-align: center">Charges(+)</th>
@@ -221,7 +221,7 @@
                                         <td class="text-left">{{ $loop->iteration }}</td>
                                         <td class="text-left">{{ $bill->bill_date }}</td>
                                         <td class="text-left">{{ $bill->bill_number }}</td>
-                                        <td class="text-left">{{ optional($bill->customer)->name }}</td>
+                                        <td class="text-left">{{ optional($bill->vendor)->name }}</td>
                                         <td style="text-align: center">{{ decent_format_dash_if_zero($bill->sub_total) }}</td>
                                         <td style="text-align: center">{{ decent_format_dash_if_zero($bill->discount) }}</td>
                                         <td style="text-align: center">{{ decent_format_dash_if_zero($bill->charges) }}</td>
