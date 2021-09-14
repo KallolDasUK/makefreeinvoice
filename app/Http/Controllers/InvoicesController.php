@@ -371,7 +371,7 @@ class InvoicesController extends Controller
         }
 
         $data['attach_pdf'] = $request->has('attach_pdf');
-        if ($data['send_to_business'] && settings()->email) {
+        if ($data['send_to_business'] && settings()->email != null) {
             $to[] = settings()->email;
         }
         $data['to'] = $to;
