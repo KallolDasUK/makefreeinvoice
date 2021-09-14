@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\MetaSetting;
 use App\Models\PaymentMethod;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
@@ -64,6 +65,8 @@ class RegisterController extends Controller
             PaymentMethod::create(['name' => 'Bank Transfer']);
             PaymentMethod::create(['name' => 'Credit Card']);
             PaymentMethod::create(['name' => 'Visa Card']);
+            PaymentMethod::create(['name' => 'Cheque']);
+            MetaSetting::create(['email' => $user->email ?? '']);
         }
         if ($response = $this->registered($request, $user)) {
             return $response;
