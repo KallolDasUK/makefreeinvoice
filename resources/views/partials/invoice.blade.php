@@ -177,14 +177,14 @@
 
     <div class="row mt-4">
         <div class="col">
-            <p class="text-1"><strong>Terms & Condition :</strong> <br>
+            <p ><strong>Terms & Condition :</strong> <br>
                 {{ $invoice->terms_condition }}</p>
-            <p class="text-1"><strong>Notes :</strong> <br>
+            <p ><strong>Notes :</strong> <br>
                 {{ $invoice->notes }}</p>
         </div>
         <div class="col text-right">
             @foreach($invoice->extra_fields as $ef)
-                <p class="text-1"><strong>{{ $ef->name }} :</strong> <br>
+                <p ><strong>{{ $ef->name }} :</strong> <br>
                     {{ $ef->value }}</p>
             @endforeach
         </div>

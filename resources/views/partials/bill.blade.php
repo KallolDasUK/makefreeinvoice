@@ -152,14 +152,14 @@
 
     <div class="row mt-4">
         <div class="col">
-            <p class="text-1"><strong>Terms & Condition :</strong> <br>
+            <p class=""><strong>Terms & Condition :</strong> <br>
                 {{ $bill->terms_condition }}</p>
-            <p class="text-1"><strong>Notes :</strong> <br>
+            <p class=""><strong>Notes :</strong> <br>
                 {{ $bill->notes }}</p>
         </div>
         <div class="col text-right">
             @foreach($bill->extra_fields as $ef)
-                <p class="text-1"><strong>{{ $ef->name }} :</strong> <br>
+                <p class=""><strong>{{ $ef->name }} :</strong> <br>
                     {{ $ef->value }}</p>
             @endforeach
         </div>
