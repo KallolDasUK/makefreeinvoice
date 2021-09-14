@@ -13,6 +13,7 @@ use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 
 class RegisterController extends Controller
@@ -77,12 +78,23 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
 
-
-        return User::create([
+        $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
             'client_id' => User::getNextUserID()]);
+        // email data
+        $email_data = array(
+            'name' => $data['name'],
+            'email' => $data['email'],
+        );
+
+        Mail::send('mail.welcome_email', $email_data, function ($message) use ($email_data) {
+            $message->to($email_data['email'], $email_data['name'])
+                ->subject('Welcome to InvoicePedia')
+                ->from('invoicepedia.com', 'InvoicePedia.com');
+        });
+        return $user;
 
     }
 
