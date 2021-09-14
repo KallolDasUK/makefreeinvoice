@@ -108,7 +108,7 @@ class InvoiceSendMail extends Mailable
             ->addItems($items)
             ->totalAmount($this->invoice->total)
             ->notes($notes)
-            ->logo(public_path('/storage/' . (property_exists(settings(), 'business_logo') ? settings()->business_logo : 'logo.png')));
+            ->logo(public_path('/storage/' . (property_exists($this->settings, 'business_logo') ? $this->settings->business_logo : 'logo.png')));
 
         $invoice->taxes = $this->invoice->taxes;
         $invoice->invoice = $this->invoice;
