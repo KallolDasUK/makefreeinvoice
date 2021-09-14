@@ -358,6 +358,8 @@ class InvoicesController extends Controller
     public function sendInvoiceMail(Request $request, Invoice $invoice)
     {
         $data = $request->all();
+        $data['send_to_business'] = $request->has('send_to_business');
+
         $to = [];
         foreach (json_decode($data['to'] ?? '{}') as $item) {
             $validator = validator()->make(['email' => $item->value], [
@@ -367,8 +369,11 @@ class InvoicesController extends Controller
                 $to[] = $item->value;
             }
         }
-        $data['send_to_business'] = $request->has('send_to_business');
+
         $data['attach_pdf'] = $request->has('attach_pdf');
+        if ($data['send_to_business'] && settings()->email) {
+            $to[] = settings()->email;
+        }
         $data['to'] = $to;
 
         $invoice->invoice_status = "sent";
