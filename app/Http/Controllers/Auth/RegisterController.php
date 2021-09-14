@@ -66,7 +66,9 @@ class RegisterController extends Controller
             PaymentMethod::create(['name' => 'Credit Card']);
             PaymentMethod::create(['name' => 'Visa Card']);
             PaymentMethod::create(['name' => 'Cheque']);
-            MetaSetting::create(['email' => $user->email ?? '']);
+
+            MetaSetting::query()->updateOrCreate(['key' => 'email'], ['value' => $user->email]);
+
         }
         if ($response = $this->registered($request, $user)) {
             return $response;
