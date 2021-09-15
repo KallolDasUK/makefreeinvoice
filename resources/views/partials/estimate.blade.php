@@ -106,7 +106,7 @@
                             <tr class="">
                                 <td>{{ $loop->iteration }}</td>
                                 <td class="">
-                                    {{ $item->product->name }}
+                                    {{ optional($item->product)->name??'Item Deleted!' }}
                                     @if($item->description)
                                         <br>
                                         <small> {{ $item->description }} </small>

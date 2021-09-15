@@ -105,7 +105,7 @@
                             <tr class="">
                                 <td>{{ $loop->iteration }}</td>
                                 <td class="">
-                                    {{ $item->product->name }}
+                                    {{ optional($item->product)->name??'Item Deleted!' }}
                                     @if($item->description)
                                         <br>
                                         <small> {{ $item->description }} </small>
@@ -177,14 +177,14 @@
 
     <div class="row mt-4">
         <div class="col">
-            <p ><strong>Terms & Condition :</strong> <br>
+            <p><strong>Terms & Condition :</strong> <br>
                 {{ $invoice->terms_condition }}</p>
-            <p ><strong>Notes :</strong> <br>
+            <p><strong>Notes :</strong> <br>
                 {{ $invoice->notes }}</p>
         </div>
         <div class="col text-right">
             @foreach($invoice->extra_fields as $ef)
-                <p ><strong>{{ $ef->name }} :</strong> <br>
+                <p><strong>{{ $ef->name }} :</strong> <br>
                     {{ $ef->value }}</p>
             @endforeach
         </div>
