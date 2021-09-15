@@ -80,7 +80,7 @@ class InvoiceSendMail extends Mailable
         ]);
         $items = [];
         foreach ($this->invoice->invoice_items as $invoice_item) {
-            $items[] = (new InvoiceItem())->title($invoice_item->product->name)->pricePerUnit($invoice_item->price)->quantity($invoice_item->qnt)->units($invoice_item->unit);
+            $items[] = (new InvoiceItem())->title(optional($invoice_item->product)->name??'ITEM WAS DELETED.')->pricePerUnit($invoice_item->price)->quantity($invoice_item->qnt)->units($invoice_item->unit);
         }
 
         $notes = [
