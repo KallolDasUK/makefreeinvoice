@@ -99,6 +99,9 @@ class RegisterController extends Controller
                 ->subject('Welcome to InvoicePedia')
                 ->from('invoicepedia@gmail.com', 'InvoicePedia.com');
         });
+
+
+
         return $user;
 
     }

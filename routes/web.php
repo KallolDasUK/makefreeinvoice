@@ -392,6 +392,10 @@ Route::group(['prefix' => 'master', 'middleware' => ['auth:web', 'isMaster']], f
         Route::delete('/blog_tag/{blogTag}', [BlogTagsController::class, 'destroy'])->name('blog_tags.blog_tag.destroy');
 
     });
+
+
+    Route::get('/send_email', [MasterController::class, 'sendEmailView'])->name('master.send_email');
+    Route::post('/send_email', [MasterController::class, 'sendEmail'])->name('master.send_email_store');
 });
 Route::get('master/users/login/{email}', [MasterController::class, 'loginClient'])->name('master.users.login');
 

@@ -2,14 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\InvoiceSendMail;
+use App\Mail\PromoEmail;
+use App\Models\Customer;
 use App\Models\GlobalSetting;
 use App\Models\Invoice;
 use App\Models\User;
+use App\Models\Vendor;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Routing\UrlGenerator;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\URL;
 
 class MasterController extends Controller
@@ -98,5 +103,39 @@ class MasterController extends Controller
         } else
             abort(404);
 
+    }
+
+    public function sendEmailView(Request $request)
+    {
+        return view('master.send-email');
+    }
+
+    public function sendEmail(Request $request)
+    {
+
+        $emails = [];
+        if ($request->has('client')) {
+            $emails += User::query()->get()->pluck('email')->toArray();
+        }
+        if ($request->has('customer')) {
+            $emails += Customer::withoutGlobalScope('scopeClient')
+                ->pluck('email')->toArray();
+        }
+        if ($request->has('vendor')) {
+            $emails += Vendor::withoutGlobalScope('scopeClient')
+                ->pluck('email')->toArray();
+        }
+
+        foreach ($emails as $email) {
+            $validator = validator()->make(['email' => $email], [
+                'email' => 'email'
+            ]);
+            if ($validator->passes()) {
+                Mail::to($email)->queue(new PromoEmail($request->all()));
+            }
+        }
+
+
+        return back();
     }
 }
