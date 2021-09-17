@@ -23,7 +23,8 @@ class PromoEmail extends Mailable
     {
         return $this
             ->subject($this->request->subject)
-            ->from('inovicepedia@gmail.com', 'InvoicePedia')
+            ->from('invoicepedia@gmail.com', 'InvoicePedia')
+            ->replyTo('invoicepedia@gmail.com', 'InvoicePedia')
             ->html($this->request->body ?? '<p>Empty</p>');
     }
 }
