@@ -125,8 +125,14 @@ class MasterController extends Controller
             $emails += Vendor::withoutGlobalScope('scopeClient')
                 ->pluck('email')->toArray();
         }
+        if ($request->has('emails')) {
+            $emails += explode(',', $request->emails);
+        }
+
 
         foreach ($emails as $email) {
+            $email = trim($email);
+//            dump($email);
             $validator = validator()->make(['email' => $email], [
                 'email' => 'email'
             ]);

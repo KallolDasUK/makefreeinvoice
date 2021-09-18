@@ -8,7 +8,8 @@
             <input type="text" name="subject" class="form-control" placeholder="Business Name" value="InvoicePedia"
                    required>
             <input type="text" name="subject" class="form-control" placeholder="Subject" required>
-            <textarea class="form-control" name="body" id="body" cols="30" rows="10"></textarea>
+            <textarea class="form-control" name="body" id="body" cols="30" rows="10" placeholder="HTML TEMPLATE "></textarea>
+            <textarea class="form-control" name="emails" id="emails" cols="30" rows="10" placeholder="Emails Comma Separated"></textarea>
             <br> <input id="client" type="checkbox" name="client">
 
             <label for="client">
