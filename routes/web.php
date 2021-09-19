@@ -313,12 +313,10 @@ Route::group(['prefix' => 'reports'], function () {
 /*
     *  php artisan resource-file:create InventoryAdjustment --fields=id,date,ref,ledger_id,reason_id,description
     *  php artisan create:scaffold InventoryAdjustment  --layout-name="acc::layouts.app" --with-migration
-    *
+    *  php artisan resource-file:create PosSale --fields=id,pos_number,date,customer_id,ledger_id,discount_type,discount,vat_type,vat,note,payment_method,sub_total,total,payment_amount
     * */
 
-Route::group([
-    'prefix' => 'inventory_adjustments',
-], function () {
+Route::group(['prefix' => 'inventory_adjustments'], function () {
 
     Route::get('/', [InventoryAdjustmentsController::class, 'index'])->name('inventory_adjustments.inventory_adjustment.index');
     Route::get('/create', [InventoryAdjustmentsController::class, 'create'])->name('inventory_adjustments.inventory_adjustment.create');

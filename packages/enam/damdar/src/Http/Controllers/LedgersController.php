@@ -65,11 +65,11 @@ class LedgersController extends Controller
     {
         $txn = Transaction::where('txn_type', 'OpeningBalance')->where('type', Ledger::class)->where('type_id', $ledger->id)->first();
         if ($txn) {
-            $txn->update(['amount' => $amount,'type' => Ledger::class,
-                    'type_id' => $ledger->id]);
+            $txn->update(['amount' => $amount, 'type' => Ledger::class,
+                'type_id' => $ledger->id]);
 
             TransactionDetail::where('transaction_id', $txn->id)
-                ->update(['entry_type' => $entry_type, 'amount' => $amount,'type' => Ledger::class,
+                ->update(['entry_type' => $entry_type, 'amount' => $amount, 'type' => Ledger::class,
                     'type_id' => $ledger->id]);
         } else {
             $voucher_no = $this->getVoucherID();
@@ -78,7 +78,7 @@ class LedgersController extends Controller
                 'type_id' => $ledger->id, 'date' => today()->toDateString()]);
 
             TransactionDetail::create(['transaction_id' => $txn->id, 'ledger_id' => $ledger->id, 'entry_type' => $entry_type, 'amount' => $amount,
-                'voucher_no' => $voucher_no, 'date' => today()->toDateString(), 'note' => 'OpeningBalance','type' => Ledger::class,
+                'voucher_no' => $voucher_no, 'date' => today()->toDateString(), 'note' => 'OpeningBalance', 'type' => Ledger::class,
                 'type_id' => $ledger->id]);
 
         }
@@ -113,6 +113,11 @@ class LedgersController extends Controller
         $ledger->update($data);
         if ($request->opening > 0) {
             $this->storeOpeningBalance($ledger, $request->opening, $request->opening_type);
+        } else {
+            $txn = Transaction::where('txn_type', 'OpeningBalance')->where('type', Ledger::class)->where('type_id', $ledger->id)->first();
+            if ($txn) {
+                TransactionDetail::query()->where('transaction_id', $txn->id)->delete();
+            }
         }
 
         return redirect()->route('ledgers.ledger.index')
