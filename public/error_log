@@ -1,0 +1,2 @@
+[18-Sep-2021 20:13:25 Asia/Dhaka] PHP Fatal error:  Allowed memory size of 536870912 bytes exhausted (tried to allocate 5259264 bytes) in /home/kinetixb/invoicepedia.com/vendor/laravel/framework/src/Illuminate/Queue/Queue.php on line 105
+[18-Sep-2021 20:18:03 Asia/Dhaka] PHP Fatal error:  Allowed memory size of 1073741824 bytes exhausted (tried to allocate 5259264 bytes) in /home/kinetixb/invoicepedia.com/vendor/laravel/framework/src/Illuminate/Queue/Queue.php on line 105
