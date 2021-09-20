@@ -16,6 +16,7 @@ class User extends Authenticatable
 {
     use HasFactory, Notifiable, Billable;
 
+    protected $appends = ['invoice_count'];
     /**
      * The attributes that are mass assignable.
      *
@@ -101,6 +102,11 @@ class User extends Authenticatable
     public function getLoginUrlAttribute()
     {
 
-        return Url::temporarySignedRoute('master.users.login',Carbon::now()->addMinutes(2), ['email' => $this->email]);
+        return Url::temporarySignedRoute('master.users.login', Carbon::now()->addMinutes(2), ['email' => $this->email]);
+    }
+
+    public function getInvoiceCountAttribute()
+    {
+        return count($this->invoices);
     }
 }

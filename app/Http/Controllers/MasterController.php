@@ -27,7 +27,8 @@ class MasterController extends Controller
     public function users()
     {
         $users = User::query()->orderBy('role', 'desc')->paginate(25);
-
+        $sortedResult = $users->getCollection()->sortByDesc('invoice_count')->values();
+        $users->setCollection($sortedResult);
 
         return view('master.users', compact('users'));
     }
@@ -129,7 +130,7 @@ class MasterController extends Controller
             $emails += explode(',', $request->a);
         }
 
-dd($emails);
+//        dd($emails);
         foreach ($emails as $email) {
             $email = trim($email);
 //            dump($email);

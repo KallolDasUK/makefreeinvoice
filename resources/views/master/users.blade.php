@@ -16,6 +16,8 @@
                 <th>Name</th>
                 <th>Role</th>
                 <th>On Plan</th>
+                <th>Joined</th>
+                <th>Last Active</th>
                 <th>Invoices</th>
                 <th>Bills</th>
                 <th>Estimate</th>
@@ -31,6 +33,12 @@
                     <td>{{ $user->name }} <br><small>{{ $user->email }}</small></td>
                     <td>{{ Str::title($user->role) }}</td>
                     <td>{{ Str::title($user->plan) }}</td>
+                    <td> {{ \Carbon\Carbon::parse($user->created_at)->diffForHumans() }}</td>
+                    @if($user->last_active_at)
+                        <td> {{ \Carbon\Carbon::parse($user->last_active_at)->diffForHumans() }}</td>
+                    @else
+                        <td>-</td>
+                    @endif
                     <td>{{ count($user->invoices)==0?'-':count($user->invoices) }}</td>
                     <td>{{ count($user->bills)==0?'-':count($user->bills) }}</td>
                     <td>{{ count($user->estimates)==0?'-':count($user->estimates) }}</td>
@@ -41,7 +49,8 @@
                         {{--                        <a onclick="window.open('{{ $user->login_url }}', '_blank', 'location=yes,height=570,width=520,scrollbars=yes,status=yes');" target="_blank" class="add" title="" data-toggle="tooltip"--}}
                         <button class="linkContainer btn btn-sm btn-info">
 
-                            <input type="text" value="{{ $user->login_url }}" style="width: 20px;display: none" readonly >
+                            <input type="text" value="{{ $user->login_url }}" style="width: 20px;display: none"
+                                   readonly>
                             Copy Login URL
                         </button>
 
