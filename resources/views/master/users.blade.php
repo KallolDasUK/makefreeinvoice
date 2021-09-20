@@ -32,7 +32,7 @@
                 <tr>
                     <td>
                         <div class="row">
-                            <div class="col-4">
+                            <div class="col-3">
                                 <img class=" rounded"
                                      src="{{ asset('storage/'.(optional($user->settings)->business_logo??'logo.png' )) }}"
                                      alt=""
