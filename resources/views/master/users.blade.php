@@ -30,7 +30,22 @@
             <tbody>
             @foreach($users as $user)
                 <tr>
-                    <td>{{ $user->name }} <br><small>{{ $user->email }}</small></td>
+                    <td>
+                        <div class="row">
+                            <div class="col-4">
+                                <img class=" rounded"
+                                     src="{{ asset('storage/'.(optional($user->settings)->business_logo??'logo.png' )) }}"
+                                     alt=""
+                                     height="50">
+                            </div>
+                            <div class="col">
+                                {{ $user->name }} <br><small>{{ $user->email }}</small><br><small><a
+                                        href="tel:{{ optional($user->settings)->phone }}">{{ optional($user->settings)->phone }}</a></small>
+                            </div>
+                        </div>
+
+
+                    </td>
                     <td>{{ Str::title($user->role) }}</td>
                     <td>{{ Str::title($user->plan) }}</td>
                     <td> {{ \Carbon\Carbon::parse($user->created_at)->diffForHumans() }}</td>
