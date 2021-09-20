@@ -36,7 +36,8 @@
                                 <img class=" rounded"
                                      src="{{ asset('storage/'.(optional($user->settings)->business_logo??'logo.png' )) }}"
                                      alt=""
-                                     height="50">
+                                     height="50"
+                                     width="50">
                             </div>
                             <div class="col">
                                 {{ $user->name }} <br><small>{{ $user->email }}</small><br><small><a
