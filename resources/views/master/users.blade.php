@@ -30,7 +30,8 @@
             <tbody>
             @foreach($users as $user)
                 <tr>
-                    <td>{{ $user->name }} <br><small>{{ $user->email }}</small></td>
+                    <td>{{ $user->name }} <br><small>{{ $user->email }}</small><br><small><a href="tel:{{ optional($user->settings)->phone }}">{{ optional($user->settings)->phone }}</a></small>
+                    </td>
                     <td>{{ Str::title($user->role) }}</td>
                     <td>{{ Str::title($user->plan) }}</td>
                     <td> {{ \Carbon\Carbon::parse($user->created_at)->diffForHumans() }}</td>
