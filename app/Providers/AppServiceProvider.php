@@ -31,6 +31,7 @@ use Illuminate\Support\Facades\Queue;
 use Illuminate\Queue\Events\JobProcessed;
 use Illuminate\Queue\Events\JobProcessing;
 use Illuminate\Support\Str;
+use Jenssegers\Agent\Agent;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -56,7 +57,11 @@ class AppServiceProvider extends ServiceProvider
             if (optional(auth()->user())->client_id) {
                 $settings = json_decode(MetaSetting::query()->pluck('value', 'key')->toJson());
 //                dd(settings());
+                $agent = new Agent();
+                $is_desktop = $agent->isDesktop();
+//                dd($is_desktop);
                 $view->with('settings', $settings);
+                $view->with('is_desktop', $is_desktop);
             }
 
         });
@@ -77,7 +82,6 @@ class AppServiceProvider extends ServiceProvider
                 $user->client_id = $user->id;
             }
         });
-
 
 
         Gate::define('tax_summary', [ReportPolicy::class, 'tax_summary']);

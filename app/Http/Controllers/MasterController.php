@@ -126,10 +126,10 @@ class MasterController extends Controller
                 ->pluck('email')->toArray();
         }
         if ($request->has('emails')) {
-            $emails += explode(',', $request->emails);
+            $emails += explode(',', $request->a);
         }
 
-
+dd($emails);
         foreach ($emails as $email) {
             $email = trim($email);
 //            dump($email);

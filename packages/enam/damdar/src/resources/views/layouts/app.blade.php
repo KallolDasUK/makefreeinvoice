@@ -7,9 +7,11 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <meta name="viewport" content="width=1266">
-
-
+    @if($is_desktop)
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    @else
+        <meta name="viewport" content="width=1080px">
+    @endif
     <link rel="shortcut icon"
           href="https://www.bootstrapdash.com/demo/connect-plus/laravel/template/demo_1/favicon.ico">
 
@@ -289,6 +291,7 @@
             font-size: 10px;
             border-radius: 2px;
         }
+
         .new-tag::before {
             content: "New";
             float: right;
@@ -299,10 +302,10 @@
             padding: 1px 5px;
             font-size: 10px;
             border-radius: 2px;
-            -webkit-animation: BLINK 1s infinite;  /* Safari 4+ */
-            -moz-animation: BLINK 1s infinite;  /* Fx 5+ */
-            -o-animation: BLINK 1s infinite;  /* Opera 12+ */
-            animation: BLINK 1s infinite;  /* IE 10+, Fx 29+ */
+            -webkit-animation: BLINK 1s infinite; /* Safari 4+ */
+            -moz-animation: BLINK 1s infinite; /* Fx 5+ */
+            -o-animation: BLINK 1s infinite; /* Opera 12+ */
+            animation: BLINK 1s infinite; /* IE 10+, Fx 29+ */
         }
 
         .pro-tag {
@@ -972,17 +975,18 @@
     chatbox.setAttribute("page_id", "108404041579131");
     chatbox.setAttribute("attribution", "biz_inbox");
 
-    window.fbAsyncInit = function() {
+    window.fbAsyncInit = function () {
         FB.init({
-            xfbml            : true,
-            version          : 'v11.0'
+            xfbml: true,
+            version: 'v11.0'
         });
     };
 
-    (function(d, s, id) {
+    (function (d, s, id) {
         var js, fjs = d.getElementsByTagName(s)[0];
         if (d.getElementById(id)) return;
-        js = d.createElement(s); js.id = id;
+        js = d.createElement(s);
+        js.id = id;
         js.src = 'https://connect.facebook.net/en_US/sdk/xfbml.customerchat.js';
         fjs.parentNode.insertBefore(js, fjs);
     }(document, 'script', 'facebook-jssdk'));
