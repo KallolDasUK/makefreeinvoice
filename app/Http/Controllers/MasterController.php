@@ -26,9 +26,7 @@ class MasterController extends Controller
 
     public function users()
     {
-        $users = User::query()->orderBy('role', 'desc')->paginate(25);
-        $sortedResult = $users->getCollection()->sortByDesc('invoice_count')->values();
-        $users->setCollection($sortedResult);
+        $users = User::withCount('invoices')->orderBy('invoices_count', 'desc')->paginate(25);
 
         return view('master.users', compact('users'));
     }
