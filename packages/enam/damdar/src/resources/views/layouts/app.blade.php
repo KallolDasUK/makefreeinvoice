@@ -233,6 +233,19 @@
             border-color: #065a92 !important;
         }
 
+
+        .btn.btn-info {
+            color: white !important;
+            background-color: #8950FC !important;
+            border-color: #8950FC !important;
+
+        }
+
+        .btn.btn-info:hover {
+            background-color: transparent !important;
+            color: #8950FC !important;
+            border-color: #8950FC !important;
+        }
         .rounded {
             border-color: #065a92a3 !important;
         }
@@ -705,13 +718,27 @@
 
 
     <div class="mt-4" style="min-height: 70vh">
-        @if(!optional(auth()->user())->subscribed('default'))
-            <p class="text-center"><strong>You are using limited free version. <a href="javascript:;"
-                                                                                  class="subscribeModal btn btn-sm btn-info">Upgrade
-                        Now</a> & unlock the treasure</strong></p>
+
+        <div class="d-flex justify-content-between mb-2">
+            @if(!optional(auth()->user())->subscribed('default'))
+                <div><p class="text-center">
+                        <strong>You are using limited free version. <a href="javascript:;"
+                                                                       class="subscribeModal btn btn-sm btn-info">Upgrade
+                                Now</a> & unlock the treasure</strong></p></div>
+            @endif
+            @if(optional(auth()->user())->role == 'master')
+                <div>
+
+                    <a href="{{ route('pos_sales.pos_sale.create') }}"
+                       class="btn btn-info btn-lg font-weight-bolder font-size-sm " style="font-size: 16px">
+                        <i class="fas fa-cash-register" aria-hidden="true"></i>
+
+                        </span>POS Sale</a>
+                </div>
+            @endif
+        </div>
 
 
-        @endif
         <b class="text-black font-weight-bolder mb-2 mt-2" style="font-size: 20px"> {{ $title??'' }} </b>
 
         @yield('content')

@@ -59,5 +59,9 @@
         "model-name": "BillPayment",
         "resource-file": "bill_payments.json",
         "table-name": "bill_payments"
+    },
+    {
+        "model-name": "PosSale",
+        "resource-file": "pos_sales.json"
     }
 ]
