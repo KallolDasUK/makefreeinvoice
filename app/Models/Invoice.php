@@ -15,52 +15,32 @@ class Invoice extends Model
 
     protected $guarded = [];
     protected $appends = ['payment_status'];
-    private $withoutGlobalScope = false;
 
-    public function __construct(array $attributes = [])
-    {
-        $this->withoutGlobalScope = count($this->getGlobalScopes()) == 0;
-        parent::__construct($attributes);
-    }
 
     public function customer()
     {
-        if ($this->withoutGlobalScope) {
-            return $this->belongsTo('App\Models\Customer', 'customer_id')->withoutGlobalScope('scopeClient');
-        }
+
         return $this->belongsTo('App\Models\Customer', 'customer_id');
     }
 
     public function invoice_items()
     {
-        if ($this->withoutGlobalScope) {
-            return $this->hasMany('App\Models\InvoiceItem', 'invoice_id')->withoutGlobalScope('scopeClient');
-        }
         return $this->hasMany('App\Models\InvoiceItem', 'invoice_id');
     }
 
     public function invoice_extra()
     {
-        if ($this->withoutGlobalScope) {
-            return $this->hasMany('App\Models\InvoiceExtraField', 'invoice_id')->withoutGlobalScope('scopeClient');
-        }
         return $this->hasMany('App\Models\InvoiceExtraField', 'invoice_id');
     }
 
     public function getExtraFieldsAttribute()
     {
-        if ($this->withoutGlobalScope) {
-            return ExtraField::query()->withoutGlobalScope('scopeClient')->where('type', Invoice::class)->where('type_id', $this->id)->get();
-        }
         return ExtraField::query()->where('type', Invoice::class)->where('type_id', $this->id)->get();
     }
 
 
     public function payments()
     {
-        if ($this->withoutGlobalScope) {
-            return  $this->hasMany(ReceivePaymentItem::class, 'invoice_id')->withoutGlobalScope('scopeClient');
-        }
         return $this->hasMany(ReceivePaymentItem::class, 'invoice_id');
     }
 
