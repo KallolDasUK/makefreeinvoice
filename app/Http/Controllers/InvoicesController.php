@@ -388,9 +388,8 @@ class InvoicesController extends Controller
 
     public function share($secret)
     {
-        $invoice = Invoice::query()->with('customer')->where('secret', $secret)->firstOrFail();
+        $invoice = Invoice::query()->withoutGlobalScope('client_id')->with('customer')->where('secret', $secret)->firstOrFail();
         $settings = json_decode(MetaSetting::query()->where('client_id', $invoice->client_id)->pluck('value', 'key')->toJson());
-//        dd($invoice->client_id, $settings);
         return view('invoices.share', compact('invoice', 'settings'));
     }
 
