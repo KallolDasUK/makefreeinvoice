@@ -78,7 +78,7 @@
 
     <style>
         i:hover {
-            color: white !important;
+            color: inherit !important;
         }
 
         i {
@@ -333,40 +333,46 @@
         }
 
         .category_item {
-            min-width: 100px;
-            padding: 10px;
+            width: 105px;
             height: 60px;
-            font-size: 18px;
-            font-weight: bolder;
+            font-size: 16px;
             text-align: center;
             cursor: pointer;
             background-color: #065a92;
             color: white;
-            position: relative;
             border: 1px solid #065a92;
-
+            margin-left: 4px;
+            margin-right: 4px;
+            position: relative;
+            line-height: 1.23;
+            padding: 2px 4px;
+            margin-bottom: 8px;
 
         }
+
+
 
         .category_item:hover {
             color: #065a92;
             background-color: white;
         }
 
-        .items{
+        .items {
             display: flex;
             flex-wrap: wrap;
         }
+
         .item {
             margin-left: 4px;
             margin-right: 4px;
             position: relative;
             line-height: 1.23;
             padding: 2px 4px;
+            margin-bottom: 8px;
             width: 105px;
             height: 75px;
             font-size: 14px;
-            margin-bottom: 8px;
+
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: normal;
@@ -374,9 +380,14 @@
             background-color: #c2e1f3;
             border-color: #c2e1f3;
         }
+
         .item:hover {
             color: #065a92;
             background-color: white;
+        }
+        svg:hover {
+            color: inherit;
+            fill: currentColor;
         }
     </style>
 
