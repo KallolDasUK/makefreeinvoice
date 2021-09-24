@@ -332,6 +332,11 @@
             }
         }
 
+        .category_items {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
         .category_item {
             width: 105px;
             height: 60px;
@@ -349,7 +354,6 @@
             margin-bottom: 8px;
 
         }
-
 
 
         .category_item:hover {
@@ -370,9 +374,9 @@
             padding: 2px 4px;
             margin-bottom: 8px;
             width: 105px;
-            height: 75px;
+            height: 85px;
             font-size: 14px;
-
+            font-weight: bolder;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: normal;
@@ -385,6 +389,7 @@
             color: #065a92;
             background-color: white;
         }
+
         svg:hover {
             color: inherit;
             fill: currentColor;

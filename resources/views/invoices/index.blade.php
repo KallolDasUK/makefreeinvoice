@@ -191,7 +191,7 @@
             <div>
                 <table class="table table-head-custom table-vertical-center" id="kt_advance_table_widget_1">
                     <thead>
-                    <tr class="text-left">
+                        <tr class="text-left">
                         <th></th>
                         <th class="text-center">Invoice Number</th>
                         <th class="pr-0">Client</th>
