@@ -147,32 +147,39 @@
         </div>
 
         <p class="clearfix"></p>
-        @if(count($data->records)>0)
-            <div id="invoice-container" class="container-fluid invoice-container">
 
-                <!-- Header -->
-                <header>
-                    <div class="text-center">
+        <div id="invoice-container" class="container-fluid invoice-container">
 
-                        @if($settings->business_name??false)
-                            <h3>{{ $settings->business_name }}</h3>
-                            <h1>Account/Ledger Transactions </h1>
-                            <h3>{{ optional(\Enam\Acc\Models\Ledger::find($ledger_id))->ledger_name }}</h3>
-                            <span>From {{ $start_date??'-' }} to {{ $end_date??'-' }}</span>
-                        @endif
-                    </div>
+            <!-- Header -->
+            <header>
+                <div class="text-center">
 
-                    <hr>
-                </header>
+                    @if($settings->business_name??false)
+                        <h3>{{ $settings->business_name }}</h3>
+                        <h1>Account/Ledger Transactions </h1>
+                        <h3> {{ $branch_id == 'All'?'All':optional(\Enam\Acc\Models\Branch::find($branch_id))->name }}
+                            Branch </h3>
+                        <h3>{{ optional(\Enam\Acc\Models\Ledger::find($ledger_id))->ledger_name }}</h3>
+                        <span>From {{ $start_date??'-' }} to {{ $end_date??'-' }}</span>
+                    @endif
+                </div>
 
-                <!-- Main Content -->
-                <main>
+                <hr>
+            </header>
 
-                    <hr>
+            <!-- Main Content -->
+            <main>
 
-                    <div class="card">
+                <hr>
 
-                        <div class="card-body p-0">
+                <div class="card">
+
+                    <div class="card-body p-0">@if(count($data->records)==0)
+                                                   <div class="text-center">
+                                                       <img style="text-align: center;margin: 0 auto;" src="https://1.bp.blogspot.com/-oFZuUJWkeVI/YU2wRxUt26I/AAAAAAAAFKw/tA92-qZCPksDCerRYqgANfzaeF8xtGTFQCLcBGAsYHQ/s320/norecord.png" alt="">
+
+                                                   </div>
+                        @else
                             <table class="table mb-0  table-head-custom table-vertical-center text-center">
                                 <thead>
 
@@ -202,7 +209,8 @@
                                     <tr>
                                         <td class="text-left">{{ $loop->iteration }} </td>
                                         <td class="text-left">{{ \Carbon\Carbon::parse($txnDetail->date)->toDateString() }}</td>
-                                        <td class="text-left" style="max-width: 200px">{{ implode(',',participants($txnDetail->transaction->id,$txnDetail->ledger_id)) }}</td>
+                                        <td class="text-left"
+                                            style="max-width: 200px">{{ implode(',',participants($txnDetail->transaction->id,$txnDetail->ledger_id)) }}</td>
 
                                         <td class="text-left">{!! str_replace('\n','</br>',$txnDetail->transaction_details) !!}</td>
                                         <td class="text-left">{{ optional($txnDetail->transaction)->txn_type }}</td>
@@ -237,15 +245,17 @@
 
                                 </tbody>
                             </table>
-                        </div>
 
+                        @endif
                     </div>
-                </main>
-                <!-- Footer -->
+
+                </div>
+            </main>
+            <!-- Footer -->
 
 
-            </div>
-        @endif
+        </div>
+
 
     </div>
 
