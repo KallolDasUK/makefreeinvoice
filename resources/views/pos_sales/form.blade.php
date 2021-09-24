@@ -155,7 +155,7 @@
 
                 </div>
             </div>
-            <div class="action_buttons row" style="position: fixed;right: 0;bottom: 0;margin-bottom: 20px;width: 40%">
+            <div class="action_buttons row mr-4" style="position: fixed;right: 0;bottom: 0;margin-bottom: 20px;width: 40%">
                 <button class="col btn btn-danger btn-lg" style="font-size: 17px;">Suspend</button>
                 <button class="col btn btn-lg btn-info mx-4" style="font-size: 17px;">Credit Sale</button>
                 <button class="col btn btn-primary btn-lg" style="font-size: 17px;">Payment</button>
