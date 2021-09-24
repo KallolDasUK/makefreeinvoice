@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Customer;
 use App\Models\MetaSetting;
 use App\Models\PaymentMethod;
 use App\Providers\RouteServiceProvider;
@@ -68,6 +69,7 @@ class RegisterController extends Controller
             PaymentMethod::create(['name' => 'Cheque']);
 
             MetaSetting::query()->updateOrCreate(['key' => 'email'], ['value' => $user->email]);
+            Customer::create(['name' => Customer::WALK_IN_CUSTOMER]);
 
         }
         if ($response = $this->registered($request, $user)) {
@@ -99,7 +101,6 @@ class RegisterController extends Controller
                 ->subject('Welcome to InvoicePedia')
                 ->from('invoicepedia@gmail.com', 'InvoicePedia.com');
         });
-
 
 
         return $user;

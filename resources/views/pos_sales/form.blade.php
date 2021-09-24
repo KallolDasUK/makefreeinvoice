@@ -1,12 +1,30 @@
 <div class="row">
     <div class="col-7 ">
-        <div class="item-search " style="position:relative;">
-            <input name="product_search" id="product_search" type="text" placeholder="Scan/Search Items"
-                   class="form-control" style="font-size: 18px;padding-left: 50px">
-            <i class="fa fa-barcode" style="font-size: 45px;position:absolute; right: 7px;top: 0px"></i>
-            <i class="fa fa-search"
-               style="font-size: 20px;position:absolute; left: 16px;top: 12px;color: gray!important;"></i>
+        <div class="row">
+            <div class="col">
+                <div class="item-search " style="position:relative;">
+                    <input name="product_search" id="product_search" type="text" placeholder="Scan/Search Items"
+                           class="form-control" style="padding-left: 50px">
+                    <i class="fa fa-barcode" style="font-size: 35px;position:absolute; right: 7px;top: 0px"></i>
+                    <i class="fa fa-search"
+                       style="font-size: 20px;position:absolute; left: 16px;top: 10px;color: gray!important;"></i>
+                </div>
+            </div>
+            <div class="col">
+                <div class="d-flex">
+                    <select name="customer_id" id="customer_id" class="form-control form-control-lg input-lg"
+                            style="font-size: 18px;padding-left: 50px">
+                        @foreach($customers as $customer)
+                            <option
+                                value="{{ $customer->id }}" {{ $customer->name==\App\Models\Customer::WALK_IN_CUSTOMER?'selected':'' }}>{{ $customer->name }} {{ $customer->phone }}</option>
+                        @endforeach
+                    </select>
+                    <button type="button" class="btn" style="color: #065a92"><i class="fa fa-user-plus"></i></button>
+                </div>
+
+            </div>
         </div>
+
 
         <div class="d-flex category_items mt-4">
             <div class="ml-2 category_item d-flex align-items-center justify-content-center rounded btn btn-info">
@@ -82,10 +100,11 @@
             <div style="overflow: scroll;height: 50vh">
                 <table class="table bg-white table-head-custom table-vertical-center text-center">
                     <tr>
-                        <th style="text-align: start">Item</th>
-                        <th>Price</th>
-                        <th>Qnt</th>
-                        <th>Amount</th>
+                        <th style="text-align: start">ITEM</th>
+                        <th>PRICE</th>
+                        <th>QNT</th>
+                        <th>UNIT</th>
+                        <th>AMOUNT</th>
                     </tr>
 
                     <tbody>
@@ -115,6 +134,9 @@
                                         +
                                     </button>
                                 </div>
+                            </td>
+                            <td><input type="text" value="pcs"
+                                       style="max-width: 30px;outline: none; border: 0px !important; text-align: end; text-decoration: underline dashed red;">
                             </td>
                             <td>{{ decent_format(Faker\Factory::create()->randomNumber()) }}</td>
                         </tr>

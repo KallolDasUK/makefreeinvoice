@@ -73,6 +73,11 @@
     <link rel="icon" type="image/png" href="{{ asset('favicon.ico') }}"/>
     <link rel="icon" type="image/png" href="{{ asset('favicon-32x32.png') }}"/>
     <link rel="icon" type="image/png" href="{{ asset('favicon-16x16.png') }}"/>
+    <script src="https://cdn.jsdelivr.net/npm/@algolia/autocomplete-js"></script>
+    <script>
+        const { autocomplete } = window['@algolia/autocomplete-js'];
+    </script>
+
     @yield('css')
     @stack('css')
 
@@ -394,6 +399,8 @@
             color: inherit;
             fill: currentColor;
         }
+
+
     </style>
 
 </head>
@@ -422,7 +429,7 @@
 <div class="">
 
 
-    <div class="m-4" style="height: 100vh;position:relative;" >
+    <div class="m-4" style="height: 100vh;position:relative;">
 
         @yield('content')
         {{ $slot ?? '' }}
@@ -604,6 +611,7 @@
         $('.pro-tag').on('click', function () {
             $('#proModal').modal('show')
         })
+
 
     })
 

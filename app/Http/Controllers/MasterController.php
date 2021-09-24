@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Mail\InvoiceSendMail;
 use App\Mail\PromoEmail;
+use App\Models\Bill;
 use App\Models\Customer;
 use App\Models\GlobalSetting;
 use App\Models\Invoice;
@@ -26,9 +27,20 @@ class MasterController extends Controller
 
     public function users()
     {
+
         $users = User::withCount('invoices')->orderBy('invoices_count', 'desc')->paginate(25);
 
-        return view('master.users', compact('users'));
+
+        $totalClients = 0;
+        $totalInvoices = 0;
+        $totalBills = 0;
+        $totalClients += count(User::all());
+        foreach (User::all() as $user) {
+            $totalInvoices += count($user->invoices);
+            $totalBills += count($user->bills);
+        }
+//        dd('sdfl');
+        return view('master.users', compact('users', 'totalBills', 'totalClients', 'totalInvoices'));
     }
 
     public function subscriptions()
