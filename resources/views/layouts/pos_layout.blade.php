@@ -422,7 +422,7 @@
 <div class="">
 
 
-    <div class="m-4" style="height: 100vh">
+    <div class="m-4" style="height: 100vh;position:relative;" >
 
         @yield('content')
         {{ $slot ?? '' }}
