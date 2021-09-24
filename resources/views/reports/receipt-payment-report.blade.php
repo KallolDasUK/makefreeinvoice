@@ -79,7 +79,7 @@
 
         <div class="card mb-2">
             <div class="card-body">
-                <form action="{{ route('reports.report.ledger_report') }}">
+                <form action="{{ route('reports.report.receipt_payment_report') }}">
                     <div class="row align-items-end mb-4 mx-auto justify-content-center">
 
                         <div class="col">
@@ -149,6 +149,9 @@
                     @if($settings->business_name??false)
                         <h3>{{ $settings->business_name }}</h3>
                         <h1>Receipt & Payment Reports </h1>
+
+                        <h3> {{ $branch_id == 'All'?'All':optional(\Enam\Acc\Models\Branch::find($branch_id))->name }}
+                            Branch </h3>
                         <span>From {{ $start_date??'-' }} to {{ $end_date??'-' }}</span>
                     @endif
                 </div>

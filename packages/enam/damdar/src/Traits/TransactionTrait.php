@@ -630,9 +630,11 @@ trait TransactionTrait
         $records = Transaction::query()
 //            ->where('date', '<', $start_date)
 //            ->where('date', '>', $end_date)
-//            ->when($branch_id != 'All', function ($query) use ($branch_id) {
-//                return $query->where('branch_id', $branch_id);
-//            })
+
+            ->when($branch_id != 'All', function ($query) use ($branch_id) {
+                return $query->where('branch_id', $branch_id);
+            })
+            ->whereBetween('date',[$start_date,$end_date])
             ->whereIn('txn_type', [VoucherType::$VENDOR_PAYMENT, VoucherType::$PAYMENT])->get();
 //        dd($records);
         return $records;
