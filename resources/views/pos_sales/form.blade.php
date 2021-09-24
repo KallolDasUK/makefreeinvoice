@@ -34,7 +34,9 @@
             </div>
             @foreach($products as $product)
                 <div class="ml-2 item rounded btn">
-                    <span class="">{{ $product->name }}</span>
+                    <span class="">
+                        {{ $product->name }}
+                    </span>
                     <span class="{{ $product->stock > 0 ?'':'text-danger' }}"
                           style="position:absolute;left: 5px;bottom: 5px"><small>{{ decent_format($product->stock) }} {{ $product->sell_unit }}</small></span>
                     <span
@@ -57,73 +59,155 @@
     <div class="col-5">
         <div style="height: 40px">
             <div class="row align-items-center justify-content-center">
-                <a href="{{ route('acc.home') }}" class="col-2 mx-1 btn btn-outline-primary text-center">
+                <a href="{{ route('acc.home') }}" class="col-2 mx-1 btn btn-outline-primary text-center btn-sm">
                     <i class="fa fa-home"></i>
                     HOME
                 </a>
-                <button type="button" class="col mx-1 btn btn-outline-primary">
+                <button type="button" class="col mx-1 btn btn-outline-primary btn-sm">
                     <i class="fa fa-cog"></i>
                     POS Settings
                 </button>
-                <button type="button" class="col mx-1 btn btn-outline-primary text-center">
+                <button type="button" class="col mx-1 btn btn-outline-primary text-center btn-sm">
                     <i class="fa fa-cog"></i>
                     <small>Receipt Settings</small>
                 </button>
 
-                <button type="button" class="col mx-1 btn btn-outline-info">
+                <button type="button" class="col mx-1 btn btn-outline-info btn-sm">
                     <i class="fa fa-file-audio"></i>
                     Upgrade
                 </button>
             </div>
         </div>
-        <div class="cart bg-white">
-            <h2 class="ml-4 mt-4">In Cart </h2>
-            <table class="table table-head-custom table-vertical-center text-center" style="overflow: scroll">
-                <tr>
-                    <th>SL</th>
-                    <th>Item</th>
-                    <th>Price</th>
-                    <th>Qnt</th>
-                    <th>Amount</th>
-                </tr>
+        <div class="cart">
+            <div style="overflow: scroll;height: 50vh">
+                <table class="table bg-white table-head-custom table-vertical-center text-center">
+                    <tr>
+                        <th style="text-align: start">Item</th>
+                        <th>Price</th>
+                        <th>Qnt</th>
+                        <th>Amount</th>
+                    </tr>
 
-                <tbody>
-               @foreach(range(1,5) as $number)
-                   <tr>
-                       <td>{{ $number }}</td>
-                       <td>Hyacinth Navarro</td>
-                       <td style="text-align: center">
-                           <input style="max-width: 50px" type="text" class="form-control form-control-sm text-center"
-                                  value="205">
-                       </td>
-                       <td>
-                           <div class="d-flex">
-                               <button type="button" class="btn btn-sm btn-outline-danger " style="font-weight: bolder;">
-                                   <span class="fa fa-trash-alt"></span>
-                               </button>
-                               {{--                            <button type="button" class="btn btn-sm btn-danger " style="font-weight: bolder;">-</button>--}}
-                               <input style="max-width: 50px" type="text" class="form-control form-control-sm text-center mx-2"
-                                      value="205">
-                               <button  type="button" class="btn btn-sm btn-primary" style="font-weight: bolder;">
-                                   +
-                               </button>
-                           </div>
-                       </td>
-                       <td>550</td>
-                   </tr>
-               @endforeach
-                </tbody>
-            </table>
-            <div class="empty-cart bg-white text-center d-flex align-items-center justify-content-center rounded"
-                 style="height: 400px;display: none">
-                <div>
-                    <img width="100" height="100"
-                         src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ_UGVlPqcYGJxa04bB_ZnDWZpja9qvT3ywew&usqp=CAU"
-                         alt="">
-                    <h2>Empty Cart</h2>
-                    <p>Search Item or Scan Barcode to add item to cart</p>
+                    <tbody>
+                    @foreach(range(1,5) as $number)
+                        <tr>
+                            <td style="text-align: start;max-width: 130px"><i class="fa fa-edit"
+                                                                              style="color: gray"></i> {{  Faker\Factory::create()->name }}
+                                <br>
+                                <small>{{ Faker\Factory::create()->name }}</small>
+                            </td>
+                            <td style="text-align: center">
+                                <input style="max-width: 50px" type="text"
+                                       class="form-control form-control-sm text-center"
+                                       value="205">
+                            </td>
+                            <td>
+                                <div class="d-flex">
+                                    <button type="button" class="btn btn-sm btn-outline-danger "
+                                            style="font-weight: bolder;">
+                                        <span class="fa fa-trash-alt"></span>
+                                    </button>
+                                    {{--                            <button type="button" class="btn btn-sm btn-danger " style="font-weight: bolder;">-</button>--}}
+                                    <input style="max-width: 50px" type="text"
+                                           class="form-control form-control-sm text-center mx-2"
+                                           value="205">
+                                    <button type="button" class="btn btn-sm btn-primary" style="font-weight: bolder;">
+                                        +
+                                    </button>
+                                </div>
+                            </td>
+                            <td>{{ decent_format(Faker\Factory::create()->randomNumber()) }}</td>
+                        </tr>
+                    @endforeach
+                    </tbody>
+                </table>
+                <div class="empty-cart bg-white text-center d-none align-items-center justify-content-center rounded"
+                     style="height: 400px;display: none">
+                    <div>
+                        <img width="100" height="100"
+                             src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ_UGVlPqcYGJxa04bB_ZnDWZpja9qvT3ywew&usqp=CAU"
+                             alt="">
+                        <h2>Empty Cart</h2>
+                        <p>Search Item or Scan Barcode to add item to cart</p>
+                    </div>
+
                 </div>
+            </div>
+            <div class="action_buttons row" style="position: fixed;right: 0;bottom: 0;margin-bottom: 20px;width: 40%">
+                <button class="col btn btn-danger btn-lg" style="font-size: 17px;">Suspend</button>
+                <button class="col btn btn-lg btn-info mx-4" style="font-size: 17px;">Credit Sale</button>
+                <button class="col btn btn-primary btn-lg" style="font-size: 17px;">Payment</button>
+            </div>
+            <div class="cart-details">
+                <div class="row">
+                    <div class="col">
+                        <div class="row align-items-center justify-content-center mt-4">
+                            <div class="col">
+                                <div class="font-weight-bold"><input type="text" class="form-control form-control-sm"
+                                                                     placeholder="Ex. Vat" value="Discount"></div>
+                            </div>
+                            <div class="col"><input type="text" class="form-control form-control-sm"
+                                                    placeholder="ex. 5% or 100"></div>
+                        </div>
+                        <div class="row align-items-center justify-content-center mt-4">
+                            <div class="col">
+                                <div class="font-weight-bold"><input type="text" class="form-control form-control-sm"
+                                                                     placeholder="Ex. Vat"></div>
+                            </div>
+                            <div class="col"><input type="text" class="form-control form-control-sm"
+                                                    placeholder="ex. 5% or 100"></div>
+                        </div>
+                        <button type="button" class="btn btn-primary btn-sm mt-4" style="width: 100%">+ Add More Field
+                        </button>
+                    </div>
+                    <div class="col">
+                        <div class="card">
+                            <div class="p-2">
+                                <div class="row align-items-center justify-content-center">
+                                    <div class="col">
+                                        <b>Sub Total</b>
+                                    </div>
+                                    <div class="col text-right">
+                                        1500
+                                    </div>
+                                </div>
 
+                                <div class="row align-items-center justify-content-center">
+                                    <div class="col">
+                                        VAT
+                                    </div>
+                                    <div class="col text-right">
+                                        1500
+                                    </div>
+                                </div>
+                                <div class="row align-items-center justify-content-center">
+                                    <div class="col">
+                                        Discount
+                                    </div>
+                                    <div class="col text-right">
+                                        78 (15%)
+                                    </div>
+                                </div>
+                                <div class="row align-items-center justify-content-center">
+                                    <div class="col">
+                                        Service Charge
+                                    </div>
+                                    <div class="col text-right">
+                                        78 (15%)
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <h3>TOTAL</h3>
+                                    </div>
+                                    <div class="col text-right">
+                                        <h2>500$</h2>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
