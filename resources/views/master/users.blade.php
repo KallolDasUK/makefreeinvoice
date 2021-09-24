@@ -10,6 +10,34 @@
                 </div>
             </div>
         </div>
+        <div class="row mb-4">
+            <div class="col">
+                <div class="card">
+                    <div class="card-body">
+                        <h5>Total Clients</h5>
+                        {{ $totalClients }}
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card">
+                   <div class="card-body">
+                       <h5>Total Invoices</h5>
+                       {{ $totalInvoices }}
+                   </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card">
+                    <div class="card-body">
+                        <h5>Total Bills</h5>
+                        {{ $totalBills }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
         <table class="table table-bordered table-sm">
             <thead>
             <tr>

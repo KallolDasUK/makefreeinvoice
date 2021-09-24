@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Customer extends Model
 {
 
+    const WALK_IN_CUSTOMER = "Walk In Customer";
 
     protected $fillable = [
         'name',
@@ -35,7 +36,7 @@ class Customer extends Model
         parent::boot();
 
         static::addGlobalScope('scopeClient', function (Builder $builder) {
-            if (optional(auth()->user())->client_id){
+            if (optional(auth()->user())->client_id) {
                 $builder->where('client_id', auth()->user()->client_id ?? -1);
             }
         });

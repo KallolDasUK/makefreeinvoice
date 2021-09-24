@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Models\Bill;
 use App\Models\BillPayment;
 use App\Models\BillPaymentItem;
+use App\Models\Customer;
 use App\Models\Estimate;
 use App\Models\ExpenseItem;
 use App\Models\Invoice;
@@ -54,6 +55,7 @@ class AppServiceProvider extends ServiceProvider
     {
         Paginator::useBootstrap();
         view()->composer('*', function ($view) {
+            $is_desktop = true;
             if (optional(auth()->user())->client_id) {
                 $settings = json_decode(MetaSetting::query()->pluck('value', 'key')->toJson());
 //                dd(settings());
@@ -61,10 +63,12 @@ class AppServiceProvider extends ServiceProvider
                 $is_desktop = $agent->isDesktop();
 //                dd($is_desktop);
                 $view->with('settings', $settings);
-                $view->with('is_desktop', $is_desktop);
             }
+            $view->with('is_desktop', $is_desktop);
 
         });
+
+
 
         Invoice::observe(InvoiceObserver::class);
         Bill::observe(BillObserver::class);

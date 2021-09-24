@@ -23,18 +23,23 @@ class PosSalesController extends Controller
         $posSales = PosSale::with('customer', 'branch', 'ledger')->paginate(25);
         $categories = Category::all();
         $products = Product::all();
+
         return view('pos_sales.index', compact('posSales', 'products', 'categories'));
     }
 
 
     public function create()
     {
-        $customers = Customer::pluck('name', 'id')->all();
+        if (!Customer::query()->where('name', Customer::WALK_IN_CUSTOMER)->exists()){
+            Customer::create(['name' => Customer::WALK_IN_CUSTOMER]);
+        }
+        $customers = Customer::all();
         $branches = Branch::pluck('id', 'id')->all();
         $ledgers = Ledger::pluck('id', 'id')->all();
         $ledgers = PaymentMethod::pluck('id', 'id')->all();
         $categories = Category::all();
         $products = Product::all();
+
         return view('pos_sales.create', compact('customers', 'branches', 'ledgers', 'ledgers', 'products', 'categories'));
     }
 
