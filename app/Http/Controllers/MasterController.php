@@ -28,7 +28,10 @@ class MasterController extends Controller
     public function users()
     {
 
-        $users = User::withCount('invoices')->orderBy('invoices_count', 'desc')->paginate(25);
+        $users = User::withCount('invoices')
+            ->orderBy('invoices_count', 'desc')
+            ->orderBy('created_at', 'asc')
+            ->paginate(25);
 
 
         $totalClients = 0;
