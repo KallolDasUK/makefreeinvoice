@@ -300,6 +300,8 @@ class ReportController extends AccountingReportsController
 
         $records = $this->getVoucherReport($branch_id, $voucher_type, $start_date, $end_date);
         $branch_name = optional(Branch::find($request->branch_id))->name ?? "All";
+
+
         return view('reports.voucher-report', compact('title', 'start_date',
             'end_date', 'voucher_type', 'branches', 'branch_name', 'records',
             'branch_id'));

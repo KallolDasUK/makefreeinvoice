@@ -79,16 +79,18 @@
 
         <div class="card mb-2">
             <div class="card-body">
-                <form action="{{ route('reports.report.ledger_report') }}">
+                <form action="{{ route('reports.report.cashbook') }}">
                     <div class="row align-items-end mb-4 mx-auto justify-content-center">
 
                         <div class="col">
                             <div class="row align-items-center">
 
                                 <div class="input-daterange input-group" id="start_date">
-                                    <select id="ledger_id" name="ledger_id" class="col-2 form-control mr-2 " required style="display: none">
+                                    <select id="ledger_id" name="ledger_id" class="col-2 form-control mr-2 " required
+                                            style="display: none">
                                         @foreach($ledgers as $id => $text)
-                                            <option value="{{ $id }}" @if($id == $ledger_id) selected @endif>{{ $text }}</option>
+                                            <option value="{{ $id }}"
+                                                    @if($id == $ledger_id) selected @endif>{{ $text }}</option>
                                         @endforeach
                                     </select>
 
@@ -145,31 +147,34 @@
         </div>
 
         <p class="clearfix"></p>
-        @if(count($data->records)>0)
-            <div id="invoice-container" class="container-fluid invoice-container">
 
-                <!-- Header -->
-                <header>
-                    <div class="text-center">
+        <div id="invoice-container" class="container-fluid invoice-container">
 
-                        @if($settings->business_name??false)
-                            <h3>{{ $settings->business_name }}</h3>
-                            <h1>Cash Book Report </h1>
-                            <span>From {{ $start_date??'-' }} to {{ $end_date??'-' }}</span>
-                        @endif
-                    </div>
+            <!-- Header -->
+            <header>
+                <div class="text-center">
 
-                    <hr>
-                </header>
+                    @if($settings->business_name??false)
+                        <h3>{{ $settings->business_name }}</h3>
+                        <h1>Cash Book Report </h1>
+                        <h3> {{ $branch_id == 'All'?'All':optional(\Enam\Acc\Models\Branch::find($branch_id))->name }}
+                            Branch </h3>
+                        <span>From {{ $start_date??'-' }} to {{ $end_date??'-' }}</span>
+                    @endif
+                </div>
 
-                <!-- Main Content -->
-                <main>
+                <hr>
+            </header>
 
-                    <hr>
+            <!-- Main Content -->
+            <main>
 
-                    <div class="card">
+                <hr>
 
-                        <div class="card-body p-0">
+                <div class="card">
+
+                    <div class="card-body p-0">
+                        @if(count($data->records) > 0)
                             <table class="table mb-0  table-head-custom table-vertical-center text-center">
                                 <thead>
 
@@ -178,7 +183,7 @@
                                     <th class="text-left">Date</th>
                                     <th class="text-left">Details</th>
                                     <th class="text-left">Type</th>
-                                    <th  class="text-left">REF</th>
+                                    <th class="text-left">REF</th>
                                     <th style="text-align: center">Debit</th>
                                     <th style="text-align: center">Credit</th>
                                 </tr>
@@ -196,11 +201,11 @@
                                 @php($cr = $data->opening_credit??0)
                                 @foreach($data->records??[] as $txnDetail)
                                     <tr>
-                                        <td  class="text-left">{{ $loop->iteration }} </td>
-                                        <td  class="text-left">{{ \Carbon\Carbon::parse($txnDetail->date)->toDateString() }}</td>
-                                        <td  class="text-left">{!! str_replace('\n','</br>',$txnDetail->transaction_details) !!}</td>
-                                        <td  class="text-left">{{ optional($txnDetail->transaction)->txn_type }}</td>
-                                        <td  class="text-left">{{ $txnDetail->ref??optional($txnDetail->transaction)->voucher_no }}</td>
+                                        <td class="text-left">{{ $loop->iteration }} </td>
+                                        <td class="text-left">{{ \Carbon\Carbon::parse($txnDetail->date)->toDateString() }}</td>
+                                        <td class="text-left">{!! str_replace('\n','</br>',$txnDetail->transaction_details) !!}</td>
+                                        <td class="text-left">{{ optional($txnDetail->transaction)->txn_type }}</td>
+                                        <td class="text-left">{{ $txnDetail->ref??optional($txnDetail->transaction)->voucher_no }}</td>
 
                                         @if($txnDetail->entry_type == \Enam\Acc\Utils\EntryType::$DR)
                                             <td style="text-align: center">{{ decent_format_dash($txnDetail->amount )}}</td>
@@ -217,7 +222,7 @@
                                 @endforeach
                                 <tr style="font-weight: bolder;text-align: center">
                                     <td></td>
-                                    <td  class="text-left" colspan="4">CLOSING BALANCE</td>
+                                    <td class="text-left" colspan="4">CLOSING BALANCE</td>
                                     @if($dr>$cr)
                                         <td>{{ decent_format_dash($dr-$cr) }}</td>
                                         <td>-</td>
@@ -231,15 +236,20 @@
 
                                 </tbody>
                             </table>
-                        </div>
-
+                        @else
+                            <div class="text-center">
+                                <img style="text-align: center;margin: 0 auto;" src="https://1.bp.blogspot.com/-oFZuUJWkeVI/YU2wRxUt26I/AAAAAAAAFKw/tA92-qZCPksDCerRYqgANfzaeF8xtGTFQCLcBGAsYHQ/s320/norecord.png" alt="">
+                            </div>
+                        @endif
                     </div>
-                </main>
-                <!-- Footer -->
+
+                </div>
+            </main>
+            <!-- Footer -->
 
 
-            </div>
-        @endif
+        </div>
+
 
     </div>
 

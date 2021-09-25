@@ -115,7 +115,9 @@
                     </table>
                     @if(count($vendors) == 0)
                         <div class="card-body text-center">
-                            <h4>No Vendors Available.</h4>
+                            <div class="text-center">
+                                <img style="text-align: center;margin: 0 auto;" src="https://1.bp.blogspot.com/-oFZuUJWkeVI/YU2wRxUt26I/AAAAAAAAFKw/tA92-qZCPksDCerRYqgANfzaeF8xtGTFQCLcBGAsYHQ/s320/norecord.png" alt="">
+                            </div>
                         </div>
                     @endif
                 </div>
