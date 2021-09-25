@@ -37,6 +37,16 @@
     </div>
     <div class="col">
         <div class="form-group">
+            <label for="sku">Product Code [Scan Barcode]</label>
+            <input class="form-control form-control-sm  {{ $errors->has('code') ? 'is-invalid' : '' }}" name="code"
+                   type="text" id="code"
+                   value="{{ old('code', optional($product)->code) }}">
+            {!! $errors->first('code', '<p class="form-text text-danger">:message</p>') !!}
+
+        </div>
+    </div>
+    <div class="col">
+        <div class="form-group">
             <label for="sku">SKU</label>
             <input class="form-control form-control-sm  {{ $errors->has('sku') ? 'is-invalid' : '' }}" name="sku"
                    type="text" id="sku"

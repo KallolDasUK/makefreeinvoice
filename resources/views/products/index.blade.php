@@ -46,6 +46,7 @@
                             <th>SL</th>
                             <th>Type</th>
                             <th>Name</th>
+                            <th>Code</th>
                             <th>Stock</th>
                             <th>Category</th>
                             <th>Brand</th>
@@ -62,6 +63,7 @@
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $product->product_type }}</td>
                                 <td>{{ $product->name }}</td>
+                                <td>{{ $product->code }}</td>
                                 <td>{{ $product->stock }}</td>
                                 <td>{{ optional($product->category)->name }}</td>
                                 <td>{{ optional($product->brand)->name }}</td>

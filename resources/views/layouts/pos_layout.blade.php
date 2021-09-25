@@ -73,15 +73,19 @@
     <link rel="icon" type="image/png" href="{{ asset('favicon.ico') }}"/>
     <link rel="icon" type="image/png" href="{{ asset('favicon-32x32.png') }}"/>
     <link rel="icon" type="image/png" href="{{ asset('favicon-16x16.png') }}"/>
-    <script src="https://cdn.jsdelivr.net/npm/@algolia/autocomplete-js"></script>
-    <script>
-        const { autocomplete } = window['@algolia/autocomplete-js'];
-    </script>
+    <script src="https://cdn.jsdelivr.net/npm/underscore@1.13.1/underscore-umd-min.js"></script>
+
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
     @yield('css')
     @stack('css')
 
     <style>
+        .ui-menu-item .ui-menu-item-wrapper.ui-state-active {
+            background: #065a92 !important;
+            font-weight: bold !important;
+            color: #ffffff !important;
+        }
         i:hover {
             color: inherit !important;
         }
