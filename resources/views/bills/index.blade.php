@@ -165,6 +165,7 @@
                 </div>
             </form>
             <div>
+                @if(count($bills)>0)
                 <table class="table table-head-custom table-vertical-center" id="kt_advance_table_widget_1">
                     <thead>
                     <tr class="text-left">
@@ -311,6 +312,12 @@
 
                     </tbody>
                 </table>
+
+                @else
+                    <div class="text-center">
+                        <img style="text-align: center;margin: 0 auto;" src="https://1.bp.blogspot.com/-oFZuUJWkeVI/YU2wRxUt26I/AAAAAAAAFKw/tA92-qZCPksDCerRYqgANfzaeF8xtGTFQCLcBGAsYHQ/s320/norecord.png" alt="">
+                    </div>
+                @endif
                 <div class="float-right">
                     {!! $bills->links() !!}
                 </div>

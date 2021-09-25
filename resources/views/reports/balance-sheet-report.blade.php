@@ -154,6 +154,8 @@
                     @if($settings->business_name??false)
                         <h3>{{ $settings->business_name }}</h3>
                         <h1>Balance Sheet Report</h1>
+                        <h3> {{ $branch_id == 'All'?'All':optional(\Enam\Acc\Models\Branch::find($branch_id))->name }}
+                            Branch </h3>
                         <span>From {{ $start_date??'-' }} to {{ $end_date??'-' }}</span>
                     @endif
                 </div>

@@ -81,10 +81,21 @@
             <div class="card-body">
                 <form action="{{ route('reports.report.voucher_report') }}">
                     <div class="row align-items-end mb-4 mx-auto justify-content-center">
+                        <div class="col-lg-3 col-xl-2">
+                            <label for="voucher_type">Branch </label>
+                            <select name="branch_id" class="form-control mr-2" title="Branch">
+                                <option> All</option>
+                                @foreach($branches as $id => $text)
+                                    <option value="{{ $id }}"
+                                            @if($id == $branch_id) selected @endif>{{ $text }}</option>
+                                @endforeach
+                            </select>
+                        </div>
 
                         <div class="col-lg-3 col-xl-2">
                             <label for="voucher_type">Voucher Type </label>
-                            <select name="voucher_type" id="voucher_type" class="form-control form-control-select">
+                            <select name="voucher_type" id="voucher_type" class="form-control form-control-select"
+                                    required>
                                 <option selected value="" disabled> Select Voucher Type</option>
                                 <option
                                     value="{{ \Enam\Acc\Utils\VoucherType::$RECEIVE }}" {{ $voucher_type == \Enam\Acc\Utils\VoucherType::$RECEIVE?'selected':'' }}>{{ \Enam\Acc\Utils\VoucherType::$RECEIVE }}
@@ -165,6 +176,8 @@
                     @if($settings->business_name??false)
                         <h3>{{ $settings->business_name }}</h3>
                         <h1>Voucher Report</h1>
+                        <h3> {{ $branch_id == 'All'?'All':optional(\Enam\Acc\Models\Branch::find($branch_id))->name }}
+                            Branch </h3>
                         <span>{{ $voucher_type }}</span> <br>
                         <span>From {{ $start_date }} to {{ $end_date }}</span>
                     @endif
@@ -181,61 +194,68 @@
                 <div class="card">
                     <div class="card-body p-0">
                         <div class="">
-                            <table class=" table mb-0  table-head-custom table-vertical-center ">
-                                <thead>
 
-                                <tr>
-                                    <th>Date</th>
-                                    <th>Voucher Number</th>
-                                    <th>Particulars</th>
-                                    <th style="text-align: center">Debit</th>
-                                    <th style="text-align: center">Credit</th>
-                                </tr>
+                            @if(count($records)>0)
+                                <table class=" table mb-0  table-head-custom table-vertical-center ">
+                                    <thead>
 
-                                </thead>
-                                <tbody>
-                                @php($cr=0)
-                                @php($dr=0)
-                                @foreach($records as $txn)
                                     <tr>
-                                        <td></td>
-                                        <td>{{ $txn->voucher_no }}</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-
+                                        <th>Date</th>
+                                        <th>Voucher Number</th>
+                                        <th>Particulars</th>
+                                        <th style="text-align: center">Debit</th>
+                                        <th style="text-align: center">Credit</th>
                                     </tr>
-                                    @foreach($txn->transaction_details as $txnDetail)
+
+                                    </thead>
+                                    <tbody>
+                                    @php($cr=0)
+                                    @php($dr=0)
+                                    @foreach($records as $txn)
                                         <tr>
-                                            <td>{{ $txnDetail->date }}</td>
                                             <td></td>
-                                            <td>{{ $txnDetail->ledger->ledger_name }}</td>
-
-                                            @if($txnDetail->entry_type == \Enam\Acc\Utils\EntryType::$CR)
-                                                <td style="text-align: center">{{ decent_format_dash($txnDetail->amount) }}</td>
-                                                <td style="text-align: center">-</td>
-                                                @php($cr+=$txnDetail->amount)
-
-                                            @else
-                                                <td style="text-align: center">-</td>
-                                                <td style="text-align: center">{{ decent_format_dash($txnDetail->amount) }}</td>
-                                                @php($dr+=$txnDetail->amount)
-
-                                            @endif
+                                            <td>{{ $txn->voucher_no }}</td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
 
                                         </tr>
+                                        @foreach($txn->transaction_details as $txnDetail)
+                                            <tr>
+                                                <td>{{ $txnDetail->date }}</td>
+                                                <td></td>
+                                                <td>{{ $txnDetail->ledger->ledger_name }}</td>
+
+                                                @if($txnDetail->entry_type == \Enam\Acc\Utils\EntryType::$CR)
+                                                    <td style="text-align: center">{{ decent_format_dash($txnDetail->amount) }}</td>
+                                                    <td style="text-align: center">-</td>
+                                                    @php($cr+=$txnDetail->amount)
+
+                                                @else
+                                                    <td style="text-align: center">-</td>
+                                                    <td style="text-align: center">{{ decent_format_dash($txnDetail->amount) }}</td>
+                                                    @php($dr+=$txnDetail->amount)
+
+                                                @endif
+
+                                            </tr>
+                                        @endforeach
                                     @endforeach
-                                @endforeach
 
-                                <tr style="font-weight: bolder;text-align: center">
-                                    <td colspan="3" style="text-align: start">Grand Total</td>
-                                    <td>{{ decent_format_dash($cr) }}</td>
-                                    <td>{{ decent_format_dash($dr) }}</td>
+                                    <tr style="font-weight: bolder;text-align: center">
+                                        <td colspan="3" style="text-align: start">Grand Total</td>
+                                        <td>{{ decent_format_dash($cr) }}</td>
+                                        <td>{{ decent_format_dash($dr) }}</td>
 
-                                </tr>
-                                </tbody>
-                            </table>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            @else
+                                <div class="text-center">
+                                    <img style="text-align: center;margin: 0 auto;" src="https://1.bp.blogspot.com/-oFZuUJWkeVI/YU2wRxUt26I/AAAAAAAAFKw/tA92-qZCPksDCerRYqgANfzaeF8xtGTFQCLcBGAsYHQ/s320/norecord.png" alt="">
 
+                                </div>
+                            @endif
                         </div>
                     </div>
                 </div>
