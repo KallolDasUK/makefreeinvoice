@@ -140,6 +140,7 @@ class ProductsController extends Controller
         $rules = [
             'product_type' => 'required|nullable',
             'name' => 'required|nullable|string',
+            'code' => 'nullable|string',
             'sku' => 'nullable|string|min:0|max:255',
             'photo' => ['file', 'nullable'],
             'category_id' => 'nullable',

@@ -19,8 +19,9 @@
 @section('js')
 
     <script>
-        $(document).ready(function () {
+        var products = @json($products)
 
+        $(document).ready(function () {
         });
     </script>
     <script src="{{ asset('js/pos/pos_sales.js') }}"></script>

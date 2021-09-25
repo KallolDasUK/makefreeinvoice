@@ -39,7 +39,6 @@ class PosSalesController extends Controller
         $ledgers = PaymentMethod::pluck('id', 'id')->all();
         $categories = Category::all();
         $products = Product::all();
-
         return view('pos_sales.create', compact('customers', 'branches', 'ledgers', 'ledgers', 'products', 'categories'));
     }
 
