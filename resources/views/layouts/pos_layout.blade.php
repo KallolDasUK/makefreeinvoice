@@ -405,6 +405,15 @@
         }
 
 
+        .animate_color {
+            background: #FCE97F;
+            animation: fadebackground 6s infinite;
+        }
+        @keyframes fadebackground {
+            from {background-color: #FCE97F;}
+            to {background-color: #065a92;}
+        }
+
     </style>
 
 </head>

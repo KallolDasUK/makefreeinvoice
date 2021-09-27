@@ -111,7 +111,7 @@
             </div>
         </div>
         <div class="cart">
-            <div style="overflow: scroll;height: 50vh">
+            <div style="overflow-y: scroll;height: 50vh">
                 <table class="table bg-white table-head-custom table-vertical-center text-center">
                     <tr>
                         <th style="text-align: start">ITEM</th>
@@ -122,15 +122,47 @@
                     </tr>
 
                     <tbody>
+                   {{ #each pos_items:i }}
+        <tr id="line{{i}}">
+   <td style="text-align: start;max-width: 130px"><i class="fa fa-edit"
+                                                     style="color: gray"></i> {{  product.name }}
+        <br>
+        <small></small>
+    </td>
+    <td style="text-align: center">
+        <input style="max-width: 50px" type="text"
+               class="form-control form-control-sm text-center"
+               value="{{ price }}">
+        </td>
+        <td>
+            <div class="d-flex">
+                <button type="button" class="btn btn-sm btn-outline-danger {{ qnt <=1?'':'d-none' }}" style="font-weight: bolder;" on-click="@this.delete_pos_item(i)">
+                    <span class="fa fa-trash-alt"></span>
+                </button>
+                <button type="button" class="btn btn-sm btn-danger {{ qnt > 1?'':'d-none' }}" style="font-weight: bolder;" on-click="@this.decrement(i)">-</button>
+                <input style="max-width: 50px" type="text"
+                       class="form-control form-control-sm text-center mx-2"
+                       value="{{ qnt }}">
+                <button type="button" class="btn btn-sm btn-primary" style="font-weight: bolder;" on-click="@this.increment(i)">
+                    +
+                </button>
+            </div>
+        </td>
+        <td><input type="text" value="{{ unit }}"
+                   style="max-width: 30px;outline: none; border: 0px !important; text-align: end; text-decoration: underline dashed red;">
+        </td>
+        <td>{{  qnt * price  }}</td>
+    </tr>
+                    {{ /each }}
 
         </tbody>
     </table>
-    <div class="empty-cart bg-white text-center d-none align-items-center justify-content-center rounded"
-         style="height: 400px;display: none">
+    <div class="empty-cart bg-white text-center {{ pos_items.length == 0?'':'d-none' }} align-items-center justify-content-center rounded"
+         style="height: 300px;">
         <div>
             <img width="100" height="100"
                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ_UGVlPqcYGJxa04bB_ZnDWZpja9qvT3ywew&usqp=CAU"
-                 alt="">
+                 class="mt-4">
             <h2>Empty Cart</h2>
             <p>Search Item or Scan Barcode to add item to cart</p>
         </div>
@@ -146,7 +178,7 @@
 <div class="action_buttons row bg-white" style="position: fixed;left: 30px;bottom: 0;margin-bottom: 20px;width: 50%;z-index: 222">
     <button type="button" class="col btn  {{ tab === 'products'? 'btn-primary':'btn-outline-primary' }} btn-lg" style="font-size: 17px;" on-click="@this.onTabChange('products')">Items</button>
     <button  type="button" class="col btn {{ tab === 'bookmarks'? 'btn-primary':'btn-outline-primary' }} btn-lg  mx-4" style="font-size: 17px;" on-click="@this.onTabChange('bookmarks')">Bookmarked</button>
-    <button  type="button" class="col btn  {{ tab === 'custom_fields'? 'btn-primary':'btn-outline-primary' }}  btn-lg mr-4" style="font-size: 17px;" on-click="@this.onTabChange('custom_fields')">QuickTap</button>
+    <button  type="button" class="col btn  {{ tab === 'custom_fields'? 'btn-primary':'btn-outline-primary' }} btn-lg mr-4" style="font-size: 17px;" on-click="@this.onTabChange('custom_fields')">QuickTap</button>
     <button  type="button" class="col btn  {{ tab === 'reserves'? 'btn-primary':'btn-outline-primary' }} btn-lg" style="font-size: 17px;" on-click="@this.onTabChange('reserves')">Reserved</button>
 </div>
 <div class="cart-details">
@@ -224,6 +256,7 @@
 </div>
 
 </div>
+
 
 
 

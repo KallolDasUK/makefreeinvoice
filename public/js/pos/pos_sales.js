@@ -52,10 +52,6 @@ $(document).ready(function () {
     }
 })
 
-function addToCart(id) {
-    console.log('Added To Cart', id)
-
-}
 
 const TABS = {
     PRODUCT_CONTAINER: "products",
@@ -72,6 +68,7 @@ var posRactive = new Ractive({
         categories: categories,
         customers: customers,
         tab: TABS.PRODUCT_CONTAINER,
+        pos_items: pos_items,
         empty_boxes: Array.from({length: 23 - products.length}, (x, i) => i),
     },
     onCategorySelected(category_id) {
@@ -82,10 +79,53 @@ var posRactive = new Ractive({
         addToCart(product_id)
     },
     onTabChange(text) {
-        // this.data.tab = text;
         posRactive.set('tab', text)
-        console.log(posRactive.get())
-
+    },
+    delete_pos_item(i) {
+        posRactive.splice('pos_items', i, 1);
+    },
+    increment(i) {
+        let pos_item = posRactive.get(`pos_items.${i}`);
+        posRactive.set(`pos_items.${i}.qnt`, ++pos_item.qnt)
+        console.log(i, pos_item)
+    },
+    decrement(i) {
+        let pos_item = posRactive.get(`pos_items.${i}`);
+        posRactive.set(`pos_items.${i}.qnt`, --pos_item.qnt)
+        console.log(i, pos_item)
     },
 });
 
+function addToCart(id) {
+
+
+    let product = _.find(products, function (product) {
+        return product.id == id;
+    });
+
+    let is_product_already_in_cart = _.findIndex(posRactive.get('pos_items'), function (item) {
+        return item.product_id == id;
+    });
+    if (is_product_already_in_cart !== -1) {
+        posRactive.increment(is_product_already_in_cart)
+        $('#line' + is_product_already_in_cart).addClass('animate_color')
+        setTimeout(() => {
+            $('#line' + is_product_already_in_cart).removeClass('animate_color')
+        }, 800)
+        return false;
+    }
+    console.log('Added To Cart', is_product_already_in_cart)
+    var sample_pos_item = {
+        product_id: id,
+        product: product,
+        description: '',
+        price: product.sell_price,
+        qnt: 1,
+        tax_id: '',
+        unit: product.sell_unit || 'unit',
+        amount: ''
+    };
+    var copiedObject = jQuery.extend(true, {}, sample_pos_item)
+    posRactive.unshift('pos_items', copiedObject)
+
+}

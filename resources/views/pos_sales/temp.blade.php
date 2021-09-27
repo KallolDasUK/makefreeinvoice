@@ -35,24 +35,5 @@
 
 
 
-@foreach($products as $product)
-    <div class="ml-2 item rounded btn">
-                                    <span class="">
-                    {{ $product->name }}
-                                </span>
-        <span class="{{ $product->stock > 0 ?'':'text-danger' }}"
-              style="position:absolute;left: 5px;bottom: 5px"><small>{{ decent_format($product->stock) }} {{ $product->sell_unit }}</small></span>
-        <span
-            style="position:absolute;right: 5px;bottom: 5px;font-weight: normal">{{ decent_format_dash_if_zero($product->sell_price) }}</span>
-    </div>
-@endforeach
-@foreach(range(1,31) as $product)
-    <div class="ml-2 item rounded btn">
-        <span class=""></span>
-        <span
-            style="position:absolute;left: 5px;bottom: 5px"><small></small></span>
-        <span
-            style="position:absolute;right: 5px;bottom: 5px"></span>
-    </div>
-@endforeach
+
 

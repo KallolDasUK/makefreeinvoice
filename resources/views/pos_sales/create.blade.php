@@ -18,7 +18,12 @@
         var products = @json($products);
         var customers = @json($customers);
         var categories = @json($categories);
-
+        var currency = '$';
+        var sample_pos_item = {
+            product_id: '', description: '', price: '', qnt: 1, tax_id: '', unit: 'unit', amount: ''
+        };
+        var copiedObject = jQuery.extend(true, {}, sample_pos_item)
+        var pos_items = [];
         $(document).ready(function () {
 
         });
