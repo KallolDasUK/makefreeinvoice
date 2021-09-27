@@ -94,7 +94,7 @@ var posRactive = new Ractive({
     onCategorySelected(category_id) {
         console.log(category_id, 'category_clicked')
         let categorizedProduct = _.filter(products, function (product) {
-            if (product.category_id === category_id) {
+            if (product.category_id == category_id) {
                 return product;
             }
         });
