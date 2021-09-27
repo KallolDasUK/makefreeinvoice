@@ -51,13 +51,7 @@ class CustomersController extends Controller
 
     }
 
-    /**
-     * Display the specified customer.
-     *
-     * @param int $id
-     *
-     * @return Illuminate\View\View
-     */
+
     public function show($id)
     {
         $customer = Customer::findOrFail($id);
@@ -65,13 +59,6 @@ class CustomersController extends Controller
         return view('customers.show', compact('customer'));
     }
 
-    /**
-     * Show the form for editing the specified customer.
-     *
-     * @param int $id
-     *
-     * @return Illuminate\View\View
-     */
     public function edit($id)
     {
         $customer = Customer::findOrFail($id);
@@ -80,14 +67,7 @@ class CustomersController extends Controller
         return view('customers.edit', compact('customer'));
     }
 
-    /**
-     * Update the specified customer in the storage.
-     *
-     * @param int $id
-     * @param Illuminate\Http\Request $request
-     *
-     * @return Illuminate\Http\RedirectResponse | Illuminate\Routing\Redirector
-     */
+
     public function update($id, Request $request)
     {
 
@@ -102,35 +82,18 @@ class CustomersController extends Controller
 
     }
 
-    /**
-     * Remove the specified customer from the storage.
-     *
-     * @param int $id
-     *
-     * @return Illuminate\Http\RedirectResponse | Illuminate\Routing\Redirector
-     */
+
     public function destroy($id)
     {
-        try {
-            $customer = Customer::findOrFail($id);
-            $customer->delete();
+        $customer = Customer::findOrFail($id);
+        $customer->delete();
 
-            return redirect()->route('customers.customer.index')
-                ->with('success_message', 'Customer was successfully deleted.');
-        } catch (Exception $exception) {
+        return redirect()->route('customers.customer.index')
+            ->with('success_message', 'Customer was successfully deleted.');
 
-            return back()->withInput()
-                ->withErrors(['unexpected_error' => 'Unexpected error occurred while trying to process your request.']);
-        }
     }
 
 
-    /**
-     * Get the request's data from the request.
-     *
-     * @param Illuminate\Http\Request\Request $request
-     * @return array
-     */
     protected function getData(Request $request)
     {
         $rules = [
