@@ -184,12 +184,12 @@
 <div class="cart-details">
     <div class="row">
         <div class="col"> {{ #each charges:i }}
-            <div class="row align-items-center justify-content-center mt-4">
+        <div class="row align-items-center justify-content-center mt-4">
 
 
-                <div class="col">
-                    <div class="font-weight-bold"><input type="text" class="form-control form-control-sm"
-                                                         placeholder="Ex. Vat" value="{{ key }}"></div>
+            <div class="col">
+                <div class="font-weight-bold"><input type="text" class="form-control form-control-sm"
+                                                     placeholder="Ex. Vat" value="{{ key }}"></div>
                 </div>
                 <div>
                 <span class="{{ i>1?'':'d-none' }}">
@@ -203,37 +203,37 @@
 
             </div>{{/each}}
 
-            <button type="button" class="btn btn-primary btn-sm mt-4" style="width: 100%" on-click="@this.onChargeCreate()">+ Add More Field
-            </button>
-        </div>
-        <div class="col">
-            <div class="card">
-                <div class="p-2">
-                    <div class="row align-items-center justify-content-center">
-                        <div class="col">
-                            <b>Sub Total</b>
-                        </div>
-                        <div class="col text-right">
-                            {{ currency }}  {{ sub_total }}
+        <button type="button" class="btn btn-primary btn-sm mt-4" style="width: 100%;margin-bottom: 100px" on-click="@this.onChargeCreate()">+ Add More Field
+        </button>
+    </div>
+    <div class="col">
+        <div class="card">
+            <div class="p-2">
+                <div class="row align-items-center justify-content-center">
+                    <div class="col">
+                        <b>Sub Total</b>
+                    </div>
+                    <div class="col text-right">
+{{ currency }}  {{ sub_total }}
         </div>
     </div>
     {{ #each charges }}
-    <div class="row align-items-center justify-content-center">
+        <div class="row align-items-center justify-content-center {{ amount<0 ?'text-danger':'' }}">
         <div class="col">
             {{ key }}
         </div>
         <div class="col text-right">
-            {{ amount }} {{ percentage?`(${value.replace('-','')})`:'' }}
+            {{ amount==0?'':amount }} {{ percentage?`(${value.replace('-','')})`:'' }}
         </div>
     </div>
     {{ /each }}
 
-    <div class="row">
-        <div class="col">
-            <h3>TOTAL</h3>
-        </div>
-        <div class="col text-right">
-            <h2> {{ currency }} {{ total }}</h2>
+        <div class="row">
+            <div class="col">
+                <h3>TOTAL</h3>
+            </div>
+            <div class="col text-right">
+                <h2> {{ currency }} {{ total }}</h2>
         </div>
     </div>
 </div>
@@ -245,6 +245,7 @@
 </div>
 
 </div>
+
 
 
 

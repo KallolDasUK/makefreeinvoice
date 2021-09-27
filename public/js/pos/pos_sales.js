@@ -99,6 +99,7 @@ var posRactive = new Ractive({
             }
         });
         posRactive.set('products', categorizedProduct)
+        posRactive.set('tab', "products")
         console.log(categorizedProduct)
     },
     onProductSelected(product_id) {
@@ -137,7 +138,11 @@ var posRactive = new Ractive({
         _.each(charges, function (charge, index) {
             let input = charge.value;
             if (input.length > 0) {
+                if (charge.key.toLowerCase().includes('discount') && !input.includes('-')) {
+                    input = '-' + input;
+                    posRactive.set('charges.' + index + '.value', input)
 
+                }
                 charge.percentage = input.includes('%');
 
                 if (charge.percentage) {
@@ -145,10 +150,15 @@ var posRactive = new Ractive({
                     input = input.substring(0, index) + input.substring(index + 1);
                     charge.amount = percentage(parseFloat(input), posRactive.get('sub_total'))
                 } else {
-                    charge.amount = parseFloat(input);
+                    charge.amount = parseFloat(input) || 0;
                 }
+
                 posRactive.set('charges.' + index, charge)
                 console.log(charge, index)
+            }
+            if (!input) {
+                charge.amount = 0;
+                posRactive.set('charges.' + index, charge)
             }
             total += charge.amount || 0;
         });
