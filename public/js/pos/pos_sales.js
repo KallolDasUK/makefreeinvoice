@@ -57,7 +57,7 @@ const TABS = {
     PRODUCT_CONTAINER: "products",
     BOOKMARK: "bookmarks",
     CUSTOM_FIELD: "custom_fields",
-    RESERVED: "reserves",
+    RESERVED: "orders",
 
 }
 var posRactive = new Ractive({
@@ -70,9 +70,36 @@ var posRactive = new Ractive({
         tab: TABS.PRODUCT_CONTAINER,
         pos_items: pos_items,
         empty_boxes: Array.from({length: 23 - products.length}, (x, i) => i),
+        sub_total: 0,
+        total: 0,
+        currency: currency,
+        charges: charges,
+    },
+    observe: {
+        'products': (newProducts) => {
+            posRactive.set('empty_boxes', Array.from({length: 23 - newProducts.length}, (x, i) => i))
+        },
+        'pos_items': (newPosItems) => {
+            let sub_total = newPosItems.reduce((s, item) => s + (item.qnt * item.price), 0);
+            posRactive.set('sub_total', sub_total)
+            posRactive.set('total', sub_total)
+            posRactive.calculate()
+        },
+        'charges': (newCharges) => {
+            posRactive.calculate()
+
+
+        }
     },
     onCategorySelected(category_id) {
         console.log(category_id, 'category_clicked')
+        let categorizedProduct = _.filter(products, function (product) {
+            if (product.category_id === category_id) {
+                return product;
+            }
+        });
+        posRactive.set('products', categorizedProduct)
+        console.log(categorizedProduct)
     },
     onProductSelected(product_id) {
         console.log(product_id, 'product_clicked')
@@ -80,6 +107,10 @@ var posRactive = new Ractive({
     },
     onTabChange(text) {
         posRactive.set('tab', text)
+        if (text === "products") {
+            posRactive.set('products', products)
+
+        }
     },
     delete_pos_item(i) {
         posRactive.splice('pos_items', i, 1);
@@ -94,6 +125,36 @@ var posRactive = new Ractive({
         posRactive.set(`pos_items.${i}.qnt`, --pos_item.qnt)
         console.log(i, pos_item)
     },
+    onChargeCreate() {
+        posRactive.push('charges', {});
+    },
+    onChargeDelete(i) {
+        posRactive.splice('charges', i, 1);
+    },
+    calculate() {
+        let charges = posRactive.get('charges')
+        let total = posRactive.get('sub_total')
+        _.each(charges, function (charge, index) {
+            let input = charge.value;
+            if (input.length > 0) {
+
+                charge.percentage = input.includes('%');
+
+                if (charge.percentage) {
+                    let index = input.indexOf('%');
+                    input = input.substring(0, index) + input.substring(index + 1);
+                    charge.amount = percentage(parseFloat(input), posRactive.get('sub_total'))
+                } else {
+                    charge.amount = parseFloat(input);
+                }
+                posRactive.set('charges.' + index, charge)
+                console.log(charge, index)
+            }
+            total += charge.amount || 0;
+        });
+        posRactive.set('total', total)
+
+    }
 });
 
 function addToCart(id) {
@@ -128,4 +189,8 @@ function addToCart(id) {
     var copiedObject = jQuery.extend(true, {}, sample_pos_item)
     posRactive.unshift('pos_items', copiedObject)
 
+}
+
+function percentage(percent, total) {
+    return parseFloat(((percent / 100) * total).toFixed(2))
 }
