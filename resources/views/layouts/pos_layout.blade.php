@@ -348,7 +348,7 @@
 
         .category_item {
             width: 105px;
-            height: 60px;
+            height: 55px;
             font-size: 16px;
             text-align: center;
             cursor: pointer;
