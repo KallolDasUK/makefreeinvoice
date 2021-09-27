@@ -20,7 +20,7 @@
                     <select name="customer_id" id="customer_id" class="form-control form-control-lg input-lg"
                             style="font-size: 18px;padding-left: 50px">
                             {{#each customers:i}}
-        <option value="{{ id }}">{{ name }} {{ phone }}</option>
+        <option value="{{ id }}" {{ name == 'Walk In Customer'?'selected':'' }}>{{ name }} {{ phone }}</option>
                             {{ /each }}
         </select>
         <button type="button" class="btn" style="color: #065a92"><i class="fa fa-user-plus"></i></button>
@@ -82,8 +82,8 @@
         <div class="{{ tab === 'custom_fields'?'d-flex':'d-none' }} items mt-4" style="min-height: 400px;max-height: 400px;overflow-y: scroll">
             <h3>Quick Tap</h3>
         </div>
-        <div class="{{ tab === 'reserves'?'d-flex':'d-none' }} items mt-4" style="min-height: 400px;max-height: 400px;overflow-y: scroll">
-            <h3>Reserved for Future</h3>
+        <div class="{{ tab === 'orders'?'d-flex':'d-none' }} items mt-4" style="min-height: 400px;max-height: 400px;overflow-y: scroll">
+            <h3>All Orders Here</h3>
         </div>
     </div>
 
@@ -170,37 +170,40 @@
     </div>
 </div>
 <div class="action_buttons row mr-4" style="position: fixed;right: 0;bottom: 0;margin-bottom: 20px;width: 40%;z-index: 222">
-    <button class="col btn btn-danger btn-lg" style="font-size: 17px;">Suspend</button>
-    <button class="col btn btn-lg btn-info mx-4" style="font-size: 17px;">Credit Sale</button>
-    <button class="col btn btn-primary btn-lg" style="font-size: 17px;">Payment</button>
+    <button type="button" class="col btn btn-danger btn-lg" style="font-size: 17px;">Suspend</button>
+    <button type="button"  class="col btn btn-lg btn-info mx-4" style="font-size: 17px;">Credit Sale</button>
+    <button type="button"  class="col btn btn-primary btn-lg" style="font-size: 17px;">Payment</button>
 </div>
 
 <div class="action_buttons row bg-white" style="position: fixed;left: 30px;bottom: 0;margin-bottom: 20px;width: 50%;z-index: 222">
-    <button type="button" class="col btn  {{ tab === 'products'? 'btn-primary':'btn-outline-primary' }} btn-lg" style="font-size: 17px;" on-click="@this.onTabChange('products')">Items</button>
+    <button type="button" class="col btn  {{ tab === 'products'? 'btn-primary':'btn-outline-primary' }} btn-lg" style="font-size: 17px;" on-click="@this.onTabChange('products')">All Items</button>
     <button  type="button" class="col btn {{ tab === 'bookmarks'? 'btn-primary':'btn-outline-primary' }} btn-lg  mx-4" style="font-size: 17px;" on-click="@this.onTabChange('bookmarks')">Bookmarked</button>
     <button  type="button" class="col btn  {{ tab === 'custom_fields'? 'btn-primary':'btn-outline-primary' }} btn-lg mr-4" style="font-size: 17px;" on-click="@this.onTabChange('custom_fields')">QuickTap</button>
-    <button  type="button" class="col btn  {{ tab === 'reserves'? 'btn-primary':'btn-outline-primary' }} btn-lg" style="font-size: 17px;" on-click="@this.onTabChange('reserves')">Reserved</button>
+    <button  type="button" class="col btn  {{ tab === 'orders'? 'btn-primary':'btn-outline-primary' }} btn-lg" style="font-size: 17px;" on-click="@this.onTabChange('orders')">Orders</button>
 </div>
 <div class="cart-details">
     <div class="row">
-        <div class="col">
+        <div class="col"> {{ #each charges:i }}
             <div class="row align-items-center justify-content-center mt-4">
+
+
                 <div class="col">
                     <div class="font-weight-bold"><input type="text" class="form-control form-control-sm"
-                                                         placeholder="Ex. Vat" value="Discount"></div>
+                                                         placeholder="Ex. Vat" value="{{ key }}"></div>
                 </div>
-                <div class="col"><input type="text" class="form-control form-control-sm"
-                                        placeholder="ex. 5% or 100"></div>
-            </div>
-            <div class="row align-items-center justify-content-center mt-4">
+                <div>
+                <span class="{{ i>1?'':'d-none' }}">
+                <i class="fa fa-trash text-danger" on-click="@this.onChargeDelete(i)"></i></span>
+</div>
                 <div class="col">
-                    <div class="font-weight-bold"><input type="text" class="form-control form-control-sm"
-                                                         placeholder="Ex. Vat"></div>
-                </div>
-                <div class="col"><input type="text" class="form-control form-control-sm"
-                                        placeholder="ex. 5% or 100"></div>
-            </div>
-            <button type="button" class="btn btn-primary btn-sm mt-4" style="width: 100%">+ Add More Field
+                <input type="text" class="form-control form-control-sm" value="{{ value }}"
+                                        placeholder="ex. 5% or 100">
+
+                                         </div>
+
+            </div>{{/each}}
+
+            <button type="button" class="btn btn-primary btn-sm mt-4" style="width: 100%" on-click="@this.onChargeCreate()">+ Add More Field
             </button>
         </div>
         <div class="col">
@@ -211,51 +214,40 @@
                             <b>Sub Total</b>
                         </div>
                         <div class="col text-right">
-                            1500
-                        </div>
-                    </div>
+                            {{ currency }}  {{ sub_total }}
+        </div>
+    </div>
+    {{ #each charges }}
+    <div class="row align-items-center justify-content-center">
+        <div class="col">
+            {{ key }}
+        </div>
+        <div class="col text-right">
+            {{ amount }} {{ percentage?`(${value.replace('-','')})`:'' }}
+        </div>
+    </div>
+    {{ /each }}
 
-                    <div class="row align-items-center justify-content-center">
-                        <div class="col">
-                            VAT
-                        </div>
-                        <div class="col text-right">
-                            1500
-                        </div>
-                    </div>
-                    <div class="row align-items-center justify-content-center">
-                        <div class="col">
-                            Discount
-                        </div>
-                        <div class="col text-right">
-                            78 (15%)
-                        </div>
-                    </div>
-                    <div class="row align-items-center justify-content-center">
-                        <div class="col">
-                            Service Charge
-                        </div>
-                        <div class="col text-right">
-                            78 (15%)
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            <h3>TOTAL</h3>
-                        </div>
-                        <div class="col text-right">
-                            <h2>500$</h2>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <div class="row">
+        <div class="col">
+            <h3>TOTAL</h3>
+        </div>
+        <div class="col text-right">
+            <h2> {{ currency }} {{ total }}</h2>
         </div>
     </div>
 </div>
 </div>
 </div>
+</div>
+</div>
+</div>
+</div>
 
 </div>
+
+
+
 
 
 
