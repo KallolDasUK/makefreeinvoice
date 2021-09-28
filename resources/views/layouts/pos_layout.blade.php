@@ -407,13 +407,31 @@
 
         .animate_color {
             background: #FCE97F;
-            animation: fadebackground 6s infinite;
+            animation: fadebackground 6s 2s;
         }
         @keyframes fadebackground {
             from {background-color: #FCE97F;}
             to {background-color: #065a92;}
         }
+        /* width */
+        ::-webkit-scrollbar {
+            width: 5px;
+        }
 
+        /* Track */
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        /* Handle */
+        ::-webkit-scrollbar-thumb {
+            background: #666b7a;
+        }
+
+        /* Handle on hover */
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
     </style>
 
 </head>
