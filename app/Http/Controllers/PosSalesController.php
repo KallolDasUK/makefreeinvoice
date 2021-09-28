@@ -7,6 +7,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Customer;
 use App\Models\PaymentMethod;
+use App\Models\PosCharge;
+use App\Models\PosItem;
 use App\Models\PosSale;
 use App\Models\Product;
 use Enam\Acc\Models\Branch;
@@ -30,7 +32,7 @@ class PosSalesController extends Controller
 
     public function create()
     {
-        if (!Customer::query()->where('name', Customer::WALK_IN_CUSTOMER)->exists()){
+        if (!Customer::query()->where('name', Customer::WALK_IN_CUSTOMER)->exists()) {
             Customer::create(['name' => Customer::WALK_IN_CUSTOMER]);
         }
         $customers = Customer::all();
@@ -39,7 +41,10 @@ class PosSalesController extends Controller
         $ledgers = PaymentMethod::pluck('id', 'id')->all();
         $categories = Category::all();
         $products = Product::all();
-        return view('pos_sales.create', compact('customers', 'branches', 'ledgers', 'ledgers', 'products', 'categories'));
+        $title = "POS - Point Of Sale";
+        $orders = PosSale::query()->latest()->limit(50)->get();
+//        dd($orders);
+        return view('pos_sales.create', compact('customers', 'branches', 'ledgers', 'ledgers', 'products', 'categories', 'title', 'orders'));
     }
 
 
@@ -48,8 +53,29 @@ class PosSalesController extends Controller
 
 
         $data = $this->getData($request);
+        $pos_items = $data['pos_items'];
+        $pos_charges = $data['charges'];
 
-        PosSale::create($data);
+        unset($data['pos_items']);
+        unset($data['charges']);
+
+        $pos_sales = PosSale::create($data);
+        foreach ($pos_items as $pos_item) {
+
+            $pos_item->tax_id = $pos_item->tax_id == '' ? null : $pos_item->tax_id;
+            $pos_item->attribute_id = ($pos_item->attribute_id ?? null) == '' ? null : $pos_item->attribute_id ?? null;
+            PosItem::create(['pos_sales_id' => $pos_sales->id, 'product_id' => $pos_item->product_id,
+                'price' => $pos_item->price, 'qnt' => $pos_item->qnt, 'amount' => $pos_item->amount,
+                'tax_id' => $pos_item->tax_id, 'attribute_id' => $pos_item->attribute_id,
+                'date' => $pos_sales->date]);
+        }
+        foreach ($pos_charges as $pos_charge) {
+            PosCharge::create(['pos_sales_id' => $pos_sales->id, 'key' => $pos_charge->key, 'value' => $pos_charge->value]);
+        }
+        if ($request->ajax()) {
+            return $pos_sales;
+        }
+
 
         return redirect()->route('pos_sales.pos_sale.index')
             ->with('success_message', 'Pos Sale was successfully added.');
@@ -96,6 +122,8 @@ class PosSalesController extends Controller
     {
 
         $posSale = PosSale::findOrFail($id);
+        PosItem::query()->where('pos_sales_id', $posSale->id)->delete();
+        PosCharge::query()->where('pos_sales_id', $posSale->id)->delete();
         $posSale->delete();
         return redirect()->route('pos_sales.pos_sale.index')
             ->with('success_message', 'Pos Sale was successfully deleted.');
@@ -106,27 +134,23 @@ class PosSalesController extends Controller
     protected function getData(Request $request)
     {
         $rules = [
-            'pos_number' => 'nullable|string|min:0',
             'date' => 'nullable|string|min:0',
             'customer_id' => 'nullable',
             'branch_id' => 'nullable',
             'ledger_id' => 'nullable',
-            'discount_type' => 'nullable',
-            'discount' => 'numeric|nullable',
-            'vat' => 'nullable|numeric',
-            'service_charge_type' => 'nullable',
-            'service_charge' => 'nullable|numeric',
             'note' => 'string|min:1|max:1000|nullable',
             'payment_method_id' => 'nullable',
             'sub_total' => 'string|min:1|nullable',
             'total' => 'numeric|nullable',
-            'payment_amount' => 'string|min:1|nullable',
-            'due' => 'string|min:1|nullable',
             'pos_status' => 'string|min:1|nullable',
+            'pos_items' => 'nullable',
+            'charges' => 'nullable',
         ];
 
         $data = $request->validate($rules);
-
+        $data['pos_items'] = json_decode($data['pos_items'] ?? '{}');
+        $data['charges'] = json_decode($data['charges'] ?? '{}');
+        $data['pos_number'] = PosSale::nextOrderNumber();
 
         return $data;
     }

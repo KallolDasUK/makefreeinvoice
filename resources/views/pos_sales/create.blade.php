@@ -9,6 +9,7 @@
         {{ csrf_field() }}
         @include ('pos_sales.form', ['posSale' => null])
 
+
     </form>
 
 
@@ -20,9 +21,10 @@
         var products = @json($products);
         var customers = @json($customers);
         var categories = @json($categories);
+        var orders = @json($orders);
         var currency = '$';
         var sample_pos_item = {
-            product_id: '', description: '', price: '', qnt: 1, tax_id: '', unit: 'unit', amount: ''
+            product_id: '', description: '', price: '', qnt: 1, tax_id: '', attribute_id: '', unit: 'unit', amount: ''
         };
         var copiedObject = jQuery.extend(true, {}, sample_pos_item)
         var pos_items = [];
