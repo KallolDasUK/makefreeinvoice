@@ -1,4 +1,10 @@
 <div id="pos"></div>
+<div class="hidden">
+    <input type="text" name="pos_items" id="pos_items" hidden>
+    <input type="text" name="charges" id="charges" hidden>
+    <input type="text" name="sub_total" id="sub_total" hidden>
+    <input type="text" name="total" id="total" hidden>
+</div>
 
 @verbatim
     <script id="posTemplate" type="text/ractive">
@@ -79,11 +85,62 @@
         <div class=" items mt-4 {{ tab === 'bookmarks'?'d-flex':'d-none' }}" style="min-height: 400px;max-height: 400px;overflow-y: scroll">
             <h3>Bookmark Tab</h3>
         </div>
-        <div class="{{ tab === 'custom_fields'?'d-flex':'d-none' }} items mt-4" style="min-height: 400px;max-height: 400px;overflow-y: scroll">
+        <div class="{{ tab === 'custom_fields'?'':'d-none' }} mt-4" style="min-height: 400px;max-height: 400px;overflow-y: scroll">
             <h3>Quick Tap</h3>
         </div>
-        <div class="{{ tab === 'orders'?'d-flex':'d-none' }} items mt-4" style="min-height: 400px;max-height: 400px;overflow-y: scroll">
-            <h3>All Orders Here</h3>
+        <div class="{{ tab === 'orders'?'':'d-none' }} mt-4" style="min-height: 400px;max-height: 400px;overflow-y: scroll;overflow-x: hidden">
+            {{#each orders:i}}
+        <div class="card mt-2 order" index="{{id}}" style="cursor:pointer;">
+           <div class="m-2">
+           <div class="row">
+           <div class="col-3">
+           <h1>{{ currency }}{{ total }}</h1>
+                        <p>{{ pos_number }}</p>
+
+                        </div>
+                        <div class="col-3">
+
+                        <span>Table: <b>4</b></span> <br>
+                        <span>Sale By: <b>Demo</b></span> <br>
+                        <span>Waiter: <b>Rahim</b></span> <br>
+
+                        </div>
+                        <div class="col-6">
+                         <div class="d-flex align-items-center justify-content-center">
+                         <div class="flex-1">
+                          <button type="button"  class="btn btn-outline-secondary btn-sm  " style="min-width: 100px;">
+                         <i class="fa fa-edit"></i>
+                         EDIT</button> <br>
+
+                        <button type="button" class="btn btn-outline-secondary btn-sm  mt-4" style="min-width: 100px;">
+                        <i class="fa fa-print"></i>
+                        PRINT</button>
+</div>
+ <button type="button"  class="btn btn-outline-primary ml-4" style="min-width: 100px;">
+                         <i class="fa fa-money-bill"></i>
+                         PAY</button>
+</div>
+
+
+
+
+
+                        </div>
+
+</div>
+
+                 </div>
+                </div>
+
+
+            {{/each}}
+        {{^orders}}
+        <div class="d-flex align-items-center justify-content-center">
+         <h1 >No orders</h1>
+        </div>
+
+{{/orders}}
+
         </div>
     </div>
 
@@ -170,9 +227,11 @@
     </div>
 </div>
 <div class="action_buttons row mr-4" style="position: fixed;right: 0;bottom: 0;margin-bottom: 20px;width: 40%;z-index: 222">
-    <button type="button" class="col btn btn-danger btn-lg" style="font-size: 17px;">Suspend</button>
-    <button type="button"  class="col btn btn-lg btn-info mx-4" style="font-size: 17px;">Credit Sale</button>
-    <button type="button"  class="col btn btn-primary btn-lg" style="font-size: 17px;">Payment</button>
+    <button id="suspend" type="button" class="col btn btn-danger btn-lg" style="font-size: 17px;"> Suspend</button>
+    <button id="credit_sale" type="button"  class="col btn btn-lg btn-info mx-4 credit_sale" style="font-size: 17px;">                         <span class="spinner-grow spinner-grow-sm spinner d-none" role="status" aria-hidden="true"></span>
+ Credit Sale</button>
+    <button id="payment" type="button"  class="col btn btn-primary btn-lg" style="font-size: 17px;">                         <span class="spinner-grow spinner-grow-sm spinner d-none" role="status" aria-hidden="true"></span>
+Payment</button>
 </div>
 
 <div class="action_buttons row bg-white" style="position: fixed;left: 30px;bottom: 0;margin-bottom: 20px;width: 50%;z-index: 222">
@@ -248,6 +307,9 @@
 </div>
 
 </div>
+
+
+
 
 
 

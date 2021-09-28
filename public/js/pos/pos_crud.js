@@ -1,4 +1,20 @@
 $(document).ready(function () {
+
+    /* Register Events */
+    $(document).ready(function () {
+        $('#customer_id').select2({placeholder: "Select or Create Customer", allowClear: true})
+
+    });
+    window.addEventListener("beforeunload", function (e) {
+        var confirmationMessage = 'It looks like you have been editing something. '
+            + 'If you leave before saving, your changes will be lost.';
+
+        let pos_items = posRactive.get('pos_items')
+        if (pos_items.length) {
+            (e || window.event).returnValue = confirmationMessage; //Gecko + IE
+            return confirmationMessage; //Gecko + Webkit, Safari, Chrome etc.
+        }
+    });
     /*  Creating Product Via Ajax with Validation */
     $('#createProductForm').validate({
         submitHandler: function (form) {
@@ -149,6 +165,70 @@ $(document).ready(function () {
         }
     });
 
+
+    $('#credit_sale').on('click', function () {
+        let pos_items = posRactive.get('pos_items')
+        if (!pos_items.length) {
+            $.notify("Cart cant be empty. Please add item to cart", "error", {
+                globalPosition: 'bottom left',
+            });
+            return false;
+        }
+        placeCreditSale()
+
+    })
+
+
+    function placeCreditSale() {
+
+
+        let form = $('#create_pos_sale_form');
+        form.action = form.attr('action')
+        form.method = form.attr('method')
+        // alert(form.action)
+        $.ajax({
+            accepts: {
+                text: "application/json"
+            },
+            url: form.action,
+            type: form.method,
+            data: $(form).serialize(),
+            beforeSend: () => {
+                $('#credit_sale').prop('disabled', true)
+                $('#payment').prop('disabled', true)
+                $('.spinner').removeClass('d-none')
+            },
+            success: function (order) {
+                $('#create_pos_sale_form').trigger("reset");
+                $('#credit_sale').prop('disabled', false)
+                $('#payment').prop('disabled', false)
+                $('.spinner').addClass('d-none')
+                posRactive.set('pos_items', []);
+                console.log(order)
+                $.notify("Order Placed", "success")
+                posRactive.unshift('orders', order);
+
+            }
+        });
+    }
+
+    $(document).on('click', '.order', function () {
+        let pos_sales_id = $(this).attr('index');
+        $.ajax({
+            accepts: {
+                text: "application/json"
+            },
+            url: posSalesDetailsUrl + "?pos_sales_id=" + pos_sales_id,
+            type: "get",
+
+            success: function (response) {
+                $('#blankModal').modal('show')
+                $('#content').html(response)
+            }
+        });
+
+    })
+    $('.order').tooltip({title:'Click to see details'})
 
 })
 

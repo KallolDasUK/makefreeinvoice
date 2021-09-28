@@ -379,10 +379,7 @@ class InvoicesController extends Controller
         $invoice->invoice_status = "sent";
         $invoice->save();
 
-
         Mail::to($to)->queue(new InvoiceSendMail($invoice, (object)$data, settings()));
-
-
         return redirect()->route('invoices.invoice.index')->with('success_message', 'Invoice was sent successfully.');
     }
 

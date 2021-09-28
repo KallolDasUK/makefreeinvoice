@@ -2,11 +2,6 @@ $(document).on('click', 'input', function () {
     $(this).select();
 })
 
-/* Register Events */
-$(document).ready(function () {
-    $('#customer_id').select2()
-})
-
 
 const TABS = {
     PRODUCT_CONTAINER: "products",
@@ -29,6 +24,7 @@ var posRactive = new Ractive({
         total: 0,
         currency: currency,
         charges: charges,
+        orders: orders
     },
     observe: {
         'products': (newProducts) => {
@@ -39,11 +35,19 @@ var posRactive = new Ractive({
             posRactive.set('sub_total', sub_total)
             posRactive.set('total', sub_total)
             posRactive.calculate()
+
+            $('#pos_items').val(JSON.stringify(newPosItems))
+
         },
         'charges': (newCharges) => {
             posRactive.calculate()
-
-
+            $('#charges').val(JSON.stringify(newCharges))
+        },
+        'total': (newTotal) => {
+            $('#total').val(newTotal)
+        },
+        'sub_total': (newSubtotal) => {
+            $('#sub_total').val(newSubtotal)
         }
     },
     onCategorySelected(category_id) {
@@ -118,6 +122,7 @@ var posRactive = new Ractive({
             total += charge.amount || 0;
         });
         posRactive.set('total', total)
+
 
     },
 });
