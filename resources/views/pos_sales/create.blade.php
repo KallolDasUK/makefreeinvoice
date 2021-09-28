@@ -1,7 +1,9 @@
 @extends('layouts.pos_layout')
 
 @section('content')
-
+    @include('partials.ajax-category-create-form')
+    @include('partials.ajax-product-create-form')
+    @include('partials.ajax-customer-create-form')
     <form method="POST" action="{{ route('pos_sales.pos_sale.store') }}" accept-charset="UTF-8"
           id="create_pos_sale_form" name="create_pos_sale_form" class="form-horizontal">
         {{ csrf_field() }}
@@ -28,11 +30,13 @@
         var sample_charge_item = {
             key: 'Discount', value: ''
         };
-        var charges = [jQuery.extend(true, {}, sample_charge_item),{key: '', value: ''}];
+        var charges = [jQuery.extend(true, {}, sample_charge_item), {key: '', value: ''}];
         $(document).ready(function () {
 
         });
     </script>
+    <script src="{{ asset('js/product.js') }}"></script>
     <script src="{{ asset('js/pos/pos_sales.js') }}"></script>
+    <script src="{{ asset('js/pos/pos_crud.js') }}"></script>
 @endsection
 

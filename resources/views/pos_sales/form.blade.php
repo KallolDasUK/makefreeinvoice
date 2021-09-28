@@ -23,15 +23,15 @@
         <option value="{{ id }}" {{ name == 'Walk In Customer'?'selected':'' }}>{{ name }} {{ phone }}</option>
                             {{ /each }}
         </select>
-        <button type="button" class="btn" style="color: #065a92"><i class="fa fa-user-plus"></i></button>
+        <button type="button" class="btn" style="color: #065a92" data-toggle="modal" data-target="#customerModal"><i class="fa fa-user-plus"></i></button>
     </div>
 
 </div>
 </div>
 
 
-<div class="d-flex category_items mt-4">
-<div class="ml-2 category_item d-flex align-items-center justify-content-center rounded btn btn-info">
+<div class="d-flex category_items mt-4" style="max-height: 120px;overflow-y: scroll">
+<div class="ml-2 category_item d-flex align-items-center justify-content-center rounded btn btn-info" data-toggle="modal" data-target="#categoryModal">
     <svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50" width="40px"
          height="40px">
         <path
@@ -48,7 +48,7 @@
 
         </div>
         <div class=" items mt-4 {{ tab === 'products'? 'd-flex':'d-none' }}" style="min-height: 400px;max-height: 400px;overflow-y: scroll">
-            <div class="ml-2 item d-flex align-items-center justify-content-center rounded btn btn-primary">
+            <div class="ml-2 item d-flex align-items-center justify-content-center rounded btn btn-primary" data-toggle="modal" data-target="#productModal">
 
                 <svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50" width="50px"
                      height="50px">
@@ -235,7 +235,10 @@
             <div class="col text-right">
                 <h2> {{ currency }} {{ total }}</h2>
         </div>
-    </div>
+
+    </div> <div class="note">
+        <textarea class="form-control" name="note" id="note" cols="20" rows="2" placeholder="Notes"></textarea>
+</div>
 </div>
 </div>
 </div>
@@ -245,6 +248,7 @@
 </div>
 
 </div>
+
 
 
 

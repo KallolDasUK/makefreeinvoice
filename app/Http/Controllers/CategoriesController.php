@@ -32,7 +32,10 @@ class CategoriesController extends Controller
 
         $data = $this->getData($request);
 
-        Category::create($data);
+        $category = Category::create($data);
+        if ($request->ajax()) {
+            return $category;
+        }
 
         return redirect()->route('categories.category.index')
             ->with('success_message', 'Category was successfully added.');
