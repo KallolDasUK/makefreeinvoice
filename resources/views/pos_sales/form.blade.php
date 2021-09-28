@@ -89,8 +89,8 @@
             <h3>Quick Tap</h3>
         </div>
         <div class="{{ tab === 'orders'?'':'d-none' }} mt-4" style="min-height: 400px;max-height: 400px;overflow-y: scroll;overflow-x: hidden">
-            {{#orders}}
-        <div class="card mt-2">
+            {{#each orders:i}}
+        <div class="card mt-2 order" index="{{id}}" style="cursor:pointer;">
            <div class="m-2">
            <div class="row">
            <div class="col-3">
@@ -133,7 +133,7 @@
                 </div>
 
 
-            {{/orders}}
+            {{/each}}
         {{^orders}}
         <div class="d-flex align-items-center justify-content-center">
          <h1 >No orders</h1>

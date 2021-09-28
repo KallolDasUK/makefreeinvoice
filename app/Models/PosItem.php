@@ -15,4 +15,11 @@ class PosItem extends Model
     {
         return $this->belongsTo(PosSale::class, 'pos_sales_id');
     }
+
+    public function product()
+    {
+        return $this->belongsTo(Product::class, 'product_id');
+    }
+
+
 }

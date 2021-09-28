@@ -90,6 +90,14 @@ class PosSalesController extends Controller
         return view('pos_sales.show', compact('posSale'));
     }
 
+    public function details(Request $request)
+    {
+        $id = $request->pos_sales_id;
+        $posSale = PosSale::with('customer', 'branch', 'ledger')->findOrFail($id);
+
+        return view('partials.order-details', compact('posSale'));
+    }
+
 
     public function edit($id)
     {
