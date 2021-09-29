@@ -24,7 +24,11 @@ var posRactive = new Ractive({
         total: 0,
         currency: currency,
         charges: charges,
-        orders: orders
+        orders: orders,
+        paymentMethods: paymentMethods,
+        payments: payments,
+        given: 0,
+        change: 0
     },
     observe: {
         'products': (newProducts) => {
@@ -45,9 +49,23 @@ var posRactive = new Ractive({
         },
         'total': (newTotal) => {
             $('#total').val(newTotal)
+
         },
         'sub_total': (newSubtotal) => {
             $('#sub_total').val(newSubtotal)
+        },
+        'payments': (payments) => {
+            // let payments = posRactive.get('payments');
+            let total = posRactive.get('total');
+            let given = 0;
+            for (let i = 0; i < payments.length; i++) {
+                given += parseFloat(payments[i].amount || 0 + '');
+            }
+            let change = parseFloat('' + (given - total)).toFixed(2);
+            posRactive.set('given', given)
+            posRactive.set('change', change)
+            $('#payments').val(JSON.stringify(payments));
+
         }
     },
     onCategorySelected(category_id) {
@@ -91,7 +109,7 @@ var posRactive = new Ractive({
     onChargeDelete(i) {
         posRactive.splice('charges', i, 1);
     },
-    calculate() {
+    calculate(paymentChanged = false) {
         let charges = posRactive.get('charges')
         let total = posRactive.get('sub_total')
         _.each(charges, function (charge, index) {
@@ -122,9 +140,24 @@ var posRactive = new Ractive({
             total += charge.amount || 0;
         });
         posRactive.set('total', total)
-
+        let payments = posRactive.get('payments');
+        let given = 0;
+        for (let i = 0; i < payments.length; i++) {
+            given += parseFloat(payments[i].amount || 0 + '');
+        }
+        let change = parseFloat('' + (given - total)).toFixed(2);
+        posRactive.set('given', given)
+        posRactive.set('change', change)
+        posRactive.set('payments.0.amount', total)
 
     },
+
+    onPaymentRowCreate() {
+        posRactive.push('payments', {});
+    },
+    onPaymentRowDelete(index) {
+        posRactive.splice('payments', index, 1);
+    }
 });
 
 function setUpProductSearch() {

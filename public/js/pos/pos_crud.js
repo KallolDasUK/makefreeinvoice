@@ -165,6 +165,49 @@ $(document).ready(function () {
         }
     });
 
+    /* Creating Payment Method Via Ajax With Validation */
+    $('#createPaymentMethodForm').validate({
+        submitHandler: function (form) {
+            $.ajax({
+                url: form.action,
+                type: form.method,
+                data: $(form).serialize(),
+                beforeSend: () => {
+                    $('#storePaymentMethodBtn').prop('disabled', true)
+                    $('.spinner').removeClass('d-none')
+                },
+                success: function (response) {
+                    $('#paymentMethodModal').modal('hide')
+                    let method = response;
+                    $("#payment_method_id").append(new Option(method.name, method.id));
+                    $("#payment_method_id").val(method.id)
+                    $("#payment_method_id").trigger('change')
+                    $('#createPaymentMethodForm').trigger("reset");
+                    $('#storePaymentMethodBtn').prop('disabled', false)
+                    $('.spinner').addClass('d-none')
+                },
+
+            });
+        },
+        rules: {
+            name: {required: true},
+        },
+        messages: {
+            name: {required: "Name is required",},
+            sell_price: {required: "required",},
+        },
+        errorElement: 'span',
+        errorPlacement: function (error, element) {
+            error.addClass('invalid-feedback');
+            element.closest('.form-group').append(error);
+        },
+        highlight: function (element, errorClass, validClass) {
+            $(element).addClass('is-invalid');
+        },
+        unhighlight: function (element, errorClass, validClass) {
+            $(element).removeClass('is-invalid');
+        }
+    });
 
     $('#credit_sale').on('click', function () {
         let pos_items = posRactive.get('pos_items')
@@ -174,12 +217,23 @@ $(document).ready(function () {
             });
             return false;
         }
-        placeCreditSale()
+        placeOrder()
+
+    })
+    $('#storePosPaymentBtn').on('click', function () {
+        let pos_items = posRactive.get('pos_items')
+        if (!pos_items.length) {
+            $.notify("Cart cant be empty. Please add item to cart", "error", {
+                globalPosition: 'bottom left',
+            });
+            return false;
+        }
+        placeOrder()
 
     })
 
 
-    function placeCreditSale() {
+    function placeOrder() {
 
 
         let form = $('#create_pos_sale_form');
@@ -229,7 +283,24 @@ $(document).ready(function () {
 
     })
     $('.order').tooltip({title:'Click to see details'})
+    $('#payment_method_id').select2().on('select2:open', function (event) {
+        let a = $(this).data('select2');
+        let doExits = a.$results.parents('.select2-results').find('button')
 
+        if (!doExits.length) {
+            a.$results.parents('.select2-results')
+                .append('<div><button  data-toggle="modal" data-target="#paymentMethodModal" class="btn btn-default text-primary underline btn-fw" style="width: 100%">+ Add Payment Method</button></div>')
+                .on('click', function (b) {
+                    $(event.target).select2("close");
+                });
+        }
+    })
+    $('#posPaymentModal').on('shown.bs.modal', function (e) {
+        setTimeout(()=>{
+            $('.amount').focus()
+            $('.amount').select()
+        },200)
+    })
 })
 
 
