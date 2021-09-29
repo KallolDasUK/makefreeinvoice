@@ -4,6 +4,7 @@
     @include('partials.ajax-category-create-form')
     @include('partials.ajax-product-create-form')
     @include('partials.ajax-customer-create-form')
+    @include('partials.ajax-payment-method-create-form')
     @include('partials.blank_modal')
     <form method="POST" action="{{ route('pos_sales.pos_sale.store') }}" accept-charset="UTF-8"
           id="create_pos_sale_form" name="create_pos_sale_form" class="form-horizontal">
@@ -22,6 +23,7 @@
         var products = @json($products);
         var customers = @json($customers);
         var categories = @json($categories);
+        var paymentMethods = @json($paymentMethods);
         var orders = @json($orders);
         var currency = '$';
         var sample_pos_item = {
@@ -35,6 +37,8 @@
             key: 'Discount', value: ''
         };
         var charges = [jQuery.extend(true, {}, sample_charge_item), {key: '', value: ''}];
+        var payments = [{ value: ''}];
+
         $(document).ready(function () {
 
         });

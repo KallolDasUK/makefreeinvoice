@@ -4,28 +4,137 @@
     <input type="text" name="charges" id="charges" hidden>
     <input type="text" name="sub_total" id="sub_total" hidden>
     <input type="text" name="total" id="total" hidden>
+    <input type="text" name="payments" id="payments" hidden>
 </div>
 
 @verbatim
     <script id="posTemplate" type="text/ractive">
+<div class="modal fade" id="posPaymentModal" tabindex="-1" role="dialog" aria-labelledby="posPaymentModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog  modal-lg" role="document" style="margin-top:10px!important;" is_update="0">
+          <div class="modal-content">
 
-        <div class="row">
-    <div class="col-7 ">
-        <div class="row">
-            <div class="col">
-                <div class="item-search " style="position:relative;">
-                    <input name="product_search" id="product_search" type="text" placeholder="Scan/Search Items"
-                           class="form-control" style="padding-left: 50px">
-                    <i class="fa fa-barcode" style="font-size: 35px;position:absolute; right: 7px;top: 0px"></i>
-                    <i class="fa fa-search"
-                       style="font-size: 20px;position:absolute; left: 16px;top: 10px;color: gray!important;"></i>
+                <div class="modal-body">
+                    <div class="row">
+                    <div class="col">
+
+                    <div class="card"><!----><!----><div class="card-body"><!----><!----><div class="list-group"><div class="list-group-item d-flex justify-content-between align-items-center">
+                      Total Item
+                      <span class="badge badge-primary badge-pill">{{ pos_items.length }}</span></div> <div class="list-group-item d-flex justify-content-between align-items-center">
+                        Sub Total
+                      <span class="font-weight-bold">{{ currency }}{{ sub_total.toFixed(2) }}</span></div>
+                       <div class="list-group-item d-flex justify-content-between align-items-center">
+
+                       Tax
+                      <span class="font-weight-bold">$ 0.00 (0 %)</span></div>
+
+                      {{ #each charges }}
+        <div class="list-group-item  justify-content-between align-items-center {{ amount==0?'d-none':'d-flex' }}">
+        {{ key }}
+
+        <span class="{{ amount<0?'text-danger':'' }}
+        font-weight-bold ">{{ currency }}{{ amount==0?'':amount }} {{ percentage?`(${value.replace('-','')})`:'' }}</span></div>
+
+        {{ /each }}
+        <div class="list-group-item d-flex justify-content-between align-items-center">
+                               Total
+                              <span class="font-weight-bold"><h2>{{ currency }}{{ total.toFixed(2) }}</h2></span></div></div></div><!----><!----></div>
+</div>
+                    <div class="col">
+
+                    <div class="row align-items-center">
+    <div class="col ">
+
+        <div class="card " style="border: none">
+            <div class="d-flex align-items-center justify-content-center">
+                <div class="card-body ">
+                    <h2>GIVEN</h2>
+                    <h3>{{ given }}</h3>
+                </div>
+                <div class="vertical-divider"></div>
+            </div>
+
+        </div>
+
+
+    </div>
+    <div class="col ">
+
+        <div class="card " style="border: none">
+            <div class="d-flex align-items-center justify-content-center">
+                <div class="card-body ">
+                    <h3>{{ change<0?'DUE':'CHANGE' }}</h3>
+                    <h3>{{ Math.abs(change) }}</h3>
                 </div>
             </div>
+
+        </div>
+
+
+    </div>
+
+
+</div>
+                    <label for="payment_method">Payment Method</label>
+                       {{ #each payments:i }}
+        <div class="row">
             <div class="col">
-                <div class="d-flex">
-                    <select name="customer_id" id="customer_id" class="form-control form-control-lg input-lg"
-                            style="font-size: 18px;padding-left: 50px">
-                            {{#each customers:i}}
+                <div class="form-group">
+                    <select id="payment_method_id{{i}}" class="form-control" name="payment_method_id" index="{{i}}"
+                    value="{{ payment_method_id }}">
+                {{ #each paymentMethods:i }}
+        <option
+            value="{{ id }}" {{ is_default ? 'selected' : '' }}>
+                    {{ name }}
+        </option>
+{{ /each }}
+
+        </select>
+    </div> <!-- Form Group-->
+</div> <!-- Col-->
+  <span class="{{ i>=1?'':'d-none' }}">
+                <i class="fa fa-trash text-danger" on-click="@this.onPaymentRowDelete(i)"></i></span>
+<div class="col">
+    <input type="text" placeholder="amount" class="form-control amount" value="{{ amount }}">
+    </div><!-- Col-->
+</div><!-- Row-->
+{{ /each }}
+        <button type="button" class="btn btn-primary btn-sm mt-4" style="width: 100%;margin-bottom: 100px" on-click="@this.onPaymentRowCreate()">+ Add More Method
+              </button>
+              </div>
+
+      </div>
+      </div>
+      <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary btn-lg" id="storePosPaymentBtn">
+                        <span class="spinner-grow spinner-grow-sm spinner d-none" role="status"
+                              aria-hidden="true"></span>
+                        Pay Now
+                    </button>
+                </div>
+      </div>
+
+      </div>
+      </div>
+
+      <div class="row">
+      <div class="col-7 ">
+      <div class="row">
+      <div class="col">
+      <div class="item-search " style="position:relative;">
+      <input name="product_search" id="product_search" type="text" placeholder="Scan/Search Items"
+      class="form-control" style="padding-left: 50px">
+      <i class="fa fa-barcode" style="font-size: 35px;position:absolute; right: 7px;top: 0px"></i>
+      <i class="fa fa-search"
+      style="font-size: 20px;position:absolute; left: 16px;top: 10px;color: gray!important;"></i>
+      </div>
+      </div>
+      <div class="col">
+      <div class="d-flex">
+      <select name="customer_id" id="customer_id" class="form-control form-control-lg input-lg"
+      style="font-size: 18px;padding-left: 50px">
+{{#each customers:i}}
         <option value="{{ id }}" {{ name == 'Walk In Customer'?'selected':'' }}>{{ name }} {{ phone }}</option>
                             {{ /each }}
         </select>
@@ -230,7 +339,7 @@
     <button id="suspend" type="button" class="col btn btn-danger btn-lg" style="font-size: 17px;"> Suspend</button>
     <button id="credit_sale" type="button"  class="col btn btn-lg btn-info mx-4 credit_sale" style="font-size: 17px;">                         <span class="spinner-grow spinner-grow-sm spinner d-none" role="status" aria-hidden="true"></span>
  Credit Sale</button>
-    <button id="payment" type="button"  class="col btn btn-primary btn-lg" style="font-size: 17px;">                         <span class="spinner-grow spinner-grow-sm spinner d-none" role="status" aria-hidden="true"></span>
+    <button id="payment" type="button" data-toggle="modal" data-target="#posPaymentModal"  class="col btn btn-primary btn-lg" style="font-size: 17px;">                         <span class="spinner-grow spinner-grow-sm spinner d-none" role="status" aria-hidden="true"></span>
 Payment</button>
 </div>
 
@@ -307,6 +416,12 @@ Payment</button>
 </div>
 
 </div>
+
+
+
+
+
+
 
 
 

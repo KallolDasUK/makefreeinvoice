@@ -278,6 +278,78 @@ Route::group(['middleware' => 'auth:web', 'prefix' => 'app'], function () {
 
 
     });
+
+    Route::group(['prefix' => 'reports'], function () {
+
+        Route::get('/', [ReportController::class, 'index'])->name('reports.report.index');
+        Route::get('/tax-report', [ReportController::class, 'taxReport'])->name('reports.report.tax_report');
+        Route::get('/ar-aging-report', [ReportController::class, 'arAgingReport'])->name('reports.report.ar_aging_report');
+        Route::get('/ap-aging-report', [ReportController::class, 'apAgingReport'])->name('reports.report.ap_aging_report');
+        Route::get('/stock-report', [ReportController::class, 'stockReport'])->name('reports.report.stock-report');
+        Route::get('/trial-balance', [ReportController::class, 'trialBalance'])->name('reports.report.trial_balance');
+        Route::get('/ledger-report', [ReportController::class, 'ledgerReport'])->name('reports.report.ledger_report');
+        Route::get('/loss-profit', [ReportController::class, 'lossProfitReport'])->name('reports.report.loss_profit_report');
+        Route::get('/cash-book', [ReportController::class, 'cashbookReport'])->name('reports.report.cashbook');
+        Route::get('/balance-sheet', [ReportController::class, 'balanceSheetReport'])->name('reports.report.balance_sheet_report');
+        Route::get('/receipt-payment', [ReportController::class, 'receiptPaymentReport'])->name('reports.report.receipt_payment_report');
+        Route::get('/voucher-report', [ReportController::class, 'voucherReport'])->name('reports.report.voucher_report');
+        Route::get('/customer-statement', [ReportController::class, 'customerStatement'])->name('reports.report.customer_statement');
+        Route::get('/vendor-statement', [ReportController::class, 'vendorStatement'])->name('reports.report.vendor_statement');
+        Route::get('/sales-report', [ReportController::class, 'salesReport'])->name('reports.report.sales_report');
+        Route::get('/purchase-report', [ReportController::class, 'purchaseReport'])->name('reports.report.purchase_report');
+// Test Comment
+    });
+
+
+    /*
+        *  php artisan resource-file:create InventoryAdjustment --fields=id,date,ref,ledger_id,reason_id,description
+        *  php artisan create:scaffold InventoryAdjustment  --layout-name="acc::layouts.app" --with-migration
+        *  php artisan resource-file:create PosSale --fields=id,pos_number,date,customer_id,branch_id,ledger_id,discount_type,discount,vat,service_charge_type,service_charge,note,payment_method,sub_total,total,payment_amount,due,pos_status
+        *  php artisan create:scaffold PosSale  --layout-name="acc::layouts.app" --with-migration
+     * */
+
+    Route::group(['prefix' => 'inventory_adjustments'], function () {
+
+        Route::get('/', [InventoryAdjustmentsController::class, 'index'])->name('inventory_adjustments.inventory_adjustment.index');
+        Route::get('/create', [InventoryAdjustmentsController::class, 'create'])->name('inventory_adjustments.inventory_adjustment.create');
+        Route::get('/show/{inventoryAdjustment}', [InventoryAdjustmentsController::class, 'show'])->name('inventory_adjustments.inventory_adjustment.show')->where('id', '[0-9]+');
+        Route::get('/{inventoryAdjustment}/edit', [InventoryAdjustmentsController::class, 'edit'])->name('inventory_adjustments.inventory_adjustment.edit')->where('id', '[0-9]+');
+        Route::post('/', [InventoryAdjustmentsController::class, 'store'])->name('inventory_adjustments.inventory_adjustment.store');
+        Route::put('inventory_adjustment/{inventoryAdjustment}', [InventoryAdjustmentsController::class, 'update'])->name('inventory_adjustments.inventory_adjustment.update')->where('id', '[0-9]+');
+        Route::delete('/inventory_adjustment/{inventoryAdjustment}', [InventoryAdjustmentsController::class, 'destroy'])->name('inventory_adjustments.inventory_adjustment.destroy')->where('id', '[0-9]+');
+
+    });
+
+// php artisan create:scaffold Reason  --layout-name="acc::layouts.app" --with-migration
+
+    Route::group(['prefix' => 'reasons'], function () {
+
+        Route::get('/', [ReasonsController::class, 'index'])->name('reasons.reason.index');
+        Route::get('/create', [ReasonsController::class, 'create'])->name('reasons.reason.create');
+        Route::get('/show/{reason}', [ReasonsController::class, 'show'])->name('reasons.reason.show');
+        Route::get('/{reason}/edit', [ReasonsController::class, 'edit'])->name('reasons.reason.edit');
+        Route::post('/', [ReasonsController::class, 'store'])->name('reasons.reason.store');
+        Route::put('reason/{reason}', [ReasonsController::class, 'update'])->name('reasons.reason.update');
+        Route::delete('/reason/{reason}', [ReasonsController::class, 'destroy'])->name('reasons.reason.destroy');
+
+    });
+
+    /*
+        *  php artisan resource-file:create PosSale --fields=id,pos_number,date,customer_id,branch_id,ledger_id,discount_type,discount,vat,service_charge_type,service_charge,note,payment_method,sub_total,total,payment_amount,due,pos_status
+        *  php artisan create:scaffold PosSale  --layout-name="acc::layouts.app" --with-migration
+     * */
+    Route::group(['prefix' => 'pos_sales'], function () {
+
+        Route::get('/', [PosSalesController::class,'index'])->name('pos_sales.pos_sale.index');
+        Route::get('/create',[PosSalesController::class,'create'])->name('pos_sales.pos_sale.create');
+        Route::get('/show/{posSale}',[PosSalesController::class,'show'])->name('pos_sales.pos_sale.show')->where('id', '[0-9]+');
+        Route::get('/details',[PosSalesController::class,'details'])->name('pos_sales.pos_sale.details')->where('id', '[0-9]+');
+        Route::get('/{posSale}/edit',[PosSalesController::class,'edit'])->name('pos_sales.pos_sale.edit')->where('id', '[0-9]+');
+        Route::post('/', [PosSalesController::class,'store'])->name('pos_sales.pos_sale.store');
+        Route::put('pos_sale/{posSale}', [PosSalesController::class,'update'])->name('pos_sales.pos_sale.update')->where('id', '[0-9]+');
+        Route::delete('/pos_sale/{posSale}',[PosSalesController::class,'destroy'])->name('pos_sales.pos_sale.destroy')->where('id', '[0-9]+');
+
+    });
 });
 
 
@@ -289,60 +361,7 @@ Route::group(['middleware' => 'auth:web', 'prefix' => 'app'], function () {
 Route::get('p/{slug}', [BlogsController::class, 'show'])->name('blogs.blog.show')->where('id', '[0-9]+');
 
 
-Route::group(['prefix' => 'reports'], function () {
 
-    Route::get('/', [ReportController::class, 'index'])->name('reports.report.index');
-    Route::get('/tax-report', [ReportController::class, 'taxReport'])->name('reports.report.tax_report');
-    Route::get('/ar-aging-report', [ReportController::class, 'arAgingReport'])->name('reports.report.ar_aging_report');
-    Route::get('/ap-aging-report', [ReportController::class, 'apAgingReport'])->name('reports.report.ap_aging_report');
-    Route::get('/stock-report', [ReportController::class, 'stockReport'])->name('reports.report.stock-report');
-    Route::get('/trial-balance', [ReportController::class, 'trialBalance'])->name('reports.report.trial_balance');
-    Route::get('/ledger-report', [ReportController::class, 'ledgerReport'])->name('reports.report.ledger_report');
-    Route::get('/loss-profit', [ReportController::class, 'lossProfitReport'])->name('reports.report.loss_profit_report');
-    Route::get('/cash-book', [ReportController::class, 'cashbookReport'])->name('reports.report.cashbook');
-    Route::get('/balance-sheet', [ReportController::class, 'balanceSheetReport'])->name('reports.report.balance_sheet_report');
-    Route::get('/receipt-payment', [ReportController::class, 'receiptPaymentReport'])->name('reports.report.receipt_payment_report');
-    Route::get('/voucher-report', [ReportController::class, 'voucherReport'])->name('reports.report.voucher_report');
-    Route::get('/customer-statement', [ReportController::class, 'customerStatement'])->name('reports.report.customer_statement');
-    Route::get('/vendor-statement', [ReportController::class, 'vendorStatement'])->name('reports.report.vendor_statement');
-    Route::get('/sales-report', [ReportController::class, 'salesReport'])->name('reports.report.sales_report');
-    Route::get('/purchase-report', [ReportController::class, 'purchaseReport'])->name('reports.report.purchase_report');
-// Test Comment
-});
-
-
-/*
-    *  php artisan resource-file:create InventoryAdjustment --fields=id,date,ref,ledger_id,reason_id,description
-    *  php artisan create:scaffold InventoryAdjustment  --layout-name="acc::layouts.app" --with-migration
-    *  php artisan resource-file:create PosSale --fields=id,pos_number,date,customer_id,branch_id,ledger_id,discount_type,discount,vat,service_charge_type,service_charge,note,payment_method,sub_total,total,payment_amount,due,pos_status
-    *  php artisan create:scaffold PosSale  --layout-name="acc::layouts.app" --with-migration
- * */
-
-Route::group(['prefix' => 'inventory_adjustments'], function () {
-
-    Route::get('/', [InventoryAdjustmentsController::class, 'index'])->name('inventory_adjustments.inventory_adjustment.index');
-    Route::get('/create', [InventoryAdjustmentsController::class, 'create'])->name('inventory_adjustments.inventory_adjustment.create');
-    Route::get('/show/{inventoryAdjustment}', [InventoryAdjustmentsController::class, 'show'])->name('inventory_adjustments.inventory_adjustment.show')->where('id', '[0-9]+');
-    Route::get('/{inventoryAdjustment}/edit', [InventoryAdjustmentsController::class, 'edit'])->name('inventory_adjustments.inventory_adjustment.edit')->where('id', '[0-9]+');
-    Route::post('/', [InventoryAdjustmentsController::class, 'store'])->name('inventory_adjustments.inventory_adjustment.store');
-    Route::put('inventory_adjustment/{inventoryAdjustment}', [InventoryAdjustmentsController::class, 'update'])->name('inventory_adjustments.inventory_adjustment.update')->where('id', '[0-9]+');
-    Route::delete('/inventory_adjustment/{inventoryAdjustment}', [InventoryAdjustmentsController::class, 'destroy'])->name('inventory_adjustments.inventory_adjustment.destroy')->where('id', '[0-9]+');
-
-});
-
-// php artisan create:scaffold Reason  --layout-name="acc::layouts.app" --with-migration
-
-Route::group(['prefix' => 'reasons'], function () {
-
-    Route::get('/', [ReasonsController::class, 'index'])->name('reasons.reason.index');
-    Route::get('/create', [ReasonsController::class, 'create'])->name('reasons.reason.create');
-    Route::get('/show/{reason}', [ReasonsController::class, 'show'])->name('reasons.reason.show');
-    Route::get('/{reason}/edit', [ReasonsController::class, 'edit'])->name('reasons.reason.edit');
-    Route::post('/', [ReasonsController::class, 'store'])->name('reasons.reason.store');
-    Route::put('reason/{reason}', [ReasonsController::class, 'update'])->name('reasons.reason.update');
-    Route::delete('/reason/{reason}', [ReasonsController::class, 'destroy'])->name('reasons.reason.destroy');
-
-});
 
 
 Route::get('/task', function () {
@@ -401,19 +420,4 @@ Route::get('master/users/login/{email}', [MasterController::class, 'loginClient'
 
 
 
-/*
-    *  php artisan resource-file:create PosSale --fields=id,pos_number,date,customer_id,branch_id,ledger_id,discount_type,discount,vat,service_charge_type,service_charge,note,payment_method,sub_total,total,payment_amount,due,pos_status
-    *  php artisan create:scaffold PosSale  --layout-name="acc::layouts.app" --with-migration
- * */
-Route::group(['prefix' => 'pos_sales'], function () {
 
-    Route::get('/', [PosSalesController::class,'index'])->name('pos_sales.pos_sale.index');
-    Route::get('/create',[PosSalesController::class,'create'])->name('pos_sales.pos_sale.create');
-    Route::get('/show/{posSale}',[PosSalesController::class,'show'])->name('pos_sales.pos_sale.show')->where('id', '[0-9]+');
-    Route::get('/details',[PosSalesController::class,'details'])->name('pos_sales.pos_sale.details')->where('id', '[0-9]+');
-    Route::get('/{posSale}/edit',[PosSalesController::class,'edit'])->name('pos_sales.pos_sale.edit')->where('id', '[0-9]+');
-    Route::post('/', [PosSalesController::class,'store'])->name('pos_sales.pos_sale.store');
-    Route::put('pos_sale/{posSale}', [PosSalesController::class,'update'])->name('pos_sales.pos_sale.update')->where('id', '[0-9]+');
-    Route::delete('/pos_sale/{posSale}',[PosSalesController::class,'destroy'])->name('pos_sales.pos_sale.destroy')->where('id', '[0-9]+');
-
-});
