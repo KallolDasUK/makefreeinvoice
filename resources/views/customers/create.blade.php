@@ -6,7 +6,7 @@
 
         <div class="card-header">
 
-            <h5  class="my-1 float-left">Create New Customer</h5>
+            <h5 class="my-1 float-left">Create New Customer</h5>
 
             <div class="btn-group btn-group-sm float-right" role="group">
                 <a href="{{ route('customers.customer.index') }}" class="btn btn-primary" title="Show All Customer">
@@ -20,12 +20,11 @@
         <div class="card-body">
 
 
-
-            <form method="POST" action="{{ route('customers.customer.store') }}" accept-charset="UTF-8" id="create_customer_form" name="create_customer_form" class="form-horizontal" enctype="multipart/form-data">
-            {{ csrf_field() }}
-            @include ('customers.form', [
-                                        'customer' => null,
-                                      ])
+            <form method="POST" action="{{ route('customers.customer.store') }}" accept-charset="UTF-8"
+                  id="create_customer_form" name="create_customer_form" class="form-horizontal"
+                  enctype="multipart/form-data">
+                {{ csrf_field() }}
+                @include ('customers.form', ['customer' => null])
 
                 <div class="form-group">
                     <div class="col-md-offset-2 col-md-10">
@@ -44,7 +43,7 @@
 @section('js')
     <script>
         $(document).ready(function () {
-            $('select').select2({placeholder:'Select Country'})
+            $('select').select2()
             $('table').DataTable()
         })
     </script>

@@ -10,21 +10,7 @@ class Customer extends Model
 
     const WALK_IN_CUSTOMER = "Walk In Customer";
 
-    protected $fillable = [
-        'name',
-        'photo',
-        'company_name',
-        'phone',
-        'email',
-        'country',
-        'address',
-        'street_1',
-        'street_2',
-        'city',
-        'state',
-        'zip_post',
-        'website'
-    ];
+    protected $guarded = [];
 
     public function getAddressAttribute()
     {

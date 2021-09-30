@@ -4,12 +4,17 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Vendor;
+use Enam\Acc\Models\Ledger;
+use Enam\Acc\Models\LedgerGroup;
+use Enam\Acc\Models\Transaction;
+use Enam\Acc\Models\TransactionDetail;
+use Enam\Acc\Traits\TransactionTrait;
 use Illuminate\Http\Request;
 use Exception;
 
 class VendorsController extends Controller
 {
-
+    use TransactionTrait;
 
     public function index(Request $request)
     {
@@ -37,6 +42,20 @@ class VendorsController extends Controller
         $data = $this->getData($request);
 
         $vendor = Vendor::create($data);
+
+        $ledger = Ledger::create([
+            'ledger_name' => $vendor->name,
+            'ledger_group_id' => LedgerGroup::LIABILITIES(),
+            'opening' => $vendor->opening,
+            'opening_type' => $vendor->opening_type,
+            'active' => true,
+            'is_default' => true,
+            'type' => Vendor::class,
+            'type_id' => $vendor->id,
+        ]);
+        if ($request->opening > 0) {
+            $this->storeOpeningBalance($ledger, $request->opening, $request->opening_type);
+        }
         if ($request->ajax()) {
             return $vendor;
         }
@@ -72,7 +91,37 @@ class VendorsController extends Controller
 
         $vendor = Vendor::findOrFail($id);
         $vendor->update($data);
+        $ledger = Ledger::query()
+            ->where('type', Vendor::class)
+            ->where('type_id', $vendor->id)
+            ->first();
+        if ($ledger == null) {
+            $ledger = Ledger::create([
+                'ledger_name' => $vendor->name,
+                'ledger_group_id' => LedgerGroup::LIABILITIES(),
+                'opening' => $vendor->opening,
+                'opening_type' => $vendor->opening_type,
+                'active' => true,
+                'is_default' => true,
+                'type' => Vendor::class,
+                'type_id' => $vendor->id,
+            ]);
+        } else {
+            $ledger->update([
+                'ledger_name' => $vendor->name,
+                'opening' => $vendor->opening,
+                'opening_type' => $vendor->opening_type
+            ]);
+        }
 
+        if ($request->opening > 0) {
+            $this->storeOpeningBalance($ledger, $request->opening, $request->opening_type);
+        } else {
+            $txn = Transaction::where('txn_type', 'OpeningBalance')->where('type', Ledger::class)->where('type_id', $ledger->id)->first();
+            if ($txn) {
+                TransactionDetail::query()->where('transaction_id', $txn->id)->delete();
+            }
+        }
         return redirect()->route('vendors.vendor.index')
             ->with('success_message', 'Vendor was successfully updated.');
 
@@ -107,6 +156,8 @@ class VendorsController extends Controller
             'zip_post' => 'string|min:1|nullable',
             'address' => 'string|min:1|nullable',
             'website' => 'string|min:1|nullable',
+            'opening' => 'nullable|numeric',
+            'opening_type' => 'nullable',
         ];
 
         $data = $request->validate($rules);

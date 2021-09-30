@@ -18,16 +18,7 @@ class Ledger extends Model
     use SoftDeletes;
     use TransactionTrait;
 
-
-    protected $fillable = [
-        'ledger_name',
-        'ledger_group_id',
-        'opening',
-        'opening_type',
-        'active',
-        'date',
-        'type'
-    ];
+    protected $guarded = [];
 
 
     public function ledgerGroup()

@@ -22,7 +22,29 @@ use Illuminate\Http\Request;
 trait TransactionTrait
 {
     public $arr = [];
+    protected function storeOpeningBalance(Ledger $ledger, $amount, $entry_type)
+    {
+        $txn = Transaction::where('txn_type', 'OpeningBalance')->where('type', Ledger::class)->where('type_id', $ledger->id)->first();
+        if ($txn) {
+            $txn->update(['amount' => $amount, 'type' => Ledger::class,
+                'type_id' => $ledger->id]);
 
+            TransactionDetail::where('transaction_id', $txn->id)
+                ->update(['entry_type' => $entry_type, 'amount' => $amount, 'type' => Ledger::class,
+                    'type_id' => $ledger->id]);
+        } else {
+            $voucher_no = $this->getVoucherID();
+            $txn = Transaction::create(['ledger_name' => $ledger->ledger_name, 'voucher_no' => $voucher_no,
+                'amount' => $amount, 'note' => 'OpeningBalance', 'txn_type' => 'OpeningBalance', 'type' => Ledger::class,
+                'type_id' => $ledger->id, 'date' => today()->toDateString()]);
+
+            TransactionDetail::create(['transaction_id' => $txn->id, 'ledger_id' => $ledger->id, 'entry_type' => $entry_type, 'amount' => $amount,
+                'voucher_no' => $voucher_no, 'date' => today()->toDateString(), 'note' => 'OpeningBalance', 'type' => Ledger::class,
+                'type_id' => $ledger->id]);
+
+        }
+
+    }
     public function getChildLedgerGroup($id)
     {
         $groups = LedgerGroup::query()->where('parent', $id)->get();

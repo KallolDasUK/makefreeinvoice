@@ -37,7 +37,7 @@
             <div class="card-body">
 
                 <div >
-                    <table class="table ">
+                    <table class="table">
                         <thead>
                         <tr>
                             <th>Pos Number</th>

@@ -2,7 +2,7 @@
      aria-hidden="true">
     <div class="modal-dialog" role="document" style="margin-top:10px!important;">
 
-        <form id="createCustomerForm" action="{{ route('customers.customer.storeJson') }}" method="post">
+        <form id="createCustomerForm" action="{{ route('customers.customer.store') }}" method="post">
             @csrf
             <div class="modal-content">
 
@@ -20,6 +20,35 @@
                                 <input class="form-control " id="phone" name="phone"/>
                             </div>
                         </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                            <div >
+                                <label for="opening" >Opening</label>
+                                <div>
+                                    <input class="form-control" name="opening" type="number" step="any" id="opening">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div >
+                                <label for="opening_type">Opening Type</label>
+                                <div>
+                                    <select class="form-control" id="opening_type" name="opening_type">
+
+                                        @foreach (['Dr' => 'Previous Due','Cr' => 'Advance'] as $key => $text)
+                                            <option
+                                                value="{{ $key }}">
+                                                {{ $text }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
 
                     <div class="row">
