@@ -27,6 +27,8 @@ var posRactive = new Ractive({
         orders: orders,
         paymentMethods: paymentMethods,
         payments: payments,
+        ledgers: ledgers,
+        ledger_id: ledger_id,
         given: 0,
         change: 0
     },

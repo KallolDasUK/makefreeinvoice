@@ -36,26 +36,19 @@
         @else
             <div class="card-body">
 
-                <div class="table-responsive">
-                    <table class="table table-striped table-sm">
+                <div >
+                    <table class="table ">
                         <thead>
                         <tr>
                             <th>Pos Number</th>
                             <th>Date</th>
                             <th>Customer</th>
                             <th>Branch</th>
-                            <th>Ledger</th>
-                            <th>Discount Type</th>
-                            <th>Discount</th>
-                            <th>Vat</th>
-                            <th>Service Charge Type</th>
-                            <th>Service Charge</th>
-                            <th>Payment Method</th>
                             <th>Sub Total</th>
                             <th>Total</th>
-                            <th>Payment Amount</th>
+                            <th>Paid</th>
                             <th>Due</th>
-                            <th>Pos Status</th>
+                            <th>Status</th>
 
                             <th></th>
                         </tr>
@@ -67,13 +60,7 @@
                                 <td>{{ $posSale->date }}</td>
                                 <td>{{ optional($posSale->customer)->name }}</td>
                                 <td>{{ optional($posSale->branch)->id }}</td>
-                                <td>{{ optional($posSale->ledger)->id }}</td>
-                                <td>{{ $posSale->discount_type }}</td>
-                                <td>{{ $posSale->discount }}</td>
-                                <td>{{ $posSale->vat }}</td>
-                                <td>{{ $posSale->service_charge_type }}</td>
-                                <td>{{ $posSale->service_charge }}</td>
-                                <td>{{ optional($posSale->ledger)->id }}</td>
+
                                 <td>{{ $posSale->sub_total }}</td>
                                 <td>{{ $posSale->total }}</td>
                                 <td>{{ $posSale->payment_amount }}</td>
