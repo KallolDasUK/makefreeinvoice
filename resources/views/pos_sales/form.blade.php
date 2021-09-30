@@ -39,17 +39,34 @@
         <div class="list-group-item d-flex justify-content-between align-items-center">
                                Total
                               <span class="font-weight-bold"><h2>{{ currency }}{{ total.toFixed(2) }}</h2></span></div></div></div><!----><!----></div>
-</div>
+    <div class="form-group row  mt-4">
+                    <div class="col-form-label col text-right">
+                        <label class="font-weight-bolder " style="font-size: 14px"> Deposit Account </label>
+                    </div>
                     <div class="col">
+                     <select id="ledger_id" class="form-control" name="ledger_id" value="{{ ledger_id }}">
+    {{ #each ledgers:i }}
+        <option
+            value="{{ id }}">
+            {{ ledger_name }}
+        </option>
+   {{ /each }}
+        </select>
 
-                    <div class="row align-items-center">
-    <div class="col ">
+            </div>
+        </div>
+
+        </div>
+            <div class="col">
+
+            <div class="row align-items-center">
+        <div class="col ">
 
         <div class="card " style="border: none">
-            <div class="d-flex align-items-center justify-content-center">
-                <div class="card-body ">
-                    <h2>GIVEN</h2>
-                    <h3>{{ given }}</h3>
+        <div class="d-flex align-items-center justify-content-center">
+        <div class="card-body ">
+            <h2>GIVEN</h2>
+            <h3>{{ given }}</h3>
                 </div>
                 <div class="vertical-divider"></div>
             </div>

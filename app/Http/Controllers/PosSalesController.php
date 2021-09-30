@@ -9,6 +9,7 @@ use App\Models\Customer;
 use App\Models\PaymentMethod;
 use App\Models\PosCharge;
 use App\Models\PosItem;
+use App\Models\PosPayment;
 use App\Models\PosSale;
 use App\Models\Product;
 use Enam\Acc\Models\Branch;
@@ -22,7 +23,7 @@ class PosSalesController extends Controller
 
     public function index()
     {
-        $posSales = PosSale::with('customer', 'branch', 'ledger')->paginate(25);
+        $posSales = PosSale::with('customer', 'branch', 'ledger')->latest()->paginate(25);
         $categories = Category::all();
         $products = Product::all();
 
@@ -37,16 +38,15 @@ class PosSalesController extends Controller
         }
         $customers = Customer::all();
         $branches = Branch::pluck('id', 'id')->all();
-        $ledgers = Ledger::pluck('id', 'id')->all();
-        $ledgers = PaymentMethod::pluck('id', 'id')->all();
+        $ledgers = Ledger::all();
         $categories = Category::all();
         $products = Product::all();
         $paymentMethods = PaymentMethod::all();
         $title = "POS - Point Of Sale";
         $orders = PosSale::query()->latest()->limit(50)->get();
-//        dd($orders);
+        $ledger_id = Ledger::CASH_AC();
         return view('pos_sales.create',
-            compact('customers', 'branches', 'ledgers', 'ledgers', 'products', 'categories', 'title', 'orders', 'paymentMethods'));
+            compact('customers', 'branches', 'ledgers', 'ledger_id', 'products', 'categories', 'title', 'orders', 'paymentMethods'));
     }
 
 
@@ -56,9 +56,11 @@ class PosSalesController extends Controller
 
         $data = $this->getData($request);
         $pos_items = $data['pos_items'];
+        $pos_payments = $data['payments'];
         $pos_charges = $data['charges'];
 
         unset($data['pos_items']);
+        unset($data['payments']);
         unset($data['charges']);
 
         $pos_sales = PosSale::create($data);
@@ -73,6 +75,38 @@ class PosSalesController extends Controller
         }
         foreach ($pos_charges as $pos_charge) {
             PosCharge::create(['pos_sales_id' => $pos_sales->id, 'key' => $pos_charge->key, 'value' => $pos_charge->value]);
+        }
+
+
+        $given = collect($pos_payments)->sum('amount');
+        $change = $pos_sales->total - $given;
+        $pos_sales->change = 0;
+//        dd($given, $change, $pos_payments,$change > 0);
+        if ($change < 0) {
+            $distributed = 0;
+            $pos_sales->change = abs($change);
+            $pos_sales->saveQuietly();
+            foreach ($pos_payments as $index => $pos_payment) {
+                if ($distributed == $pos_sales->total) {
+                    unset($pos_payment[$index]);
+                    continue;
+                }
+
+                if ($pos_payment->amount > $pos_sales->total) {
+                    $pos_payments[$index]->amount = ($pos_sales->total - $distributed);
+
+                }
+                $distributed += $pos_payments[$index]->amount;
+            }
+        }
+
+        foreach ($pos_payments as $pos_payment) {
+            PosPayment::create([
+                'pos_sales_id' => $pos_sales->id,
+                'payment_method_id' => $pos_payment->payment_method_id,
+                'amount' => $pos_payment->amount,
+                'date' => $pos_sales->date ?? today()->toDateString(),
+            ]);
         }
         if ($request->ajax()) {
             return $pos_sales;
@@ -134,6 +168,9 @@ class PosSalesController extends Controller
         $posSale = PosSale::findOrFail($id);
         PosItem::query()->where('pos_sales_id', $posSale->id)->delete();
         PosCharge::query()->where('pos_sales_id', $posSale->id)->delete();
+        PosPayment::query()->where('pos_sales_id', $posSale->id)->get()->each(function ($model) {
+            $model->delete();
+        });
         $posSale->delete();
         return redirect()->route('pos_sales.pos_sale.index')
             ->with('success_message', 'Pos Sale was successfully deleted.');
@@ -154,13 +191,16 @@ class PosSalesController extends Controller
             'total' => 'numeric|nullable',
             'pos_status' => 'string|min:1|nullable',
             'pos_items' => 'nullable',
+            'payments' => 'nullable',
             'charges' => 'nullable',
         ];
 
         $data = $request->validate($rules);
         $data['pos_items'] = json_decode($data['pos_items'] ?? '{}');
+        $data['payments'] = json_decode($data['payments'] ?? '{}');
         $data['charges'] = json_decode($data['charges'] ?? '{}');
         $data['pos_number'] = PosSale::nextOrderNumber();
+        $data['date'] = $data['date'] ?? today()->toDateString();
 
         return $data;
     }

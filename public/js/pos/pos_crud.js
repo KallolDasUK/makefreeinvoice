@@ -3,6 +3,7 @@ $(document).ready(function () {
     /* Register Events */
     $(document).ready(function () {
         $('#customer_id').select2({placeholder: "Select or Create Customer", allowClear: true})
+        $('#ledger_id').select2({placeholder: "Select or Create Account"})
 
     });
     window.addEventListener("beforeunload", function (e) {
@@ -220,7 +221,8 @@ $(document).ready(function () {
         placeOrder()
 
     })
-    $('#storePosPaymentBtn').on('click', function () {
+
+    $('#payment').on('click', function () {
         let pos_items = posRactive.get('pos_items')
         if (!pos_items.length) {
             $.notify("Cart cant be empty. Please add item to cart", "error", {
@@ -228,8 +230,9 @@ $(document).ready(function () {
             });
             return false;
         }
+    })
+    $('#storePosPaymentBtn').on('click', function () {
         placeOrder()
-
     })
 
 
@@ -249,6 +252,7 @@ $(document).ready(function () {
             data: $(form).serialize(),
             beforeSend: () => {
                 $('#credit_sale').prop('disabled', true)
+                $('#storePosPaymentBtn').prop('disabled', true)
                 $('#payment').prop('disabled', true)
                 $('.spinner').removeClass('d-none')
             },
@@ -256,11 +260,13 @@ $(document).ready(function () {
                 $('#create_pos_sale_form').trigger("reset");
                 $('#credit_sale').prop('disabled', false)
                 $('#payment').prop('disabled', false)
+                $('#storePosPaymentBtn').prop('disabled', false)
                 $('.spinner').addClass('d-none')
                 posRactive.set('pos_items', []);
                 console.log(order)
                 $.notify("Order Placed", "success")
                 posRactive.unshift('orders', order);
+                $('#posPaymentModal').modal('hide')
 
             }
         });
@@ -282,7 +288,7 @@ $(document).ready(function () {
         });
 
     })
-    $('.order').tooltip({title:'Click to see details'})
+    $('.order').tooltip({title: 'Click to see details'})
     $('#payment_method_id').select2().on('select2:open', function (event) {
         let a = $(this).data('select2');
         let doExits = a.$results.parents('.select2-results').find('button')
@@ -296,10 +302,10 @@ $(document).ready(function () {
         }
     })
     $('#posPaymentModal').on('shown.bs.modal', function (e) {
-        setTimeout(()=>{
+        setTimeout(() => {
             $('.amount').focus()
             $('.amount').select()
-        },200)
+        }, 200)
     })
 })
 

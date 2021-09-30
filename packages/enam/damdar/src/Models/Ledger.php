@@ -244,6 +244,16 @@ class Ledger extends Model
         return GroupMap::query()->where('key', LedgerHelper::$CASH_AC)->first()->value ?? null;
     }
 
+    public static function ACCOUNTS_RECEIVABLE()
+    {
+        return GroupMap::query()->where('key', LedgerHelper::$ACCOUNTS_RECEIVABLE)->first()->value ?? null;
+    }
+
+    public static function SALES_AC()
+    {
+        return GroupMap::query()->where('key', LedgerHelper::$SALES_AC)->first()->value ?? null;
+    }
+
     public static function INVENTORY_AC()
     {
         return GroupMap::query()->where('key', LedgerHelper::$INVENTORY_AC)->first()->value ?? null;

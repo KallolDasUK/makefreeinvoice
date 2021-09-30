@@ -8,6 +8,8 @@ use App\Models\BillPaymentItem;
 use App\Models\Expense;
 use App\Models\ExpenseItem;
 use App\Models\Invoice;
+use App\Models\PosPayment;
+use App\Models\PosSale;
 use App\Models\ReceivePaymentItem;
 use Carbon\Doctrine\DateTimeDefaultPrecision;
 use Enam\Acc\Models\GroupMap;
@@ -217,6 +219,61 @@ class AccountingFacade extends Facade
     {
         Transaction::query()->where(['type' => BillPaymentItem::class, 'type_id' => $billPaymentItem->id])->forceDelete();
         TransactionDetail::query()->where(['type' => BillPaymentItem::class, 'type_id' => $billPaymentItem->id])->forceDelete();
+    }
+
+
+    public function on_pos_sales_create(PosSale $posSale)
+    {
+
+        self::addTransaction(Ledger::ACCOUNTS_RECEIVABLE(), Ledger::SALES_AC(), $posSale->total, $posSale->note,
+            $posSale->date, 'POS Sale', PosSale::class, $posSale->id,
+            $posSale->pos_number, optional($posSale->customer)->name);
+
+        /*
+         * Cost of Goods Sold Goes here
+         * */
+
+        foreach ($posSale->pos_items as $pos_item) {
+            $product = $pos_item->product;
+            if ($product->product_type != 'Goods') continue;
+
+            $purchase_price = $product->purchase_price ?? 0;
+            if ($purchase_price == 0) {
+                $last_bill = BillItem::query()->where('product_id', $pos_item->product_id)->latest()->first();
+                if ($last_bill) {
+                    $purchase_price = $last_bill->price;
+                }
+            }
+            $cost_of_goods_sold = $purchase_price * $pos_item->qnt;
+            if ($cost_of_goods_sold) {
+                self::addTransaction(Ledger::COST_OF_GOODS_SOLD(), Ledger::INVENTORY_AC(), $cost_of_goods_sold, $posSale->note,
+                    $posSale->date, 'Expense', PosSale::class, $posSale->id,
+                    $posSale->pos_number, LedgerHelper::$COST_OF_GOODS_SOLD);
+            }
+        }
+
+
+    }
+
+    public function on_pos_sales_delete(PosSale $posSale)
+    {
+        Transaction::query()->where(['type' => PosSale::class, 'type_id' => $posSale->id])->forceDelete();
+        TransactionDetail::query()->where(['type' => PosSale::class, 'type_id' => $posSale->id])->forceDelete();
+    }
+
+    public function on_pos_payment_create(PosPayment $posPayment)
+    {
+        $pos_sale = $posPayment->pos_sale;
+        self::addTransaction(optional($pos_sale)->ledger_id, Ledger::ACCOUNTS_RECEIVABLE(), $posPayment->amount,
+            $pos_sale->note, $posPayment->date,
+            'POS Payment', PosPayment::class, $posPayment->id,
+            $pos_sale->pos_number, optional($pos_sale->customer)->name);
+    }
+
+    public function on_pos_payment_delete(PosPayment $posPayment)
+    {
+        Transaction::query()->where(['type' => PosPayment::class, 'type_id' => $posPayment->id])->forceDelete();
+        TransactionDetail::query()->where(['type' => PosPayment::class, 'type_id' => $posPayment->id])->forceDelete();
     }
 
 

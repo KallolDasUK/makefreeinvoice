@@ -22,6 +22,8 @@
     <script>
         var products = @json($products);
         var customers = @json($customers);
+        var ledgers = @json($ledgers);
+        var ledger_id = "{{ $ledger_id }}";
         var categories = @json($categories);
         var paymentMethods = @json($paymentMethods);
         var orders = @json($orders);
@@ -37,7 +39,7 @@
             key: 'Discount', value: ''
         };
         var charges = [jQuery.extend(true, {}, sample_charge_item), {key: '', value: ''}];
-        var payments = [{ value: ''}];
+        var payments = [{value: ''}];
 
         $(document).ready(function () {
 
