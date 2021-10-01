@@ -73,6 +73,8 @@ trait ReportService
         $amount = collect($records)->sum('amount');
         $payment = collect($records)->sum('payment');
         $balance = $amount - $payment;
+        $vendor = Vendor::find($vendor_id);
+        $balance += floatval($vendor->opening);
         return (object)['amount' => $amount, 'payment' => $payment, 'balance' => $balance];
 
     }
@@ -130,6 +132,18 @@ trait ReportService
             ->where('vendor_id', $vendor_id)
             ->whereBetween('bill_date', [$start_date, $end_date])
             ->get();
+
+        $opening_payments = TransactionDetail::query()
+            ->where('type', Vendor::class)
+            ->where('type_id', $vendor_id)
+            ->where('ledger_id', Ledger::ACCOUNTS_PAYABLE())
+            ->where('entry_type', EntryType::$DR)->get();
+
+        foreach ($opening_payments as $opening_payment) {
+            $record = ['date' => $opening_payment->date, 'bill' => "-", 'description' => 'Previous Due Payment', 'amount' => 0, 'payment' => $opening_payment->amount];
+            $records[] = (object)$record;
+        }
+
         foreach ($bills as $bill) {
             $record = ['date' => $bill->bill_date, 'bill' => $bill->bill_number, 'description' => 'New Bill Created', 'payment' => 0, 'amount' => $bill->total];
             $records[] = (object)$record;

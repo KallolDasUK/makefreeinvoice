@@ -77,7 +77,7 @@ class ReportController extends AccountingReportsController
         $title = "Vendor Statement";
         $records = $this->getVendorStatement($start_date, $end_date, $vendor_id);
         $previous = $this->getVendorOpeningBalance($start_date, $end_date, $vendor_id);
-        $opening = $previous->amount - $previous->payment;
+        $opening = $previous->amount - $previous->payment  + $previous->balance;
         return view('reports.vendor-statement', compact('title', 'start_date', 'end_date', 'vendors', 'records', 'vendor_id', 'vendor', 'previous', 'opening'));
     }
 
