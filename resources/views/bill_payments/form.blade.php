@@ -1,88 +1,107 @@
-<div class="form-group row">
-    <label class="col-lg-2 " for="vendor_id">Vendor</label>
-    <select class="form-control col-lg-4" id="vendor_id" name="vendor_id" required>
-        <option value="" style="display: none;"
-                {{ old('vendor_id', optional($billPayment)->vendor_id ?: '') == '' ? 'selected' : '' }} disabled
-                selected>Select vendor
-        </option>
-        @foreach ($vendors as $key => $vendor)
-            <option
-                value="{{ $key }}" {{ old('vendor_id', optional($billPayment)->vendor_id) == $key ? 'selected' : '' }}>
-                {{ $vendor }}
-            </option>
-        @endforeach
-    </select>
-    @if($billPayment)
-        <input type="text" name="vendor_id" value="{{ optional($billPayment)->vendor_id }}" hidden>
-    @endif
 
-    {!! $errors->first('vendor_id', '<p class="form-text text-danger">:message</p>') !!}
+<div class="row">
+    <div class="col">
+        <div class="form-group row">
+            <label class="col " for="vendor_id">Vendor</label>
+            <select class="form-control col" id="vendor_id" name="vendor_id" required>
+                <option value="" style="display: none;"
+                        {{ old('vendor_id', optional($billPayment)->vendor_id ?: '') == '' ? 'selected' : '' }} disabled
+                        selected>Select vendor
+                </option>
+                @foreach ($vendors as $key => $vendor)
+                    <option
+                        value="{{ $key }}" {{ old('vendor_id', optional($billPayment)->vendor_id) == $key ? 'selected' : '' }}>
+                        {{ $vendor }}
+                    </option>
+                @endforeach
+            </select>
+            @if($billPayment)
+                <input type="text" name="vendor_id" value="{{ optional($billPayment)->vendor_id }}" hidden>
+            @endif
+
+            {!! $errors->first('vendor_id', '<p class="form-text text-danger">:message</p>') !!}
+        </div>
+
+        <div class="form-group row">
+
+            <label class="col" for="payment_date">Payment Date <span class="text-danger font-bolder">*</span></label>
+
+
+            <input class="form-control col {{ $errors->has('payment_date') ? 'is-invalid' : '' }}" name="payment_date"
+                   type="date" id="payment_date"
+                   value="{{ old('payment_date', optional($billPayment)->payment_date)??today()->toDateString() }}"
+                   required>
+
+            {!! $errors->first('payment_date', '<p class="form-text text-danger">:message</p>') !!}
+
+        </div>
+
+        <div class="form-group row">
+
+            <label for="payment_sl" class="col">Ref # <span class="text-danger font-bolder">*</span> </label>
+            <input class="form-control col {{ $errors->has('payment_sl') ? 'is-invalid' : '' }}" name="payment_sl"
+                   type="text" id="payment_sl"
+                   value="{{ old('payment_sl', optional($billPayment)->payment_sl)??$paymentSerial }}"
+
+            >
+            {!! $errors->first('payment_sl', '<p class="form-text text-danger">:message</p>') !!}
+
+        </div>
+
+        <div class="form-group row">
+            <label for="payment_method_id" class="col">Payment Method <span
+                    class="text-danger font-bolder">*</span></label>
+            <select class="form-control col" id="payment_method_id" name="payment_method_id" required>
+                <option value="" style="display: none;"
+                        {{ old('payment_method_id', optional($billPayment)->payment_method_id ?: '') == '' ? 'selected' : '' }} disabled
+                        selected>Select payment method
+                </option>
+                @foreach ($paymentMethods as $paymentMethod )
+                    <option
+                        value="{{ $paymentMethod->id }}" {{ old('payment_method_id', optional($billPayment)->payment_method_id) == $paymentMethod->id ? 'selected' : '' }}
+                    @if($billPayment==null) {{ $paymentMethod->name == 'Cash'?'selected':'' }} @endif
+                    >
+                        {{ $paymentMethod->name }}
+                    </option>
+                @endforeach
+            </select>
+            {!! $errors->first('payment_method_id', '<p class="form-text text-danger">:message</p>') !!}
+
+        </div>
+
+        <div class="form-group row">
+            <label for="ledger_id" class="col">From Account</label>
+
+
+            <select class="form-control col" id="ledger_id" name="ledger_id" required="true">
+
+
+                @foreach ($depositAccounts as $account)
+                    <option
+                        value="{{ $account->id }}" {{ old('ledger_id', optional($billPayment)->ledger_id) == $account->id ? 'selected' : '' }} @if($receivePaymnet??null) {{ $account->id == ($cashAcId??null)?'selected':'' }} @endif  @if($billPayment == null) {{ $account->id == \Enam\Acc\Models\Ledger::CASH_AC()?'selected':'' }} @endif>
+                        {{ $account->ledger_name }}
+                    </option>
+                @endforeach
+            </select>
+
+            {!! $errors->first('ledger_id', '<p class="form-text text-danger">:message</p>') !!}
+
+        </div>
+    </div>
+    <div class="col text-center align-self-center justify-center">
+        <div class="card bg-secondary col-8  mx-auto {{ $billPayment !=null?'':'d-none' }} receive">
+            <div class="card-body">
+                <h3>Paying Amount</h3>
+                <input type="number" step="any" class="form-control" id="given" name="given" style="font-size: 20px"
+
+                       value="{{ old('given', optional($billPayment)->given) }}"
+                >
+            </div>
+        </div>
+    </div>
 </div>
 
-<div class="form-group row">
 
-    <label class="col-lg-2" for="payment_date">Payment Date <span class="text-danger font-bolder">*</span></label>
-
-
-    <input class="form-control col-lg-4 {{ $errors->has('payment_date') ? 'is-invalid' : '' }}" name="payment_date"
-           type="date" id="payment_date"
-           value="{{ old('payment_date', optional($billPayment)->payment_date)??today()->toDateString() }}"
-           required>
-
-    {!! $errors->first('payment_date', '<p class="form-text text-danger">:message</p>') !!}
-
-</div>
-
-<div class="form-group row">
-
-    <label for="payment_sl" class="col-lg-2">Ref # <span class="text-danger font-bolder">*</span> </label>
-    <input class="form-control col-lg-4 {{ $errors->has('payment_sl') ? 'is-invalid' : '' }}" name="payment_sl"
-           type="text" id="payment_sl"
-           value="{{ old('payment_sl', optional($billPayment)->payment_sl)??$paymentSerial }}"
-
-    >
-    {!! $errors->first('payment_sl', '<p class="form-text text-danger">:message</p>') !!}
-
-</div>
-
-<div class="form-group row">
-    <label for="payment_method_id" class="col-lg-2">Payment Method <span
-            class="text-danger font-bolder">*</span></label>
-    <select class="form-control col-lg-4" id="payment_method_id" name="payment_method_id" required>
-        <option value="" style="display: none;"
-                {{ old('payment_method_id', optional($billPayment)->payment_method_id ?: '') == '' ? 'selected' : '' }} disabled
-                selected>Select payment method
-        </option>
-        @foreach ($paymentMethods as $paymentMethod )
-            <option
-                value="{{ $paymentMethod->id }}" {{ old('payment_method_id', optional($billPayment)->payment_method_id) == $paymentMethod->id ? 'selected' : '' }}>
-                {{ $paymentMethod->name }}
-            </option>
-        @endforeach
-    </select>
-    {!! $errors->first('payment_method_id', '<p class="form-text text-danger">:message</p>') !!}
-
-</div>
-
-<div class="form-group row">
-    <label for="ledger_id" class="col-lg-2">From Account</label>
-
-
-    <select class="form-control col-lg-4" id="ledger_id" name="ledger_id" required="true">
-
-
-        @foreach ($depositAccounts as $account)
-            <option
-                value="{{ $account->id }}" {{ old('ledger_id', optional($billPayment)->ledger_id) == $account->id ? 'selected' : '' }} @if($receivePaymnet??null) {{ $account->id == ($cashAcId??null)?'selected':'' }} @endif  @if($billPayment == null) {{ $account->id == \Enam\Acc\Models\Ledger::CASH_AC()?'selected':'' }} @endif>
-                {{ $account->ledger_name }}
-            </option>
-        @endforeach
-    </select>
-
-    {!! $errors->first('ledger_id', '<p class="form-text text-danger">:message</p>') !!}
-
-</div>
-</div>
 
 
 <div class="form-group px-4">

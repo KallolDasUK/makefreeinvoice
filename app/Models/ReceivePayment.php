@@ -9,14 +9,7 @@ class ReceivePayment extends Model
 {
 
 
-    protected $fillable = [
-        'customer_id',
-        'payment_date',
-        'payment_sl',
-        'payment_method_id',
-        'deposit_to',
-        'note'
-    ];
+    protected $guarded = [];
 
 
     public function customer()

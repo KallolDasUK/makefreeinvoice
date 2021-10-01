@@ -7,6 +7,8 @@ use App\Models\Customer;
 use App\Models\PaymentMethod;
 use App\Models\ReceivePayment;
 use App\Models\ReceivePaymentItem;
+use Cassandra\Custom;
+use Enam\Acc\AccountingFacade;
 use Enam\Acc\Models\GroupMap;
 use Enam\Acc\Models\Ledger;
 use Enam\Acc\Models\LedgerGroup;
@@ -36,8 +38,8 @@ class ReceivePaymentsController extends Controller
         $cashAcId = optional(GroupMap::query()->firstWhere('key', LedgerHelper::$CASH_AC))->value;
         $depositAccounts = Ledger::find($this->getAssetLedgers())->sortBy('ledger_name');
         $paymentMethods = PaymentMethod::query()->get();
-
-        return view('receive_payments.create', compact('customers', 'title', 'paymentMethods', 'paymentSerial', 'depositAccounts', 'cashAcId'));
+        $customer_id = \request()->get('customer_id');
+        return view('receive_payments.create', compact('customers', 'customer_id', 'title', 'paymentMethods', 'paymentSerial', 'depositAccounts', 'cashAcId'));
     }
 
 
@@ -51,11 +53,20 @@ class ReceivePaymentsController extends Controller
 
         $payments = json_decode($request->data ?? '{}');
         foreach ($payments as $payment) {
-            ReceivePaymentItem::create(['invoice_id' => $payment->invoice_id, 'receive_payment_id' => $rp->id, 'amount' => $payment->amount]);
+            try {
+                ReceivePaymentItem::create(['invoice_id' => $payment->invoice_id, 'receive_payment_id' => $rp->id, 'amount' => $payment->amount]);
+            } catch (Exception $exception) {
+
+            }
         }
-//        dd($payments);
 
+        if ($request->has('previous_due')) {
+            $customer = Customer::find($request->customer_id);
+            $previous_due = $request->previous_due;
+            AccountingFacade::addTransaction($rp->deposit_to, Ledger::ACCOUNTS_RECEIVABLE(),
+                $previous_due, $request->note, $rp->payment_date, "Customer Payment", Customer::class, $rp->customer_id, $rp->payment_sl, $customer->name);
 
+        }
         return redirect()->route('receive_payments.receive_payment.index')->with('success_message', 'Receive Payment was successfully added.');
 
     }
@@ -127,6 +138,7 @@ class ReceivePaymentsController extends Controller
             'payment_method_id' => 'nullable',
             'deposit_to' => 'required|nullable',
             'note' => 'string|min:1|max:1000|nullable',
+            'given' => 'string|nullable',
         ];
 
         $data = $request->validate($rules);

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Vendor;
+use Enam\Acc\AccountingFacade;
 use Enam\Acc\Models\Ledger;
 use Enam\Acc\Models\LedgerGroup;
 use Enam\Acc\Models\Transaction;
@@ -22,7 +23,7 @@ class VendorsController extends Controller
 
         $vendors = Vendor::query()->when($q != null, function ($builder) use ($q) {
             return $builder->where('name', 'like', '%' . $q . '%')->orWhere('phone', 'like', '%' . $q . '%')->orWhere('email', 'like', '%' . $q . '%');
-        })->paginate(25);
+        })->latest()->paginate(25);
 
         return view('vendors.index', compact('vendors', 'q'));
     }
@@ -35,6 +36,27 @@ class VendorsController extends Controller
         return view('vendors.create');
     }
 
+    public function openingEntry($request, $vendor)
+    {
+
+        Transaction::query()->where('type', Vendor::class)->where('type_id', $vendor->id)->delete();
+        TransactionDetail::query()->where('type', Vendor::class)->where('type_id', $vendor->id)
+            ->where('ledger_id', Ledger::ACCOUNTS_PAYABLE())->delete();
+
+        if ($request->opening > 0) {
+            $dr = null;
+            $cr = null;
+            if ($request->opening_type == 'Cr') {
+                $cr = Ledger::ACCOUNTS_PAYABLE();
+            } else {
+                $dr = Ledger::ACCOUNTS_PAYABLE();
+
+            }
+            AccountingFacade::addTransaction($dr, $cr,
+                $request->opening, "Opening Balance Of " . $vendor->name, today()->toDateString(), "Opening Balance", Vendor::class, $vendor->id, $vendor->name, "Opening");
+        }
+    }
+
     public function store(Request $request)
     {
 
@@ -43,19 +65,7 @@ class VendorsController extends Controller
 
         $vendor = Vendor::create($data);
 
-        $ledger = Ledger::create([
-            'ledger_name' => $vendor->name,
-            'ledger_group_id' => LedgerGroup::LIABILITIES(),
-            'opening' => $vendor->opening,
-            'opening_type' => $vendor->opening_type,
-            'active' => true,
-            'is_default' => true,
-            'type' => Vendor::class,
-            'type_id' => $vendor->id,
-        ]);
-        if ($request->opening > 0) {
-            $this->storeOpeningBalance($ledger, $request->opening, $request->opening_type);
-        }
+        $this->openingEntry($request, $vendor);
         if ($request->ajax()) {
             return $vendor;
         }
@@ -91,37 +101,8 @@ class VendorsController extends Controller
 
         $vendor = Vendor::findOrFail($id);
         $vendor->update($data);
-        $ledger = Ledger::query()
-            ->where('type', Vendor::class)
-            ->where('type_id', $vendor->id)
-            ->first();
-        if ($ledger == null) {
-            $ledger = Ledger::create([
-                'ledger_name' => $vendor->name,
-                'ledger_group_id' => LedgerGroup::LIABILITIES(),
-                'opening' => $vendor->opening,
-                'opening_type' => $vendor->opening_type,
-                'active' => true,
-                'is_default' => true,
-                'type' => Vendor::class,
-                'type_id' => $vendor->id,
-            ]);
-        } else {
-            $ledger->update([
-                'ledger_name' => $vendor->name,
-                'opening' => $vendor->opening,
-                'opening_type' => $vendor->opening_type
-            ]);
-        }
+        $this->openingEntry($request, $vendor);
 
-        if ($request->opening > 0) {
-            $this->storeOpeningBalance($ledger, $request->opening, $request->opening_type);
-        } else {
-            $txn = Transaction::where('txn_type', 'OpeningBalance')->where('type', Ledger::class)->where('type_id', $ledger->id)->first();
-            if ($txn) {
-                TransactionDetail::query()->where('transaction_id', $txn->id)->delete();
-            }
-        }
         return redirect()->route('vendors.vendor.index')
             ->with('success_message', 'Vendor was successfully updated.');
 
@@ -132,6 +113,14 @@ class VendorsController extends Controller
     {
 
         $vendor = Vendor::findOrFail($id);
+        $ledger = Ledger::query()->where('type', Vendor::class)
+            ->where('type_id', $vendor->id)
+            ->first();
+        if ($ledger) {
+            $ledger->delete();
+            Transaction::where('type', Ledger::class)->where('type_id', $ledger->id)->delete();
+            TransactionDetail::where('ledger_id', $ledger->id)->delete();
+        }
         $vendor->delete();
 
         return redirect()->route('vendors.vendor.index')

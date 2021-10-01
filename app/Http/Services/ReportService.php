@@ -15,6 +15,9 @@ use App\Models\Product;
 use App\Models\Tax;
 use App\Models\Vendor;
 use Carbon\Carbon;
+use Enam\Acc\Models\Ledger;
+use Enam\Acc\Models\TransactionDetail;
+use Enam\Acc\Utils\EntryType;
 
 trait ReportService
 {
@@ -41,6 +44,9 @@ trait ReportService
         $amount = collect($records)->sum('amount');
         $payment = collect($records)->sum('payment');
         $balance = $amount - $payment;
+        $customer = Customer::find($customer_id);
+        $balance += floatval($customer->opening);
+//        dd($balance);
         return (object)['amount' => $amount, 'payment' => $payment, 'balance' => $balance];
 
     }
@@ -83,6 +89,17 @@ trait ReportService
             ->where('customer_id', $customer_id)
             ->whereBetween('invoice_date', [$start_date, $end_date])
             ->get();
+        $opening_payments = TransactionDetail::query()
+            ->where('type', Customer::class)
+            ->where('type_id', $customer_id)
+            ->where('ledger_id', Ledger::ACCOUNTS_RECEIVABLE())
+            ->where('entry_type', EntryType::$CR)->get();
+
+        foreach ($opening_payments as $opening_payment) {
+            $record = ['date' => $opening_payment->date, 'invoice' => "-", 'description' => 'Previous Due Payment', 'amount' => 0, 'payment' => $opening_payment->amount];
+            $records[] = (object)$record;
+        }
+
         foreach ($invoices as $invoice) {
             $record = ['date' => $invoice->invoice_date, 'invoice' => $invoice->invoice_number, 'description' => 'New Invoice Created', 'payment' => 0, 'amount' => $invoice->total];
             $records[] = (object)$record;

@@ -74,19 +74,19 @@
 
                                         <div class="btn-group btn-group-xs btn-group-sm float-right" role="group">
                                             <a href="{{ route('ledgers.ledger.show', $ledger->id ) }}"
-                                               class="mr-2" title="Show Ledger">
+                                               class="btn btn-outline-secondary mr-2" title="Show Ledger">
 
                                                 <i class="fa fa-eye text-info"></i>
                                             </a>
                                             <a href="{{ route('ledgers.ledger.edit', $ledger->id ) }}"
-                                               class=" mr-2" title="Edit Ledger">
+                                               class="btn btn-outline-secondary mr-2" title="Edit Ledger">
                                                 <span class="fas fa-edit text-primary" aria-hidden="true"></span>
                                             </a>
 
-                                            <span type="submit" class="" title="Delete Ledger"
-                                                    onclick="return confirm(&quot;Click Ok to delete Ledger.&quot;)">
+                                            <button  type="submit" class="btn btn-outline-secondary" title="Delete Ledger"
+                                                    onclick="return confirm('Click Ok to delete Ledger.')">
                                                 <span class="fas  fa-trash text-danger" aria-hidden="true"></span>
-                                            </span>
+                                            </button>
                                         </div>
 
                                     </form>

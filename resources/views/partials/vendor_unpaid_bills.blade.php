@@ -1,3 +1,17 @@
+@if($vendor->previous_due>0)
+    <tr>
+        <td colspan="3" style="padding-top: 0px;"></td>
+        <td colspan="1" class="text-right">Previous Due</td>
+        <td colspan="1" class="text-right">{{ $vendor->previous_due }}</td>
+        <td class="text-right">
+            <input type="number" step="any" name="previous_due" class="form-control paymentAmount text-right"
+                   due="{{ $vendor->previous_due }}"
+                   id="previous_due"/></td>
+    </tr>
+
+@endif
+
+
 @foreach($bills as $bill)
     <tr>
         <td> {{ $bill->bill_date }} <br>
@@ -16,6 +30,7 @@
                    bill_id="{{ $bill->id }}"
                    class="paymentAmount text-right form-control"
                    step="any"
+                   due="{{ $bill->due }}"
                    type="number"/>
         </td>
     </tr>
@@ -23,6 +38,7 @@
 <tr>
     <td colspan="3" style="padding-top: 0px;"></td>
     <td colspan="2" class="text-right">Total</td>
-    <td class="text-right"><input type="text" name="totalAmount" class="form-control" readonly style="cursor: no-drop"
+    <td class="text-right"><input type="number" step="any" name="totalAmount" class="form-control text-right" readonly
+                                  style="cursor: no-drop"
                                   id="totalAmount"/></td>
 </tr>

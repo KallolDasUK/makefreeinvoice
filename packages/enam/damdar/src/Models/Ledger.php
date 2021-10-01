@@ -240,6 +240,11 @@ class Ledger extends Model
         return GroupMap::query()->where('key', LedgerHelper::$ACCOUNTS_RECEIVABLE)->first()->value ?? null;
     }
 
+    public static function ACCOUNTS_PAYABLE()
+    {
+        return GroupMap::query()->where('key', LedgerHelper::$ACCOUNTS_PAYABLE)->first()->value ?? null;
+    }
+
     public static function SALES_AC()
     {
         return GroupMap::query()->where('key', LedgerHelper::$SALES_AC)->first()->value ?? null;

@@ -8,6 +8,7 @@ use App\Models\BillPayment;
 use App\Models\BillPaymentItem;
 use App\Models\PaymentMethod;
 use App\Models\Vendor;
+use Enam\Acc\AccountingFacade;
 use Enam\Acc\Models\Ledger;
 use Enam\Acc\Traits\TransactionTrait;
 use Illuminate\Http\Request;
@@ -38,10 +39,10 @@ class BillPaymentsController extends Controller
         $bills = Bill::pluck('bill_number', 'id')->all();
         $paymentMethods = PaymentMethod::query()->get();
         $depositAccounts = Ledger::find($this->getAssetLedgers())->sortBy('ledger_name');
-
+        $vendor_id = \request()->get('vendor_id');
         $ledgers = Ledger::pluck('id', 'id')->all();
 
-        return view('bill_payments.create', compact('vendors', 'title', 'bills', 'paymentMethods', 'ledgers', 'paymentSerial', 'depositAccounts'));
+        return view('bill_payments.create', compact('vendors', 'title', 'bills', 'paymentMethods', 'ledgers', 'paymentSerial', 'depositAccounts', 'vendor_id'));
     }
 
 
@@ -54,8 +55,21 @@ class BillPaymentsController extends Controller
         $billPayment = BillPayment::create($data);
         $payments = json_decode($request->data ?? '{}');
         foreach ($payments as $payment) {
-            BillPaymentItem::create(['bill_id' => $payment->bill_id, 'bill_payment_id' => $billPayment->id, 'amount' => $payment->amount]);
+            try {
+                BillPaymentItem::create(['bill_id' => $payment->bill_id, 'bill_payment_id' => $billPayment->id, 'amount' => $payment->amount]);
+            }catch (\Exception $exception){
+
+            }
         }
+        if ($request->has('previous_due')) {
+            $vendor = Vendor::find($billPayment->vendor_id);
+            $previous_due = $request->previous_due;
+            AccountingFacade::addTransaction(Ledger::ACCOUNTS_PAYABLE(), $billPayment->ledger_id,
+                $previous_due, $request->note, $billPayment->payment_date, "Vendor Payment",
+                Vendor::class, $billPayment->vendor_id, $billPayment->payment_sl, $vendor->name);
+
+        }
+
         return redirect()->route('bill_payments.bill_payment.index')
             ->with('success_message', 'Bill Payment was successfully added.');
 

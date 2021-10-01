@@ -2,6 +2,9 @@
 
 namespace App\Models;
 
+use Enam\Acc\Models\Ledger;
+use Enam\Acc\Models\TransactionDetail;
+use Enam\Acc\Utils\EntryType;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
@@ -53,6 +56,32 @@ class Vendor extends Model
                 $builder->where('client_id', auth()->user()->client_id ?? -1);
             }
         });
+    }
+
+    public function getPreviousDueAttribute()
+    {
+        $debit = TransactionDetail::query()
+            ->where('type', Vendor::class)
+            ->where('type_id', $this->id)
+            ->where('entry_type', EntryType::$DR)
+            ->where('ledger_id', Ledger::ACCOUNTS_PAYABLE())
+            ->sum('amount');
+        $credit = TransactionDetail::query()
+            ->where('type', Vendor::class)
+            ->where('type_id', $this->id)
+            ->where('ledger_id', Ledger::ACCOUNTS_PAYABLE())
+            ->where('entry_type', EntryType::$CR)
+            ->sum('amount');
+//        dd($debit,$credit);
+        return $credit - $debit;
+    }
+
+    public function getPayablesAttribute()
+    {
+
+        $due = Bill::query()->where('vendor_id', $this->id)->get()->sum('due');
+        $balance = $this->previous_due + $due;
+        return $balance;
     }
 
 

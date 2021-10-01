@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Customer;
+use Enam\Acc\AccountingFacade;
 use Enam\Acc\Models\Ledger;
 use Enam\Acc\Models\LedgerGroup;
 use Enam\Acc\Models\Transaction;
@@ -43,19 +44,7 @@ class CustomersController extends Controller
         $data = $this->getData($request);
 //        dd($data);
         $customer = Customer::create($data);
-        $ledger = Ledger::create([
-            'ledger_name' => $customer->name,
-            'ledger_group_id' => LedgerGroup::ASSETS(),
-            'opening' => $customer->opening,
-            'opening_type' => $customer->opening_type,
-            'active' => true,
-            'is_default' => true,
-            'type' => Customer::class,
-            'type_id' => $customer->id,
-        ]);
-        if ($request->opening > 0) {
-            $this->storeOpeningBalance($ledger, $request->opening, $request->opening_type);
-        }
+        $this->openingEntry($request, $customer);
 
         if ($request->ajax()) {
             return $customer;
@@ -64,8 +53,6 @@ class CustomersController extends Controller
         return redirect()->route('customers.customer.index')->with('success_message', 'Customer was successfully added.');
 
     }
-
-
 
 
     public function show($id)
@@ -92,38 +79,8 @@ class CustomersController extends Controller
 
         $customer = Customer::findOrFail($id);
         $customer->update($data);
+        $this->openingEntry($request, $customer);
 
-        $ledger = Ledger::query()
-            ->where('type', Customer::class)
-            ->where('type_id', $customer->id)
-            ->first();
-        if ($ledger == null) {
-            $ledger = Ledger::create([
-                'ledger_name' => $customer->name,
-                'ledger_group_id' => LedgerGroup::ASSETS(),
-                'opening' => $customer->opening,
-                'opening_type' => $customer->opening_type,
-                'active' => true,
-                'is_default' => true,
-                'type' => Customer::class,
-                'type_id' => $customer->id,
-            ]);
-        } else {
-            $ledger->update([
-                'ledger_name' => $customer->name,
-                'opening' => $customer->opening,
-                'opening_type' => $customer->opening_type
-            ]);
-        }
-
-        if ($request->opening > 0) {
-            $this->storeOpeningBalance($ledger, $request->opening, $request->opening_type);
-        } else {
-            $txn = Transaction::where('txn_type', 'OpeningBalance')->where('type', Ledger::class)->where('type_id', $ledger->id)->first();
-            if ($txn) {
-                TransactionDetail::query()->where('transaction_id', $txn->id)->delete();
-            }
-        }
 
         return redirect()->route('customers.customer.index')
             ->with('success_message', 'Customer was successfully updated.');
@@ -131,10 +88,38 @@ class CustomersController extends Controller
     }
 
 
+    public function openingEntry($request, $customer)
+    {
+        Transaction::query()->where('type', Customer::class)->where('type_id', $customer->id)->delete();
+        TransactionDetail::query()->where('type', Customer::class)->where('type_id', $customer->id)->where('ledger_id', Ledger::ACCOUNTS_RECEIVABLE())->delete();
+
+//        dd($txn);
+        if ($request->opening > 0) {
+            $dr = null;
+            $cr = null;
+            if ($request->opening_type == 'Cr') {
+                $cr = Ledger::ACCOUNTS_RECEIVABLE();
+            } else {
+                $dr = Ledger::ACCOUNTS_RECEIVABLE();
+
+            }
+            AccountingFacade::addTransaction($dr, $cr,
+                $request->opening, "Opening Balance Of " . $customer->name, today()->toDateString(), "Opening Balance", Customer::class, $customer->id, "Opening", $customer->name);
+        }
+    }
+
     public function destroy($id)
     {
         $customer = Customer::findOrFail($id);
         $customer->delete();
+        $ledger = Ledger::query()->where('type', Customer::class)
+            ->where('type_id', $customer->id)
+            ->first();
+        if ($ledger) {
+            $ledger->delete();
+            Transaction::where('type', Ledger::class)->where('type_id', $ledger->id)->delete();
+            TransactionDetail::where('ledger_id', $ledger->id)->delete();
+        }
 
         return redirect()->route('customers.customer.index')
             ->with('success_message', 'Customer was successfully deleted.');

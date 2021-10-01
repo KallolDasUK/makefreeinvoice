@@ -53,12 +53,14 @@ class ReportController extends AccountingReportsController
         $customer_id = $request->customer_id;
         $customers = Customer::all();
 
-        $customer = Customer::find($customer_id);
+
 
         $title = "Customer Statement";
         $records = $this->getCustomerStatement($start_date, $end_date, $customer_id);
         $previous = $this->getCustomerOpeningBalance($start_date, $end_date, $customer_id);
-        $opening = $previous->amount - $previous->payment;
+        $opening = $previous->amount - $previous->payment + $previous->balance;
+        $customer = Customer::find(intval($customer_id));
+//        dd($customer,$customer_id,$customer->name);
         return view('reports.customer-statement', compact('title', 'start_date', 'end_date', 'customers', 'records', 'customer_id', 'customer', 'previous', 'opening'));
     }
 
