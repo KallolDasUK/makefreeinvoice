@@ -97,10 +97,10 @@
                             <select name="vendor_id" id="vendor_id" class="form-control form-control-select"
                                     required>
                                 <option></option>
-                                @foreach($vendors as $vendor)
+                                @foreach($vendors as $v)
                                     <option
-                                        value="{{ $vendor->id }}" {{ $vendor_id == $vendor->id?'selected':'' }}>
-                                        {{ $vendor->name }}
+                                        value="{{ $v->id }}" {{ $vendor_id == $v->id?'selected':'' }}>
+                                        {{ $v->name }}
                                     </option>
                                 @endforeach
                             </select>
@@ -184,7 +184,7 @@
                     <div class="row align-items-baseline justify-content-around">
                         <div class="col"> Bill From:
                             <address style="max-width: 300px;margin-left: 35px">
-                                <b>{{ $vendor->company_name?? $vendor->name??'N/A' }}</b>
+                                <b>{{ $vendor->name ??'N/A' }} {{ $vendor->company_name }} </b>
                                 <br>
                                 @if($vendor->street_1)
                                     {{ $vendor->street_1??'' }} <br>

@@ -44,10 +44,18 @@
     <script>
         var vendorBillUrl = "{{ route('vendor_unpaid_bills') }}"
         var create = true;
+        var vendor_id = "{{ $vendor_id}}";
         $(document).ready(function () {
             $('#vendor_id').select2()
             $('#payment_method_id').select2()
             $('#ledger_id').select2()
+            setTimeout(() => {
+                if (vendor_id) {
+                    $('#vendor_id').val(vendor_id).trigger('change')
+                } else {
+                    $('#vendor_id').select2('open')
+                }
+            }, 100)
         })
     </script>
 

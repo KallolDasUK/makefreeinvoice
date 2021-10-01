@@ -18,12 +18,17 @@ function getCustomerInvoices(customer_id) {
         success: function (response) {
             $('#tbody').html(response)
             console.log(response.length, response)
-            if (response.length > 250) {
+            if (response.length > 500) {
                 $('#message').hide()
+                $('.receive').removeClass('d-none')
+                setTimeout(() => {
+                    $('#given').focus()
+                }, 50)
 
             } else {
                 $('#message').show()
                 $('#message h3').text('Selected customer does not have any unpaid invoices.')
+                $('.receive').addClass('d-none')
 
             }
         },
@@ -72,4 +77,33 @@ $(document).on('input', '.paymentAmount', function () {
     }
 
 
+})
+
+$(document).on('input', '#given', function () {
+    let given = $(this).val();
+    let inPocket = parseFloat(given);
+    $('.paymentAmount').each(function (index) {
+        let due = parseFloat($(this).attr('due')) || 0;
+        if (inPocket > due) {
+            $(this).val(due).change()
+            inPocket = inPocket - due;
+        } else {
+            $(this).val(inPocket).change()
+            inPocket = 0;
+        }
+
+    })
+
+    let totalAmount = 0;
+    $('.paymentAmount').each(function (e) {
+        totalAmount += parseFloat($(this).val() || '0') || 0
+        console.log('called', totalAmount)
+
+    })
+    $('#totalAmount').val(totalAmount)
+    if (totalAmount > 0) {
+        $('#addPayment').prop('disabled', false)
+    } else {
+        $('#addPayment').prop('disabled', true)
+    }
 })

@@ -52,12 +52,17 @@
                             <th></th>
                         </tr>
                         </thead>
-                        <tbody>
+                        <tbody class="font-weight-bolder" style="font-size: 14px">
                         @foreach($receivePayments as $receivePayment)
                             <tr>
-                                <td>{{ $loop->iteration }}</td>
+                                <td>{{ (($receivePayments->currentPage() - 1) * 10) + $loop->iteration }}</td>
                                 <td>{{ $receivePayment->payment_sl }}</td>
-                                <td>{{ optional($receivePayment->customer)->name }}</td>
+
+                                <td>
+                                    <a class="customer_statement"
+                                       data-toggle="tooltip" data-placement="top" title="Customer Statement"
+                                       href="{{ route('reports.report.customer_statement',['customer_id'=>optional($receivePayment->customer)->id]) }}">{{ optional($receivePayment->customer)->name }}</a>
+                                </td>
                                 <td>{{ $receivePayment->invoice }}</td>
                                 <td>{{ $receivePayment->payment_date }}</td>
                                 <td>{{ optional($receivePayment->paymentMethod)->name }}</td>
@@ -73,17 +78,19 @@
                                         <div class="btn-group btn-group-sm float-right " role="group">
 
                                             <a href="{{ route('receive_payments.receive_payment.show', $receivePayment->id ) }}"
-                                               title="Show Receive Payment">
+                                               title="Show Receive Payment"
+                                            class="btn btn-outline-secondary">
                                                 <i class="fa fa-eye text-info" aria-hidden="true"></i>
                                             </a>
 
                                             <a href="{{ route('receive_payments.receive_payment.edit', $receivePayment->id ) }}"
-                                               class="mx-4" title="Edit Receive Payment">
+                                               class="mx-4 btn btn-outline-secondary" title="Edit Receive Payment">
                                                 <i class="fas fa-edit text-primary" aria-hidden="true"></i>
                                             </a>
 
-                                            <button type="submit" style="border: none;background: transparent"
+                                            <button type="submit"
                                                     title="Delete Receive Payment"
+                                                    class="btn btn-outline-secondary"
                                                     onclick="return confirm(&quot;Click Ok to delete Receive Payment.&quot;)">
                                                 <i class=" fas  fa-trash text-danger" aria-hidden="true"></i>
                                             </button>

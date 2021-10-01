@@ -18,16 +18,7 @@ class Ledger extends Model
     use SoftDeletes;
     use TransactionTrait;
 
-
-    protected $fillable = [
-        'ledger_name',
-        'ledger_group_id',
-        'opening',
-        'opening_type',
-        'active',
-        'date',
-        'type'
-    ];
+    protected $guarded = [];
 
 
     public function ledgerGroup()
@@ -247,6 +238,11 @@ class Ledger extends Model
     public static function ACCOUNTS_RECEIVABLE()
     {
         return GroupMap::query()->where('key', LedgerHelper::$ACCOUNTS_RECEIVABLE)->first()->value ?? null;
+    }
+
+    public static function ACCOUNTS_PAYABLE()
+    {
+        return GroupMap::query()->where('key', LedgerHelper::$ACCOUNTS_PAYABLE)->first()->value ?? null;
     }
 
     public static function SALES_AC()

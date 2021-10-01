@@ -21,6 +21,34 @@
                             </div>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col">
+                            <div >
+                                <label for="opening" >Opening</label>
+                                <div>
+                                    <input class="form-control" name="opening" type="number" step="any" id="opening">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div >
+                                <label for="opening_type">Opening Type</label>
+                                <div>
+                                    <select class="form-control" id="opening_type" name="opening_type">
+
+                                        @foreach (['Cr' => 'Previous Due','Dr' => 'Advance'] as $key => $text)
+                                            <option
+                                                value="{{ $key }}">
+                                                {{ $text }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
 
                     <div class="row">
                         <div class="col">

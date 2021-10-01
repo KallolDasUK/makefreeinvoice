@@ -92,7 +92,7 @@ $(document).ready(function () {
                     $("#customer_id").append(new Option(customer.name, customer.id));
                     $("#customer_id").val(customer.id)
                     $("#customer_id").trigger('change')
-                    $('#storeCustomerBtn').trigger("reset");
+                    $('#createCustomerForm').trigger("reset");
                     $('#storeCustomerBtn').prop('disabled', false)
                     $('.spinner').addClass('d-none')
 

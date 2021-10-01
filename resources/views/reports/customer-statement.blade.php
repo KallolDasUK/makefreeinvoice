@@ -97,10 +97,10 @@
                             <select name="customer_id" id="customer_id" class="form-control form-control-select"
                                     required>
                                 <option></option>
-                                @foreach($customers as $customer)
+                                @foreach($customers as $c)
                                     <option
-                                        value="{{ $customer->id }}" {{ $customer_id == $customer->id?'selected':'' }}>
-                                        {{ $customer->name }}
+                                        value="{{ $c->id }}" {{ $customer_id == $c->id?'selected':'' }}>
+                                        {{ $c->name }}
                                     </option>
                                 @endforeach
                             </select>
@@ -184,7 +184,7 @@
                     <div class="row align-items-baseline justify-content-around">
                         <div class="col"> Bill To:
                             <address style="max-width: 300px;margin-left: 35px">
-                                <b>{{ $customer->company_name?? $customer->name??'N/A' }}</b>
+                                <b>{{  $customer->name ?? 'N/A' }}</b>
                                 <br>
                                 @if($customer->street_1)
                                     {{ $customer->street_1??'' }} <br>

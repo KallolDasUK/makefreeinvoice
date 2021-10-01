@@ -58,28 +58,39 @@
 
                     </div>
                 </form>
-                <table class="table table-head-custom table-vertical-center">
+                <table class="table mb-0  table-head-custom table-vertical-center">
                     <thead>
                     <tr>
                         <th>SL</th>
-                        <th style="color: black!important;">Name</th>
-                        <th style="color: black!important;">Company Name</th>
-                        <th style="color: black!important;">Phone</th>
-                        <th style="color: black!important;">Email</th>
-                        <th style="color: black!important;">Website</th>
-
+                        <th>Name</th>
+                        <th>Phone</th>
+                        <th>Email</th>
+                        <th>RECEIVABLES</th>
                         <th></th>
                     </tr>
                     </thead>
-                    <tbody>
+                    <tbody class="font-weight-bolder" style="font-size: 14px">
                     @foreach($customers as $customer)
                         <tr>
-                            <td>{{ $loop->iteration }}</td>
-                            <td>{{ $customer->name }}</td>
-                            <td>{{ $customer->company_name }}</td>
+                            <td>{{ (($customers->currentPage() - 1) * 10) + $loop->iteration }}</td>
+                            <td>
+                                <a class="customer_statement"
+                                   data-toggle="tooltip" data-placement="top" title="Customer Statement"
+                                   href="{{ route('reports.report.customer_statement',['customer_id'=>$customer->id]) }}">{{ $customer->name }}</a>
+                            </td>
                             <td>{{ $customer->phone }}</td>
                             <td>{{ $customer->email }}</td>
-                            <td>{{ $customer->website }}</td>
+                            <td>
+
+                                @if($customer->receivables > 0)
+                                    {{ $settings->currency??'$' }}{{ abs($customer->receivables) }}
+{{--                                @elseif($customer->receivables<0)--}}
+{{--                                    {{ $settings->currency??'$' }}{{ abs($customer->receivables) }}(Advance)--}}
+                                @else
+                                    -
+                                @endif
+
+                            </td>
 
                             <td>
 
@@ -90,16 +101,17 @@
                                     {{ csrf_field() }}
 
                                     <div class="btn-group btn-group-sm float-right " role="group">
-                                        <a href="{{ route('customers.customer.show', $customer->id ) }}"
-                                           title="Show Customer">
-                                            <i class="fa fa-eye text-info" aria-hidden="true"></i>
-                                        </a>
+                                        <a style="text-decoration: underline"
+                                           class="{{ $customer->receivables>0?'':'d-none' }} font-weight-bolder text-success  font-size-lg underline  text-hover-danger cursor-pointer mx-4 recordPaymentBtn"
+                                           href="{{ route('receive_payments.receive_payment.create',['customer_id'=>$customer->id]) }}"
+                                        > Receive Payment</a>
+
                                         <a href="{{ route('customers.customer.edit', $customer->id ) }}"
-                                           class="mx-4" title="Edit Customer">
+                                           class="btn btn-outline-secondary mx-4" title="Edit Customer">
                                             <i class="fas fa-edit text-primary" aria-hidden="true"></i>
                                         </a>
 
-                                        <button type="submit" style="border: none;background: transparent"
+                                        <button type="submit" class="btn btn-outline-secondary"
                                                 title="Delete Customer"
                                                 onclick="return confirm(&quot;Click Ok to delete Customer.&quot;)">
                                             <i class=" fas  fa-trash text-danger" aria-hidden="true"></i>
@@ -116,7 +128,9 @@
                 @if(count($customers) == 0)
                     <div class="card-body text-center">
                         <div class="text-center">
-                            <img style="text-align: center;margin: 0 auto;" src="https://1.bp.blogspot.com/-oFZuUJWkeVI/YU2wRxUt26I/AAAAAAAAFKw/tA92-qZCPksDCerRYqgANfzaeF8xtGTFQCLcBGAsYHQ/s320/norecord.png" alt="">
+                            <img style="text-align: center;margin: 0 auto;"
+                                 src="https://1.bp.blogspot.com/-oFZuUJWkeVI/YU2wRxUt26I/AAAAAAAAFKw/tA92-qZCPksDCerRYqgANfzaeF8xtGTFQCLcBGAsYHQ/s320/norecord.png"
+                                 alt="">
 
                         </div>
                     </div>

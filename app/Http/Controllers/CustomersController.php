@@ -4,11 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Customer;
+use Enam\Acc\AccountingFacade;
+use Enam\Acc\Models\Ledger;
+use Enam\Acc\Models\LedgerGroup;
+use Enam\Acc\Models\Transaction;
+use Enam\Acc\Models\TransactionDetail;
+use Enam\Acc\Traits\TransactionTrait;
 use Illuminate\Http\Request;
 use Exception;
 
 class CustomersController extends Controller
 {
+    use TransactionTrait;
 
 
     public function index(Request $request)
@@ -17,7 +24,9 @@ class CustomersController extends Controller
         $customers = Customer::query()
             ->when($q != null, function ($builder) use ($q) {
                 return $builder->where('name', 'like', '%' . $q . '%')->orWhere('phone', 'like', '%' . $q . '%')->orWhere('email', 'like', '%' . $q . '%');
-            })->paginate(10);
+            })
+            ->latest()
+            ->paginate(10);
         return view('customers.index', compact('customers', 'q'));
     }
 
@@ -33,21 +42,15 @@ class CustomersController extends Controller
 
 
         $data = $this->getData($request);
-
+//        dd($data);
         $customer = Customer::create($data);
+        $this->openingEntry($request, $customer);
 
+        if ($request->ajax()) {
+            return $customer;
+        }
 
         return redirect()->route('customers.customer.index')->with('success_message', 'Customer was successfully added.');
-
-    }
-
-    public function storeJson(Request $request)
-    {
-
-
-        $data = $this->getData($request);
-
-        return Customer::create($data);
 
     }
 
@@ -76,6 +79,8 @@ class CustomersController extends Controller
 
         $customer = Customer::findOrFail($id);
         $customer->update($data);
+        $this->openingEntry($request, $customer);
+
 
         return redirect()->route('customers.customer.index')
             ->with('success_message', 'Customer was successfully updated.');
@@ -83,10 +88,38 @@ class CustomersController extends Controller
     }
 
 
+    public function openingEntry($request, $customer)
+    {
+        Transaction::query()->where('type', Customer::class)->where('type_id', $customer->id)->delete();
+        TransactionDetail::query()->where('type', Customer::class)->where('type_id', $customer->id)->where('ledger_id', Ledger::ACCOUNTS_RECEIVABLE())->delete();
+
+//        dd($txn);
+        if ($request->opening > 0) {
+            $dr = null;
+            $cr = null;
+            if ($request->opening_type == 'Cr') {
+                $cr = Ledger::ACCOUNTS_RECEIVABLE();
+            } else {
+                $dr = Ledger::ACCOUNTS_RECEIVABLE();
+
+            }
+            AccountingFacade::addTransaction($dr, $cr,
+                $request->opening, "Opening Balance Of " . $customer->name, today()->toDateString(), "Opening Balance", Customer::class, $customer->id, "Opening", $customer->name);
+        }
+    }
+
     public function destroy($id)
     {
         $customer = Customer::findOrFail($id);
         $customer->delete();
+        $ledger = Ledger::query()->where('type', Customer::class)
+            ->where('type_id', $customer->id)
+            ->first();
+        if ($ledger) {
+            $ledger->delete();
+            Transaction::where('type', Ledger::class)->where('type_id', $ledger->id)->delete();
+            TransactionDetail::where('ledger_id', $ledger->id)->delete();
+        }
 
         return redirect()->route('customers.customer.index')
             ->with('success_message', 'Customer was successfully deleted.');
@@ -110,6 +143,8 @@ class CustomersController extends Controller
             'state' => 'nullable',
             'zip_post' => 'nullable',
             'website' => 'string|min:1|nullable',
+            'opening' => 'nullable|numeric',
+            'opening_type' => 'nullable',
         ];
 
         $data = $request->validate($rules);

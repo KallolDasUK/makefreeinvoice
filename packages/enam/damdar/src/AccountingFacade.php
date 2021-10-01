@@ -85,16 +85,22 @@ class AccountingFacade extends Facade
             'txn_type' => $txn_type, 'ledger_name' => optional(Ledger::find($dr_ledger_id))->ledger_name, 'type' => $type, 'type_id' => $type_id
         ]);
 
-        TransactionDetail::create(['transaction_id' => $txn->id, 'ledger_id' => $dr_ledger_id,
-            'entry_type' => EntryType::$DR, 'amount' => $amount, 'note' => $note, 'date' => $date,
-            'transaction_details' => $transaction_detail, 'ref' => $ref
-            , 'type' => $type, 'type_id' => $type_id
-        ]);
+        if ($dr_ledger_id){
+            TransactionDetail::create(['transaction_id' => $txn->id, 'ledger_id' => $dr_ledger_id,
+                'entry_type' => EntryType::$DR, 'amount' => $amount, 'note' => $note, 'date' => $date,
+                'transaction_details' => $transaction_detail, 'ref' => $ref
+                , 'type' => $type, 'type_id' => $type_id
+            ]);
+        }
+        if ($cr_ledger_id){
+            TransactionDetail::create(['transaction_id' => $txn->id, 'ledger_id' => $cr_ledger_id,
+                'entry_type' => EntryType::$CR, 'amount' => $amount, 'note' => $note, 'date' => $date,
+                'transaction_details' => $transaction_detail, 'ref' => $ref
+                , 'type' => $type, 'type_id' => $type_id]);
+        }
 
-        TransactionDetail::create(['transaction_id' => $txn->id, 'ledger_id' => $cr_ledger_id,
-            'entry_type' => EntryType::$CR, 'amount' => $amount, 'note' => $note, 'date' => $date,
-            'transaction_details' => $transaction_detail, 'ref' => $ref
-            , 'type' => $type, 'type_id' => $type_id]);
+
+
     }
 
     public

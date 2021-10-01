@@ -24,7 +24,7 @@ class AjaxController extends Controller
             ->where('customer_id', $customer->id)
             ->where('payment_status', '!=', Invoice::Paid)
             ->get();
-        return view('partials.receive-payment-customers-invoice', compact('invoices'));
+        return view('partials.receive-payment-customers-invoice', compact('invoices', 'customer'));
 
 
     }
@@ -39,7 +39,7 @@ class AjaxController extends Controller
             ->get();
 
 
-        return view('partials.vendor_unpaid_bills', compact('bills'));
+        return view('partials.vendor_unpaid_bills', compact('bills', 'vendor'));
 
 
     }

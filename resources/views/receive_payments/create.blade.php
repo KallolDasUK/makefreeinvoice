@@ -43,11 +43,21 @@
 @section('js')
     <script>
         var customerInvoiceUrl = "{{ route('receive-payment-customers-invoice') }}"
+        var customer_id = "{{ $customer_id }}";
         var create = true;
         $(document).ready(function () {
             $('#customer_id').select2()
             $('#payment_method_id').select2()
             $('#deposit_to').select2()
+            setTimeout(() => {
+                if (customer_id) {
+                    $('#customer_id').val(customer_id).trigger('change')
+                }else{
+
+                    $('#customer_id').select2('open')
+                }
+            }, 100)
+
         })
     </script>
 

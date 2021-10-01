@@ -2,6 +2,7 @@
 
 namespace Enam\Acc\Models;
 
+use Enam\Acc\Utils\LedgerHelper;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -64,6 +65,7 @@ class LedgerGroup extends Model
         return $this->hasMany(Ledger::class);
 
     }
+
     protected static function boot()
     {
         parent::boot();
@@ -73,6 +75,21 @@ class LedgerGroup extends Model
                 $builder->where('client_id', auth()->user()->client_id ?? -1);
             }
         });
+    }
+
+    public static function ASSETS()
+    {
+        return GroupMap::query()->where('key', LedgerHelper::$CurrentAsset)->first()->value ?? null;
+    }
+
+    public static function BANKS()
+    {
+        return GroupMap::query()->where('key', LedgerHelper::$BANK_ACCOUNTS)->first()->value ?? null;
+    }
+
+    public static function LIABILITIES()
+    {
+        return GroupMap::query()->where('key', LedgerHelper::$CURRENT_LIABILITIES)->first()->value ?? null;
     }
 
 }
