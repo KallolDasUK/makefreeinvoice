@@ -1,6 +1,13 @@
 <div id="invoice-container" class="container-fluid invoice-container">
 
-    <!-- Header -->
+{{--    @if($invoice->due <=0)--}}
+{{--        <img--}}
+{{--            style="position:absolute;left: 40%"--}}
+{{--            src="https://1.bp.blogspot.com/-ipKsZJ94Ls8/YVhAMZyF9AI/AAAAAAAAFLs/6K1fArUFbsseAlBOu2-PJIKDtWIu1y_tQCLcBGAsYHQ/s320/paid-5025785_1280.webp"--}}
+{{--            alt="" width="150">--}}
+
+{{--@endif--}}
+<!-- Header -->
     <header>
         <div class="row align-items-center">
             <div class="col-sm-7 text-center text-sm-left mb-3 mb-sm-0">
@@ -167,6 +174,20 @@
                                 <strong>{{ $invoice->currency }}{{ decent_format($invoice->total) }}</strong>
                             </td>
                         </tr>
+                        <tr>
+                            <td colspan="5" class="text-right"><strong>Paid:</strong></td>
+                            <td class="text-right">
+                                <strong>{{ $invoice->currency }}{{ decent_format($invoice->payment) }}</strong>
+                            </td>
+                        </tr>
+                        @if($invoice->due>0)
+                            <tr>
+                                <td colspan="5" class="text-right"><strong>Due:</strong></td>
+                                <td class="text-right">
+                                    <strong>{{ $invoice->currency }}{{ decent_format($invoice->due) }}</strong>
+                                </td>
+                            </tr>
+                        @endif
                         </tfoot>
                     </table>
                 </div>

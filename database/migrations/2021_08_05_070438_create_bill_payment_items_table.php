@@ -17,7 +17,7 @@ class CreateBillPaymentItemsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('bill_payment_id')->nullable();
             $table->unsignedBigInteger('bill_id')->nullable();
-            $table->decimal('amount')->default(0)->nullable();
+            $table->decimal('amount',12)->default(0)->nullable();
             $table->integer('user_id')->nullable();
             $table->integer('client_id')->nullable();
             $table->timestamps();

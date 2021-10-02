@@ -142,6 +142,20 @@
                                 <strong>{{ $bill->currency }}{{ decent_format($bill->total) }}</strong>
                             </td>
                         </tr>
+                        <tr>
+                            <td colspan="5" class="text-right"><strong>Paid:</strong></td>
+                            <td class="text-right">
+                                <strong>{{ $bill->currency }}{{ decent_format($bill->payment) }}</strong>
+                            </td>
+                        </tr>
+                        @if($bill->due>0)
+                            <tr>
+                                <td colspan="5" class="text-right"><strong>Due:</strong></td>
+                                <td class="text-right">
+                                    <strong>{{ $bill->currency }}{{ decent_format($bill->due) }}</strong>
+                                </td>
+                            </tr>
+                        @endif
                         </tfoot>
                     </table>
                 </div>

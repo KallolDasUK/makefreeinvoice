@@ -17,7 +17,7 @@ class CreateReceivePaymentItemsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('receive_payment_id')->nullable();
             $table->unsignedBigInteger('invoice_id')->nullable();
-            $table->decimal('amount')->default(0)->nullable();
+            $table->decimal('amount',12)->default(0)->nullable();
             $table->timestamps();
         });
     }
