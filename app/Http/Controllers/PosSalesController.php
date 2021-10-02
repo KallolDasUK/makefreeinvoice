@@ -38,13 +38,14 @@ class PosSalesController extends Controller
         }
         $customers = Customer::all();
         $branches = Branch::pluck('id', 'id')->all();
-        $ledgers = Ledger::all();
+        $ledgers = Ledger::ASSET_LEDGERS();
         $categories = Category::all();
         $products = Product::all();
         $paymentMethods = PaymentMethod::all();
         $title = "POS - Point Of Sale";
         $orders = PosSale::query()->latest()->limit(50)->get();
         $ledger_id = Ledger::CASH_AC();
+//        dd(Ledger::ASSET_LEDGERS());
         return view('pos_sales.create',
             compact('customers', 'branches', 'ledgers', 'ledger_id', 'products', 'categories', 'title', 'orders', 'paymentMethods'));
     }

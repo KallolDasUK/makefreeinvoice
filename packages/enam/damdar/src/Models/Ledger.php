@@ -9,6 +9,7 @@ use Enam\Acc\Utils\Nature;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use phpDocumentor\Reflection\Types\This;
 use function PHPUnit\Framework\isEmpty;
@@ -20,6 +21,7 @@ class Ledger extends Model
 
     protected $guarded = [];
 
+    public static $asset_ledgers = [];
 
     public function ledgerGroup()
     {
@@ -280,6 +282,40 @@ class Ledger extends Model
         } else {
             return $group->nature;
         }
+    }
+
+    public static function push_to_asset_ledgers($ledgers)
+    {
+        foreach ($ledgers as $ledger) {
+            self::$asset_ledgers[] = $ledger;
+        }
+    }
+
+    public static function getNode($group_id)
+    {
+        $g = LedgerGroup::find($group_id);
+//        global $asset_ledgers;
+        $groups = LedgerGroup::query()->where('parent', $group_id)->get();
+        $ledgers = Ledger::query()->where('ledger_group_id', $g->id)->get();
+        self::push_to_asset_ledgers($ledgers);
+        foreach ($groups as $group) {
+            $ledgers = Ledger::query()->where('ledger_group_id', $group->id)->get();
+            self::push_to_asset_ledgers($ledgers);
+             self::getNode($group->id);
+        }
+
+
+    }
+
+    public static function ASSET_LEDGERS()
+    {
+        self::$asset_ledgers = [];
+        $asset_groups = LedgerGroup::query()->where('nature', Nature::$ASSET)->get();
+        foreach ($asset_groups as $asset_group) {
+            self::getNode($asset_group->id);
+        }
+        return collect(self::$asset_ledgers)->unique();
+
     }
 
     public function closingBalance($branch_id, $start_date, $end_date, $prevent_opening = false)
