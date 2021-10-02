@@ -6,6 +6,7 @@ namespace Enam\Acc\Traits;
 
 use App\Models\Bill;
 use App\Models\Invoice;
+use App\Models\PosSale;
 use Carbon\Carbon;
 use Enam\Acc\Models\Branch;
 use Enam\Acc\Models\GroupMap;
@@ -22,6 +23,7 @@ use Illuminate\Http\Request;
 trait TransactionTrait
 {
     public $arr = [];
+
     protected function storeOpeningBalance(Ledger $ledger, $amount, $entry_type)
     {
         $txn = Transaction::where('txn_type', 'OpeningBalance')->where('type', Ledger::class)->where('type_id', $ledger->id)->first();
@@ -45,6 +47,7 @@ trait TransactionTrait
         }
 
     }
+
     public function getChildLedgerGroup($id)
     {
         $groups = LedgerGroup::query()->where('parent', $id)->get();
@@ -656,7 +659,7 @@ trait TransactionTrait
             ->when($branch_id != 'All', function ($query) use ($branch_id) {
                 return $query->where('branch_id', $branch_id);
             })
-            ->whereBetween('date',[$start_date,$end_date])
+            ->whereBetween('date', [$start_date, $end_date])
             ->whereIn('txn_type', [VoucherType::$VENDOR_PAYMENT, VoucherType::$PAYMENT])->get();
 //        dd($records);
         return $records;
@@ -676,16 +679,43 @@ trait TransactionTrait
 
     public function getSalesReport($start_date, $end_date, $customer_id, $invoice_id, $payment_status)
     {
-        $records = Invoice::query()
+        $records = [];
+        $invoices = Invoice::query()
             ->whereBetween('invoice_date', [$start_date, $end_date])
             ->when($customer_id != null, function ($query) use ($customer_id) {
                 return $query->where('customer_id', $customer_id);
             })->when($invoice_id != null, function ($query) use ($invoice_id) {
-                return $query->where('id', $invoice_id);
+                return $query->where('invoice_number', $invoice_id);
             })->when($payment_status != null, function ($query) use ($payment_status) {
                 return $query->where('payment_status', $payment_status);
             })->get();
-        return $records;
+
+        foreach ($invoices as $invoice) {
+            $record = ['date' => $invoice->invoice_date, 'invoice' => $invoice->invoice_number, 'customer' => optional($invoice->customer)->name
+                , 'sub_total' => $invoice->sub_total, 'discount' => $invoice->discount, 'charges' => $invoice->charges, 'total' => $invoice->total,
+                'payment' => $invoice->payment, 'due' => $invoice->due];
+            $records[] = (object)$record;
+        }
+
+
+        $pos_sales = PosSale::query()
+            ->whereBetween('date', [$start_date, $end_date])
+            ->when($customer_id != null, function ($query) use ($customer_id) {
+                return $query->where('customer_id', $customer_id);
+            })->when($invoice_id != null, function ($query) use ($invoice_id) {
+                return $query->where('pos_number', $invoice_id);
+            })->when($payment_status != null, function ($query) use ($payment_status) {
+                return $query->where('pos_status', $payment_status);
+            })->get();
+        foreach ($pos_sales as $pos_sale) {
+            $record = ['date' => $pos_sale->date, 'invoice' => $pos_sale->pos_number, 'customer' => optional($pos_sale->customer)->name
+                , 'sub_total' => $pos_sale->sub_total, 'discount' => 0, 'charges' => $pos_sale->charges, 'total' => $pos_sale->total,
+                'payment' => $pos_sale->payment, 'due' => $pos_sale->due];
+            $records[] = (object)$record;
+        }
+
+
+        return collect($records)->sortBy('date', null, true);
     }
 
     public function getPurchaseReport($start_date, $end_date, $vendor_id, $bill_Id, $payment_status)

@@ -28,7 +28,7 @@ var posRactive = new Ractive({
         paymentMethods: paymentMethods,
         payments: payments,
         ledgers: ledgers,
-        ledger_id: ledger_id,
+        cash_ledger_id: cash_ledger_id,
         given: 0,
         change: 0
     },
@@ -48,6 +48,7 @@ var posRactive = new Ractive({
         'charges': (newCharges) => {
             posRactive.calculate()
             $('#charges').val(JSON.stringify(newCharges))
+            console.log(newCharges)
         },
         'total': (newTotal) => {
             $('#total').val(newTotal)
@@ -58,6 +59,7 @@ var posRactive = new Ractive({
         },
         'payments': (payments) => {
             // let payments = posRactive.get('payments');
+            console.log(payments)
             let total = posRactive.get('total');
             let given = 0;
             for (let i = 0; i < payments.length; i++) {
@@ -67,6 +69,7 @@ var posRactive = new Ractive({
             posRactive.set('given', given)
             posRactive.set('change', change)
             $('#payments').val(JSON.stringify(payments));
+
 
         }
     },
@@ -150,12 +153,16 @@ var posRactive = new Ractive({
         let change = parseFloat('' + (given - total)).toFixed(2);
         posRactive.set('given', given)
         posRactive.set('change', change)
-        posRactive.set('payments.0.amount', total)
 
     },
 
     onPaymentRowCreate() {
-        posRactive.push('payments', {});
+        let change = posRactive.get('change');
+        let nextAmount = 0;
+        if (change < 0) {
+            nextAmount = Math.abs(change)
+        }
+        posRactive.push('payments', {amount: nextAmount, ledger_id: cash_ledger_id});
         initPaymentMethod()
 
     },
@@ -165,9 +172,9 @@ var posRactive = new Ractive({
 });
 
 function initPaymentMethod() {
-    let payments = posRactive.get('payments').length - 1;
-    $(`#ledger_id${payments}`).select2({
-        placeholder: "--", allowClear: true
+    let i = posRactive.get('payments').length - 1;
+    $(`#ledger_id${i}`).select2({
+        placeholder: "--"
     }).on('select2:open', function () {
         let a = $(this).data('select2');
         let doExits = a.$results.parents('.select2-results').find('button')
@@ -175,18 +182,18 @@ function initPaymentMethod() {
             a.$results.parents('.select2-results')
                 .append('<div><button  data-toggle="modal" data-target="#ledgerModal" class="btn btn-default text-primary underline btn-fw" style="width: 100%">+ Add New Account</button></div>')
                 .on('click', function (b) {
-                    $(`#ledger_id${payments}`).select2("close");
-                    $('#ledgerModal').attr('index', payments)
-                }).on('change', function (event) {
-                let i = $(this).attr('index');
-                posRactive.set(`payments.${i}.ledger_id`, $(this).val())
-
-
-            });
+                    $(`#ledger_id${i}`).select2("close");
+                    $('#createLedgerForm').attr('index', i)
+                })
         }
 
 
-    })
+    }).on('change', function (event) {
+        let i = $(this).attr('index');
+        posRactive.set(`payments.${i}.ledger_id`, $(this).val())
+        // alert('changed'+i)
+
+    });
 }
 
 function setUpProductSearch() {
@@ -269,4 +276,3 @@ function percentage(percent, total) {
 /* Calling Functions */
 
 setUpProductSearch()
-initPaymentMethod()

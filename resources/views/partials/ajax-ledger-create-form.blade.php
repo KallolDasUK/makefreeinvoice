@@ -1,4 +1,4 @@
-<div class="modal fade" id="ledgerModal"  role="dialog" aria-labelledby="ledgerModalLabel"
+<div class="modal fade" id="ledgerModal" role="dialog" aria-labelledby="ledgerModalLabel"
      aria-hidden="true" style="z-index: 10000 !important;overflow: hidden">
     <div class="modal-dialog" role="document" style="margin-top:10px!important;">
         <form id="createLedgerForm" method="post" action="{{ route('ledgers.ledger.store') }}" index="">
@@ -22,6 +22,9 @@
                                 <select class="form-control" id="ledger_group_id" name="ledger_group_id">
                                     <option></option>
                                     @foreach (\Enam\Acc\Models\LedgerGroup::all() as $ledgerGroup)
+                                        @if($ledgerGroup->group_name =='')
+                                            @continue
+                                        @endif
                                         <option
                                             value="{{ $ledgerGroup->id }}"> {{ $ledgerGroup->group_name??'-' }} </option>
                                     @endforeach

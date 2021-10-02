@@ -32,6 +32,11 @@ class PosSale extends Model
         return $this->hasMany(PosCharge::class, 'pos_sales_id');
     }
 
+    public function payments()
+    {
+        return $this->hasMany(PosPayment::class, 'pos_sales_id');
+    }
+
     public function payment_method()
     {
         return $this->belongsTo(PaymentMethod::class, 'payment_method_id');
@@ -49,6 +54,27 @@ class PosSale extends Model
             return self::nextOrderNumber($increment + 1);
         }
         return $next_order;
+    }
+
+    public function getDueAttribute()
+    {
+        $due = 0;
+        $payment = $this->payments->sum('amount');
+        $due = $this->total - $payment;
+
+        return number_format((float)$due, 2, '.', '');
+
+    }
+
+    public function getChargesAttribute()
+    {
+        return $this->pos_charges()->sum('amount');
+    }
+
+    public function getPaymentAttribute()
+    {
+        $paymentAmount = $this->payments->sum('amount');
+        return $paymentAmount;
     }
 
 }
