@@ -29,7 +29,8 @@
                                         class="text-danger">*</span></label>
                             </div>
                             <div class="col-lg-6">
-                                <input type="date" class="form-control" name="payment_date" id="payment_date">
+                                <input type="date" class="form-control" name="payment_date" id="payment_date"
+                                       value="{{ today()->toDateString() }}">
                             </div>
                         </div>
                         <div class="form-group row">
@@ -43,7 +44,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group row">
+                        <div class="form-group row d-none">
                             <div class="col-form-label col-lg-4 text-right required">
                                 <label class="font-weight-bolder " style="font-size: 16px"> Payment Method <span
                                         class="text-danger">*</span></label>
@@ -62,7 +63,7 @@
                         </div>
                         <div class="form-group row">
                             <div class="col-form-label col-lg-4 text-right required">
-                                <label class="font-weight-bolder " style="font-size: 16px"> Deposit Account <span
+                                <label class="font-weight-bolder " style="font-size: 16px"> Payment Method <span
                                         class="text-danger">*</span></label>
                             </div>
                             <div class="col-lg-6">

@@ -24,7 +24,7 @@ class ReceivePaymentsController extends Controller
 
     public function index()
     {
-        $receivePayments = ReceivePayment::with('customer', 'paymentmethod')->latest()->paginate(10);
+        $receivePayments = ReceivePayment::with('customer', 'ledger')->latest()->paginate(10);
 
         return view('receive_payments.index', compact('receivePayments'));
     }
@@ -39,7 +39,9 @@ class ReceivePaymentsController extends Controller
         $depositAccounts = Ledger::find($this->getAssetLedgers())->sortBy('ledger_name');
         $paymentMethods = PaymentMethod::query()->get();
         $customer_id = \request()->get('customer_id');
-        return view('receive_payments.create', compact('customers', 'customer_id', 'title', 'paymentMethods', 'paymentSerial', 'depositAccounts', 'cashAcId'));
+        $ledgerGroups = LedgerGroup::all();
+
+        return view('receive_payments.create', compact('customers', 'ledgerGroups', 'customer_id', 'title', 'paymentMethods', 'paymentSerial', 'depositAccounts', 'cashAcId'));
     }
 
 
@@ -87,8 +89,10 @@ class ReceivePaymentsController extends Controller
         $receivePayment = ReceivePayment::findOrFail($id);
         $customers = Customer::pluck('name', 'id')->all();
         $paymentMethods = PaymentMethod::query()->get();
+        $ledgerGroups = LedgerGroup::all();
+
 //        dd($receivePayment->items);
-        return view('receive_payments.edit', compact('receivePayment', 'customers', 'paymentMethods', 'depositAccounts'));
+        return view('receive_payments.edit', compact('receivePayment', 'ledgerGroups', 'customers', 'paymentMethods', 'depositAccounts'));
     }
 
 

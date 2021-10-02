@@ -5,6 +5,7 @@
     @include('partials.ajax-vendor-create-form')
     @include('partials.ajax-tax-create-form')
     @include('partials.ajax-payment-method-create-form')
+    @include('partials.ajax-ledger-create-form')
 
     <div class="float-left">
         <h2>Add an Bill</h2>

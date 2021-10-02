@@ -52,7 +52,7 @@
                             <th></th>
                         </tr>
                         </thead>
-                        <tbody>
+                        <tbody class="font-weight-bolder" style="font-size: 14px">
                         @foreach($billPayments as $billPayment)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
@@ -61,7 +61,7 @@
                                 <td>{{ $billPayment->bill }}</td>
 
                                 <td>{{ $billPayment->payment_date }}</td>
-                                <td>{{ optional($billPayment->paymentMethod)->name }}</td>
+                                <td>{{ optional($billPayment->ledger)->ledger_name }}</td>
                                 <td>{{ $billPayment->amount }}</td>
                                 <td>
 

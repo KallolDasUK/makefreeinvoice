@@ -1,6 +1,7 @@
 @extends('acc::layouts.app')
 
 @section('content')
+    @include('partials.ajax-ledger-create-form')
 
     @include('partials.ajax-product-create-form')
     @include('partials.ajax-vendor-create-form')

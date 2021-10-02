@@ -51,7 +51,7 @@
 
         </div>
 
-        <div class="form-group row">
+        <div class="form-group row d-none">
             <label for="payment_method_id" class="col">Payment Method <span
                     class="text-danger font-bolder">*</span></label>
             <select class="form-control col" id="payment_method_id" name="payment_method_id" required>
@@ -72,7 +72,7 @@
         </div>
 
         <div class="form-group row">
-            <label for="deposit_to" class="col">Deposit To</label>
+            <label for="deposit_to" class="col">Payment Method </label>
 
 
             <select class="form-control col" id="deposit_to" name="deposit_to" required="true">

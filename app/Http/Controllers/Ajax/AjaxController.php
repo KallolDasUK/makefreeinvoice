@@ -67,7 +67,6 @@ class AjaxController extends Controller
         $invoice = Invoice::find($request->invoice_id);
         $receivePayment = ReceivePayment::create([
             'payment_date' => $request->payment_date,
-            'invoice_id' => $invoice->id,
             'customer_id' => $invoice->customer_id,
             'payment_method_id' => $request->payment_method_id,
             'deposit_to' => $request->deposit_to,

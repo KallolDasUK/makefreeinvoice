@@ -28,6 +28,10 @@
 @endsection
 @section('content')
 
+
+        @include('partials.ajax-ledger-create-form')
+
+
     @if(Session::has('success_message'))
         <div class="alert alert-success">
             <i class=" fas fa-fw fa-check" aria-hidden="true"></i>
@@ -147,7 +151,8 @@
                         >
                     </div>
                     <div class="mx-2">
-                        <select name="customer" id="customer" class="form-control" style="min-width: 200px;max-width: 200px">
+                        <select name="customer" id="customer" class="form-control"
+                                style="min-width: 200px;max-width: 200px">
                             <option></option>
                             @foreach($customers as $customer)
                                 <option value="{{ $customer->id }}"
@@ -191,94 +196,94 @@
             <div>
 
                 @if(count($invoices)>0)
-                <table class="table table-head-custom table-vertical-center" id="kt_advance_table_widget_1">
-                    <thead>
+                    <table class="table table-head-custom table-vertical-center" id="kt_advance_table_widget_1">
+                        <thead>
                         <tr class="text-left">
-                        <th></th>
-                        <th class="text-center">Invoice Number</th>
-                        <th class="pr-0">Client</th>
-                        <th>Invoice Date</th>
-                        <th>Payment Status</th>
+                            <th></th>
+                            <th class="text-center">Invoice Number</th>
+                            <th class="pr-0">Client</th>
+                            <th>Invoice Date</th>
+                            <th>Payment Status</th>
 
-                        <th class="text-right">Amount
-                        </th>
-                        <th class="pr-0 text-right" style="min-width: 150px">action</th>
-                    </tr>
-                    </thead>
-                    <tbody>
+                            <th class="text-right">Amount
+                            </th>
+                            <th class="pr-0 text-right" style="min-width: 150px">action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
 
 
-                    @foreach($invoices as $invoice)
+                        @foreach($invoices as $invoice)
 
-                        <tr>
-                            <td>{{ $loop->iteration }}</td>
+                            <tr>
+                                <td>{{ $loop->iteration }}</td>
 
-                            <td class="text-center ">
-                                <a class="font-weight-bolder d-block font-size-lg underline text-left invoice_number"
-                                   href="{{ route('invoices.invoice.show',$invoice->id) }}">
-                                    <i class="fa fa-external-link-alt font-normal text-secondary"
-                                       style="font-size: 10px"></i>
-                                    {{ $invoice->invoice_number }}
-                                </a>
-                            </td>
-                            <td>
-                                <a href="{{ route('invoices.invoice.show',$invoice->id) }}"
-                                   class="text-dark-75 font-weight-bolder d-block font-size-lg invoice_number">{{ optional($invoice->customer)->name }}</a>
-                                <span
-                                    class="text-muted font-weight-bold">{{ optional($invoice->customer)->email }}</span>
-                            </td>
-                            <td class="pl-0">
-                                <a href="{{ route('invoices.invoice.show',$invoice->id) }}"
-                                   class="text-dark-75 font-weight-bolder text-hover-primary mb-1 font-size-lg ">{{ \Carbon\Carbon::parse($invoice->invoice_date)->format('d/m/Y') }}</a>
-
-                                @if($invoice->due_date)
+                                <td class="text-center ">
+                                    <a class="font-weight-bolder d-block font-size-lg underline text-left invoice_number"
+                                       href="{{ route('invoices.invoice.show',$invoice->id) }}">
+                                        <i class="fa fa-external-link-alt font-normal text-secondary"
+                                           style="font-size: 10px"></i>
+                                        {{ $invoice->invoice_number }}
+                                    </a>
+                                </td>
+                                <td>
+                                    <a href="{{ route('invoices.invoice.show',$invoice->id) }}"
+                                       class="text-dark-75 font-weight-bolder d-block font-size-lg invoice_number">{{ optional($invoice->customer)->name }}</a>
                                     <span
-                                        class="text-muted font-weight-bold text-muted d-block">Due on {{ \Carbon\Carbon::parse($invoice->due_date)->format('d/m/Y') }}</span>
-                                @endif
-                            </td>
-                            <td>
-                                <div class="font-weight-bolder  ">
-                                    @php
-                                        $class = '';
-                                        if ($invoice->payment_status == \App\Models\Invoice::Paid) {
-                                               $class = "badge badge-primary";
-                                            }elseif($invoice->payment_status == \App\Models\Invoice::Partial){
-                                            $class = "badge badge-warning";
-                                            }else{
-                                            $class = "badge badge-secondary";
+                                        class="text-muted font-weight-bold">{{ optional($invoice->customer)->email }}</span>
+                                </td>
+                                <td class="pl-0">
+                                    <a href="{{ route('invoices.invoice.show',$invoice->id) }}"
+                                       class="text-dark-75 font-weight-bolder text-hover-primary mb-1 font-size-lg ">{{ \Carbon\Carbon::parse($invoice->invoice_date)->format('d/m/Y') }}</a>
 
-                                            }
-                                    @endphp
-                                    <span style="font-size: 16px"
-                                          class="{{ $class }}">{{ $invoice->payment_status }}</span>
-                                </div>
-                            </td>
+                                    @if($invoice->due_date)
+                                        <span
+                                            class="text-muted font-weight-bold text-muted d-block">Due on {{ \Carbon\Carbon::parse($invoice->due_date)->format('d/m/Y') }}</span>
+                                    @endif
+                                </td>
+                                <td>
+                                    <div class="font-weight-bolder  ">
+                                        @php
+                                            $class = '';
+                                            if ($invoice->payment_status == \App\Models\Invoice::Paid) {
+                                                   $class = "badge badge-primary";
+                                                }elseif($invoice->payment_status == \App\Models\Invoice::Partial){
+                                                $class = "badge badge-warning";
+                                                }else{
+                                                $class = "badge badge-secondary";
 
-                            <td class="text-right">
-                                <div class="font-weight-bolder  ">
+                                                }
+                                        @endphp
+                                        <span style="font-size: 16px"
+                                              class="{{ $class }}">{{ $invoice->payment_status }}</span>
+                                    </div>
+                                </td>
+
+                                <td class="text-right">
+                                    <div class="font-weight-bolder  ">
                                     <span
                                         style="font-size: 20px"><small>{{ $invoice->currency }}</small>{{ decent_format($invoice->total) }} </span>
-                                </div>
+                                    </div>
 
-                                @if($invoice->due>0)
-
-
-                                    <span
-                                        class=" font-weight-bold text-info d-block">Due :  {{ decent_format($invoice->due) }}</span>
-
-                                @endif
-                            </td>
-                            <td class="pr-0 text-right">
-                                @if($invoice->due > 0)
-                                    <span style="text-decoration: underline"
-                                          class=" font-weight-bolder text-success  font-size-lg underline  text-hover-danger cursor-pointer mx-4 recordPaymentBtn"
-                                          invoice_id="{{ $invoice->id }}" currency="{{ $invoice->currency }}"
-                                          invoice_number="{{ $invoice->invoice_number }}"
-                                          due="{{ $invoice->due }}"> Receive Payment</span>
-                                @endif
+                                    @if($invoice->due>0)
 
 
-                                <div class="dropdown d-inline dropleft">
+                                        <span
+                                            class=" font-weight-bold text-info d-block">Due :  {{ decent_format($invoice->due) }}</span>
+
+                                    @endif
+                                </td>
+                                <td class="pr-0 text-right">
+                                    @if($invoice->due > 0)
+                                        <span style="text-decoration: underline"
+                                              class=" font-weight-bolder text-success  font-size-lg underline  text-hover-danger cursor-pointer mx-4 recordPaymentBtn"
+                                              invoice_id="{{ $invoice->id }}" currency="{{ $invoice->currency }}"
+                                              invoice_number="{{ $invoice->invoice_number }}"
+                                              due="{{ $invoice->due }}"> Receive Payment</span>
+                                    @endif
+
+
+                                    <div class="dropdown d-inline dropleft">
                                     <span class=" dropdown-toggle mr-4 " type="button" style="font-size: 25px"
                                           id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
                                           aria-expanded="false">
@@ -292,59 +297,62 @@
                                                 d="M157.1 216h197.8c10.7 0 16.1 13 8.5 20.5l-98.9 98.3c-4.7 4.7-12.2 4.7-16.9 0l-98.9-98.3c-7.7-7.5-2.3-20.5 8.4-20.5zM504 256c0 137-111 248-248 248S8 393 8 256 119 8 256 8s248 111 248 248zm-48 0c0-110.5-89.5-200-200-200S56 145.5 56 256s89.5 200 200 200 200-89.5 200-200z"
                                                 class=""></path></svg>
                                     </span>
-                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                        <a href="{{ route('invoices.invoice.send',$invoice->id) }}"
-                                           class="dropdown-item btn">
-                                            <span class="far fa-envelope-open mx-4"></span> <strong> Invoice
-                                                Email</strong>
-                                        </a>
-                                        <a href="javascript:;"
-                                           share_link="{{ route('invoices.invoice.share',$invoice->secret) }}"
+                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                            <a href="{{ route('invoices.invoice.send',$invoice->id) }}"
+                                               class="dropdown-item btn">
+                                                <span class="far fa-envelope-open mx-4"></span> <strong> Invoice
+                                                    Email</strong>
+                                            </a>
+                                            <a href="javascript:;"
+                                               share_link="{{ route('invoices.invoice.share',$invoice->secret) }}"
 
-                                           class="dropdown-item btn shareLink">
-                                            <span class="fa fa-share mx-4"></span> <strong>Get Share Link</strong>
-                                        </a>
-                                        <a href="javascript:;"
-                                           link="{{ route('invoices.invoice.payments',$invoice->id) }}"
+                                               class="dropdown-item btn shareLink">
+                                                <span class="fa fa-share mx-4"></span> <strong>Get Share Link</strong>
+                                            </a>
+                                            <a href="javascript:;"
+                                               link="{{ route('invoices.invoice.payments',$invoice->id) }}"
 
-                                           class="dropdown-item btn view_payments">
-                                            <span class="fa fa-money-check mx-4"></span> <strong>View Payments</strong>
-                                        </a>
-                                        <a href="{{ route('invoices.invoice.edit',$invoice->id) }}"
-                                           class="dropdown-item btn">
-                                            <span class="fa fa-pencil-alt mx-4"></span> <strong>Edit</strong>
-                                        </a>
+                                               class="dropdown-item btn view_payments">
+                                                <span class="fa fa-money-check mx-4"></span> <strong>View
+                                                    Payments</strong>
+                                            </a>
+                                            <a href="{{ route('invoices.invoice.edit',$invoice->id) }}"
+                                               class="dropdown-item btn">
+                                                <span class="fa fa-pencil-alt mx-4"></span> <strong>Edit</strong>
+                                            </a>
 
 
-                                        <form method="POST"
-                                              action="{!! route('invoices.invoice.destroy', $invoice->id) !!}">
-                                            {{ csrf_field() }}
-                                            <button class="dropdown-item "
-                                                    onclick="return confirm('Click Ok to delete Invoice')">
-                                                @method('DELETE')
-                                                <span class="fa fa-trash-alt mx-4 text-danger"></span>
-                                                <span>
+                                            <form method="POST"
+                                                  action="{!! route('invoices.invoice.destroy', $invoice->id) !!}">
+                                                {{ csrf_field() }}
+                                                <button class="dropdown-item "
+                                                        onclick="return confirm('Click Ok to delete Invoice')">
+                                                    @method('DELETE')
+                                                    <span class="fa fa-trash-alt mx-4 text-danger"></span>
+                                                    <span>
                                                     <strong>Delete</strong>
                                                 </span>
-                                            </button>
-                                        </form>
+                                                </button>
+                                            </form>
+                                        </div>
                                     </div>
-                                </div>
 
 
-                            </td>
+                                </td>
 
-                        </tr>
+                            </tr>
 
-                    @endforeach
+                        @endforeach
 
-                    </tbody>
-                </table>
+                        </tbody>
+                    </table>
                 @else
                     <div class="text-center">
-                        <img style="text-align: center;margin: 0 auto;" src="https://1.bp.blogspot.com/-oFZuUJWkeVI/YU2wRxUt26I/AAAAAAAAFKw/tA92-qZCPksDCerRYqgANfzaeF8xtGTFQCLcBGAsYHQ/s320/norecord.png" alt="">
+                        <img style="text-align: center;margin: 0 auto;"
+                             src="https://1.bp.blogspot.com/-oFZuUJWkeVI/YU2wRxUt26I/AAAAAAAAFKw/tA92-qZCPksDCerRYqgANfzaeF8xtGTFQCLcBGAsYHQ/s320/norecord.png"
+                             alt="">
                     </div>
-                    @endif
+                @endif
 
                 <div class="float-right">
                     {!! $invoices->links() !!}
@@ -495,6 +503,74 @@
             $('.view_payments').on('click', function () {
                 getInvoicePayments($(this).attr('link'))
             })
+
+            $('#deposit_to').select2({
+                placeholder: "--", allowClear: true
+            }).on('select2:open', function () {
+                let a = $(this).data('select2');
+                let doExits = a.$results.parents('.select2-results').find('button')
+                if (!doExits.length) {
+                    a.$results.parents('.select2-results')
+                        .append('<div><button  data-toggle="modal" data-target="#ledgerModal" class="btn btn-default text-primary underline btn-fw" style="width: 100%">+ Add New Account</button></div>')
+                        .on('click', function (b) {
+                            $("#deposit_to").select2("close");
+                        });
+                }
+
+
+            })
+            /* Creating Ledger Account Via Ajax With Validation */
+            $('#createLedgerForm').validate({
+                submitHandler: function (form) {
+                    $.ajax({
+                        url: form.action,
+                        type: form.method,
+                        data: $(form).serialize(),
+                        beforeSend: () => {
+                            $('#storeLedger').prop('disabled', true)
+                            $('.spinner').removeClass('d-none')
+                        },
+                        success: function (response) {
+                            $('#ledgerModal').modal('hide');
+                            let i = $('#createLedgerForm').attr('index') || 0;
+                            if (i === 0 || i === '') {
+                                $("#deposit_to").append(new Option(response.ledger_name, response.id));
+                                $("#deposit_to").val(response.id)
+                                $("#deposit_to").trigger('change')
+                            } else {
+                                ractive.push('ledgers', response)
+                                ractive.set(`expense_items.${i}.ledger_id`, response.id)
+                            }
+
+                            console.log(ractive.get('taxes'))
+                            $('#createLedgerForm').trigger("reset");
+                            $('#storeLedger').prop('disabled', false)
+                            $('.spinner').addClass('d-none')
+                        },
+
+                    });
+                },
+                rules: {
+                    ledger_name: {required: true,},
+                    ledger_group_id: {required: true,},
+                    value: {required: true,},
+                },
+                messages: {
+                    name: {required: "Name is required",},
+                    sell_price: {required: "required",},
+                },
+                errorElement: 'span',
+                errorPlacement: function (error, element) {
+                    error.addClass('invalid-feedback');
+                    element.closest('.form-group').append(error);
+                },
+                highlight: function (element, errorClass, validClass) {
+                    $(element).addClass('is-invalid');
+                },
+                unhighlight: function (element, errorClass, validClass) {
+                    $(element).removeClass('is-invalid');
+                }
+            });
 
         })
 
