@@ -1,5 +1,5 @@
-<div class="modal fade" id="ledgerModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-     aria-hidden="true" style="z-index: 10000 !important;">
+<div class="modal fade" id="ledgerModal"  role="dialog" aria-labelledby="ledgerModalLabel"
+     aria-hidden="true" style="z-index: 10000 !important;overflow: hidden">
     <div class="modal-dialog" role="document" style="margin-top:10px!important;">
         <form id="createLedgerForm" method="post" action="{{ route('ledgers.ledger.store') }}" index="">
             @csrf

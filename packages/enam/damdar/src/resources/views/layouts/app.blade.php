@@ -1023,7 +1023,7 @@
         js.src = 'https://connect.facebook.net/en_US/sdk/xfbml.customerchat.js';
         fjs.parentNode.insertBefore(js, fjs);
     }(document, 'script', 'facebook-jssdk'));
-    $('#ledger_group_id').select2()
+    $('#ledger_group_id').select2({dropdownParent: $("#ledgerModal")})
 </script>
 
 </body>

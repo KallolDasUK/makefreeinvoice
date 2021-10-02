@@ -307,6 +307,53 @@ $(document).ready(function () {
             $('.amount').select()
         }, 200)
     })
+
+    /* Creating Ledger Account Via Ajax With Validation */
+    $('#createLedgerForm').validate({
+        submitHandler: function (form) {
+            $.ajax({
+                url: form.action,
+                type: form.method,
+                data: $(form).serialize(),
+                beforeSend: () => {
+                    $('#storeLedger').prop('disabled', true)
+                    $('.spinner').removeClass('d-none')
+                },
+                success: function (response) {
+                    $('#ledgerModal').modal('hide');
+                    let i = $('#createLedgerForm').attr('index') || 0;
+                    posRactive.push('ledgers', response)
+                    posRactive.set(`payments.${i}.ledger_id`, response.id)
+
+
+                    $('#createLedgerForm').trigger("reset");
+                    $('#storeLedger').prop('disabled', false)
+                    $('.spinner').addClass('d-none')
+                },
+
+            });
+        },
+        rules: {
+            ledger_name: {required: true,},
+            ledger_group_id: {required: true,},
+            value: {required: true,},
+        },
+        messages: {
+            name: {required: "Name is required",},
+            sell_price: {required: "required",},
+        },
+        errorElement: 'span',
+        errorPlacement: function (error, element) {
+            error.addClass('invalid-feedback');
+            element.closest('.form-group').append(error);
+        },
+        highlight: function (element, errorClass, validClass) {
+            $(element).addClass('is-invalid');
+        },
+        unhighlight: function (element, errorClass, validClass) {
+            $(element).removeClass('is-invalid');
+        }
+    });
 })
 
 

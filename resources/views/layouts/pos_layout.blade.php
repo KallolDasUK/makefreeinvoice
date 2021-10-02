@@ -654,7 +654,12 @@
 @yield('js')
 @stack('js')
 
+<script>
+    $(document).ready(function () {
+        $('#ledger_group_id').select2({dropdownParent: $("#ledgerModal")})
 
+    })
+</script>
 
 </body>
 

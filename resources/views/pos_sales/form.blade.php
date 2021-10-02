@@ -9,7 +9,7 @@
 
 @verbatim
     <script id="posTemplate" type="text/ractive">
-<div class="modal fade" id="posPaymentModal" tabindex="-1" role="dialog" aria-labelledby="posPaymentModalLabel"
+<div class="modal fade" id="posPaymentModal" role="dialog" aria-labelledby="posPaymentModalLabel"
      aria-hidden="true">
     <div class="modal-dialog  modal-lg" role="document" style="margin-top:10px!important;" is_update="0">
           <div class="modal-content">
@@ -39,22 +39,7 @@
         <div class="list-group-item d-flex justify-content-between align-items-center">
                                Total
                               <span class="font-weight-bold"><h2>{{ currency }}{{ total.toFixed(2) }}</h2></span></div></div></div><!----><!----></div>
-    <div class="form-group row  mt-4">
-                    <div class="col-form-label col text-right">
-                        <label class="font-weight-bolder " style="font-size: 14px"> Deposit Account </label>
-                    </div>
-                    <div class="col">
-                     <select id="ledger_id" class="form-control" name="ledger_id" value="{{ ledger_id }}">
-    {{ #each ledgers:i }}
-        <option
-            value="{{ id }}">
-            {{ ledger_name }}
-        </option>
-   {{ /each }}
-        </select>
 
-            </div>
-        </div>
 
         </div>
             <div class="col">
@@ -93,19 +78,17 @@
 
 </div>
                     <label for="payment_method">Payment Method</label>
-                       {{ #each payments:i }}
+                           {{ #each payments:i }}
         <div class="row">
             <div class="col">
                 <div class="form-group">
-                    <select id="payment_method_id{{i}}" class="form-control" name="payment_method_id" index="{{i}}"
-                    value="{{ payment_method_id }}">
-                {{ #each paymentMethods:i }}
+                     <select index="{{i}}" id="ledger_id{{i}}" class="form-control" name="ledger_id" value="{{ ledger_id }}">
+    {{ #each ledgers:i }}
         <option
-            value="{{ id }}" {{ is_default ? 'selected' : '' }}>
-                    {{ name }}
+            value="{{ id }}">
+            {{ ledger_name }}
         </option>
-{{ /each }}
-
+   {{ /each }}
         </select>
     </div> <!-- Form Group-->
 </div> <!-- Col-->
@@ -463,3 +446,4 @@ Payment</button>
 
     </script>
 @endverbatim
+

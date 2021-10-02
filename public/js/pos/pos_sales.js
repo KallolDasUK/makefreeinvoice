@@ -156,11 +156,38 @@ var posRactive = new Ractive({
 
     onPaymentRowCreate() {
         posRactive.push('payments', {});
+        initPaymentMethod()
+
     },
     onPaymentRowDelete(index) {
         posRactive.splice('payments', index, 1);
     }
 });
+
+function initPaymentMethod() {
+    let payments = posRactive.get('payments').length - 1;
+    $(`#ledger_id${payments}`).select2({
+        placeholder: "--", allowClear: true
+    }).on('select2:open', function () {
+        let a = $(this).data('select2');
+        let doExits = a.$results.parents('.select2-results').find('button')
+        if (!doExits.length) {
+            a.$results.parents('.select2-results')
+                .append('<div><button  data-toggle="modal" data-target="#ledgerModal" class="btn btn-default text-primary underline btn-fw" style="width: 100%">+ Add New Account</button></div>')
+                .on('click', function (b) {
+                    $(`#ledger_id${payments}`).select2("close");
+                    $('#ledgerModal').attr('index', payments)
+                }).on('change', function (event) {
+                let i = $(this).attr('index');
+                posRactive.set(`payments.${i}.ledger_id`, $(this).val())
+
+
+            });
+        }
+
+
+    })
+}
 
 function setUpProductSearch() {
     let products = posRactive.get('products')
@@ -242,4 +269,4 @@ function percentage(percent, total) {
 /* Calling Functions */
 
 setUpProductSearch()
-
+initPaymentMethod()

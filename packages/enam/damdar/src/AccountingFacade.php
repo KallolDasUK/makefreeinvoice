@@ -270,7 +270,7 @@ class AccountingFacade extends Facade
     public function on_pos_payment_create(PosPayment $posPayment)
     {
         $pos_sale = $posPayment->pos_sale;
-        self::addTransaction(optional($pos_sale)->ledger_id, Ledger::ACCOUNTS_RECEIVABLE(), $posPayment->amount,
+        self::addTransaction($posPayment->ledger_id, Ledger::ACCOUNTS_RECEIVABLE(), $posPayment->amount,
             $pos_sale->note, $posPayment->date,
             'POS Payment', PosPayment::class, $posPayment->id,
             $pos_sale->pos_number, optional($pos_sale->customer)->name);
