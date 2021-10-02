@@ -1,4 +1,4 @@
-$('select').select2({
+$('#brand_id,#category_id,#sell_unit,#purchase_unit').select2({
     placeholder: "Type & Enter",
     "language": {
         "noResults": function () {

@@ -88,7 +88,7 @@ class PosSalesController extends Controller
             $pos_sales->saveQuietly();
             foreach ($pos_payments as $index => $pos_payment) {
                 if ($distributed == $pos_sales->total) {
-                    unset($pos_payment[$index]);
+                    unset($pos_payments[$index]);
                     continue;
                 }
 
@@ -103,7 +103,7 @@ class PosSalesController extends Controller
         foreach ($pos_payments as $pos_payment) {
             PosPayment::create([
                 'pos_sales_id' => $pos_sales->id,
-                'payment_method_id' => $pos_payment->payment_method_id,
+                'ledger_id' => $pos_payment->ledger_id ?? null,
                 'amount' => $pos_payment->amount,
                 'date' => $pos_sales->date ?? today()->toDateString(),
             ]);
