@@ -168,7 +168,7 @@
                                max="{{ optional($bill)->total??'' }}"/>
                     </div>
                 </div>
-                <div class="form-group row">
+                <div class="form-group row d-none">
                     <div class="col-form-label col-lg-4 text-right required">
                         <label class="font-weight-bolder " style="font-size: 14px"> Payment Method <span
                                 class="text-danger">*</span></label>
@@ -188,7 +188,7 @@
                 </div>
                 <div class="form-group row">
                     <div class="col-form-label col-lg-4 text-right required">
-                        <label class="font-weight-bolder " style="font-size: 14px"> From Account <span
+                        <label class="font-weight-bolder " style="font-size: 14px"> Payment Method<span
                                 class="text-danger">*</span></label>
                     </div>
                     <div class="col-lg-6">

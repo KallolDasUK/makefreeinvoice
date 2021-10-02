@@ -57,7 +57,6 @@
                             <tr>
                                 <td>{{ (($receivePayments->currentPage() - 1) * 10) + $loop->iteration }}</td>
                                 <td>{{ $receivePayment->payment_sl }}</td>
-
                                 <td>
                                     <a class="customer_statement"
                                        data-toggle="tooltip" data-placement="top" title="Customer Statement"
@@ -65,7 +64,7 @@
                                 </td>
                                 <td>{{ $receivePayment->invoice }}</td>
                                 <td>{{ $receivePayment->payment_date }}</td>
-                                <td>{{ optional($receivePayment->paymentMethod)->name }}</td>
+                                <td>{{ optional($receivePayment->ledger)->ledger_name }}</td>
                                 <td>{{ $receivePayment->amount }}</td>
 
                                 <td>

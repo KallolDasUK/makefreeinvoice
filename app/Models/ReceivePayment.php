@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Enam\Acc\Models\Ledger;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
@@ -21,6 +22,11 @@ class ReceivePayment extends Model
     public function paymentMethod()
     {
         return $this->belongsTo('App\Models\PaymentMethod', 'payment_method_id');
+    }
+
+    public function ledger()
+    {
+        return $this->belongsTo(Ledger::class, 'deposit_to');
     }
 
     public function items()

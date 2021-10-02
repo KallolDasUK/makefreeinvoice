@@ -1,6 +1,7 @@
 @extends('acc::layouts.app')
 
 @section('content')
+    @include('partials.ajax-ledger-create-form')
 
     <div class="card">
 

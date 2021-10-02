@@ -21,6 +21,7 @@ use App\Traits\SettingsTrait;
 use Carbon\Carbon;
 use Enam\Acc\Models\GroupMap;
 use Enam\Acc\Models\Ledger;
+use Enam\Acc\Models\LedgerGroup;
 use Enam\Acc\Traits\TransactionTrait;
 use Enam\Acc\Utils\LedgerHelper;
 use Illuminate\Http\Request;
@@ -62,8 +63,10 @@ class InvoicesController extends Controller
         $depositAccounts = Ledger::find($this->getAssetLedgers())->sortBy('ledger_name');
         $paymentMethods = PaymentMethod::query()->get();
         $customers = Customer::all();
+        $ledgerGroups = LedgerGroup::all();
 
-        return view('invoices.index', compact('invoices', 'q', 'cashAcId', 'depositAccounts', 'paymentMethods', 'start_date', 'end_date', 'customer_id', 'customers') + $this->summaryReport($start_date, $end_date));
+        return view('invoices.index', compact('invoices', 'q', 'cashAcId', 'depositAccounts', 'paymentMethods',
+                'start_date', 'end_date', 'customer_id', 'customers', 'ledgerGroups') + $this->summaryReport($start_date, $end_date));
     }
 
     public function summaryReport($start_date, $end_date)
@@ -86,8 +89,8 @@ class InvoicesController extends Controller
         $extraFields = optional(Invoice::query()->latest()->first())->extra_fields ?? [];
         $invoice_fields = optional(Invoice::query()->latest()->first())->invoice_extra ?? [];
         $next_invoice = Invoice::nextInvoiceNumber();
-
-        return view('invoices.create', compact('customers', 'products', 'taxes', 'next_invoice', 'categories', 'extraFields', 'invoice_fields', 'cashAcId', 'depositAccounts', 'paymentMethods'));
+        $ledgerGroups = LedgerGroup::all();
+        return view('invoices.create', compact('customers', 'ledgerGroups', 'products', 'taxes', 'next_invoice', 'categories', 'extraFields', 'invoice_fields', 'cashAcId', 'depositAccounts', 'paymentMethods'));
     }
 
 
@@ -150,7 +153,6 @@ class InvoicesController extends Controller
 
         $receivePayment = ReceivePayment::create([
             'payment_date' => $invoice->invoice_date,
-            'invoice_id' => $invoice->id,
             'customer_id' => $invoice->customer_id,
             'payment_method_id' => $invoice->payment_method_id,
             'deposit_to' => $invoice->deposit_to,
@@ -205,7 +207,9 @@ class InvoicesController extends Controller
         $extraFields = ExtraField::query()->where('type', Invoice::class)->where('type_id', $invoice->id)->get();
         $products = Product::query()->latest()->get();
 //        dd($invoice_items);
-        return view('invoices.edit', compact('invoice', 'customers', 'taxes', 'invoice_items', 'invoiceExtraField', 'products', 'extraFields', 'categories', 'cashAcId', 'depositAccounts', 'paymentMethods'));
+        $ledgerGroups = LedgerGroup::all();
+
+        return view('invoices.edit', compact('invoice', 'ledgerGroups', 'customers', 'taxes', 'invoice_items', 'invoiceExtraField', 'products', 'extraFields', 'categories', 'cashAcId', 'depositAccounts', 'paymentMethods'));
     }
 
 

@@ -10,6 +10,7 @@ use App\Models\PaymentMethod;
 use App\Models\Vendor;
 use Enam\Acc\AccountingFacade;
 use Enam\Acc\Models\Ledger;
+use Enam\Acc\Models\LedgerGroup;
 use Enam\Acc\Traits\TransactionTrait;
 use Illuminate\Http\Request;
 use Exception;
@@ -41,8 +42,9 @@ class BillPaymentsController extends Controller
         $depositAccounts = Ledger::find($this->getAssetLedgers())->sortBy('ledger_name');
         $vendor_id = \request()->get('vendor_id');
         $ledgers = Ledger::pluck('id', 'id')->all();
+        $ledgerGroups = LedgerGroup::all();
 
-        return view('bill_payments.create', compact('vendors', 'title', 'bills', 'paymentMethods', 'ledgers', 'paymentSerial', 'depositAccounts', 'vendor_id'));
+        return view('bill_payments.create', compact('vendors', 'ledgerGroups', 'title', 'bills', 'paymentMethods', 'ledgers', 'paymentSerial', 'depositAccounts', 'vendor_id'));
     }
 
 
@@ -57,7 +59,7 @@ class BillPaymentsController extends Controller
         foreach ($payments as $payment) {
             try {
                 BillPaymentItem::create(['bill_id' => $payment->bill_id, 'bill_payment_id' => $billPayment->id, 'amount' => $payment->amount]);
-            }catch (\Exception $exception){
+            } catch (\Exception $exception) {
 
             }
         }
@@ -93,7 +95,9 @@ class BillPaymentsController extends Controller
         $bills = Bill::pluck('bill_number', 'id')->all();
         $paymentMethods = PaymentMethod::query()->get();
         $depositAccounts = Ledger::find($this->getAssetLedgers())->sortBy('ledger_name');
-        return view('bill_payments.edit', compact('billPayment', 'title', 'vendors', 'bills', 'paymentMethods', 'depositAccounts'));
+        $ledgerGroups = LedgerGroup::all();
+
+        return view('bill_payments.edit', compact('billPayment', 'ledgerGroups', 'title', 'vendors', 'bills', 'paymentMethods', 'depositAccounts'));
     }
 
 

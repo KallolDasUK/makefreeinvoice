@@ -2,6 +2,8 @@
 
 @section('content')
     @include('partials.ajax-product-create-form')
+    @include('partials.ajax-ledger-create-form')
+
     @include('partials.ajax-customer-create-form')
     @include('partials.ajax-tax-create-form')
     @include('partials.ajax-payment-method-create-form')

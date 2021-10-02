@@ -86,7 +86,9 @@
         i:hover {
             color: white !important;
         }
-
+        .select2-container--open {
+            z-index: 9999999
+        }
         i {
             color: inherit !important;
         }
@@ -336,6 +338,10 @@
                 background-color: #e50000;
             }
         }
+
+        /*.modal.fade {*/
+        /*    z-index: 10000000 !important;*/
+        /*}*/
     </style>
 
 </head>
@@ -1017,6 +1023,7 @@
         js.src = 'https://connect.facebook.net/en_US/sdk/xfbml.customerchat.js';
         fjs.parentNode.insertBefore(js, fjs);
     }(document, 'script', 'facebook-jssdk'));
+    $('#ledger_group_id').select2()
 </script>
 
 </body>

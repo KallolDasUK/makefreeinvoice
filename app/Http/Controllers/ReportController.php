@@ -54,7 +54,6 @@ class ReportController extends AccountingReportsController
         $customers = Customer::all();
 
 
-
         $title = "Customer Statement";
         $records = $this->getCustomerStatement($start_date, $end_date, $customer_id);
         $previous = $this->getCustomerOpeningBalance($start_date, $end_date, $customer_id);
@@ -77,7 +76,7 @@ class ReportController extends AccountingReportsController
         $title = "Vendor Statement";
         $records = $this->getVendorStatement($start_date, $end_date, $vendor_id);
         $previous = $this->getVendorOpeningBalance($start_date, $end_date, $vendor_id);
-        $opening = $previous->amount - $previous->payment  + $previous->balance;
+        $opening = $previous->amount - $previous->payment + $previous->balance;
         return view('reports.vendor-statement', compact('title', 'start_date', 'end_date', 'vendors', 'records', 'vendor_id', 'vendor', 'previous', 'opening'));
     }
 
@@ -205,6 +204,8 @@ class ReportController extends AccountingReportsController
         $prevent_opening = boolval($request->prevent_opening ?? false);
         $assets = [];
         $asset_account = 'Asset';
+        $totalAssetValue = 0;
+        $totalLibValue = 0;
 
 //        dd($prevent_opening);
         $groups = LedgerGroup::query()->where('nature', $asset_account)->get();
@@ -221,7 +222,7 @@ class ReportController extends AccountingReportsController
                 if ($closing_balance == 0) {
                     continue;
                 }
-
+                $totalAssetValue += $closing_balance;
                 $record[] = (object)['account_name' => $g->group_name,
                     'amount' => $closing_balance, 'is_account' => false, 'id' => $g->id];
             }
@@ -230,6 +231,8 @@ class ReportController extends AccountingReportsController
                 if ($closing_balance == 0) {
                     continue;
                 }
+                $totalAssetValue += $closing_balance;
+
                 $record[] = (object)['account_name' => $account->ledger_name,
                     'amount' => $closing_balance,
                     'is_account' => true, 'id' => $account->id];
@@ -259,6 +262,7 @@ class ReportController extends AccountingReportsController
                 if ($closing_balance == 0) {
                     continue;
                 }
+                $totalLibValue += $closing_balance;
 
                 $record[] = (object)['account_name' => $g->group_name,
                     'amount' => $closing_balance, 'is_account' => false, 'id' => $g->id];
@@ -268,6 +272,8 @@ class ReportController extends AccountingReportsController
                 if ($closing_balance == 0) {
                     continue;
                 }
+                $totalLibValue += $closing_balance;
+
                 $record[] = (object)['account_name' => $account->ledger_name,
                     'amount' => $closing_balance,
                     'is_account' => true, 'id' => $account->id];
@@ -279,9 +285,12 @@ class ReportController extends AccountingReportsController
         $lossProfitReport = $this->getProfitLossReport($start_date, $end_date, $branch_id);
         $profit = $lossProfitReport['totalIncome'] - $lossProfitReport['totalExpense'];
         $libs['Equity'][] = (object)['account_name' => 'Retained Earnings </br> <span class="ml-4"></span>(Profit between ' . Carbon::parse($start_date)->format('M d Y') . '-' . Carbon::parse($end_date)->format('M d Y') . ')', 'amount' => $profit, 'is_account' => false];
+        $totalLibValue += $profit;
+
+        $libs['Equity'][] = (object)['account_name' => 'Unearned Revenue', 'amount' => $totalAssetValue - $totalLibValue, 'is_account' => false];
 //        dd($libs);
 
-//        dd($assets, 'Working');
+//        dd($totalAssetValue,$totalLibValue, 'Working');
 
         $title = "Balance Sheet Report";
         $branches = Branch::pluck('name', 'id')->all();
