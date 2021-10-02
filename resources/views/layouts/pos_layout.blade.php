@@ -656,7 +656,7 @@
 
 <script>
     $(document).ready(function () {
-        $('#ledger_group_id').select2({dropdownParent: $("#ledgerModal")})
+        $('#ledger_group_id').select2({placeholder:"Select Group",dropdownParent: $("#ledgerModal")})
 
     })
 </script>

@@ -9,6 +9,7 @@ use App\Models\Customer;
 use App\Models\ExpenseItem;
 use App\Models\Invoice;
 use App\Models\InvoiceItem;
+use App\Models\PosSale;
 use App\Models\Report;
 use App\Models\Tax;
 use App\Models\Vendor;
@@ -329,8 +330,11 @@ class ReportController extends AccountingReportsController
         $title = 'Sales Report';
 
         $invoices = Invoice::all();
+        $pos_sales = PosSale::all();
         $customers = Customer::all();
-        return view('reports.sales-report', compact('title', 'records', 'invoices', 'customers', 'start_date', 'end_date', 'customer_id', 'invoice_id', 'payment_status'));
+        return view('reports.sales-report', compact('title', 'pos_sales',
+            'records', 'invoices', 'customers', 'start_date', 'end_date',
+            'customer_id', 'invoice_id', 'payment_status'));
     }
 
     public function purchaseReport(Request $request)

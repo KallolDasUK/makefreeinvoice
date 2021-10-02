@@ -74,7 +74,8 @@ class PosSalesController extends Controller
                 'date' => $pos_sales->date]);
         }
         foreach ($pos_charges as $pos_charge) {
-            PosCharge::create(['pos_sales_id' => $pos_sales->id, 'key' => $pos_charge->key, 'value' => $pos_charge->value]);
+            PosCharge::create(['pos_sales_id' => $pos_sales->id, 'key' => $pos_charge->key,
+                'value' => $pos_charge->value, 'amount' => $pos_charge->amount ?? 0]);
         }
 
 

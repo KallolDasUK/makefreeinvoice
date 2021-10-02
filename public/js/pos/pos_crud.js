@@ -212,6 +212,7 @@ $(document).ready(function () {
 
     $('#credit_sale').on('click', function () {
         let pos_items = posRactive.get('pos_items')
+        posRactive.set('payments', {});
         if (!pos_items.length) {
             $.notify("Cart cant be empty. Please add item to cart", "error", {
                 globalPosition: 'bottom left',
@@ -302,10 +303,19 @@ $(document).ready(function () {
         }
     })
     $('#posPaymentModal').on('shown.bs.modal', function (e) {
+// alert(posRactive.get('total'))
+        posRactive.set('payments', [{amount: posRactive.get('total'), ledger_id: cash_ledger_id}])
+
         setTimeout(() => {
             $('.amount').focus()
             $('.amount').select()
+            initPaymentMethod()
+
         }, 200)
+    })
+    $('#posPaymentModal').on('hidden.bs.modal', function (e) {
+        posRactive.set('payments', [])
+
     })
 
     /* Creating Ledger Account Via Ajax With Validation */
@@ -320,15 +330,16 @@ $(document).ready(function () {
                     $('.spinner').removeClass('d-none')
                 },
                 success: function (response) {
-                    $('#ledgerModal').modal('hide');
+
                     let i = $('#createLedgerForm').attr('index') || 0;
                     posRactive.push('ledgers', response)
                     posRactive.set(`payments.${i}.ledger_id`, response.id)
-
-
                     $('#createLedgerForm').trigger("reset");
+                    $('#ledger_group_id').val(null).trigger('change');
                     $('#storeLedger').prop('disabled', false)
                     $('.spinner').addClass('d-none')
+                    console.log(i)
+                    $('#ledgerModal').modal('hide');
                 },
 
             });
@@ -354,6 +365,8 @@ $(document).ready(function () {
             $(element).removeClass('is-invalid');
         }
     });
+
+
 })
 
 

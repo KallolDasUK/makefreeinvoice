@@ -24,7 +24,7 @@
         var products = @json($products);
         var customers = @json($customers);
         var ledgers = @json($ledgers);
-        var ledger_id = "{{ $ledger_id }}";
+        var cash_ledger_id = "{{ $ledger_id }}";
         var categories = @json($categories);
         var paymentMethods = @json($paymentMethods);
         var orders = @json($orders);
@@ -40,14 +40,14 @@
             key: 'Discount', value: ''
         };
         var charges = [jQuery.extend(true, {}, sample_charge_item), {key: '', value: ''}];
-        var payments = [{value: ''}];
+        var payments = [];
 
         $(document).ready(function () {
 
         });
     </script>
     <script src="{{ asset('js/product.js') }}"></script>
-    <script src="{{ asset('js/pos/pos_sales.js') }}"></script>
-    <script src="{{ asset('js/pos/pos_crud.js') }}"></script>
+    <script src="{{ asset('js/pos/pos_sales.js') }}?v=1.1"></script>
+    <script src="{{ asset('js/pos/pos_crud.js') }}?v=1.1"></script>
 @endsection
 

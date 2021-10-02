@@ -96,13 +96,18 @@
                                     </select>
                                 </div>
                                 <div class="col">
-                                    <select id="invoice_id" name="invoice_id" class=" form-control mr-2"
-                                    >
+                                    <select id="invoice_id" name="invoice_id" class=" form-control mr-2">
                                         <option></option>
                                         @foreach($invoices as $invoice)
-                                            <option value="{{ $invoice->id }}"
-                                                    @if($invoice->id == $invoice_id) selected @endif>
+                                            <option value="{{ $invoice->invoice_number }}"
+                                                    @if($invoice->invoice_number == $invoice_id) selected @endif>
                                                 {{ $invoice->invoice_number }}
+                                            </option>
+                                        @endforeach
+                                        @foreach($pos_sales as $pos_sale)
+                                            <option value="{{ $pos_sale->pos_number }}"
+                                                    @if($pos_sale->pos_number == $invoice_id) selected @endif>
+                                                {{ $pos_sale->pos_number }}
                                             </option>
                                         @endforeach
                                     </select>
@@ -216,18 +221,18 @@
                                 </thead>
                                 <tbody>
 
-                                @foreach($records as $invoice)
+                                @foreach($records as $record)
                                     <tr>
                                         <td class="text-left">{{ $loop->iteration }}</td>
-                                        <td class="text-left">{{ $invoice->invoice_date }}</td>
-                                        <td class="text-left">{{ $invoice->invoice_number }}</td>
-                                        <td class="text-left">{{ optional($invoice->customer)->name }}</td>
-                                        <td style="text-align: center">{{ decent_format_dash_if_zero($invoice->sub_total) }}</td>
-                                        <td style="text-align: center">{{ decent_format_dash_if_zero($invoice->discount) }}</td>
-                                        <td style="text-align: center">{{ decent_format_dash_if_zero($invoice->charges) }}</td>
-                                        <td style="text-align: center">{{ decent_format_dash_if_zero($invoice->total) }}</td>
-                                        <td style="text-align: center">{{ decent_format_dash_if_zero($invoice->payment) }}</td>
-                                        <td style="text-align: center">{{ decent_format_dash_if_zero($invoice->due) }}</td>
+                                        <td class="text-left">{{ $record->date }}</td>
+                                        <td class="text-left">{{ $record->invoice }}</td>
+                                        <td class="text-left">{{ $record->customer }}</td>
+                                        <td style="text-align: center">{{ decent_format_dash_if_zero($record->sub_total) }}</td>
+                                        <td style="text-align: center">{{ decent_format_dash_if_zero($record->discount) }}</td>
+                                        <td style="text-align: center">{{ decent_format_dash_if_zero($record->charges) }}</td>
+                                        <td style="text-align: center">{{ decent_format_dash_if_zero($record->total) }}</td>
+                                        <td style="text-align: center">{{ decent_format_dash_if_zero($record->payment) }}</td>
+                                        <td style="text-align: center">{{ decent_format_dash_if_zero($record->due) }}</td>
                                     </tr>
                                 @endforeach
                                 <tr class="font-weight-bolder">
