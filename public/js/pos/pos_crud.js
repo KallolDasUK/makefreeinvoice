@@ -268,27 +268,13 @@ $(document).ready(function () {
                 $.notify("Order Placed", "success")
                 posRactive.unshift('orders', order);
                 $('#posPaymentModal').modal('hide')
+                posRactive.onOrderPrint(order.id)
 
             }
         });
     }
 
-    $(document).on('click', '.order', function () {
-        let pos_sales_id = $(this).attr('index');
-        $.ajax({
-            accepts: {
-                text: "application/json"
-            },
-            url: posSalesDetailsUrl + "?pos_sales_id=" + pos_sales_id,
-            type: "get",
 
-            success: function (response) {
-                $('#blankModal').modal('show')
-                $('#content').html(response)
-            }
-        });
-
-    })
     $('.order').tooltip({title: 'Click to see details'})
     $('#payment_method_id').select2().on('select2:open', function (event) {
         let a = $(this).data('select2');

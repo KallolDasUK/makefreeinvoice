@@ -168,7 +168,31 @@ var posRactive = new Ractive({
     },
     onPaymentRowDelete(index) {
         posRactive.splice('payments', index, 1);
-    }
+    },
+    onOrderDelete(order_id) {
+        if (!confirm('Are you sure to delete the order?')) {
+            return;
+        }
+        let index = posRactive.get('orders').findIndex(order => order.id == order_id);
+
+        posRactive.splice('orders', index, 1);
+    }, onOrderPrint(order_id) {
+        $.ajax({
+            accepts: {
+                text: "application/json"
+            },
+            url: posSalesDetailsUrl + "?pos_sales_id=" + order_id,
+            type: "get",
+
+            success: function (response) {
+                // $('#blankModal').modal('show')
+                $('#content').html(response)
+                $('#printable').printThis()
+            }
+        });
+    }, onOrderPay(order_id) {
+        alert('In Development')
+    },
 });
 
 function initPaymentMethod() {

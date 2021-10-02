@@ -82,7 +82,8 @@
         <div class="row">
             <div class="col">
                 <div class="form-group">
-                     <select index="{{i}}" id="ledger_id{{i}}" class="form-control" name="ledger_id" value="{{ ledger_id }}">
+                     <select index="{{i}}" id="ledger_id{{i}}
+        " class="form-control" name="ledger_id" value="{{ ledger_id }}">
     {{ #each ledgers:i }}
         <option
             value="{{ id }}">
@@ -199,7 +200,7 @@
         </div>
         <div class="{{ tab === 'orders'?'':'d-none' }} mt-4" style="min-height: 400px;max-height: 400px;overflow-y: scroll;overflow-x: hidden">
             {{#each orders:i}}
-        <div class="card mt-2 order" index="{{id}}" style="cursor:pointer;">
+        <div class="card mt-2" index="{{id}}" style="cursor:pointer;">
            <div class="m-2">
            <div class="row">
            <div class="col-3">
@@ -207,25 +208,19 @@
                         <p>{{ pos_number }}</p>
 
                         </div>
-                        <div class="col-3">
 
-                        <span>Table: <b>4</b></span> <br>
-                        <span>Sale By: <b>Demo</b></span> <br>
-                        <span>Waiter: <b>Rahim</b></span> <br>
-
-                        </div>
-                        <div class="col-6">
+                        <div class="col">
                          <div class="d-flex align-items-center justify-content-center">
                          <div class="flex-1">
-                          <button type="button"  class="btn btn-outline-secondary btn-sm  " style="min-width: 100px;">
+                          <button type="button" on-click="@this.onOrderDelete(id)"   class="btn btn-outline-danger btn-lg " style="min-width: 100px;">
                          <i class="fa fa-edit"></i>
-                         EDIT</button> <br>
+                         DELETE</button>
 
-                        <button type="button" class="btn btn-outline-secondary btn-sm  mt-4" style="min-width: 100px;">
+                        <button type="button" on-click="@this.onOrderPrint(id)"   class="btn btn-outline-secondary btn-lg  mx-4" style="min-width: 100px;height: 100%">
                         <i class="fa fa-print"></i>
                         PRINT</button>
 </div>
- <button type="button"  class="btn btn-outline-primary ml-4" style="min-width: 100px;">
+ <button type="button"  class="btn btn-outline-primary btn-lg " on-click="@this.onOrderPay(id)"  style="min-width: 100px;">
                          <i class="fa fa-money-bill"></i>
                          PAY</button>
 </div>
@@ -416,6 +411,7 @@ Payment</button>
 </div>
 
 </div>
+
 
 
 

@@ -37,6 +37,7 @@ class PosSale extends Model
         return $this->hasMany(PosPayment::class, 'pos_sales_id');
     }
 
+
     public function payment_method()
     {
         return $this->belongsTo(PaymentMethod::class, 'payment_method_id');
@@ -65,6 +66,7 @@ class PosSale extends Model
         return number_format((float)$due, 2, '.', '');
 
     }
+
 
     public function getChargesAttribute()
     {
