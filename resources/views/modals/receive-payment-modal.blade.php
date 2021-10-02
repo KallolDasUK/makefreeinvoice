@@ -68,7 +68,7 @@
                             </div>
                             <div class="col-lg-6">
                                 <select id="deposit_to" class="form-control" name="deposit_to">
-                                    @foreach ($depositAccounts as $account)
+                                    @foreach (\Enam\Acc\Models\Ledger::ASSET_LEDGERS() as $account)
                                         <option
                                             value="{{ $account->id }}" {{ $account->id == ($cashAcId??null)?'selected':'' }} >
                                             {{ $account->ledger_name }}
