@@ -147,7 +147,7 @@
 </div>
 
 
-<div class="d-flex category_items mt-4" style="max-height: 120px;overflow-y: scroll">
+<div class=" {{ tab === 'orders'? 'd-none':'d-flex' }} category_items mt-4" style="max-height: 120px;overflow-y: scroll">
 <div class="ml-2 category_item d-flex align-items-center justify-content-center rounded btn btn-info" data-toggle="modal" data-target="#categoryModal">
     <svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50" width="40px"
          height="40px">
@@ -175,12 +175,16 @@
             </div>
 
            {{#each products:i}}
-        <div class="ml-2 item rounded btn" on-click="@this.onProductSelected(id)">
-             <span class="">{{ name }}</span>
+        <span class="product" style="position:relative;">
+        <i class="fas fa-bookmark bookmark_icon"  data-toggle="tooltip" data-placement="top" title="Click To Bookmark"  product-id="{{i}}" style="position: absolute;right: 0;z-index: 20;display: none"></i>
+
+        <div class="ml-2 item rounded btn" on-click="@this.onProductSelected(id)" >
+             <span class="">{{ short_name }}</span>
                  <span class="{{ stock > 0 ?'':'text-danger' }}"
-              style="position:absolute;left: 5px;bottom: 5px"><small>{{ stock }} {{ sell_unit }}</small></span>
-        <span style="position:absolute;right: 5px;bottom: 5px;font-weight: normal">{{ sell_price }}</span>
+              style="position:absolute;left: 5px;bottom: 5px"><small>{{ stock }}</small></span>
+        <span style="position:absolute;right: 5px;bottom: 5px;font-weight: normal">{{ currency }}{{ sell_price.replace('.00','') }}</span>
     </div>
+    </span>
 {{ /each }}
         {{#each empty_boxes:i}}
         <div class="ml-2 item rounded btn">
@@ -194,51 +198,75 @@
 
         </div>
         <div class=" items mt-4 {{ tab === 'bookmarks'?'d-flex':'d-none' }}" style="min-height: 400px;max-height: 400px;overflow-y: scroll">
-            <h3>Bookmark Tab</h3>
+               {{#each bookmarks:i}}
+        <span class="product" style="position:relative;">
+        <i class="fas fa-bookmark bookmark_icon"  data-toggle="tooltip" data-placement="top" title="Click To Bookmark"  product-id="{{id}}" style="position: absolute;right: 0;z-index: 20;display: none"></i>
+
+        <div class="ml-2 item rounded btn" on-click="@this.onProductSelected(id)" >
+             <span class="">{{ short_name }}</span>
+                 <span class="{{ stock > 0 ?'':'text-danger' }}"
+              style="position:absolute;left: 5px;bottom: 5px"><small>{{ stock }}</small></span>
+        <span style="position:absolute;right: 5px;bottom: 5px;font-weight: normal">{{ currency }}{{ sell_price.replace('.00','') }}</span>
+    </div>
+    </span>
+{{ /each }}
         </div>
         <div class="{{ tab === 'custom_fields'?'':'d-none' }} mt-4" style="min-height: 400px;max-height: 400px;overflow-y: scroll">
             <h3>Quick Tap</h3>
         </div>
-        <div class="{{ tab === 'orders'?'':'d-none' }} mt-4" style="min-height: 400px;max-height: 400px;overflow-y: scroll;overflow-x: hidden">
+        <div class="{{ tab === 'orders'?'':'d-none' }} mt-4" style="min-height: 550px;max-height: 550px;overflow-y: scroll;overflow-x: hidden">
             {{#each orders:i}}
-        <div class="card mt-2" index="{{id}}" style="cursor:pointer;">
+        <div class="card mt-2" index="{{id}}" >
            <div class="m-2">
-           <div class="row">
-           <div class="col-3">
+           <div class="row align-items-center justify-content-between">
+           <div class="col " style="margin-left: 20px">
            <h1>{{ currency }}{{ total }}</h1>
                         <p>{{ pos_number }}</p>
 
                         </div>
-
                         <div class="col">
-                         <div class="d-flex align-items-center justify-content-center">
-                         <div class="flex-1">
-                          <button type="button" on-click="@this.onOrderDelete(id)"   class="btn btn-outline-danger btn-lg " style="min-width: 100px;">
-                         <i class="fa fa-edit"></i>
-                         DELETE</button>
-
-                        <button type="button" on-click="@this.onOrderPrint(id)"   class="btn btn-outline-secondary btn-lg  mx-4" style="min-width: 100px;height: 100%">
-                        <i class="fa fa-print"></i>
-                        PRINT</button>
+                        <h4>
+                        <div class="{{ payment>=total?'':'d-none' }}"><span class="badge badge-primary">FULL PAID</span></div>
+                       <div class="{{ payment>=total?'d-none':'' }}">
+                        <span class="{{ payment>0?'d-block':'d-none' }}">
+                        PAID  {{ currency }}{{ payment }}
+        </span>
+        <span class="{{ due>0?'d-block':'d-none' }}">
+                        DUE  {{ currency }}{{ due.replace('.00','') }}
+        </span>
 </div>
- <button type="button"  class="btn btn-outline-primary btn-lg " on-click="@this.onOrderPay(id)"  style="min-width: 100px;">
-                         <i class="fa fa-money-bill"></i>
-                         PAY</button>
+</h4>
+</div>
+        <div class="col-6">
+
+
+          <button type="button" on-click="@this.onOrderDelete(id)"   class="btn btn-outline-danger btn-sm " style="min-width: 100px;">
+         <i class="fa fa-edit"></i>
+         DELETE</button>
+        <button class="btn btn-secondary btn-sm mx-2" on-click="@this.onOrderView(id)"  type="button">
+        <i class="fa fa-eye"></i>
+        View Items</button>
+
+        <button type="button" on-click="@this.onOrderPrint(id)"   class="btn btn-outline-secondary btn-lg " style="min-width: 100px;height: 100%">
+        <i class="fa fa-print"></i>
+        PRINT</button>
+
+
+
+
+
+
+
+
+        </div>
+
+</div>
+
+ </div>
 </div>
 
 
-
-
-
-                        </div>
-
-</div>
-
-                 </div>
-                </div>
-
-
-            {{/each}}
+{{/each}}
         {{^orders}}
         <div class="d-flex align-items-center justify-content-center">
          <h1 >No orders</h1>
@@ -252,23 +280,23 @@
 
     <div class="col-5">
         <div style="height: 40px">
-            <div class="row align-items-center justify-content-center">
-                <a href="/app" class="col-2 mx-1 btn btn-outline-primary text-center btn-sm">
+            <div class="row align-items-center justify-content-between">
+                <a href="/app" class="col-4 mx-1 btn btn-outline-primary text-center btn-sm">
                     <i class="fa fa-home"></i>
                     HOME
                 </a>
-                <button type="button" class="col mx-1 btn btn-outline-primary btn-sm">
-                    <i class="fa fa-cog"></i>
-                    POS Settings
-                </button>
-                <button type="button" class="col mx-1 btn btn-outline-primary text-center btn-sm">
-                    <i class="fa fa-cog"></i>
-                    <small>Receipt Settings</small>
-                </button>
+<!--                <button type="button" class="col mx-1 btn btn-outline-primary btn-sm">-->
+<!--                    <i class="fa fa-cog"></i>-->
+<!--                    POS Settings-->
+<!--                </button>-->
+               <div>
+               <i class="fa fa-expand"></i>
+                    <code style="font-size: 20px">F11</code> <small>(full screen)</small>
+</div>
 
-                <button type="button" class="col mx-1 btn btn-outline-info btn-sm">
-                    <i class="fa fa-file-audio"></i>
-                    Upgrade
+                <button type="button" class="col-4 mx-1 btn btn-outline-info btn-sm">
+                   <svg style="height: 14px" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="rocket-launch" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="mr2 svg-inline--fa fa-rocket-launch fa-w-16 fa-lg"><path fill="currentColor" d="M505.16405,19.29688c-1.176-5.4629-6.98736-11.26563-12.45106-12.4336C460.61647,0,435.46433,0,410.41962,0,307.2013,0,245.30155,55.20312,199.09162,128H94.88878c-16.29733,0-35.599,11.92383-42.88913,26.49805L2.57831,253.29688A28.39645,28.39645,0,0,0,.06231,264a24.008,24.008,0,0,0,24.00353,24H128.01866a96.00682,96.00682,0,0,1,96.01414,96V488a24.008,24.008,0,0,0,24.00353,24,28.54751,28.54751,0,0,0,10.7047-2.51562l98.747-49.40626c14.56074-7.28515,26.4746-26.56445,26.4746-42.84374V312.79688c72.58882-46.3125,128.01886-108.40626,128.01886-211.09376C512.07522,76.55273,512.07522,51.40234,505.16405,19.29688ZM384.05637,168a40,40,0,1,1,40.00589-40A40.02,40.02,0,0,1,384.05637,168ZM35.68474,352.06641C9.82742,377.91992-2.94985,442.59375.57606,511.41016c69.11565,3.55859,133.61147-9.35157,159.36527-35.10547,40.28913-40.2793,42.8774-93.98633,6.31147-130.54883C129.68687,309.19727,75.97,311.78516,35.68474,352.06641Zm81.63312,84.03125c-8.58525,8.584-30.08256,12.88672-53.11915,11.69922-1.174-22.93555,3.08444-44.49219,11.70289-53.10938,13.42776-13.42578,31.33079-14.28906,43.51813-2.10352C131.60707,404.77148,130.74562,422.67188,117.31786,436.09766Z" class=""></path></svg>
+                    Buy Premium
                 </button>
             </div>
         </div>
@@ -286,15 +314,14 @@
                     <tbody>
                    {{ #each pos_items:i }}
         <tr id="line{{i}}">
-   <td style="text-align: start;max-width: 130px"><i class="fa fa-edit"
-                                                     style="color: gray"></i> {{  product.name }}
+   <td style="text-align: start;max-width: 130px"> {{  product.name }}
         <br>
         <small></small>
     </td>
     <td style="text-align: center">
         <input style="max-width: 50px" type="text"
                class="form-control form-control-sm text-center"
-               value="{{ price }}">
+               value="{{ price.replace('.00','') }}">
         </td>
         <td>
             <div class="d-flex">
@@ -332,7 +359,7 @@
     </div>
 </div>
 <div class="action_buttons row mr-4" style="position: fixed;right: 0;bottom: 0;margin-bottom: 20px;width: 40%;z-index: 222">
-    <button id="suspend" type="button" class="col btn btn-danger btn-lg" style="font-size: 17px;"> Suspend</button>
+    <button id="suspend" onClick="window.location.reload();" type="button" class="col btn btn-danger btn-lg" style="font-size: 17px;"> Suspend</button>
     <button id="credit_sale" type="button"  class="col btn btn-lg btn-info mx-4 credit_sale" style="font-size: 17px;">                         <span class="spinner-grow spinner-grow-sm spinner d-none" role="status" aria-hidden="true"></span>
  Credit Sale</button>
     <button id="payment" type="button" data-toggle="modal" data-target="#posPaymentModal"  class="col btn btn-primary btn-lg" style="font-size: 17px;">                         <span class="spinner-grow spinner-grow-sm spinner d-none" role="status" aria-hidden="true"></span>
@@ -342,7 +369,7 @@ Payment</button>
 <div class="action_buttons row bg-white" style="position: fixed;left: 30px;bottom: 0;margin-bottom: 20px;width: 50%;z-index: 222">
     <button type="button" class="col btn  {{ tab === 'products'? 'btn-primary':'btn-outline-primary' }} btn-lg" style="font-size: 17px;" on-click="@this.onTabChange('products')">All Items</button>
     <button  type="button" class="col btn {{ tab === 'bookmarks'? 'btn-primary':'btn-outline-primary' }} btn-lg  mx-4" style="font-size: 17px;" on-click="@this.onTabChange('bookmarks')">Bookmarked</button>
-    <button  type="button" class="col btn  {{ tab === 'custom_fields'? 'btn-primary':'btn-outline-primary' }} btn-lg mr-4" style="font-size: 17px;" on-click="@this.onTabChange('custom_fields')">QuickTap</button>
+    <button  type="button" class="d-none col btn  {{ tab === 'custom_fields'? 'btn-primary':'btn-outline-primary' }} btn-lg mr-4" style="font-size: 17px;" on-click="@this.onTabChange('custom_fields')">QuickTap</button>
     <button  type="button" class="col btn  {{ tab === 'orders'? 'btn-primary':'btn-outline-primary' }} btn-lg" style="font-size: 17px;" on-click="@this.onTabChange('orders')">Orders</button>
 </div>
 <div class="cart-details">
@@ -412,6 +439,12 @@ Payment</button>
 </div>
 
 </div>
+
+
+
+
+
+
 
 
 

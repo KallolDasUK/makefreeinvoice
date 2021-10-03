@@ -9,7 +9,7 @@ class Product extends Model
 {
 
     protected $guarded = [];
-    protected $appends = ['stock'];
+    protected $appends = ['stock', 'short_name'];
 
     public function category()
     {
@@ -52,6 +52,19 @@ class Product extends Model
 
     }
 
+    public function getShortNameAttribute()
+    {
+        $maxLength = 25;
+        $shortName = $this->name;
+        if (strlen($this->name) > $maxLength) {
+            $shortName = substr($this->name, 0, $maxLength) . '...';
+        }
+
+        return $shortName;
+
+    }
+
+
 
     public function currentStock($product, $start_date)
     {
@@ -80,5 +93,6 @@ class Product extends Model
         $stock = ($enteredOpening + $purchase + $added) - ($sold + $removed);
         return $stock;
     }
+
 
 }

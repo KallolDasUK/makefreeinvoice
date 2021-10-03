@@ -356,3 +356,28 @@ $(document).ready(function () {
 })
 
 
+$(document).on('mouseenter', '.product', function () {
+    let bookmark_icon = $(this).find('.bookmark_icon')
+
+    bookmark_icon.toggle()
+})
+$(document).on('mouseleave', '.product', function () {
+    let bookmark_icon = $(this).find('.bookmark_icon')
+
+    bookmark_icon.toggle()
+})
+$(document).on('click', '.bookmark_icon', function (e) {
+    let product_id = $(this).attr('product-id')
+    // alert('clicked')
+    $.ajax({
+        accepts: {
+            text: "application/json"
+        },
+        url: productBookmarkedUrl + "?product_id=" + product_id,
+        type: "get",
+
+        success: function (response) {
+            posRactive.set('bookmarks', response);
+        }
+    });
+})

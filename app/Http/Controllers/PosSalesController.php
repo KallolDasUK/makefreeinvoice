@@ -45,9 +45,10 @@ class PosSalesController extends Controller
         $title = "POS - Point Of Sale";
         $orders = PosSale::query()->latest()->limit(50)->get();
         $ledger_id = Ledger::CASH_AC();
-//        dd(Ledger::ASSET_LEDGERS());
+        $bookmarks = Product::query()->where('is_bookmarked', true)->get();
         return view('pos_sales.create',
-            compact('customers', 'branches', 'ledgers', 'ledger_id', 'products', 'categories', 'title', 'orders', 'paymentMethods'));
+            compact('customers', 'branches', 'ledgers', 'ledger_id', 'products', 'categories', 'title', 'orders',
+                'paymentMethods', 'bookmarks'));
     }
 
 
