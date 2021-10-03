@@ -51,7 +51,7 @@
         });
     </script>
     <script src="{{ asset('js/product.js') }}"></script>
-    <script src="{{ asset('js/pos/pos_sales.js') }}?v=1.1"></script>
-    <script src="{{ asset('js/pos/pos_crud.js') }}?v=1.1"></script>
+    <script src="{{ asset('js/pos/pos_sales.js') }}?v=1.2"></script>
+    <script src="{{ asset('js/pos/pos_crud.js') }}?v=1.2"></script>
 @endsection
 
