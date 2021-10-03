@@ -20,6 +20,7 @@ var posRactive = new Ractive({
         tab: TABS.PRODUCT_CONTAINER,
         pos_items: pos_items,
         empty_boxes: Array.from({length: 23 - products.length}, (x, i) => i),
+        bookmark_empty_boxes: Array.from({length: 24 - bookmarks.length}, (x, i) => i),
         sub_total: 0,
         total: 0,
         currency: currency,
@@ -36,6 +37,8 @@ var posRactive = new Ractive({
     observe: {
         'products': (newProducts) => {
             posRactive.set('empty_boxes', Array.from({length: 23 - newProducts.length}, (x, i) => i))
+        }, 'bookmarks': (bookmarks) => {
+            posRactive.set('bookmark_empty_boxes', Array.from({length: 24 - bookmarks.length}, (x, i) => i))
         },
         'pos_items': (newPosItems) => {
             let sub_total = newPosItems.reduce((s, item) => s + (item.qnt * item.price), 0);
@@ -175,8 +178,24 @@ var posRactive = new Ractive({
             return;
         }
         let index = posRactive.get('orders').findIndex(order => order.id == order_id);
-
         posRactive.splice('orders', index, 1);
+
+        $.ajax({
+            accepts: {
+                text: "application/json"
+            },
+            url: route('pos_sales.pos_sale.destroy', order_id),
+            type: "DELETE",
+            data: {
+                "id": order_id,
+                "_token": token,
+            },
+            success: function (response) {
+
+            }
+        });
+
+
     }, onOrderPrint(order_id) {
         $.ajax({
             accepts: {

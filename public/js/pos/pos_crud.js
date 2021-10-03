@@ -359,15 +359,26 @@ $(document).ready(function () {
 $(document).on('mouseenter', '.product', function () {
     let bookmark_icon = $(this).find('.bookmark_icon')
 
-    bookmark_icon.toggle()
+    bookmark_icon.show()
 })
 $(document).on('mouseleave', '.product', function () {
     let bookmark_icon = $(this).find('.bookmark_icon')
 
-    bookmark_icon.toggle()
+    bookmark_icon.hide()
 })
 $(document).on('click', '.bookmark_icon', function (e) {
     let product_id = $(this).attr('product-id')
+    let products = posRactive.get('products')
+    let index = products.findIndex((product)=> product.id == product_id)
+    let product = products.find((product)=> product.id == product_id)
+    posRactive.set(`products.${index}.is_bookmarked`,!product.is_bookmarked)
+    if (product.is_bookmarked){
+        $.notify("Added to Bookmark","success");
+
+    }else{
+        $.notify("Removed from Bookmark","success");
+
+    }
     // alert('clicked')
     $.ajax({
         accepts: {

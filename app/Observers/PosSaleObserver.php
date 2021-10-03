@@ -27,6 +27,8 @@ class PosSaleObserver
     {
         $accounting = new AccountingFacade();
         $accounting->on_pos_sales_delete($posSale);
+
+
     }
 
 }
