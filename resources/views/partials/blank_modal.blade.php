@@ -4,7 +4,7 @@
         <div class="modal-content" id="printable">
 
             <div class="modal-body">
-                <div class="content m-4" id="content" style="width: 300px!important;">
+                <div class="content mx-2" id="content" style="width: 300px!important;">
 
                 </div>
             </div>

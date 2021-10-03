@@ -82,8 +82,9 @@
         <div class="row">
             <div class="col">
                 <div class="form-group">
-                     <select index="{{i}}" id="ledger_id{{i}}
-        " class="form-control" name="ledger_id" value="{{ ledger_id }}">
+                     <select
+                     id="ledger_id{{i}}" index="{{i}}"   class="form-control"
+                      name="ledger_id" value="{{ ledger_id }}">
     {{ #each ledgers:i }}
         <option
             value="{{ id }}">
@@ -411,6 +412,9 @@ Payment</button>
 </div>
 
 </div>
+
+
+
 
 
 
