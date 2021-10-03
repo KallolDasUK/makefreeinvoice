@@ -172,6 +172,7 @@ Route::group(['middleware' => 'auth:web', 'prefix' => 'app'], function () {
         Route::get('/create', [ProductsController::class, 'create'])->name('products.product.create');
         Route::get('/show/{product}', [ProductsController::class, 'show'])->name('products.product.show')->where('id', '[0-9]+');
         Route::get('/{product}/edit', [ProductsController::class, 'edit'])->name('products.product.edit')->where('id', '[0-9]+');
+        Route::get('/bookmark', [ProductsController::class, 'bookmark'])->name('products.product.bookmark');
         Route::post('/', [ProductsController::class, 'store'])->name('products.product.store');
         Route::put('product/{product}', [ProductsController::class, 'update'])->name('products.product.update')->where('id', '[0-9]+');
         Route::delete('/product/{product}', [ProductsController::class, 'destroy'])->name('products.product.destroy')->where('id', '[0-9]+');

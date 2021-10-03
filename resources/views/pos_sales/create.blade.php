@@ -26,6 +26,7 @@
         var ledgers = @json($ledgers);
         var cash_ledger_id = "{{ $ledger_id }}";
         var categories = @json($categories);
+        var bookmarks = @json($bookmarks);
         var paymentMethods = @json($paymentMethods);
         var orders = @json($orders);
         var currency = '$';
@@ -33,6 +34,7 @@
             product_id: '', description: '', price: '', qnt: 1, tax_id: '', attribute_id: '', unit: 'unit', amount: ''
         };
         var posSalesDetailsUrl = "{{ route('pos_sales.pos_sale.details') }}";
+        var productBookmarkedUrl = "{{ route('products.product.bookmark') }}";
         var copiedObject = jQuery.extend(true, {}, sample_pos_item)
         var pos_items = [];
 

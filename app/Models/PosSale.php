@@ -11,6 +11,7 @@ class PosSale extends Model
 
 
     protected $guarded = [];
+    protected $appends = ['due', 'payment', 'charges'];
 
     public function customer()
     {

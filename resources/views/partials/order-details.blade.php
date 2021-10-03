@@ -53,7 +53,7 @@
 </div>
 
 
-<table class="table text-center table-sm table-bordered">
+<table class="table text-center table-sm table-bordered" style="color: black">
     <tr>
         <th class="text-left">Item</th>
         <th>Price</th>
@@ -94,14 +94,20 @@
         <td>  {{ decent_format_dash_if_zero($posSale->total) }}</td>
     </tr>
     @if($posSale->payment>0)
+        <tr>
+
+
         <td></td>
         <td colspan="2">Paid</td>
-        <td> {{ decent_format_dash_if_zero($posSale->payment) }}</td>
+        <td> {{ decent_format_dash_if_zero($posSale->payment) }}</td></tr>
     @endif
     @if($posSale->due>0)
+        <tr>
+
+
         <td></td>
         <td colspan="2">Due</td>
-        <td> {{ decent_format_dash_if_zero($posSale->due) }}</td>
+        <td> {{ decent_format_dash_if_zero($posSale->due) }}</td> </tr>
     @endif
 
 

@@ -100,6 +100,21 @@ class ProductsController extends Controller
         return view('products.edit', compact('product', 'categories', 'units', 'brands'));
     }
 
+    public function bookmark(Request $request)
+    {
+        $products = Product::query()->where('is_bookmarked', true)->get();
+
+        $product_id = $request->get('product_id');
+        if ($product_id) {
+            $product = Product::find(intval($product_id));
+            dd($product_id,$request->all(),$product);
+            $product->is_bookmarked = !$product->is_bookmarked;
+            $product->save();
+
+        }
+        return $products;
+    }
+
 
     public function update($id, Request $request)
     {
