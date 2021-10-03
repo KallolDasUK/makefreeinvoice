@@ -331,7 +331,7 @@
     <td style="text-align: center">
         <input style="max-width: 50px" type="text"
                class="form-control form-control-sm text-center"
-               value="{{ price.replace('.00','') }}">
+               value="{{ price }}">
         </td>
         <td>
             <div class="d-flex">
