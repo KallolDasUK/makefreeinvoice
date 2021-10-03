@@ -19,6 +19,7 @@
     <!-- plugin css -->
     <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900'
           type='text/css'>
+    @routes
 
 
     <script src="https://use.fontawesome.com/715fc6bd34.js"></script>

@@ -28,6 +28,7 @@
         var categories = @json($categories);
         var bookmarks = @json($bookmarks);
         var paymentMethods = @json($paymentMethods);
+        var token = $("meta[name='csrf-token']").attr("content");
         var orders = @json($orders);
         var currency = '$';
         var sample_pos_item = {
@@ -35,6 +36,7 @@
         };
         var posSalesDetailsUrl = "{{ route('pos_sales.pos_sale.details') }}";
         var productBookmarkedUrl = "{{ route('products.product.bookmark') }}";
+
         var copiedObject = jQuery.extend(true, {}, sample_pos_item)
         var pos_items = [];
 

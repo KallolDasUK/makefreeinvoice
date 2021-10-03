@@ -175,6 +175,11 @@ class PosSalesController extends Controller
             $model->delete();
         });
         $posSale->delete();
+
+        if (\request()->ajax()) {
+            return [];
+        }
+
         return redirect()->route('pos_sales.pos_sale.index')
             ->with('success_message', 'Pos Sale was successfully deleted.');
 
