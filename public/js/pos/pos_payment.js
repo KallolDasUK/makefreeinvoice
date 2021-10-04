@@ -49,7 +49,7 @@ var paymentRactive = new Ractive({
                 setTimeout(() => {
                     $('.amount').focus()
                     $('.amount').select()
-                    initPaymentMethod()
+                    initPaymentMethodPOS()
 
                 }, 200)
 
@@ -64,7 +64,7 @@ var paymentRactive = new Ractive({
             nextAmount = Math.abs(change)
         }
         paymentRactive.push('payments', {amount: nextAmount, ledger_id: cash_ledger_id});
-        initPaymentMethod()
+        initPaymentMethodPOS()
 
     },
     onPaymentRowDelete(index) {
@@ -99,7 +99,7 @@ var paymentRactive = new Ractive({
 
 });
 
-function initPaymentMethod() {
+function initPaymentMethodPOS() {
     let i = paymentRactive.get('payments').length - 1;
     $(`#payment_ledger_id${i}`).select2({
         placeholder: "--"
