@@ -318,14 +318,40 @@ $(document).ready(function () {
                 success: function (response) {
 
                     let i = $('#createLedgerForm').attr('index') || 0;
-                    posRactive.push('ledgers', response)
-                    posRactive.set(`payments.${i}.ledger_id`, response.id)
-                    $('#createLedgerForm').trigger("reset");
-                    $('#ledger_group_id').val(null).trigger('change');
-                    $('#storeLedger').prop('disabled', false)
-                    $('.spinner').addClass('d-none')
-                    console.log(i)
-                    $('#ledgerModal').modal('hide');
+                    if (($("#posPaymentSingleModal").data('bs.modal') || {})._isShown) {
+                        paymentRactive.push('ledgers', response)
+
+                        var data = {
+                            id: response.id,
+                            text: response.ledger_name
+                        };
+
+                        var newOption = new Option(data.text, data.id, true, true);
+                        $(`payment_ledger_id${i}`).append(newOption).trigger('change');
+                        paymentRactive.set(`payments.${i}.ledger_id`, response.id)
+                        $('#createLedgerForm').trigger("reset");
+                        $('#ledger_group_id').val(null).trigger('change');
+                        $('#storeLedger').prop('disabled', false)
+                        $('.spinner').addClass('d-none')
+                        console.log(i, response, paymentRactive.get())
+                        $('#ledgerModal').modal('hide');
+                        // alert('ops')
+
+
+                    } else {
+
+                        console.log(response)
+
+                        posRactive.push('ledgers', response)
+                        posRactive.set(`payments.${i}.ledger_id`, response.id)
+                        $('#createLedgerForm').trigger("reset");
+                        $('#ledger_group_id').val(null).trigger('change');
+                        $('#storeLedger').prop('disabled', false)
+                        $('.spinner').addClass('d-none')
+                        $('#ledgerModal').modal('hide');
+                    }
+
+
                 },
 
             });
@@ -404,7 +430,7 @@ document.onkeyup = function (e) {
         if (($("#posPaymentModal").data('bs.modal') || {})._isShown) {
             $('#storePosPaymentBtn').click()
             console.log('storePosPaymentBtn')
-        }   if (($("#posPaymentSingleModal").data('bs.modal') || {})._isShown) {
+        } else if (($("#posPaymentSingleModal").data('bs.modal') || {})._isShown) {
             $('#singlePaymentBtn').click()
             console.log('posPaymentSingleModal')
         } else {
