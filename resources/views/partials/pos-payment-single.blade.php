@@ -14,14 +14,7 @@
 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary btn-lg" id="singlePaymentBtn"
-                        style="position:relative;min-width: 200px">
-                    <code style="position:absolute;right: 0;top: -30px"> Ctrl + Enter</code>
-                    <span class="spinner-grow spinner-grow-sm spinner d-none" role="status"
-                          aria-hidden="true"></span>
-                    Pay Now
-                </button>
+
             </div>
         </div>
 
@@ -70,23 +63,44 @@
                                                                 <div class="list-group-item d-flex justify-content-between align-items-center">
            Total Payable
            <span
-               class="font-weight-bold"><h2>{{ currency }}{{ order.due }}</h2></span>
+               class="font-weight-bold"><h2>{{ currency }}{{ due }}</h2></span>
                                                             </div>
                                                         </div>
                                                     </div><!----><!----></div>
 
+{{ #each charges:i }}
+        <div class="row align-items-center justify-content-center mt-4">
 
-                                            </div>
-                                            <div class="col">
 
-                                                <div class="row align-items-center">
-                                                    <div class="col ">
+            <div class="col">
+                <div class="font-weight-bold"><input type="text" class="form-control form-control-sm"
+                                                     placeholder="Ex. Vat" value="{{ key }}"></div>
+                </div>
+                <div>
+                <span class="{{ i>1?'':'d-none' }}">
+                <i class="fa fa-trash text-danger" on-click="@this.onChargeDelete(i)"></i></span>
+</div>
+                <div class="col">
+                <input type="text" class="form-control form-control-sm" value="{{ value }}"
+                                        placeholder="ex. 5%,100,-5,-10%">
 
-                                                        <div class="card " style="border: none">
-                                                            <div class="d-flex align-items-center justify-content-center">
-                                                                <div class="card-body ">
-                                                                    <h2>GIVEN</h2>
-                                                                    <h3>{{ given }}</h3>
+                                         </div>
+
+            </div>{{/each}}
+
+        <button type="button" class="btn btn-outline-primary btn-sm mt-4" style="width: 100%;margin-bottom: 100px" on-click="@this.onChargeCreate()">+ Add More Field
+       </button>
+                                           </div>
+                                           <div class="col">
+
+                                               <div class="row align-items-center">
+                                                   <div class="col ">
+
+                                                       <div class="card " style="border: none">
+                                                           <div class="d-flex align-items-center justify-content-center">
+                                                               <div class="card-body ">
+                                                                   <h2>GIVEN</h2>
+                                                                   <h3>{{ given }}</h3>
                                                                 </div>
                                                                 <div class="vertical-divider"></div>
                                                             </div>
@@ -137,10 +151,22 @@
                                                     </div><!-- Col-->
                                                 </div><!-- Row-->
                                                 {{ /each }}
-        <button type="button" class="btn btn-primary btn-sm mt-4"
+        <button type="button" class="btn btn-outline-primary btn-sm mt-4"
                 style="width: 100%;margin-bottom: 100px" on-click="@this.onPaymentRowCreate()">+ Add
             More Method
         </button>
+        <div class="row align-items-center justify-content-between">
+        <div class="col"> <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button></div>
+        <div class="col"><button type="button" class="btn btn-primary btn-lg" id="singlePaymentBtn"
+                        style="position:relative;min-width: 200px">
+                    <code style="position:absolute;right: 0;top: -30px"> Ctrl + Enter</code>
+                    <span class="spinner-grow spinner-grow-sm spinner d-none" role="status"
+                          aria-hidden="true"></span>
+                    Pay Now
+                </button></div>
+</div>
+
+
     </div>
 
 </div>

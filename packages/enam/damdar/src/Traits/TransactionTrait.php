@@ -52,14 +52,11 @@ trait TransactionTrait
     {
         $groups = LedgerGroup::query()->where('parent', $id)->get();
         $ledger = Ledger::query()->where('ledger_group_id', $id);
-//        dd($groups, $ledger->get());
         $ledger_id = $ledger->pluck('id')->toArray();
         foreach ($ledger_id as $id) {
             array_push($this->arr, $id);
         }
 
-//        dd(self::$arr);
-//        dd(self::$arr);
 
         foreach ($groups as $group) {
             $this->getChildLedgerGroup($group->id);

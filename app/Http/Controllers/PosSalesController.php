@@ -14,12 +14,15 @@ use App\Models\PosSale;
 use App\Models\Product;
 use Enam\Acc\Models\Branch;
 use Enam\Acc\Models\Ledger;
+use Enam\Acc\Models\LedgerGroup;
+use Enam\Acc\Traits\TransactionTrait;
+use Enam\Acc\Utils\Nature;
 use Illuminate\Http\Request;
 use Exception;
 
 class PosSalesController extends Controller
 {
-
+    use TransactionTrait;
 
     public function index()
     {
@@ -38,7 +41,7 @@ class PosSalesController extends Controller
         }
         $customers = Customer::all();
         $branches = Branch::pluck('id', 'id')->all();
-        $ledgers = Ledger::ASSET_LEDGERS();
+        $ledgers = Ledger::find($this->getAssetLedgers())->toArray();
         $categories = Category::all();
         $products = Product::all();
         $paymentMethods = PaymentMethod::all();
@@ -48,12 +51,31 @@ class PosSalesController extends Controller
         $start_date = today()->toDateString();
         $end_date = today()->toDateString();
         $orders = PosSale::query()->whereBetween('date', [$start_date, $end_date])->latest()->get();
-
+//        dd($ledgers);
         return view('pos_sales.create',
             compact('customers', 'branches', 'ledgers', 'ledger_id', 'products', 'categories', 'title', 'orders',
                 'paymentMethods', 'bookmarks', 'start_date', 'end_date'));
     }
 
+    public function getAssetLedgers()
+    {
+        $this->arr = [];
+
+        $incomeLedgerGroups = LedgerGroup::query()->where('nature', Nature::$ASSET)->get();
+
+        foreach ($incomeLedgerGroups as $group) {
+            try {
+                $parentBankLedger = LedgerGroup::query()->where('id', $group->id)->first();
+                $this->getChildLedgerGroup($parentBankLedger->id);
+
+            } catch (\Exception $exception) {
+                dd($exception);
+                return [];
+            }
+        }
+        return $this->arr;
+
+    }
 
     public function store(Request $request)
     {
@@ -147,7 +169,18 @@ class PosSalesController extends Controller
         $pos_id = $request->order_id;
         $pos_sales = PosSale::find($pos_id);
         $pos_payments = $request->pos_payments ?? [];
+        $pos_charges = $request->pos_charges ?? [];
         $pos_payments = json_decode(json_encode($pos_payments), FALSE);
+        $pos_charges = json_decode(json_encode($pos_charges), FALSE);
+        PosCharge::query()->where('pos_sales_id', $pos_sales->id)->delete();
+
+        foreach ($pos_charges as $pos_charge) {
+            PosCharge::create(['pos_sales_id' => $pos_sales->id, 'key' => $pos_charge->key,
+                'value' => $pos_charge->value, 'amount' => $pos_charge->amount ?? 0]);
+        }
+
+        $pos_sales->total = collect($pos_charges)->sum('amount') + $pos_sales->sub_total;
+        $pos_sales->save();
         $given = collect($pos_payments)->sum('amount');
         $change = $pos_sales->due - $given;
         $pos_sales->change = 0;
