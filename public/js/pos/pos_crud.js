@@ -289,7 +289,7 @@ $(document).ready(function () {
         }
     })
     $('#posPaymentModal').on('shown.bs.modal', function (e) {
-// alert(posRactive.get('total'))
+
         posRactive.set('payments', [{amount: posRactive.get('total'), ledger_id: cash_ledger_id}])
 
         setTimeout(() => {
@@ -301,7 +301,7 @@ $(document).ready(function () {
     })
     $('#posPaymentModal').on('hidden.bs.modal', function (e) {
         posRactive.set('payments', [])
-
+        $('#product_search').focus()
     })
 
     /* Creating Ledger Account Via Ajax With Validation */
@@ -369,14 +369,14 @@ $(document).on('mouseleave', '.product', function () {
 $(document).on('click', '.bookmark_icon', function (e) {
     let product_id = $(this).attr('product-id')
     let products = posRactive.get('products')
-    let index = products.findIndex((product)=> product.id == product_id)
-    let product = products.find((product)=> product.id == product_id)
-    posRactive.set(`products.${index}.is_bookmarked`,!product.is_bookmarked)
-    if (product.is_bookmarked){
-        $.notify("Added to Bookmark","success");
+    let index = products.findIndex((product) => product.id == product_id)
+    let product = products.find((product) => product.id == product_id)
+    posRactive.set(`products.${index}.is_bookmarked`, !product.is_bookmarked)
+    if (product.is_bookmarked) {
+        $.notify("Added to Bookmark", "success");
 
-    }else{
-        $.notify("Removed from Bookmark","success");
+    } else {
+        $.notify("Removed from Bookmark", "success");
 
     }
     // alert('clicked')
@@ -392,3 +392,33 @@ $(document).on('click', '.bookmark_icon', function (e) {
         }
     });
 })
+
+$(document).ready(function () {
+    $('#product_search').focus()
+
+})
+document.onkeyup = function (e) {
+    var e = e || window.event; // for IE to cover IEs window event-object
+    if (e.ctrlKey && e.which == 13) {
+        console.log('got the event')
+        if (($("#posPaymentModal").data('bs.modal') || {})._isShown) {
+            $('#storePosPaymentBtn').click()
+            console.log('storePosPaymentBtn')
+        }   if (($("#posPaymentSingleModal").data('bs.modal') || {})._isShown) {
+            $('#singlePaymentBtn').click()
+            console.log('posPaymentSingleModal')
+        } else {
+            $('#payment').click()
+            console.log('payment')
+
+        }
+
+        return false;
+    } else if (e.altKey && e.which == 13) {
+        console.log('got the event')
+        $('#credit_sale').click()
+        return false;
+    }
+}
+
+

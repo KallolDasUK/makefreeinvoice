@@ -345,8 +345,11 @@ Route::group(['middleware' => 'auth:web', 'prefix' => 'app'], function () {
         Route::get('/create',[PosSalesController::class,'create'])->name('pos_sales.pos_sale.create');
         Route::get('/show/{posSale}',[PosSalesController::class,'show'])->name('pos_sales.pos_sale.show')->where('id', '[0-9]+');
         Route::get('/details',[PosSalesController::class,'details'])->name('pos_sales.pos_sale.details')->where('id', '[0-9]+');
+        Route::post('/eye/{posSale}',[PosSalesController::class,'eye'])->name('pos_sales.pos_sale.eye')->where('id', '[0-9]+');
         Route::get('/{posSale}/edit',[PosSalesController::class,'edit'])->name('pos_sales.pos_sale.edit')->where('id', '[0-9]+');
         Route::post('/', [PosSalesController::class,'store'])->name('pos_sales.pos_sale.store');
+        Route::post('/pay', [PosSalesController::class,'pay'])->name('pos_sales.pos_sale.pay');
+        Route::post('/filter', [PosSalesController::class,'filter'])->name('pos_sales.pos_sale.filter');
         Route::put('pos_sale/{posSale}', [PosSalesController::class,'update'])->name('pos_sales.pos_sale.update')->where('id', '[0-9]+');
         Route::delete('/pos_sale/{posSale}',[PosSalesController::class,'destroy'])->name('pos_sales.pos_sale.destroy')->where('id', '[0-9]+');
 
