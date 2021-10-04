@@ -32,7 +32,9 @@ var posRactive = new Ractive({
         ledgers: ledgers,
         cash_ledger_id: cash_ledger_id,
         given: 0,
-        change: 0
+        change: 0,
+        start_date: start_date,
+        end_date: end_date
     },
     observe: {
         'products': (newProducts) => {
@@ -73,8 +75,6 @@ var posRactive = new Ractive({
             posRactive.set('given', given)
             posRactive.set('change', change)
             $('#payments').val(JSON.stringify(payments));
-
-
         }
     },
     onCategorySelected(category_id) {
@@ -96,11 +96,13 @@ var posRactive = new Ractive({
         posRactive.set('tab', text)
         if (text === "products") {
             posRactive.set('products', products)
-
         }
+        $('#product_search').focus()
+
     },
     delete_pos_item(i) {
         posRactive.splice('pos_items', i, 1);
+        $('#product_search').focus()
     },
     increment(i) {
         let pos_item = posRactive.get(`pos_items.${i}`);
@@ -159,7 +161,6 @@ var posRactive = new Ractive({
         posRactive.set('change', change)
 
     },
-
     onPaymentRowCreate() {
         let change = posRactive.get('change');
         let nextAmount = 0;
@@ -196,7 +197,8 @@ var posRactive = new Ractive({
         });
 
 
-    }, onOrderPrint(order_id) {
+    },
+    onOrderPrint(order_id) {
         $.ajax({
             accepts: {
                 text: "application/json"
@@ -208,9 +210,12 @@ var posRactive = new Ractive({
                 // $('#blankModal').modal('show')
                 $('#content').html(response)
                 $('#printable').printThis()
+                $('#product_search').focus()
+
             }
         });
-    }, onOrderView(order_id) {
+    },
+    onOrderView(order_id) {
         $.ajax({
             accepts: {
                 text: "application/json"
@@ -224,6 +229,37 @@ var posRactive = new Ractive({
                 // $('#printable').printThis()
             }
         });
+    },
+    onOrderFilter() {
+        let start_date = $('#start_date').val()
+        let end_date = $('#end_date').val()
+        console.log('start_date', start_date, 'end_date', end_date)
+        $.ajax({
+            accepts: {
+                text: "application/json"
+            },
+            url: route('pos_sales.pos_sale.filter'),
+            type: "post",
+            data: {
+                "start_date": start_date,
+                "end_date": end_date,
+                "_token": token,
+            },
+            beforeSend: function () {
+                posRactive.set('orders', [])
+
+            },
+            success: function (response) {
+                posRactive.set('orders', response)
+            }
+        });
+    },
+    onOrderPay(order_id) {
+        $('#posPaymentSingleModal').modal('show')
+        let order = posRactive.get('orders').find(order => order.id == order_id)
+        paymentRactive.set('order', order)
+        paymentRactive.fetchOrder(order_id)
+
     },
 
 });
@@ -328,6 +364,7 @@ function addToCart(id) {
     };
     var copiedObject = jQuery.extend(true, {}, sample_pos_item)
     posRactive.unshift('pos_items', copiedObject)
+    $('#product_search').focus()
 
 }
 
@@ -339,45 +376,3 @@ function percentage(percent, total) {
 /* Calling Functions */
 
 setUpProductSearch()
-
-function cancelFullScreen() {
-    var el = document;
-    var requestMethod = el.cancelFullScreen || el.webkitCancelFullScreen || el.mozCancelFullScreen || el.exitFullscreen || el.webkitExitFullscreen;
-    if (requestMethod) { // cancel full screen.
-        requestMethod.call(el);
-    } else if (typeof window.ActiveXObject !== "undefined") { // Older IE.
-        var wscript = new ActiveXObject("WScript.Shell");
-        if (wscript !== null) {
-            wscript.SendKeys("{F11}");
-        }
-    }
-}
-
-function requestFullScreen(el) {
-    // Supports most browsers and their versions.
-    var requestMethod = el.requestFullScreen || el.webkitRequestFullScreen || el.mozRequestFullScreen || el.msRequestFullscreen;
-
-    if (requestMethod) { // Native full screen.
-        requestMethod.call(el);
-    } else if (typeof window.ActiveXObject !== "undefined") { // Older IE.
-        var wscript = new ActiveXObject("WScript.Shell");
-        if (wscript !== null) {
-            wscript.SendKeys("{F11}");
-        }
-    }
-    return false
-}
-
-function toggleFullScreen(el) {
-    if (!el) {
-        el = document.body; // Make the body go full screen.
-    }
-    var isInFullScreen = (document.fullScreenElement && document.fullScreenElement !== null) || (document.mozFullScreen || document.webkitIsFullScreen);
-
-    if (isInFullScreen) {
-        cancelFullScreen();
-    } else {
-        requestFullScreen(el);
-    }
-    return false;
-}

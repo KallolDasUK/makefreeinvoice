@@ -109,7 +109,8 @@
       </div>
       <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary btn-lg" id="storePosPaymentBtn">
+                    <button type="button" class="btn btn-primary btn-lg" id="storePosPaymentBtn" style="position:relative;min-width: 200px">
+                           <code style="position:absolute;right: 0;top: -30px"> Ctrl + Enter</code>
                         <span class="spinner-grow spinner-grow-sm spinner d-none" role="status"
                               aria-hidden="true"></span>
                         Pay Now
@@ -148,7 +149,7 @@
 
 
 <div class=" {{ tab === 'orders'? 'd-none':'d-flex' }} category_items mt-4" style="max-height: 120px;overflow-y: scroll">
-<div class="ml-2 category_item d-flex align-items-center justify-content-center rounded btn btn-info" data-toggle="modal" data-target="#categoryModal">
+<div class="ml-2 category_item d-flex align-items-center justify-content-center rounded btn btn-primary" data-toggle="modal" data-target="#categoryModal">
     <svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50" width="40px"
          height="40px">
         <path
@@ -225,6 +226,30 @@
             <h3>Quick Tap</h3>
         </div>
         <div class="{{ tab === 'orders'?'':'d-none' }} mt-4" style="min-height: 550px;max-height: 550px;overflow-y: scroll;overflow-x: hidden">
+
+        <div class="row align-items-center justify-content-center">
+
+                                    <div class="input-daterange input-group col" >
+                                        <input type="date" class="form-control " name="start_date"  id="start_date"  value="{{ start_date }}" placeholder="Start">
+                                        <div class="input-group-append">
+									<span class="input-group-text">
+										...
+                                    </span>
+                                        </div>
+                                        <input type="date" class="form-control" name="end_date" id="end_date" value="{{ end_date }}" placeholder="End">
+                                    </div>
+
+
+                                <div class="col">
+                                    <button role="button" type="button" on-click="@this.onOrderFilter()" class="btn btn-primary px-6 mx-2  font-weight-bold">
+                                        <i class="fas fa-sliders-h"></i>
+                                        Filter
+                                    </button>
+                                    <span style="font-size: 20px" class="ml-4">{{ orders.length }} Orders</span>
+                                </div>
+
+
+                            </div>
             {{#each orders:i}}
         <div class="card mt-2" index="{{id}}" >
            <div class="m-2">
@@ -233,10 +258,12 @@
            <h1>{{ currency }}{{ total }}</h1>
                         <p>{{ pos_number }}</p>
 
+                        <span>{{ date||'n/a' }}</span>
+
                         </div>
                         <div class="col">
                         <h4>
-                        <div class="{{ payment>=total?'':'d-none' }}"><span class="badge badge-primary">FULL PAID</span></div>
+                        <div class="{{ payment>=total?'':'d-none' }}"><span class="badge badge-light"> <i class="fa fa-check-circle text-success"></i> Paid</span></div>
                        <div class="{{ payment>=total?'d-none':'' }}">
                         <span class="{{ payment>0?'d-block':'d-none' }}">
                         PAID  {{ currency }}{{ payment }}
@@ -244,6 +271,9 @@
         <span class="{{ due>0?'d-block':'d-none' }}">
                         DUE  {{ currency }}{{ due.replace('.00','') }}
         </span>
+         <button type="button" on-click="@this.onOrderPay(id)"   class="btn btn-primary btn-sm " style="min-width: 100px;height: 100%">
+
+        Get Payment</button>
 </div>
 </h4>
 </div>
@@ -260,6 +290,7 @@
         <button type="button" on-click="@this.onOrderPrint(id)"   class="btn btn-outline-secondary btn-lg " style="min-width: 100px;height: 100%">
         <i class="fa fa-print"></i>
         PRINT</button>
+
 
 
 
@@ -370,9 +401,13 @@
 </div>
 <div class="action_buttons row mr-4" style="position: fixed;right: 0;bottom: 0;margin-bottom: 20px;width: 40%;z-index: 222">
     <button id="suspend" onClick="window.location.reload();" type="button" class="col btn btn-danger btn-lg" style="font-size: 17px;"> Suspend</button>
-    <button id="credit_sale" type="button"  class="col btn btn-lg btn-info mx-4 credit_sale" style="font-size: 17px;">                         <span class="spinner-grow spinner-grow-sm spinner d-none" role="status" aria-hidden="true"></span>
+    <button id="credit_sale" type="button"  class="col btn btn-lg btn-info mx-4 credit_sale" style="font-size: 17px;position:relative;">
+                              <code style="position:absolute;right: 0;top: -30px"> Alt + Enter</code>
+                          <span class="spinner-grow spinner-grow-sm spinner d-none" role="status" aria-hidden="true"></span>
  Credit Sale</button>
-    <button id="payment" type="button" data-toggle="modal" data-target="#posPaymentModal"  class="col btn btn-primary btn-lg" style="font-size: 17px;">                         <span class="spinner-grow spinner-grow-sm spinner d-none" role="status" aria-hidden="true"></span>
+    <button id="payment" type="button" data-toggle="modal" data-target="#posPaymentModal"  class="col btn btn-primary btn-lg" style="font-size: 17px;position:relative;">
+                             <code style="position:absolute;right: 0;top: -30px"> Ctrl + Enter</code>
+                             <span class="spinner-grow spinner-grow-sm spinner d-none" role="status" aria-hidden="true"></span>
 Payment</button>
 </div>
 
@@ -449,6 +484,11 @@ Payment</button>
 </div>
 
 </div>
+
+
+
+
+
 
 
 

@@ -5,6 +5,7 @@
     @include('partials.ajax-product-create-form')
     @include('partials.ajax-customer-create-form')
     @include('partials.ajax-payment-method-create-form')
+    @include('partials.pos-payment-single')
     @include('partials.blank_modal')
     @include('partials.ajax-ledger-create-form')
     <form method="POST" action="{{ route('pos_sales.pos_sale.store') }}" accept-charset="UTF-8"
@@ -27,6 +28,8 @@
         var cash_ledger_id = "{{ $ledger_id }}";
         var categories = @json($categories);
         var bookmarks = @json($bookmarks);
+        var start_date = @json($start_date);
+        var end_date = @json($end_date);
         var paymentMethods = @json($paymentMethods);
         var token = $("meta[name='csrf-token']").attr("content");
         var orders = @json($orders);
@@ -53,5 +56,6 @@
     <script src="{{ asset('js/product.js') }}"></script>
     <script src="{{ asset('js/pos/pos_sales.js') }}?v=1.2"></script>
     <script src="{{ asset('js/pos/pos_crud.js') }}?v=1.2"></script>
+    <script src="{{ asset('js/pos/pos_payment.js') }}?v=1.2"></script>
 @endsection
 

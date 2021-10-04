@@ -43,12 +43,15 @@ class PosSalesController extends Controller
         $products = Product::all();
         $paymentMethods = PaymentMethod::all();
         $title = "POS - Point Of Sale";
-        $orders = PosSale::query()->latest()->limit(50)->get();
         $ledger_id = Ledger::CASH_AC();
         $bookmarks = Product::query()->where('is_bookmarked', true)->get();
+        $start_date = today()->toDateString();
+        $end_date = today()->toDateString();
+        $orders = PosSale::query()->whereBetween('date', [$start_date, $end_date])->latest()->get();
+
         return view('pos_sales.create',
             compact('customers', 'branches', 'ledgers', 'ledger_id', 'products', 'categories', 'title', 'orders',
-                'paymentMethods', 'bookmarks'));
+                'paymentMethods', 'bookmarks', 'start_date', 'end_date'));
     }
 
 
@@ -129,12 +132,72 @@ class PosSalesController extends Controller
         return view('pos_sales.show', compact('posSale'));
     }
 
+    public function filter(Request $request)
+    {
+        $start_date = $request->start_date ?? today()->toDateString();
+        $end_date = $request->end_date ?? today()->toDateString();
+        $orders = PosSale::query()->whereBetween('date', [$start_date, $end_date])->latest()->get();
+
+
+        return $orders;
+    }
+
+    public function pay(Request $request)
+    {
+        $pos_id = $request->order_id;
+        $pos_sales = PosSale::find($pos_id);
+        $pos_payments = $request->pos_payments ?? [];
+        $pos_payments = json_decode(json_encode($pos_payments), FALSE);
+        $given = collect($pos_payments)->sum('amount');
+        $change = $pos_sales->due - $given;
+        $pos_sales->change = 0;
+//        dd($given, $change, $pos_payments,$change > 0);
+        if ($change < 0) {
+            $distributed = 0;
+            $pos_sales->change = abs($change);
+            $pos_sales->saveQuietly();
+            foreach ($pos_payments as $index => $pos_payment) {
+                if ($distributed == $pos_sales->due) {
+                    unset($pos_payments[$index]);
+                    continue;
+                }
+
+                if ($pos_payment->amount > $pos_sales->due) {
+                    $pos_payments[$index]->amount = ($pos_sales->due - $distributed);
+
+                }
+                $distributed += $pos_payments[$index]->amount;
+            }
+        }
+
+//        dd($pos_payments);
+        foreach ($pos_payments as $pos_payment) {
+
+            PosPayment::create([
+                'pos_sales_id' => $pos_id,
+                'ledger_id' => $pos_payment->ledger_id ?? null,
+                'amount' => $pos_payment->amount,
+                'date' => today()->toDateString(),
+            ]);
+        }
+
+        return [];
+    }
+
     public function details(Request $request)
     {
         $id = $request->pos_sales_id;
         $posSale = PosSale::with('customer', 'branch', 'ledger')->findOrFail($id);
 
         return view('partials.order-details', compact('posSale'));
+    }
+
+    public function eye($id)
+    {
+
+        $posSale = PosSale::with('customer', 'branch', 'ledger', 'pos_items', 'pos_charges')->findOrFail($id);
+
+        return $posSale;
     }
 
 
