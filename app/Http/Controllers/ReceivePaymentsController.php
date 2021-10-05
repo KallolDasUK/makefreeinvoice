@@ -143,6 +143,9 @@ class ReceivePaymentsController extends Controller
         ReceivePaymentItem::query()->where('receive_payment_id', $receivePayment->id)->get()->each(function ($model) {
             $model->delete();
         });
+        PosPayment::query()->where('receive_payment_id', $receivePayment->id)->get()->each(function ($model) {
+            $model->delete();
+        });
         $receivePayment->delete();
 
         return redirect()->route('receive_payments.receive_payment.index')
