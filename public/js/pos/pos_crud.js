@@ -33,6 +33,10 @@ $(document).ready(function () {
                     addToCart(response.id)
                     $('#productModal').modal('hide');
                     $('#createProductForm').trigger("reset");
+                    $("#category_id").val('').trigger('change')
+                    $("#brand_id").val('').trigger('change')
+                    $("#purchase_unit").val('').trigger('change')
+                    $("#sell_unit").val('').trigger('change')
                     $('#storeProduct').prop('disabled', false)
                     $('.spinner').addClass('d-none')
                 }

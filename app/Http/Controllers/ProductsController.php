@@ -180,12 +180,22 @@ class ProductsController extends Controller
         }
         if (array_key_exists('category_id', $data)) {
             if (!is_numeric($data['category_id'])) {
-                $data['category_id'] = Category::create(['name' => $data['category_id']])->id;
+                $exiting_category = Category::query()->where('name', $data['category_id'])->first();
+                if ($exiting_category) {
+                    $data['category_id'] = $exiting_category->id;
+                } else {
+                    $data['category_id'] = Category::create(['name' => $data['category_id']])->id;
+                }
             }
         }
         if (array_key_exists('brand_id', $data)) {
             if (!is_numeric($data['brand_id'])) {
-                $data['brand_id'] = Brand::create(['name' => $data['brand_id']])->id;
+                $exiting_brand = Brand::query()->where('name', $data['brand_id'])->first();
+                if ($exiting_brand) {
+                    $data['brand_id'] = $exiting_brand->id;
+                } else {
+                    $data['brand_id'] = Brand::create(['name' => $data['brand_id']])->id;
+                }
             }
         }
         if (array_key_exists('sell_unit', $data)) {

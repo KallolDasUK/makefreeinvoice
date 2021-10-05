@@ -11,6 +11,7 @@ use App\Models\ExpenseItem;
 use App\Models\InventoryAdjustmentItem;
 use App\Models\Invoice;
 use App\Models\InvoiceItem;
+use App\Models\PosItem;
 use App\Models\Product;
 use App\Models\Tax;
 use App\Models\Vendor;
@@ -250,6 +251,10 @@ trait ReportService
             ->where('product_id', $product->id)
             ->whereDate('date', '<', $start_date)
             ->sum('qnt');
+        $sold += PosItem::query()
+            ->where('product_id', $product->id)
+            ->whereDate('date', '<', $start_date)
+            ->sum('qnt');
 
         $purchase = BillItem::query()
             ->where('product_id', $product->id)
@@ -283,6 +288,10 @@ trait ReportService
             $record['opening_stock'] = $opening_stock;
 
             $sold = InvoiceItem::query()
+                ->where('product_id', $product->id)
+                ->whereBetween('date', [$start_date, $end_date])
+                ->sum('qnt');
+            $sold += PosItem::query()
                 ->where('product_id', $product->id)
                 ->whereBetween('date', [$start_date, $end_date])
                 ->sum('qnt');
