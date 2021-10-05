@@ -162,6 +162,15 @@
 
 
                             </div>
+                            <div class="form-group">
+                                <label for="purchase_unit">Scan Barcode/QR Code</label>
+                                <input class="form-control input-sm"
+                                       name="code"
+                                       step="any"
+                                       type="text" id="code">
+
+
+                            </div>
                         </div>
                         <div class="col">
                             <div class="form-group">
