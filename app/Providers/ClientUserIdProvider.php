@@ -65,7 +65,11 @@ class ClientUserIdProvider extends ServiceProvider
             'vendors',
             'reasons',
             'inventory_adjustments',
-            'inventory_adjustment_items'
+            'inventory_adjustment_items',
+            'pos_sales',
+            'pos_payments',
+            'pos_items',
+            'pos_charges',
         ];
         foreach ($saasTable as $tableName) {
             $className = '\\App\\Models\\' . Str::studly(Str::singular($tableName));
