@@ -125,7 +125,7 @@ var posRactive = new Ractive({
         let total = posRactive.get('sub_total')
         _.each(charges, function (charge, index) {
             let input = charge.value;
-            if (input.length > 0) {
+            if (input && input.length > 0) {
                 if (charge.key.toLowerCase().includes('discount') && !input.includes('-')) {
                     input = '-' + input;
                     posRactive.set('charges.' + index + '.value', input)

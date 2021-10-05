@@ -63,7 +63,7 @@
                                                                 <div class="list-group-item d-flex justify-content-between align-items-center">
            Total Payable
            <span
-               class="font-weight-bold"><h2>{{ currency }}{{ due }}</h2></span>
+               class="font-weight-bold"><h2>{{ currency }}{{ payable }}</h2></span>
                                                             </div>
                                                         </div>
                                                     </div><!----><!----></div>
@@ -82,7 +82,7 @@
 </div>
                 <div class="col">
                 <input type="text" class="form-control form-control-sm" value="{{ value }}"
-                                        placeholder="ex. 5%,100,-5,-10%">
+                                        placeholder="ex. 5%, 100, -5, -10%">
 
                                          </div>
 

@@ -51,7 +51,7 @@ class PosSale extends Model
 
     public static function nextOrderNumber($increment = 1)
     {
-        $next_order = 'ORD-' . str_pad(count(self::query()->get()) + $increment, 4, '0', STR_PAD_LEFT);
+        $next_order = 'POS-' . str_pad(count(self::query()->get()) + $increment, 4, '0', STR_PAD_LEFT);
         if (self::query()->where('pos_number', $next_order)->exists()) {
             return self::nextOrderNumber($increment + 1);
         }

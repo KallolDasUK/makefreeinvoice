@@ -62,5 +62,5 @@
         })
     </script>
 
-    <script src="{{ asset('js/payment/receive-payments.js') }}"></script>
+    <script src="{{ asset('js/payment/receive-payments.js') }}?v=1.4"></script>
 @endsection

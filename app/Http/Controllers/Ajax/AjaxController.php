@@ -8,6 +8,7 @@ use App\Models\BillPayment;
 use App\Models\BillPaymentItem;
 use App\Models\Customer;
 use App\Models\Invoice;
+use App\Models\PosSale;
 use App\Models\ReceivePayment;
 use App\Models\ReceivePaymentItem;
 use App\Models\Vendor;
@@ -24,7 +25,10 @@ class AjaxController extends Controller
             ->where('customer_id', $customer->id)
             ->where('payment_status', '!=', Invoice::Paid)
             ->get();
-        return view('partials.receive-payment-customers-invoice', compact('invoices', 'customer'));
+        $pos_sales = PosSale::query()->get()->filter(function ($sale) {
+            return $sale->due > 0;
+        });
+        return view('partials.receive-payment-customers-invoice', compact('invoices', 'customer', 'pos_sales'));
 
 
     }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\Customer;
 use App\Models\PaymentMethod;
+use App\Models\PosPayment;
 use App\Models\ReceivePayment;
 use App\Models\ReceivePaymentItem;
 use Cassandra\Custom;
@@ -54,6 +55,7 @@ class ReceivePaymentsController extends Controller
         $rp = ReceivePayment::create($data);
 
         $payments = json_decode($request->data ?? '{}');
+        $pos_payments = json_decode($request->pos ?? '{}');
         foreach ($payments as $payment) {
             try {
                 ReceivePaymentItem::create(['invoice_id' => $payment->invoice_id, 'receive_payment_id' => $rp->id, 'amount' => $payment->amount]);
@@ -61,6 +63,11 @@ class ReceivePaymentsController extends Controller
 
             }
         }
+        foreach ($pos_payments as $pos_payment) {
+            PosPayment::create(['pos_sales_id' => $pos_payment->pos_id, 'receive_payment_id' => $rp->id, 'amount' => $pos_payment->amount,
+                'date' => $rp->payment_date]);
+        }
+
 
         if ($request->has('previous_due')) {
             $customer = Customer::find($request->customer_id);
@@ -90,9 +97,11 @@ class ReceivePaymentsController extends Controller
         $customers = Customer::pluck('name', 'id')->all();
         $paymentMethods = PaymentMethod::query()->get();
         $ledgerGroups = LedgerGroup::all();
+        $pos_payments = PosPayment::query()->where('receive_payment_id', $receivePayment->id)->get();
 
 //        dd($receivePayment->items);
-        return view('receive_payments.edit', compact('receivePayment', 'ledgerGroups', 'customers', 'paymentMethods', 'depositAccounts'));
+        return view('receive_payments.edit', compact('receivePayment', 'ledgerGroups', 'customers',
+            'paymentMethods', 'depositAccounts', 'pos_payments'));
     }
 
 
@@ -107,10 +116,19 @@ class ReceivePaymentsController extends Controller
         $receivePayment->update($data);
         ReceivePaymentItem::query()->where('receive_payment_id', $receivePayment->id)->get()->each(function ($model) {
             $model->delete();
-        });;
+        });
+        PosPayment::query()->where('receive_payment_id', $receivePayment->id)->get()->each(function ($model) {
+            $model->delete();
+        });
         $payments = json_decode($request->data ?? '{}');
+        $pos_payments = json_decode($request->pos ?? '{}');
+
         foreach ($payments as $payment) {
             ReceivePaymentItem::create(['invoice_id' => $payment->invoice_id, 'receive_payment_id' => $receivePayment->id, 'amount' => $payment->amount]);
+        }
+        foreach ($pos_payments as $pos_payment) {
+            PosPayment::create(['pos_sales_id' => $pos_payment->pos_id, 'receive_payment_id' => $receivePayment->id, 'amount' => $pos_payment->amount,
+                'date' => $receivePayment->payment_date]);
         }
 
         return redirect()->route('receive_payments.receive_payment.index')->with('success_message', 'Receive Payment was successfully updated.');

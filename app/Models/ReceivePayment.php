@@ -36,7 +36,9 @@ class ReceivePayment extends Model
 
     public function getAmountAttribute()
     {
-        return ReceivePaymentItem::query()->where('receive_payment_id', $this->id)->sum('amount');
+        $invoiceAmount = ReceivePaymentItem::query()->where('receive_payment_id', $this->id)->sum('amount');
+        $posAmount = PosPayment::query()->where('receive_payment_id', $this->id)->sum('amount');
+        return $invoiceAmount + $posAmount;
     }
 
     public function getInvoiceAttribute()
