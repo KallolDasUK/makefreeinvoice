@@ -65,7 +65,7 @@ class ReceivePaymentsController extends Controller
         }
         foreach ($pos_payments as $pos_payment) {
             PosPayment::create(['pos_sales_id' => $pos_payment->pos_id, 'receive_payment_id' => $rp->id, 'amount' => $pos_payment->amount,
-                'date' => $rp->payment_date]);
+                'date' => $rp->payment_date, 'ledger_id' => $rp->deposit_to]);
         }
 
 
@@ -128,7 +128,7 @@ class ReceivePaymentsController extends Controller
         }
         foreach ($pos_payments as $pos_payment) {
             PosPayment::create(['pos_sales_id' => $pos_payment->pos_id, 'receive_payment_id' => $receivePayment->id, 'amount' => $pos_payment->amount,
-                'date' => $receivePayment->payment_date]);
+                'date' => $receivePayment->payment_date, 'ledger_id' => $receivePayment->deposit_to]);
         }
 
         return redirect()->route('receive_payments.receive_payment.index')->with('success_message', 'Receive Payment was successfully updated.');
