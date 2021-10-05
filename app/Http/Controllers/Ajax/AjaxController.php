@@ -25,9 +25,11 @@ class AjaxController extends Controller
             ->where('customer_id', $customer->id)
             ->where('payment_status', '!=', Invoice::Paid)
             ->get();
-        $pos_sales = PosSale::query()->get()->filter(function ($sale) {
-            return $sale->due > 0;
-        });
+        $pos_sales = PosSale::query()
+            ->where('customer_id', $customer->id)
+            ->get()->filter(function ($sale) {
+                return $sale->due > 0;
+            });
         return view('partials.receive-payment-customers-invoice', compact('invoices', 'customer', 'pos_sales'));
 
 
