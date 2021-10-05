@@ -65,11 +65,15 @@ class Product extends Model
     }
 
 
-
     public function currentStock($product, $start_date)
     {
         $enteredOpening = $product->opening_stock ?? 0;
         $sold = InvoiceItem::query()
+            ->where('product_id', $product->id)
+            ->whereDate('date', '<=', $start_date)
+            ->sum('qnt');
+
+        $sold += PosItem::query()
             ->where('product_id', $product->id)
             ->whereDate('date', '<=', $start_date)
             ->sum('qnt');

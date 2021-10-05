@@ -21,4 +21,11 @@ class ProductUnit extends Model
             }
         });
     }
+
+    public static function units()
+    {
+        return ['KG', 'M', 'CM', 'BOX', 'LT.'] + ProductUnit::all()->pluck('name')->unique()->toArray();
+    }
+
+
 }

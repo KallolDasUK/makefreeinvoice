@@ -9,6 +9,8 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="col">
+
+
                             <div class="form-group">
                                 <div class="col-md-10">
                                     <label for="product_type">Product Type *</label>
@@ -57,6 +59,29 @@
                     <div class="row">
                         <div class="col">
                             <div class="form-group">
+                                <label for="purchase_unit">Scan Barcode/QR Code</label>
+                                <input class="form-control input-sm"
+                                       name="code"
+                                       step="any"
+                                       type="text" id="code">
+
+
+                            </div>
+                            <div class="form-group">
+                                <label for="brand_id">Brand</label>
+                                <select class="form-control form-control-sm" id="brand_id" name="brand_id">
+                                    <option value="" style="display: none;" disabled
+                                            selected>Select Brand
+                                    </option>
+                                    @foreach (\App\Models\Brand::query()->pluck('name','id') as $key => $brand)
+                                        <option value="{{ $key }}">{{ $brand }}</option>
+                                    @endforeach
+                                </select>
+
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
                                 <label for="name">Item Name *</label>
                                 <input
                                     class="form-control input-sm"
@@ -66,8 +91,6 @@
 
 
                             </div>
-                        </div>
-                        <div class="col">
                             <div class="form-group">
                                 <label for="category_id">Category</label>
                                 <select class="form-control " id="category_id" name="category_id">
@@ -87,13 +110,17 @@
                     <div class="row">
                         <div class="col">
                             <div class="form-group">
-                                <label for="brand_id">Brand</label>
-                                <select class="form-control form-control-sm" id="brand_id" name="brand_id">
+                                <label for="sell_unit">Sell Unit</label>
+
+                                <select class="form-control " id="sell_unit" name="sell_unit">
                                     <option value="" style="display: none;" disabled
-                                            selected>Select Brand
+                                            selected>--
                                     </option>
-                                    @foreach (\App\Models\Brand::query()->pluck('name','id') as $key => $brand)
-                                        <option value="{{ $key }}">{{ $brand }}</option>
+                                    @foreach (\App\Models\ProductUnit::units() as $key => $text)
+                                        <option
+                                            value="{{ $text }}">
+                                            {{ $text }}
+                                        </option>
                                     @endforeach
                                 </select>
 
@@ -116,19 +143,17 @@
                     <div class="row">
                         <div class="col">
                             <div class="form-group">
-                                <label for="sell_unit">Sell Unit</label>
-
-                                <select class="form-control " id="sell_unit" name="sell_unit">
-                                    <option value="" style="display: none;" disabled
+                                <label for="purchase_unit">Purchase Unit</label>
+                                <select class="form-control " id="purchase_unit" name="purchase_unit">
+                                    <option value="" style="display: none;"
+                                            disabled
                                             selected>--
                                     </option>
-                                    @foreach (['KG','M', 'CM','BOX','LT.'] as $key => $text)
-                                        <option
-                                            value="{{ $text }}">
-                                            {{ $text }}
-                                        </option>
+                                    @foreach (App\Models\ProductUnit::units() as $key => $text)
+                                        <option value="{{ $text }}">{{ $text }}</option>
                                     @endforeach
                                 </select>
+
 
                             </div>
                         </div>
@@ -146,47 +171,6 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col">
-                            <div class="form-group">
-                                <label for="purchase_unit">Purchase Unit</label>
-                                <select class="form-control " id="purchase_unit" name="purchase_unit">
-                                    <option value="" style="display: none;"
-                                            disabled
-                                            selected>--
-                                    </option>
-                                    @foreach (['KG','M','CM','BOX','LT.'] as $key => $text)
-                                        <option value="{{ $text }}">{{ $text }}</option>
-                                    @endforeach
-                                </select>
-
-
-                            </div>
-                            <div class="form-group">
-                                <label for="purchase_unit">Scan Barcode/QR Code</label>
-                                <input class="form-control input-sm"
-                                       name="code"
-                                       step="any"
-                                       type="text" id="code">
-
-
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="form-group">
-                                <label for="description">Description</label>
-
-
-                                <textarea class="form-control " name="description" cols="50" rows="4"
-                                          id="description"
-                                          maxlength="1000"></textarea>
-
-
-                            </div>
-                        </div>
-                    </div>
-
-
                     <div class="row">
                         <div class="col d-none">
                             <div class="form-group">
@@ -219,6 +203,20 @@
                                     readonly
                                     class="form-control input-sm  {{ $errors->has('opening_stock_price') ? 'is-invalid' : '' }}"
                                     name="opening_stock_price" type="number" id="opening_stock_price">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="description">Description</label>
+
+
+                                <textarea class="form-control " name="description" cols="50" rows="4"
+                                          id="description"
+                                          maxlength="1000"></textarea>
+
+
                             </div>
                         </div>
                     </div>
