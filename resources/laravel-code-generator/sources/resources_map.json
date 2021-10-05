@@ -63,5 +63,10 @@
     {
         "model-name": "PosSale",
         "resource-file": "pos_sales.json"
+    },
+    {
+        "model-name": "Brand",
+        "resource-file": "brands.json",
+        "table-name": "brands"
     }
 ]

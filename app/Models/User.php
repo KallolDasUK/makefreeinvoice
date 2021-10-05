@@ -56,6 +56,11 @@ class User extends Authenticatable
         return $this->hasMany(Invoice::class, 'user_id')->withoutGlobalScope('scopeClient');
     }
 
+    public function pos_sales()
+    {
+        return $this->hasMany(PosSale::class, 'user_id')->withoutGlobalScope('scopeClient');
+    }
+
     public function bills()
     {
         return $this->hasMany(Bill::class, 'user_id')->withoutGlobalScope('scopeClient');

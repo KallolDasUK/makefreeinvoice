@@ -21,10 +21,17 @@
             </div>
             <div class="col">
                 <div class="card">
-                   <div class="card-body">
-                       <h5>Total Invoices</h5>
-                       {{ $totalInvoices }}
-                   </div>
+                    <div class="card-body">
+                        <h5>Total Invoices</h5>
+                        {{ $totalInvoices }}
+                    </div>
+                </div>
+            </div>  <div class="col">
+                <div class="card">
+                    <div class="card-body">
+                        <h5>Total POS</h5>
+                        {{ $totalPosSale }}
+                    </div>
                 </div>
             </div>
             <div class="col">
@@ -47,6 +54,7 @@
                 <th>Joined</th>
                 <th>Last Active</th>
                 <th>Invoices</th>
+                <th>POS</th>
                 <th>Bills</th>
                 <th>Estimate</th>
                 <th>Expense</th>
@@ -84,6 +92,7 @@
                         <td>-</td>
                     @endif
                     <td>{{ count($user->invoices)==0?'-':count($user->invoices) }}</td>
+                    <td>{{ $user->pos_sales_count==0?'-': $user->pos_sales_count }}</td>
                     <td>{{ count($user->bills)==0?'-':count($user->bills) }}</td>
                     <td>{{ count($user->estimates)==0?'-':count($user->estimates) }}</td>
                     <td>{{ count($user->expenses)==0?'-':count($user->expenses) }}</td>

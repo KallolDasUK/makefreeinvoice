@@ -81,9 +81,11 @@
         i:hover {
             color: white !important;
         }
+
         .select2-container--open {
             z-index: 9999999
         }
+
         i {
             color: inherit !important;
         }
@@ -249,6 +251,7 @@
             color: #8950FC !important;
             border-color: #8950FC !important;
         }
+
         .rounded {
             border-color: #065a92a3 !important;
         }
@@ -413,10 +416,22 @@
                                style="min-width: 100px;position:relative;"><i class="fab fa-product-hunt"></i> Products
                             </a>
 
+                            <a href="{{ route('categories.category.index') }}"
+                               class="@cannot('create',\App\Models\Invoice::class) pro-tag @endcannot"
+                               style="min-width: 100px;position:relative;"><i class="fab fa-product-hunt"></i>
+                                Categories
+                            </a>
+                            <a href="{{ route('brands.brand.index') }}"
+                               class="@cannot('create',\App\Models\Invoice::class) pro-tag @endcannot"
+                               style="min-width: 100px;position:relative;"><i class="fab fa-product-hunt"></i>
+                                Brands
+                            </a>
                             <a href="{{ route('customers.customer.index') }}"
                                class="@cannot('create',\App\Models\Invoice::class) pro-tag @endcannot"
                                style="min-width: 100px;position:relative;"><i
                                     class="fa fa-users" aria-hidden="true"></i>Customers</a>
+
+                            <a href="javascript:;" style="border: none" disabled> </a>
 
 
                         </div>
@@ -464,12 +479,21 @@
                                style="min-width: 100px;position: relative">
                                 <i class="fab fa-product-hunt"></i> Products
                             </a>
-
+                            <a href="{{ route('categories.category.index') }}"
+                               class="@cannot('create',\App\Models\Invoice::class) pro-tag @endcannot"
+                               style="min-width: 100px;position:relative;"><i class="fab fa-product-hunt"></i>
+                                Categories
+                            </a>
+                            <a href="{{ route('brands.brand.index') }}"
+                               class="@cannot('create',\App\Models\Invoice::class) pro-tag @endcannot"
+                               style="min-width: 100px;position:relative;"><i class="fab fa-product-hunt"></i>
+                                Brands
+                            </a>
                             <a href="{{ route('vendors.vendor.index') }}"
                                class="@cannot('viewAny',\App\Models\Bill::class) pro-tag @endcannot"
                                style="min-width: 100px;position: relative">
                                 <i class="fa fa-users" aria-hidden="true"></i>Vendors</a>
-
+                            <a href="javascript:;" style="border: none" disabled> </a>
 
                         </div>
                     </div>
@@ -732,8 +756,10 @@
                         <strong>You are using limited free version. <a href="javascript:;"
                                                                        class="subscribeModal btn btn-sm btn-info">Upgrade
                                 Now</a> & unlock the treasure</strong></p></div>
+            @else
+                <div></div>
             @endif
-            @if(optional(auth()->user())->role == 'master')
+
                 <div>
 
                     <a href="{{ route('pos_sales.pos_sale.create') }}"
@@ -742,7 +768,7 @@
 
                         </span>POS Sale</a>
                 </div>
-            @endif
+
         </div>
 
 
