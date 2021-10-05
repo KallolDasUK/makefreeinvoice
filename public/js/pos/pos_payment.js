@@ -9,15 +9,14 @@ var paymentRactive = new Ractive({
         cash_ledger_id: cash_ledger_id,
         payments: [],
         given: 0,
+        payable: 0,
         change: 0,
         order: null
     },
     observe: {
         'payments': (payments) => {
 
-            let total_amount = paymentRactive.get('total')
-            let order = paymentRactive.get('order')
-            let total = total_amount - Number(order.payment);
+            let total = paymentRactive.get('payable')
             let given = 0;
             for (let i = 0; i < payments.length; i++) {
                 given += parseFloat(payments[i].amount || 0 + '');
@@ -29,14 +28,16 @@ var paymentRactive = new Ractive({
 
         },
         'charges': (charges) => {
+            let paid = parseFloat(paymentRactive.get('order').payment);
+            let total = parseFloat(paymentRactive.get('order').sub_total) - paid
 
-            let total = parseFloat(paymentRactive.get('order').sub_total)
             _.each(charges, function (charge, index) {
                 let input = charge.value;
-                if (input.length > 0) {
+                if (input && input.length > 0) {
                     if (charge.key.toLowerCase().includes('discount') && !input.includes('-')) {
                         input = '-' + input;
-                        paymentRactive.set('charges.' + index + '.value', input)
+                        // paymentRactive.set('charges.' + index + '.value', input)
+                        charge.value = input;
 
                     }
                     charge.percentage = input.includes('%');
@@ -44,12 +45,13 @@ var paymentRactive = new Ractive({
                     if (charge.percentage) {
                         let index = input.indexOf('%');
                         input = input.substring(0, index) + input.substring(index + 1);
-                        charge.amount = percentage(parseFloat(input), paymentRactive.get('due'))
+                        charge.amount = percentage(parseFloat(input), parseFloat(paymentRactive.get('order').sub_total))
                     } else {
                         charge.amount = parseFloat(input) || 0;
                     }
 
                     paymentRactive.set('charges.' + index, charge)
+                    console.log(paymentRactive.get('charges'))
 
                 }
                 if (!input) {
@@ -59,8 +61,8 @@ var paymentRactive = new Ractive({
 
                 total += charge.amount || 0;
             });
-            paymentRactive.set('due', total)
-            paymentRactive.set('total', total)
+            paymentRactive.set('payable', total)
+            paymentRactive.set('total', total + paid)
             paymentRactive.set('payments.0.amount', total)
 
 
@@ -84,7 +86,7 @@ var paymentRactive = new Ractive({
                 paymentRactive.set('charges', response.pos_charges)
                 paymentRactive.set('sub_total', response.sub_total)
                 paymentRactive.set('total', response.total)
-                paymentRactive.set('due', parseFloat(response.due))
+                paymentRactive.set('payable', parseFloat(response.due))
                 paymentRactive.set('payments', [{amount: response.due, ledger_id: cash_ledger_id}])
 
                 setTimeout(() => {

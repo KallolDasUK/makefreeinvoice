@@ -51,13 +51,21 @@ $(document).ready(function () {
 $('form').on('submit', function (e) {
     // e.preventDefault()preventDefault
     let data = [];
-    $('.paymentAmount').each(function () {
+    $('.invoice').each(function () {
         let invoice_id = $(this).attr('invoice_id')
         let amount = parseFloat($(this).val() || '0')
         if (!amount) return
         data.push({invoice_id, amount})
     })
+    let pos_payments = [];
+    $('.pos').each(function () {
+        let pos_id = $(this).attr('pos_id')
+        let amount = parseFloat($(this).val() || '0')
+        if (!amount) return
+        pos_payments.push({pos_id, amount})
+    })
     $('#data').val(JSON.stringify(data))
+    $('#pos').val(JSON.stringify(pos_payments))
 
     console.log($('form').serializeArray())
 })
@@ -69,7 +77,7 @@ $(document).on('input', '.paymentAmount', function () {
         console.log('called', totalAmount)
 
     })
-    $('#totalAmount').val(totalAmount)
+    $('#totalAmount').val(parseFloat(totalAmount).toFixed(2))
     if (totalAmount > 0) {
         $('#addPayment').prop('disabled', false)
     } else {
@@ -85,10 +93,10 @@ $(document).on('input', '#given', function () {
     $('.paymentAmount').each(function (index) {
         let due = parseFloat($(this).attr('due')) || 0;
         if (inPocket > due) {
-            $(this).val(due).change()
+            $(this).val(parseFloat(due).toFixed(2)).change()
             inPocket = inPocket - due;
         } else {
-            $(this).val(inPocket).change()
+            $(this).val(parseFloat(inPocket).toFixed(2)).change()
             inPocket = 0;
         }
 

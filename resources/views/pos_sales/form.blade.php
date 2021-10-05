@@ -245,7 +245,7 @@
                                         <i class="fas fa-sliders-h"></i>
                                         Filter
                                     </button>
-                                    <span style="font-size: 20px" class="ml-4">{{ orders.length }} Orders</span>
+                                    <span style="font-size: 20px" class="ml-4">{{ orders.length }} Sales</span>
                                 </div>
 
 

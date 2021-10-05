@@ -137,6 +137,29 @@
                     </td>
                 </tr>
             @endforeach
+            @foreach($pos_payments as $pos_payment)
+                <tr>
+                    <td> {{ $pos_payment->date }} <br>
+
+
+                    </td>
+                    <td> {{ optional($pos_payment->pos_sale)->pos_number }} </td>
+                    <td> - </td>
+
+
+                    <td class="text-right"> {{ optional($pos_payment->pos_sale)->total }} </td>
+                    <td class="text-right"> {{ optional($pos_payment->pos_sale)->due + $pos_payment->amount }} </td>
+                    <td class="text-right" style="width:16%; position: relative;">
+                        <input name="payment[]"
+                               pos_id="{{ optional($pos_payment->pos_sale)->id }}"
+                               class="paymentAmount pos text-right form-control"
+                               due="{{ optional($pos_payment->pos_sale)->due + $pos_payment->amount  }}"
+                                value="{{ $pos_payment->amount }}"
+                               step="any"
+                               type="number"/>
+                    </td>
+                </tr>
+            @endforeach
             <tr>
                 <td colspan="2" style="padding-top: 0px;"></td>
                 <td colspan="2" class="text-right">Total</td>
@@ -169,4 +192,5 @@
 </div>
 
 <input type="text" hidden id="data" name="data">
+<input type="text" hidden id="pos" name="pos">
 
