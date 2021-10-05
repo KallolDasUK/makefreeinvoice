@@ -29,6 +29,7 @@ use Enam\Acc\Http\Controllers\TransactionsController;
 use Enam\Acc\Models\Ledger;
 use Enam\Acc\Models\TransactionDetail;
 use Enam\Acc\Traits\TransactionTrait;
+use Illuminate\Http\Request;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
@@ -57,8 +58,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+
+        $country = ip_info(\request()->ip(), "Country");
+
+
         Paginator::useBootstrap();
-        view()->composer('*', function ($view) {
+        view()->composer('*', function ($view) use ($country) {
             $is_desktop = true;
             if (optional(auth()->user())->client_id) {
                 $settings = json_decode(MetaSetting::query()->pluck('value', 'key')->toJson());
@@ -69,9 +74,9 @@ class AppServiceProvider extends ServiceProvider
                 $view->with('settings', $settings);
             }
             $view->with('is_desktop', $is_desktop);
+            $view->with('country', $country);
 
         });
-
 
 
         Invoice::observe(InvoiceObserver::class);
