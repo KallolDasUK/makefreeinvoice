@@ -6,6 +6,7 @@ use App\Http\Controllers\BillPaymentsController;
 use App\Http\Controllers\BillsController;
 use App\Http\Controllers\BlogsController;
 use App\Http\Controllers\BlogTagsController;
+use App\Http\Controllers\BrandsController;
 use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\CustomersController;
 use App\Http\Controllers\Estimates\EstimatesController;
@@ -161,6 +162,19 @@ Route::group(['middleware' => 'auth:web', 'prefix' => 'app'], function () {
         Route::post('/', [CategoriesController::class, 'store'])->name('categories.category.store');
         Route::put('category/{category}', [CategoriesController::class, 'update'])->name('categories.category.update')->where('id', '[0-9]+');
         Route::delete('/category/{category}', [CategoriesController::class, 'destroy'])->name('categories.category.destroy')->where('id', '[0-9]+');
+
+    });
+
+
+    Route::group(['prefix' => 'brands'], function () {
+
+        Route::get('/', [BrandsController::class, 'index'])->name('brands.brand.index');
+        Route::get('/create', [BrandsController::class, 'create'])->name('brands.brand.create');
+        Route::get('/show/{brand}', [BrandsController::class, 'show'])->name('brands.brand.show');
+        Route::get('/{brand}/edit', [BrandsController::class, 'edit'])->name('brands.brand.edit');
+        Route::post('/', [BrandsController::class, 'store'])->name('brands.brand.store');
+        Route::put('brand/{brand}', [BrandsController::class, 'update'])->name('brands.brand.update');
+        Route::delete('/brand/{brand}', [BrandsController::class, 'destroy'])->name('brands.brand.destroy');
 
     });
 // php artisan resource-file:create Product --fields=id,product_type,name,photo,category_id,sell_price,sell_unit,purchase_price,purchase_unit,description,is_track,opening_stock,opening_stock_price
@@ -341,17 +355,17 @@ Route::group(['middleware' => 'auth:web', 'prefix' => 'app'], function () {
      * */
     Route::group(['prefix' => 'pos_sales'], function () {
 
-        Route::get('/', [PosSalesController::class,'index'])->name('pos_sales.pos_sale.index');
-        Route::get('/create',[PosSalesController::class,'create'])->name('pos_sales.pos_sale.create');
-        Route::get('/show/{posSale}',[PosSalesController::class,'show'])->name('pos_sales.pos_sale.show')->where('id', '[0-9]+');
-        Route::get('/details',[PosSalesController::class,'details'])->name('pos_sales.pos_sale.details')->where('id', '[0-9]+');
-        Route::post('/eye/{posSale}',[PosSalesController::class,'eye'])->name('pos_sales.pos_sale.eye')->where('id', '[0-9]+');
-        Route::get('/{posSale}/edit',[PosSalesController::class,'edit'])->name('pos_sales.pos_sale.edit')->where('id', '[0-9]+');
-        Route::post('/', [PosSalesController::class,'store'])->name('pos_sales.pos_sale.store');
-        Route::post('/pay', [PosSalesController::class,'pay'])->name('pos_sales.pos_sale.pay');
-        Route::post('/filter', [PosSalesController::class,'filter'])->name('pos_sales.pos_sale.filter');
-        Route::put('pos_sale/{posSale}', [PosSalesController::class,'update'])->name('pos_sales.pos_sale.update')->where('id', '[0-9]+');
-        Route::delete('/pos_sale/{posSale}',[PosSalesController::class,'destroy'])->name('pos_sales.pos_sale.destroy')->where('id', '[0-9]+');
+        Route::get('/', [PosSalesController::class, 'index'])->name('pos_sales.pos_sale.index');
+        Route::get('/create', [PosSalesController::class, 'create'])->name('pos_sales.pos_sale.create');
+        Route::get('/show/{posSale}', [PosSalesController::class, 'show'])->name('pos_sales.pos_sale.show')->where('id', '[0-9]+');
+        Route::get('/details', [PosSalesController::class, 'details'])->name('pos_sales.pos_sale.details')->where('id', '[0-9]+');
+        Route::post('/eye/{posSale}', [PosSalesController::class, 'eye'])->name('pos_sales.pos_sale.eye')->where('id', '[0-9]+');
+        Route::get('/{posSale}/edit', [PosSalesController::class, 'edit'])->name('pos_sales.pos_sale.edit')->where('id', '[0-9]+');
+        Route::post('/', [PosSalesController::class, 'store'])->name('pos_sales.pos_sale.store');
+        Route::post('/pay', [PosSalesController::class, 'pay'])->name('pos_sales.pos_sale.pay');
+        Route::post('/filter', [PosSalesController::class, 'filter'])->name('pos_sales.pos_sale.filter');
+        Route::put('pos_sale/{posSale}', [PosSalesController::class, 'update'])->name('pos_sales.pos_sale.update')->where('id', '[0-9]+');
+        Route::delete('/pos_sale/{posSale}', [PosSalesController::class, 'destroy'])->name('pos_sales.pos_sale.destroy')->where('id', '[0-9]+');
 
     });
 });
@@ -363,9 +377,6 @@ Route::group(['middleware' => 'auth:web', 'prefix' => 'app'], function () {
  *
  * */
 Route::get('p/{slug}', [BlogsController::class, 'show'])->name('blogs.blog.show')->where('id', '[0-9]+');
-
-
-
 
 
 Route::get('/task', function () {
@@ -421,6 +432,8 @@ Route::group(['prefix' => 'master', 'middleware' => ['auth:web', 'isMaster']], f
     Route::post('/send_email', [MasterController::class, 'sendEmail'])->name('master.send_email_store');
 });
 Route::get('master/users/login/{email}', [MasterController::class, 'loginClient'])->name('master.users.login');
+
+
 
 
 

@@ -154,7 +154,7 @@
                         {{ old('sell_unit', optional($product)->sell_unit ?: '') == '' ? 'selected' : '' }} disabled
                         selected>--
                 </option>
-                @foreach ($units as $unit)
+                @foreach (\App\Models\ProductUnit::all() as $unit)
                     <option
                         value="{{ $unit->name }}" {{ old('sell_unit', optional($product)->sell_unit) == $unit->name ? 'selected' : '' }}>
                         {{ $unit->name }}
@@ -189,7 +189,7 @@
                         {{ old('purchase_unit', optional($product)->purchase_unit ?: '') == '' ? 'selected' : '' }} disabled
                         selected>--
                 </option>
-                @foreach ($units as $unit)
+                @foreach (\App\Models\ProductUnit::all() as $unit)
                     <option
                         value="{{ $unit->name }}" {{ old('purchase_unit', optional($product)->purchase_unit) == $unit->name ? 'selected' : '' }}>
                         {{ $unit->name }}

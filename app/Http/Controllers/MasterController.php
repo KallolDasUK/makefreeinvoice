@@ -8,6 +8,7 @@ use App\Models\Bill;
 use App\Models\Customer;
 use App\Models\GlobalSetting;
 use App\Models\Invoice;
+use App\Models\PosSale;
 use App\Models\User;
 use App\Models\Vendor;
 use Carbon\Carbon;
@@ -28,12 +29,12 @@ class MasterController extends Controller
     public function users()
     {
 
-        $users = User::withCount('invoices')
+        $users = User::withCount(['invoices', 'pos_sales'])
             ->orderBy('invoices_count', 'desc')
             ->orderBy('created_at', 'asc')
             ->paginate(25);
 
-
+//        dd($users);
         $totalClients = 0;
         $totalInvoices = 0;
         $totalBills = 0;
@@ -42,8 +43,8 @@ class MasterController extends Controller
             $totalInvoices += count($user->invoices);
             $totalBills += count($user->bills);
         }
-//        dd('sdfl');
-        return view('master.users', compact('users', 'totalBills', 'totalClients', 'totalInvoices'));
+        $totalPosSale = count(PosSale::query()->withoutGlobalScope('client_id')->get());
+        return view('master.users', compact('users', 'totalBills', 'totalClients', 'totalInvoices', 'totalPosSale'));
     }
 
     public function subscriptions()
