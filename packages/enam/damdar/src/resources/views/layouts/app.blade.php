@@ -765,9 +765,12 @@
             @else
 
             @endif
-            @if($country == "Bangladesh")
-                <div>For any help or enquiry please call at <a href="tel:+8801680852026"> 01680852026</a></div>
-            @endif
+{{--            @if($country == "Bangladesh")--}}
+                <div class="text-center">For any help or enquiry please call at <h2>
+                    <a href="tel:+8801680852026"><i class="fa fa-phone"></i> +88 016 8085 2026</a>
+                    </h2>
+                </div>
+{{--            @endif--}}
             <div>
 
                 <a href="{{ route('pos_sales.pos_sale.create') }}"
