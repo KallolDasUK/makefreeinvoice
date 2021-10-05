@@ -123,6 +123,14 @@
                     <div class="shortcuts-title sc-jlyJG gSoaLO title">Purchase <br> Report</div>
                 </a>
 
+                <a class="sc-gPEVay eaBhby   @cannot('stock_report') pro-tag @endcannot"
+                   href="{{ route('reports.report.stock-report') }}">
+                    <div class="sc-iRbamj image" style="background-image:url('{{ asset('images/estimate.svg') }}') ">
+
+                    </div>
+                    <div class="shortcuts-title sc-jlyJG gSoaLO title">Stock Report</div>
+                </a>
+
                 <div class="clearfix"></div>
                 <br>
                 <h4 class="font-weight-bolder text-primary ml-4 bg-secondary p-4 rounded">Accounting Report</h4>
@@ -179,12 +187,6 @@
 
                     </div>
                     <div class="shortcuts-title sc-jlyJG gSoaLO title">Balance Sheet</div>
-                </a><a class="sc-gPEVay eaBhby   @cannot('stock_report') pro-tag @endcannot"
-                       href="{{ route('reports.report.stock-report') }}">
-                    <div class="sc-iRbamj image" style="background-image:url('{{ asset('images/estimate.svg') }}') ">
-
-                    </div>
-                    <div class="shortcuts-title sc-jlyJG gSoaLO title">Stock Report</div>
                 </a>
             </div>
 
