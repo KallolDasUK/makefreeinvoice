@@ -2,7 +2,7 @@
 @section('content')
     <div class=" my-auto" style="min-height: 100vh;padding-top: 100px;background-color: #065a92">
         <div class="row justify-content-center">
-            <div class="col-lg-5 col-md-6 mt-4 pt-2 mt-sm-0 pt-sm-0">
+            <div class="col-lg-4 col-md-6">
                 <div class="card shadow rounded border-0 ms-lg-5">
                     <div class="card-body">
                         <h5 class="card-title">Join Now</h5>
@@ -114,7 +114,10 @@
                                             </div><!--end col-->
                                         </div>
                                     </div><!--end col-->
-
+                                    <div class="col-12 text-center">
+                                        <p class="mb-0 mt-3"><small class="text-dark me-2">Already have an account ?</small>
+                                            <a href="{{ route('login') }}" class="text-dark fw-bold">Login</a></p>
+                                    </div><!--end col-->
                                 </div><!--end row-->
                             </form>
                         </div>
