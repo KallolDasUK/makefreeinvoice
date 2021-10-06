@@ -43,7 +43,7 @@ class MasterController extends Controller
             $totalInvoices += count($user->invoices);
             $totalBills += count($user->bills);
         }
-        $totalPosSale = count(PosSale::query()->withoutGlobalScope('client_id')->get());
+        $totalPosSale = count(\DB::table('pos_sales')->get());
         return view('master.users', compact('users', 'totalBills', 'totalClients', 'totalInvoices', 'totalPosSale'));
     }
 
