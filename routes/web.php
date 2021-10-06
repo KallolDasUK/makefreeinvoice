@@ -49,6 +49,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     $posts = Blog::all();
+    if (auth()->user()) {
+        return redirect()->route('acc.home');
+    }
     return view('landing.welcome', compact('posts'));
 })->name('landing.index');
 
