@@ -1,3 +1,4 @@
+@php($title="Register - InvoicePedia")
 @extends('landing.layouts.app')
 @section('content')
     <div class=" my-auto" style="min-height: 100vh;padding-top: 100px;background-color: #065a92">
@@ -115,7 +116,8 @@
                                         </div>
                                     </div><!--end col-->
                                     <div class="col-12 text-center">
-                                        <p class="mb-0 mt-3"><small class="text-dark me-2">Already have an account ?</small>
+                                        <p class="mb-0 mt-3"><small class="text-dark me-2">Already have an account
+                                                ?</small>
                                             <a href="{{ route('login') }}" class="text-dark fw-bold">Login</a></p>
                                     </div><!--end col-->
                                 </div><!--end row-->
