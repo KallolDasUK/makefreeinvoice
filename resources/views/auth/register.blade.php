@@ -3,9 +3,9 @@
     <div class=" my-auto" style="min-height: 100vh;padding-top: 100px;background-color: #065a92">
         <div class="row justify-content-center">
             <div class="col-lg-4 col-md-6">
-                <div class="card shadow rounded border-0 ms-lg-5">
+                <div class="card  login-page bg-white shadow rounded border-0">
                     <div class="card-body">
-                        <h5 class="card-title">Join Now</h5>
+                        <h5 class="card-title">Register for free</h5>
                         {{--                            @if($errors->any())--}}
                         {{--                                {{ implode('', $errors->all('<div>:message</div>')) }}--}}
                         {{--                            @endif--}}
