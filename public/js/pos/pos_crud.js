@@ -401,7 +401,12 @@ $(document).on('click', '.bookmark_icon', function (e) {
     let products = posRactive.get('products')
     let index = products.findIndex((product) => product.id == product_id)
     let product = products.find((product) => product.id == product_id)
-    posRactive.set(`products.${index}.is_bookmarked`, !product.is_bookmarked)
+    if (product.is_bookmarked == '0') {
+        product.is_bookmarked = 1;
+    } else {
+        product.is_bookmarked = 0;
+    }
+    posRactive.set(`products.${index}.is_bookmarked`, product.is_bookmarked)
     if (product.is_bookmarked) {
         $.notify("Added to Bookmark", "success");
 
