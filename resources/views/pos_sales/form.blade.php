@@ -178,7 +178,9 @@
            {{#each products:i}}
         <span class="product" style="position:relative;">
         <i class="{{ is_bookmarked == '0'?'far fa-bookmark':'fas fa-bookmark' }}
-        bookmark_icon"  data-toggle="tooltip" data-placement="top" title="Click To Bookmark"  product-id="{{id}}" style="position: absolute;right: 0;z-index: 20;display: none"></i>
+        bookmark_icon"  data-toggle="tooltip" data-placement="top"
+         title="{{ is_bookmarked == '0'?'Click To Bookmark':'Remove Bookmark' }}"
+          product-id="{{id}}" style="position: absolute;right: 0;z-index: 20;display: none"></i>
 
         <div class="ml-2 item rounded btn" on-click="@this.onProductSelected(id)" >
              <span class="">{{ short_name }}</span>
@@ -484,6 +486,8 @@ Payment</button>
 </div>
 
 </div>
+
+
 
 
 
