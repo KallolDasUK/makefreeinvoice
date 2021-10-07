@@ -267,20 +267,27 @@ $(document).ready(function () {
                 $('#payment').prop('disabled', false)
                 $('#storePosPaymentBtn').prop('disabled', false)
                 $('.spinner').addClass('d-none')
-                let pos_charges = order.pos_charges;
-                _.each(pos_charges, function (pos_charge, index, list) {
+                var pos_charges = _.each(order.pos_charges, function (pos_charge, index, list) {
                     if (("" + pos_charge.key).toLowerCase() == 'discount') {
-                        pos_charges[index].value = '';
+                        pos_charge.value = '';
                     }
+                    return pos_charge;
                 });
-                posRactive.set('pos_items', []);
-                posRactive.set('charges', pos_charges);
+
+
                 console.log(order)
                 $.notify("Order Placed", "success")
                 posRactive.unshift('orders', order);
                 $('#posPaymentModal').modal('hide')
                 posRactive.onOrderPrint(order.id)
-
+                setTimeout(() => {
+                    // posRactive.set('charges', pos_charges);
+                }, 1000)
+                // posRactive.set('needUpdate', false);
+                posRactive.set('charges', []);
+                posRactive.set('pos_items', []);
+                console.info('setting charges',pos_charges)
+                posRactive.set('charges', pos_charges);
             }
         });
     }
