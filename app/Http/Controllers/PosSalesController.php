@@ -19,6 +19,7 @@ use Enam\Acc\Traits\TransactionTrait;
 use Enam\Acc\Utils\Nature;
 use Illuminate\Http\Request;
 use Exception;
+use Illuminate\Support\Str;
 
 class PosSalesController extends Controller
 {
@@ -26,7 +27,6 @@ class PosSalesController extends Controller
 
     public function index()
     {
-
 
 
         $posSales = PosSale::with('customer', 'branch', 'ledger')->latest()->paginate(25);
@@ -57,10 +57,24 @@ class PosSalesController extends Controller
         $start_date = today()->toDateString();
         $end_date = today()->toDateString();
         $orders = PosSale::query()->whereBetween('date', [$start_date, $end_date])->latest()->get();
+        $charges = [['key' => 'Discount', 'Value' => ''], ['key' => '', 'Value' => '']];
+        if (count(PosSale::query()->get()) > 0) {
+            $last_order = PosSale::query()->get()->last();
+            $pos_charges = $last_order->pos_charges()->select('key', 'value')->get()->toArray();
+            foreach ($pos_charges as $index => $pos_charge) {
+                if (Str::contains(strtolower($pos_charge['key']), 'discount')) {
+                    $pos_charges[$index]['value'] = '';
+                }
+            }
+            $charges = $pos_charges;
+//            dd($pos_charges);
+        } else {
+
+        }
 //        dd($ledgers);
         return view('pos_sales.create',
             compact('customers', 'branches', 'ledgers', 'ledger_id', 'products', 'categories', 'title', 'orders',
-                'paymentMethods', 'bookmarks', 'start_date', 'end_date'));
+                'paymentMethods', 'bookmarks', 'start_date', 'end_date', 'charges'));
     }
 
     public function getAssetLedgers()
