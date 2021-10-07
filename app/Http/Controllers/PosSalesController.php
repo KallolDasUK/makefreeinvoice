@@ -26,6 +26,9 @@ class PosSalesController extends Controller
 
     public function index()
     {
+
+
+
         $posSales = PosSale::with('customer', 'branch', 'ledger')->latest()->paginate(25);
         $categories = Category::all();
         $products = Product::all();
@@ -36,6 +39,9 @@ class PosSalesController extends Controller
 
     public function create()
     {
+
+//        $p = PosSale::find(51)->load('pos_charges');
+//        dd($p);
         if (!Customer::query()->where('name', Customer::WALK_IN_CUSTOMER)->exists()) {
             Customer::create(['name' => Customer::WALK_IN_CUSTOMER]);
         }
@@ -137,7 +143,7 @@ class PosSalesController extends Controller
             ]);
         }
         if ($request->ajax()) {
-            return $pos_sales;
+            return $pos_sales->load('pos_charges');
         }
 
 

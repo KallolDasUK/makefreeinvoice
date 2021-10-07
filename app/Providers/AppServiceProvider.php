@@ -59,7 +59,8 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
 
-        $country = ip_info(\request()->ip(), "Country");
+//        $country = ip_info(\request()->ip(), "Country");
+        $country = "";
 
 
         Paginator::useBootstrap();
