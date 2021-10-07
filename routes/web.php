@@ -31,6 +31,7 @@ use App\Models\ExpenseItem;
 use App\Models\InvoiceItem;
 use App\Models\Reason;
 use App\Models\Tax;
+use App\Models\User;
 use Carbon\Carbon;
 use Enam\Acc\Http\Controllers\SettingsController;
 use Illuminate\Support\Facades\Route;
@@ -47,7 +48,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
+Route::get('/', function (\Illuminate\Http\Request $request) {
+
+    User::query()->each(function ($user) {
+        $affiliate_tag = strtolower(preg_replace("/\s+/", "", $user->name)) . '' . $user->id;
+        $user->affiliate_tag = $affiliate_tag;
+        $user->save();
+    });
+
     $posts = Blog::all();
     if (auth()->user()) {
         return redirect()->route('acc.home');
@@ -288,6 +296,7 @@ Route::group(['middleware' => 'auth:web', 'prefix' => 'app'], function () {
 
         Route::get('/', [BillingsController::class, 'index'])->name('subscriptions.settings');
         Route::get('/update-password', [SettingsController::class, 'updatePasswordView'])->name('settings.update_password');
+        Route::get('/refer_earn', [SettingsController::class, 'referEarn'])->name('settings.refer_earn');
         Route::post('/update-password', [SettingsController::class, 'storePassword'])->name('settings.update_password.store');
         Route::get('/modal', [BillingsController::class, 'subscriptionModal'])->name('subscriptions.modal');
         Route::post('/subscribe', [BillingsController::class, 'purchaseSubscription'])->name('subscribe.store');

@@ -114,4 +114,9 @@ class User extends Authenticatable
     {
         return count($this->invoices);
     }
+
+    public function referred()
+    {
+        return $this->hasMany(self::class, 'referred_by', 'affiliate_tag');
+    }
 }
