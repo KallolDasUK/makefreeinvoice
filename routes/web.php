@@ -50,11 +50,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function (\Illuminate\Http\Request $request) {
 
-    User::query()->each(function ($user) {
-        $affiliate_tag = strtolower(preg_replace("/\s+/", "", $user->name)) . '' . $user->id;
-        $user->affiliate_tag = $affiliate_tag;
-        $user->save();
-    });
 
     $posts = Blog::all();
     if (auth()->user()) {

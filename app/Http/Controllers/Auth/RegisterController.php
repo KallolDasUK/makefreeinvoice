@@ -95,7 +95,9 @@ class RegisterController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
         );
-
+        $affiliate_tag = strtolower(preg_replace("/\s+/", "", $user->name)) . '' . $user->id;
+        $user->affiliate_tag = $affiliate_tag;
+        $user->save();
         Mail::send('mail.welcome_email', $email_data, function ($message) use ($email_data) {
             $message->to($email_data['email'], $email_data['name'])
                 ->subject('Welcome to InvoicePedia')
