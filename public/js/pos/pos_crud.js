@@ -267,7 +267,14 @@ $(document).ready(function () {
                 $('#payment').prop('disabled', false)
                 $('#storePosPaymentBtn').prop('disabled', false)
                 $('.spinner').addClass('d-none')
+                let pos_charges = order.pos_charges;
+                _.each(pos_charges, function (pos_charge, index, list) {
+                    if (("" + pos_charge.key).toLowerCase() == 'discount') {
+                        pos_charges[index].value = '';
+                    }
+                });
                 posRactive.set('pos_items', []);
+                posRactive.set('charges', pos_charges);
                 console.log(order)
                 $.notify("Order Placed", "success")
                 posRactive.unshift('orders', order);
