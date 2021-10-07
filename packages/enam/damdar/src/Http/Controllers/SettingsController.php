@@ -60,6 +60,13 @@ class SettingsController extends Controller
 
     }
 
+    public function referEarn()
+    {
+        $user = auth()->user();
+        return view('settings.refer-earn', compact('user'));
+
+    }
+
     public function storePassword(Request $request)
     {
 

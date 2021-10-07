@@ -18,6 +18,7 @@ class BaseController extends Controller
     public function index(Request $request)
     {
 
+
         $date = $request->date ?? today()->toDateString();
         $date = Carbon::parse($date);
         View::share('title', 'Overview');

@@ -107,4 +107,14 @@ class RegisterController extends Controller
 
     }
 
+    protected function registered(Request $request, $user)
+    {
+        if (array_key_exists('invoicepedia_affiliate', $_COOKIE)) {
+            $affiliate_tag = $_COOKIE['invoicepedia_affiliate'];
+            if (User::query()->where('affiliate_tag', $affiliate_tag)->exists()) {
+                $user->update(['referred_by' => $affiliate_tag]);
+            }
+        }
+    }
+
 }

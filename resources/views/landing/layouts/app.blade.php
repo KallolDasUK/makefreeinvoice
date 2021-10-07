@@ -6,13 +6,13 @@
     <title> {{ $title??'InvoicePedia - Free Online Invoice Generator, Billing & Accounting Online' }}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    {!! SEOMeta::generate() !!}
-    {!! OpenGraph::generate() !!}
-    {!! Twitter::generate() !!}
-    {!! JsonLd::generate() !!}
-    {!! JsonLdMulti::generate() !!}
-    <!-- Bootstrap -->
-{{--    <link href="https://shreethemes.in/landrick/layouts/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>--}}
+{!! SEOMeta::generate() !!}
+{!! OpenGraph::generate() !!}
+{!! Twitter::generate() !!}
+{!! JsonLd::generate() !!}
+{!! JsonLdMulti::generate() !!}
+<!-- Bootstrap -->
+    {{--    <link href="https://shreethemes.in/landrick/layouts/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>--}}
     <link href="https://shreethemes.in/landrick/landing/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
 
     <!-- Icons -->
@@ -81,6 +81,9 @@
             background-color: white !important;
         }
     </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.2.1/js.cookie.min.js"
+            integrity="sha512-Meww2sXqNHxI1+5Dyh/9KAtvI9RZSA4c1K2k5iL02oiPO/RH3Q30L3M1albtqMg50u4gRTYdV4EXOQqXEI336A=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
 @yield('css')
 
@@ -190,7 +193,7 @@
 <script src="https://shreethemes.in/landrick/landing/js/plugins.init.js"></script>
 <!--Note: All init js like tiny slider, counter, countdown, maintenance, lightbox, gallery, swiper slider, aos animation etc.-->
 <script src="https://shreethemes.in/landrick/landing/js/app.js"></script>
-
+@yield('js')
 <!-- Global Settings -->
 <script>
     $(document).ready(function () {
@@ -207,11 +210,16 @@
                 $(element).removeClass('is-invalid');
             }
         })
+
     })
+    var via = new URL(location.href).searchParams.get('via')
+    // console.clear()
+    console.log(via)
+    if (via) {
+        Cookies.set('invoicepedia_affiliate', via)
+    }
 </script>
 
-
-@yield('js')
 
 <!-- Messenger Chat plugin Code -->
 <div id="fb-root"></div>
@@ -225,17 +233,18 @@
     chatbox.setAttribute("page_id", "108404041579131");
     chatbox.setAttribute("attribution", "biz_inbox");
 
-    window.fbAsyncInit = function() {
+    window.fbAsyncInit = function () {
         FB.init({
-            xfbml            : true,
-            version          : 'v11.0'
+            xfbml: true,
+            version: 'v11.0'
         });
     };
 
-    (function(d, s, id) {
+    (function (d, s, id) {
         var js, fjs = d.getElementsByTagName(s)[0];
         if (d.getElementById(id)) return;
-        js = d.createElement(s); js.id = id;
+        js = d.createElement(s);
+        js.id = id;
         js.src = 'https://connect.facebook.net/en_US/sdk/xfbml.customerchat.js';
         fjs.parentNode.insertBefore(js, fjs);
     }(document, 'script', 'facebook-jssdk'));
