@@ -266,6 +266,7 @@ Route::group(['middleware' => 'auth:web', 'prefix' => 'app'], function () {
         Route::post('/invoice-payment-transactions/{invoice}', [AjaxController::class, 'invoicePaymentTransactions'])->name('invoices.invoice.payments');
         Route::post('/invoice-payment', [AjaxController::class, 'invoicePayment'])->name('ajax.recordPayment');
         Route::post('/bill-payment', [AjaxController::class, 'billPayment'])->name('ajax.billPayment');
+        Route::post('/settings/phoneNumber', [AjaxController::class, 'storePhoneNumber'])->name('ajax.storePhoneNumber');
     });
 
 

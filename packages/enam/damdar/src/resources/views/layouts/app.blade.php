@@ -351,7 +351,11 @@
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-J35PC4G2SJ"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+
         gtag('js', new Date());
 
         gtag('config', 'G-J35PC4G2SJ');
@@ -775,7 +779,7 @@
             @endif
             @if($country == "Bangladesh")
                 <div class="text-center">For any help or enquiry please call at <h2>
-                    <a href="tel:+8801680852026"><i class="fa fa-phone"></i> +88 016 8085 2026</a>
+                        <a href="tel:+8801680852026"><i class="fa fa-phone"></i> +88 016 8085 2026</a>
                     </h2>
                 </div>
             @endif
@@ -878,7 +882,7 @@
 
 </div>
 
-
+@include('partials.ajax-phone-number')
 <script>var KTAppSettings = {
         "breakpoints": {"sm": 576, "md": 768, "lg": 992, "xl": 1200, "xxl": 1200},
         "colors": {
@@ -984,6 +988,48 @@
             date.setDate(date.getDate() + days);
             return date;
         }
+        let settings = @json($settings);
+        console.log(settings)
+        if (!settings.phone){
+            $('#phoneModal').modal({backdrop: 'static', keyboard: false})
+
+        }
+        /* Creating Tax Via Ajax With Validation */
+        $('#phoneForm').validate({
+            submitHandler: function (form) {
+                $.ajax({
+                    url: form.action,
+                    type: form.method,
+                    data: $(form).serialize(),
+                    beforeSend: () => {
+                        $('#storeTax').prop('disabled', true)
+                        $('.spinner').removeClass('d-none')
+                    },
+                    success: function (response) {
+                        $('#phoneModal').modal('hide');
+
+                    },
+
+                });
+            },
+            rules: {
+                phone: {required: true},
+            },
+            messages: {
+                phone: {required: "Please give your phone number",},
+            },
+            errorElement: 'span',
+            errorPlacement: function (error, element) {
+                error.addClass('invalid-feedback');
+                element.closest('.form-group').append(error);
+            },
+            highlight: function (element, errorClass, validClass) {
+                $(element).addClass('is-invalid');
+            },
+            unhighlight: function (element, errorClass, validClass) {
+                $(element).removeClass('is-invalid');
+            }
+        });
 
 
     })
