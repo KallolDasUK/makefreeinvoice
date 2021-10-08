@@ -8,6 +8,7 @@ use App\Models\BillPayment;
 use App\Models\BillPaymentItem;
 use App\Models\Customer;
 use App\Models\Invoice;
+use App\Models\MetaSetting;
 use App\Models\PosSale;
 use App\Models\ReceivePayment;
 use App\Models\ReceivePaymentItem;
@@ -83,6 +84,13 @@ class AjaxController extends Controller
         ReceivePaymentItem::create(['receive_payment_id' => $receivePayment->id, 'invoice_id' => $invoice->id, 'amount' => $request->amount]);
         session()->flash('success_message', 'Payment Recorded Successfully for Invoice ' . $invoice->invoice_number);
         return ['success_message' => 'Payment Recorded Successfully for Invoice ' . $invoice->invoice_number];
+    }
+
+    public function storePhoneNumber(Request $request)
+    {
+        $phone = $request->phone;
+        MetaSetting::query()->updateOrCreate(['key' => 'phone'], ['value' => $phone]);
+        return [];
     }
 
     public function billPayment(Request $request)
