@@ -393,7 +393,7 @@
         <li class="nav-item">
             <a href="#" class="nav-link dropdown-toggle rounded" data-toggle="dropdown">
                 <span class="nav-title text-uppercase">Invoices</span>
-                <span class="nav-desc">Invoices &amp; Payments</span>
+                <span class="nav-desc">Sales &amp; Payments</span>
                 <i class="fas fa-sort-down"></i>
 
             </a>

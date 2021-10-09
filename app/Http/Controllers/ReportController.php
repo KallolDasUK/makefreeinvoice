@@ -337,6 +337,27 @@ class ReportController extends AccountingReportsController
             'customer_id', 'invoice_id', 'payment_status'));
     }
 
+    public function salesReportDetails(Request $request)
+    {
+        $start_date = $request->start_date ?? today()->startOfMonth()->toDateString();
+        $end_date = $request->end_date ?? today()->toDateString();
+        $customer_id = $request->customer_id;
+        $invoice_id = $request->invoice_id;
+        $category_id = $request->category_id;
+        $brand_id = $request->brand_id;
+        $product_id = $request->product_id;
+        $records = $this->getSalesReportDetails($start_date, $end_date, $customer_id, $invoice_id, $product_id, $brand_id, $category_id);
+        $title = 'Sales Report Details';
+
+        $invoices = Invoice::all();
+        $pos_sales = PosSale::all();
+        $customers = Customer::all();
+//        dd(count($records));
+        return view('reports.sales-report-details', compact('title', 'pos_sales',
+            'records', 'invoices', 'customers', 'start_date', 'end_date',
+            'customer_id', 'invoice_id', 'category_id', 'brand_id', 'product_id'));
+    }
+
     public function purchaseReport(Request $request)
     {
         $start_date = $request->start_date ?? today()->startOfMonth()->toDateString();
@@ -350,6 +371,26 @@ class ReportController extends AccountingReportsController
         $bills = Bill::all();
         $vendors = Vendor::all();
         return view('reports.purchase-report', compact('title', 'records', 'bills', 'vendors', 'start_date', 'end_date', 'vendor_id', 'bill_id', 'payment_status'));
+    }
+
+    public function purchaseReportDetails(Request $request)
+    {
+        $start_date = $request->start_date ?? today()->startOfMonth()->toDateString();
+        $end_date = $request->end_date ?? today()->toDateString();
+        $vendor_id = $request->vendor_id;
+        $bill_id = $request->bill_id;
+        $category_id = $request->category_id;
+        $brand_id = $request->brand_id;
+        $product_id = $request->product_id;
+        $records = $this->getPurchaseReportDetails($start_date, $end_date, $vendor_id, $bill_id, $product_id, $brand_id, $category_id);
+        $title = 'Purchase Report Details';
+
+        $bills = Bill::all();
+        $vendors = Vendor::all();
+//        dd(count($records));
+        return view('reports.purchase-report-details', compact('title',
+            'records', 'bills', 'vendors', 'start_date', 'end_date',
+            'vendor_id', 'bill_id', 'category_id', 'brand_id', 'product_id'));
     }
 
 }
