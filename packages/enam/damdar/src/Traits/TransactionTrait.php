@@ -5,7 +5,10 @@ namespace Enam\Acc\Traits;
 
 
 use App\Models\Bill;
+use App\Models\BillItem;
 use App\Models\Invoice;
+use App\Models\InvoiceItem;
+use App\Models\PosItem;
 use App\Models\PosSale;
 use Carbon\Carbon;
 use Enam\Acc\Models\Branch;
@@ -715,6 +718,92 @@ trait TransactionTrait
         return collect($records)->sortBy('date', null, true);
     }
 
+    public function getSalesReportDetails($start_date, $end_date, $customer_id, $invoice_id, $product_id, $brand_id, $category_id)
+    {
+        $records = [];
+        $invoice_items = InvoiceItem::query()->with(['product', 'invoice'])
+            ->whereBetween('date', [$start_date, $end_date])
+            ->whereHas('product', function ($query) use ($product_id) {
+                return $query->when($product_id != null, function ($query) use ($product_id) {
+                    return $query->where('id', $product_id);
+                });
+            })->whereHas('product', function ($query) use ($brand_id) {
+                return $query->when($brand_id != null, function ($query) use ($brand_id) {
+                    return $query->where('brand_id', $brand_id);
+                });
+            })->whereHas('product', function ($query) use ($category_id) {
+                return $query->when($category_id != null, function ($query) use ($category_id) {
+                    return $query->where('category_id', $category_id);
+                });
+            })->whereHas('invoice', function ($query) use ($invoice_id) {
+                return $query->when($invoice_id != null, function ($query) use ($invoice_id) {
+                    return $query->where('invoice_number', $invoice_id);
+                });
+            })->whereHas('invoice', function ($query) use ($customer_id) {
+                return $query->when($customer_id != null, function ($query) use ($customer_id) {
+                    return $query->where('customer_id', $customer_id);
+                });
+            })
+            ->get();
+        foreach ($invoice_items as $invoice_item) {
+            $record = ['date' => '', 'invoice' => '', 'brand' => '', 'category' => '', 'customer' => '', 'product' => '', 'qnt' => '', 'amount' => '', 'total' => ''];
+            $record['date'] = $invoice_item->date;
+            $record['is_invoice'] = true;
+            $record['invoice'] = optional($invoice_item->invoice)->invoice_number;
+            $record['brand'] = optional(optional($invoice_item->product)->brand)->name;
+            $record['category'] = optional(optional($invoice_item->product)->category)->name;
+            $record['customer'] = optional(optional($invoice_item->invoice)->customer)->name;
+            $record['product'] = optional($invoice_item->product)->name;
+            $record['qnt'] = floatval($invoice_item->qnt);
+            $record['amount'] = $invoice_item->amount;
+            $record['total'] = $invoice_item->qnt * $invoice_item->amount;
+            $records[] = (object)$record;
+        }
+
+        $pos_items = PosItem::query()->with(['product', 'pos_sale'])
+            ->whereBetween('date', [$start_date, $end_date])
+            ->whereHas('product', function ($query) use ($product_id) {
+                return $query->when($product_id != null, function ($query) use ($product_id) {
+                    return $query->where('id', $product_id);
+                });
+            })->whereHas('product', function ($query) use ($brand_id) {
+                return $query->when($brand_id != null, function ($query) use ($brand_id) {
+                    return $query->where('brand_id', $brand_id);
+                });
+            })->whereHas('product', function ($query) use ($category_id) {
+                return $query->when($category_id != null, function ($query) use ($category_id) {
+                    return $query->where('category_id', $category_id);
+                });
+            })->whereHas('pos_sale', function ($query) use ($invoice_id) {
+                return $query->when($invoice_id != null, function ($query) use ($invoice_id) {
+                    return $query->where('pos_number', $invoice_id);
+                });
+            })->whereHas('pos_sale', function ($query) use ($customer_id) {
+                return $query->when($customer_id != null, function ($query) use ($customer_id) {
+                    return $query->where('customer_id', $customer_id);
+                });
+            })
+            ->get();
+        foreach ($pos_items as $pos_item) {
+            $record = ['date' => '', 'invoice' => '', 'brand' => '', 'category' => '', 'customer' => '', 'product' => '', 'qnt' => '', 'amount' => '', 'total' => ''];
+            $record['date'] = $pos_item->date;
+            $record['is_invoice'] = false;
+            $record['invoice'] = optional($pos_item->pos_sale)->pos_number;
+            $record['brand'] = optional(optional($pos_item->product)->brand)->name;
+            $record['category'] = optional(optional($pos_item->product)->category)->name;
+            $record['customer'] = optional(optional($pos_item->pos_sale)->customer)->name;
+            $record['product'] = optional($pos_item->product)->name;
+            $record['qnt'] = floatval($pos_item->qnt);
+            $record['amount'] = $pos_item->price;
+            $record['total'] = $pos_item->qnt * $pos_item->price;
+            $records[] = (object)$record;
+        }
+
+
+//        dd($records);
+        return collect($records)->sortBy('date', null, true);
+    }
+
     public function getPurchaseReport($start_date, $end_date, $vendor_id, $bill_Id, $payment_status)
     {
         $records = Bill::query()
@@ -727,6 +816,51 @@ trait TransactionTrait
                 return $query->where('payment_status', $payment_status);
             })->get();
         return $records;
+    }
+
+    public function getPurchaseReportDetails($start_date, $end_date, $vendor_id, $bill_id, $product_id, $brand_id, $category_id)
+    {
+        $records = [];
+        $bill_items = BillItem::query()->with(['product', 'bill'])
+            ->whereBetween('date', [$start_date, $end_date])
+            ->whereHas('product', function ($query) use ($product_id) {
+                return $query->when($product_id != null, function ($query) use ($product_id) {
+                    return $query->where('id', $product_id);
+                });
+            })->whereHas('product', function ($query) use ($brand_id) {
+                return $query->when($brand_id != null, function ($query) use ($brand_id) {
+                    return $query->where('brand_id', $brand_id);
+                });
+            })->whereHas('product', function ($query) use ($category_id) {
+                return $query->when($category_id != null, function ($query) use ($category_id) {
+                    return $query->where('category_id', $category_id);
+                });
+            })->whereHas('bill', function ($query) use ($bill_id) {
+                return $query->when($bill_id != null, function ($query) use ($bill_id) {
+                    return $query->where('bill_number', $bill_id);
+                });
+            })->whereHas('bill', function ($query) use ($vendor_id) {
+                return $query->when($vendor_id != null, function ($query) use ($vendor_id) {
+                    return $query->where('vendor_id', $vendor_id);
+                });
+            })
+            ->get();
+        foreach ($bill_items as $bill_item) {
+            $record = ['date' => '', 'bill' => '', 'brand' => '', 'category' => '', 'vendor' => '', 'product' => '', 'qnt' => '', 'amount' => '', 'total' => ''];
+            $record['date'] = $bill_item->date;
+            $record['is_bill'] = true;
+            $record['bill'] = optional($bill_item->bill)->bill_number;
+            $record['brand'] = optional(optional($bill_item->product)->brand)->name;
+            $record['category'] = optional(optional($bill_item->product)->category)->name;
+            $record['vendor'] = optional(optional($bill_item->bill)->vendor)->name;
+            $record['product'] = optional($bill_item->product)->name;
+            $record['qnt'] = floatval($bill_item->qnt);
+            $record['amount'] = $bill_item->amount;
+            $record['total'] = $bill_item->qnt * $bill_item->amount;
+            $records[] = (object)$record;
+        }
+        return collect($records)->sortBy('date', null, true);
+
     }
 }
 

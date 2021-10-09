@@ -374,6 +374,13 @@
 
                     </div>
                     <div class="shortcuts-title sc-jlyJG gSoaLO title">Sales <br> Report</div>
+                </a>   <a class="sc-gPEVay eaBhby"
+                   style="position:relative;"
+                   href="{{ route('reports.report.sales_report_details') }}">
+                    <div class="sc-iRbamj image" style="background-image:url('images/estimate.svg') ">
+
+                    </div>
+                    <div class="shortcuts-title sc-jlyJG gSoaLO title">Sales <br> Report Details</div>
                 </a>
                 <a class="sc-gPEVay eaBhby"
                    style="position:relative;"
@@ -382,6 +389,14 @@
 
                     </div>
                     <div class="shortcuts-title sc-jlyJG gSoaLO title">Purchase <br> Report</div>
+                </a>
+                <a class="sc-gPEVay eaBhby"
+                   style="position:relative;"
+                   href="{{ route('reports.report.purchase_report_details') }}">
+                    <div class="sc-iRbamj image" style="background-image:url('{{ asset('images/estimate.svg') }}') ">
+
+                    </div>
+                    <div class="shortcuts-title sc-jlyJG gSoaLO title">Purchase <br> Report Details</div>
                 </a>
 
             </div>
