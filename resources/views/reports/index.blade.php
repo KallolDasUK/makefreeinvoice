@@ -130,8 +130,8 @@
                     </div>
                     <div class="shortcuts-title sc-jlyJG gSoaLO title">Purchase <br> Report</div>
                 </a> <a class="sc-gPEVay eaBhby"
-                   style="position:relative;"
-                   href="{{ route('reports.report.purchase_report_details') }}">
+                        style="position:relative;"
+                        href="{{ route('reports.report.purchase_report_details') }}">
                     <div class="sc-iRbamj image" style="background-image:url('{{ asset('images/estimate.svg') }}') ">
 
                     </div>
@@ -144,6 +144,19 @@
 
                     </div>
                     <div class="shortcuts-title sc-jlyJG gSoaLO title">Stock Report</div>
+                </a>
+                <a class="sc-gPEVay eaBhby  "
+                   href="{{ route('reports.report.due_collection_report') }}">
+                    <div class="sc-iRbamj image" style="background-image:url('{{ asset('images/estimate.svg') }}') ">
+
+                    </div>
+                    <div class="shortcuts-title sc-jlyJG gSoaLO title">Due Collection</div>
+                </a> <a class="sc-gPEVay eaBhby  "
+                        href="{{ route('reports.report.due_payment_report') }}">
+                    <div class="sc-iRbamj image" style="background-image:url('{{ asset('images/estimate.svg') }}') ">
+
+                    </div>
+                    <div class="shortcuts-title sc-jlyJG gSoaLO title">Due Payment</div>
                 </a>
 
                 <div class="clearfix"></div>

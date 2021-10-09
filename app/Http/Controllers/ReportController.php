@@ -9,7 +9,9 @@ use App\Models\Customer;
 use App\Models\ExpenseItem;
 use App\Models\Invoice;
 use App\Models\InvoiceItem;
+use App\Models\PosPayment;
 use App\Models\PosSale;
+use App\Models\ReceivePaymentItem;
 use App\Models\Report;
 use App\Models\Tax;
 use App\Models\Vendor;
@@ -391,6 +393,34 @@ class ReportController extends AccountingReportsController
         return view('reports.purchase-report-details', compact('title',
             'records', 'bills', 'vendors', 'start_date', 'end_date',
             'vendor_id', 'bill_id', 'category_id', 'brand_id', 'product_id'));
+    }
+
+    public function dueCollectionReport(Request $request)
+    {
+        $title = "Due Collection Report";
+        $start_date = $request->start_date ?? today()->startOfMonth()->toDateString();
+        $end_date = $request->end_date ?? today()->toDateString();
+        $ref = $request->ref;
+        $customer_id = $request->customer_id;
+        $customers = Customer::all();
+        $records = $this->getDueCollectionReport($start_date, $end_date, $customer_id);
+
+        return view('reports.due-collection-report', compact('ref', 'start_date', 'end_date', 'customer_id', 'customers', 'records', 'title'));
+
+    }
+
+    public function duePaymentReport(Request $request)
+    {
+        $title = "Due Payment Report";
+        $start_date = $request->start_date ?? today()->startOfMonth()->toDateString();
+        $end_date = $request->end_date ?? today()->toDateString();
+        $ref = $request->ref;
+        $vendor_id = $request->vendor_id;
+        $vendors = Vendor::all();
+        $records = $this->getDuePaymentReport($start_date, $end_date, $vendor_id);
+
+        return view('reports.due-payment-report', compact('ref', 'start_date', 'end_date', 'vendor_id', 'vendors', 'records', 'title'));
+
     }
 
 }

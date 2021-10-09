@@ -6,10 +6,13 @@ namespace Enam\Acc\Traits;
 
 use App\Models\Bill;
 use App\Models\BillItem;
+use App\Models\BillPaymentItem;
 use App\Models\Invoice;
 use App\Models\InvoiceItem;
 use App\Models\PosItem;
+use App\Models\PosPayment;
 use App\Models\PosSale;
+use App\Models\ReceivePaymentItem;
 use Carbon\Carbon;
 use Enam\Acc\Models\Branch;
 use Enam\Acc\Models\GroupMap;
@@ -862,6 +865,78 @@ trait TransactionTrait
         return collect($records)->sortBy('date', null, true);
 
     }
+
+    public function getDueCollectionReport($start_date, $end_date, $customer_id)
+    {
+        $records = [];
+        $rp_items = ReceivePaymentItem::query()->with('receive_payment')
+            ->whereHas('receive_payment', function ($query) use ($start_date, $end_date) {
+                return $query->whereBetween('payment_date', [$start_date, $end_date]);
+            })
+            ->whereHas('receive_payment', function ($query) use ($customer_id) {
+                return $query->when($customer_id != null, function ($query) use ($customer_id) {
+                    return $query->where('customer_id', $customer_id);
+                });
+            })->get();
+        foreach ($rp_items as $item) {
+            $record = ['customer' => '', 'amount' => '', 'date' => '', 'payment_sl' => '', 'method' => ''];
+            $record['customer'] = optional($item->receive_payment->customer)->name;
+            $record['date'] = optional($item->receive_payment)->payment_date;
+            $record['invoice'] = optional($item->invoice)->invoice_number;
+            $record['method'] = optional($item->receive_payment->ledger)->ledger_name;
+            $record['amount'] = $item->amount;
+            $records[] = (object)$record;
+        }
+        $pos_payments = PosPayment::query()->with('pos_sale')
+            ->whereBetween('date', [$start_date, $end_date])
+            ->whereHas('pos_sale', function ($query) use ($customer_id) {
+                return $query->when($customer_id != null, function ($query) use ($customer_id) {
+                    return $query->where('customer_id', $customer_id);
+                });
+            })->get();
+        foreach ($pos_payments as $payment) {
+            $record = ['customer' => '', 'amount' => '', 'date' => '', 'payment_sl' => '', 'method' => ''];
+            $record['customer'] = optional(optional($payment->pos_sale)->customer)->name;
+            $record['date'] = $payment->date;
+            $record['invoice'] = optional($payment->pos_sale)->pos_number;
+            $record['method'] = optional($payment->ledger)->ledger_name;
+            $record['amount'] = $payment->amount;
+            $records[] = (object)$record;
+        }
+
+//        dd($pos_payments);
+
+        return collect($records)->sortBy('date', null, true);
+    }
+
+    public function getDuePaymentReport($start_date, $end_date, $vendor_id)
+    {
+        $records = [];
+        $rp_items = BillPaymentItem::query()->with('bill_payment')
+            ->whereHas('bill_payment', function ($query) use ($start_date, $end_date) {
+                return $query->whereBetween('payment_date', [$start_date, $end_date]);
+            })
+            ->whereHas('bill_payment', function ($query) use ($vendor_id) {
+                return $query->when($vendor_id != null, function ($query) use ($vendor_id) {
+                    return $query->where('vendor_id', $vendor_id);
+                });
+            })->get();
+        foreach ($rp_items as $item) {
+            $record = ['vendor' => '', 'amount' => '', 'date' => '', 'payment_sl' => '', 'method' => ''];
+            $record['vendor'] = optional($item->bill_payment->vendor)->name;
+            $record['date'] = optional($item->bill_payment)->payment_date;
+            $record['bill'] = optional($item->bill)->bill_number;
+            $record['method'] = optional($item->bill_payment->ledger)->ledger_name;
+            $record['amount'] = $item->amount;
+            $records[] = (object)$record;
+        }
+
+
+//        dd($pos_payments);
+
+        return collect($records)->sortBy('date', null, true);
+    }
+
 }
 
 

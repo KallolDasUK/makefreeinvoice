@@ -322,6 +322,8 @@ Route::group(['middleware' => 'auth:web', 'prefix' => 'app'], function () {
         Route::get('/sales-report-details', [ReportController::class, 'salesReportDetails'])->name('reports.report.sales_report_details');
         Route::get('/purchase-report', [ReportController::class, 'purchaseReport'])->name('reports.report.purchase_report');
         Route::get('/purchase-report-details', [ReportController::class, 'purchaseReportDetails'])->name('reports.report.purchase_report_details');
+        Route::get('/due-collection-report', [ReportController::class, 'dueCollectionReport'])->name('reports.report.due_collection_report');
+        Route::get('/due-payment-report', [ReportController::class, 'duePaymentReport'])->name('reports.report.due_payment_report');
 
     });
 
