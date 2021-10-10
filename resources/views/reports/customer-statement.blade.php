@@ -158,51 +158,52 @@
         </div>
 
         <p class="clearfix"></p>
-        <div id="invoice-container" class=" invoice-container {{ $customer_id == null?'d-none':'' }}">
+        @if($customer_id)
+            <div id="invoice-container" class=" invoice-container ">
 
-            <!-- Header -->
-            <header>
-                <div class="mt-8">
-                    @if($settings->business_name??false)
-                        <h1 class="float-left">
-                            {{ $settings->business_name }}
-                            <br>
-                            @if($settings->business_logo??false)
-                                <img
-                                    class="rounded text-left"
-                                    src="{{ asset('storage/'.$settings->business_logo) }}"
-                                    width="100"
-                                    alt="">
-                            @endif
-                        </h1>
-                        <h1 class="float-right">
-                            Customer Statement
-                        </h1>
-
-                    @endif
-                    <span class="clearfix"></span>
-                    <div class="row align-items-baseline justify-content-around">
-                        <div class="col"> Bill To:
-                            <address style="max-width: 300px;margin-left: 35px">
-                                <b>{{  $customer->name ?? 'N/A' }}</b>
+                <!-- Header -->
+                <header>
+                    <div class="mt-8">
+                        @if($settings->business_name??false)
+                            <h1 class="float-left">
+                                {{ $settings->business_name }}
                                 <br>
-                                @if($customer->street_1)
-                                    {{ $customer->street_1??'' }} <br>
+                                @if($settings->business_logo??false)
+                                    <img
+                                        class="rounded text-left"
+                                        src="{{ asset('storage/'.$settings->business_logo) }}"
+                                        width="100"
+                                        alt="">
                                 @endif
+                            </h1>
+                            <h1 class="float-right">
+                                Customer Statement
+                            </h1>
 
-                                @if($customer->street_2)
-                                    {{ $customer->street_2??'' }}<br>
-                                @endif
-                                {{ $customer->state??'' }} {{ $customer->zip_post??'' }}
-                                @if($customer->email)
-                                    <br> {{ $customer->email??'' }}
-                                @endif
-                                @if($customer->phone)
-                                    <br> {{ $customer->phone??'' }}
-                                @endif
-                            </address>
-                        </div>
-                        <div class="col">
+                        @endif
+                        <span class="clearfix"></span>
+                        <div class="row align-items-baseline justify-content-around">
+                            <div class="col"> Bill To:
+                                <address style="max-width: 300px;margin-left: 35px">
+                                    <b>{{  $customer->name ?? 'N/A' }}</b>
+                                    <br>
+                                    @if($customer->street_1)
+                                        {{ $customer->street_1??'' }} <br>
+                                    @endif
+
+                                    @if($customer->street_2)
+                                        {{ $customer->street_2??'' }}<br>
+                                    @endif
+                                    {{ $customer->state??'' }} {{ $customer->zip_post??'' }}
+                                    @if($customer->email)
+                                        <br> {{ $customer->email??'' }}
+                                    @endif
+                                    @if($customer->phone)
+                                        <br> {{ $customer->phone??'' }}
+                                    @endif
+                                </address>
+                            </div>
+                            <div class="col">
                             <span>
                                 <div class="mt-8 text-right">
                                     Statement Start Date : {{ $start_date }}
@@ -220,13 +221,13 @@
                                 </div>
 
                             </span>
-                            <br>
-                            <div class="ml-8">
+                                <br>
+                                <div class="ml-8">
 
-                                <div class="bg-secondary p-2">
-                                    <b>Account Summary</b>
-                                </div>
-                                <span>
+                                    <div class="bg-secondary p-2">
+                                        <b>Account Summary</b>
+                                    </div>
+                                    <span>
                                 <table class="table table-sm">
                                     <tr>
                                         <td>Previous Balance</td>
@@ -248,97 +249,97 @@
                                 </table>
                             </span>
 
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                    <hr>
+                </header>
+
+                <!-- Main Content -->
+                <main>
+
+                    <hr>
+
+                    <div class="card" style="min-height: 300px">
+                        <div class="card-body p-0">
+                            <div class="">
+                                <table class="table mb-0 table-bordered">
+                                    <thead class="card-header">
+                                    <tr>
+                                        <td class=" border-0"><strong>SL</strong></td>
+                                        <td class=" border-0"><strong>Date</strong></td>
+                                        <td class="text-right  border-0">Invoice</td>
+                                        <td class="text-right border-0">Description</td>
+                                        <td class="text-right border-0">Payment</td>
+                                        <td class="text-right border-0 ">Amount</td>
+                                        <td class="text-right border-0  bg-secondary">Balance</td>
+
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    @php($balance = $opening??0)
+                                    @foreach($records as $record)
+                                        @php($balance = ($balance + $record->amount) - $record->payment)
+
+                                        <tr>
+                                            <td class=" border-0">{{ $loop->iteration }}</td>
+                                            <td class="text-start border-0">{{ $record->date }}</td>
+                                            <td class="text-right border-0">{{ $record->invoice }}</td>
+                                            <td class="text-right border-0">{{ $record->description }}</td>
+                                            <td class="text-right border-0">{{ decent_format_dash_if_zero($record->payment) }}</td>
+                                            <td class="text-right border-0">{{ decent_format_dash_if_zero($record->amount) }}</td>
+                                            <td class="text-right border-0  bg-secondary font-weight-bolder">{{ decent_format_dash_if_zero($balance) }}</td>
+                                        </tr>
+                                    @endforeach
+
+                                    </tbody>
+                                    <tfoot class="card-footer">
+                                    <tr>
+                                        <td colspan="6" class="text-right border-0">Current Balance</td>
+                                        <td class="text-right border-0  bg-secondary  font-weight-bolder">{{ decent_format_dash_if_zero($balance) }}</td>
+                                    </tr>
+                                    </tfoot>
+                                </table>
+
+
                             </div>
                         </div>
                     </div>
+                    <div style="width: 60%;">
+                        <div class="m-auto text-center mt-8">
 
-
-                </div>
-
-                <hr>
-            </header>
-
-            <!-- Main Content -->
-            <main>
-
-                <hr>
-
-                <div class="card" style="min-height: 300px">
-                    <div class="card-body p-0">
-                        <div class="">
-                            <table class="table mb-0 table-bordered">
-                                <thead class="card-header">
-                                <tr>
-                                    <td class=" border-0"><strong>SL</strong></td>
-                                    <td class=" border-0"><strong>Date</strong></td>
-                                    <td class="text-right  border-0">Invoice</td>
-                                    <td class="text-right border-0">Description</td>
-                                    <td class="text-right border-0">Payment</td>
-                                    <td class="text-right border-0 ">Amount</td>
-                                    <td class="text-right border-0  bg-secondary">Balance</td>
-
-                                </tr>
-                                </thead>
-                                <tbody>
-                                @php($balance = $opening??0)
-                                @foreach($records as $record)
-                                    @php($balance = ($balance + $record->amount) - $record->payment)
-
-                                    <tr>
-                                        <td class=" border-0">{{ $loop->iteration }}</td>
-                                        <td class="text-start border-0">{{ $record->date }}</td>
-                                        <td class="text-right border-0">{{ $record->invoice }}</td>
-                                        <td class="text-right border-0">{{ $record->description }}</td>
-                                        <td class="text-right border-0">{{ decent_format_dash_if_zero($record->payment) }}</td>
-                                        <td class="text-right border-0">{{ decent_format_dash_if_zero($record->amount) }}</td>
-                                        <td class="text-right border-0  bg-secondary font-weight-bolder">{{ decent_format_dash_if_zero($balance) }}</td>
-                                    </tr>
-                                @endforeach
-
-                                </tbody>
-                                <tfoot class="card-footer">
-                                <tr>
-                                    <td colspan="6" class="text-right border-0">Current Balance</td>
-                                    <td class="text-right border-0  bg-secondary  font-weight-bolder">{{ decent_format_dash_if_zero($balance) }}</td>
-                                </tr>
-                                </tfoot>
-                            </table>
-
-
+                            <address class="text-left">
+                                <b>if you have any questions about this statement please contact</b> <br>
+                                {{ $settings->business_name??'n/a' }}
+                                @if($settings->street_1??'')
+                                    <br> {{ $settings->street_1??'' }}
+                                @endif
+                                @if($settings->street_2??'')
+                                    <br> {{ $settings->street_2??'' }}
+                                @endif
+                                @if(($settings->state??'') || ($settings->zip_post??'') )
+                                    <br> {{ $settings->state??'' }} {{ $settings->zip_post??'' }}
+                                @endif
+                                @if($settings->email??'')
+                                    <br> {{ $settings->email??'' }}
+                                @endif
+                                @if($settings->phone??'')
+                                    <br> {{ $settings->phone??'' }}
+                                @endif
+                            </address>
                         </div>
                     </div>
-                </div>
-                <div style="width: 60%;">
-                    <div class="m-auto text-center mt-8">
-
-                        <address class="text-left">
-                            <b>if you have any questions about this statement please contact</b> <br>
-                            {{ $settings->business_name??'n/a' }}
-                            @if($settings->street_1??'')
-                                <br> {{ $settings->street_1??'' }}
-                            @endif
-                            @if($settings->street_2??'')
-                                <br> {{ $settings->street_2??'' }}
-                            @endif
-                            @if(($settings->state??'') || ($settings->zip_post??'') )
-                                <br> {{ $settings->state??'' }} {{ $settings->zip_post??'' }}
-                            @endif
-                            @if($settings->email??'')
-                                <br> {{ $settings->email??'' }}
-                            @endif
-                            @if($settings->phone??'')
-                                <br> {{ $settings->phone??'' }}
-                            @endif
-                        </address>
-                    </div>
-                </div>
-                <h2 class="text-center">Thanks for your business</h2>
-            </main>
-            <!-- Footer -->
+                    <h2 class="text-center">Thanks for your business</h2>
+                </main>
+                <!-- Footer -->
 
 
-        </div>
-
+            </div>
+        @endif
 
     </div>
 
