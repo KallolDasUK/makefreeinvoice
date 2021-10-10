@@ -46,7 +46,7 @@ trait ReportService
         $payment = collect($records)->sum('payment');
         $balance = $amount - $payment;
         $customer = Customer::find($customer_id);
-        $balance += floatval($customer->opening);
+        $balance += floatval(optional($customer)->opening);
 //        dd($balance);
         return (object)['amount' => $amount, 'payment' => $payment, 'balance' => $balance];
 
@@ -75,7 +75,7 @@ trait ReportService
         $payment = collect($records)->sum('payment');
         $balance = $amount - $payment;
         $vendor = Vendor::find($vendor_id);
-        $balance += floatval($vendor->opening);
+        $balance += floatval(optional($vendor)->opening??0);
         return (object)['amount' => $amount, 'payment' => $payment, 'balance' => $balance];
 
     }
