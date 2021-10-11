@@ -357,6 +357,7 @@
 </head>
 
 <body class="">
+
 <div class="modal fade" id="subscribeModal" tabindex="-1" role="dialog" aria-labelledby="subscribeModal"
      aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
@@ -377,6 +378,7 @@
         </div>
     </div>
 </div>
+
 <div class="container">
 
 
@@ -779,6 +781,12 @@
             @endif
             <div>
 
+                @if(auth()->user()->role == 'master')
+                    <a href="{{ route('master.users') }}"
+                       class="btn btn-danger btn-lg font-weight-bolder font-size-sm " style="font-size: 16px">
+                        <i class="fas fa-faucet" aria-hidden="true"></i>
+                        </span>Admin Panel</a>
+                @endif
                 <a href="{{ route('pos_sales.pos_sale.create') }}"
                    class="btn btn-info btn-lg font-weight-bolder font-size-sm " style="font-size: 16px">
                     <i class="fas fa-cash-register" aria-hidden="true"></i>
@@ -984,7 +992,7 @@
         }
         let settings = @json($settings);
         console.log(settings)
-        if (!settings.phone){
+        if (!settings.phone) {
             $('#phoneModal').modal({backdrop: 'static', keyboard: false})
 
         }
