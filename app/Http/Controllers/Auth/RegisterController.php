@@ -48,7 +48,7 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
 //        dd($data);
-        if (Str::contains(($data['name'] ?? ''), 'https://')) {
+        if (Str::contains(($data['name'] ?? ''), 'http')) {
             dd('spam');
             return Validator::make($data, [
                 'spam' => ['required'],
