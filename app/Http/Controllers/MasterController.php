@@ -54,7 +54,7 @@ class MasterController extends Controller
         $client_id = $user->client_id;
         $tables = DB::select('SHOW TABLES');
         foreach ($tables as $table) {
-            $table_name = $table->Tables_in_kinetix_accounting;
+            $table_name = $table->Tables_in_kinetixb_accounting;
             if ($table_name == 'users') {
                 continue;
             }
