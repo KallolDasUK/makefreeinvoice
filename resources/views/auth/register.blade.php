@@ -12,6 +12,7 @@
                         {{--                            @endif--}}
                         <div>
                             <form class="login-form mt-4" action="{{ route('register') }}" method="post">
+                                @honeypot
                                 @csrf
                                 <div class="row">
 

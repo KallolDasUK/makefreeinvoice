@@ -17,6 +17,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
+use Spatie\Honeypot\ProtectAgainstSpam;
 
 class RegisterController extends Controller
 {
@@ -39,12 +41,22 @@ class RegisterController extends Controller
 
     public function __construct()
     {
-        $this->middleware('guest');
+        $this->middleware(['guest', ProtectAgainstSpam::class]);
     }
 
 
     protected function validator(array $data)
     {
+//        dd($data);
+        if (Str::contains(($data['name'] ?? ''), 'https://')) {
+            dd('spam');
+            return Validator::make($data, [
+                'spam' => ['required'],
+                'name' => ['required', 'string', 'max:255'],
+                'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+                'password' => ['required', 'string', 'min:4'],
+            ]);
+        }
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
