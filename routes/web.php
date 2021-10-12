@@ -412,6 +412,7 @@ Route::group(['prefix' => 'master', 'middleware' => ['auth:web', 'isMaster']], f
     Route::post('/subscriptions/basic-plan', [MasterController::class, 'basicPlanSettings'])->name('master.subscriptions.basic_plan');
     Route::post('/subscriptions/premium-plan', [MasterController::class, 'premiumPlanSettings'])->name('master.subscriptions.premium_plan');
     Route::get('/users', [MasterController::class, 'users'])->name('master.users');
+    Route::get('/users/{user}', [MasterController::class, 'deleteUser'])->name('master.users.delete');
 
     Route::group(['prefix' => 'blogs'], function () {
 

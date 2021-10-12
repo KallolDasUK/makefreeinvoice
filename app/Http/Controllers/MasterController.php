@@ -16,6 +16,7 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\UrlGenerator;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\URL;
 
@@ -45,6 +46,29 @@ class MasterController extends Controller
         }
         $totalPosSale = count(\DB::table('pos_sales')->where('client_id', '!=', null)->get());
         return view('master.users', compact('users', 'totalBills', 'totalClients', 'totalInvoices', 'totalPosSale'));
+    }
+
+    public function deleteUser($id)
+    {
+        $user = User::findOrFail($id);
+        $client_id = $user->client_id;
+        $tables = DB::select('SHOW TABLES');
+        foreach ($tables as $table) {
+            $table_name = $table->Tables_in_kinetix_accounting;
+            if ($table_name == 'users') {
+                continue;
+            }
+            try {
+                DB::table($table_name)->where('client_id', $client_id)->delete();
+            } catch (\Exception $exception) {
+                echo $exception->getMessage();
+            }
+        }
+        $user->delete();
+//        dd('sd');
+
+        return back();
+
     }
 
     public function subscriptions()
