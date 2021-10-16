@@ -6,6 +6,46 @@ use Enam\Acc\Models\Ledger;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * App\Models\Expense
+ *
+ * @property int $id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property string|null $date
+ * @property int|null $ledger_id
+ * @property int|null $vendor_id
+ * @property int|null $customer_id
+ * @property string|null $ref
+ * @property int|null $is_billable
+ * @property string|null $file
+ * @property int|null $user_id
+ * @property int|null $client_id
+ * @property-read \App\Models\Customer|null $customer
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ExpenseItem[] $expense_items
+ * @property-read int|null $expense_items_count
+ * @property-read mixed $amount
+ * @property-read mixed $taxable_amount
+ * @property-read mixed $taxes
+ * @property-read Ledger|null $ledger
+ * @property-read \App\Models\Vendor|null $vendor
+ * @method static Builder|Expense newModelQuery()
+ * @method static Builder|Expense newQuery()
+ * @method static Builder|Expense query()
+ * @method static Builder|Expense whereClientId($value)
+ * @method static Builder|Expense whereCreatedAt($value)
+ * @method static Builder|Expense whereCustomerId($value)
+ * @method static Builder|Expense whereDate($value)
+ * @method static Builder|Expense whereFile($value)
+ * @method static Builder|Expense whereId($value)
+ * @method static Builder|Expense whereIsBillable($value)
+ * @method static Builder|Expense whereLedgerId($value)
+ * @method static Builder|Expense whereRef($value)
+ * @method static Builder|Expense whereUpdatedAt($value)
+ * @method static Builder|Expense whereUserId($value)
+ * @method static Builder|Expense whereVendorId($value)
+ * @mixin \Eloquent
+ */
 class Expense extends Model
 {
 

@@ -5,11 +5,67 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * App\Models\Product
+ *
+ * @property int $id
+ * @property string|null $product_type
+ * @property string|null $name
+ * @property string|null $sku
+ * @property string|null $photo
+ * @property int|null $category_id
+ * @property string|null $sell_price
+ * @property string|null $sell_unit
+ * @property string|null $purchase_price
+ * @property string|null $purchase_unit
+ * @property string|null $description
+ * @property int|null $is_track
+ * @property string|null $opening_stock
+ * @property string|null $opening_stock_price
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property int|null $user_id
+ * @property int|null $client_id
+ * @property int|null $brand_id
+ * @property string|null $code
+ * @property int $is_bookmarked
+ * @property-read \App\Models\Brand|null $brand
+ * @property-read \App\Models\Category|null $category
+ * @property-read mixed $price
+ * @property-read mixed $short_name
+ * @property-read mixed $stock
+ * @property-read mixed $stock_value
+ * @method static Builder|Product newModelQuery()
+ * @method static Builder|Product newQuery()
+ * @method static Builder|Product query()
+ * @method static Builder|Product whereBrandId($value)
+ * @method static Builder|Product whereCategoryId($value)
+ * @method static Builder|Product whereClientId($value)
+ * @method static Builder|Product whereCode($value)
+ * @method static Builder|Product whereCreatedAt($value)
+ * @method static Builder|Product whereDescription($value)
+ * @method static Builder|Product whereId($value)
+ * @method static Builder|Product whereIsBookmarked($value)
+ * @method static Builder|Product whereIsTrack($value)
+ * @method static Builder|Product whereName($value)
+ * @method static Builder|Product whereOpeningStock($value)
+ * @method static Builder|Product whereOpeningStockPrice($value)
+ * @method static Builder|Product wherePhoto($value)
+ * @method static Builder|Product whereProductType($value)
+ * @method static Builder|Product wherePurchasePrice($value)
+ * @method static Builder|Product wherePurchaseUnit($value)
+ * @method static Builder|Product whereSellPrice($value)
+ * @method static Builder|Product whereSellUnit($value)
+ * @method static Builder|Product whereSku($value)
+ * @method static Builder|Product whereUpdatedAt($value)
+ * @method static Builder|Product whereUserId($value)
+ * @mixin \Eloquent
+ */
 class Product extends Model
 {
 
     protected $guarded = [];
-    protected $appends = ['stock', 'short_name'];
+    protected $appends = ['stock', 'short_name', 'stock_value'];
 
     public function category()
     {
@@ -35,6 +91,17 @@ class Product extends Model
     {
 
         return $this->currentStock($this, today()->toDateString());
+
+    }
+
+    public function getStockValueAttribute()
+    {
+
+        $stock = $this->stock;
+        if ($stock <= 0) {
+            $stock = 0;
+        }
+        return $stock * ($this->purchase_price ?? $this->sell_price) ?? 0;
 
     }
 

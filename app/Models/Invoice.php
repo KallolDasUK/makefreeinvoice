@@ -6,6 +6,92 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * App\Models\Invoice
+ *
+ * @property int $id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property int|null $customer_id
+ * @property string|null $invoice_number
+ * @property string|null $order_number
+ * @property string|null $invoice_date
+ * @property string|null $payment_terms
+ * @property string|null $due_date
+ * @property string|null $sub_total
+ * @property string|null $total
+ * @property string|null $discount_type
+ * @property string|null $discount_value
+ * @property string|null $discount
+ * @property string|null $shipping_charge
+ * @property string|null $terms_condition
+ * @property string|null $notes
+ * @property string|null $attachment
+ * @property string $currency
+ * @property string|null $shipping_date
+ * @property int $is_payment
+ * @property string|null $payment_amount
+ * @property int|null $payment_method_id
+ * @property int|null $deposit_to
+ * @property int|null $receive_payment_id
+ * @property string $invoice_status
+ * @property string|null $secret
+ * @property int|null $user_id
+ * @property int|null $client_id
+ * @property string $payment_status
+ * @property int|null $sr_id
+ * @property-read \App\Models\Customer|null $customer
+ * @property-read mixed $age
+ * @property-read mixed $charges
+ * @property-read mixed $due
+ * @property-read mixed $extra_fields
+ * @property-read mixed $payment
+ * @property-read mixed $payment_status_text
+ * @property-read mixed $taxable_amount
+ * @property-read mixed $taxes
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\InvoiceExtraField[] $invoice_extra
+ * @property-read int|null $invoice_extra_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\InvoiceItem[] $invoice_items
+ * @property-read int|null $invoice_items_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ReceivePaymentItem[] $payments
+ * @property-read int|null $payments_count
+ * @property-read \App\Models\SR|null $sr
+ * @method static Builder|Invoice newModelQuery()
+ * @method static Builder|Invoice newQuery()
+ * @method static Builder|Invoice query()
+ * @method static Builder|Invoice whereAttachment($value)
+ * @method static Builder|Invoice whereClientId($value)
+ * @method static Builder|Invoice whereCreatedAt($value)
+ * @method static Builder|Invoice whereCurrency($value)
+ * @method static Builder|Invoice whereCustomerId($value)
+ * @method static Builder|Invoice whereDepositTo($value)
+ * @method static Builder|Invoice whereDiscount($value)
+ * @method static Builder|Invoice whereDiscountType($value)
+ * @method static Builder|Invoice whereDiscountValue($value)
+ * @method static Builder|Invoice whereDueDate($value)
+ * @method static Builder|Invoice whereId($value)
+ * @method static Builder|Invoice whereInvoiceDate($value)
+ * @method static Builder|Invoice whereInvoiceNumber($value)
+ * @method static Builder|Invoice whereInvoiceStatus($value)
+ * @method static Builder|Invoice whereIsPayment($value)
+ * @method static Builder|Invoice whereNotes($value)
+ * @method static Builder|Invoice whereOrderNumber($value)
+ * @method static Builder|Invoice wherePaymentAmount($value)
+ * @method static Builder|Invoice wherePaymentMethodId($value)
+ * @method static Builder|Invoice wherePaymentStatus($value)
+ * @method static Builder|Invoice wherePaymentTerms($value)
+ * @method static Builder|Invoice whereReceivePaymentId($value)
+ * @method static Builder|Invoice whereSecret($value)
+ * @method static Builder|Invoice whereShippingCharge($value)
+ * @method static Builder|Invoice whereShippingDate($value)
+ * @method static Builder|Invoice whereSrId($value)
+ * @method static Builder|Invoice whereSubTotal($value)
+ * @method static Builder|Invoice whereTermsCondition($value)
+ * @method static Builder|Invoice whereTotal($value)
+ * @method static Builder|Invoice whereUpdatedAt($value)
+ * @method static Builder|Invoice whereUserId($value)
+ * @mixin \Eloquent
+ */
 class Invoice extends Model
 {
 
@@ -14,13 +100,19 @@ class Invoice extends Model
     const UnPaid = "Unpaid";
 
     protected $guarded = [];
-    protected $appends = [ 'due'];
+    protected $appends = ['due'];
 
 
     public function customer()
     {
 
         return $this->belongsTo('App\Models\Customer', 'customer_id');
+    }
+
+    public function sr()
+    {
+
+        return $this->belongsTo(SR::class, 'sr_id');
     }
 
     public function invoice_items()

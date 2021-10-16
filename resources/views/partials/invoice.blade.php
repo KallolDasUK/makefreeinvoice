@@ -1,4 +1,4 @@
-<div id="invoice-container" class="container-fluid invoice-container">
+<div id="invoice-container" class="container-fluid invoice-container"  contenteditable="true">
 
 {{--    @if($invoice->due <=0)--}}
 {{--        <img--}}

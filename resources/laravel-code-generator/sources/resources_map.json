@@ -68,5 +68,9 @@
         "model-name": "Brand",
         "resource-file": "brands.json",
         "table-name": "brands"
+    },
+    {
+        "model-name": "SR",
+        "resource-file": "s_rs.json"
     }
 ]

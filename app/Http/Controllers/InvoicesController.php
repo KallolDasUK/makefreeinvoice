@@ -45,10 +45,13 @@ class InvoicesController extends Controller
         $start_date = $request->start_date;
         $end_date = $request->end_date;
         $customer_id = $request->customer;
+        $sr_id = $request->sr_id;
         $q = $request->q;
         $invoices = Invoice::with('customer')
             ->when($customer_id != null, function ($query) use ($customer_id) {
                 return $query->where('customer_id', $customer_id);
+            }) ->when($sr_id != null, function ($query) use ($sr_id) {
+                return $query->where('sr_id', $sr_id);
             })->when($q != null, function ($query) use ($q) {
                 return $query->where('invoice_number', 'like', '%' . $q . '%');
             })
@@ -66,7 +69,7 @@ class InvoicesController extends Controller
         $ledgerGroups = LedgerGroup::all();
 
         return view('invoices.index', compact('invoices', 'q', 'cashAcId', 'depositAccounts', 'paymentMethods',
-                'start_date', 'end_date', 'customer_id', 'customers', 'ledgerGroups') + $this->summaryReport($start_date, $end_date));
+                'start_date', 'end_date', 'customer_id', 'customers', 'ledgerGroups', 'sr_id') + $this->summaryReport($start_date, $end_date));
     }
 
     public function summaryReport($start_date, $end_date)
@@ -233,7 +236,7 @@ class InvoicesController extends Controller
         InvoiceItem::query()->where('invoice_id', $invoice->id)->delete();
         ExtraField::query()->where('type', get_class($invoice))->where('type_id', $invoice->id)->delete();
         ReceivePayment::query()->where('id', $invoice->receive_payment_id)->delete();
-        ReceivePaymentItem::query()->where('receive_payment_id', $invoice->receive_payment_id)->get()->each(function ($model) {
+        ReceivePaymentItem::query()->where('receive_payment_id', $invoice->receive_payment_id)->orWhere('invoice_id', $invoice->id)->get()->each(function ($model) {
             $model->delete();
         });
 
@@ -300,6 +303,7 @@ class InvoicesController extends Controller
             'payment_method_id' => 'nullable',
             'deposit_to' => 'nullable',
             'payment_amount' => 'nullable',
+            'sr_id' => 'nullable',
         ];
 
         $data = $request->validate($rules);

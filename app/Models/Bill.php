@@ -6,6 +6,84 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * App\Models\Bill
+ *
+ * @property int $id
+ * @property int|null $vendor_id
+ * @property string|null $bill_number
+ * @property string|null $order_number
+ * @property string|null $bill_date
+ * @property string|null $due_date
+ * @property string|null $sub_total
+ * @property string|null $total
+ * @property string|null $discount_type
+ * @property string|null $discount_value
+ * @property string|null $discount
+ * @property string|null $shipping_charge
+ * @property string|null $notes
+ * @property string|null $bill_status
+ * @property string|null $attachment
+ * @property string|null $secret
+ * @property int|null $user_id
+ * @property int|null $client_id
+ * @property string $currency
+ * @property int|null $bill_payment_id
+ * @property int|null $is_payment
+ * @property string|null $payment_amount
+ * @property int|null $payment_method_id
+ * @property int|null $deposit_to
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property string $payment_status
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\BillExtraField[] $bill_extra
+ * @property-read int|null $bill_extra_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\BillItem[] $bill_items
+ * @property-read int|null $bill_items_count
+ * @property-read mixed $age
+ * @property-read mixed $charges
+ * @property-read mixed $due
+ * @property-read mixed $extra_fields
+ * @property-read mixed $paid
+ * @property-read mixed $payment
+ * @property-read mixed $payment_status_text
+ * @property-read mixed $taxable_amount
+ * @property-read mixed $taxes
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\BillPaymentItem[] $payments
+ * @property-read int|null $payments_count
+ * @property-read \App\Models\Vendor|null $vendor
+ * @method static Builder|Bill newModelQuery()
+ * @method static Builder|Bill newQuery()
+ * @method static Builder|Bill query()
+ * @method static Builder|Bill whereAttachment($value)
+ * @method static Builder|Bill whereBillDate($value)
+ * @method static Builder|Bill whereBillNumber($value)
+ * @method static Builder|Bill whereBillPaymentId($value)
+ * @method static Builder|Bill whereBillStatus($value)
+ * @method static Builder|Bill whereClientId($value)
+ * @method static Builder|Bill whereCreatedAt($value)
+ * @method static Builder|Bill whereCurrency($value)
+ * @method static Builder|Bill whereDepositTo($value)
+ * @method static Builder|Bill whereDiscount($value)
+ * @method static Builder|Bill whereDiscountType($value)
+ * @method static Builder|Bill whereDiscountValue($value)
+ * @method static Builder|Bill whereDueDate($value)
+ * @method static Builder|Bill whereId($value)
+ * @method static Builder|Bill whereIsPayment($value)
+ * @method static Builder|Bill whereNotes($value)
+ * @method static Builder|Bill whereOrderNumber($value)
+ * @method static Builder|Bill wherePaymentAmount($value)
+ * @method static Builder|Bill wherePaymentMethodId($value)
+ * @method static Builder|Bill wherePaymentStatus($value)
+ * @method static Builder|Bill whereSecret($value)
+ * @method static Builder|Bill whereShippingCharge($value)
+ * @method static Builder|Bill whereSubTotal($value)
+ * @method static Builder|Bill whereTotal($value)
+ * @method static Builder|Bill whereUpdatedAt($value)
+ * @method static Builder|Bill whereUserId($value)
+ * @method static Builder|Bill whereVendorId($value)
+ * @mixin \Eloquent
+ */
 class Bill extends Model
 {
 
