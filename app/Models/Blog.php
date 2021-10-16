@@ -5,6 +5,36 @@ namespace App\Models;
 use FontLib\Table\Type\name;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * App\Models\Blog
+ *
+ * @property int $id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property string|null $title
+ * @property string|null $slug
+ * @property string|null $body
+ * @property int|null $user_id
+ * @property int|null $client_id
+ * @property string $tags
+ * @property string|null $meta
+ * @property-read mixed $blog_tag_names
+ * @property-read mixed $blog_tags
+ * @method static \Illuminate\Database\Eloquent\Builder|Blog newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Blog newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Blog query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Blog whereBody($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Blog whereClientId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Blog whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Blog whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Blog whereMeta($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Blog whereSlug($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Blog whereTags($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Blog whereTitle($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Blog whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Blog whereUserId($value)
+ * @mixin \Eloquent
+ */
 class Blog extends Model
 {
 

@@ -17,6 +17,7 @@ $(document).ready(function () {
 
 
     $('#currency').select2()
+    $('#sr_id').select2({placeholder: "-- Sales Representative --", allowClear: true});
 
     /*  Creating Product Via Ajax with Validation */
     $('#createProductForm').validate({
@@ -248,7 +249,7 @@ $(document).ready(function () {
             if (ariaControl.includes('category_id')) {
                 $('#category_id').append(newState).val(e.target.value).trigger('change');
                 $('#category_id').select2("close")
-            }else if (ariaControl.includes('brand_id')) {
+            } else if (ariaControl.includes('brand_id')) {
                 $('#brand_id').append(newState).val(e.target.value).trigger('change');
                 $('#brand_id').select2("close")
             } else if (ariaControl.includes('sell_unit')) {
@@ -312,15 +313,15 @@ $(document).ready(function () {
 // });
 
 $('.qnt').tooltip({'trigger': 'focus', 'title': 'Hit Enter to add new Line'});
-$(document).on('focus', '.select2', function() {
+$(document).on('focus', '.select2', function () {
     $(this).siblings('select').select2('open');
 });
 $(document).on('keypress', '.qnt', function (e) {
     var keyCode = e.keyCode || e.which;
     if (keyCode === 13) {
         ractive.addInvoiceItem();
-        let index = parseInt($(e.target).attr('index'))+1
-        $('#itemSelect'+index).select2('open');
+        let index = parseInt($(e.target).attr('index')) + 1
+        $('#itemSelect' + index).select2('open');
         e.preventDefault();
         return false;
     }

@@ -279,7 +279,7 @@
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
 
                                         <a href="javascript:;"
-                                           share_link="{{ route('bills.bill.share',$bill->secret) }}"
+                                           share_link="{{ route('bills.bill.share',$bill->secret??'null') }}"
 
                                            class="dropdown-item btn shareLink">
                                             <span class="fa fa-share mx-4"></span> <strong>Get Share Link</strong>

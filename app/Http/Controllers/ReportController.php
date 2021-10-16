@@ -11,6 +11,7 @@ use App\Models\Invoice;
 use App\Models\InvoiceItem;
 use App\Models\PosPayment;
 use App\Models\PosSale;
+use App\Models\Product;
 use App\Models\ReceivePaymentItem;
 use App\Models\Report;
 use App\Models\Tax;
@@ -431,6 +432,24 @@ class ReportController extends AccountingReportsController
 
         return view('reports.due-payment-report', compact('ref', 'start_date', 'end_date', 'vendor_id', 'vendors', 'records', 'title'));
 
+    }
+
+    public function productReport()
+    {
+        $products = Product::all();
+        return view('reports.product-report', compact('products'));
+    }
+
+    public function customerReport()
+    {
+        $customers = Customer::all();
+        return view('reports.customer-report', compact('customers'));
+    }
+
+    public function vendorReport()
+    {
+        $vendors = Vendor::all();
+        return view('reports.vendor-report', compact('vendors'));
     }
 
 }

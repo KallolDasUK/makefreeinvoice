@@ -4,6 +4,7 @@ use App\Http\Controllers\Ajax\AjaxController;
 use App\Http\Controllers\BillingsController;
 use App\Http\Controllers\BillPaymentsController;
 use App\Http\Controllers\BillsController;
+use App\Http\Controllers\PurchaseOrdersController;
 use App\Http\Controllers\BlogsController;
 use App\Http\Controllers\BlogTagsController;
 use App\Http\Controllers\BrandsController;
@@ -19,6 +20,7 @@ use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\ReasonsController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SocialLoginController;
+use App\Http\Controllers\SRsController;
 use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\TaxesController;
 use App\Http\Controllers\ReceivePaymentsController;
@@ -134,6 +136,22 @@ Route::group(['middleware' => 'auth:web', 'prefix' => 'app'], function () {
         Route::post('/send/{bill}', [BillsController::class, 'sendBillMail'])->name('bills.bill.send_bill_mail');
         Route::put('bill/{bill}', [BillsController::class, 'update'])->name('bills.bill.update')->where('id', '[0-9]+');
         Route::delete('/bill/{bill}', [BillsController::class, 'destroy'])->name('bills.bill.destroy')->where('id', '[0-9]+');
+
+    });
+
+    Route::group(['prefix' => 'purchase_orders'], function () {
+
+        Route::get('/', [PurchaseOrdersController::class, 'index'])->name('purchase_orders.purchase_order.index');
+        Route::get('/create', [PurchaseOrdersController::class, 'create'])->name('purchase_orders.purchase_order.create');
+        Route::get('/show/{purchase_order}', [PurchaseOrdersController::class, 'show'])->name('purchase_orders.purchase_order.show')->where('id', '[0-9]+');
+        Route::get('/convert_to_bill/{purchase_order}', [PurchaseOrdersController::class, 'convert_to_bill'])->name('purchase_orders.purchase_order.convert_to_bill')->where('id', '[0-9]+');
+        Route::get('/share/{purchase_order}', [PurchaseOrdersController::class, 'share'])->name('purchase_orders.purchase_order.share')->where('id', '[0-9]+')->withoutMiddleware('auth:web');
+        Route::get('/send/{purchase_order}', [PurchaseOrdersController::class, 'send'])->name('purchase_orders.purchase_order.send')->where('id', '[0-9]+');
+        Route::get('/{purchase_order}/edit', [PurchaseOrdersController::class, 'edit'])->name('purchase_orders.purchase_order.edit')->where('id', '[0-9]+');
+        Route::post('/', [PurchaseOrdersController::class, 'store'])->name('purchase_orders.purchase_order.store');
+        Route::post('/send/{purchase_order}', [PurchaseOrdersController::class, 'sendBillMail'])->name('purchase_orders.purchase_order.send_bill_mail');
+        Route::put('purchase_order/{purchase_order}', [PurchaseOrdersController::class, 'update'])->name('purchase_orders.purchase_order.update')->where('id', '[0-9]+');
+        Route::delete('/purchase_order/{purchase_order}', [PurchaseOrdersController::class, 'destroy'])->name('purchase_orders.purchase_order.destroy')->where('id', '[0-9]+');
 
     });
 
@@ -267,6 +285,7 @@ Route::group(['middleware' => 'auth:web', 'prefix' => 'app'], function () {
         Route::post('/invoice-payment', [AjaxController::class, 'invoicePayment'])->name('ajax.recordPayment');
         Route::post('/bill-payment', [AjaxController::class, 'billPayment'])->name('ajax.billPayment');
         Route::post('/settings/phoneNumber', [AjaxController::class, 'storePhoneNumber'])->name('ajax.storePhoneNumber');
+        Route::get('/customer-payment-receipt/{id}', [AjaxController::class, 'customerPaymentReceipt'])->name('ajax.customerPaymentReceipt');
     });
 
 
@@ -324,6 +343,9 @@ Route::group(['middleware' => 'auth:web', 'prefix' => 'app'], function () {
         Route::get('/purchase-report-details', [ReportController::class, 'purchaseReportDetails'])->name('reports.report.purchase_report_details');
         Route::get('/due-collection-report', [ReportController::class, 'dueCollectionReport'])->name('reports.report.due_collection_report');
         Route::get('/due-payment-report', [ReportController::class, 'duePaymentReport'])->name('reports.report.due_payment_report');
+        Route::get('/product-report', [ReportController::class, 'productReport'])->name('reports.report.product_report');
+        Route::get('/customer-report', [ReportController::class, 'customerReport'])->name('reports.report.customer_report');
+        Route::get('/vendor-report', [ReportController::class, 'vendorReport'])->name('reports.report.vendor_report');
 
     });
 
@@ -380,6 +402,24 @@ Route::group(['middleware' => 'auth:web', 'prefix' => 'app'], function () {
         Route::delete('/pos_sale/{posSale}', [PosSalesController::class, 'destroy'])->name('pos_sales.pos_sale.destroy')->where('id', '[0-9]+');
 
     });
+
+    /*
+ *  php artisan resource-file:create SR --fields=id,name,photo,phone,email,address
+ *  php artisan create:scaffold SR  --layout-name="layouts.app" --with-migration
+ * */
+
+    Route::group(['prefix' => 's_rs'], function () {
+        Route::get('/', [SRsController::class, 'index'])->name('s_rs.s_r.index');
+        Route::get('/create', [SRsController::class, 'create'])->name('s_rs.s_r.create');
+        Route::get('/show/{sR}', [SRsController::class, 'show'])->name('s_rs.s_r.show')->where('id', '[0-9]+');
+        Route::get('/{sR}/edit', [SRsController::class, 'edit'])->name('s_rs.s_r.edit')->where('id', '[0-9]+');
+        Route::post('/', [SRsController::class, 'store'])->name('s_rs.s_r.store');
+        Route::put('s_r/{sR}', [SRsController::class, 'update'])->name('s_rs.s_r.update')->where('id', '[0-9]+');
+        Route::delete('/s_r/{sR}', [SRsController::class, 'destroy'])->name('s_rs.s_r.destroy')->where('id', '[0-9]+');
+
+    });
+
+
 });
 
 
@@ -445,6 +485,7 @@ Route::group(['prefix' => 'master', 'middleware' => ['auth:web', 'isMaster']], f
     Route::post('/send_email', [MasterController::class, 'sendEmail'])->name('master.send_email_store');
 });
 Route::get('master/users/login/{email}', [MasterController::class, 'loginClient'])->name('master.users.login');
+
 
 
 

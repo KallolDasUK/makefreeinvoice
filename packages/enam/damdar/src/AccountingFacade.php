@@ -10,6 +10,7 @@ use App\Models\ExpenseItem;
 use App\Models\Invoice;
 use App\Models\PosPayment;
 use App\Models\PosSale;
+use App\Models\PurchaseOrder;
 use App\Models\ReceivePaymentItem;
 use Carbon\Doctrine\DateTimeDefaultPrecision;
 use Enam\Acc\Models\GroupMap;
@@ -85,20 +86,19 @@ class AccountingFacade extends Facade
             'txn_type' => $txn_type, 'ledger_name' => optional(Ledger::find($dr_ledger_id))->ledger_name, 'type' => $type, 'type_id' => $type_id
         ]);
 
-        if ($dr_ledger_id){
+        if ($dr_ledger_id) {
             TransactionDetail::create(['transaction_id' => $txn->id, 'ledger_id' => $dr_ledger_id,
                 'entry_type' => EntryType::$DR, 'amount' => $amount, 'note' => $note, 'date' => $date,
                 'transaction_details' => $transaction_detail, 'ref' => $ref
                 , 'type' => $type, 'type_id' => $type_id
             ]);
         }
-        if ($cr_ledger_id){
+        if ($cr_ledger_id) {
             TransactionDetail::create(['transaction_id' => $txn->id, 'ledger_id' => $cr_ledger_id,
                 'entry_type' => EntryType::$CR, 'amount' => $amount, 'note' => $note, 'date' => $date,
                 'transaction_details' => $transaction_detail, 'ref' => $ref
                 , 'type' => $type, 'type_id' => $type_id]);
         }
-
 
 
     }
@@ -282,5 +282,19 @@ class AccountingFacade extends Facade
         TransactionDetail::query()->where(['type' => PosPayment::class, 'type_id' => $posPayment->id])->forceDelete();
     }
 
+
+    public function on_purchase_order_payment_create(PurchaseOrder $purchase_order)
+    {
+
+        self::addTransaction(Ledger::ACCOUNTS_PAYABLE(), $purchase_order->deposit_to, $purchase_order->payment_amount,
+            $purchase_order->notes, $purchase_order->purchase_order_date,
+            'Purchase Order Payment', PurchaseOrder::class, $purchase_order->id,
+            $purchase_order->purchase_order_number, optional($purchase_order->vendor)->name);
+    }
+    public function on_purchase_order_payment_delete(PurchaseOrder $purchase_order)
+    {
+        Transaction::query()->where(['type' => PurchaseOrder::class, 'type_id' => $purchase_order->id])->forceDelete();
+        TransactionDetail::query()->where(['type' => PurchaseOrder::class, 'type_id' => $purchase_order->id])->forceDelete();
+    }
 
 }

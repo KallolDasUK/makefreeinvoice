@@ -7,6 +7,72 @@ use Enam\Acc\Models\Ledger;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * App\Models\PosSale
+ *
+ * @property int $id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property string|null $pos_number
+ * @property string|null $date
+ * @property int|null $customer_id
+ * @property int|null $branch_id
+ * @property int|null $ledger_id
+ * @property string|null $discount_type
+ * @property string|null $discount
+ * @property string|null $vat
+ * @property string|null $service_charge_type
+ * @property string|null $service_charge
+ * @property string|null $note
+ * @property int|null $payment_method_id
+ * @property string|null $sub_total
+ * @property string|null $total
+ * @property string|null $payment_amount
+ * @property string|null $due
+ * @property string|null $pos_status
+ * @property string|null $change
+ * @property int|null $user_id
+ * @property int|null $client_id
+ * @property-read Branch|null $branch
+ * @property-read \App\Models\Customer|null $customer
+ * @property-read mixed $charges
+ * @property-read mixed $payment
+ * @property-read Ledger|null $ledger
+ * @property-read \App\Models\PaymentMethod|null $payment_method
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\PosPayment[] $payments
+ * @property-read int|null $payments_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\PosCharge[] $pos_charges
+ * @property-read int|null $pos_charges_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\PosItem[] $pos_items
+ * @property-read int|null $pos_items_count
+ * @method static Builder|PosSale newModelQuery()
+ * @method static Builder|PosSale newQuery()
+ * @method static Builder|PosSale query()
+ * @method static Builder|PosSale whereBranchId($value)
+ * @method static Builder|PosSale whereChange($value)
+ * @method static Builder|PosSale whereClientId($value)
+ * @method static Builder|PosSale whereCreatedAt($value)
+ * @method static Builder|PosSale whereCustomerId($value)
+ * @method static Builder|PosSale whereDate($value)
+ * @method static Builder|PosSale whereDiscount($value)
+ * @method static Builder|PosSale whereDiscountType($value)
+ * @method static Builder|PosSale whereDue($value)
+ * @method static Builder|PosSale whereId($value)
+ * @method static Builder|PosSale whereLedgerId($value)
+ * @method static Builder|PosSale whereNote($value)
+ * @method static Builder|PosSale wherePaymentAmount($value)
+ * @method static Builder|PosSale wherePaymentMethodId($value)
+ * @method static Builder|PosSale wherePosNumber($value)
+ * @method static Builder|PosSale wherePosStatus($value)
+ * @method static Builder|PosSale whereServiceCharge($value)
+ * @method static Builder|PosSale whereServiceChargeType($value)
+ * @method static Builder|PosSale whereSubTotal($value)
+ * @method static Builder|PosSale whereTotal($value)
+ * @method static Builder|PosSale whereUpdatedAt($value)
+ * @method static Builder|PosSale whereUserId($value)
+ * @method static Builder|PosSale whereVat($value)
+ * @mixin \Eloquent
+ */
 class PosSale extends Model
 {
 

@@ -446,6 +446,11 @@
                                style="min-width: 100px;position:relative;"><i class="fab fa-product-hunt"></i>
                                 Brands
                             </a>
+                            <a href="{{ route('s_rs.s_r.index') }}"
+                               class="@cannot('create',\App\Models\Invoice::class) pro-tag @endcannot"
+                               style="min-width: 100px;position:relative;"><i
+                                    class="fa fa-users" aria-hidden="true"></i>Sales Rep. (SR)</a>
+
                             <a href="{{ route('customers.customer.index') }}"
                                class="@cannot('create',\App\Models\Invoice::class) pro-tag @endcannot"
                                style="min-width: 100px;position:relative;"><i
@@ -488,6 +493,19 @@
                                style="min-width: 100px;position: relative">
                                 <i class="fa fa-list-alt ribbon" aria-hidden="true"></i>Manage <br>
                                 Bills</a>
+
+                            <a href="{{ route('purchase_orders.purchase_order.create') }}"
+                               class="@cannot('create',\App\Models\Bill::class) pro-tag @endcannot"
+                               style="min-width: 100px;position: relative">
+
+                                <i class="fa fa-plus" aria-hidden="true"></i>
+                                Purchase <br> Order</a>
+                            <a href="{{ route('purchase_orders.purchase_order.index') }}"
+                               class="@cannot('viewAny',\App\Models\Bill::class) pro-tag @endcannot"
+                               style="min-width: 100px;position: relative">
+                                <i class="fa fa-list-alt ribbon" aria-hidden="true"></i>Manage <br>
+                                Pur.. Order</a>
+
                             <a href="{{ route('bill_payments.bill_payment.create') }}"
                                class="@cannot('create',\App\Models\Bill::class) pro-tag @endcannot"
                                style="min-width: 100px;position: relative">
@@ -1087,9 +1105,34 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"
         integrity="sha512-T/tUfKSV1bihCnd+MxKD0Hm1uBBroVYBOYSk1knyvQ9VyZJpc/ALb4P0r6ubwVPSGB2GvjeoMAJJImBG12TiaQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://raw.githack.com/jasonday/printThis/master/printThis.js"></script>
+
 @yield('js')
 @stack('js')
 
+<script>
+    function onReceiptPrint() {
+        $('#blankModal').modal('hide')
+        $('#printable').printThis()
+
+    }
+
+    function showCustomerPaymentReceipt(id) {
+        $.ajax({
+            accepts: {
+                text: "application/json"
+            },
+            url: route('ajax.customerPaymentReceipt', id),
+            type: "get",
+
+            success: function (response) {
+                $('#blankModal').modal('show')
+                $('#content').html(response)
+                // $('#printable').printThis()
+            }
+        });
+    }
+</script>
 <!-- Messenger Chat plugin Code -->
 <div id="fb-root"></div>
 

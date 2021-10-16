@@ -9,6 +9,7 @@ use App\Models\BillPaymentItem;
 use App\Models\Customer;
 use App\Models\Invoice;
 use App\Models\MetaSetting;
+use App\Models\PosPayment;
 use App\Models\PosSale;
 use App\Models\ReceivePayment;
 use App\Models\ReceivePaymentItem;
@@ -83,7 +84,7 @@ class AjaxController extends Controller
 
         ReceivePaymentItem::create(['receive_payment_id' => $receivePayment->id, 'invoice_id' => $invoice->id, 'amount' => $request->amount]);
         session()->flash('success_message', 'Payment Recorded Successfully for Invoice ' . $invoice->invoice_number);
-        return ['success_message' => 'Payment Recorded Successfully for Invoice ' . $invoice->invoice_number];
+        return ['success_message' => 'Payment Recorded Successfully for Invoice ' . $invoice->invoice_number,'id'=>$receivePayment->id];
     }
 
     public function storePhoneNumber(Request $request)
@@ -120,6 +121,15 @@ class AjaxController extends Controller
 
     public function getInvoicePaymentList(Request $request, $invoice)
     {
+
+    }
+
+    public function customerPaymentReceipt(Request $request, $id)
+    {
+        $rp = ReceivePayment::findOrFail($id);
+
+        $pos_payment = PosPayment::query()->where('receive_payment_id', $id)->get();
+        return view('partials.customer-payment-receipt-content', compact('rp', 'pos_payment'));
 
     }
 

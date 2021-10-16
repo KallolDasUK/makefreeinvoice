@@ -1,6 +1,7 @@
 @extends('acc::layouts.app')
 
 @section('content')
+    @include('partials.blank_modal')
 
     @if(Session::has('success_message'))
         <div class="alert alert-success">
@@ -76,11 +77,13 @@
 
                                         <div class="btn-group btn-group-sm float-right " role="group">
 
-                                            <a href="{{ route('receive_payments.receive_payment.show', $receivePayment->id ) }}"
-                                               title="Show Receive Payment"
-                                            class="btn btn-outline-secondary">
-                                                <i class="fa fa-eye text-info" aria-hidden="true"></i>
-                                            </a>
+                                            <span
+                                                title="Show Receive Payment"
+                                                onclick="showCustomerPaymentReceipt('{{ $receivePayment->id }}')"
+                                                class="btn btn-outline-secondary">
+                                                <i class="fa fa-print text-info" aria-hidden="true"></i>
+                                                Print Receipt
+                                            </span>
 
                                             <a href="{{ route('receive_payments.receive_payment.edit', $receivePayment->id ) }}"
                                                class="mx-4 btn btn-outline-secondary" title="Edit Receive Payment">

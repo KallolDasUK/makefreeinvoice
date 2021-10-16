@@ -29,7 +29,8 @@
 @section('content')
 
 
-        @include('partials.ajax-ledger-create-form')
+    @include('partials.ajax-ledger-create-form')
+    @include('partials.blank_modal')
 
 
     @if(Session::has('success_message'))
@@ -159,6 +160,15 @@
                                         @if($customer->id == $customer_id) selected @endif>{{ $customer->name }} {{ $customer->phone }} </option>
                             @endforeach
                         </select>
+                    </div> <div class="mx-2">
+                        <select name="sr_id" id="sr_id" class="form-control"
+                                style="min-width: 150px;max-width: 150px">
+                            <option></option>
+                            @foreach(\App\Models\SR::all() as $sr)
+                                <option value="{{ $sr->id }}"
+                                        @if($sr->id == $sr_id) selected @endif>{{ $sr->name }} {{ $sr->phone }} </option>
+                            @endforeach
+                        </select>
                     </div>
                     <div class="col">
                         <div class="row align-items-center">
@@ -167,9 +177,8 @@
                                        value="{{ $start_date }}"
                                        placeholder="From">
                                 <div class="input-group-append">
-									<span class="input-group-text">
-										<i class="la la-ellipsis-h"></i>
-                                        To
+									<span class="input-group-text " style="font-size: 15px">
+										⇿
                                     </span>
                                 </div>
                                 <input type="text" class="form-control col-2" name="end_date" id="end_date"
@@ -224,13 +233,18 @@
                                         <i class="fa fa-external-link-alt font-normal text-secondary"
                                            style="font-size: 10px"></i>
                                         {{ $invoice->invoice_number }}
+
                                     </a>
+
                                 </td>
                                 <td>
                                     <a href="{{ route('invoices.invoice.show',$invoice->id) }}"
                                        class="text-dark-75 font-weight-bolder d-block font-size-lg invoice_number">{{ optional($invoice->customer)->name }}</a>
                                     <span
                                         class="text-muted font-weight-bold">{{ optional($invoice->customer)->email }}</span>
+                                    @if($invoice->sr_id)
+                                        <br> SR → {{ optional($invoice->sr)->name }}
+                                    @endif
                                 </td>
                                 <td class="pl-0">
                                     <a href="{{ route('invoices.invoice.show',$invoice->id) }}"
@@ -439,10 +453,10 @@
                         },
                         success: function (response) {
                             $('#recordPaymentModal').modal('hide');
-                            Swal.fire(response.success_message)
-                                .then(function (result) {
-                                    window.location.reload()
-                                })
+                            showCustomerPaymentReceipt(response.id)
+                            setTimeout(() => {
+                                window.location.reload()
+                            }, 5000)
                             $('#recordPaymentForm').trigger("reset");
                             $('button[type=submit]').prop('disabled', false)
 
@@ -488,6 +502,7 @@
 
             $('.invoice_number').tooltip({'title': 'Show Invoice'});
             $('#customer').select2({placeholder: 'Customer', allowClear: true})
+            $('#sr_id').select2({placeholder: '-- SR --', allowClear: true})
 
 
             var datepicker = $.fn.datepicker.noConflict();
@@ -516,8 +531,6 @@
                             $("#deposit_to").select2("close");
                         });
                 }
-
-
             })
             /* Creating Ledger Account Via Ajax With Validation */
             $('#createLedgerForm').validate({
@@ -572,7 +585,9 @@
                 }
             });
 
+            // showCustomerPaymentReceipt(45)
         })
+
 
         function getInvoicePayments(url) {
             // if (!customer_id) return;

@@ -151,12 +151,34 @@
 
                     </div>
                     <div class="shortcuts-title sc-jlyJG gSoaLO title">Due Collection</div>
-                </a> <a class="sc-gPEVay eaBhby  "
-                        href="{{ route('reports.report.due_payment_report') }}">
+                </a>
+
+                <a class="sc-gPEVay eaBhby  "
+                   href="{{ route('reports.report.due_payment_report') }}">
                     <div class="sc-iRbamj image" style="background-image:url('{{ asset('images/estimate.svg') }}') ">
 
                     </div>
                     <div class="shortcuts-title sc-jlyJG gSoaLO title">Due Payment</div>
+                </a>
+                <a class="sc-gPEVay eaBhby  "
+                   href="{{ route('reports.report.product_report') }}">
+                    <div class="sc-iRbamj image" style="background-image:url('{{ asset('images/estimate.svg') }}') ">
+
+                    </div>
+                    <div class="shortcuts-title sc-jlyJG gSoaLO title">Product Report</div>
+                </a> <a class="sc-gPEVay eaBhby  "
+                        href="{{ route('reports.report.customer_report') }}">
+                    <div class="sc-iRbamj image" style="background-image:url('{{ asset('images/estimate.svg') }}') ">
+
+                    </div>
+                    <div class="shortcuts-title sc-jlyJG gSoaLO title">Customer Report</div>
+                </a>
+                <a class="sc-gPEVay eaBhby  "
+                   href="{{ route('reports.report.vendor_report') }}">
+                    <div class="sc-iRbamj image" style="background-image:url('{{ asset('images/estimate.svg') }}') ">
+
+                    </div>
+                    <div class="shortcuts-title sc-jlyJG gSoaLO title">Vendor Report</div>
                 </a>
 
                 <div class="clearfix"></div>

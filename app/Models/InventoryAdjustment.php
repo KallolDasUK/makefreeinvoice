@@ -6,6 +6,38 @@ use Enam\Acc\Models\Ledger;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * App\Models\InventoryAdjustment
+ *
+ * @property int $id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property string|null $date
+ * @property string|null $ref
+ * @property int|null $ledger_id
+ * @property int|null $reason_id
+ * @property string|null $description
+ * @property int|null $user_id
+ * @property int|null $client_id
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\InventoryAdjustmentItem[] $inventory_adjustment_items
+ * @property-read int|null $inventory_adjustment_items_count
+ * @property-read Ledger|null $ledger
+ * @property-read \App\Models\Reason|null $reason
+ * @method static Builder|InventoryAdjustment newModelQuery()
+ * @method static Builder|InventoryAdjustment newQuery()
+ * @method static Builder|InventoryAdjustment query()
+ * @method static Builder|InventoryAdjustment whereClientId($value)
+ * @method static Builder|InventoryAdjustment whereCreatedAt($value)
+ * @method static Builder|InventoryAdjustment whereDate($value)
+ * @method static Builder|InventoryAdjustment whereDescription($value)
+ * @method static Builder|InventoryAdjustment whereId($value)
+ * @method static Builder|InventoryAdjustment whereLedgerId($value)
+ * @method static Builder|InventoryAdjustment whereReasonId($value)
+ * @method static Builder|InventoryAdjustment whereRef($value)
+ * @method static Builder|InventoryAdjustment whereUpdatedAt($value)
+ * @method static Builder|InventoryAdjustment whereUserId($value)
+ * @mixin \Eloquent
+ */
 class InventoryAdjustment extends Model
 {
 

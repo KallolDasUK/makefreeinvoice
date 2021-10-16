@@ -5,6 +5,30 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * App\Models\Tax
+ *
+ * @property int $id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property string|null $name
+ * @property string|null $value
+ * @property string|null $tax_type
+ * @property int|null $user_id
+ * @property int|null $client_id
+ * @method static Builder|Tax newModelQuery()
+ * @method static Builder|Tax newQuery()
+ * @method static Builder|Tax query()
+ * @method static Builder|Tax whereClientId($value)
+ * @method static Builder|Tax whereCreatedAt($value)
+ * @method static Builder|Tax whereId($value)
+ * @method static Builder|Tax whereName($value)
+ * @method static Builder|Tax whereTaxType($value)
+ * @method static Builder|Tax whereUpdatedAt($value)
+ * @method static Builder|Tax whereUserId($value)
+ * @method static Builder|Tax whereValue($value)
+ * @mixin \Eloquent
+ */
 class Tax extends Model
 {
 
