@@ -1132,6 +1132,9 @@
             }
         });
     }
+    $(document).ready(function () {
+        $('.searchable').select2({ placeholder:'-- Choose --',allowClear:true})
+    })
 </script>
 <!-- Messenger Chat plugin Code -->
 <div id="fb-root"></div>
