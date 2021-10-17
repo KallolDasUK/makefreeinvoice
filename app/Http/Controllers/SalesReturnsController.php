@@ -15,6 +15,7 @@ use App\Models\PaymentMethod;
 use App\Models\Product;
 use App\Models\ReceivePayment;
 use App\Models\ReceivePaymentItem;
+use App\Models\SalesReturn;
 use App\Models\Tax;
 use App\Observers\InvoiceObserver;
 use App\Traits\SettingsTrait;
@@ -28,20 +29,14 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 
-class InvoicesController extends Controller
+class SalesReturnsController extends Controller
 {
     use TransactionTrait, SettingsTrait;
 
     public $settings;
 
-    public function __construct()
-    {
-//        dd($this->settings);
-    }
-
     public function index(Request $request)
     {
-        $this->authorize('viewAny', Invoice::class);
         $start_date = $request->start_date;
         $end_date = $request->end_date;
         $customer_id = $request->customer;
@@ -74,8 +69,6 @@ class InvoicesController extends Controller
 
     public function summaryReport($start_date, $end_date)
     {
-
-
         return ['overdue' => Invoice::overdue($start_date, $end_date), 'draft' => Invoice::draft($start_date, $end_date), 'paid' => Invoice::paid($start_date, $end_date), 'due' => Invoice::due($start_date, $end_date), 'total' => Invoice::total($start_date, $end_date)];
     }
 
@@ -91,17 +84,10 @@ class InvoicesController extends Controller
         $taxes = Tax::query()->latest()->get()->toArray();
         $extraFields = optional(Invoice::query()->latest()->first())->extra_fields ?? [];
         $invoice_fields = optional(Invoice::query()->latest()->first())->invoice_extra ?? [];
-        $next_invoice = Invoice::nextInvoiceNumber();
+        $next_invoice = SalesReturn::nextInvoiceNumber();
         $ledgerGroups = LedgerGroup::all();
-        return view('invoices.create', compact('customers', 'ledgerGroups', 'products', 'taxes', 'next_invoice', 'categories', 'extraFields', 'invoice_fields', 'cashAcId', 'depositAccounts', 'paymentMethods'));
+        return view('sales_return.create', compact('customers', 'ledgerGroups', 'products', 'taxes', 'next_invoice', 'categories', 'extraFields', 'invoice_fields', 'cashAcId', 'depositAccounts', 'paymentMethods'));
     }
-
-    public function items($id)
-    {
-        $invoice = Invoice::with('customer')->findOrFail($id);
-        return $invoice->invoice_items;
-    }
-
 
     public function store(Request $request)
     {
@@ -126,7 +112,6 @@ class InvoicesController extends Controller
         $this->saveTermsNDNote($data);
         $invoice_observer = new InvoiceObserver;
         $invoice_observer->invoice_item_created($invoice);
-
 
         return redirect()->route('invoices.invoice.show', $invoice->id)
             ->with('success_message', 'Invoice was successfully added.');
@@ -221,7 +206,6 @@ class InvoicesController extends Controller
         return view('invoices.edit', compact('invoice', 'ledgerGroups', 'customers', 'taxes', 'invoice_items', 'invoiceExtraField', 'products', 'extraFields', 'categories', 'cashAcId', 'depositAccounts', 'paymentMethods'));
     }
 
-
     public function update($id, Request $request)
     {
 
@@ -256,7 +240,6 @@ class InvoicesController extends Controller
 
     }
 
-
     public function destroy($id)
     {
 
@@ -278,7 +261,6 @@ class InvoicesController extends Controller
         return redirect()->route('invoices.invoice.index')->with('success_message', 'Invoice was successfully deleted.');
 
     }
-
 
     protected function getData(Request $request)
     {
@@ -331,7 +313,6 @@ class InvoicesController extends Controller
 
         return $data;
     }
-
 
     protected function moveFile($file)
     {
