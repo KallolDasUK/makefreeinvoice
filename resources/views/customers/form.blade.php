@@ -1,24 +1,36 @@
 <div class="form-group">
     <div class="col-md-10">
-        <label for="name">Name</label>
-
-
-        <span class="text-danger font-bolder">*</span>
-        <input class="form-control  {{ $errors->has('name') ? 'is-invalid' : '' }}" name="name" type="text" id="name"
-               value="{{ old('name', optional($customer)->name) }}" minlength="1" maxlength="255">
-
-        {!! $errors->first('name', '<p class="form-text text-danger">:message</p>') !!}
-
+        <div class="row">
+            <div class="col">
+                <label for="name">Name</label>
+                <span class="text-danger font-bolder">*</span>
+                <input class="form-control  {{ $errors->has('name') ? 'is-invalid' : '' }}" name="name" type="text"
+                       id="name"
+                       value="{{ old('name', optional($customer)->name) }}" minlength="1" maxlength="255">
+                {!! $errors->first('name', '<p class="form-text text-danger">:message</p>') !!}
+            </div>
+            <div class="col">
+                <label for="sr_id">Sales Representative</label>
+                <select name="sr_id" id="sr_id" class="form-control searchable">
+                    <option></option>
+                    @foreach(\App\Models\SR::all() as $sr)
+                        <option value="{{ $sr->id }}"
+                                @if(optional($customer)->sr_id == $sr->id) selected @endif> {{ $sr->name }} {{ $sr->phone }}</option>
+                    @endforeach
+                </select>
+            </div>
+        </div>
     </div>
-</div>
 
+
+</div>
 
 
 <div class="col-md-10">
     <div class="row">
         <div class="col">
             <div class="{{ $errors->has('opening') ? 'has-error' : '' }}">
-                <label for="opening" >Opening</label>
+                <label for="opening">Opening</label>
                 <div>
                     <input class="form-control" name="opening" type="number" id="opening"
                            value="{{ old('opening', optional($customer)->opening) }}" min="1" max="2147483647">

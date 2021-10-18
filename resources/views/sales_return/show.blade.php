@@ -86,24 +86,24 @@
 
             <div class="text-center">
 
-                <form method="POST" action="{!! route('invoices.invoice.destroy', $invoice->id) !!}"
+                <form method="POST" action="{!! route('sales_returns.sales_return.destroy', $invoice->id) !!}"
                       accept-charset="UTF-8">
                     <input name="_method" value="DELETE" type="hidden">
                     {{ csrf_field() }}
                     <div class="btn-group btn-group-sm" role="group">
-                        <a href="{{ route('invoices.invoice.index') }}" class="btn btn-primary mr-2"
+                        <a href="{{ route('sales_returns.sales_return.index') }}" class="btn btn-primary mr-2"
                            title="Show All Invoice">
                             <i class=" fas fa-fw fa-th-list" aria-hidden="true"></i>
                             Show All Invoice
                         </a>
 
-                        <a href="{{ route('invoices.invoice.create') }}" class="btn btn-success mr-2"
+                        <a href="{{ route('sales_returns.sales_return.create') }}" class="btn btn-success mr-2"
                            title="Create New Invoice">
                             <i class=" fas fa-fw fa-plus" aria-hidden="true"></i>
                             Create New Invoice
                         </a>
 
-                        <a href="{{ route('invoices.invoice.edit', $invoice->id ) }}" class="btn btn-primary mr-2"
+                        <a href="{{ route('sales_returns.sales_return.edit', $invoice->id ) }}" class="btn btn-primary mr-2"
                            title="Edit Invoice">
                             <i class=" fas fa-fw fa-pencil-alt" aria-hidden="true"></i>
                             Edit Invoice
@@ -131,13 +131,7 @@
                         class="btn btn-outline-secondary   btn-lg" style="font-size: 20px"><i
                         class="fa fa-download"></i> Download
                 </button>
-                <a href="{{ route('invoices.invoice.share',$invoice->secret) }}"
-                   class="btn btn-outline-secondary   btn-lg " style="font-size: 20px"><i
-                        class="fa fa-share"></i> Share
-                </a> <a href="{{ route('invoices.invoice.send',$invoice->id) }}"
-                   class="btn btn-outline-secondary   btn-lg " style="font-size: 20px"><i
-                        class="far fa-envelope-open"></i> Email Invoice
-                </a>
+
             </div>
         </div>
         <p class="clearfix"></p>

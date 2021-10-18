@@ -12,6 +12,7 @@ use App\Models\PosPayment;
 use App\Models\PosSale;
 use App\Models\PurchaseOrder;
 use App\Models\ReceivePaymentItem;
+use App\Models\SalesReturn;
 use Carbon\Doctrine\DateTimeDefaultPrecision;
 use Enam\Acc\Models\GroupMap;
 use Enam\Acc\Models\Ledger;
@@ -291,10 +292,61 @@ class AccountingFacade extends Facade
             'Purchase Order Payment', PurchaseOrder::class, $purchase_order->id,
             $purchase_order->purchase_order_number, optional($purchase_order->vendor)->name);
     }
+
     public function on_purchase_order_payment_delete(PurchaseOrder $purchase_order)
     {
         Transaction::query()->where(['type' => PurchaseOrder::class, 'type_id' => $purchase_order->id])->forceDelete();
         TransactionDetail::query()->where(['type' => PurchaseOrder::class, 'type_id' => $purchase_order->id])->forceDelete();
+    }
+
+
+    public function on_sales_return_create(SalesReturn $salesReturn)
+    {
+
+        $sales_opposite_ledger = $salesReturn->deposite_to;
+        $invoice = Invoice::find($salesReturn->invoice_number);
+
+        if ($invoice->due >= $salesReturn->total) {
+            $sales_opposite_ledger = Ledger::ACCOUNTS_RECEIVABLE();
+        }
+        self::addTransaction(Ledger::SALES_AC(), $sales_opposite_ledger, $salesReturn->payment_amount, $salesReturn->notes,
+            $salesReturn->date, 'Sales Return', SalesReturn::class, $salesReturn->id,
+            $salesReturn->sales_return_number, optional($salesReturn->customer)->name);
+
+        /*
+         *
+         * Cost of Goods Sold Goes here
+         *
+         * */
+
+        foreach ($salesReturn->invoice_items as $invoice_item) {
+            $product = $invoice_item->product;
+            if ($product->product_type != 'Goods') continue;
+
+            $purchase_price = $product->purchase_price ?? 0;
+            if ($purchase_price == 0) {
+                $last_bill = BillItem::query()->where('product_id', $invoice_item->product_id)->latest()->first();
+                if ($last_bill) {
+                    $purchase_price = $last_bill->price;
+                }
+            }
+            $cost_of_goods_sold = $purchase_price * $invoice_item->qnt;
+            if ($cost_of_goods_sold) {
+                self::addTransaction( Ledger::INVENTORY_AC(),Ledger::COST_OF_GOODS_SOLD(), $cost_of_goods_sold, $salesReturn->notes,
+                    $salesReturn->date, 'Expense', SalesReturn::class, $salesReturn->id,
+                    $salesReturn->sales_return_number, LedgerHelper::$COST_OF_GOODS_SOLD);
+            }
+        }
+
+
+    }
+
+
+
+    public function on_sales_return_payment_delete(SalesReturn $salesReturn)
+    {
+        Transaction::query()->where(['type' => SalesReturn::class, 'type_id' => $salesReturn->id])->forceDelete();
+        TransactionDetail::query()->where(['type' => SalesReturn::class, 'type_id' => $salesReturn->id])->forceDelete();
     }
 
 }

@@ -32,7 +32,7 @@
 
                         <button class="btn btn-primary btn-lg btn-fw" type="submit">
 
-                            <i class="far fa-save"></i> Save Invoice
+                            <i class="far fa-save"></i> Save Sales Return
                         </button>
                     </div>
                 </div>

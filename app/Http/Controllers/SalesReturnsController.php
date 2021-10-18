@@ -16,10 +16,13 @@ use App\Models\Product;
 use App\Models\ReceivePayment;
 use App\Models\ReceivePaymentItem;
 use App\Models\SalesReturn;
+use App\Models\SalesReturnExtraField;
+use App\Models\SalesReturnItem;
 use App\Models\Tax;
 use App\Observers\InvoiceObserver;
 use App\Traits\SettingsTrait;
 use Carbon\Carbon;
+use Enam\Acc\AccountingFacade;
 use Enam\Acc\Models\GroupMap;
 use Enam\Acc\Models\Ledger;
 use Enam\Acc\Models\LedgerGroup;
@@ -42,18 +45,18 @@ class SalesReturnsController extends Controller
         $customer_id = $request->customer;
         $sr_id = $request->sr_id;
         $q = $request->q;
-        $invoices = Invoice::with('customer')
+        $invoices = SalesReturn::with('customer')
             ->when($customer_id != null, function ($query) use ($customer_id) {
                 return $query->where('customer_id', $customer_id);
             })->when($sr_id != null, function ($query) use ($sr_id) {
                 return $query->where('sr_id', $sr_id);
             })->when($q != null, function ($query) use ($q) {
-                return $query->where('invoice_number', 'like', '%' . $q . '%');
+                return $query->where('sales_return_number', 'like', '%' . $q . '%');
             })
             ->when($start_date != null && $end_date != null, function ($query) use ($start_date, $end_date) {
                 $start_date = Carbon::parse($start_date)->toDateString();
                 $end_date = Carbon::parse($end_date)->toDateString();
-                return $query->whereBetween('invoice_date', [Carbon::parse($start_date), Carbon::parse($end_date)]);
+                return $query->whereBetween('date', [Carbon::parse($start_date), Carbon::parse($end_date)]);
             })
             ->latest()
             ->paginate(10);
@@ -62,8 +65,8 @@ class SalesReturnsController extends Controller
         $paymentMethods = PaymentMethod::query()->get();
         $customers = Customer::all();
         $ledgerGroups = LedgerGroup::all();
-
-        return view('invoices.index', compact('invoices', 'q', 'cashAcId', 'depositAccounts', 'paymentMethods',
+//        dd($invoices);
+        return view('sales_return.index', compact('invoices', 'q', 'cashAcId', 'depositAccounts', 'paymentMethods',
                 'start_date', 'end_date', 'customer_id', 'customers', 'ledgerGroups', 'sr_id') + $this->summaryReport($start_date, $end_date));
     }
 
@@ -106,15 +109,15 @@ class SalesReturnsController extends Controller
         unset($data['additional_fields']);
         unset($data['business_logo']);
 
-        $invoice = Invoice::create($data);
+        $invoice = SalesReturn::create($data);
 
         $this->insertDataToOtherTable($invoice, $invoice_items, $extraFields, $additionalFields);
         $this->saveTermsNDNote($data);
-        $invoice_observer = new InvoiceObserver;
-        $invoice_observer->invoice_item_created($invoice);
+//        $invoice_observer = new InvoiceObserver;
+//        $invoice_observer->invoice_item_created($invoice);
 
-        return redirect()->route('invoices.invoice.show', $invoice->id)
-            ->with('success_message', 'Invoice was successfully added.');
+        return redirect()->route('sales_returns.sales_return.show', $invoice->id)
+            ->with('success_message', 'Return was successfully added.');
 
     }
 
@@ -129,47 +132,33 @@ class SalesReturnsController extends Controller
                 $product_id = $product->id;
             }
 
-            InvoiceItem::create(['invoice_id' => $invoice->id, 'product_id' => $product_id,
+            SalesReturnItem::create(['sales_return_id' => $invoice->id, 'product_id' => $product_id,
                 'description' => $invoice_item->description, 'qnt' => $invoice_item->qnt, 'unit' => $invoice_item->unit ?? '',
                 'price' => $invoice_item->price, 'amount' => $invoice_item->price * $invoice_item->qnt, 'tax_id' => $invoice_item->tax_id == '' ? 0 : $invoice_item->tax_id, 'date' => $invoice->invoice_date]);
         }
         foreach ($extraFields as $additional) {
-            InvoiceExtraField::create(['name' => $additional->name, 'value' => $additional->value, 'invoice_id' => $invoice->id]);
+            SalesReturnExtraField::create(['name' => $additional->name, 'value' => $additional->value, 'sales_return_id' => $invoice->id]);
         }
 
         foreach ($additionalFields as $additional) {
-            ExtraField::create(['name' => $additional->name, 'value' => $additional->value, 'type' => Invoice::class, 'type_id' => $invoice->id]);
+            ExtraField::create(['name' => $additional->name, 'value' => $additional->value, 'type' => SalesReturn::class, 'type_id' => $invoice->id]);
         }
 
+        $accounting = new AccountingFacade();
+        $accounting->on_sales_return_payment_delete($invoice);
+//        if (!$invoice->is_payment) return;
+        $accounting->on_sales_return_create($invoice);
 
-        if (!$invoice->is_payment) return;
-        $paymentSerial = 'PM' . str_pad(ReceivePayment::query()->count(), 3, '0', STR_PAD_LEFT);
-
-        $receivePayment = ReceivePayment::create([
-            'payment_date' => $invoice->invoice_date,
-            'customer_id' => $invoice->customer_id,
-            'payment_method_id' => $invoice->payment_method_id,
-            'deposit_to' => $invoice->deposit_to,
-            'payment_sl' => $paymentSerial,
-            'payment_sl' => $invoice->invoice_date,
-            'note' => $invoice->notes,
-            'payment_date' => $invoice->invoice_date
-        ]);
-
-        ReceivePaymentItem::create(['receive_payment_id' => $receivePayment->id, 'invoice_id' => $invoice->id, 'amount' => $invoice->payment_amount]);
-        $invoice->receive_payment_id = $receivePayment->id;
-        $invoice->save();
 
     }
 
     public function show($id)
     {
 
-        $invoice = Invoice::with('customer')->findOrFail($id);
-        $this->authorize('view', $invoice);
+        $invoice = SalesReturn::with('customer')->findOrFail($id);
 
         $invoice->taxes;
-        return view('invoices.show', compact('invoice'));
+        return view('sales_return.show', compact('invoice'));
     }
 
     public function saveTermsNDNote($data)
@@ -190,27 +179,30 @@ class SalesReturnsController extends Controller
         $cashAcId = optional(GroupMap::query()->firstWhere('key', LedgerHelper::$CASH_AC))->value;
         $depositAccounts = Ledger::find($this->getAssetLedgers())->sortBy('ledger_name');
         $paymentMethods = PaymentMethod::query()->get();
-        $invoice = Invoice::findOrFail($id);
+        $invoice = SalesReturn::findOrFail($id);
 
-        $this->authorize('update', $invoice);
+//        $this->authorize('update', $invoice);
         $customers = Customer::pluck('name', 'id')->all();
         $taxes = Tax::query()->latest()->get()->toArray();
-        $invoice_items = InvoiceItem::query()->where('invoice_id', $invoice->id)->get();
+        $invoice_items = SalesReturnItem::query()->where('sales_return_id', $invoice->id)->get();
         $categories = Category::query()->latest()->get();
-        $invoiceExtraField = InvoiceExtraField::query()->where('invoice_id', $invoice->id)->get();
-        $extraFields = ExtraField::query()->where('type', Invoice::class)->where('type_id', $invoice->id)->get();
+        $invoiceExtraField = SalesReturnExtraField::query()->where('sales_return_id', $invoice->id)->get();
+        $extraFields = ExtraField::query()->where('type', SalesReturn::class)->where('type_id', $invoice->id)->get();
         $products = Product::query()->latest()->get();
 //        dd($invoice_items);
         $ledgerGroups = LedgerGroup::all();
-
-        return view('invoices.edit', compact('invoice', 'ledgerGroups', 'customers', 'taxes', 'invoice_items', 'invoiceExtraField', 'products', 'extraFields', 'categories', 'cashAcId', 'depositAccounts', 'paymentMethods'));
+        $next_invoice = '';
+//        dd($invoice);
+        return view('sales_return.edit', compact('invoice', 'ledgerGroups', 'customers', 'taxes',
+            'invoice_items', 'invoiceExtraField', 'products', 'extraFields', 'categories', 'cashAcId',
+            'depositAccounts', 'paymentMethods', 'next_invoice'));
     }
 
     public function update($id, Request $request)
     {
 
-        $invoice = Invoice::findOrFail($id);
-        $this->authorize('update', $invoice);
+        $invoice = SalesReturn::findOrFail($id);
+//        $this->authorize('update', $invoice);
 
         $data = $this->getData($request);
         $invoice_items = $data['invoice_items'] ?? [];
@@ -222,43 +214,32 @@ class SalesReturnsController extends Controller
         unset($data['additional_fields']);
 
 
-        InvoiceExtraField::query()->where('invoice_id', $invoice->id)->delete();
-        InvoiceItem::query()->where('invoice_id', $invoice->id)->delete();
+        SalesReturnExtraField::query()->where('sales_return_id', $invoice->id)->delete();
+        SalesReturnItem::query()->where('sales_return_id', $invoice->id)->delete();
         ExtraField::query()->where('type', get_class($invoice))->where('type_id', $invoice->id)->delete();
-        ReceivePayment::query()->where('id', $invoice->receive_payment_id)->delete();
-        ReceivePaymentItem::query()->where('receive_payment_id', $invoice->receive_payment_id)->orWhere('invoice_id', $invoice->id)->get()->each(function ($model) {
-            $model->delete();
-        });
+
 
 
         $invoice->update($data);
         $this->insertDataToOtherTable($invoice, $invoice_items, $extraFields, $additionalFields);
         $this->saveTermsNDNote($data);
-        $invoice_observer = new InvoiceObserver;
-        $invoice_observer->invoice_item_updated($invoice);
-        return redirect()->route('invoices.invoice.show', $invoice->id)->with('success_message', 'Invoice was successfully updated.');
+        return redirect()->route('sales_returns.sales_return.index', $invoice->id)->with('success_message', 'Invoice was successfully updated.');
 
     }
 
     public function destroy($id)
     {
 
-        $invoice = Invoice::findOrFail($id);
-        $this->authorize('delete', $invoice);
-        InvoiceExtraField::query()->where('invoice_id', $invoice->id)->delete();
-        InvoiceItem::query()->where('invoice_id', $invoice->id)->delete();
+        $invoice = SalesReturn::findOrFail($id);
+        SalesReturnExtraField::query()->where('sales_return_id', $invoice->id)->delete();
+        SalesReturnItem::query()->where('sales_return_id', $invoice->id)->delete();
         ExtraField::query()->where('type', get_class($invoice))->where('type_id', $invoice->id)->delete();
 
-        ReceivePaymentItem::query()->where('invoice_id', $invoice->id)->get()->each(function ($model) {
-            try {
-                $model->receive_payment->delete();
-            } catch (\Exception $exception) {
-            }
-            $model->delete();
-        });
+        $accounting = new AccountingFacade();
+        $accounting->on_sales_return_payment_delete($invoice);
         $invoice->delete();
 
-        return redirect()->route('invoices.invoice.index')->with('success_message', 'Invoice was successfully deleted.');
+        return redirect()->route('sales_returns.sales_return.index')->with('success_message', 'Sales Return was successfully deleted.');
 
     }
 
@@ -268,8 +249,8 @@ class SalesReturnsController extends Controller
         $rules = [
             'customer_id' => 'nullable',
             'invoice_number' => 'required',
-            'order_number' => 'nullable|string|min:0',
-            'invoice_date' => 'required',
+            'sales_return_number' => 'nullable|string|min:0',
+            'date' => 'required',
             'payment_terms' => 'nullable',
             'due_date' => 'nullable',
             'discount_type' => 'nullable',
@@ -326,64 +307,5 @@ class SalesReturnsController extends Controller
         return substr($saved, 7);
     }
 
-    public function send($id)
-    {
-        $invoice = Invoice::with('customer')->findOrFail($id);
-        $title = "Send Invoice - " . $invoice->invoice_number;
-        $this->settings = json_decode(MetaSetting::query()->pluck('value', 'key')->toJson());
-
-//        dd($invoice, $this->settings, auth()->user(), MetaSetting::query()->pluck('value', 'key')->toJson());
-        $from = $this->settings->email ?? '';
-        $to = null;
-        if (optional($invoice->customer)->email) {
-            $to = optional($invoice->customer)->email;
-        }
-        $customerName = optional($invoice->customer)->name ?? 'Customer';
-        $subject = "Invoice #" . ($invoice->invoice_number ?? '') . ' from ' . ($this->settings->business_name ?? 'n/a');
-        $businessName = $this->settings->business_name ?? 'Company Name';
-        $businessEmail = $this->settings->email ?? '';
-        $businessPhone = $this->settings->phone ?? '';
-        $businessWebsite = $this->settings->website ?? '';
-        $message = "Hi $customerName ,<br><br> I hope you’re well! Please see attached invoice number [$invoice->invoice_number] , due on [$invoice->due_date]. Don’t hesitate to reach out if you have any questions. <br> Invoice#: $invoice->invoice_number  <br>Date: $invoice->invoice_date <br>Amount: $invoice->total <br> <br> Kind regards,  <br> $businessName <br> $businessEmail <br> $businessPhone <br> $businessWebsite";
-
-//        dd($message);
-        return view('invoices.send', compact('invoice', 'title', 'from', 'to', 'subject', 'message'));
-    }
-
-    public function sendInvoiceMail(Request $request, Invoice $invoice)
-    {
-        $data = $request->all();
-        $data['send_to_business'] = $request->has('send_to_business');
-
-        $to = [];
-        foreach (json_decode($data['to'] ?? '{}') as $item) {
-            $validator = validator()->make(['email' => $item->value], [
-                'email' => 'email'
-            ]);
-            if ($validator->passes()) {
-                $to[] = $item->value;
-            }
-        }
-
-        $data['attach_pdf'] = $request->has('attach_pdf');
-        if ($data['send_to_business'] && settings()->email != null) {
-            $to[] = settings()->email;
-        }
-        $data['to'] = $to;
-
-        $invoice->invoice_status = "sent";
-        $invoice->save();
-
-        Mail::to($to)->queue(new InvoiceSendMail($invoice, (object)$data, settings()));
-        return redirect()->route('invoices.invoice.index')->with('success_message', 'Invoice was sent successfully.');
-    }
-
-    public function share($secret)
-    {
-        auth()->logout();
-        $invoice = Invoice::query()->withoutGlobalScope('scopeClient')->with('customer')->where('secret', $secret)->firstOrFail();
-        $settings = json_decode(MetaSetting::query()->where('client_id', $invoice->client_id)->pluck('value', 'key')->toJson());
-        return view('invoices.share', compact('invoice', 'settings'));
-    }
 
 }

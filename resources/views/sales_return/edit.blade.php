@@ -45,11 +45,12 @@
                 </ul>
             @endif
 
-            <form method="POST" action="{{ route('invoices.invoice.update', $invoice->id) }}" id="edit_invoice_form"
+            <form method="POST" action="{{ route('sales_returns.sales_return.update', $invoice->id) }}"
+                  id="edit_invoice_form"
                   name="edit_invoice_form" accept-charset="UTF-8" class="form-horizontal" enctype="multipart/form-data">
                 {{ csrf_field() }}
                 <input name="_method" type="hidden" value="PUT">
-                @include ('invoices.form', ['invoice' => $invoice])
+                @include ('sales_return.form', ['sales_return' => $invoice])
 
                 <div class="form-group mt-2">
                     <div class="float-right">
@@ -120,6 +121,6 @@
 
         });
     </script>
-    <script src="{{ asset('js/invoices.js') }}"></script>
-    <script src="{{ asset('js/invoice-crud.js') }}"></script>
+    <script src="{{ asset('js/sales_return.js') }}"></script>
+    <script src="{{ asset('js/sales-return-crud.js') }}"></script>
 @endsection
