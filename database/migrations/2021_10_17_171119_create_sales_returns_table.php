@@ -14,6 +14,7 @@ class CreateSalesReturnsTable extends Migration
     public function up()
     {
         Schema::create('sales_returns', function (Blueprint $table) {
+            $table->id();
             $table->integer('customer_id')->unsigned()->nullable()->index();
             $table->string('invoice_number')->nullable();
             $table->string('sales_return_number')->nullable();
@@ -41,7 +42,9 @@ class CreateSalesReturnsTable extends Migration
             $table->string('secret')->nullable();
             $table->integer('user_id')->nullable();
             $table->integer('client_id')->nullable();
-
+            $table->string('currency')->default('$');
+            $table->unsignedBigInteger('sr_id')->nullable();
+            $table->timestamps();
         });
     }
 

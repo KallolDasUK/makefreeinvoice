@@ -145,6 +145,7 @@ class CustomersController extends Controller
             'website' => 'string|min:1|nullable',
             'opening' => 'nullable|numeric',
             'opening_type' => 'nullable',
+            'sr_id' => 'nullable',
         ];
 
         $data = $request->validate($rules);

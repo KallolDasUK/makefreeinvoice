@@ -99,7 +99,7 @@ class InvoicesController extends Controller
     public function items($id)
     {
         $invoice = Invoice::with('customer')->findOrFail($id);
-        return $invoice->invoice_items;
+        return ['customer_id' => $invoice->customer_id, 'items' => $invoice->invoice_items];
     }
 
 

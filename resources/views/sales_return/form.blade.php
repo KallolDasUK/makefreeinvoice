@@ -38,7 +38,9 @@
             <select name="invoice_number" id="invoice_number" class="form-control searchable" required>
                 <option></option>
                 @foreach(\App\Models\Invoice::query()->latest()->get() as $invoice)
-                    <option value="{{ $invoice->id }}"> {{ $invoice->invoice_number }}</option>
+
+                    <option
+                        value="{{ $invoice->id }}" @if($sales_return !=null) {{ $sales_return->invoice_number == $invoice->id?'selected':'' }} @endif>{{ $invoice->invoice_number }}</option>
                 @endforeach
             </select>
 
@@ -48,11 +50,11 @@
     <div class="col">
         <div class="form-group">
 
-            <label class="font-weight-bolder" for="invoice_number">Return Number #</label>
+            <label class="font-weight-bolder" for="sales_return_number">Return Number #</label>
             <span class="text-danger font-bolder text-danger">*</span>
             <br>
             <input class="form-control "
-                   name="invoice_number"
+                   name="sales_return_number"
                    type="text" id="sales_return_number"
                    value="{{ old('sales_return_number', optional($sales_return)->sales_return_number)??$next_invoice }}"
                    required>
@@ -62,13 +64,13 @@
 
     <div class="col">
         <div class="form-group">
-            <label class="font-weight-bolder" for="invoice_date">Return Date</label> <span
+            <label class="font-weight-bolder" for="date">Return Date</label> <span
                 class="text-danger font-bolder text-danger">*</span>
             <br>
             <input class="form-control"
-                   name="invoice_date"
-                   type="date" id="invoice_date"
-                   value="{{ old('invoice_date', optional($sales_return)->invoice_date)??today()->toDateString() }}"
+                   name="date"
+                   type="date" id="date"
+                   value="{{ optional($invoice)->date??today()->toDateString() }}"
                    required>
 
         </div>
@@ -162,7 +164,7 @@
                 <input id="paymentCheckBox" class="form-check-input" name="is_payment"
                        type="checkbox" {{ optional($sales_return)->is_payment?'checked':'' }}>
                 &nbsp;
-                <label for="paymentCheckBox" class="form-check-label"><span class="text-bold"> I have received the payment </span></label>
+                <label for="paymentCheckBox" class="form-check-label"><span class="text-bold"> I have returned the payment </span></label>
             </label>
 
 
@@ -414,8 +416,8 @@
             </td>
             <td hidden>{{ stock }}</td>
             <td> <input type="number" step="any" style="text-align: end"  class="form-control  input-sm rate" value="{{ price }}" required></td>
-            <td> <input type="number" step="any" style="text-align: end"  class="form-control   input-sm qnt" index="{{i}}
-        " value="{{ qnt }}" required>
+            <td> <input type="number" step="any" style="text-align: end"  class="form-control   input-sm qnt" index="{{i}}"
+            max="{{ maxQnt }}" value="{{ qnt }}" required>
             <input class="text-right form-control input-sm unit" type="text" style="outline: none;border:0 !important;text-align: end; text-decoration: underline;text-decoration-style: dashed;text-decoration-color: red"  value="{{ unit }}"/>
              </td>
             <td hidden>
@@ -442,6 +444,9 @@
             <span role="button" on-click="@this.addInvoiceItem()" class="btn btn-sm btn-primary"
                   style="cursor: pointer"><i class="fa fa-plus-circle"></i> Add Line</span>
         </div>
+
+
+
 
 
 
@@ -618,6 +623,9 @@
 
 
 
+
+
+
     </script>
 @endverbatim
 @verbatim
@@ -642,6 +650,9 @@
               <td><span class="text-primary " on-click="@this.addAdditionalField()" style="cursor:pointer;">+ Add More</span></td>
               <td></td>
           </tr>
+
+
+
 
 
 

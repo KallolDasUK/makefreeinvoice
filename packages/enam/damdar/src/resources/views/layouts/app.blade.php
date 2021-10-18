@@ -456,7 +456,11 @@
                                style="min-width: 100px;position:relative;"><i
                                     class="fa fa-users" aria-hidden="true"></i>Customers</a>
 
-                            <a href="javascript:;" style="border: none" disabled> </a>
+                            <a href="{{ route('sales_returns.sales_return.index') }}"
+                               class=""
+                               style="min-width: 100px;position:relative;"><i
+                                    class="fa fa-list-alt" aria-hidden="true"></i>Sales <br>
+                                Return</a>
 
 
                         </div>
@@ -1132,8 +1136,9 @@
             }
         });
     }
+
     $(document).ready(function () {
-        $('.searchable').select2({ placeholder:'-- Choose --',allowClear:true})
+        $('.searchable').select2({placeholder: '-- Choose --', allowClear: true})
     })
 </script>
 <!-- Messenger Chat plugin Code -->

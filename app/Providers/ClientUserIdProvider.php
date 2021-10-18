@@ -73,6 +73,9 @@ class ClientUserIdProvider extends ServiceProvider
             'purchase_orders',
             'purchase_order_items',
             'purchase_order_extra_fields',
+            'sales_return',
+            'sales_return_items',
+            'sales_return_extra_fields',
             's_rs'
         ];
         foreach ($saasTable as $tableName) {

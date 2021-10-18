@@ -133,11 +133,8 @@ Route::group(['middleware' => 'auth:web', 'prefix' => 'app'], function () {
         Route::get('/', [SalesReturnsController::class, 'index'])->name('sales_returns.sales_return.index');
         Route::get('/create', [SalesReturnsController::class, 'create'])->name('sales_returns.sales_return.create');
         Route::get('/show/{invoice}', [SalesReturnsController::class, 'show'])->name('sales_returns.sales_return.show')->where('id', '[0-9]+');
-        Route::get('/share/{invoice}', [SalesReturnsController::class, 'share'])->name('sales_returns.sales_return.share')->where('id', '[0-9]+')->withoutMiddleware('auth:web');
-        Route::get('/send/{invoice}', [SalesReturnsController::class, 'send'])->name('sales_returns.sales_return.send')->where('id', '[0-9]+');
         Route::get('/{invoice}/edit', [SalesReturnsController::class, 'edit'])->name('sales_returns.sales_return.edit')->where('id', '[0-9]+');
         Route::post('/', [SalesReturnsController::class, 'store'])->name('sales_returns.sales_return.store');
-        Route::post('/send/{invoice}', [SalesReturnsController::class, 'sendInvoiceMail'])->name('sales_returns.sales_return.send_invoice_mail');
         Route::put('invoice/{invoice}', [SalesReturnsController::class, 'update'])->name('sales_returns.sales_return.update')->where('id', '[0-9]+');
         Route::delete('/invoice/{invoice}', [SalesReturnsController::class, 'destroy'])->name('sales_returns.sales_return.destroy')->where('id', '[0-9]+');
 

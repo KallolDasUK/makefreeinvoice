@@ -7,6 +7,7 @@
             <div class="modal-content">
 
                 <div class="modal-body">
+
                     <div class="row">
                         <div class="col">
                             <div class="form-group">
@@ -100,8 +101,18 @@
                             </div>
                         </div>
                         <div class="col-lg-4">
+                            <label for="">&nbsp;</label>
                             <input placeholder="Zip/Postal Code" id="zip_post" name="zip_post" class="form-control"
                                    type="text">
+                        </div>
+                        <div class="col">
+                            <label for="sr_id">Sales Representative</label>
+                            <select name="sr_id" id="sr_id" class="form-control searchable">
+                                <option></option>
+                                @foreach(\App\Models\SR::all() as $sr)
+                                    <option value="{{ $sr->id }}"> {{ $sr->name }} {{ $sr->phone }}</option>
+                                @endforeach
+                            </select>
                         </div>
                     </div>
 

@@ -184,6 +184,20 @@
 
         </p>
         <div class="collapse" id="additionalCollapse">
+            <div class="mx-4">
+                <div class="row">
+                    <div class="col"><label for="sr_id">Sales Representative</label></div>
+                    <div class="col"><select name="sr_id" id="sr_id" class="form-control">
+                            <option></option>
+                            @foreach(\App\Models\SR::all() as $sr)
+                                <option value="{{ $sr->id }}"
+                                        @if(optional($invoice)->sr_id == $sr->id) selected @endif> {{ $sr->name }} {{ $sr->phone }}</option>
+                            @endforeach
+                        </select></div>
+                </div>
+
+
+            </div>
             <table class="table table-borderless">
 
 
@@ -249,16 +263,7 @@
                     </div>
                 </div>
             </div>
-            <div class="mt-4" style="max-width: 80%">
-                <label for="sr_id">Sales Representative</label>
-                <select name="sr_id" id="sr_id" class="form-control">
-                    <option></option>
-                    @foreach(\App\Models\SR::all() as $sr)
-                        <option value="{{ $sr->id }}"
-                                @if(optional($invoice)->sr_id == $sr->id) selected @endif> {{ $sr->name }} {{ $sr->phone }}</option>
-                    @endforeach
-                </select>
-            </div>
+
         </div>
     </div>
     <div class="col">

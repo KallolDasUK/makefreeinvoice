@@ -30,7 +30,7 @@ class SalesReturn extends Model
 
     public function invoice_items()
     {
-        return $this->hasMany('App\Models\InvoiceItem', 'invoice_id');
+        return $this->hasMany(SalesReturnItem::class, 'sales_return_id');
     }
 
     public function invoice_extra()
@@ -136,6 +136,7 @@ class SalesReturn extends Model
         }
         return $next_invoice;
     }
+
     public function getAgeAttribute()
     {
         $age = 0;

@@ -388,12 +388,17 @@ $(document).on('keyup', `.select2-search__field`, function (e) {
 });
 
 $('#invoice_number').on('change', function () {
-    ractive.set('invoice_items',[])
-
+    ractive.set('invoice_items', [])
+    // alert('sldf')
     $.ajax({
-        url: route('invoices.invoice.items',$(this).val()), success: function (items) {
-            ractive.set('invoice_items',items)
-            console.log(ractive.get('invoice_items'))
+        url: route('invoices.invoice.items', $(this).val()), success: function (response) {
+            let items = response.items;
+            for (let i = 0; i < response.items.length; i++) {
+                items[i]['maxQnt'] = items[i].qnt;
+            }
+            ractive.set('invoice_items', items)
+            $('#customer_id').val(response.customer_id).trigger('change')
+            console.log(ractive.get(), items)
         }
     });
 })
