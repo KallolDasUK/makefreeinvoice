@@ -136,7 +136,7 @@
         </div>
         <p class="clearfix"></p>
 
-        @include('partials.invoice')
+        @include('partials.sales_return')
 
     </div>
 

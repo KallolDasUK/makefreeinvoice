@@ -1133,6 +1133,13 @@
 
     $(document).ready(function () {
         $('.searchable').select2({placeholder: '-- Choose --', allowClear: true})
+
+        $('.invoice-container').tooltip({
+            'title': ' Quick Edit invoice. This changes will not affect to actual invoice.',
+            placement: 'top'
+        });
+        // $('.invoice-container').tooltip({'trigger': 'focus', 'title': 'Hit Enter to add new Line'});
+
     })
 </script>
 <!-- Messenger Chat plugin Code -->
