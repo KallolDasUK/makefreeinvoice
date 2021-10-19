@@ -152,6 +152,20 @@
 
         </p>
         <div class="collapse" id="additionalCollapse">
+            <div class="mx-4">
+                <div class="row">
+                    <div class="col"><label for="sr_id">Sales Representative</label></div>
+                    <div class="col"><select name="sr_id" id="sr_id" class="form-control searchable">
+                            <option></option>
+                            @foreach(\App\Models\SR::all() as $sr)
+                                <option value="{{ $sr->id }}"
+                                        @if(optional($sales_return)->sr_id == $sr->id) selected @endif> {{ $sr->name }} {{ $sr->phone }}</option>
+                            @endforeach
+                        </select></div>
+                </div>
+
+
+            </div>
             <table class="table table-borderless">
 
 
@@ -162,14 +176,13 @@
         </div>
         <div><label class=" form-check form-check-inline form-control-plaintext">
                 <input id="paymentCheckBox" class="form-check-input" name="is_payment"
-                       type="checkbox" {{ optional($sales_return)->is_payment?'checked':'' }}>
+                       type="checkbox" checked disabled>
                 &nbsp;
                 <label for="paymentCheckBox" class="form-check-label"><span class="text-bold"> I have returned the payment </span></label>
             </label>
 
 
-            <div class="paymentContainer mt-4" @if(optional($sales_return)->is_payment) style="display: block"
-                 @else style="display: none" @endif>
+            <div class="paymentContainer mt-4" >
                 <div class="form-group row">
                     <div class="col-form-label col-lg-4 text-right required">
                         <label class="font-weight-bolder " style="font-size: 14px"> Amount <span
@@ -217,16 +230,7 @@
                     </div>
                 </div>
             </div>
-            <div class="mt-4" style="max-width: 80%">
-                <label for="sr_id">Sales Representative</label>
-                <select name="sr_id" id="sr_id" class="form-control">
-                    <option></option>
-                    @foreach(\App\Models\SR::all() as $sr)
-                        <option value="{{ $sr->id }}"
-                                @if(optional($sales_return)->sr_id == $sr->id) selected @endif> {{ $sr->name }} {{ $sr->phone }}</option>
-                    @endforeach
-                </select>
-            </div>
+
         </div>
     </div>
     <div class="col">

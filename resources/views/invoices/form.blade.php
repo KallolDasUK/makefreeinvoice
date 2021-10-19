@@ -187,7 +187,7 @@
             <div class="mx-4">
                 <div class="row">
                     <div class="col"><label for="sr_id">Sales Representative</label></div>
-                    <div class="col"><select name="sr_id" id="sr_id" class="form-control">
+                    <div class="col"><select name="sr_id" id="sr_id" class="form-control searchable">
                             <option></option>
                             @foreach(\App\Models\SR::all() as $sr)
                                 <option value="{{ $sr->id }}"
