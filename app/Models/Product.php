@@ -149,7 +149,14 @@ class Product extends Model
             ->where('product_id', $product->id)
             ->where('date', '<=', $start_date)
             ->sum('qnt');
-
+        $purchase_return = PurchaseReturnItem::query()
+            ->where('product_id', $product->id)
+            ->where('date', '<=', $start_date)
+            ->sum('qnt');
+        $sales_return = SalesReturnItem::query()
+            ->where('product_id', $product->id)
+            ->where('date', '<=', $start_date)
+            ->sum('qnt');
         $added = InventoryAdjustmentItem::query()
             ->where('product_id', $product->id)
             ->where('date', '<=', $start_date)
@@ -161,7 +168,7 @@ class Product extends Model
             ->sum('sub_qnt');
 
 
-        $stock = ($enteredOpening + $purchase + $added) - ($sold + $removed);
+        $stock = ($enteredOpening + $purchase + $added + $sales_return) - ($sold + $removed + $purchase_return);
         return $stock;
     }
 

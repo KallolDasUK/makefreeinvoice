@@ -13,6 +13,8 @@ use App\Models\Invoice;
 use App\Models\InvoiceItem;
 use App\Models\PosItem;
 use App\Models\Product;
+use App\Models\PurchaseReturnItem;
+use App\Models\SalesReturnItem;
 use App\Models\Tax;
 use App\Models\Vendor;
 use Carbon\Carbon;
@@ -75,7 +77,7 @@ trait ReportService
         $payment = collect($records)->sum('payment');
         $balance = $amount - $payment;
         $vendor = Vendor::find($vendor_id);
-        $balance += floatval(optional($vendor)->opening??0);
+        $balance += floatval(optional($vendor)->opening ?? 0);
         return (object)['amount' => $amount, 'payment' => $payment, 'balance' => $balance];
 
     }
@@ -270,9 +272,16 @@ trait ReportService
             ->where('product_id', $product->id)
             ->where('date', '<', $start_date)
             ->sum('sub_qnt');
+        $purchase_return = PurchaseReturnItem::query()
+            ->where('product_id', $product->id)
+            ->where('date', '<', $start_date)
+            ->sum('qnt');
+        $sales_return = SalesReturnItem::query()
+            ->where('product_id', $product->id)
+            ->where('date', '<', $start_date)
+            ->sum('qnt');
 
-
-        $opening_stock = ($enteredOpening + $purchase + $added) - ($sold + $removed);
+        $opening_stock = ($enteredOpening + $purchase + $added + $sales_return) - ($sold + $removed + $purchase_return);
         return $opening_stock;
     }
 
@@ -301,6 +310,14 @@ trait ReportService
                 ->whereBetween('date', [$start_date, $end_date])
                 ->sum('qnt');
 
+            $purchase_return = PurchaseReturnItem::query()
+                ->where('product_id', $product->id)
+                ->whereBetween('date', [$start_date, $end_date])
+                ->sum('qnt');
+            $sales_return = SalesReturnItem::query()
+                ->where('product_id', $product->id)
+                ->whereBetween('date', [$start_date, $end_date])
+                ->sum('qnt');
             $added = InventoryAdjustmentItem::query()
                 ->where('product_id', $product->id)
                 ->whereBetween('date', [$start_date, $end_date])
@@ -312,10 +329,12 @@ trait ReportService
                 ->sum('sub_qnt');
 
             $record['sold'] = $sold;
+            $record['sales_return'] = $sales_return;
             $record['purchase'] = $purchase;
+            $record['purchase_return'] = $purchase_return;
             $record['added'] = $added;
             $record['removed'] = $removed;
-            $record['stock'] = ($opening_stock + $purchase + $added) - ($sold + $removed);
+            $record['stock'] = ($opening_stock + $purchase + $added + $sales_return) - ($sold + $removed + $purchase_return);
             $record['stockValue'] = $record['price'] * $record['stock'];
 
             $records[] = (object)$record;
