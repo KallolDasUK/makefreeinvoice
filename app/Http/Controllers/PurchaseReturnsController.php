@@ -137,7 +137,7 @@ class PurchaseReturnsController extends Controller
 
             PurchaseReturnItem::create(['purchase_return_id' => $invoice->id, 'product_id' => $product_id,
                 'description' => $invoice_item->description, 'qnt' => $invoice_item->qnt, 'unit' => $invoice_item->unit ?? '',
-                'price' => $invoice_item->price, 'amount' => $invoice_item->price * $invoice_item->qnt, 'tax_id' => $invoice_item->tax_id == '' ? 0 : $invoice_item->tax_id, 'date' => $invoice->invoice_date]);
+                'price' => $invoice_item->price, 'amount' => $invoice_item->price * $invoice_item->qnt, 'tax_id' => $invoice_item->tax_id == '' ? 0 : $invoice_item->tax_id, 'date' => $invoice->date]);
         }
         foreach ($extraFields as $additional) {
             PurchaseReturnExtra::create(['name' => $additional->name, 'value' => $additional->value, 'purchase_return_id' => $invoice->id]);

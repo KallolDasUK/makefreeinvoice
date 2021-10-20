@@ -165,6 +165,9 @@
 
                                     <td class="text-right border-0">Purchase</td>
                                     <td class="text-right border-0">Sold</td>
+
+                                    <td class="text-right border-0 ">Purchase <br> Return (-)</td>
+                                    <td class="text-right border-0 ">Sales <br> Return (+)</td>
                                     <td class="text-right border-0 ">Stock <br> Adjusted (Added +)</td>
                                     <td class="text-right border-0 ">Stock <br> Adjusted (Removed -)</td>
 
@@ -181,6 +184,8 @@
                                         <td class="text-right border-0">{{ decent_format_dash($record->opening_stock) }}</td>
                                         <td class="text-right border-0">{{ decent_format_dash($record->purchase) }}</td>
                                         <td class="text-right border-0">{{ decent_format_dash($record->sold) }}</td>
+                                        <td class="text-right border-0">{{ decent_format_dash($record->purchase_return) }}</td>
+                                        <td class="text-right border-0">{{ decent_format_dash($record->sales_return) }}</td>
                                         <td class="text-right border-0">{{ decent_format_dash($record->added) }}</td>
                                         <td class="text-right border-0  ">{{ decent_format_dash($record->removed) }}</td>
                                         <td class="text-right border-0">{{ decent_format_dash($record->stock) }}</td>
@@ -199,6 +204,8 @@
                                     <td class="text-right border-0 font-weight-bolder">{{ decent_format_dash(collect($records)->sum('opening_stock')) }}</td>
                                     <td class="text-right border-0 font-weight-bolder">{{ decent_format_dash(collect($records)->sum('purchase')) }}</td>
                                     <td class="text-right border-0 font-weight-bolder">{{ decent_format_dash(collect($records)->sum('sold')) }}</td>
+                                    <td class="text-right border-0 font-weight-bolder">{{ decent_format_dash(collect($records)->sum('purchase_return')) }}</td>
+                                    <td class="text-right border-0 font-weight-bolder">{{ decent_format_dash(collect($records)->sum('sales_return')) }}</td>
                                     <td class="text-right border-0 font-weight-bolder">{{ decent_format_dash(collect($records)->sum('added')) }}</td>
                                     <td class="text-right border-0 font-weight-bolder  ">{{ decent_format_dash(collect($records)->sum('removed')) }}</td>
                                     <td class="text-right border-0 font-weight-bolder  ">{{ decent_format_dash(collect($records)->sum('stock')) }}</td>
