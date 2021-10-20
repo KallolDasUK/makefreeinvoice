@@ -537,12 +537,12 @@
                                class=""
                                style="min-width: 100px;position: relative">
                                 <i class="fa fa-plus" aria-hidden="true"></i>
-                                New <br> Bill Return</a>
+                                New <br> Purchase Return</a>
                             <a href="{{ route('purchase_returns.purchase_return.index') }}"
                                class="@cannot('viewAny',\App\Models\Bill::class) pro-tag @endcannot"
                                style="min-width: 100px;position: relative">
                                 <i class="fa fa-list-alt ribbon" aria-hidden="true"></i> <br>
-                                Bill Return</a>
+                                Purchase Return</a>
 
                         </div>
                     </div>
