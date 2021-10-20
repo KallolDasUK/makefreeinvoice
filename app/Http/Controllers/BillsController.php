@@ -45,8 +45,8 @@ class BillsController extends Controller
 
         $this->authorize('viewAny', Bill::class);
 
+        view()->share('title', 'All Bills');
 
-//        dd('test');
         $start_date = $request->start_date;
         $end_date = $request->end_date;
         $vendor_id = $request->vendor;
@@ -266,6 +266,11 @@ class BillsController extends Controller
     }
 
 
+    public function items($id)
+    {
+        $invoice = Bill::with('vendor')->findOrFail($id);
+        return ['vendor_id' => $invoice->vendor_id, 'items' => $invoice->bill_items];
+    }
     protected function getData(Request $request)
     {
 

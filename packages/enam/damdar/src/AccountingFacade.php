@@ -11,6 +11,7 @@ use App\Models\Invoice;
 use App\Models\PosPayment;
 use App\Models\PosSale;
 use App\Models\PurchaseOrder;
+use App\Models\PurchaseReturn;
 use App\Models\ReceivePaymentItem;
 use App\Models\SalesReturn;
 use Carbon\Doctrine\DateTimeDefaultPrecision;
@@ -332,7 +333,7 @@ class AccountingFacade extends Facade
             }
             $cost_of_goods_sold = $purchase_price * $invoice_item->qnt;
             if ($cost_of_goods_sold) {
-                self::addTransaction( Ledger::INVENTORY_AC(),Ledger::COST_OF_GOODS_SOLD(), $cost_of_goods_sold, $salesReturn->notes,
+                self::addTransaction(Ledger::INVENTORY_AC(), Ledger::COST_OF_GOODS_SOLD(), $cost_of_goods_sold, $salesReturn->notes,
                     $salesReturn->date, 'Expense', SalesReturn::class, $salesReturn->id,
                     $salesReturn->sales_return_number, LedgerHelper::$COST_OF_GOODS_SOLD);
             }
@@ -342,11 +343,58 @@ class AccountingFacade extends Facade
     }
 
 
-
     public function on_sales_return_payment_delete(SalesReturn $salesReturn)
     {
         Transaction::query()->where(['type' => SalesReturn::class, 'type_id' => $salesReturn->id])->forceDelete();
         TransactionDetail::query()->where(['type' => SalesReturn::class, 'type_id' => $salesReturn->id])->forceDelete();
+    }
+
+    public function on_purchase_return_create(PurchaseReturn $purchaseReturn)
+    {
+
+        $sales_opposite_ledger = $purchaseReturn->deposite_to;
+        $invoice = Bill::find($purchaseReturn->bill_number);
+
+        if ($invoice->due >= $purchaseReturn->total) {
+            $sales_opposite_ledger = Ledger::ACCOUNTS_PAYABLE();
+        }
+        self::addTransaction($sales_opposite_ledger, Ledger::PURCHASE_AC(), $purchaseReturn->payment_amount, $purchaseReturn->notes,
+            $purchaseReturn->date, 'Purchase Return', PurchaseReturn::class, $purchaseReturn->id,
+            $purchaseReturn->purchase_return_number, optional($purchaseReturn->vendor)->name);
+
+        /*
+         *
+         * Cost of Goods Sold Goes here
+         *
+         * */
+
+        foreach ($purchaseReturn->bill_items as $invoice_item) {
+            $product = $invoice_item->product;
+            if ($product->product_type != 'Goods') continue;
+
+            $purchase_price = $product->purchase_price ?? 0;
+            if ($purchase_price == 0) {
+                $last_bill = BillItem::query()->where('product_id', $invoice_item->product_id)->latest()->first();
+                if ($last_bill) {
+                    $purchase_price = $last_bill->price;
+                }
+            }
+            $cost_of_goods_sold = $purchase_price * $invoice_item->qnt;
+            if ($cost_of_goods_sold) {
+                self::addTransaction(Ledger::COST_OF_GOODS_SOLD(), Ledger::INVENTORY_AC(), $cost_of_goods_sold, $purchaseReturn->notes,
+                    $purchaseReturn->date, 'Expense', PurchaseReturn::class, $purchaseReturn->id,
+                    $purchaseReturn->purchase_return_number, LedgerHelper::$COST_OF_GOODS_SOLD);
+            }
+        }
+
+
+    }
+
+
+    public function on_purchase_return_delete(PurchaseReturn $purchaseReturn)
+    {
+        Transaction::query()->where(['type' => PurchaseReturn::class, 'type_id' => $purchaseReturn->id])->forceDelete();
+        TransactionDetail::query()->where(['type' => PurchaseReturn::class, 'type_id' => $purchaseReturn->id])->forceDelete();
     }
 
 }

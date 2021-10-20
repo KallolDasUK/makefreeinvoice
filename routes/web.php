@@ -17,6 +17,7 @@ use App\Http\Controllers\InvoicesController;
 use App\Http\Controllers\MasterController;
 use App\Http\Controllers\PosSalesController;
 use App\Http\Controllers\ProductsController;
+use App\Http\Controllers\PurchaseReturnsController;
 use App\Http\Controllers\ReasonsController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SalesReturnsController;
@@ -127,7 +128,6 @@ Route::group(['middleware' => 'auth:web', 'prefix' => 'app'], function () {
     });
 
 
-
     Route::group(['prefix' => 'sales_returns'], function () {
 
         Route::get('/', [SalesReturnsController::class, 'index'])->name('sales_returns.sales_return.index');
@@ -137,6 +137,18 @@ Route::group(['middleware' => 'auth:web', 'prefix' => 'app'], function () {
         Route::post('/', [SalesReturnsController::class, 'store'])->name('sales_returns.sales_return.store');
         Route::put('invoice/{invoice}', [SalesReturnsController::class, 'update'])->name('sales_returns.sales_return.update')->where('id', '[0-9]+');
         Route::delete('/invoice/{invoice}', [SalesReturnsController::class, 'destroy'])->name('sales_returns.sales_return.destroy')->where('id', '[0-9]+');
+
+    });
+
+    Route::group(['prefix' => 'purchase_returns'], function () {
+
+        Route::get('/', [PurchaseReturnsController::class, 'index'])->name('purchase_returns.purchase_return.index');
+        Route::get('/create', [PurchaseReturnsController::class, 'create'])->name('purchase_returns.purchase_return.create');
+        Route::get('/show/{invoice}', [PurchaseReturnsController::class, 'show'])->name('purchase_returns.purchase_return.show')->where('id', '[0-9]+');
+        Route::get('/{invoice}/edit', [PurchaseReturnsController::class, 'edit'])->name('purchase_returns.purchase_return.edit')->where('id', '[0-9]+');
+        Route::post('/', [PurchaseReturnsController::class, 'store'])->name('purchase_returns.purchase_return.store');
+        Route::put('invoice/{invoice}', [PurchaseReturnsController::class, 'update'])->name('purchase_returns.purchase_return.update')->where('id', '[0-9]+');
+        Route::delete('/invoice/{invoice}', [PurchaseReturnsController::class, 'destroy'])->name('purchase_returns.purchase_return.destroy')->where('id', '[0-9]+');
 
     });
 
@@ -153,6 +165,7 @@ Route::group(['middleware' => 'auth:web', 'prefix' => 'app'], function () {
         Route::post('/send/{bill}', [BillsController::class, 'sendBillMail'])->name('bills.bill.send_bill_mail');
         Route::put('bill/{bill}', [BillsController::class, 'update'])->name('bills.bill.update')->where('id', '[0-9]+');
         Route::delete('/bill/{bill}', [BillsController::class, 'destroy'])->name('bills.bill.destroy')->where('id', '[0-9]+');
+        Route::get('/items/{bill}', [BillsController::class, 'items'])->name('bills.bill.items');
 
     });
 
