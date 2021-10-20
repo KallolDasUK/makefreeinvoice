@@ -67,6 +67,7 @@ class InvoicesController extends Controller
         $paymentMethods = PaymentMethod::query()->get();
         $customers = Customer::all();
         $ledgerGroups = LedgerGroup::all();
+        view()->share('title', 'All Invoices');
 
         return view('invoices.index', compact('invoices', 'q', 'cashAcId', 'depositAccounts', 'paymentMethods',
                 'start_date', 'end_date', 'customer_id', 'customers', 'ledgerGroups', 'sr_id') + $this->summaryReport($start_date, $end_date));
@@ -93,6 +94,7 @@ class InvoicesController extends Controller
         $invoice_fields = optional(Invoice::query()->latest()->first())->invoice_extra ?? [];
         $next_invoice = Invoice::nextInvoiceNumber();
         $ledgerGroups = LedgerGroup::all();
+        view()->share('title', 'Create an Invoice');
         return view('invoices.create', compact('customers', 'ledgerGroups', 'products', 'taxes', 'next_invoice', 'categories', 'extraFields', 'invoice_fields', 'cashAcId', 'depositAccounts', 'paymentMethods'));
     }
 
@@ -179,6 +181,7 @@ class InvoicesController extends Controller
 
     public function show($id)
     {
+        view()->share('title', 'View Invoice');
 
         $invoice = Invoice::with('customer')->findOrFail($id);
         $this->authorize('view', $invoice);
@@ -201,6 +204,7 @@ class InvoicesController extends Controller
     public function edit($id)
     {
 
+        view()->share('title', 'Edit Invoice');
 
         $cashAcId = optional(GroupMap::query()->firstWhere('key', LedgerHelper::$CASH_AC))->value;
         $depositAccounts = Ledger::find($this->getAssetLedgers())->sortBy('ledger_name');

@@ -45,8 +45,8 @@ class BillsController extends Controller
 
         $this->authorize('viewAny', Bill::class);
 
+        view()->share('title', 'All Bills');
 
-//        dd('test');
         $start_date = $request->start_date;
         $end_date = $request->end_date;
         $vendor_id = $request->vendor;

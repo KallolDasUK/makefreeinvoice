@@ -6,15 +6,14 @@ use App\Mail\InvoiceSendMail;
 use App\Models\AppMail;
 use App\Models\Bill;
 use App\Models\Category;
-use App\Models\Customer;
 use App\Models\ExtraField;
 use App\Models\Invoice;
-use App\Models\InvoiceExtraField;
-use App\Models\InvoiceItem;
 use App\Models\MetaSetting;
 use App\Models\PaymentMethod;
 use App\Models\Product;
 use App\Models\PurchaseReturn;
+use App\Models\PurchaseReturnExtra;
+use App\Models\PurchaseReturnItem;
 use App\Models\ReceivePayment;
 use App\Models\ReceivePaymentItem;
 use App\Models\SalesReturn;
@@ -43,14 +42,15 @@ class PurchaseReturnsController extends Controller
 
     public function index(Request $request)
     {
+        view()->share('title', "All Purchase Returns");
         $start_date = $request->start_date;
         $end_date = $request->end_date;
-        $customer_id = $request->customer;
+        $vendor_id = $request->vendor;
         $sr_id = $request->sr_id;
         $q = $request->q;
         $invoices = PurchaseReturn::with('vendor')
-            ->when($customer_id != null, function ($query) use ($customer_id) {
-                return $query->where('vendor_id', $customer_id);
+            ->when($vendor_id != null, function ($query) use ($vendor_id) {
+                return $query->where('vendor_id', $vendor_id);
             })->when($q != null, function ($query) use ($q) {
                 return $query->where('purchase_return_number', 'like', '%' . $q . '%');
             })
@@ -64,11 +64,12 @@ class PurchaseReturnsController extends Controller
         $cashAcId = optional(GroupMap::query()->firstWhere('key', LedgerHelper::$CASH_AC))->value;
         $depositAccounts = Ledger::find($this->getAssetLedgers())->sortBy('ledger_name');
         $paymentMethods = PaymentMethod::query()->get();
-        $customers = Customer::all();
+        $vendors = Vendor::all();
         $ledgerGroups = LedgerGroup::all();
 //        dd($invoices);
-        return view('purchase_return.index', compact('invoices', 'q', 'cashAcId', 'depositAccounts', 'paymentMethods',
-                'start_date', 'end_date', 'customer_id', 'customers', 'ledgerGroups', 'sr_id') + $this->summaryReport($start_date, $end_date));
+        return view('purchase_return.index', compact('invoices', 'q', 'cashAcId', 'depositAccounts',
+                'paymentMethods',
+                'start_date', 'end_date', 'vendor_id', 'vendors', 'ledgerGroups', 'sr_id') + $this->summaryReport($start_date, $end_date));
     }
 
     public function summaryReport($start_date, $end_date)
@@ -90,7 +91,8 @@ class PurchaseReturnsController extends Controller
         $invoice_fields = optional(PurchaseReturn::query()->latest()->first())->purchase_return_extra ?? [];
         $next_invoice = PurchaseReturn::nextInvoiceNumber();
         $ledgerGroups = LedgerGroup::all();
-        return view('purchase_return.create', compact('vendors', 'ledgerGroups', 'products', 'taxes', 'next_invoice', 'categories', 'extraFields', 'invoice_fields', 'cashAcId', 'depositAccounts', 'paymentMethods'));
+        $title = "Register Purchase Return";
+        return view('purchase_return.create', compact('vendors', 'ledgerGroups', 'title', 'products', 'taxes', 'next_invoice', 'categories', 'extraFields', 'invoice_fields', 'cashAcId', 'depositAccounts', 'paymentMethods'));
     }
 
     public function store(Request $request)
@@ -133,22 +135,21 @@ class PurchaseReturnsController extends Controller
                 $product_id = $product->id;
             }
 
-            SalesReturnItem::create(['sales_return_id' => $invoice->id, 'product_id' => $product_id,
+            PurchaseReturnItem::create(['purchase_return_id' => $invoice->id, 'product_id' => $product_id,
                 'description' => $invoice_item->description, 'qnt' => $invoice_item->qnt, 'unit' => $invoice_item->unit ?? '',
                 'price' => $invoice_item->price, 'amount' => $invoice_item->price * $invoice_item->qnt, 'tax_id' => $invoice_item->tax_id == '' ? 0 : $invoice_item->tax_id, 'date' => $invoice->invoice_date]);
         }
         foreach ($extraFields as $additional) {
-            SalesReturnExtraField::create(['name' => $additional->name, 'value' => $additional->value, 'sales_return_id' => $invoice->id]);
+            PurchaseReturnExtra::create(['name' => $additional->name, 'value' => $additional->value, 'purchase_return_id' => $invoice->id]);
         }
 
         foreach ($additionalFields as $additional) {
-            ExtraField::create(['name' => $additional->name, 'value' => $additional->value, 'type' => SalesReturn::class, 'type_id' => $invoice->id]);
+            ExtraField::create(['name' => $additional->name, 'value' => $additional->value, 'type' => PurchaseReturn::class, 'type_id' => $invoice->id]);
         }
 
         $accounting = new AccountingFacade();
-        $accounting->on_sales_return_payment_delete($invoice);
-//        if (!$invoice->is_payment) return;
-        $accounting->on_sales_return_create($invoice);
+        $accounting->on_purchase_return_delete($invoice);
+        $accounting->on_purchase_return_create($invoice);
 
 
     }
@@ -156,10 +157,9 @@ class PurchaseReturnsController extends Controller
     public function show($id)
     {
 
-        $invoice = SalesReturn::with('customer')->findOrFail($id);
+        $purchaseReturn = PurchaseReturn::with('vendor')->findOrFail($id);
 
-        $invoice->taxes;
-        return view('sales_return.show', compact('invoice'));
+        return view('purchase_return.show', compact('purchaseReturn'));
     }
 
     public function saveTermsNDNote($data)
@@ -176,25 +176,27 @@ class PurchaseReturnsController extends Controller
     public function edit($id)
     {
 
+        view()->share('title', "Edit Purchase Return");
 
-        $cashAcId = optional(GroupMap::query()->firstWhere('key', LedgerHelper::$CASH_AC))->value;
+        $cashAcId = Ledger::CASH_AC();
         $depositAccounts = Ledger::find($this->getAssetLedgers())->sortBy('ledger_name');
         $paymentMethods = PaymentMethod::query()->get();
-        $invoice = SalesReturn::findOrFail($id);
+        $invoice = PurchaseReturn::findOrFail($id);
 
 //        $this->authorize('update', $invoice);
-        $customers = Customer::pluck('name', 'id')->all();
+        $vendors = Vendor::pluck('name', 'id')->all();
         $taxes = Tax::query()->latest()->get()->toArray();
-        $invoice_items = SalesReturnItem::query()->where('sales_return_id', $invoice->id)->get();
+        $invoice_items = PurchaseReturnItem::query()->where('purchase_return_id', $invoice->id)->get();
         $categories = Category::query()->latest()->get();
-        $invoiceExtraField = SalesReturnExtraField::query()->where('sales_return_id', $invoice->id)->get();
-        $extraFields = ExtraField::query()->where('type', SalesReturn::class)->where('type_id', $invoice->id)->get();
+        $invoiceExtraField = PurchaseReturnExtra::query()->where('purchase_return_id', $invoice->id)->get();
+        $extraFields = ExtraField::query()->where('type', PurchaseReturn::class)->where('type_id', $invoice->id)->get();
         $products = Product::query()->latest()->get();
 //        dd($invoice_items);
         $ledgerGroups = LedgerGroup::all();
         $next_invoice = '';
-//        dd($invoice);
-        return view('sales_return.edit', compact('invoice', 'ledgerGroups', 'customers', 'taxes',
+
+//        dd($invoice->invoice_items);
+        return view('purchase_return.edit', compact('invoice', 'ledgerGroups', 'vendors', 'taxes',
             'invoice_items', 'invoiceExtraField', 'products', 'extraFields', 'categories', 'cashAcId',
             'depositAccounts', 'paymentMethods', 'next_invoice'));
     }
@@ -202,7 +204,7 @@ class PurchaseReturnsController extends Controller
     public function update($id, Request $request)
     {
 
-        $invoice = SalesReturn::findOrFail($id);
+        $invoice = PurchaseReturn::findOrFail($id);
 //        $this->authorize('update', $invoice);
 
         $data = $this->getData($request);
@@ -215,31 +217,31 @@ class PurchaseReturnsController extends Controller
         unset($data['additional_fields']);
 
 
-        SalesReturnExtraField::query()->where('sales_return_id', $invoice->id)->delete();
-        SalesReturnItem::query()->where('sales_return_id', $invoice->id)->delete();
+        PurchaseReturnExtra::query()->where('purchase_return_id', $invoice->id)->delete();
+        PurchaseReturnItem::query()->where('purchase_return_id', $invoice->id)->delete();
         ExtraField::query()->where('type', get_class($invoice))->where('type_id', $invoice->id)->delete();
 
 
         $invoice->update($data);
         $this->insertDataToOtherTable($invoice, $invoice_items, $extraFields, $additionalFields);
         $this->saveTermsNDNote($data);
-        return redirect()->route('sales_returns.sales_return.index', $invoice->id)->with('success_message', 'Invoice was successfully updated.');
+        return redirect()->route('purchase_returns.purchase_return.index', $invoice->id)->with('success_message', 'Invoice was successfully updated.');
 
     }
 
     public function destroy($id)
     {
 
-        $invoice = SalesReturn::findOrFail($id);
-        SalesReturnExtraField::query()->where('sales_return_id', $invoice->id)->delete();
-        SalesReturnItem::query()->where('sales_return_id', $invoice->id)->delete();
+        $invoice = PurchaseReturn::findOrFail($id);
+        PurchaseReturnExtra::query()->where('purchase_return_id', $invoice->id)->delete();
+        PurchaseReturnItem::query()->where('purchase_return_id', $invoice->id)->delete();
         ExtraField::query()->where('type', get_class($invoice))->where('type_id', $invoice->id)->delete();
 
         $accounting = new AccountingFacade();
-        $accounting->on_sales_return_payment_delete($invoice);
+        $accounting->on_purchase_return_delete($invoice);
         $invoice->delete();
 
-        return redirect()->route('sales_returns.sales_return.index')->with('success_message', 'Sales Return was successfully deleted.');
+        return redirect()->route('purchase_returns.purchase_return.index')->with('success_message', 'Purchase Return was successfully deleted.');
 
     }
 
@@ -247,7 +249,7 @@ class PurchaseReturnsController extends Controller
     {
 
         $rules = [
-            'customer_id' => 'nullable',
+            'vendor_id' => 'nullable',
             'bill_number' => 'required',
             'purchase_return_number' => 'nullable|string|min:0',
             'date' => 'required',
@@ -272,7 +274,6 @@ class PurchaseReturnsController extends Controller
             'payment_method_id' => 'nullable',
             'deposit_to' => 'nullable',
             'payment_amount' => 'nullable',
-            'sr_id' => 'nullable',
         ];
 
         $data = $request->validate($rules);

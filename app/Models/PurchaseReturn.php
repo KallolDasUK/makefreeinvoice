@@ -24,12 +24,12 @@ class PurchaseReturn extends Model
         return $this->belongsTo('App\Models\Vendor', 'vendor_id');
     }
 
-    public function purchase_return_items()
+    public function bill_items()
     {
         return $this->hasMany(PurchaseReturnItem::class, 'purchase_return_id');
     }
 
-    public function purchase_return_extra()
+    public function bill_extra()
     {
         return $this->hasMany(PurchaseReturnExtra::class, 'purchase_return_id');
     }

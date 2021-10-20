@@ -246,6 +246,10 @@
 
         }
 
+        svg:hover {
+            fill: #065a92;
+        }
+
         .btn.btn-info:hover {
             background-color: transparent !important;
             color: #8950FC !important;
@@ -796,19 +800,36 @@
     <div class="mt-4" style="min-height: 70vh">
 
         <div class="d-flex justify-content-between mb-2">
+            <b class="text-black font-weight-bolder mb-2 mt-2" style="font-size: 20px">
+                @if($title??'')
+                    <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
+
+                         xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                         viewBox="0 0 206.089 206.089" style="width: 30px"
+                         fill="#065a92"
+                         xml:space="preserve">
+<path d="M142.236,166.897l-10.607-10.606l53.247-53.247l-53.247-53.247l10.607-10.606l63.853,63.853L142.236,166.897z
+	 M163.663,103.044L123.32,62.702H0v80.686h123.32L163.663,103.044z"/>
+                </svg>
+                @endif
+                {{ $title??'' }} </b>
+
             @if(!optional(auth()->user())->subscribed('default'))
                 <div><p class="text-center">
-                        <strong>You are using limited free version. <a href="javascript:;"
-                                                                       class="subscribeModal btn btn-sm btn-info">Upgrade
-                                Now</a> & unlock the treasure</strong></p></div>
+                        <strong><a href="javascript:;"
+                                   class="subscribeModal btn btn-sm btn-info">Upgrade to Pro</a> & unlock the
+                            treasure</strong></p></div>
             @else
-
+                <div class="">&nbsp;</div>
             @endif
             @if($country == "Bangladesh")
                 <div class="text-center">For any help or enquiry please call at <h2>
                         <a href="tel:+8801680852026"><i class="fa fa-phone"></i> +88 016 8085 2026</a>
                     </h2>
                 </div>
+            @else
+                <div class="">&nbsp;</div>
+
             @endif
             <div>
 
@@ -827,8 +848,6 @@
 
         </div>
 
-
-        <b class="text-black font-weight-bolder mb-2 mt-2" style="font-size: 20px"> {{ $title??'' }} </b>
 
         @yield('content')
         {{ $slot ?? '' }}

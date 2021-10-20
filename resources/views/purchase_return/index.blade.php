@@ -57,22 +57,22 @@
         <!--begin::Header-->
         <div class="card-header border-0 py-5">
             <h3 class="card-title align-items-start flex-column">
-                <span class="card-label font-weight-bolder text-dark">Sales Returns</span>
+                <span class="card-label font-weight-bolder text-dark"></span>
                 <span class="text-muted mt-3 font-weight-bold font-size-sm"></span>
             </h3>
             <div class="card-toolbar">
-                <a href="{{ route('sales_returns.sales_return.create') }}"
+                <a href="{{ route('purchase_returns.purchase_return.create') }}"
                    class="btn btn-success btn-lg font-weight-bolder font-size-sm " style="font-size: 16px">
                     <i class="fas fa-fw fa-plus" aria-hidden="true"></i>
 
-                    </span>Create Sales Return</a>
+                    </span>Register New Return</a>
             </div>
         </div>
         <!--end::Header-->
         <!--begin::Body-->
         <div class="card-body py-0">
             <!--begin::Filter-->
-            <form action="{{ route('sales_returns.sales_return.index') }}">
+            <form action="{{ route('purchase_returns.purchase_return.index') }}">
                 <div class="row align-items-center mb-4">
 
                     <div class="col-lg-3 col-xl-2">
@@ -81,25 +81,16 @@
                         >
                     </div>
                     <div class="mx-2">
-                        <select name="customer" id="customer" class="form-control"
+                        <select name="vendor" id="vendor" class="form-control"
                                 style="min-width: 200px;max-width: 200px">
                             <option></option>
-                            @foreach($customers as $customer)
-                                <option value="{{ $customer->id }}"
-                                        @if($customer->id == $customer_id) selected @endif>{{ $customer->name }} {{ $customer->phone }} </option>
+                            @foreach($vendors as $vendor)
+                                <option value="{{ $vendor->id }}"
+                                        @if($vendor->id == $vendor_id) selected @endif>{{ $vendor->name }} {{ $vendor->phone }} </option>
                             @endforeach
                         </select>
                     </div>
-                    <div class="mx-2">
-                        <select name="sr_id" id="sr_id" class="form-control"
-                                style="min-width: 150px;max-width: 150px">
-                            <option></option>
-                            @foreach(\App\Models\SR::all() as $sr)
-                                <option value="{{ $sr->id }}"
-                                        @if($sr->id == $sr_id) selected @endif>{{ $sr->name }} {{ $sr->phone }} </option>
-                            @endforeach
-                        </select>
-                    </div>
+
                     <div class="col">
                         <div class="row align-items-center">
                             <div class="input-daterange input-group" id="start_date">
@@ -121,8 +112,8 @@
                                     Filter
                                 </button>
 
-                                @if($start_date != null || $end_date != null || $customer_id !=null || $q != null)
-                                    <a href="{{ route('sales_returns.sales_return.index') }}" title="Clear Filter"
+                                @if($start_date != null || $end_date != null || $vendor_id !=null || $q != null)
+                                    <a href="{{ route('purchase_returns.purchase_return.index') }}" title="Clear Filter"
                                        class="btn btn-icon btn-light-danger"> X</a>
                                 @endif
                             </div>
@@ -138,9 +129,9 @@
                     <table class="table table-head-custom table-vertical-center" id="kt_advance_table_widget_1">
                         <thead>
                         <tr class="text-left">
-                            <th></th>
-                            <th class="text-center">Invoice Number</th>
-                            <th class="pr-0">Client</th>
+                            <th>SL</th>
+                            <th>Invoice Number</th>
+                            <th class="pr-0">Vendor</th>
                             <th>Return Date</th>
 
                             <th class="text-right">Amount
@@ -158,25 +149,23 @@
 
                                 <td class="text-center ">
                                     <a class="font-weight-bolder d-block font-size-lg underline text-left invoice_number"
-                                       href="{{ route('sales_returns.sales_return.show',$invoice->id) }}">
+                                       href="{{ route('purchase_returns.purchase_return.show',$invoice->id) }}">
                                         <i class="fa fa-external-link-alt font-normal text-secondary"
                                            style="font-size: 10px"></i>
-                                        {{ $invoice->sales_return_number }}
+                                        {{ $invoice->purchase_return_number }}
 
                                     </a>
 
                                 </td>
                                 <td>
-                                    <a href="{{ route('sales_returns.sales_return.show',$invoice->id) }}"
-                                       class="text-dark-75 font-weight-bolder d-block font-size-lg invoice_number">{{ optional($invoice->customer)->name }}</a>
+                                    <a href="{{ route('purchase_returns.purchase_return.show',$invoice->id) }}"
+                                       class="text-dark-75 font-weight-bolder d-block font-size-lg invoice_number">{{ optional($invoice->vendor)->name }}</a>
                                     <span
-                                        class="text-muted font-weight-bold">{{ optional($invoice->customer)->email }}</span>
-                                    @if($invoice->sr_id)
-                                        <br> SR → {{ optional($invoice->sr)->name }}
-                                    @endif
+                                        class="text-muted font-weight-bold">{{ optional($invoice->vendor)->email }}</span>
+
                                 </td>
                                 <td class="pl-0">
-                                    <a href="{{ route('sales_returns.sales_return.show',$invoice->id) }}"
+                                    <a href="{{ route('purchase_returns.purchase_return.show',$invoice->id) }}"
                                        class="text-dark-75 font-weight-bolder text-hover-primary mb-1 font-size-lg ">{{ \Carbon\Carbon::parse($invoice->date)->format('d/m/Y') }}</a>
 
                                     @if($invoice->due_date)
@@ -212,14 +201,14 @@
                                     </span>
                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
 
-                                            <a href="{{ route('sales_returns.sales_return.edit',$invoice->id) }}"
+                                            <a href="{{ route('purchase_returns.purchase_return.edit',$invoice->id) }}"
                                                class="dropdown-item btn">
                                                 <span class="fa fa-pencil-alt mx-4"></span> <strong>Edit</strong>
                                             </a>
 
 
                                             <form method="POST"
-                                                  action="{!! route('sales_returns.sales_return.destroy', $invoice->id) !!}">
+                                                  action="{!! route('purchase_returns.purchase_return.destroy', $invoice->id) !!}">
                                                 {{ csrf_field() }}
                                                 <button class="dropdown-item "
                                                         onclick="return confirm('Click Ok to delete Invoice')">
@@ -335,7 +324,7 @@
                         },
                         success: function (response) {
                             $('#recordPaymentModal').modal('hide');
-                            showCustomerPaymentReceipt(response.id)
+                            showvendorPaymentReceipt(response.id)
                             setTimeout(() => {
                                 window.location.reload()
                             }, 5000)
@@ -383,7 +372,7 @@
             })
 
             $('.invoice_number').tooltip({'title': 'Show Invoice'});
-            $('#customer').select2({placeholder: 'Customer', allowClear: true})
+            $('#vendor').select2({placeholder: 'vendor', allowClear: true})
             $('#sr_id').select2({placeholder: '-- SR --', allowClear: true})
 
 
@@ -467,12 +456,12 @@
                 }
             });
 
-            // showCustomerPaymentReceipt(45)
+            // showvendorPaymentReceipt(45)
         })
 
 
         function getInvoicePayments(url) {
-            // if (!customer_id) return;
+            // if (!vendor_id) return;
             $.ajax({
                 url: url,
                 type: "post",
