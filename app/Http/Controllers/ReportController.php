@@ -99,7 +99,7 @@ class ReportController extends AccountingReportsController
         $start_date = $request->start_date ?? today()->startOfYear()->toDateString();
         $end_date = $request->end_date ?? today()->toDateString();
         $report_type = $request->report_type ?? 'accrual';
-        $title = "Stock Report Summary";
+        $title = "Stock Report";
 
         $records = $this->getStockReport($start_date, $end_date);
 
