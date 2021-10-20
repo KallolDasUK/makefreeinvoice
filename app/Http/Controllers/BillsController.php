@@ -266,6 +266,11 @@ class BillsController extends Controller
     }
 
 
+    public function items($id)
+    {
+        $invoice = Bill::with('vendor')->findOrFail($id);
+        return ['vendor_id' => $invoice->vendor_id, 'items' => $invoice->bill_items];
+    }
     protected function getData(Request $request)
     {
 

@@ -529,7 +529,16 @@
                                class="@cannot('viewAny',\App\Models\Bill::class) pro-tag @endcannot"
                                style="min-width: 100px;position: relative">
                                 <i class="fa fa-users" aria-hidden="true"></i>Vendors</a>
-                            <a href="javascript:;" style="border: none" disabled> </a>
+                            <a href="{{ route('purchase_returns.purchase_return.create') }}"
+                               class=""
+                               style="min-width: 100px;position: relative">
+                                <i class="fa fa-plus" aria-hidden="true"></i>
+                                New <br> Bill Return</a>
+                            <a href="{{ route('purchase_returns.purchase_return.index') }}"
+                               class="@cannot('viewAny',\App\Models\Bill::class) pro-tag @endcannot"
+                               style="min-width: 100px;position: relative">
+                                <i class="fa fa-list-alt ribbon" aria-hidden="true"></i> <br>
+                                Bill Return</a>
 
                         </div>
                     </div>

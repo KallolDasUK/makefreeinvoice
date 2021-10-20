@@ -32,15 +32,15 @@
 
     <div class="col bg-secondary rounded ">
         <div class="form-group">
-            <label class="font-weight-bolder" for="order_number">From Invoice</label>
+            <label class="font-weight-bolder" for="bill_number">From Bill</label>
             <br>
 
-            <select name="invoice_number" id="invoice_number" class="form-control searchable" required>
+            <select name="bill_number" id="bill_number" class="form-control searchable" required>
                 <option></option>
-                @foreach(\App\Models\Invoice::query()->latest()->get() as $invoice)
+                @foreach(\App\Models\Bill::query()->latest()->get() as $bill)
 
                     <option
-                        value="{{ $invoice->id }}" @if($sales_return !=null) {{ $sales_return->invoice_number == $invoice->id?'selected':'' }} @endif>{{ $invoice->invoice_number }}</option>
+                        value="{{ $bill->id }}" @if($purchase_return !=null) {{ $purchase_return->bill_number == $bill->id?'selected':'' }} @endif>{{ $bill->bill_number }}</option>
                 @endforeach
             </select>
 
@@ -50,13 +50,13 @@
     <div class="col">
         <div class="form-group">
 
-            <label class="font-weight-bolder" for="sales_return_number">Return Number #</label>
+            <label class="font-weight-bolder" for="purchase_return_number">Return Number #</label>
             <span class="text-danger font-bolder text-danger">*</span>
             <br>
             <input class="form-control "
-                   name="sales_return_number"
-                   type="text" id="sales_return_number"
-                   value="{{ old('sales_return_number', optional($sales_return)->sales_return_number)??$next_invoice }}"
+                   name="purchase_return_number"
+                   type="text" id="purchase_return_number"
+                   value="{{ old('purchase_return_number', optional($purchase_return)->purchase_return_number)??$next_invoice }}"
                    required>
         </div>
 
@@ -70,7 +70,7 @@
             <input class="form-control"
                    name="date"
                    type="date" id="date"
-                   value="{{ optional($invoice)->date??today()->toDateString() }}"
+                   value="{{ optional($purchase_return)->date??today()->toDateString() }}"
                    required>
 
         </div>
@@ -85,22 +85,21 @@
 
     <div class="col">
         <div class="form-group mini">
-            <label class="font-weight-bolder">To Customer</label>
+            <label class="font-weight-bolder">To Vendor</label>
 
             <br>
 
-            <select class="customer form-control select2" id="customer_id" name="customer_id">
+            <select class="customer form-control select2" id="vendor_id" name="vendor_id">
                 <option value="" disabled
                         selected></option>
-                @foreach ($customers as $key => $customer)
+                @foreach ($vendors as $key => $vendor)
                     <option
-                        value="{{ $key }}" {{ old('customer_id', optional($sales_return)->customer_id) == $key ? 'selected' : '' }}>
-                        {{ $customer }}
+                        value="{{ $key }}" {{ old('vendor_id', optional($purchase_return)->vendor_id) == $key ? 'selected' : '' }}>
+                        {{ $vendor }}
                     </option>
                 @endforeach
             </select>
 
-            {!! $errors->first('customer_id', '<p class="form-text text-danger">:message</p>') !!}
 
         </div>
     </div>
@@ -114,13 +113,12 @@
                 <option value="" disabled selected></option>
                 @foreach (currencies() as $currency)
                     <option
-                        value="{{ $currency['symbol'] }}" {{ old('customer_id', optional($sales_return)->currency) == $currency['symbol'] ? 'selected' : '' }} @if($sales_return == null) {{ ($settings->currency??'$') == $currency['symbol'] ? 'selected' : '' }} @endif>
+                        value="{{ $currency['symbol'] }}" {{ old('vendor_id', optional($purchase_return)->currency) == $currency['symbol'] ? 'selected' : '' }} @if($purchase_return == null) {{ ($settings->currency??'$') == $currency['symbol'] ? 'selected' : '' }} @endif>
                         {{ $currency['name'] ?? $currency['currencyname'] }} - {{ $currency['symbol'] }}
                     </option>
                 @endforeach
             </select>
 
-            {!! $errors->first('customer_id', '<p class="form-text text-danger">:message</p>') !!}
 
         </div>
     </div>
@@ -152,20 +150,7 @@
 
         </p>
         <div class="collapse" id="additionalCollapse">
-            <div class="mx-4">
-                <div class="row">
-                    <div class="col"><label for="sr_id">Sales Representative</label></div>
-                    <div class="col"><select name="sr_id" id="sr_id" class="form-control searchable">
-                            <option></option>
-                            @foreach(\App\Models\SR::all() as $sr)
-                                <option value="{{ $sr->id }}"
-                                        @if(optional($sales_return)->sr_id == $sr->id) selected @endif> {{ $sr->name }} {{ $sr->phone }}</option>
-                            @endforeach
-                        </select></div>
-                </div>
 
-
-            </div>
             <table class="table table-borderless">
 
 
@@ -182,7 +167,7 @@
             </label>
 
 
-            <div class="paymentContainer mt-4" >
+            <div class="paymentContainer mt-4">
                 <div class="form-group row">
                     <div class="col-form-label col-lg-4 text-right required">
                         <label class="font-weight-bolder " style="font-size: 14px"> Amount <span
@@ -190,12 +175,12 @@
                     </div>
                     <div class="col-lg-6">
                         <input type="number" step="any" id="paymentAmount" class="form-control" name="payment_amount"
-                               value="{{ optional($sales_return)->payment_amount??'' }}" min="0"
-                               max="{{ optional($sales_return)->total??'' }}"/>
+                               value="{{ optional($purchase_return)->payment_amount??'' }}" min="0"
+                               max="{{ optional($purchase_return)->total??'' }}"/>
                     </div>
                 </div>
                 <div class="form-group row d-none">
-                    <div class="col-fozrm-label col-lg-4 text-right required">
+                    <div class="col-form-label col-lg-4 text-right required">
                         <label class="font-weight-bolder " style="font-size: 14px"> Payment Method <span
                                 class="text-danger">*</span></label>
                     </div>
@@ -204,7 +189,7 @@
                             @foreach ($paymentMethods as $paymentMethod )
                                 <option
                                     value="{{ $paymentMethod->id }}"
-                                    {{ optional($sales_return)->payment_method_id == $paymentMethod->id ? 'selected' : '' }} @if($sales_return == null && $paymentMethod->is_default) selected @endif>
+                                    {{ optional($purchase_return)->payment_method_id == $paymentMethod->id ? 'selected' : '' }} @if($purchase_return == null && $paymentMethod->is_default) selected @endif>
                                     {{ $paymentMethod->name }}
                                 </option>
                             @endforeach
@@ -221,7 +206,7 @@
                         <select id="deposit_to" class="form-control" name="deposit_to">
                             @foreach ($depositAccounts as $account)
                                 <option
-                                    value="{{ $account->id }}" {{ $account->id == optional($sales_return)->deposit_to?'selected':'' }} @if($sales_return == null) {{ $account->id == \Enam\Acc\Models\Ledger::CASH_AC()?'selected':'' }} @endif>
+                                    value="{{ $account->id }}" {{ $account->id == optional($purchase_return)->deposit_to?'selected':'' }} @if($purchase_return == null) {{ $account->id == \Enam\Acc\Models\Ledger::CASH_AC()?'selected':'' }} @endif>
                                     {{ $account->ledger_name }}
                                 </option>
                             @endforeach
@@ -244,7 +229,7 @@
                 </td>
                 <td style="text-align: end">
                     <input type="number" step="any" id="subTotal" name="sub_total"
-                           value="{{ old('sub_total', optional($sales_return)->sub_total) }}" readonly
+                           value="{{ old('sub_total', optional($purchase_return)->sub_total) }}" readonly
                            style="border: 1px solid transparent; outline: none;text-align: end">
                     <span class="currency"></span>
 
@@ -256,12 +241,12 @@
                     <input type="number" step="any" class="input-sm form-control d-inline-block"
                            style="max-width: 50px; text-align: end;min-width: 100px" id="discountValue"
                            name="discount_value"
-                           value="{{ old('discount_value', optional($sales_return)->discount_value) }}">
+                           value="{{ old('discount_value', optional($purchase_return)->discount_value) }}">
                     <select class="input-sm small-input d-inline" id="discount_type" name="discount_type">
 
                         @foreach ([ '%', 'Flat'] as $key => $text)
                             <option
-                                value="{{ $text }}" {{ old('discount_type', optional($sales_return)->discount_type) == $text ? 'selected' : '' }}>
+                                value="{{ $text }}" {{ old('discount_type', optional($purchase_return)->discount_type) == $text ? 'selected' : '' }}>
                                 {{ $text }}
                             </option>
                         @endforeach
@@ -270,11 +255,11 @@
                 <td style="text-align: end">
 
                     <input type="number" step="any" id="discount" name="discount"
-                           value="{{ old('discount', optional($sales_return)->discount) }}>" readonly
+                           value="{{ old('discount', optional($purchase_return)->discount) }}>" readonly
                            style="border: 1px solid transparent; outline: none;text-align: end;" hidden>
 
                     <input type="number" step="any" id="discountShown"
-                           value="{{ old('discount', optional($sales_return)->discount) }}" readonly
+                           value="{{ old('discount', optional($purchase_return)->discount) }}" readonly
                            style="border: 1px solid transparent; outline: none;text-align: end">
                     <span class="currency"></span>
 
@@ -288,11 +273,11 @@
                            style="max-width: 100px;text-align: end"
                            name="shipping_input"
                            id="shipping_input"
-                           value="{{ old('shipping_charge', optional($sales_return)->shipping_charge) }}">
+                           value="{{ old('shipping_charge', optional($purchase_return)->shipping_charge) }}">
                 </td>
                 <td style="text-align: end">
                     <input type="number" id="shipping_charge" name="shipping_charge"
-                           value="{{ old('shipping_charge', optional($sales_return)->shipping_charge) }}" readonly
+                           value="{{ old('shipping_charge', optional($purchase_return)->shipping_charge) }}" readonly
                            style="border: 1px solid transparent; outline: none;text-align: end">
                     <span class="currency"></span>
 
@@ -333,7 +318,7 @@
         <div class="form-group">
             <label for="terms_condition">Terms Condition</label>
             <textarea class="form-control" name="terms_condition" cols="50" rows="5"
-                      id="terms_condition">{{ old('terms_condition', optional($sales_return)->terms_condition)??$settings->terms_condition??'' }}</textarea>
+                      id="terms_condition">{{ old('terms_condition', optional($purchase_return)->terms_condition)??$settings->terms_condition??'' }}</textarea>
 
         </div>
     </div>
@@ -341,7 +326,7 @@
         <div class="form-group">
             <label for="notes">Notes</label>
             <textarea class="form-control" name="notes" cols="50" rows="5"
-                      id="notes">{{ old('notes', optional($sales_return)->notes) ??$settings->notes??'' }}</textarea>
+                      id="notes">{{ old('notes', optional($purchase_return)->notes) ??$settings->notes??'' }}</textarea>
             {!! $errors->first('notes', '<p class="form-text text-danger">:message</p>') !!}
         </div>
     </div>
@@ -357,14 +342,14 @@
                 <input type="text" class="form-control uploaded-file-name" hidden>
             </div>
 
-            @if (isset($sales_return->attachment) && !empty($sales_return->attachment))
+            @if (isset($purchase_return->attachment) && !empty($purchase_return->attachment))
                 <div class="input-group input-width-input">
                 <span class="input-group-addon">
                     <input type="checkbox" name="custom_delete_attachment" class="custom-delete-file" value="1" {{ old('custom_delete_attachment', '0') == '1' ? 'checked' : '' }}> Delete
                 </span>
 
                     <span class="input-group-addon custom-delete-file-name">
-                   <img class="card" src="{{ asset('storage/'.$sales_return->attachment) }}" width="200">
+                   <img class="card" src="{{ asset('storage/'.$purchase_return->attachment) }}" width="200">
 
                 </span>
                 </div>
@@ -448,6 +433,8 @@
             <span role="button" on-click="@this.addInvoiceItem()" class="btn btn-sm btn-primary"
                   style="cursor: pointer"><i class="fa fa-plus-circle"></i> Add Line</span>
         </div>
+
+
 
 
 
@@ -630,6 +617,8 @@
 
 
 
+
+
     </script>
 @endverbatim
 @verbatim
@@ -654,6 +643,8 @@
               <td><span class="text-primary " on-click="@this.addAdditionalField()" style="cursor:pointer;">+ Add More</span></td>
               <td></td>
           </tr>
+
+
 
 
 
