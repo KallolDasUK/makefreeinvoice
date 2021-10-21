@@ -174,79 +174,78 @@
 
                 <div class="card">
 
-                    <div class="card-body p-0">@if(count($data->records)==0)
-                                                   <div class="text-center">
-                                                       <img style="text-align: center;margin: 0 auto;" src="https://1.bp.blogspot.com/-oFZuUJWkeVI/YU2wRxUt26I/AAAAAAAAFKw/tA92-qZCPksDCerRYqgANfzaeF8xtGTFQCLcBGAsYHQ/s320/norecord.png" alt="">
+                    <div class="card-body p-0">
 
-                                                   </div>
-                        @else
-                            <table class="table mb-0  table-head-custom table-vertical-center text-center">
-                                <thead>
+                        <table class="table mb-0  table-head-custom table-vertical-center text-center">
+                            <thead>
 
+                            <tr>
+                                <th class="text-left">SL</th>
+                                <th class="text-left">Date</th>
+                                <th class="text-left">Participants</th>
+                                <th class="text-left">Details</th>
+                                <th class="text-left">Type</th>
+                                <th class="text-left">REF</th>
+                                <th style="text-align: center">Debit</th>
+                                <th style="text-align: center">Credit</th>
+                            </tr>
+
+                            </thead>
+                            <tbody>
+                            <tr style="font-weight: bolder;text-align: center">
+                                <td></td>
+                                <td colspan="5"  class="text-left">OPENING BALANCE</td>
+                                <td>{{ decent_format_dash($data->opening_debit??0) }}</td>
+                                <td>{{ decent_format_dash($data->opening_credit??0) }}</td>
+                            </tr>
+
+                            @php($dr = $data->opening_debit??0)
+                            @php($cr = $data->opening_credit??0)
+                            @forelse($data->records??[] as $txnDetail)
                                 <tr>
-                                    <th class="text-left">SL</th>
-                                    <th class="text-left">Date</th>
-                                    <th class="text-left">Participants</th>
-                                    <th class="text-left">Details</th>
-                                    <th class="text-left">Type</th>
-                                    <th class="text-left">REF</th>
-                                    <th style="text-align: center">Debit</th>
-                                    <th style="text-align: center">Credit</th>
-                                </tr>
+                                    <td class="text-left">{{ $loop->iteration }} </td>
+                                    <td class="text-left">{{ \Carbon\Carbon::parse($txnDetail->date)->toDateString() }}</td>
+                                    <td class="text-left"
+                                        style="max-width: 200px">{{ implode(',',participants(optional($txnDetail->transaction)->id,$txnDetail->ledger_id)) }}</td>
 
-                                </thead>
-                                <tbody>
-                                <tr style="font-weight: bolder;text-align: center">
-                                    <td></td>
-                                    <td colspan="4" class="text-left">OPENING BALANCE</td>
-                                    <td>{{ decent_format_dash($data->opening_debit??0) }}</td>
-                                    <td>{{ decent_format_dash($data->opening_credit??0) }}</td>
-                                </tr>
+                                    <td class="text-left">{!! str_replace('\n','</br>',$txnDetail->transaction_details) !!}</td>
+                                    <td class="text-left">{{ optional($txnDetail->transaction)->txn_type }}</td>
+                                    <td class="text-left">{{ $txnDetail->ref??optional($txnDetail->transaction)->voucher_no }}</td>
 
-                                @php($dr = $data->opening_debit??0)
-                                @php($cr = $data->opening_credit??0)
-                                @foreach($data->records??[] as $txnDetail)
-                                    <tr>
-                                        <td class="text-left">{{ $loop->iteration }} </td>
-                                        <td class="text-left">{{ \Carbon\Carbon::parse($txnDetail->date)->toDateString() }}</td>
-                                        <td class="text-left"
-                                            style="max-width: 200px">{{ implode(',',participants($txnDetail->transaction->id,$txnDetail->ledger_id)) }}</td>
-
-                                        <td class="text-left">{!! str_replace('\n','</br>',$txnDetail->transaction_details) !!}</td>
-                                        <td class="text-left">{{ optional($txnDetail->transaction)->txn_type }}</td>
-                                        <td class="text-left">{{ $txnDetail->ref??optional($txnDetail->transaction)->voucher_no }}</td>
-
-                                        @if($txnDetail->entry_type == \Enam\Acc\Utils\EntryType::$DR)
-                                            <td style="text-align: center">{{ decent_format_dash($txnDetail->amount )}}</td>
-                                            <td style="text-align: center">-</td>
-                                            @php($dr +=$txnDetail->amount)
-                                        @else
-                                            <td style="text-align: center">-</td>
-                                            <td style="text-align: center">{{ decent_format_dash($txnDetail->amount) }}</td>
-                                            @php($cr +=$txnDetail->amount)
-
-                                        @endif
-
-                                    </tr>
-                                @endforeach
-                                <tr style="font-weight: bolder;text-align: center">
-                                    <td></td>
-                                    <td class="text-left" colspan="4">CLOSING BALANCE</td>
-                                    @if($dr>$cr)
-                                        <td>{{ decent_format_dash($dr-$cr) }}</td>
-                                        <td>-</td>
+                                    @if($txnDetail->entry_type == \Enam\Acc\Utils\EntryType::$DR)
+                                        <td style="text-align: center">{{ decent_format_dash($txnDetail->amount )}}</td>
+                                        <td style="text-align: center">-</td>
+                                        @php($dr +=$txnDetail->amount)
                                     @else
-                                        <td>-</td>
+                                        <td style="text-align: center">-</td>
+                                        <td style="text-align: center">{{ decent_format_dash($txnDetail->amount) }}</td>
+                                        @php($cr +=$txnDetail->amount)
 
-                                        <td>{{ decent_format_dash($cr-$dr) }}</td>
                                     @endif
+
                                 </tr>
+                            @empty
+                                    <tr>
+                                        <td colspan="7" class="text-center font-weight-bolder">No Transaction Made During this periods. :(</td>
+                                    </tr>
+                            @endforelse
+                            <tr style="font-weight: bolder;text-align: center">
+                                <td></td>
+                                <td class="text-left" colspan="5">CLOSING BALANCE</td>
+                                @if($dr>$cr)
+                                    <td>{{ decent_format_dash($dr-$cr) }}</td>
+                                    <td>-</td>
+                                @else
+                                    <td>-</td>
+
+                                    <td>{{ decent_format_dash($cr-$dr) }}</td>
+                                @endif
+                            </tr>
 
 
-                                </tbody>
-                            </table>
+                            </tbody>
+                        </table>
 
-                        @endif
                     </div>
 
                 </div>

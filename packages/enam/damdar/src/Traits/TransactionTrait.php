@@ -40,6 +40,7 @@ trait TransactionTrait
             TransactionDetail::where('transaction_id', $txn->id)
                 ->update(['entry_type' => $entry_type, 'amount' => $amount, 'type' => Ledger::class,
                     'type_id' => $ledger->id]);
+//            dd($txn);
         } else {
             $voucher_no = $this->getVoucherID();
             $txn = Transaction::create(['ledger_name' => $ledger->ledger_name, 'voucher_no' => $voucher_no,
@@ -444,6 +445,7 @@ trait TransactionTrait
             'opening_credit' => $openingCredit, 'opening_debit' => $openingDebit,
             'closing_credit' => $closingCredit, 'closing_debit' => $closingDebit
         ];
+//        dd($data);
         return (object)$data;
 
     }

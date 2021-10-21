@@ -129,9 +129,28 @@ class Vendor extends Model
     public function getPayablesAttribute()
     {
 
-        $due = Bill::query()->where('vendor_id', $this->id)->get()->sum('due');
-        $balance = $this->previous_due + $due;
-        return $balance;
+        if ($this->ledger->balance_type == 'Cr') {
+            return $this->ledger->balance;
+        }
+        return 0;
+    }
+
+
+    public function getLedgerAttribute()
+    {
+
+        return Ledger::query()->where('type', Vendor::class)
+            ->where('type_id', $this->id)
+            ->first();
+    }
+
+    public function getAdvanceAttribute()
+    {
+
+        if ($this->ledger->balance_type == 'Dr') {
+            return $this->ledger->balance;
+        }
+        return 0;
     }
 
 

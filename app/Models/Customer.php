@@ -82,7 +82,7 @@ class Customer extends Model
     }
 
 
-    public function ledger()
+    public function getLedgerAttribute()
     {
         return Ledger::query()->where('type', Customer::class)
             ->where('type_id', $this->id)
@@ -95,12 +95,12 @@ class Customer extends Model
             ->where('type', Customer::class)
             ->where('type_id', $this->id)
             ->where('entry_type', EntryType::$DR)
-            ->where('ledger_id',Ledger::ACCOUNTS_RECEIVABLE())
+            ->where('ledger_id', Ledger::ACCOUNTS_RECEIVABLE())
             ->sum('amount');
         $credit = TransactionDetail::query()
             ->where('type', Customer::class)
             ->where('type_id', $this->id)
-            ->where('ledger_id',Ledger::ACCOUNTS_RECEIVABLE())
+            ->where('ledger_id', Ledger::ACCOUNTS_RECEIVABLE())
             ->where('entry_type', EntryType::$CR)
             ->sum('amount');
 //        dd($debit,$credit);
@@ -110,11 +110,19 @@ class Customer extends Model
     public function getReceivablesAttribute()
     {
 
-        $due = Invoice::query()->where('customer_id', $this->id)->get()->sum('due');
+        if ($this->ledger->balance_type == 'Dr') {
+            return $this->ledger->balance;
+        }
+        return 0;
+    }
 
-
-        $balance = $this->previous_due + $due;
-        return $balance;
+    public function getAdvanceAttribute()
+    {
+//        dump( $this->ledger->balance);
+        if ($this->ledger->balance_type == 'Cr') {
+            return $this->ledger->balance;
+        }
+        return 0;
     }
 
 

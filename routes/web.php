@@ -4,6 +4,7 @@ use App\Http\Controllers\Ajax\AjaxController;
 use App\Http\Controllers\BillingsController;
 use App\Http\Controllers\BillPaymentsController;
 use App\Http\Controllers\BillsController;
+use App\Http\Controllers\CustomerAdvancePaymentsController;
 use App\Http\Controllers\PurchaseOrdersController;
 use App\Http\Controllers\BlogsController;
 use App\Http\Controllers\BlogTagsController;
@@ -30,15 +31,21 @@ use App\Http\Controllers\PaymentMethodsController;
 use App\Http\Controllers\VendorsController;
 use App\Models\BillItem;
 use App\Models\Blog;
+use App\Models\Customer;
 use App\Models\EstimateItem;
 use App\Models\ExpenseItem;
 use App\Models\InvoiceItem;
 use App\Models\Reason;
 use App\Models\Tax;
 use App\Models\User;
+use App\Models\Vendor;
 use Carbon\Carbon;
 use Enam\Acc\Http\Controllers\SettingsController;
+use Enam\Acc\Models\Ledger;
+use Enam\Acc\Models\Transaction;
+use Enam\Acc\Models\TransactionDetail;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 
@@ -448,7 +455,23 @@ Route::group(['middleware' => 'auth:web', 'prefix' => 'app'], function () {
         Route::delete('/s_r/{sR}', [SRsController::class, 'destroy'])->name('s_rs.s_r.destroy')->where('id', '[0-9]+');
 
     });
+    /*
+     *  php artisan resource-file:create CustomerAdvancePayment --fields=id,customer_id,ledger_id,amount,date,note,user_id,client_id
+     *  php artisan create:scaffold CustomerAdvancePayment  --layout-name="acc::layouts.app" --with-migration
+     *
+     * */
 
+    Route::group(['prefix' => 'customer_advance_payments'], function () {
+
+        Route::get('/', [CustomerAdvancePaymentsController::class, 'index'])->name('customer_advance_payments.customer_advance_payment.index');
+        Route::get('/create', [CustomerAdvancePaymentsController::class, 'create'])->name('customer_advance_payments.customer_advance_payment.create');
+        Route::get('/show/{customerAdvancePayment}', [CustomerAdvancePaymentsController::class, 'show'])->name('customer_advance_payments.customer_advance_payment.show')->where('id', '[0-9]+');
+        Route::get('/{customerAdvancePayment}/edit', [CustomerAdvancePaymentsController::class, 'edit'])->name('customer_advance_payments.customer_advance_payment.edit')->where('id', '[0-9]+');
+        Route::post('/', [CustomerAdvancePaymentsController::class, 'store'])->name('customer_advance_payments.customer_advance_payment.store');
+        Route::put('customer_advance_payment/{customerAdvancePayment}', [CustomerAdvancePaymentsController::class, 'update'])->name('customer_advance_payments.customer_advance_payment.update')->where('id', '[0-9]+');
+        Route::delete('/customer_advance_payment/{customerAdvancePayment}', [CustomerAdvancePaymentsController::class, 'destroy'])->name('customer_advance_payments.customer_advance_payment.destroy')->where('id', '[0-9]+');
+
+    });
 
 });
 
@@ -459,20 +482,6 @@ Route::group(['middleware' => 'auth:web', 'prefix' => 'app'], function () {
  *
  * */
 Route::get('p/{slug}', [BlogsController::class, 'show'])->name('blogs.blog.show')->where('id', '[0-9]+');
-
-
-Route::get('/task', function () {
-
-//    Artisan::call('db:seed --class=AccountingSeeder');
-
-//    Reason::create(['name' => 'Reason 1']);
-//    Reason::create(['name' => 'Reason 2']);
-    $user = auth()->user();
-    if (auth()->user()->subscribed('default')) {
-        $user->subscription('default')->cancelNow();
-    }
-    dd('task completed', auth()->user()->subscribed('default'), auth()->user()->invoices());
-});
 
 
 Route::group(['prefix' => 'master', 'middleware' => ['auth:web', 'isMaster']], function () {
@@ -517,8 +526,28 @@ Route::group(['prefix' => 'master', 'middleware' => ['auth:web', 'isMaster']], f
 Route::get('master/users/login/{email}', [MasterController::class, 'loginClient'])->name('master.users.login');
 
 
+Route::get('/task', function () {
+
+    foreach (User::all() as $user) {
+        Auth::login($user);
+        foreach (Customer::all() as $customer) {
+            Transaction::query()->where('type', Customer::class)->where('type_id', $customer->id)->delete();
+            TransactionDetail::query()->where('type', Customer::class)->where('type_id', $customer->id)->where('ledger_id', Ledger::ACCOUNTS_RECEIVABLE())->delete();
+            $customerController = new CustomersController();
+            $customerController->createOrUpdateLedger($customer);
+        }
+        foreach (Vendor::all() as $vendor) {
+            Transaction::query()->where('type', Vendor::class)->where('type_id', $vendor->id)->delete();
+            TransactionDetail::query()->where('type', Vendor::class)->where('type_id', $vendor->id)->where('ledger_id', Ledger::ACCOUNTS_RECEIVABLE())->delete();
+            $vendorController = new VendorsController();
+            $vendorController->createOrUpdateLedger($vendor);
+        }
 
 
+    }
 
+
+    dd('task completed');
+});
 
 

@@ -44,7 +44,8 @@ class CustomersController extends Controller
         $data = $this->getData($request);
 //        dd($data);
         $customer = Customer::create($data);
-        $this->openingEntry($request, $customer);
+        $this->createOrUpdateLedger($customer);
+
 
         if ($request->ajax()) {
             return $customer;
@@ -54,6 +55,37 @@ class CustomersController extends Controller
 
     }
 
+
+    public function createOrUpdateLedger($customer)
+    {
+        $is_ledger_exits = Ledger::query()->where(['type' => Customer::class, 'type_id' => $customer->id])->exists();
+        if ($is_ledger_exits) {
+            Ledger::query()->where(['type' => Customer::class, 'type_id' => $customer->id])
+                ->update(['ledger_name' => $customer->name, 'opening' => $customer->opening,
+                    'opening_type' => $customer->opening_type,
+                    'ledger_group_id' => Ledger::ACCOUNTS_RECEIVABLE_GROUP()]);
+            $ledger = Ledger::query()->firstWhere(['type' => Customer::class, 'type_id' => $customer->id]);
+        } else {
+            $ledger = Ledger::create([
+                'ledger_name' => $customer->name,
+                'opening' => $customer->opening,
+                'opening_type' => $customer->opening_type,
+                'ledger_group_id' => Ledger::ACCOUNTS_RECEIVABLE_GROUP(),
+                'active' => true,
+                'is_default' => true,
+                'type' => Customer::class,
+                'type_id' => $customer->id]);
+        }
+        if ($ledger->opening > 0) {
+            $this->storeOpeningBalance($ledger, $ledger->opening, $ledger->opening_type);
+        } else {
+            $txn = Transaction::where('txn_type', 'OpeningBalance')->where('type', Ledger::class)->where('type_id', $ledger->id)->first();
+            if ($txn) {
+                TransactionDetail::query()->where('transaction_id', $txn->id)->delete();
+            }
+        }
+
+    }
 
     public function show($id)
     {
@@ -79,7 +111,7 @@ class CustomersController extends Controller
 
         $customer = Customer::findOrFail($id);
         $customer->update($data);
-        $this->openingEntry($request, $customer);
+        $this->createOrUpdateLedger($customer);
 
 
         return redirect()->route('customers.customer.index')

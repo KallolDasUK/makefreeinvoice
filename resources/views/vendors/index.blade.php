@@ -63,8 +63,8 @@
                         <th>SL</th>
                         <th>Name</th>
                         <th>Phone</th>
-                        <th>Email</th>
                         <th>Payables</th>
+                        <th>Advance</th>
                         <th></th>
                     </tr>
                     </thead>
@@ -75,17 +75,13 @@
                             <td><a
                                     data-toggle="tooltip" data-placement="top" title="Vendor Statement"
                                     href="{{ route('reports.report.vendor_statement',['vendor_id'=>$vendor->id]) }}">{{ $vendor->name }}</a>
+                                <br>
+                                <p style="font-size: 14px">{{ $vendor->email }}</p>
                             </td>
                             <td>{{ $vendor->phone }}</td>
-                            <td>{{ $vendor->email }}</td>
-                            <td>
 
-                                @if($vendor->payables > 0)
-                                    {{ $settings->currency??'$' }}{{ abs($vendor->payables) }}
-                                @else
-                                    -
-                                @endif
-                            </td>
+                            <td class="text-center">{{ decent_format_dash_if_zero($vendor->payables) }}</td>
+                            <td class="text-center">{{ decent_format_dash_if_zero($vendor->advance) }}</td>
 
 
                             <td>

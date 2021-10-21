@@ -64,8 +64,8 @@
                         <th>SL</th>
                         <th>Name</th>
                         <th>Phone</th>
-                        <th>Email</th>
                         <th>RECEIVABLES</th>
+                        <th>Advance</th>
                         <th></th>
                     </tr>
                     </thead>
@@ -77,20 +77,13 @@
                                 <a class="customer_statement"
                                    data-toggle="tooltip" data-placement="top" title="Customer Statement"
                                    href="{{ route('reports.report.customer_statement',['customer_id'=>$customer->id]) }}">{{ $customer->name }}</a>
+                                <br>
+                                <p style="font-size: 14px">{{ $customer->email }}</p>
                             </td>
-                            <td>{{ $customer->phone }}</td>
-                            <td>{{ $customer->email }}</td>
-                            <td>
+                            <td>{{ $customer->phone??'-' }}</td>
 
-                                @if($customer->receivables > 0)
-                                    {{ $settings->currency??'$' }}{{ abs($customer->receivables) }}
-{{--                                @elseif($customer->receivables<0)--}}
-{{--                                    {{ $settings->currency??'$' }}{{ abs($customer->receivables) }}(Advance)--}}
-                                @else
-                                    -
-                                @endif
-
-                            </td>
+                            <td class="text-center">{{ decent_format_dash_if_zero($customer->receivables) }}</td>
+                            <td class="text-center">{{ decent_format_dash_if_zero($customer->advance) }}</td>
 
                             <td>
 

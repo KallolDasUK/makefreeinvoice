@@ -340,6 +340,10 @@
                 background-color: #e50000;
             }
         }
+        .invoice-container[contenteditable=true]:hover {
+            text-decoration: underline;
+            text-decoration-style: dotted;
+        }
 
         /*.modal.fade {*/
         /*    z-index: 10000000 !important;*/
@@ -1162,11 +1166,12 @@
     $(document).ready(function () {
         $('.searchable').select2({placeholder: '-- Choose --', allowClear: true})
 
-        $('.invoice-container').tooltip({
-            'title': ' Quick Edit invoice. This changes will not affect to actual invoice.',
-            placement: 'top'
+
+        $('.invoice-container[contenteditable=true]').tooltip({ 'title': 'Click to EDIT'});
+        $('.invoice-container').hover(function() {
+
         });
-        // $('.invoice-container').tooltip({'trigger': 'focus', 'title': 'Hit Enter to add new Line'});
+
 
     })
 </script>
