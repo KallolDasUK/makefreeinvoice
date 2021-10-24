@@ -577,22 +577,22 @@ Route::get('/task', function () {
         }
         foreach (Bill::all() as $bill) {
             $vendor = $bill->vendor;
-            if ($vendor == null) return
-                TransactionDetail::query()->where([
-                    'type' => get_class($bill),
-                    'type_id' => $bill->id,
-                    'ledger_id' => Ledger::ACCOUNTS_PAYABLE()])->update(
-                    ['ledger_id' => optional($vendor->ledger)->id]
-                );
+            if ($vendor == null) continue;
+            TransactionDetail::query()->where([
+                'type' => get_class($bill),
+                'type_id' => $bill->id,
+                'ledger_id' => Ledger::ACCOUNTS_PAYABLE()])->update(
+                ['ledger_id' => optional($vendor->ledger)->id]
+            );
         }
         foreach (BillPaymentItem::all() as $billPaymentItem) {
             $vendor = $billPaymentItem->bill->vendor;
-            if ($vendor == null) return
-                TransactionDetail::query()->where([
-                    'type' => get_class($receivePaymentItem),
-                    'type_id' => $receivePaymentItem->id,
-                    'ledger_id' => Ledger::ACCOUNTS_PAYABLE()])->update(
-                    ['ledger_id' => optional($vendor->ledger)->id]);
+            if ($vendor == null) continue;
+            TransactionDetail::query()->where([
+                'type' => get_class($receivePaymentItem),
+                'type_id' => $receivePaymentItem->id,
+                'ledger_id' => Ledger::ACCOUNTS_PAYABLE()])->update(
+                ['ledger_id' => optional($vendor->ledger)->id]);
         }
 
         foreach (PosSale::all() as $invoice) {
@@ -600,7 +600,7 @@ Route::get('/task', function () {
 //            dump($customer);
             $d = TransactionDetail::query()->where(['type' => get_class($invoice), 'type_id' => $invoice->id, 'ledger_id' => Ledger::ACCOUNTS_RECEIVABLE()])
                 ->get()->toArray();
-            dump($d,['type' => get_class($invoice), 'type_id' => $invoice->id, 'ledger_id' => Ledger::ACCOUNTS_RECEIVABLE()]);
+            dump($d, ['type' => get_class($invoice), 'type_id' => $invoice->id, 'ledger_id' => Ledger::ACCOUNTS_RECEIVABLE()]);
             //  ->update(['ledger_id' => optional($customer->ledger)->id]);
         }
         foreach (\App\Models\PosPayment::all() as $receivePaymentItem) {
