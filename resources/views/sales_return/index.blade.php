@@ -212,14 +212,14 @@
                                     </span>
                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
 
-                                            <a href="{{ route('sales_returns.sales_return.edit',$invoice->id) }}"
+                                            <a href="{{ route('sales_returns.sales_return.edit',$invoice->id??-1) }}"
                                                class="dropdown-item btn">
                                                 <span class="fa fa-pencil-alt mx-4"></span> <strong>Edit</strong>
                                             </a>
 
 
                                             <form method="POST"
-                                                  action="{!! route('sales_returns.sales_return.destroy', $invoice->id) !!}">
+                                                  action="{!! route('sales_returns.sales_return.destroy', $invoice->id??-1) !!}">
                                                 {{ csrf_field() }}
                                                 <button class="dropdown-item "
                                                         onclick="return confirm('Click Ok to delete Invoice')">
