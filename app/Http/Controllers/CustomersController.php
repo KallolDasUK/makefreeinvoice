@@ -27,9 +27,9 @@ class CustomersController extends Controller
                 return $builder->where('name', 'like', '%' . $q . '%')->orWhere('phone', 'like', '%' . $q . '%')->orWhere('email', 'like', '%' . $q . '%');
             })->paginate(10);
 
-        $totalCustomers = count(Customer::all());
-        $totalAdvance = Customer::all()->sum('advance');
-        $totalReceivables = Customer::all()->sum('receivables');
+        $totalCustomers = $customers->total();
+        $totalAdvance = Customer::query()->get()->sum('advance');
+        $totalReceivables = Customer::query()->get()->sum('receivables');
 
         return view('customers.index', compact('customers', 'q', 'totalAdvance', 'totalCustomers', 'totalReceivables'));
     }
