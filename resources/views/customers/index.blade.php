@@ -19,7 +19,7 @@
         <div class="card-header">
 
             <div class="row">
-                <div class="row col-8">
+                <div class="row col d-none">
                     <div class="card col ">
                         <div class="py-4 text-center">
                             <h3>{{ $totalCustomers??0 }}</h3>
@@ -50,9 +50,9 @@
                         </a>
 
                     </div>
-                    <div class="clearfix"></div>
+{{--                    <div class="clearfix"></div>--}}
                     <a  href="{{ route('customer_advance_payments.customer_advance_payment.index') }}"
-                        class="btn btn-secondary font-weight-bolder font-size-sm float-right mt-2" title="Create New Customer">
+                        class="btn btn-secondary font-weight-bolder font-size-sm float-right mx-2" title="Create New Customer">
                         <i class="fa fa-money-bill" aria-hidden="true"></i>
                         Advance Payments
                     </a>

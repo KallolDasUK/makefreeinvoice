@@ -27,15 +27,15 @@ class CustomersController extends Controller
                 return $builder->where('name', 'like', '%' . $q . '%')->orWhere('phone', 'like', '%' . $q . '%')->orWhere('email', 'like', '%' . $q . '%');
             })->paginate(10);
 
-        $totalCustomers = $customers->total();
+        $totalCustomers = 0;
         $totalAdvance = 0;
         $totalReceivables = 0;
-        $ctrs = Customer::query()->get();
-        foreach ($ctrs as $customer) {
-//            dd($customer);
-            $totalAdvance += $customer->advance;
-            $totalReceivables += $customer->receivables;
-        }
+//        $ctrs = Customer::query()->get();
+//        foreach ($ctrs as $customer) {
+////            dd($customer);
+//            $totalAdvance += $customer->advance;
+//            $totalReceivables += $customer->receivables;
+//        }
 
         return view('customers.index', compact('customers', 'q', 'totalAdvance', 'totalCustomers', 'totalReceivables'));
     }
