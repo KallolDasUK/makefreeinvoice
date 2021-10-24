@@ -167,7 +167,7 @@
 
                                 </td>
                                 <td>
-                                    <a href="{{ route('sales_returns.sales_return.show',$invoice->id) }}"
+                                    <a href="{{ route('sales_returns.sales_return.show',$invoice->id??-1) }}"
                                        class="text-dark-75 font-weight-bolder d-block font-size-lg invoice_number">{{ optional($invoice->customer)->name }}</a>
                                     <span
                                         class="text-muted font-weight-bold">{{ optional($invoice->customer)->email }}</span>
