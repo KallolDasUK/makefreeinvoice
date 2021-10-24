@@ -72,7 +72,7 @@ class ReceivePaymentsController extends Controller
         if ($request->has('previous_due')) {
             $customer = Customer::find($request->customer_id);
             $previous_due = $request->previous_due;
-            AccountingFacade::addTransaction($rp->deposit_to, Ledger::ACCOUNTS_RECEIVABLE(),
+            AccountingFacade::addTransaction($rp->deposit_to, optional($customer->ledger)->id,
                 $previous_due, $request->note, $rp->payment_date, "Customer Payment", Customer::class, $rp->customer_id, $rp->payment_sl, $customer->name);
 
         }

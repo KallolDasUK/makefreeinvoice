@@ -6,7 +6,6 @@
 
         <div class="card-header">
 
-            <h5 class="my-1 float-left">Create New Customer</h5>
 
             <div class="btn-group btn-group-sm float-right" role="group">
                 <a href="{{ route('customers.customer.index') }}" class="btn btn-primary" title="Show All Customer">

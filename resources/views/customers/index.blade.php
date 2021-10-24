@@ -18,15 +18,47 @@
 
         <div class="card-header">
 
-            <h3 class="my-1 float-left">Customers</h3>
+            <div class="row">
+                <div class="row col-8">
+                    <div class="card col ">
+                        <div class="py-4 text-center">
+                            <h3>{{ $totalCustomers??0 }}</h3>
+                            <h5> Customers</h5>
+                        </div>
+                    </div>
+                    <div class="card col mx-2">
+                        <div class="py-4 text-center">
+                            <h3>{{ decent_format_dash_if_zero($totalReceivables) }}</h3>
+                            <h5> Receivables</h5>
+                        </div>
+                    </div>
+                    <div class="card col">
+                        <div class="py-4 text-center">
 
-            <div class="btn-group btn-group-sm float-right" role="group">
-                <a style="font-size: 16px" href="{{ route('customers.customer.create') }}"
-                   class="btn btn-success btn-lg font-weight-bolder font-size-sm" title="Create New Customer">
-                    <i class="fas fa-fw fa-plus" aria-hidden="true"></i>
-                    Create New Customer
-                </a>
+                            <h3>{{ decent_format_dash_if_zero($totalAdvance) }}</h3>
+                            <h5> Advance </h5>
+                           </div>
+                    </div>
+                </div>
+
+                <div class="col">
+                    <div class="btn-group btn-group-sm float-right" role="group">
+                        <a style="font-size: 16px" href="{{ route('customers.customer.create') }}"
+                           class="btn btn-success btn-lg font-weight-bolder font-size-sm" title="Create New Customer">
+                            <i class="fas fa-fw fa-plus" aria-hidden="true"></i>
+                            New Customer
+                        </a>
+
+                    </div>
+                    <div class="clearfix"></div>
+                    <a  href="{{ route('customer_advance_payments.customer_advance_payment.index') }}"
+                        class="btn btn-secondary font-weight-bolder font-size-sm float-right mt-2" title="Create New Customer">
+                        <i class="fa fa-money-bill" aria-hidden="true"></i>
+                        Advance Payments
+                    </a>
+                </div>
             </div>
+
 
         </div>
 
@@ -72,7 +104,7 @@
                     <tbody class="font-weight-bolder" style="font-size: 14px">
                     @foreach($customers as $customer)
                         <tr>
-                            <td>{{ (($customers->currentPage() - 1) * 10) + $loop->iteration }}</td>
+                            <td>{{ (($customers->currentPage() - 1) * $customers->perPage()) + $loop->iteration }}</td>
                             <td>
                                 <a class="customer_statement"
                                    data-toggle="tooltip" data-placement="top" title="Customer Statement"
@@ -85,34 +117,57 @@
                             <td class="text-center">{{ decent_format_dash_if_zero($customer->receivables) }}</td>
                             <td class="text-center">{{ decent_format_dash_if_zero($customer->advance) }}</td>
 
-                            <td>
+                            <td class="pr-0 text-right">
 
-                                <form method="POST"
-                                      action="{!! route('customers.customer.destroy', $customer->id) !!}"
-                                      accept-charset="UTF-8">
-                                    <input name="_method" value="DELETE" type="hidden">
-                                    {{ csrf_field() }}
 
-                                    <div class="btn-group btn-group-sm float-right " role="group">
-                                        <a style="text-decoration: underline"
-                                           class="{{ $customer->receivables>0?'':'d-none' }} font-weight-bolder text-success  font-size-lg underline  text-hover-danger cursor-pointer mx-4 recordPaymentBtn"
-                                           href="{{ route('receive_payments.receive_payment.create',['customer_id'=>$customer->id]) }}"
-                                        > Receive Payment</a>
+                                <div class="btn-group btn-group-sm  " role="group">
+                                    <a style="text-decoration: underline"
+                                       class="{{ $customer->receivables>0?'':'d-none' }} font-weight-bolder text-success  font-size-lg underline  text-hover-danger cursor-pointer mx-4 recordPaymentBtn"
+                                       href="{{ route('receive_payments.receive_payment.create',['customer_id'=>$customer->id]) }}"
+                                    > Receive Payment</a>
 
-                                        <a href="{{ route('customers.customer.edit', $customer->id ) }}"
-                                           class="btn btn-outline-secondary mx-4" title="Edit Customer">
-                                            <i class="fas fa-edit text-primary" aria-hidden="true"></i>
+                                </div>
+
+                                <div class="dropdown d-inline dropleft">
+                                    <span class=" dropdown-toggle mr-4 " type="button" style="font-size: 25px"
+                                          id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                                          aria-expanded="false">
+                                        <svg
+                                            style="height: 35px;width: 35px"
+                                            aria-hidden="true" focusable="false" data-prefix="far"
+                                            data-icon="caret-circle-down" role="img" xmlns="http://www.w3.org/2000/svg"
+                                            viewBox="0 0 512 512"
+                                            class="svg-inline--fa fa-caret-circle-down fa-w-16 fa-3x"><path
+                                                fill="currentColor"
+                                                d="M157.1 216h197.8c10.7 0 16.1 13 8.5 20.5l-98.9 98.3c-4.7 4.7-12.2 4.7-16.9 0l-98.9-98.3c-7.7-7.5-2.3-20.5 8.4-20.5zM504 256c0 137-111 248-248 248S8 393 8 256 119 8 256 8s248 111 248 248zm-48 0c0-110.5-89.5-200-200-200S56 145.5 56 256s89.5 200 200 200 200-89.5 200-200z"
+                                                class=""></path></svg>
+                                    </span>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        <a href="{{ route('customer_advance_payments.customer_advance_payment.create',['customer_id'=>$customer->id]) }}"
+                                           class="dropdown-item btn  align-items-center">
+                                            <span class="fa fa-money-bill mx-4"></span> <strong> Make Advance
+                                                Payment</strong>
+                                        </a>
+                                        <a href="{{ route('customers.customer.edit',$customer->id) }}"
+                                           class="dropdown-item btn">
+                                            <span class="fa fa-pencil-alt mx-4"></span> <strong>Edit</strong>
                                         </a>
 
-                                        <button type="submit" class="btn btn-outline-secondary"
-                                                title="Delete Customer"
-                                                onclick="return confirm(&quot;Click Ok to delete Customer.&quot;)">
-                                            <i class=" fas  fa-trash text-danger" aria-hidden="true"></i>
-                                        </button>
+
+                                        <form method="POST"
+                                              action="{!! route('customers.customer.destroy', $customer->id) !!}">
+                                            {{ csrf_field() }}
+                                            <button class="dropdown-item "
+                                                    onclick="return confirm('Click Ok to delete Customer')">
+                                                @method('DELETE')
+                                                <span class="fa fa-trash-alt mx-4 text-danger"></span>
+                                                <span>
+                                                    <strong>Delete</strong>
+                                                </span>
+                                            </button>
+                                        </form>
                                     </div>
-
-                                </form>
-
+                                </div>
                             </td>
                         </tr>
                     @endforeach

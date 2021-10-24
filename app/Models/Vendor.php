@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Http\Controllers\VendorsController;
 use Enam\Acc\Models\Ledger;
 use Enam\Acc\Models\TransactionDetail;
 use Enam\Acc\Utils\EntryType;
@@ -62,40 +63,12 @@ class Vendor extends Model
 {
 
 
-    /**
-     * The database table used by the model.
-     *
-     * @var string
-     */
     protected $table = 'vendors';
 
-    /**
-     * The database primary key value.
-     *
-     * @var string
-     */
-    protected $primaryKey = 'id';
 
-    /**
-     * Attributes that should be mass-assignable.
-     *
-     * @var array
-     */
     protected $guarded = [];
+    protected $appends = ['payables', 'advance'];
 
-    /**
-     * The attributes that should be mutated to dates.
-     *
-     * @var array
-     */
-    protected $dates = [];
-
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
-    protected $casts = [];
 
     protected static function boot()
     {
@@ -139,9 +112,14 @@ class Vendor extends Model
     public function getLedgerAttribute()
     {
 
-        return Ledger::query()->where('type', Vendor::class)
+        $ledger = Ledger::query()->where('type', Vendor::class)
             ->where('type_id', $this->id)
             ->first();
+        if ($ledger == null) {
+            $vendorController = new VendorsController();
+            $ledger = $vendorController->createOrUpdateLedger($this);
+        }
+        return $ledger;
     }
 
     public function getAdvanceAttribute()

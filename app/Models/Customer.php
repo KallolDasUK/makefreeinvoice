@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Http\Controllers\CustomersController;
+use App\Http\Controllers\VendorsController;
 use Enam\Acc\Models\Ledger;
 use Enam\Acc\Models\TransactionDetail;
 use Enam\Acc\Utils\EntryType;
@@ -64,6 +66,7 @@ class Customer extends Model
     const WALK_IN_CUSTOMER = "Walk In Customer";
 
     protected $guarded = [];
+    protected $appends = ['advance', 'receivables'];
 
     public function getAddressAttribute()
     {
@@ -81,12 +84,23 @@ class Customer extends Model
         });
     }
 
+    public static function WALKING_CUSTOMER()
+    {
+        return self::query()->firstOrCreate(['name' => self::WALK_IN_CUSTOMER], ['name' => self::WALK_IN_CUSTOMER]);
+    }
 
     public function getLedgerAttribute()
     {
-        return Ledger::query()->where('type', Customer::class)
+        $ledger = Ledger::query()->where('type', Customer::class)
             ->where('type_id', $this->id)
             ->first();
+
+        if ($ledger == null) {
+            $customerController = new CustomersController();
+            $ledger = $customerController->createOrUpdateLedger($this);
+        }
+
+        return $ledger;
     }
 
     public function getPreviousDueAttribute()

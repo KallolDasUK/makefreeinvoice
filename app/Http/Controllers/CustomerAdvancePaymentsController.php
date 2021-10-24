@@ -18,18 +18,19 @@ class CustomerAdvancePaymentsController extends Controller
 
     public function index()
     {
-        $customerAdvancePayments = CustomerAdvancePayment::with('customer', 'ledger')->paginate(25);
+        $customerAdvancePayments = CustomerAdvancePayment::with('customer', 'ledger')->latest()->paginate(25);
 
         return view('customer_advance_payments.index', compact('customerAdvancePayments'));
     }
 
 
-    public function create()
+    public function create(Request $request)
     {
         $customers = Customer::pluck('name', 'id')->all();
         $ledgers = Ledger::pluck('ledger_name', 'id')->all();
+        $customer_id = $request->customer_id;
 
-        return view('customer_advance_payments.create', compact('customers', 'ledgers'));
+        return view('customer_advance_payments.create', compact('customers', 'ledgers', 'customer_id'));
     }
 
 

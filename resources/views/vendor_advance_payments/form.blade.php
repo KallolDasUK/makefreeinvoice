@@ -2,24 +2,22 @@
     <div class="col">
         <div class="form-group">
             <div class="col">
-                <label for="customer_id">Customer</label>
+                <label for="vendor_id">Vendor</label>
                 <span class="text-danger font-bolder">*</span>
-
-
-                <select class="form-control searchable" id="customer_id" name="customer_id">
+                <select class="form-control searchable" id="vendor_id" name="vendor_id">
                     <option value="" style="display: none;"
-                            {{ old('customer_id', optional($customerAdvancePayment)->customer_id ?: '') == '' ? 'selected' : '' }} disabled
-                            selected>Select customer
+                            {{ old('vendor_id', optional($vendorAdvancePayment)->vendor_id ?: '') == '' ? 'selected' : '' }} disabled
+                            selected>Select vendor
                     </option>
-                    @foreach ($customers as $key => $customer)
+                    @foreach ($vendors as $key => $vendor)
                         <option
-                            value="{{ $key }}" {{ old('customer_id', optional($customerAdvancePayment)->customer_id) == $key ? 'selected' : '' }}>
-                            {{ $customer }}
+                            value="{{ $key }}" {{ old('vendor_id', optional($vendorAdvancePayment)->vendor_id) == $key ? 'selected' : '' }}>
+                            {{ $vendor }}
                         </option>
                     @endforeach
                 </select>
 
-                {!! $errors->first('customer_id', '<p class="form-text text-danger">:message</p>') !!}
+                {!! $errors->first('vendor_id', '<p class="form-text text-danger">:message</p>') !!}
 
             </div>
         </div>
@@ -32,13 +30,13 @@
                 <span class="text-danger font-bolder">*</span>
                 <select class="form-control searchable" id="ledger_id" name="ledger_id">
                     <option value="" style="display: none;"
-                            {{ old('ledger_id', optional($customerAdvancePayment)->ledger_id ?: '') == '' ? 'selected' : '' }} disabled
+                            {{ old('ledger_id', optional($vendorAdvancePayment)->ledger_id ?: '') == '' ? 'selected' : '' }} disabled
                             selected>Select ledger
                     </option>
                     @foreach ($ledgers as $key => $ledger)
                         <option
-                            value="{{ $key }}" {{ old('ledger_id', optional($customerAdvancePayment)->ledger_id) == $key ? 'selected' : '' }}
-                        @if($customerAdvancePayment==null) {{ $key==\Enam\Acc\Models\Ledger::CASH_AC()?'selected':'' }} @endif
+                            value="{{ $key }}" {{ old('ledger_id', optional($vendorAdvancePayment)->ledger_id) == $key ? 'selected' : '' }}
+                        @if($vendorAdvancePayment==null) {{ $key==\Enam\Acc\Models\Ledger::CASH_AC()?'selected':'' }} @endif
                         >
                             {{ $ledger }}
                         </option>
@@ -58,8 +56,10 @@
                 <label for="amount">Amount</label>
                 <span class="text-danger font-bolder">*</span>
                 <input class="form-control  {{ $errors->has('amount') ? 'is-invalid' : '' }}" name="amount"
-                       type="number" step="any"
-                       id="amount" value="{{ old('amount', optional($customerAdvancePayment)->amount) }}" minlength="1">
+                       type="number"
+                       step="any"
+                       id="amount" value="{{ old('amount', optional($vendorAdvancePayment)->amount) }}"
+                       placeholder="Enter amount here...">
 
                 {!! $errors->first('amount', '<p class="form-text text-danger">:message</p>') !!}
 
@@ -70,10 +70,11 @@
         <div class="form-group">
             <div class="col">
                 <label for="date">Date</label>
+
                 <span class="text-danger font-bolder">*</span>
                 <input class="form-control  {{ $errors->has('date') ? 'is-invalid' : '' }}" name="date" type="date"
                        id="date"
-                       value="{{ old('date', optional($customerAdvancePayment)->date)??today()->toDateString() }}"
+                       value="{{ old('date', optional($vendorAdvancePayment)->date)??today()->toDateString() }}"
                        minlength="1">
 
                 {!! $errors->first('date', '<p class="form-text text-danger">:message</p>') !!}
@@ -90,7 +91,7 @@
 
 
         <textarea class="form-control" name="note" cols="10" rows="2" id="note" minlength="1"
-                  maxlength="1000">{{ old('note', optional($customerAdvancePayment)->note) }}</textarea>
+                  maxlength="1000">{{ old('note', optional($vendorAdvancePayment)->note) }}</textarea>
         {!! $errors->first('note', '<p class="form-text text-danger">:message</p>') !!}
 
     </div>

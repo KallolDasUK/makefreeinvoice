@@ -20,19 +20,27 @@ class CustomersController extends Controller
 
     public function index(Request $request)
     {
+        view()->share('title', 'Customers');
         $q = $request->q;
         $customers = Customer::query()
             ->when($q != null, function ($builder) use ($q) {
                 return $builder->where('name', 'like', '%' . $q . '%')->orWhere('phone', 'like', '%' . $q . '%')->orWhere('email', 'like', '%' . $q . '%');
             })
-            ->latest()
-            ->paginate(10);
-        return view('customers.index', compact('customers', 'q'));
+            ->latest();
+
+        $totalCustomers = count($customers->get());
+        $totalAdvance = $customers->get()->sum('advance');
+        $totalReceivables = $customers->get()->sum('receivables');
+
+        $customers = $customers->paginate(10);
+        return view('customers.index', compact('customers', 'q', 'totalAdvance', 'totalCustomers', 'totalReceivables'));
     }
 
 
     public function create()
     {
+        view()->share('title', 'Create Customer');
+
         return view('customers.create');
     }
 
@@ -84,6 +92,7 @@ class CustomersController extends Controller
                 TransactionDetail::query()->where('transaction_id', $txn->id)->delete();
             }
         }
+        return $ledger;
 
     }
 
@@ -120,25 +129,7 @@ class CustomersController extends Controller
     }
 
 
-    public function openingEntry($request, $customer)
-    {
-        Transaction::query()->where('type', Customer::class)->where('type_id', $customer->id)->delete();
-        TransactionDetail::query()->where('type', Customer::class)->where('type_id', $customer->id)->where('ledger_id', Ledger::ACCOUNTS_RECEIVABLE())->delete();
 
-//        dd($txn);
-        if ($request->opening > 0) {
-            $dr = null;
-            $cr = null;
-            if ($request->opening_type == 'Cr') {
-                $cr = Ledger::ACCOUNTS_RECEIVABLE();
-            } else {
-                $dr = Ledger::ACCOUNTS_RECEIVABLE();
-
-            }
-            AccountingFacade::addTransaction($dr, $cr,
-                $request->opening, "Opening Balance Of " . $customer->name, today()->toDateString(), "Opening Balance", Customer::class, $customer->id, "Opening", $customer->name);
-        }
-    }
 
     public function destroy($id)
     {

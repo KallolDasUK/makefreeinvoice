@@ -73,13 +73,15 @@ class ClientUserIdProvider extends ServiceProvider
             'purchase_orders',
             'purchase_order_items',
             'purchase_order_extra_fields',
-            'sales_return',
+            'sales_returns',
             'sales_return_items',
             'sales_return_extra_fields',
-            'purchase_return',
+            'purchase_returns',
             'purchase_return_items',
             'purchase_return_extras',
-            's_rs'
+            's_rs',
+            'customer_advance_payments',
+            'vendor_advance_payments'
         ];
         foreach ($saasTable as $tableName) {
             $className = '\\App\\Models\\' . Str::studly(Str::singular($tableName));
@@ -93,7 +95,7 @@ class ClientUserIdProvider extends ServiceProvider
                     $model->user_id = auth()->id();
                     $model->client_id = auth()->user()->client_id;
                 } catch (\Exception $exception) {
-                    dump($className);
+//                    dump($className);
                 }
             });
 

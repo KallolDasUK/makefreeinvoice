@@ -18,21 +18,21 @@
 
         <div class="card-header">
 
-            <h5 class="my-1 float-left">Customer Advance Payments</h5>
+            <h5 class="my-1 float-left">Vendor Advance Payments</h5>
 
             <div class="btn-group btn-group-sm float-right" role="group">
-                <a href="{{ route('customer_advance_payments.customer_advance_payment.create') }}"
-                   class="btn btn-success" title="Create New Customer Advance Payment">
+                <a href="{{ route('vendor_advance_payments.vendor_advance_payment.create') }}" class="btn btn-success"
+                   title="Create New Vendor Advance Payment">
                     <i class="fas fa-fw fa-plus" aria-hidden="true"></i>
-                    Create New Customer Advance Payment
+                    Create New Vendor Advance Payment
                 </a>
             </div>
 
         </div>
 
-        @if(count($customerAdvancePayments) == 0)
+        @if(count($vendorAdvancePayments) == 0)
             <div class="card-body text-center">
-                <h4>No Customer Advance Payments Available.</h4>
+                <h4>No Vendor Advance Payments Available.</h4>
             </div>
         @else
             <div class="card-body">
@@ -42,7 +42,7 @@
                         <thead>
                         <tr>
                             <th>SL</th>
-                            <th>Customer</th>
+                            <th>Vendor</th>
                             <th>Payment Method</th>
                             <th>Amount</th>
                             <th>Date</th>
@@ -51,36 +51,33 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach($customerAdvancePayments as $customerAdvancePayment)
+                        @foreach($vendorAdvancePayments as $vendorAdvancePayment)
                             <tr>
-                                <td>{{ (($customerAdvancePayments->currentPage() - 1) * $customerAdvancePayments->perPage()) + $loop->iteration }}</td>
+                                <td>{{ (($vendorAdvancePayments->currentPage() - 1) * $vendorAdvancePayments->perPage()) + $loop->iteration }}</td>
 
-                                <td>{{ optional($customerAdvancePayment->customer)->name }}</td>
-                                <td>{{ optional($customerAdvancePayment->ledger)->ledger_name }}</td>
-                                <td>{{ $customerAdvancePayment->amount }}</td>
-                                <td>{{ $customerAdvancePayment->date }}</td>
+                                <td>{{ optional($vendorAdvancePayment->vendor)->name }}</td>
+                                <td>{{ optional($vendorAdvancePayment->ledger)->ledger_name }}</td>
+                                <td>{{ $vendorAdvancePayment->amount }}</td>
+                                <td>{{ $vendorAdvancePayment->date }}</td>
 
                                 <td>
 
                                     <form method="POST"
-                                          action="{!! route('customer_advance_payments.customer_advance_payment.destroy', $customerAdvancePayment->id) !!}"
+                                          action="{!! route('vendor_advance_payments.vendor_advance_payment.destroy', $vendorAdvancePayment->id) !!}"
                                           accept-charset="UTF-8">
                                         <input name="_method" value="DELETE" type="hidden">
                                         {{ csrf_field() }}
 
                                         <div class="btn-group btn-group-sm float-right " role="group">
-                                            <a href="{{ route('customer_advance_payments.customer_advance_payment.show', $customerAdvancePayment->id ) }}"
-                                               title="Show Customer Advance Payment">
-                                                <i class="fa fa-eye text-info" aria-hidden="true"></i>
-                                            </a>
-                                            <a href="{{ route('customer_advance_payments.customer_advance_payment.edit', $customerAdvancePayment->id ) }}"
-                                               class="mx-4" title="Edit Customer Advance Payment">
+
+                                            <a href="{{ route('vendor_advance_payments.vendor_advance_payment.edit', $vendorAdvancePayment->id ) }}"
+                                               class="mx-4" title="Edit Vendor Advance Payment">
                                                 <i class="fas fa-edit text-primary" aria-hidden="true"></i>
                                             </a>
 
                                             <button type="submit" style="border: none;background: transparent"
-                                                    title="Delete Customer Advance Payment"
-                                                    onclick="return confirm(&quot;Click Ok to delete Customer Advance Payment.&quot;)">
+                                                    title="Delete Vendor Advance Payment"
+                                                    onclick="return confirm(&quot;Click Ok to delete Vendor Advance Payment.&quot;)">
                                                 <i class=" fas  fa-trash text-danger" aria-hidden="true"></i>
                                             </button>
                                         </div>
@@ -97,7 +94,7 @@
             </div>
 
             <div class="card-footer">
-                {!! $customerAdvancePayments->render() !!}
+                {!! $vendorAdvancePayments->render() !!}
             </div>
 
         @endif

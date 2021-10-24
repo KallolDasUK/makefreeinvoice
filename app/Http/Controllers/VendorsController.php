@@ -20,12 +20,15 @@ class VendorsController extends Controller
     public function index(Request $request)
     {
         $q = $request->q;
-
+        view()->share('title', 'Vendors/Suppliers');
         $vendors = Vendor::query()->when($q != null, function ($builder) use ($q) {
             return $builder->where('name', 'like', '%' . $q . '%')->orWhere('phone', 'like', '%' . $q . '%')->orWhere('email', 'like', '%' . $q . '%');
-        })->latest()->paginate(25);
-
-        return view('vendors.index', compact('vendors', 'q'));
+        })->latest();
+        $totalVendors = count($vendors->get());
+        $totalAdvance = $vendors->get()->sum('advance');
+        $totalPayables = $vendors->get()->sum('payables');
+        $vendors = $vendors->paginate(25);
+        return view('vendors.index', compact('vendors', 'q', 'totalVendors', 'totalAdvance', 'totalPayables'));
     }
 
 
@@ -64,6 +67,7 @@ class VendorsController extends Controller
                 TransactionDetail::query()->where('transaction_id', $txn->id)->delete();
             }
         }
+        return $ledger;
 
     }
 

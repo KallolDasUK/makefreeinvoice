@@ -66,7 +66,7 @@ class BillPaymentsController extends Controller
         if ($request->has('previous_due')) {
             $vendor = Vendor::find($billPayment->vendor_id);
             $previous_due = $request->previous_due;
-            AccountingFacade::addTransaction(Ledger::ACCOUNTS_PAYABLE(), $billPayment->ledger_id,
+            AccountingFacade::addTransaction(optional($vendor->ledger)->id, $billPayment->ledger_id,
                 $previous_due, $request->note, $billPayment->payment_date, "Vendor Payment",
                 Vendor::class, $billPayment->vendor_id, $billPayment->payment_sl, $vendor->name);
 

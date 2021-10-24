@@ -7,24 +7,7 @@
           crossorigin="anonymous" referrerpolicy="no-referrer"/>
 
 
-    <style>
-        .dropdown-toggle:hover {
-            color: #0d71bb !important;
-        }
 
-        svg:hover {
-            color: #0d71bb !important;
-        }
-
-        .dropdown-toggle::before {
-            content: "";
-
-            border-right: 0em solid !important;
-
-        }
-
-
-    </style>
 @endsection
 @section('content')
 
@@ -186,7 +169,7 @@
 
                                        placeholder="To">
                                 <button role="button" type="submit"
-                                        class="btn btn-primary px-6 mx-2 col-3 font-weight-bold">
+                                        class="btn btn-secondary px-6 mx-2 col-3 font-weight-bold">
                                     <i class="fas fa-sliders-h"></i>
                                     Filter
                                 </button>
