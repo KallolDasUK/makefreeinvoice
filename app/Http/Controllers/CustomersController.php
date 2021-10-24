@@ -20,19 +20,27 @@ class CustomersController extends Controller
 
     public function index(Request $request)
     {
+        view()->share('title', 'Customers');
         $q = $request->q;
         $customers = Customer::query()
             ->when($q != null, function ($builder) use ($q) {
                 return $builder->where('name', 'like', '%' . $q . '%')->orWhere('phone', 'like', '%' . $q . '%')->orWhere('email', 'like', '%' . $q . '%');
             })
-            ->latest()
-            ->paginate(10);
-        return view('customers.index', compact('customers', 'q'));
+            ->latest();
+
+        $totalCustomers = count($customers->get());
+        $totalAdvance = $customers->get()->sum('advance');
+        $totalReceivables = $customers->get()->sum('receivables');
+
+        $customers = $customers->paginate(10);
+        return view('customers.index', compact('customers', 'q', 'totalAdvance', 'totalCustomers', 'totalReceivables'));
     }
 
 
     public function create()
     {
+        view()->share('title', 'Create Customer');
+
         return view('customers.create');
     }
 
@@ -44,7 +52,8 @@ class CustomersController extends Controller
         $data = $this->getData($request);
 //        dd($data);
         $customer = Customer::create($data);
-        $this->openingEntry($request, $customer);
+        $this->createOrUpdateLedger($customer);
+
 
         if ($request->ajax()) {
             return $customer;
@@ -54,6 +63,38 @@ class CustomersController extends Controller
 
     }
 
+
+    public function createOrUpdateLedger($customer)
+    {
+        $is_ledger_exits = Ledger::query()->where(['type' => Customer::class, 'type_id' => $customer->id])->exists();
+        if ($is_ledger_exits) {
+            Ledger::query()->where(['type' => Customer::class, 'type_id' => $customer->id])
+                ->update(['ledger_name' => $customer->name, 'opening' => $customer->opening,
+                    'opening_type' => $customer->opening_type,
+                    'ledger_group_id' => Ledger::ACCOUNTS_RECEIVABLE_GROUP()]);
+            $ledger = Ledger::query()->firstWhere(['type' => Customer::class, 'type_id' => $customer->id]);
+        } else {
+            $ledger = Ledger::create([
+                'ledger_name' => $customer->name,
+                'opening' => $customer->opening,
+                'opening_type' => $customer->opening_type,
+                'ledger_group_id' => Ledger::ACCOUNTS_RECEIVABLE_GROUP(),
+                'active' => true,
+                'is_default' => true,
+                'type' => Customer::class,
+                'type_id' => $customer->id]);
+        }
+        if ($ledger->opening > 0) {
+            $this->storeOpeningBalance($ledger, $ledger->opening, $ledger->opening_type);
+        } else {
+            $txn = Transaction::where('txn_type', 'OpeningBalance')->where('type', Ledger::class)->where('type_id', $ledger->id)->first();
+            if ($txn) {
+                TransactionDetail::query()->where('transaction_id', $txn->id)->delete();
+            }
+        }
+        return $ledger;
+
+    }
 
     public function show($id)
     {
@@ -79,7 +120,7 @@ class CustomersController extends Controller
 
         $customer = Customer::findOrFail($id);
         $customer->update($data);
-        $this->openingEntry($request, $customer);
+        $this->createOrUpdateLedger($customer);
 
 
         return redirect()->route('customers.customer.index')
@@ -88,25 +129,7 @@ class CustomersController extends Controller
     }
 
 
-    public function openingEntry($request, $customer)
-    {
-        Transaction::query()->where('type', Customer::class)->where('type_id', $customer->id)->delete();
-        TransactionDetail::query()->where('type', Customer::class)->where('type_id', $customer->id)->where('ledger_id', Ledger::ACCOUNTS_RECEIVABLE())->delete();
 
-//        dd($txn);
-        if ($request->opening > 0) {
-            $dr = null;
-            $cr = null;
-            if ($request->opening_type == 'Cr') {
-                $cr = Ledger::ACCOUNTS_RECEIVABLE();
-            } else {
-                $dr = Ledger::ACCOUNTS_RECEIVABLE();
-
-            }
-            AccountingFacade::addTransaction($dr, $cr,
-                $request->opening, "Opening Balance Of " . $customer->name, today()->toDateString(), "Opening Balance", Customer::class, $customer->id, "Opening", $customer->name);
-        }
-    }
 
     public function destroy($id)
     {

@@ -72,5 +72,13 @@
     {
         "model-name": "SR",
         "resource-file": "s_rs.json"
+    },
+    {
+        "model-name": "CustomerAdvancePayment",
+        "resource-file": "customer_advance_payments.json"
+    },
+    {
+        "model-name": "VendorAdvancePayment",
+        "resource-file": "vendor_advance_payments.json"
     }
 ]

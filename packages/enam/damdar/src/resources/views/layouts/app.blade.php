@@ -347,9 +347,27 @@
             }
         }
 
-        /*.modal.fade {*/
-        /*    z-index: 10000000 !important;*/
-        /*}*/
+        .invoice-container[contenteditable=true]:hover {
+            text-decoration: underline;
+            text-decoration-style: dotted;
+        }
+
+        .dropdown-toggle:hover {
+            color: #0d71bb !important;
+        }
+
+        svg:hover {
+            color: #0d71bb !important;
+        }
+
+        .dropdown-toggle::before {
+            content: "";
+
+            border-right: 0em solid !important;
+
+        }
+
+
     </style>
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-J35PC4G2SJ"></script>
@@ -539,15 +557,22 @@
                                class="@cannot('viewAny',\App\Models\Bill::class) pro-tag @endcannot"
                                style="min-width: 100px;position: relative">
                                 <i class="fa fa-users" aria-hidden="true"></i>Vendors</a>
+
+                            <a href="{{ route('vendor_advance_payments.vendor_advance_payment.index') }}"
+                               class="@cannot('viewAny',\App\Models\Bill::class) pro-tag @endcannot"
+                               style="min-width: 100px;position: relative">
+                                <i class="fa fa-money-bill-alt" aria-hidden="true"></i>Vendor Advance</a>
+
+
                             <a href="{{ route('purchase_returns.purchase_return.create') }}"
                                class=""
                                style="min-width: 100px;position: relative">
                                 <i class="fa fa-plus" aria-hidden="true"></i>
-                                New <br> Purchase Return</a>
+                                New Purchase Ret..</a>
                             <a href="{{ route('purchase_returns.purchase_return.index') }}"
                                class="@cannot('viewAny',\App\Models\Bill::class) pro-tag @endcannot"
                                style="min-width: 100px;position: relative">
-                                <i class="fa fa-list-alt ribbon" aria-hidden="true"></i> <br>
+                                <i class="fa fa-list-alt ribbon" aria-hidden="true"></i>
                                 Purchase Return</a>
 
                         </div>
@@ -803,7 +828,7 @@
     </nav>
 
 
-    <div class="mt-4" style="min-height: 70vh">
+    <div id="main" class="mt-4" style="min-height: 70vh">
 
         <div class="d-flex justify-content-between mb-2">
             <b class="text-black font-weight-bolder mb-2 mt-2" style="font-size: 20px">
@@ -1101,11 +1126,14 @@
         $('.nav-item').mouseenter(function () {
             $(this).find('.nav-title').css('color', '#065a92')
             $(this).find('.nav-desc').css('color', '#065a92')
+            // $('#main').css("opacity","0.2")
         })
         $('.nav-item').mouseleave(function () {
 
             $(this).find('.nav-title').css('color', 'white')
             $(this).find('.nav-desc').css('color', 'white')
+            // $('#main').css("opacity","1")
+
 
         })
 
@@ -1168,11 +1196,12 @@
     $(document).ready(function () {
         $('.searchable').select2({placeholder: '-- Choose --', allowClear: true})
 
-        $('.invoice-container').tooltip({
-            'title': ' Quick Edit invoice. This changes will not affect to actual invoice.',
-            placement: 'top'
+
+        $('.invoice-container[contenteditable=true]').tooltip({'title': 'Click to EDIT'});
+        $('.invoice-container').hover(function () {
+
         });
-        // $('.invoice-container').tooltip({'trigger': 'focus', 'title': 'Hit Enter to add new Line'});
+
 
     })
 </script>

@@ -179,12 +179,18 @@ class Ledger extends Model
     public function getDrAttribute()
     {
 
-        return $this->transaction_details->where('entry_type', EntryType::$DR)->sum('amount');
+        return TransactionDetail::query()
+            ->where('ledger_id',$this->id)
+            ->where('entry_type', EntryType::$DR)
+            ->sum('amount');
     }
 
     public function getCrAttribute()
     {
-        return $this->transaction_details->where('entry_type', EntryType::$CR)->sum('amount');
+        return TransactionDetail::query()
+            ->where('ledger_id',$this->id)
+            ->where('entry_type', EntryType::$CR)
+            ->sum('amount');
     }
 
     public function getBalanceTypeAttribute()
@@ -209,6 +215,10 @@ class Ledger extends Model
 
         $totalCr = $this->cr;
         $totalDr = $this->dr;
+        if ($this->id == 369){
+
+            dd($totalCr,$totalDr);
+        }
         $currentBalance = 0;
         $type = '';
         if ($totalDr > $totalCr) {
@@ -240,6 +250,44 @@ class Ledger extends Model
     public static function ACCOUNTS_RECEIVABLE()
     {
         return GroupMap::query()->where('key', LedgerHelper::$ACCOUNTS_RECEIVABLE)->first()->value ?? null;
+    }
+
+    public static function CURRENT_ASSET()
+    {
+        return GroupMap::query()->where('key', LedgerHelper::$CurrentAsset)->first()->value ?? null;
+    }
+
+    public static function CURRENT_LIABILITY()
+    {
+        return GroupMap::query()->where('key', LedgerHelper::$CURRENT_LIABILITIES)->first()->value ?? null;
+    }
+
+    public static function ACCOUNTS_RECEIVABLE_GROUP()
+    {
+        $id = GroupMap::query()->where('key', LedgerHelper::$ACCOUNTS_RECEIVABLE_GROUP)->first()->value ?? null;
+        if ($id == null) {
+            $ar_group = LedgerGroup::create(['group_name' => LedgerHelper::$ACCOUNTS_RECEIVABLE_GROUP,
+                'parent' => self::CURRENT_ASSET(),
+                'is_default' => true]);
+            GroupMap::create(['key' => $ar_group->group_name, 'value' => $ar_group->id]);
+
+            $id = $ar_group->id;
+        }
+        return $id;
+    }
+
+    public static function ACCOUNTS_PAYABLE_GROUP()
+    {
+        $id = GroupMap::query()->firstWhere('key', LedgerHelper::$ACCOUNTS_PAYABLE_GROUP)->value ?? null;
+        if ($id == null) {
+            $ap_group = LedgerGroup::create(['group_name' => LedgerHelper::$ACCOUNTS_PAYABLE_GROUP,
+                'parent' => self::CURRENT_LIABILITY(),
+                'is_default' => true]);
+            GroupMap::create(['key' => $ap_group->group_name, 'value' => $ap_group->id]);
+
+            $id = $ap_group->id;
+        }
+        return $id;
     }
 
     public static function ACCOUNTS_PAYABLE()
@@ -301,7 +349,7 @@ class Ledger extends Model
         foreach ($groups as $group) {
             $ledgers = Ledger::query()->where('ledger_group_id', $group->id)->get();
             self::push_to_asset_ledgers($ledgers);
-             self::getNode($group->id);
+            self::getNode($group->id);
         }
 
 
@@ -322,9 +370,6 @@ class Ledger extends Model
     {
 
         $report = $this->getLedgerReport($branch_id, $this->id, $start_date, $end_date, $prevent_opening);
-        if ($this->id == 189) {
-//        dd($report);
-        }
         $nature = $this->nature;
         if ($nature == Nature::$ASSET) {
             return $report->closing_debit - $report->closing_credit;

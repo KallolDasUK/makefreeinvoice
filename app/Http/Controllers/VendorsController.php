@@ -20,12 +20,15 @@ class VendorsController extends Controller
     public function index(Request $request)
     {
         $q = $request->q;
-
+        view()->share('title', 'Vendors/Suppliers');
         $vendors = Vendor::query()->when($q != null, function ($builder) use ($q) {
             return $builder->where('name', 'like', '%' . $q . '%')->orWhere('phone', 'like', '%' . $q . '%')->orWhere('email', 'like', '%' . $q . '%');
-        })->latest()->paginate(25);
-
-        return view('vendors.index', compact('vendors', 'q'));
+        })->latest();
+        $totalVendors = count($vendors->get());
+        $totalAdvance = $vendors->get()->sum('advance');
+        $totalPayables = $vendors->get()->sum('payables');
+        $vendors = $vendors->paginate(25);
+        return view('vendors.index', compact('vendors', 'q', 'totalVendors', 'totalAdvance', 'totalPayables'));
     }
 
 
@@ -36,25 +39,36 @@ class VendorsController extends Controller
         return view('vendors.create');
     }
 
-    public function openingEntry($request, $vendor)
+    public function createOrUpdateLedger($vendor)
     {
-
-        Transaction::query()->where('type', Vendor::class)->where('type_id', $vendor->id)->delete();
-        TransactionDetail::query()->where('type', Vendor::class)->where('type_id', $vendor->id)
-            ->where('ledger_id', Ledger::ACCOUNTS_PAYABLE())->delete();
-
-        if ($request->opening > 0) {
-            $dr = null;
-            $cr = null;
-            if ($request->opening_type == 'Cr') {
-                $cr = Ledger::ACCOUNTS_PAYABLE();
-            } else {
-                $dr = Ledger::ACCOUNTS_PAYABLE();
-
-            }
-            AccountingFacade::addTransaction($dr, $cr,
-                $request->opening, "Opening Balance Of " . $vendor->name, today()->toDateString(), "Opening Balance", Vendor::class, $vendor->id, $vendor->name, "Opening");
+        $is_ledger_exits = Ledger::query()->where(['type' => Vendor::class, 'type_id' => $vendor->id])->exists();
+        if ($is_ledger_exits) {
+            Ledger::query()->where(['type' => Vendor::class, 'type_id' => $vendor->id])
+                ->update(['ledger_name' => $vendor->name, 'opening' => $vendor->opening,
+                    'opening_type' => $vendor->opening_type,
+                    'ledger_group_id' => Ledger::ACCOUNTS_PAYABLE_GROUP()]);
+            $ledger = Ledger::query()->firstWhere(['type' => Vendor::class, 'type_id' => $vendor->id]);
+        } else {
+            $ledger = Ledger::create([
+                'ledger_name' => $vendor->name,
+                'opening' => $vendor->opening,
+                'opening_type' => $vendor->opening_type,
+                'ledger_group_id' => Ledger::ACCOUNTS_PAYABLE_GROUP(),
+                'active' => true,
+                'is_default' => true,
+                'type' => Vendor::class,
+                'type_id' => $vendor->id]);
         }
+        if ($ledger->opening > 0) {
+            $this->storeOpeningBalance($ledger, $ledger->opening, $ledger->opening_type);
+        } else {
+            $txn = Transaction::where('txn_type', 'OpeningBalance')->where('type', Ledger::class)->where('type_id', $ledger->id)->first();
+            if ($txn) {
+                TransactionDetail::query()->where('transaction_id', $txn->id)->delete();
+            }
+        }
+        return $ledger;
+
     }
 
     public function store(Request $request)
@@ -65,7 +79,7 @@ class VendorsController extends Controller
 
         $vendor = Vendor::create($data);
 
-        $this->openingEntry($request, $vendor);
+        $this->createOrUpdateLedger($vendor);
         if ($request->ajax()) {
             return $vendor;
         }
@@ -101,7 +115,7 @@ class VendorsController extends Controller
 
         $vendor = Vendor::findOrFail($id);
         $vendor->update($data);
-        $this->openingEntry($request, $vendor);
+        $this->createOrUpdateLedger($vendor);
 
         return redirect()->route('vendors.vendor.index')
             ->with('success_message', 'Vendor was successfully updated.');

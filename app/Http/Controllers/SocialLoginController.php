@@ -10,11 +10,16 @@ use Illuminate\Support\Facades\Redirect;
 use Laravel\Socialite\Facades\Socialite;
 use DB;
 use Laravel\Socialite\Two\InvalidStateException;
+use function PHPUnit\Framework\at;
 
 class SocialLoginController extends Controller
 {
     public function redirect($provider)
     {
+
+        if (auth()->user()) {
+            return redirect()->route('acc.home');
+        }
         return Socialite::driver($provider)->stateless()->redirect();
 
     }

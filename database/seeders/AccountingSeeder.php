@@ -41,6 +41,10 @@ class AccountingSeeder extends Seeder
         $lsa = Ledger::create(['ledger_name' => LedgerHelper::$ACCOUNTS_RECEIVABLE, 'ledger_group_id' => $lg_ca->id, 'is_default' => true]);
         GroupMap::create(['key' => $lsa->ledger_name, 'value' => $lsa->id]);
 
+        $ar_group = LedgerGroup::create(['group_name' => LedgerHelper::$ACCOUNTS_RECEIVABLE_GROUP,
+            'parent' => $lg_ca->id,
+            'is_default' => true]);
+        GroupMap::create(['key' => $ar_group->group_name, 'value' => $ar_group->id]);
 
         $lsa = Ledger::create(['ledger_name' => LedgerHelper::$INVENTORY_AC, 'ledger_group_id' => $lg_ca->id, 'is_default' => true]);
         GroupMap::create(['key' => $lsa->ledger_name, 'value' => $lsa->id]);
@@ -92,6 +96,11 @@ class AccountingSeeder extends Seeder
             'is_default' => true]);
         GroupMap::create(['key' => $lg_cl->group_name, 'value' => $lg_cl->id]);
 
+        $ap_group = LedgerGroup::create(['group_name' => LedgerHelper::$ACCOUNTS_PAYABLE_GROUP,
+            'parent' => $lg_cl->id,
+            'is_default' => true]);
+
+        GroupMap::create(['key' => $ap_group->group_name, 'value' => $ap_group->id]);
 
         $lpa = Ledger::create(['ledger_name' => LedgerHelper::$ACCOUNTS_PAYABLE, 'ledger_group_id' => $lg_cl->id, 'is_default' => true]);
         GroupMap::create(['key' => $lpa->ledger_name, 'value' => $lpa->id]);

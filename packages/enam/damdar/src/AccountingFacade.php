@@ -49,24 +49,20 @@ class AccountingFacade extends Facade
     public static function addSalary($amount, $note, $date, $type = null, $type_id = null, $bank_name = null, $cheque_number = null, $cheque_date = null)
     {
         $salary_ac_id = GroupMap::query()->where('key', LedgerHelper::$SALARY_AC)->first()->value ?? null;
-        $cash_ac_id = GroupMap::query()->where('key', LedgerHelper::$CASH_AC)->first()->value ?? null;
-        self::addTransaction($salary_ac_id, $cash_ac_id, $amount, $note, $date, 'Salary', $type, $type_id);
+        self::addTransaction($salary_ac_id, Ledger::CASH_AC(), $amount, $note, $date, 'Salary', $type, $type_id);
 
     }
 
     public static function addPurchase($amount, $note, $date, $type = null, $type_id = null, $bank_name = null, $cheque_number = null, $cheque_date = null)
     {
-        $purchase_ac_id = GroupMap::query()->where('key', LedgerHelper::$PURCHASE_AC)->first()->value ?? null;
-        $cash_ac_id = GroupMap::query()->where('key', LedgerHelper::$CASH_AC)->first()->value ?? null;
-        self::addTransaction($purchase_ac_id, $cash_ac_id, $amount, $note, $date, 'Purchase', $type, $type_id);
+        self::addTransaction(Ledger::PURCHASE_AC(), Ledger::CASH_AC(), $amount, $note, $date, 'Purchase', $type, $type_id);
 
     }
 
     public static function addSale($amount, $note, $date, $type = null, $type_id = null, $bank_name = null, $cheque_number = null, $cheque_date = null)
     {
-        $sales_ac_id = GroupMap::query()->where('key', LedgerHelper::$SALES_AC)->first()->value ?? null;
-        $cash_ac_id = GroupMap::query()->where('key', LedgerHelper::$CASH_AC)->first()->value ?? null;
-        self::addTransaction($cash_ac_id, $sales_ac_id, $amount, $note, $date, 'Sales', $type, $type_id);
+
+        self::addTransaction(Ledger::CASH_AC(), Ledger::SALES_AC(), $amount, $note, $date, 'Sales', $type, $type_id);
 
 
     }
@@ -115,9 +111,9 @@ class AccountingFacade extends Facade
 
     public function on_invoice_create(Invoice $invoice)
     {
-        $accounts_receivable_ledger = GroupMap::query()->where('key', LedgerHelper::$ACCOUNTS_RECEIVABLE)->first()->value ?? null;
-        $sales_ledger = GroupMap::query()->where('key', LedgerHelper::$SALES_AC)->first()->value ?? null;
-        self::addTransaction($accounts_receivable_ledger, $sales_ledger, $invoice->total, $invoice->notes,
+        $customer = $invoice->customer;
+
+        self::addTransaction(optional($customer->ledger)->id, Ledger::SALES_AC(), $invoice->total, $invoice->notes,
             $invoice->invoice_date, 'Invoice', Invoice::class, $invoice->id,
             $invoice->invoice_number, optional($invoice->customer)->name);
 
@@ -138,9 +134,7 @@ class AccountingFacade extends Facade
             }
             $cost_of_goods_sold = $purchase_price * $invoice_item->qnt;
             if ($cost_of_goods_sold) {
-                $cogs_ledger = GroupMap::query()->where('key', LedgerHelper::$COST_OF_GOODS_SOLD)->first()->value ?? null;
-                $inventory_ledger = GroupMap::query()->where('key', LedgerHelper::$INVENTORY_AC)->first()->value ?? null;
-                self::addTransaction($cogs_ledger, $inventory_ledger, $cost_of_goods_sold, $invoice->notes,
+                self::addTransaction(Ledger::COST_OF_GOODS_SOLD(), Ledger::INVENTORY_AC(), $cost_of_goods_sold, $invoice->notes,
                     $invoice->invoice_date, 'Expense', Invoice::class, $invoice->id,
                     $invoice->invoice_number, LedgerHelper::$COST_OF_GOODS_SOLD);
             }
@@ -158,9 +152,8 @@ class AccountingFacade extends Facade
     public function on_invoice_payment_create(ReceivePaymentItem $receivePaymentItem)
     {
         $invoice = $receivePaymentItem->invoice;
-        $accounts_receivable_ledger = GroupMap::query()->where('key', LedgerHelper::$ACCOUNTS_RECEIVABLE)->first()->value ?? null;
-
-        self::addTransaction($receivePaymentItem->receive_payment->deposit_to, $accounts_receivable_ledger, $receivePaymentItem->amount,
+        $customer = $invoice->customer;
+        self::addTransaction($receivePaymentItem->receive_payment->deposit_to, optional($customer->ledger)->id, $receivePaymentItem->amount,
             $receivePaymentItem->receive_payment->notes, $receivePaymentItem->receive_payment->payment_date,
             'Customer Payment', ReceivePaymentItem::class, $receivePaymentItem->id,
             $invoice->invoice_number, optional($invoice->customer)->name);
@@ -176,7 +169,7 @@ class AccountingFacade extends Facade
     public function on_expense_create(ExpenseItem $expenseItem)
     {
         $name = 'Customer : ' . optional($expenseItem->expense->customer)->name;
-        $name .= '\n Vendor : ' . optional($expenseItem->expense->vendor)->name;
+        $name .= '\nVendor : ' . optional($expenseItem->expense->vendor)->name;
 
         self::addTransaction($expenseItem->ledger_id, $expenseItem->expense->ledger_id, $expenseItem->amount, $expenseItem->notes,
             $expenseItem->date, 'Expense', ExpenseItem::class, $expenseItem->id,
@@ -192,15 +185,12 @@ class AccountingFacade extends Facade
 
     public function on_bill_create(Bill $bill)
     {
-        $accounts_payable_ledger = GroupMap::query()->where('key', LedgerHelper::$ACCOUNTS_PAYABLE)->first()->value ?? null;
-        $purchase_ledger = GroupMap::query()->where('key', LedgerHelper::$PURCHASE_AC)->first()->value ?? null;
-        self::addTransaction($purchase_ledger, $accounts_payable_ledger, $bill->total, $bill->notes,
+        $vendor = $bill->vendor;
+        self::addTransaction(Ledger::PURCHASE_AC(), optional($vendor->ledger)->id, $bill->total, $bill->notes,
             $bill->bill_date, 'Bill', Bill::class, $bill->id,
             $bill->bill_number, optional($bill->vendor)->name);
 
-        $inventory_ledger = GroupMap::query()->where('key', LedgerHelper::$INVENTORY_AC)->first()->value ?? null;
-        $purchase_ledger = GroupMap::query()->where('key', LedgerHelper::$PURCHASE_AC)->first()->value ?? null;
-        self::addTransaction($inventory_ledger, $purchase_ledger, $bill->total, $bill->notes,
+        self::addTransaction(Ledger::INVENTORY_AC(), Ledger::PURCHASE_AC(), $bill->total, $bill->notes,
             $bill->bill_date, 'Bill', Bill::class, $bill->id,
             $bill->bill_number, optional($bill->vendor)->name);
     }
@@ -215,9 +205,8 @@ class AccountingFacade extends Facade
     public function on_bill_payment_create(BillPaymentItem $billPaymentItem)
     {
         $bill = $billPaymentItem->bill;
-        $accounts_payable_ledger = GroupMap::query()->where('key', LedgerHelper::$ACCOUNTS_PAYABLE)->first()->value ?? null;
-
-        self::addTransaction($accounts_payable_ledger, $billPaymentItem->bill_payment->ledger_id, $billPaymentItem->amount,
+        $vendor = $bill->vendor;
+        self::addTransaction(optional($vendor->ledger)->id, $billPaymentItem->bill_payment->ledger_id, $billPaymentItem->amount,
             $billPaymentItem->bill_payment->notes, $billPaymentItem->bill_payment->payment_date,
             'Vendor Payment', BillPaymentItem::class, $billPaymentItem->id,
             $bill->bill_number, optional($bill->vendor)->name);
@@ -233,7 +222,7 @@ class AccountingFacade extends Facade
     public function on_pos_sales_create(PosSale $posSale)
     {
 
-        self::addTransaction(Ledger::ACCOUNTS_RECEIVABLE(), Ledger::SALES_AC(), $posSale->total, $posSale->note,
+        self::addTransaction(optional($posSale->customer->ledger)->id, Ledger::SALES_AC(), $posSale->total, $posSale->note,
             $posSale->date, 'POS Sale', PosSale::class, $posSale->id,
             $posSale->pos_number, optional($posSale->customer)->name);
 
@@ -272,7 +261,8 @@ class AccountingFacade extends Facade
     public function on_pos_payment_create(PosPayment $posPayment)
     {
         $pos_sale = $posPayment->pos_sale;
-        self::addTransaction($posPayment->ledger_id, Ledger::ACCOUNTS_RECEIVABLE(), $posPayment->amount,
+        $customer = $pos_sale->customer;
+        self::addTransaction($posPayment->ledger_id, optional($customer->ledger)->id, $posPayment->amount,
             $pos_sale->note, $posPayment->date,
             'POS Payment', PosPayment::class, $posPayment->id,
             $pos_sale->pos_number, optional($pos_sale->customer)->name);
@@ -287,8 +277,8 @@ class AccountingFacade extends Facade
 
     public function on_purchase_order_payment_create(PurchaseOrder $purchase_order)
     {
-
-        self::addTransaction(Ledger::ACCOUNTS_PAYABLE(), $purchase_order->deposit_to, $purchase_order->payment_amount,
+        $vendor = $purchase_order->vendor;
+        self::addTransaction(optional($vendor->ledger)->id, $purchase_order->deposit_to, $purchase_order->payment_amount,
             $purchase_order->notes, $purchase_order->purchase_order_date,
             'Purchase Order Payment', PurchaseOrder::class, $purchase_order->id,
             $purchase_order->purchase_order_number, optional($purchase_order->vendor)->name);
@@ -304,12 +294,13 @@ class AccountingFacade extends Facade
     public function on_sales_return_create(SalesReturn $salesReturn)
     {
 
-        $sales_opposite_ledger = $salesReturn->deposite_to;
+        $sales_opposite_ledger = $salesReturn->deposit_to;
         $invoice = Invoice::find($salesReturn->invoice_number);
 
         if ($invoice->due >= $salesReturn->total) {
-            $sales_opposite_ledger = Ledger::ACCOUNTS_RECEIVABLE();
+            $sales_opposite_ledger = optional($invoice->customer->ledger)->id;
         }
+//        dd($invoice->customer->ledger->id,$sales_opposite_ledger,$salesReturn->toArray());
         self::addTransaction(Ledger::SALES_AC(), $sales_opposite_ledger, $salesReturn->payment_amount, $salesReturn->notes,
             $salesReturn->date, 'Sales Return', SalesReturn::class, $salesReturn->id,
             $salesReturn->sales_return_number, optional($salesReturn->customer)->name);
@@ -334,7 +325,7 @@ class AccountingFacade extends Facade
             $cost_of_goods_sold = $purchase_price * $invoice_item->qnt;
             if ($cost_of_goods_sold) {
                 self::addTransaction(Ledger::INVENTORY_AC(), Ledger::COST_OF_GOODS_SOLD(), $cost_of_goods_sold, $salesReturn->notes,
-                    $salesReturn->date, 'Expense', SalesReturn::class, $salesReturn->id,
+                    $salesReturn->date, 'Sales Return', SalesReturn::class, $salesReturn->id,
                     $salesReturn->sales_return_number, LedgerHelper::$COST_OF_GOODS_SOLD);
             }
         }
@@ -345,18 +336,20 @@ class AccountingFacade extends Facade
 
     public function on_sales_return_payment_delete(SalesReturn $salesReturn)
     {
+
         Transaction::query()->where(['type' => SalesReturn::class, 'type_id' => $salesReturn->id])->forceDelete();
         TransactionDetail::query()->where(['type' => SalesReturn::class, 'type_id' => $salesReturn->id])->forceDelete();
+
     }
 
     public function on_purchase_return_create(PurchaseReturn $purchaseReturn)
     {
 
-        $sales_opposite_ledger = $purchaseReturn->deposite_to;
+        $sales_opposite_ledger = $purchaseReturn->deposit_to;
         $invoice = Bill::find($purchaseReturn->bill_number);
 
         if ($invoice->due >= $purchaseReturn->total) {
-            $sales_opposite_ledger = Ledger::ACCOUNTS_PAYABLE();
+            $sales_opposite_ledger = optional($invoice->vendor->ledger)->id;
         }
         self::addTransaction($sales_opposite_ledger, Ledger::PURCHASE_AC(), $purchaseReturn->payment_amount, $purchaseReturn->notes,
             $purchaseReturn->date, 'Purchase Return', PurchaseReturn::class, $purchaseReturn->id,

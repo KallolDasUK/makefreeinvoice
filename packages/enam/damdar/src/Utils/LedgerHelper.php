@@ -10,6 +10,7 @@ abstract class LedgerHelper
     public static $CASH = "Cash";
     public static $BANK_ACCOUNTS = "Bank Accounts";
     public static $ACCOUNTS_RECEIVABLE = "Accounts Receivable";
+    public static $ACCOUNTS_RECEIVABLE_GROUP = "Accounts Receivable Group";
     public static $STOCK_IN_HAND = "Stock In Hand";
     public static $FixedAsset = "Fixed Asset";
 
@@ -19,6 +20,7 @@ abstract class LedgerHelper
     public static $LOAN_AND_LIABILITIES = "Loan & Liabilities";
     public static $CURRENT_LIABILITIES = "Current Liabilities";
     public static $ACCOUNTS_PAYABLE = "Accounts Payable";
+    public static $ACCOUNTS_PAYABLE_GROUP = "Accounts Payable Group";
     public static $DUTIES_AND_TAXES = "Duties and Taxes";
 
     /* Income */

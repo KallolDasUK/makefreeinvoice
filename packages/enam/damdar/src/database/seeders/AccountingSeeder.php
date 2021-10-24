@@ -44,6 +44,9 @@ class AccountingSeeder extends Seeder
             'is_default' => true]);
         GroupMap::create(['key' => $lg_ba->group_name, 'value' => $lg_ba->id]);
 
+
+
+
         $lg_sih = LedgerGroup::create(['group_name' => LedgerHelper::$STOCK_IN_HAND,
             'parent' => $lg_ca->id,
             'is_default' => true]);

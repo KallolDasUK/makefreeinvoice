@@ -149,7 +149,7 @@
 
                                        placeholder="To">
                                 <button role="button" type="submit"
-                                        class="btn btn-primary px-6 mx-2 col-3 font-weight-bold">
+                                        class="btn btn-secondary px-6 mx-2 col-3 font-weight-bold">
                                     <i class="fas fa-sliders-h"></i>
                                     Filter
                                 </button>

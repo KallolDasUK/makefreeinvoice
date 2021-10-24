@@ -89,7 +89,7 @@
 
             <br>
 
-            <select class="customer form-control select2" id="customer_id" name="customer_id">
+            <select class="customer form-control select2" id="customer_id" name="customer_id" required>
                 <option value="" disabled
                         selected></option>
                 @foreach ($customers as $key => $customer)
