@@ -28,8 +28,14 @@ class CustomersController extends Controller
             })->paginate(10);
 
         $totalCustomers = $customers->total();
-        $totalAdvance = Customer::query()->get()->sum('advance');
-        $totalReceivables = Customer::query()->get()->sum('receivables');
+        $totalAdvance = 0;
+        $totalReceivables = 0;
+        $ctrs = Customer::query()->get();
+        foreach ($ctrs as $customer) {
+//            dd($customer);
+            $totalAdvance += $customer->advance;
+            $totalReceivables += $customer->receivables;
+        }
 
         return view('customers.index', compact('customers', 'q', 'totalAdvance', 'totalCustomers', 'totalReceivables'));
     }
