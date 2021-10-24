@@ -599,9 +599,8 @@ Route::get('/task', function () {
             $customer = $invoice->customer ?? Customer::WALKING_CUSTOMER();
 //            dump($customer);
             $d = TransactionDetail::query()->where(['type' => get_class($invoice), 'type_id' => $invoice->id, 'ledger_id' => Ledger::ACCOUNTS_RECEIVABLE()])
-                ->get()->toArray();
-            dump($d, ['type' => get_class($invoice), 'type_id' => $invoice->id, 'ledger_id' => Ledger::ACCOUNTS_RECEIVABLE()]);
-            //  ->update(['ledger_id' => optional($customer->ledger)->id]);
+
+              ->update(['ledger_id' => optional($customer->ledger)->id]);
         }
         foreach (\App\Models\PosPayment::all() as $receivePaymentItem) {
             $customer = $receivePaymentItem->pos_sale->customer ?? Customer::WALKING_CUSTOMER();

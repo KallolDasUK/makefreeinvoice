@@ -25,14 +25,12 @@ class CustomersController extends Controller
         $customers = Customer::query()
             ->when($q != null, function ($builder) use ($q) {
                 return $builder->where('name', 'like', '%' . $q . '%')->orWhere('phone', 'like', '%' . $q . '%')->orWhere('email', 'like', '%' . $q . '%');
-            })
-            ->latest();
+            })->paginate(10);
 
-        $totalCustomers = count($customers->get());
-        $totalAdvance = $customers->get()->sum('advance');
-        $totalReceivables = $customers->get()->sum('receivables');
+        $totalCustomers = count(Customer::all());
+        $totalAdvance = Customer::all()->sum('advance');
+        $totalReceivables = Customer::all()->sum('receivables');
 
-        $customers = $customers->paginate(10);
         return view('customers.index', compact('customers', 'q', 'totalAdvance', 'totalCustomers', 'totalReceivables'));
     }
 
@@ -127,8 +125,6 @@ class CustomersController extends Controller
             ->with('success_message', 'Customer was successfully updated.');
 
     }
-
-
 
 
     public function destroy($id)
