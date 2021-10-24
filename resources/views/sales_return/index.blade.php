@@ -158,7 +158,7 @@
 
                                 <td class="text-center ">
                                     <a class="font-weight-bolder d-block font-size-lg underline text-left invoice_number"
-                                       href="{{ route('sales_returns.sales_return.show',$invoice->id) }}">
+                                       href="{{ route('sales_returns.sales_return.show',$invoice->id??-1) }}">
                                         <i class="fa fa-external-link-alt font-normal text-secondary"
                                            style="font-size: 10px"></i>
                                         {{ $invoice->sales_return_number }}
@@ -176,7 +176,7 @@
                                     @endif
                                 </td>
                                 <td class="pl-0">
-                                    <a href="{{ route('sales_returns.sales_return.show',$invoice->id) }}"
+                                    <a href="{{ route('sales_returns.sales_return.show',$invoice->id??-1) }}"
                                        class="text-dark-75 font-weight-bolder text-hover-primary mb-1 font-size-lg ">{{ \Carbon\Carbon::parse($invoice->date)->format('d/m/Y') }}</a>
 
                                     @if($invoice->due_date)
