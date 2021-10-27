@@ -146,7 +146,7 @@
                 </tbody>
             </table>
         </div>
-        <div><label class=" form-check form-check-inline form-control-plaintext">
+        <div><label class=" form-check form-check-inline form-control-plaintext" id="paymentSection">
                 <input id="paymentCheckBox" class="form-check-input" name="is_payment"
                        type="checkbox" {{ optional($bill)->is_payment?'checked':'' }}>
                 &nbsp;
@@ -154,6 +154,14 @@
                         class="text-bold"> I have paid the bill </span></label>
             </label>
 
+            <div class="advanceContainer d-none">
+                <label>→ <span id="using_advance_amount"></span> is being used from advance payment (<span
+                        id="advance_amount" class="font-weight-bolder text-primary"></span>).
+
+                </label>
+                <input type="text" name="from_advance" id="from_advance" hidden value="0">
+                <input type="text" name="advance" id="advance" hidden value="0">
+            </div>
 
             <div class="paymentContainer mt-4" @if(optional($bill)->is_payment) style="display: block"
                  @else style="display: none" @endif>

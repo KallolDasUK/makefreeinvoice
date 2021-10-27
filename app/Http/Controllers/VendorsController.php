@@ -105,7 +105,11 @@ class VendorsController extends Controller
 
         return view('vendors.edit', compact('vendor'));
     }
-
+    public function advanceInfo($id)
+    {
+        $vendor = Vendor::findOrFail($id);
+        return ['name' => $vendor->name, 'advance' => $vendor->advance];
+    }
 
     public function update($id, Request $request)
     {

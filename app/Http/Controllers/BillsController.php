@@ -144,7 +144,8 @@ class BillsController extends Controller
             ExtraField::create(['name' => $additional->name, 'value' => $additional->value, 'type' => Bill::class, 'type_id' => $bill->id]);
         }
 
-
+        $bill->payment_status = $bill->payment_status_text;
+        $bill->save();
         if (!$bill->is_payment) return;
         $paymentSerial = 'BPM' . str_pad(BillPayment::query()->count(), 3, '0', STR_PAD_LEFT);
 
@@ -271,6 +272,7 @@ class BillsController extends Controller
         $invoice = Bill::with('vendor')->findOrFail($id);
         return ['vendor_id' => $invoice->vendor_id, 'items' => $invoice->bill_items];
     }
+
     protected function getData(Request $request)
     {
 
@@ -298,6 +300,7 @@ class BillsController extends Controller
             'payment_method_id' => 'nullable',
             'deposit_to' => 'nullable',
             'payment_amount' => 'nullable',
+            'from_advance' => 'nullable',
         ];
 
         $data = $request->validate($rules);

@@ -287,11 +287,12 @@ $(document).ready(function () {
     $('#deposit_to').select2()
 
     $('#paymentCheckBox').on('change', function () {
+        let payable = ractive.get('payable') || 0;
 
         if ($('#paymentCheckBox').is(':checked')) {
             console.log('checked')
             $('#paymentAmount').prop('required', true)
-            $('#paymentAmount').val($('#total').val())
+            $('#paymentAmount').val(payable)
 
         } else {
             console.log('not checked')
@@ -408,3 +409,32 @@ $('#createLedgerForm').validate({
         $(element).removeClass('is-invalid');
     }
 });
+$('#vendor_id').on('change', function () {
+
+    $.ajax({
+        url: route('vendors.vendor.advance_info', $(this).val()),
+        beforeSend: () => {
+            $('#from_advance').val('0').trigger('change')
+            $('#advance').val('0').trigger('change')
+            $('.advanceContainer').addClass('d-none')
+            calculateOthers()
+
+        },
+        success: function (response) {
+            if (response.advance <= 0) return;
+            $('.advanceContainer').removeClass('d-none')
+            $('#advance').val(response.advance).trigger('change')
+            $('#advance_amount').text(response.advance)
+            $('#customer_name').text(response.name)
+
+            calculateOthers()
+
+        }
+    });
+
+
+});
+
+$('#from_advance').on('change', function () {
+    $('#using_advance_amount').text($(this).val())
+})

@@ -84,6 +84,7 @@
             })
 
 
+
         });
     </script>
     <script src="{{ asset('js/invoices.js') }}"></script>

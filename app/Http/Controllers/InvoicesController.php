@@ -19,6 +19,7 @@ use App\Models\Tax;
 use App\Observers\InvoiceObserver;
 use App\Traits\SettingsTrait;
 use Carbon\Carbon;
+use Enam\Acc\AccountingFacade;
 use Enam\Acc\Models\GroupMap;
 use Enam\Acc\Models\Ledger;
 use Enam\Acc\Models\LedgerGroup;
@@ -159,6 +160,14 @@ class InvoicesController extends Controller
         }
 
 
+        if ($invoice->from_advance > 0) {
+            if ($invoice->customer == null) {
+                return;
+            }
+        }
+
+        $invoice->payment_status = $invoice->payment_status_text;
+        $invoice->saveQuietly();
         if (!$invoice->is_payment) return;
         $paymentSerial = 'PM' . str_pad(ReceivePayment::query()->count(), 3, '0', STR_PAD_LEFT);
 
@@ -314,6 +323,7 @@ class InvoicesController extends Controller
             'deposit_to' => 'nullable',
             'payment_amount' => 'nullable',
             'sr_id' => 'nullable',
+            'from_advance' => 'nullable',
         ];
 
         $data = $request->validate($rules);

@@ -111,7 +111,31 @@ class AccountingFacade extends Facade
 
     public function on_invoice_create(Invoice $invoice)
     {
+
+        /*  Customer - Dr
+         *  Sales    - Cr
+         *
+         *  COGS     - Dr
+         *  Inventory- Cr
+         *
+         *
+         *  Sales    10400cr
+         *  Customer 5600dr
+         *  Cash     4800dr
+         *
+         *  Customer 5600cr
+         *  Cash     5600dr
+         *
+         *  Customer 10400dr
+         *  Sales    10400cr
+         *
+         *
+         * */
+
+
+
         $customer = $invoice->customer;
+
 
         self::addTransaction(optional($customer->ledger)->id, Ledger::SALES_AC(), $invoice->total, $invoice->notes,
             $invoice->invoice_date, 'Invoice', Invoice::class, $invoice->id,
@@ -153,6 +177,11 @@ class AccountingFacade extends Facade
     {
         $invoice = $receivePaymentItem->invoice;
         $customer = $invoice->customer;
+        /*
+         * Cash     - Dr
+         * Customer - Cr
+         * */
+
         self::addTransaction($receivePaymentItem->receive_payment->deposit_to, optional($customer->ledger)->id, $receivePaymentItem->amount,
             $receivePaymentItem->receive_payment->notes, $receivePaymentItem->receive_payment->payment_date,
             'Customer Payment', ReceivePaymentItem::class, $receivePaymentItem->id,
