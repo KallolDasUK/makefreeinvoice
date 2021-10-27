@@ -7,6 +7,7 @@ namespace App\Http\Services;
 use App\Models\Bill;
 use App\Models\BillItem;
 use App\Models\Customer;
+use App\Models\CustomerAdvancePayment;
 use App\Models\ExpenseItem;
 use App\Models\InventoryAdjustmentItem;
 use App\Models\Invoice;
@@ -17,6 +18,7 @@ use App\Models\PurchaseReturnItem;
 use App\Models\SalesReturnItem;
 use App\Models\Tax;
 use App\Models\Vendor;
+use App\Models\VendorAdvancePayment;
 use Carbon\Carbon;
 use Enam\Acc\Models\Ledger;
 use Enam\Acc\Models\TransactionDetail;
@@ -94,16 +96,23 @@ trait ReportService
             ->where('customer_id', $customer_id)
             ->whereBetween('invoice_date', [$start_date, $end_date])
             ->get();
+        $customer = Customer::find($customer_id);
         $opening_payments = TransactionDetail::query()
             ->where('type', Customer::class)
             ->where('type_id', $customer_id)
-            ->where('ledger_id', Ledger::ACCOUNTS_RECEIVABLE())
+            ->where('ledger_id', $customer->ledger->id)
             ->where('entry_type', EntryType::$CR)->get();
 
         foreach ($opening_payments as $opening_payment) {
             $record = ['date' => $opening_payment->date, 'invoice' => "-", 'description' => 'Previous Due Payment', 'amount' => 0, 'payment' => $opening_payment->amount];
             $records[] = (object)$record;
         }
+
+        foreach (CustomerAdvancePayment::query()->where('customer_id', $customer_id)->get() as $customerAdvancePayment) {
+            $record = ['date' => $customerAdvancePayment->date, 'invoice' => "-", 'description' => 'Advance Payment', 'amount' => 0, 'payment' => $customerAdvancePayment->amount];
+            $records[] = (object)$record;
+        }
+
 
         foreach ($invoices as $invoice) {
             $record = ['date' => $invoice->invoice_date, 'invoice' => $invoice->invoice_number, 'description' => 'New Invoice Created', 'payment' => 0, 'amount' => $invoice->total];
@@ -135,15 +144,19 @@ trait ReportService
             ->where('vendor_id', $vendor_id)
             ->whereBetween('bill_date', [$start_date, $end_date])
             ->get();
-
+        $vendor = Vendor::find($vendor_id);
         $opening_payments = TransactionDetail::query()
             ->where('type', Vendor::class)
             ->where('type_id', $vendor_id)
-            ->where('ledger_id', Ledger::ACCOUNTS_PAYABLE())
+            ->where('ledger_id', $vendor->ledger->id)
             ->where('entry_type', EntryType::$DR)->get();
 
         foreach ($opening_payments as $opening_payment) {
             $record = ['date' => $opening_payment->date, 'bill' => "-", 'description' => 'Previous Due Payment', 'amount' => 0, 'payment' => $opening_payment->amount];
+            $records[] = (object)$record;
+        }
+        foreach (VendorAdvancePayment::query()->where('vendor_id', $vendor_id)->get() as $customerAdvancePayment) {
+            $record = ['date' => $customerAdvancePayment->date, 'bill' => "-", 'description' => 'Advance Payment', 'amount' => 0, 'payment' => $customerAdvancePayment->amount];
             $records[] = (object)$record;
         }
 

@@ -139,7 +139,7 @@ class Invoice extends Model
     public function getDueAttribute()
     {
         $due = 0;
-        $payment = $this->payments->sum('amount');
+        $payment = $this->payment;
         $due = $this->total - $payment;
 
         return number_format((float)$due, 2, '.', '');
@@ -148,13 +148,13 @@ class Invoice extends Model
 
     public function getPaymentAttribute()
     {
-        $paymentAmount = $this->payments->sum('amount');
+        $paymentAmount = $this->payments->sum('amount') + $this->from_advance;
         return $paymentAmount;
     }
 
     public function getPaymentStatusTextAttribute()
     {
-        $paymentAmount = $this->payments->sum('amount');
+        $paymentAmount = $this->payment;
         $this->total = floatval($this->total);
 //        dump($paymentAmount,$this->total);
         if ($this->total <= $paymentAmount) {

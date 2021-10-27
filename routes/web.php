@@ -95,6 +95,7 @@ Route::group(['middleware' => 'auth:web', 'prefix' => 'app'], function () {
         Route::get('/create', [CustomersController::class, 'create'])->name('customers.customer.create');
         Route::get('/show/{customer}', [CustomersController::class, 'show'])->name('customers.customer.show')->where('id', '[0-9]+');
         Route::get('/{customer}/edit', [CustomersController::class, 'edit'])->name('customers.customer.edit')->where('id', '[0-9]+');
+        Route::get('/{customer}/advance-info', [CustomersController::class, 'advanceInfo'])->name('customers.customer.advance_info')->where('id', '[0-9]+');
         Route::post('/', [CustomersController::class, 'store'])->name('customers.customer.store');
         Route::post('/storeJson', [CustomersController::class, 'storeJson'])->name('customers.customer.storeJson');
         Route::put('customer/{customer}', [CustomersController::class, 'update'])->name('customers.customer.update')->where('id', '[0-9]+');
@@ -114,6 +115,8 @@ Route::group(['middleware' => 'auth:web', 'prefix' => 'app'], function () {
         Route::get('/create', [VendorsController::class, 'create'])->name('vendors.vendor.create');
         Route::get('/show/{vendor}', [VendorsController::class, 'show'])->name('vendors.vendor.show')->where('id', '[0-9]+');
         Route::get('/{vendor}/edit', [VendorsController::class, 'edit'])->name('vendors.vendor.edit')->where('id', '[0-9]+');
+        Route::get('/{vendor}/advance-info', [VendorsController::class, 'advanceInfo'])->name('vendors.vendor.advance_info')->where('id', '[0-9]+');
+
         Route::post('/', [VendorsController::class, 'store'])->name('vendors.vendor.store');
         Route::put('vendor/{vendor}', [VendorsController::class, 'update'])->name('vendors.vendor.update')->where('id', '[0-9]+');
         Route::delete('/vendor/{vendor}', [VendorsController::class, 'destroy'])->name('vendors.vendor.destroy')->where('id', '[0-9]+');

@@ -120,7 +120,7 @@ class Bill extends Model
     {
         $due = 0;
         try {
-            $payment = optional($this->payments)->sum('amount');
+            $payment = $this->payment;
         } catch (\Exception $exception) {
             $payment = 0;
         }
@@ -134,12 +134,12 @@ class Bill extends Model
 
     public function getPaidAttribute()
     {
-        return optional($this->payments)->sum('amount');
+        return $this->payment;
     }
 
     public function getPaymentAttribute()
     {
-        return optional($this->payments)->sum('amount');
+        return optional($this->payments)->sum('amount') + ($this->from_advance ?? 0);
     }
 
     public function payments()
@@ -150,7 +150,7 @@ class Bill extends Model
 
     public function getPaymentStatusTextAttribute()
     {
-        $paymentAmount = $this->payments->sum('amount');
+        $paymentAmount = $this->payment;
         $this->total = floatval($this->total);
 //        dump($paymentAmount,$this->total);
         if ($this->total <= $paymentAmount) {

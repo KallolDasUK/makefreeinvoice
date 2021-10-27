@@ -102,6 +102,8 @@
             })
 
             setTimeout(() => {
+                $('#vendor_id').trigger('change')
+
                 let paymentAmount = {{ $bill->payment_amount??0 }};
                 if (paymentAmount) {
 

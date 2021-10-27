@@ -206,19 +206,27 @@
                 </tbody>
             </table>
         </div>
-        <div><label class=" form-check form-check-inline form-control-plaintext">
+        <div>
+            <label class=" form-check form-check-inline form-control-plaintext" id="paymentSection">
                 <input id="paymentCheckBox" class="form-check-input" name="is_payment"
                        type="checkbox" {{ optional($invoice)->is_payment?'checked':'' }}>
                 &nbsp;
                 <label for="paymentCheckBox" class="form-check-label"><span class="text-bold"> I have received the payment </span></label>
             </label>
 
+            <div class="advanceContainer d-none">
+                <label>→ <span id="using_advance_amount"></span> is being used from advance payment (<span
+                        id="advance_amount" class="font-weight-bolder text-primary"></span>).
 
+                </label>
+                <input type="text" name="from_advance" id="from_advance" hidden value="0">
+                <input type="text" name="advance" id="advance" hidden value="0">
+            </div>
             <div class="paymentContainer mt-4" @if(optional($invoice)->is_payment) style="display: block"
                  @else style="display: none" @endif>
                 <div class="form-group row">
                     <div class="col-form-label col-lg-4 text-right required">
-                        <label class="font-weight-bolder " style="font-size: 14px"> Amount <span
+                        <label class="font-weight-bolder " style="font-size: 14px">Payable Amount <span
                                 class="text-danger">*</span></label>
                     </div>
                     <div class="col-lg-6">
@@ -263,6 +271,7 @@
                     </div>
                 </div>
             </div>
+
 
         </div>
     </div>
@@ -521,6 +530,9 @@
 
 
 
+
+
+
     </script>
 @endverbatim
 @verbatim
@@ -653,6 +665,9 @@
 
 
 
+
+
+
     </script>
 @endverbatim
 @verbatim
@@ -677,6 +692,9 @@
               <td><span class="text-primary " on-click="@this.addAdditionalField()" style="cursor:pointer;">+ Add More</span></td>
               <td></td>
           </tr>
+
+
+
 
 
 

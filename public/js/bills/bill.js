@@ -326,7 +326,27 @@ function calculateOthers() {
     $('#bill_items').val(JSON.stringify(ractive.get('bill_items')))
     $('#additional').val(JSON.stringify(ractiveExtra.get('pairs').filter((pair) => pair.value !== '' && pair.value !== 0)))
     // console.log(ractiveExtra.get('pairs').filter((pair) => pair.value !== '' && pair.value !== 0))
+    let advancePayment = $('#advance').val() || 0;
+    ractive.set('payable', total)
 
+    if (advancePayment > 0) {
+        if (advancePayment >= total) {
+            $('#paymentSection').hide()
+            $('#from_advance').val(total).trigger('change')
+            ractive.set('payable', 0)
+
+        } else if (advancePayment < total) {
+            $('#paymentSection').show()
+            let remaining = total - advancePayment;
+            $('#from_advance').val(advancePayment).trigger('change')
+            $('#paymentAmount').prop('max', remaining.toFixed(2))
+            $('#paymentAmount').val(remaining.toFixed(2)).trigger('change')
+            ractive.set('payable', remaining)
+
+
+        }
+
+    }
 }
 
 $('#discountValue').on('input', () => calculateOthers());

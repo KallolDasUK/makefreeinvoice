@@ -86,6 +86,7 @@
         var invoice_items = @json($invoice_items);
         var products = @json($products);
         var additional_fields = @json($extraFields);
+        var from_advance = {{ optional($invoice)->from_advance??0 }}
 
         console.log(pair, 'pairs')
         $(document).ready(function () {
@@ -107,6 +108,9 @@
             })
 
             setTimeout(() => {
+                $('#from_advance').val(from_advance).trigger('change')
+                $('#customer_id').trigger('change')
+
                 let paymentAmount = {{ $invoice->payment_amount??0 }};
                 if (paymentAmount) {
 
@@ -115,9 +119,11 @@
 
                     $('#paymentAmount').val($('#total').val())
                 }
-                console.log('payment amount', paymentAmount)
+                console.log('payment amount', from_advance)
+                // alert(from_advance)
 
             }, 1000)
+
 
         });
     </script>

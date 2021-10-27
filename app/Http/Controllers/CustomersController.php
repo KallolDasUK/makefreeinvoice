@@ -115,6 +115,12 @@ class CustomersController extends Controller
         return view('customers.edit', compact('customer'));
     }
 
+    public function advanceInfo($id)
+    {
+        $customer = Customer::findOrFail($id);
+        return ['name' => $customer->name, 'advance' => $customer->advance];
+    }
+
 
     public function update($id, Request $request)
     {
