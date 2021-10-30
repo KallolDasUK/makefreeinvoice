@@ -456,6 +456,9 @@
                             <a href="{{ route('products.product.index') }}"
                                class="@cannot('create',\App\Models\Invoice::class) pro-tag @endcannot"
                                style="min-width: 100px;position:relative;"><i class="fab fa-product-hunt"></i> Products
+                            </a>  <a href="{{ route('products.product.barcode') }}"
+                               class="@cannot('create',\App\Models\Invoice::class) pro-tag @endcannot"
+                               style="min-width: 100px;position:relative;"><i class="fa fa-barcode"></i> Print Barcode
                             </a>
 
                             <a href="{{ route('categories.category.index') }}"

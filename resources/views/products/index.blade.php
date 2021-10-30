@@ -21,7 +21,15 @@
             <h5 class="my-1 float-left">Products</h5>
 
             <div class="btn-group btn-group-sm float-right" role="group">
-                <a href="{{ route('products.product.create') }}" class="btn btn-success btn-lg font-weight-bolder font-size-sm" style="font-size: 16px" title="Create New Product">
+                <a href="{{ route('products.product.barcode') }}"
+                   class="btn btn-success btn-lg font-weight-bolder font-size-sm mx-4" style="font-size: 16px"
+                   title="Create New Product">
+                    <i class="fa fa-barcode" aria-hidden="true"></i>
+                    Print Barcode
+                </a>
+                <a href="{{ route('products.product.create') }}"
+                   class="btn btn-success btn-lg font-weight-bolder font-size-sm" style="font-size: 16px"
+                   title="Create New Product">
                     <i class="fas fa-fw fa-plus" aria-hidden="true"></i>
                     Create New Product
                 </a>
@@ -32,7 +40,9 @@
         @if(count($products) == 0)
             <div class="card-body text-center">
                 <div class="text-center">
-                    <img style="text-align: center;margin: 0 auto;" src="https://1.bp.blogspot.com/-oFZuUJWkeVI/YU2wRxUt26I/AAAAAAAAFKw/tA92-qZCPksDCerRYqgANfzaeF8xtGTFQCLcBGAsYHQ/s320/norecord.png" alt="">
+                    <img style="text-align: center;margin: 0 auto;"
+                         src="https://1.bp.blogspot.com/-oFZuUJWkeVI/YU2wRxUt26I/AAAAAAAAFKw/tA92-qZCPksDCerRYqgANfzaeF8xtGTFQCLcBGAsYHQ/s320/norecord.png"
+                         alt="">
 
                 </div>
             </div>

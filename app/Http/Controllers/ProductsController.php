@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Brand;
 use App\Models\Category;
+use App\Models\MetaSetting;
 use App\Models\Product;
 use App\Models\ProductUnit;
 use Enam\Acc\Models\Ledger;
@@ -33,6 +34,13 @@ class ProductsController extends Controller
         return view('products.create', compact('categories', 'units', 'brands'));
     }
 
+    public function barcode_size(Request $request)
+    {
+        MetaSetting::query()->updateOrCreate(['key' => 'barcode_height'], ['value' => $request->height]);
+        MetaSetting::query()->updateOrCreate(['key' => 'barcode_width'], ['value' => $request->width]);
+
+        return [];
+    }
 
     public function store(Request $request)
     {
@@ -85,7 +93,9 @@ class ProductsController extends Controller
     public function show($id)
     {
         $product = Product::with('category')->findOrFail($id);
-
+        if (\request()->ajax()) {
+            return $product;
+        }
         return view('products.show', compact('product'));
     }
 
@@ -98,6 +108,13 @@ class ProductsController extends Controller
         $brands = Brand::pluck('name', 'id')->all();
 
         return view('products.edit', compact('product', 'categories', 'units', 'brands'));
+    }
+
+    public function barcode()
+    {
+        view()->share('title', 'Print Barcode');
+        $products = Product::all();
+        return view('products.barcode', compact('products'));
     }
 
     public function bookmark(Request $request)
@@ -117,11 +134,20 @@ class ProductsController extends Controller
     }
 
 
+    public function updateBarcode($id, Request $request)
+    {
+        $product = Product::findOrFail($id);
+        $product->code = $request->code;
+        $product->save();
+
+        return [];
+    }
+
     public function update($id, Request $request)
     {
 
 
-        $data = $this->getData($request);
+        $data = $this->getData($request, $id);
 
         $product = Product::findOrFail($id);
         $product->update($data);
@@ -151,12 +177,12 @@ class ProductsController extends Controller
     }
 
 
-    protected function getData(Request $request)
+    protected function getData(Request $request, $id = null)
     {
         $rules = [
             'product_type' => 'required|nullable',
             'name' => 'required|nullable|string',
-            'code' => 'nullable|string',
+            'code' => 'nullable|string|unique:products,code',
             'sku' => 'nullable|string|min:0|max:255',
             'photo' => ['file', 'nullable'],
             'category_id' => 'nullable',
@@ -170,6 +196,11 @@ class ProductsController extends Controller
             'opening_stock' => 'string|min:1|nullable|numeric',
             'opening_stock_price' => 'nullable|numeric',
         ];
+        if ($id) {
+
+            $rules['code'] = 'nullable|string|unique:products,code,' . $id;
+        }
+//        dd($request->all());
 
         $data = $request->validate($rules);
         if ($request->has('custom_delete_photo')) {
