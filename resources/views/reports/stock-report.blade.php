@@ -168,11 +168,15 @@
 
                                     <td class="text-right border-0 ">Purchase <br> Return (-)</td>
                                     <td class="text-right border-0 ">Sales <br> Return (+)</td>
+                                    <td class="text-right border-0 ">Used In <br> Production (-)</td>
+                                    <td class="text-right border-0 ">Produced In <br> Production (+)</td>
+
+
                                     <td class="text-right border-0 ">Stock <br> Adjusted (Added +)</td>
                                     <td class="text-right border-0 ">Stock <br> Adjusted (Removed -)</td>
 
-                                    <td class="text-right border-0">Stock</td>
-                                    <td class="text-right border-0">Stock Value</td>
+                                    <td class="text-right border-0  bg-secondary">Stock</td>
+                                    <td class="text-right border-0  bg-secondary">Stock Value</td>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -186,10 +190,14 @@
                                         <td class="text-right border-0">{{ decent_format_dash($record->sold) }}</td>
                                         <td class="text-right border-0">{{ decent_format_dash($record->purchase_return) }}</td>
                                         <td class="text-right border-0">{{ decent_format_dash($record->sales_return) }}</td>
+                                        <td class="text-right border-0">{{ decent_format_dash($record->used_in_production) }}</td>
+                                        <td class="text-right border-0">{{ decent_format_dash($record->produced_in_production) }}</td>
+
+
                                         <td class="text-right border-0">{{ decent_format_dash($record->added) }}</td>
                                         <td class="text-right border-0  ">{{ decent_format_dash($record->removed) }}</td>
-                                        <td class="text-right border-0">{{ decent_format_dash($record->stock) }}</td>
-                                        <td class="text-right border-0">{{ decent_format_dash_if_zero($record->stockValue) }}</td>
+                                        <td class="text-right border-0  bg-secondary">{{ decent_format_dash($record->stock) }}</td>
+                                        <td class="text-right border-0  bg-secondary">{{ decent_format_dash_if_zero($record->stockValue) }}</td>
 
                                     </tr>
                                 @endforeach
@@ -206,9 +214,11 @@
                                     <td class="text-right border-0 font-weight-bolder">{{ decent_format_dash(collect($records)->sum('sold')) }}</td>
                                     <td class="text-right border-0 font-weight-bolder">{{ decent_format_dash(collect($records)->sum('purchase_return')) }}</td>
                                     <td class="text-right border-0 font-weight-bolder">{{ decent_format_dash(collect($records)->sum('sales_return')) }}</td>
+                                    <td class="text-right border-0 font-weight-bolder">{{ decent_format_dash(collect($records)->sum('used_in_production')) }}</td>
+                                    <td class="text-right border-0 font-weight-bolder">{{ decent_format_dash(collect($records)->sum('produced_in_production')) }}</td>
                                     <td class="text-right border-0 font-weight-bolder">{{ decent_format_dash(collect($records)->sum('added')) }}</td>
                                     <td class="text-right border-0 font-weight-bolder  ">{{ decent_format_dash(collect($records)->sum('removed')) }}</td>
-                                    <td class="text-right border-0 font-weight-bolder  ">{{ decent_format_dash(collect($records)->sum('stock')) }}</td>
+                                    <td class="text-right border-0 font-weight-bolder bg-secondary ">{{ decent_format_dash(collect($records)->sum('stock')) }}</td>
                                     <td class="text-right border-0 font-weight-bolder  ">{{ decent_format_dash_if_zero(collect($records)->sum('stockValue')) }}</td>
 
 

@@ -167,8 +167,15 @@ class Product extends Model
             ->where('date', '<=', $start_date)
             ->sum('sub_qnt');
 
-
-        $stock = ($enteredOpening + $purchase + $added + $sales_return) - ($sold + $removed + $purchase_return);
+        $used_in_production = IngredientItem::query()
+            ->where('product_id', $product->id)
+            ->where('date', '<=', $start_date)
+            ->sum('qnt');
+        $produced_in_production = ProductionItem::query()
+            ->where('product_id', $product->id)
+            ->where('date', '<=', $start_date)
+            ->sum('qnt');
+        $stock = ($enteredOpening + $purchase + $added + $sales_return + $produced_in_production) - ($sold + $removed + $purchase_return + $used_in_production);
         return $stock;
     }
 

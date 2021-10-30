@@ -5,6 +5,7 @@ use App\Http\Controllers\BillingsController;
 use App\Http\Controllers\BillPaymentsController;
 use App\Http\Controllers\BillsController;
 use App\Http\Controllers\CustomerAdvancePaymentsController;
+use App\Http\Controllers\ProductionsController;
 use App\Http\Controllers\PurchaseOrdersController;
 use App\Http\Controllers\BlogsController;
 use App\Http\Controllers\BlogTagsController;
@@ -501,6 +502,21 @@ Route::group(['middleware' => 'auth:web', 'prefix' => 'app'], function () {
     });
 
 
+    /*
+     *  php artisan resource-file:create Production --fields=id,ref,date,status,note
+     *  php artisan create:scaffold Production  --layout-name="acc::layouts.app" --with-migration
+     * */
+    Route::group(['prefix' => 'productions'], function () {
+
+        Route::get('/', [ProductionsController::class,'index'])->name('productions.production.index');
+        Route::get('/create',[ProductionsController::class,'create'])->name('productions.production.create');
+        Route::get('/show/{production}',[ProductionsController::class,'show'])->name('productions.production.show')->where('id', '[0-9]+');
+        Route::get('/{production}/edit',[ProductionsController::class,'edit'])->name('productions.production.edit')->where('id', '[0-9]+');
+        Route::post('/', [ProductionsController::class,'store'])->name('productions.production.store');
+        Route::put('production/{production}', [ProductionsController::class,'update'])->name('productions.production.update')->where('id', '[0-9]+');
+        Route::delete('/production/{production}',[ProductionsController::class,'destroy'])->name('productions.production.destroy')->where('id', '[0-9]+');
+
+    });
 });
 
 
@@ -615,6 +631,8 @@ Route::get('/task', function () {
 
     dd('task completed');
 });
+
+
 
 
 
