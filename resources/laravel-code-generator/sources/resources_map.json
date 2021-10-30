@@ -80,5 +80,9 @@
     {
         "model-name": "VendorAdvancePayment",
         "resource-file": "vendor_advance_payments.json"
+    },
+    {
+        "model-name": "Production",
+        "resource-file": "productions.json"
     }
 ]

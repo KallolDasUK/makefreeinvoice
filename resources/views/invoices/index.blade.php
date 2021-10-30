@@ -208,7 +208,7 @@
                         @foreach($invoices as $invoice)
 
                             <tr>
-                                <td>{{ $loop->iteration }}</td>
+                                <td>{{ (($invoices->currentPage() - 1) * $invoices->perPage()) + $loop->iteration }}</td>
 
                                 <td class="text-center ">
                                     <a class="font-weight-bolder d-block font-size-lg underline text-left invoice_number"

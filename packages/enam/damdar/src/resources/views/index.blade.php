@@ -276,7 +276,14 @@
                     <div class="shortcuts-title  text-black">Add Adjustment</div>
                 </a>
 
+                <a href="{{ route('productions.production.index') }}"
+                   style="position:relative;"
+                   class="sc-gPEVay eaBhby border rounded ">
+                    <div class="sc-iRbamj image" style="background-image:url('images/factory.svg') ">
 
+                    </div>
+                    <div class="shortcuts-title  text-black">My Productions</div>
+                </a>
             </div>
         </div>
         <div class="row card mt-4">
@@ -373,9 +380,9 @@
 
                     </div>
                     <div class="shortcuts-title sc-jlyJG gSoaLO title">Sales <br> Report</div>
-                </a>   <a class="sc-gPEVay eaBhby"
-                   style="position:relative;"
-                   href="{{ route('reports.report.sales_report_details') }}">
+                </a> <a class="sc-gPEVay eaBhby"
+                        style="position:relative;"
+                        href="{{ route('reports.report.sales_report_details') }}">
                     <div class="sc-iRbamj image" style="background-image:url('images/estimate.svg') ">
 
                     </div>

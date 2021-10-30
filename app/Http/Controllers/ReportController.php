@@ -61,8 +61,6 @@ class ReportController extends AccountingReportsController
         $title = "Customer Statement";
 
         if ($customer_id) {
-
-
             $records = $this->getCustomerStatement($start_date, $end_date, $customer_id);
             $previous = $this->getCustomerOpeningBalance($start_date, $end_date, $customer_id);
             $opening = $previous->amount - $previous->payment + $previous->balance;
@@ -88,9 +86,17 @@ class ReportController extends AccountingReportsController
         $vendor = Vendor::find($vendor_id);
 
         $title = "Vendor Statement";
-        $records = $this->getVendorStatement($start_date, $end_date, $vendor_id);
-        $previous = $this->getVendorOpeningBalance($start_date, $end_date, $vendor_id);
-        $opening = $previous->amount - $previous->payment + $previous->balance;
+
+        if ($vendor_id){
+            $records = $this->getVendorStatement($start_date, $end_date, $vendor_id);
+            $previous = $this->getVendorOpeningBalance($start_date, $end_date, $vendor_id);
+            $opening = $previous->amount - $previous->payment + $previous->balance;
+        }else{
+            $records = [];
+            $previous = 0;
+            $opening =0;
+        }
+
         return view('reports.vendor-statement', compact('title', 'start_date', 'end_date', 'vendors', 'records', 'vendor_id', 'vendor', 'previous', 'opening'));
     }
 
