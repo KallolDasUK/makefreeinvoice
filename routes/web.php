@@ -255,11 +255,14 @@ Route::group(['middleware' => 'auth:web', 'prefix' => 'app'], function () {
 
         Route::get('/', [ProductsController::class, 'index'])->name('products.product.index');
         Route::get('/create', [ProductsController::class, 'create'])->name('products.product.create');
+        Route::get('/barcode_size', [ProductsController::class, 'barcode_size'])->name('products.product.barcode_size');
         Route::get('/show/{product}', [ProductsController::class, 'show'])->name('products.product.show')->where('id', '[0-9]+');
         Route::get('/{product}/edit', [ProductsController::class, 'edit'])->name('products.product.edit')->where('id', '[0-9]+');
         Route::get('/bookmark', [ProductsController::class, 'bookmark'])->name('products.product.bookmark');
+        Route::get('/barcode', [ProductsController::class, 'barcode'])->name('products.product.barcode');
         Route::post('/', [ProductsController::class, 'store'])->name('products.product.store');
         Route::put('product/{product}', [ProductsController::class, 'update'])->name('products.product.update')->where('id', '[0-9]+');
+        Route::post('product/{product}/updateBarcode', [ProductsController::class, 'updateBarcode'])->name('products.product.updateBarcode')->where('id', '[0-9]+');
         Route::delete('/product/{product}', [ProductsController::class, 'destroy'])->name('products.product.destroy')->where('id', '[0-9]+');
 
     });
@@ -517,6 +520,14 @@ Route::group(['middleware' => 'auth:web', 'prefix' => 'app'], function () {
         Route::delete('/production/{production}',[ProductionsController::class,'destroy'])->name('productions.production.destroy')->where('id', '[0-9]+');
 
     });
+
+
+    /*
+  *  php artisan resource-file:create StockEntry --fields=id,ref,date
+  *  php artisan create:scaffold StockEntry  --layout-name="acc::layouts.app" --with-migration
+  * */
+
+
 });
 
 
