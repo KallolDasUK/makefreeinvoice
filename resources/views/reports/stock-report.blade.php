@@ -153,7 +153,7 @@
                 <div class="card">
                     <div class="card-body p-0">
                         <div class="">
-                            <table class="table mb-0 table-bordered">
+                            <table class="table mb-0 table-bordered table-sm">
                                 <thead class="card-header">
                                 <tr>
                                     <td class=" border-0"><strong>SL</strong></td>
