@@ -225,7 +225,7 @@
                                     <td class="text-right border-0 font-weight-bolder  ">{{ decent_format_dash(collect($records)->sum('removed')) }}</td>
                                     <td class="text-right border-0 font-weight-bolder  ">{{ decent_format_dash(collect($records)->sum('stock_entry')) }}</td>
                                     <td class="text-right border-0 font-weight-bolder bg-secondary ">{{ decent_format_dash(collect($records)->sum('stock')) }}</td>
-                                    <td class="text-right border-0 font-weight-bolder  ">{{ decent_format_dash_if_zero(collect($records)->sum('stockValue')) }}</td>
+                                    <td class="text-right border-0 font-weight-bolder   bg-secondary">{{ decent_format_dash_if_zero(collect($records)->sum('stockValue')) }}</td>
 
 
                                 </tr>
