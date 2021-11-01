@@ -315,6 +315,14 @@
                     </div>
                     <div class="shortcuts-title  text-black">My Productions</div>
                 </a>
+                <a href="{{ route('stock_entries.stock_entry.create') }}"
+                   style="position:relative;"
+                   class="sc-gPEVay eaBhby border rounded ">
+                    <div class="sc-iRbamj image" style="background-image:url('images/plus.svg') ">
+
+                    </div>
+                    <div class="shortcuts-title  text-black">Add Stock</div>
+                </a>
             </div>
         </div>
 

@@ -16,6 +16,8 @@ $(document).ready(function () {
             return confirmationMessage; //Gecko + Webkit, Safari, Chrome etc.
         }
     });
+
+
     /*  Creating Product Via Ajax with Validation */
     $('#createProductForm').validate({
         submitHandler: function (form) {

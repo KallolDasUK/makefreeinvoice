@@ -85,6 +85,8 @@ class ClientUserIdProvider extends ServiceProvider
             'productions',
             'production_items',
             'ingredient_items',
+            'stock_entries',
+            'stock_entry_items',
         ];
         foreach ($saasTable as $tableName) {
             $className = '\\App\\Models\\' . Str::studly(Str::singular($tableName));

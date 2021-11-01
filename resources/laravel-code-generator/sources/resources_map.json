@@ -84,5 +84,9 @@
     {
         "model-name": "Production",
         "resource-file": "productions.json"
+    },
+    {
+        "model-name": "StockEntry",
+        "resource-file": "stock_entries.json"
     }
 ]

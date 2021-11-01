@@ -13,15 +13,36 @@ use Enam\Acc\Models\TransactionDetail;
 use Enam\Acc\Traits\TransactionTrait;
 use Enam\Acc\Utils\EntryType;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ProductsController extends Controller
 {
     use TransactionTrait;
 
-    public function index()
+    public function search(Request $request)
     {
-        $products = Product::with('category')->latest()->get();
+        if ($request->ajax()) {
+            $products = DB::table('products')->where('name', 'like', '%' . $request->search . '%')->select(['id', 'name as text'])->limit(5)->get();
 
+            if ($request->search) {
+                return ['results' => $products];
+            }
+            return ['results' => DB::table('products')->latest()->select(['id', 'name as text'])->limit(5)->get()];
+
+        }
+        return [];
+    }
+
+    public function index(Request $request)
+    {
+        if ($request->ajax()) {
+
+            return DB::table('products')->latest()->get();
+
+        }
+        //dd($products);
+        $products = Product::with('category')->latest()->get();
+//        dd($products);
         return view('products.index', compact('products'));
     }
 
@@ -254,5 +275,45 @@ class ProductsController extends Controller
         $saved = $file->store('public/' . $path, config('filesystems.default'));
 
         return substr($saved, 7);
+    }
+
+    public function import()
+    {
+     //   Product::query()->whereDate('created_at',today()->toDateString())->delete();
+        dd('sldfj');
+
+        $categories = collect(json_decode(file_get_contents("categories.json")));
+        $products = collect(json_decode(file_get_contents("products.json")));
+        foreach ($products as $product) {
+            Product::query()->where('name', $product->product_name)->delete();
+        }
+        foreach ($categories as $category) {
+            Category::query()->where('name', $category->group_name)->delete();
+        }
+
+        foreach ($categories as $category) {
+            $real_category = Category::query()->firstOrCreate(['name' => $category->group_name], ['name' => $category->group_name]);
+            $products->where('category_id', $category->group_id)->each(function ($product) use ($real_category) {
+                $product->category_id = $real_category->id;
+            });
+//            dd($products->take(10));
+        }
+        foreach ($products as $product) {
+            $product->retail_sale_rate = $product->retail_sale_rate == '' ? 0 : $product->retail_sale_rate;
+            $product->purchase_per_unit = $product->purchase_per_unit == '' ? 0 : $product->purchase_per_unit;
+            $product->category_id = $product->category_id == '' ? null : $product->category_id;
+            Product::create([
+                'product_type' => 'Goods',
+                'name' => $product->product_name,
+                'code' => $product->product_code,
+                'description' => $product->Description,
+                'category_id' => $product->category_id,
+                'sell_price' => $product->retail_sale_rate,
+                'purchase_price' => $product->purchase_per_unit,
+                'sell_unit' => 'Pcs',
+                'purchase_unit' => 'Pcs'
+            ]);
+        }
+        dd($products, $categories);
     }
 }

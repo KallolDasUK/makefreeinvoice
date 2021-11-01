@@ -88,8 +88,9 @@ class InvoicesController extends Controller
         $depositAccounts = Ledger::find($this->getAssetLedgers())->sortBy('ledger_name');
         $paymentMethods = PaymentMethod::query()->get();
         $customers = Customer::pluck('name', 'id')->all();
-        $products = Product::query()->latest()->get();
-        $categories = Category::query()->latest()->get();
+        $products = Product::all();
+
+        $categories = Category::all();
         $taxes = Tax::query()->latest()->get()->toArray();
         $extraFields = optional(Invoice::query()->latest()->first())->extra_fields ?? [];
         $invoice_fields = optional(Invoice::query()->latest()->first())->invoice_extra ?? [];
