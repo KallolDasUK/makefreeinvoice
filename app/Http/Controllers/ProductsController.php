@@ -37,7 +37,7 @@ class ProductsController extends Controller
     {
         if ($request->ajax()) {
 
-            return Product::query()->latest()->get();
+            return Product::query()->orderBy('name')->get();
 
         }
         //dd($products);
