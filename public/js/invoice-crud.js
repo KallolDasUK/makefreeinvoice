@@ -19,6 +19,13 @@ $(document).ready(function () {
     $('#currency').select2()
     $('#sr_id').select2({placeholder: "-- Sales Representative --", allowClear: true});
 
+
+    // $.ajax({
+    //     url: route('products.product.index'),
+    //     success: function (response) {
+    //         ractive.set('products', response)
+    //     }
+    // })
     /*  Creating Product Via Ajax with Validation */
     $('#createProductForm').validate({
         submitHandler: function (form) {

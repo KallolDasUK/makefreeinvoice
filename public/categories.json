@@ -1,0 +1,290 @@
+[
+    {
+        "group_id": 1,
+        "group_name": "GENTS SHIRT=SHORT+D"
+    },
+    {
+        "group_id": 2,
+        "group_name": "GENTS SHIRT=FORMAL"
+    },
+    {
+        "group_id": 3,
+        "group_name": "GENTS T- SHIRT"
+    },
+    {
+        "group_id": 4,
+        "group_name": "GENTS PANT=JEANS"
+    },
+    {
+        "group_id": 5,
+        "group_name": "GENTS PANT=GABADIN"
+    },
+    {
+        "group_id": 6,
+        "group_name": "GENTS PUNJABI=LONG"
+    },
+    {
+        "group_id": 7,
+        "group_name": "GENTS PUNJABI=SHORT"
+    },
+    {
+        "group_id": 8,
+        "group_name": "GENTS FOTUA=HALF"
+    },
+    {
+        "group_id": 9,
+        "group_name": "GENTS FOTUA=FULL"
+    },
+    {
+        "group_id": 10,
+        "group_name": "GENTS BLAZER"
+    },
+    {
+        "group_id": 11,
+        "group_name": "GENTS JACKET"
+    },
+    {
+        "group_id": 12,
+        "group_name": "GENTS SWATTER"
+    },
+    {
+        "group_id": 13,
+        "group_name": "GENTS PAYJAMA"
+    },
+    {
+        "group_id": 14,
+        "group_name": "LADIES 3PCS=INDIAN"
+    },
+    {
+        "group_id": 15,
+        "group_name": "LADIES 3PCS=T.M.M.S"
+    },
+    {
+        "group_id": 16,
+        "group_name": "LADIES 3PCS=BOUTICS"
+    },
+    {
+        "group_id": 17,
+        "group_name": "LADIES AUN STEACH"
+    },
+    {
+        "group_id": 18,
+        "group_name": "LADIES NAITY"
+    },
+    {
+        "group_id": 19,
+        "group_name": "LADIES TOPS=INDIAN"
+    },
+    {
+        "group_id": 20,
+        "group_name": "LADIES FOTUA=T.M.M.S"
+    },
+    {
+        "group_id": 21,
+        "group_name": "LADIES FOTUA=JUWEL"
+    },
+    {
+        "group_id": 22,
+        "group_name": "LADIES FOTUA=B"
+    },
+    {
+        "group_id": 23,
+        "group_name": "LADIES PANT=ALL"
+    },
+    {
+        "group_id": 24,
+        "group_name": "LADIES BRA"
+    },
+    {
+        "group_id": 25,
+        "group_name": "LADIES PANTY"
+    },
+    {
+        "group_id": 26,
+        "group_name": "LADIES CARDIGAN"
+    },
+    {
+        "group_id": 27,
+        "group_name": "LADIES JACKET"
+    },
+    {
+        "group_id": 28,
+        "group_name": "LADIES SWATTER"
+    },
+    {
+        "group_id": 29,
+        "group_name": "LADIES SHAL"
+    },
+    {
+        "group_id": 30,
+        "group_name": "LEGGING"
+    },
+    {
+        "group_id": 31,
+        "group_name": "GIRLS 3PCS=26*36"
+    },
+    {
+        "group_id": 32,
+        "group_name": "GIRLS LONG PARTY FROG"
+    },
+    {
+        "group_id": 33,
+        "group_name": "GIRLS LACHHA"
+    },
+    {
+        "group_id": 34,
+        "group_name": "GIRLS MINI SKIRT"
+    },
+    {
+        "group_id": 35,
+        "group_name": "GIRLS COTTON=S+F"
+    },
+    {
+        "group_id": 36,
+        "group_name": "GIRLS LONG SKIRT"
+    },
+    {
+        "group_id": 37,
+        "group_name": "BOYS SHIRT"
+    },
+    {
+        "group_id": 38,
+        "group_name": "BOYS T- SHIRT+SET"
+    },
+    {
+        "group_id": 39,
+        "group_name": "BOYS PANT=FULL"
+    },
+    {
+        "group_id": 40,
+        "group_name": "BOYS PANT=3 QUTAR"
+    },
+    {
+        "group_id": 41,
+        "group_name": "BOYS PUNJABI"
+    },
+    {
+        "group_id": 42,
+        "group_name": "BOYS FOTUA"
+    },
+    {
+        "group_id": 43,
+        "group_name": "BOYS JACKET"
+    },
+    {
+        "group_id": 44,
+        "group_name": "BOYS BLAZER"
+    },
+    {
+        "group_id": 45,
+        "group_name": "BOYS SWATTER"
+    },
+    {
+        "group_id": 46,
+        "group_name": "TAI"
+    },
+    {
+        "group_id": 47,
+        "group_name": "CAP"
+    },
+    {
+        "group_id": 48,
+        "group_name": "GENTS PUNJABI=OLD"
+    },
+    {
+        "group_id": 49,
+        "group_name": "OTHERS"
+    },
+    {
+        "group_id": 50,
+        "group_name": "A1"
+    },
+    {
+        "group_id": 51,
+        "group_name": "A2"
+    },
+    {
+        "group_id": 52,
+        "group_name": "Boys Fotua=Half"
+    },
+    {
+        "group_id": 53,
+        "group_name": "GIRLS FOTUA"
+    },
+    {
+        "group_id": 54,
+        "group_name": "GIRLS TOPS"
+    },
+    {
+        "group_id": 55,
+        "group_name": "GIRLS 3PCS=B"
+    },
+    {
+        "group_id": 56,
+        "group_name": "AUNDER GARMENTS"
+    },
+    {
+        "group_id": 57,
+        "group_name": "Girls Western Set"
+    },
+    {
+        "group_id": 58,
+        "group_name": "BLANKET"
+    },
+    {
+        "group_id": 59,
+        "group_name": "PAKISTANI LAWN"
+    },
+    {
+        "group_id": 60,
+        "group_name": "PLAZO"
+    },
+    {
+        "group_id": 61,
+        "group_name": "J . K = Boutics"
+    },
+    {
+        "group_id": 62,
+        "group_name": "RIJVI = FIDA"
+    },
+    {
+        "group_id": 63,
+        "group_name": "JENTS T - SHIRT= I.T.C"
+    },
+    {
+        "group_id": 64,
+        "group_name": "NAITY"
+    },
+    {
+        "group_id": 65,
+        "group_name": "JENTS SHIRT= I + C"
+    },
+    {
+        "group_id": 66,
+        "group_name": "TOPS =IC"
+    },
+    {
+        "group_id": 67,
+        "group_name": "SHIRT=FIDA"
+    },
+    {
+        "group_id": 68,
+        "group_name": "JENTS PANT"
+    },
+    {
+        "group_id": 69,
+        "group_name": "LADIES 3PCS=IC"
+    },
+    {
+        "group_id": 70,
+        "group_name": "Girls IC 3Pcs"
+    },
+    {
+        "group_id": 71,
+        "group_name": "KORTIY"
+    },
+    {
+        "group_id": 72,
+        "group_name": "RIJVI NEW PANJABI"
+    }
+]

@@ -55,6 +55,7 @@
 
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/underscore@1.13.1/underscore-umd-min.js"></script>
 
     {{--    <script src="https://cdnjs.cloudflare.com/ajax/libs/TableDnD/0.9.1/jquery.tablednd.js"--}}
     {{--            integrity="sha256-d3rtug+Hg1GZPB7Y/yTcRixO/wlI78+2m08tosoRn7A=" crossorigin="anonymous"></script>--}}
@@ -486,6 +487,11 @@
                                style="min-width: 100px;position:relative;"><i
                                     class="fa fa-list-alt" aria-hidden="true"></i>Sales <br>
                                 Return</a>
+                            <a href="{{ route('stock_entries.stock_entry.create') }}"
+                               class=""
+                               style="min-width: 100px;position:relative;"><i
+                                    class="fa fa-plus" aria-hidden="true"></i>Add Stock <br>
+                                </a>
 
 
                         </div>

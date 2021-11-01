@@ -25,6 +25,7 @@ use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SalesReturnsController;
 use App\Http\Controllers\SocialLoginController;
 use App\Http\Controllers\SRsController;
+use App\Http\Controllers\StockEntriesController;
 use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\TaxesController;
 use App\Http\Controllers\ReceivePaymentsController;
@@ -254,7 +255,9 @@ Route::group(['middleware' => 'auth:web', 'prefix' => 'app'], function () {
     Route::group(['prefix' => 'products'], function () {
 
         Route::get('/', [ProductsController::class, 'index'])->name('products.product.index');
+        Route::get('/search', [ProductsController::class, 'search'])->name('products.product.search');
         Route::get('/create', [ProductsController::class, 'create'])->name('products.product.create');
+        Route::get('/import', [ProductsController::class, 'import'])->name('products.product.import');
         Route::get('/barcode_size', [ProductsController::class, 'barcode_size'])->name('products.product.barcode_size');
         Route::get('/show/{product}', [ProductsController::class, 'show'])->name('products.product.show')->where('id', '[0-9]+');
         Route::get('/{product}/edit', [ProductsController::class, 'edit'])->name('products.product.edit')->where('id', '[0-9]+');
@@ -511,22 +514,35 @@ Route::group(['middleware' => 'auth:web', 'prefix' => 'app'], function () {
      * */
     Route::group(['prefix' => 'productions'], function () {
 
-        Route::get('/', [ProductionsController::class,'index'])->name('productions.production.index');
-        Route::get('/create',[ProductionsController::class,'create'])->name('productions.production.create');
-        Route::get('/show/{production}',[ProductionsController::class,'show'])->name('productions.production.show')->where('id', '[0-9]+');
-        Route::get('/{production}/edit',[ProductionsController::class,'edit'])->name('productions.production.edit')->where('id', '[0-9]+');
-        Route::post('/', [ProductionsController::class,'store'])->name('productions.production.store');
-        Route::put('production/{production}', [ProductionsController::class,'update'])->name('productions.production.update')->where('id', '[0-9]+');
-        Route::delete('/production/{production}',[ProductionsController::class,'destroy'])->name('productions.production.destroy')->where('id', '[0-9]+');
+        Route::get('/', [ProductionsController::class, 'index'])->name('productions.production.index');
+        Route::get('/create', [ProductionsController::class, 'create'])->name('productions.production.create');
+        Route::get('/show/{production}', [ProductionsController::class, 'show'])->name('productions.production.show')->where('id', '[0-9]+');
+        Route::get('/{production}/edit', [ProductionsController::class, 'edit'])->name('productions.production.edit')->where('id', '[0-9]+');
+        Route::post('/', [ProductionsController::class, 'store'])->name('productions.production.store');
+        Route::put('production/{production}', [ProductionsController::class, 'update'])->name('productions.production.update')->where('id', '[0-9]+');
+        Route::delete('/production/{production}', [ProductionsController::class, 'destroy'])->name('productions.production.destroy')->where('id', '[0-9]+');
 
     });
 
 
     /*
-  *  php artisan resource-file:create StockEntry --fields=id,ref,date
+     *
+  *  php artisan resource-file:create StockEntry --fields=id,ref,date,brand_id,category_id,product_id
   *  php artisan create:scaffold StockEntry  --layout-name="acc::layouts.app" --with-migration
-  * */
+  *
+ * */
 
+    Route::group(['prefix' => 'stock_entries'], function () {
+
+        Route::get('/', [StockEntriesController::class, 'index'])->name('stock_entries.stock_entry.index');
+        Route::get('/create', [StockEntriesController::class, 'create'])->name('stock_entries.stock_entry.create');
+        Route::get('/show/{stockEntry}', [StockEntriesController::class, 'show'])->name('stock_entries.stock_entry.show')->where('id', '[0-9]+');
+        Route::get('/{stockEntry}/edit', [StockEntriesController::class, 'edit'])->name('stock_entries.stock_entry.edit')->where('id', '[0-9]+');
+        Route::post('/', [StockEntriesController::class, 'store'])->name('stock_entries.stock_entry.store');
+        Route::put('stock_entry/{stockEntry}', [StockEntriesController::class, 'update'])->name('stock_entries.stock_entry.update')->where('id', '[0-9]+');
+        Route::delete('/stock_entry/{stockEntry}', [StockEntriesController::class, 'destroy'])->name('stock_entries.stock_entry.destroy')->where('id', '[0-9]+');
+
+    });
 
 });
 
@@ -629,8 +645,7 @@ Route::get('/task', function () {
             $customer = $invoice->customer ?? Customer::WALKING_CUSTOMER();
 //            dump($customer);
             $d = TransactionDetail::query()->where(['type' => get_class($invoice), 'type_id' => $invoice->id, 'ledger_id' => Ledger::ACCOUNTS_RECEIVABLE()])
-
-              ->update(['ledger_id' => optional($customer->ledger)->id]);
+                ->update(['ledger_id' => optional($customer->ledger)->id]);
         }
         foreach (\App\Models\PosPayment::all() as $receivePaymentItem) {
             $customer = $receivePaymentItem->pos_sale->customer ?? Customer::WALKING_CUSTOMER();
@@ -642,6 +657,7 @@ Route::get('/task', function () {
 
     dd('task completed');
 });
+
 
 
 

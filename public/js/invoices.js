@@ -199,6 +199,16 @@ for (let i = 0; i < invoice_items.length; i++) {
                 return "Press <code>Enter</code> to add";
             }
         },
+        // ajax: {
+        //     url: route('products.product.search'),
+        //     data: function (params) {
+        //         var query = {
+        //             search: params.term,
+        //             type: 'public'
+        //         }
+        //         return query;
+        //     }
+        // },
         escapeMarkup: function (markup) {
             return markup;
         }
@@ -226,7 +236,8 @@ for (let i = 0; i < invoice_items.length; i++) {
     // Test
     $(`#itemTax${i}`).select2({
         placeholder: "Select or Add Item",
-        allowClear: true
+        allowClear: true,
+
     }).on('select2:open', function (event) {
         let a = $(this).data('select2');
         let doExits = a.$results.parents('.select2-results').find('button')

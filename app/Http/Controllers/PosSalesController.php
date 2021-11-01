@@ -31,7 +31,7 @@ class PosSalesController extends Controller
 
         $posSales = PosSale::with('customer', 'branch', 'ledger')->latest()->paginate(25);
         $categories = Category::all();
-        $products = Product::all();
+        $products = [];
 
         return view('pos_sales.index', compact('posSales', 'products', 'categories'));
     }
