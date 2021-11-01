@@ -18,6 +18,7 @@ use App\Models\Product;
 use App\Models\ProductionItem;
 use App\Models\PurchaseReturnItem;
 use App\Models\SalesReturnItem;
+use App\Models\StockEntryItem;
 use App\Models\Tax;
 use App\Models\Vendor;
 use App\Models\VendorAdvancePayment;
@@ -296,7 +297,10 @@ trait ReportService
             ->where('product_id', $product->id)
             ->where('date', '<', $start_date)
             ->sum('qnt');
-
+        $stock_entry = StockEntryItem::query()
+            ->where('product_id', $product->id)
+            ->where('date', '<', $start_date)
+            ->sum('qnt');
         $used_in_production = IngredientItem::query()
             ->where('product_id', $product->id)
             ->where('date', '<', $start_date)
@@ -306,7 +310,7 @@ trait ReportService
             ->where('date', '<', $start_date)
             ->sum('qnt');
 
-        $opening_stock = ($enteredOpening + $purchase + $added + $sales_return + $produced_in_production) - ($sold + $removed + $purchase_return + $used_in_production);
+        $opening_stock = ($enteredOpening + $purchase + $added + $sales_return + $produced_in_production + $stock_entry) - ($sold + $removed + $purchase_return + $used_in_production);
         return $opening_stock;
     }
 
@@ -348,10 +352,16 @@ trait ReportService
                 ->whereBetween('date', [$start_date, $end_date])
                 ->sum('add_qnt');
 
+            $stock_entry = StockEntryItem::query()
+                ->where('product_id', $product->id)
+                ->whereBetween('date', [$start_date, $end_date])
+                ->sum('qnt');
+
             $removed = InventoryAdjustmentItem::query()
                 ->where('product_id', $product->id)
                 ->whereBetween('date', [$start_date, $end_date])
                 ->sum('sub_qnt');
+
             $used_in_production = IngredientItem::query()
                 ->where('product_id', $product->id)
                 ->whereBetween('date', [$start_date, $end_date])
@@ -366,9 +376,10 @@ trait ReportService
             $record['purchase_return'] = $purchase_return;
             $record['added'] = $added;
             $record['removed'] = $removed;
+            $record['stock_entry'] = $stock_entry;
             $record['used_in_production'] = $used_in_production;
             $record['produced_in_production'] = $produced_in_production;
-            $record['stock'] = ($opening_stock + $purchase + $added + $sales_return + $produced_in_production) - ($sold + $removed + $purchase_return + $used_in_production);
+            $record['stock'] = ($opening_stock + $purchase + $added + $sales_return + $produced_in_production + $stock_entry) - ($sold + $removed + $purchase_return + $used_in_production);
             $record['stockValue'] = $record['price'] * $record['stock'];
 
             $records[] = (object)$record;
