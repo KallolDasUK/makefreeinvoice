@@ -22,12 +22,12 @@ class ProductsController extends Controller
     public function search(Request $request)
     {
         if ($request->ajax()) {
-            $products = DB::table('products')->where('name', 'like', '%' . $request->search . '%')->select(['id', 'name as text'])->limit(5)->get();
+            $products = Product::query()->where('name', 'like', '%' . $request->search . '%')->select(['id', 'name as text'])->limit(5)->get();
 
             if ($request->search) {
                 return ['results' => $products];
             }
-            return ['results' => DB::table('products')->latest()->select(['id', 'name as text'])->limit(5)->get()];
+            return ['results' => Product::query()->latest()->select(['id', 'name as text'])->limit(5)->get()];
 
         }
         return [];
@@ -37,7 +37,7 @@ class ProductsController extends Controller
     {
         if ($request->ajax()) {
 
-            return DB::table('products')->latest()->get();
+            return Product::query()->latest()->get();
 
         }
         //dd($products);
@@ -279,7 +279,7 @@ class ProductsController extends Controller
 
     public function import()
     {
-     //   Product::query()->whereDate('created_at',today()->toDateString())->delete();
+        //   Product::query()->whereDate('created_at',today()->toDateString())->delete();
         dd('sldfj');
 
         $categories = collect(json_decode(file_get_contents("categories.json")));
