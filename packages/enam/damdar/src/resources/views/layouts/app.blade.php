@@ -834,17 +834,9 @@
     <div id="main" class="mt-4" style="min-height: 70vh">
 
         <div class="d-flex justify-content-between mb-2">
-            <b class="text-black font-weight-bolder mb-2 mt-2" style="font-size: 20px">
+            <b class="text-black font-weight-bolder mb-2 mt-2 ml-2" style="font-size: 20px">
                 @if($title??'')
-                    <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
 
-                         xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-                         viewBox="0 0 206.089 206.089" style="width: 30px"
-                         fill="#065a92"
-                         xml:space="preserve">
-<path d="M142.236,166.897l-10.607-10.606l53.247-53.247l-53.247-53.247l10.607-10.606l63.853,63.853L142.236,166.897z
-	 M163.663,103.044L123.32,62.702H0v80.686h123.32L163.663,103.044z"/>
-                </svg>
                 @endif
                 {{ $title??'' }} </b>
             <div>

@@ -30,6 +30,7 @@ use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\TaxesController;
 use App\Http\Controllers\ReceivePaymentsController;
 use App\Http\Controllers\PaymentMethodsController;
+use App\Http\Controllers\UsersController;
 use App\Http\Controllers\VendorAdvancePaymentsController;
 use App\Http\Controllers\VendorsController;
 use App\Models\Bill;
@@ -544,6 +545,28 @@ Route::group(['middleware' => 'auth:web', 'prefix' => 'app'], function () {
 
     });
 
+
+    /*
+    *
+    *  php artisan resource-file:from-database User
+    *  php artisan create:scaffold User  --layout-name="acc::layouts.app"
+    *
+    *
+    * */
+
+
+    Route::group(['prefix' => 'users'], function () {
+
+        Route::get('/', [UsersController::class,'index'])->name('users.user.index');
+        Route::get('/create',[UsersController::class,'create'])->name('users.user.create');
+        Route::get('/show/{user}',[UsersController::class,'show'])->name('users.user.show');
+        Route::get('/{user}/edit',[UsersController::class,'edit'])->name('users.user.edit');
+        Route::post('/', [UsersController::class,'store'])->name('users.user.store');
+        Route::put('user/{user}', [UsersController::class,'update'])->name('users.user.update');
+        Route::delete('/user/{user}',[UsersController::class,'destroy'])->name('users.user.destroy');
+
+    });
+
 });
 
 
@@ -657,6 +680,8 @@ Route::get('/task', function () {
 
     dd('task completed');
 });
+
+
 
 
 

@@ -88,5 +88,10 @@
     {
         "model-name": "StockEntry",
         "resource-file": "stock_entries.json"
+    },
+    {
+        "model-name": "User",
+        "resource-file": "users.json",
+        "table-name": "users"
     }
 ]
