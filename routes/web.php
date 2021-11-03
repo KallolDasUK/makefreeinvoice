@@ -30,6 +30,7 @@ use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\TaxesController;
 use App\Http\Controllers\ReceivePaymentsController;
 use App\Http\Controllers\PaymentMethodsController;
+use App\Http\Controllers\UserRolesController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\VendorAdvancePaymentsController;
 use App\Http\Controllers\VendorsController;
@@ -567,6 +568,22 @@ Route::group(['middleware' => 'auth:web', 'prefix' => 'app'], function () {
 
     });
 
+
+    /*
+     *  php artisan resource-file:create UserRole --fields=id,name,description,payload
+     *  php artisan create:scaffold UserRole  --layout-name="acc::layouts.app" --with-migration
+     * */
+    Route::group(['prefix' => 'user_roles'], function () {
+
+        Route::get('/', [UserRolesController::class,'index'])->name('user_roles.user_role.index');
+        Route::get('/create',[UserRolesController::class,'create'])->name('user_roles.user_role.create');
+        Route::get('/show/{userRole}',[UserRolesController::class,'show'])->name('user_roles.user_role.show')->where('id', '[0-9]+');
+        Route::get('/{userRole}/edit',[UserRolesController::class,'edit'])->name('user_roles.user_role.edit')->where('id', '[0-9]+');
+        Route::post('/', [UserRolesController::class,'store'])->name('user_roles.user_role.store');
+        Route::put('user_role/{userRole}', [UserRolesController::class,'update'])->name('user_roles.user_role.update')->where('id', '[0-9]+');
+        Route::delete('/user_role/{userRole}',[UserRolesController::class,'destroy'])->name('user_roles.user_role.destroy')->where('id', '[0-9]+');
+
+    });
 });
 
 
@@ -680,6 +697,8 @@ Route::get('/task', function () {
 
     dd('task completed');
 });
+
+
 
 
 

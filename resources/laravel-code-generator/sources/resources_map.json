@@ -93,5 +93,9 @@
         "model-name": "User",
         "resource-file": "users.json",
         "table-name": "users"
+    },
+    {
+        "model-name": "UserRole",
+        "resource-file": "user_roles.json"
     }
 ]

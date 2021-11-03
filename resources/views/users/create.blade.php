@@ -23,9 +23,7 @@
 
             <form method="POST" action="{{ route('users.user.store') }}" accept-charset="UTF-8" id="create_user_form" name="create_user_form" class="form-horizontal">
             {{ csrf_field() }}
-            @include ('users.form', [
-                                        'user' => null,
-                                      ])
+            @include ('users.form', ['user' => null])
 
                 <div class="form-group">
                     <button class="btn btn-primary" type="submit" style="width: 20%">

@@ -23,6 +23,13 @@
                 <span class="nav-text font-weight-bolder">Users</span>
             </a>
         </li>
+        <li class="nav-item cursor-pointer">
+            <a class="nav-link {{ $page === 'user_roles'?'active':'' }} p-4"
+               href="{{ route('user_roles.user_role.index') }}">
+                <span class="nav-icon"><i class="fa fa-cog"></i></span>
+                <span class="nav-text font-weight-bolder">Roles</span>
+            </a>
+        </li>
 
 
         <li class="nav-item cursor-pointer">

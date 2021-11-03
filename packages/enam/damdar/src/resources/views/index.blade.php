@@ -321,7 +321,7 @@
                     <div class="sc-iRbamj image" style="background-image:url('images/plus.svg') ">
 
                     </div>
-                    <div class="shortcuts-title  text-black">Add Stock</div>
+                    <div class="shortcuts-title  text-black">Stock Entry</div>
                 </a>
             </div>
         </div>

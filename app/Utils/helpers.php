@@ -718,7 +718,8 @@ if (!function_exists('participants')) {
 }
 
 
-function ip_info($ip = NULL, $purpose = "location", $deep_detect = TRUE) {
+function ip_info($ip = NULL, $purpose = "location", $deep_detect = TRUE)
+{
     $output = NULL;
     if (filter_var($ip, FILTER_VALIDATE_IP) === FALSE) {
         $ip = $_SERVER["REMOTE_ADDR"];
@@ -729,8 +730,8 @@ function ip_info($ip = NULL, $purpose = "location", $deep_detect = TRUE) {
                 $ip = $_SERVER['HTTP_CLIENT_IP'];
         }
     }
-    $purpose    = str_replace(array("name", "\n", "\t", " ", "-", "_"), NULL, strtolower(trim($purpose)));
-    $support    = array("country", "countrycode", "state", "region", "city", "location", "address");
+    $purpose = str_replace(array("name", "\n", "\t", " ", "-", "_"), NULL, strtolower(trim($purpose)));
+    $support = array("country", "countrycode", "state", "region", "city", "location", "address");
     $continents = array(
         "AF" => "Africa",
         "AN" => "Antarctica",
@@ -746,11 +747,11 @@ function ip_info($ip = NULL, $purpose = "location", $deep_detect = TRUE) {
             switch ($purpose) {
                 case "location":
                     $output = array(
-                        "city"           => @$ipdat->geoplugin_city,
-                        "state"          => @$ipdat->geoplugin_regionName,
-                        "country"        => @$ipdat->geoplugin_countryName,
-                        "country_code"   => @$ipdat->geoplugin_countryCode,
-                        "continent"      => @$continents[strtoupper($ipdat->geoplugin_continentCode)],
+                        "city" => @$ipdat->geoplugin_city,
+                        "state" => @$ipdat->geoplugin_regionName,
+                        "country" => @$ipdat->geoplugin_countryName,
+                        "country_code" => @$ipdat->geoplugin_countryCode,
+                        "continent" => @$continents[strtoupper($ipdat->geoplugin_continentCode)],
                         "continent_code" => @$ipdat->geoplugin_continentCode
                     );
                     break;
@@ -781,5 +782,36 @@ function ip_info($ip = NULL, $purpose = "location", $deep_detect = TRUE) {
         }
     }
     return $output;
+}
+
+if (!function_exists('app_features')) {
+    function app_features()
+    {
+        $features = [
+            'invoice' => 'Invoice',
+            'bill' => 'Purchase/Bill',
+            'pos' => 'POS (Point Of Sale)',
+            'estimate' => 'Estimate/Proforma',
+            'products' => 'Products',
+            'customer' => 'Customer',
+            'vendor' => 'Vendor/Supplier',
+            'purchase_order' => 'Purchase Order',
+            'sales_return' => 'Sales Return',
+            'purchase_return' => 'Purchase Return',
+            'barcode' => 'Print Barcode',
+            'category' => 'Category',
+            'brand' => 'Brand',
+            'stock_entry' => 'Stock Entry',
+            'customer_advance' => 'Customer Advance Payment',
+            'vendor_advance' => 'Vendor Advance Payment',
+            'pay_bill' => 'Pay Bill',
+            'production' => 'Production',
+            'inventory_adjustment' => 'Inventory Adjustment',
+            'receive_payment' => 'Receive Payment',
+            'general_settings' => 'General Settings',
+            'accounting' => 'Accounting Module',
+        ];
+        return $features;
+    }
 }
 
