@@ -106,20 +106,26 @@ class Customer extends Model
     public function getPreviousDueAttribute()
     {
         $debit = TransactionDetail::query()
-            ->where('type', Customer::class)
-            ->where('type_id', $this->id)
+            ->where('type', Ledger::class)
+            ->where('type_id', $this->ledger->id)
             ->where('entry_type', EntryType::$DR)
-            ->where('ledger_id', Ledger::ACCOUNTS_RECEIVABLE())
+            ->where('note', "OpeningBalance")
             ->sum('amount');
+
         $credit = TransactionDetail::query()
-            ->where('type', Customer::class)
-            ->where('type_id', $this->id)
-            ->where('ledger_id', Ledger::ACCOUNTS_RECEIVABLE())
+            ->where('type', Ledger::class)
+            ->where('type_id', $this->ledger->id)
+            ->where('note', "OpeningBalance")
             ->where('entry_type', EntryType::$CR)
             ->sum('amount');
 //        dd($debit,$credit);
-        return $debit - $credit;
+        $due = $debit - $credit;
+        if ($due < 0) {
+            $due = 0;
+        }
+        return $due;
     }
+
 
     public function getReceivablesAttribute()
     {

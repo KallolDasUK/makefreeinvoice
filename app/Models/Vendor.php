@@ -84,19 +84,24 @@ class Vendor extends Model
     public function getPreviousDueAttribute()
     {
         $debit = TransactionDetail::query()
-            ->where('type', Vendor::class)
-            ->where('type_id', $this->id)
+            ->where('type', Ledger::class)
+            ->where('type_id', $this->ledger->id)
             ->where('entry_type', EntryType::$DR)
-            ->where('ledger_id', Ledger::ACCOUNTS_PAYABLE())
+            ->where('note', "OpeningBalance")
             ->sum('amount');
         $credit = TransactionDetail::query()
-            ->where('type', Vendor::class)
-            ->where('type_id', $this->id)
-            ->where('ledger_id', Ledger::ACCOUNTS_PAYABLE())
+            ->where('type', Ledger::class)
+            ->where('type_id', $this->ledger->id)
+            ->where('note', "OpeningBalance")
             ->where('entry_type', EntryType::$CR)
             ->sum('amount');
 //        dd($debit,$credit);
-        return $credit - $debit;
+
+        $due = $credit - $debit;
+        if ($due < 0) {
+            $due = 0;
+        }
+        return $due;
     }
 
     public function getPayablesAttribute()

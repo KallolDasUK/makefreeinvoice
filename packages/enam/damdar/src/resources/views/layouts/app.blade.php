@@ -908,10 +908,11 @@
                             <br>
                         @else
 
-                            <strong> Free Plan <a class="font-weight-bolder subscribeModal" href="javascript:;">Upgrade
+                            <strong class="d-none"> Free Plan <a class="font-weight-bolder subscribeModal" href="javascript:;">Upgrade
                                     Now</a>
 
                             </strong>
+                        <strong>Premium Plan on Trial</strong>
                             <br>
 
 

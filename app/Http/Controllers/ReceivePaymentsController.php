@@ -13,7 +13,9 @@ use Enam\Acc\AccountingFacade;
 use Enam\Acc\Models\GroupMap;
 use Enam\Acc\Models\Ledger;
 use Enam\Acc\Models\LedgerGroup;
+use Enam\Acc\Models\TransactionDetail;
 use Enam\Acc\Traits\TransactionTrait;
+use Enam\Acc\Utils\EntryType;
 use Enam\Acc\Utils\LedgerHelper;
 use Illuminate\Http\Request;
 use Exception;
@@ -72,8 +74,11 @@ class ReceivePaymentsController extends Controller
         if ($request->has('previous_due')) {
             $customer = Customer::find($request->customer_id);
             $previous_due = $request->previous_due;
-            AccountingFacade::addTransaction($rp->deposit_to, optional($customer->ledger)->id,
-                $previous_due, $request->note, $rp->payment_date, "Customer Payment", Customer::class, $rp->customer_id, $rp->payment_sl, $customer->name);
+            if ($previous_due > 0) {
+                AccountingFacade::addTransaction(null, optional($customer->ledger)->id,
+                    $previous_due, "OpeningBalance", $rp->payment_date, "Customer Payment", Ledger::class, optional($customer->ledger)->id, $rp->payment_sl, $customer->name);
+
+            }
 
         }
         return redirect()->route('receive_payments.receive_payment.index')->with('success_message', 'Receive Payment was successfully added.');
@@ -146,10 +151,18 @@ class ReceivePaymentsController extends Controller
         PosPayment::query()->where('receive_payment_id', $receivePayment->id)->get()->each(function ($model) {
             $model->delete();
         });
+        $customer = $receivePayment->customer;
+
+        TransactionDetail::query()->where([
+            'type' => Ledger::class,
+            'type_id' => optional($customer->ledger)->id,
+            'entry_type' => EntryType::$CR,
+            'amount' => $receivePayment->previous_due,
+        ])->forceDelete();
+
         $receivePayment->delete();
 
-        return redirect()->route('receive_payments.receive_payment.index')
-            ->with('success_message', 'Receive Payment was successfully deleted.');
+        return redirect()->route('receive_payments.receive_payment.index')->with('success_message', 'Receive Payment was successfully deleted.');
 
     }
 
@@ -164,6 +177,7 @@ class ReceivePaymentsController extends Controller
             'deposit_to' => 'required|nullable',
             'note' => 'string|min:1|max:1000|nullable',
             'given' => 'string|nullable',
+            'previous_due' => 'nullable'
         ];
 
         $data = $request->validate($rules);

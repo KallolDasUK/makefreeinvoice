@@ -42,9 +42,6 @@ class UserRolesController extends Controller
 
         $features = [];
         $data = $this->getData($request);
-        $codes = ['invoice', 'estimate', 'bill', 'pos', 'product'];
-//        dd($request->all());
-
 
         foreach (app_features() as $code => $name) {
             $features[$code]['create'] = boolval($request->create[$code]);

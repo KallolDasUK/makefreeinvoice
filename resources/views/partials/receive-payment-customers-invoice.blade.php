@@ -1,4 +1,4 @@
-@if($customer->previous_due>0)
+@if(/*$customer->previous_due>0*/true)
     <tr>
         <td colspan="3" style="padding-top: 0px;"></td>
         <td colspan="1" class="text-right">Previous Due</td>
@@ -8,6 +8,7 @@
                    name="previous_due"
                    class="form-control paymentAmount text-right"
                    due="{{ $customer->previous_due }}"
+                   max="{{ $customer->previous_due }}"
                    id="previous_due"/></td>
     </tr>
 
@@ -30,7 +31,7 @@
                    invoice_id="{{ $invoice->id }}"
                    class="paymentAmount invoice text-right form-control"
                    due="{{ $invoice->due  }}"
-
+                   max="{{ $invoice->due  }}"
                    step="any"
                    type="number"/>
         </td>
@@ -54,7 +55,7 @@
                    pos_id="{{ $sale->id }}"
                    class="paymentAmount pos text-right form-control"
                    due="{{ $sale->due  }}"
-
+                   max="{{ $sale->due  }}"
                    step="any"
                    type="number"/>
         </td>

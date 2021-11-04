@@ -130,37 +130,39 @@
         @endif
 
         <p class="clearfix"></p>
-            <div class="row card mt-4">
-                <div class="card-body">
-                    <div class="font-weight-bolder">
-                        PRODUCT SHORTCUTS
-                    </div>
-                    <a href="{{ route('products.product.create') }}"
-                       style="position:relative;"
-                       class="sc-gPEVay eaBhby border rounded @cannot('viewAny',\App\Models\InventoryAdjustment::class) pro-tag @endcannot">
-                        <div class="sc-iRbamj image" style="background-image:url('images/plus.svg') ">
-
-                        </div>
-                        <div class="shortcuts-title  text-black mt-4">Add Products</div>
-                    </a>
-                    <a href="{{ route('products.product.index') }}"
-                       style="position:relative;"
-                       class="sc-gPEVay eaBhby border rounded">
-
-                        <div class="sc-iRbamj image" style="background-image:url('images/list.svg') ">
-
-                        </div>                        <div class="shortcuts-title  text-black  mt-4">My Products</div>
-                    </a> <a href="{{ route('products.product.barcode') }}"
-                       style="position:relative;"
-                       class="sc-gPEVay eaBhby border rounded">
-
-                        <div class="sc-iRbamj image" style="background-image:url('images/barcode.svg') ">
-
-                        </div>                           <div class="shortcuts-title  text-black  mt-4">Print Barcode</div>
-                    </a>
-
+        <div class="row card mt-4">
+            <div class="card-body">
+                <div class="font-weight-bolder">
+                    PRODUCT SHORTCUTS
                 </div>
+                <a href="{{ route('products.product.create') }}"
+                   style="position:relative;"
+                   class="sc-gPEVay eaBhby border rounded @cannot('viewAny',\App\Models\InventoryAdjustment::class) pro-tag @endcannot">
+                    <div class="sc-iRbamj image" style="background-image:url('images/plus.svg') ">
+
+                    </div>
+                    <div class="shortcuts-title  text-black mt-4">Add Products</div>
+                </a>
+                <a href="{{ route('products.product.index') }}"
+                   style="position:relative;"
+                   class="sc-gPEVay eaBhby border rounded">
+
+                    <div class="sc-iRbamj image" style="background-image:url('images/list.svg') ">
+
+                    </div>
+                    <div class="shortcuts-title  text-black  mt-4">My Products</div>
+                </a> <a href="{{ route('products.product.barcode') }}"
+                        style="position:relative;"
+                        class="sc-gPEVay eaBhby border rounded">
+
+                    <div class="sc-iRbamj image" style="background-image:url('images/barcode.svg') ">
+
+                    </div>
+                    <div class="shortcuts-title  text-black  mt-4">Print Barcode</div>
+                </a>
+
             </div>
+        </div>
         <div class="row card mt-4" style="margin-top: 20px">
             <div class="card-body">
                 <div class="font-weight-bolder">
@@ -310,7 +312,7 @@
                 <a href="{{ route('productions.production.index') }}"
                    style="position:relative;"
                    class="sc-gPEVay eaBhby border rounded ">
-                    <div class="sc-iRbamj image" style="background-image:url('images/factory.svg') ">
+                    <div class="sc-iRbamj image" style="background-image:url('images/production.svg') ">
 
                     </div>
                     <div class="shortcuts-title  text-black">My Productions</div>
@@ -326,6 +328,46 @@
             </div>
         </div>
 
+        <div class="row card mt-4">
+            <div class="card-body">
+                <div class="font-weight-bolder">
+                    SETTINGS SHORTCUTS
+                </div>
+                <a href="{{ route('accounting.settings.edit') }}"
+                   style="position:relative;"
+                   class="sc-gPEVay eaBhby border rounded ">
+                    <div class="sc-iRbamj image" style="background-image:url('images/settings.svg') ">
+
+                    </div>
+                    <div class="shortcuts-title  text-black">General Settings</div>
+                </a>
+                <a href="{{ route('settings.update_password') }}"
+                   style="position:relative;"
+                   class="sc-gPEVay eaBhby border rounded">
+                    <div class="sc-iRbamj image" style="background-image:url('images/change.svg') ">
+
+                    </div>
+                    <div class="shortcuts-title  text-black">Change Password</div>
+                </a>
+
+                <a href="{{ route('users.user.index') }}"
+                   style="position:relative;"
+                   class="sc-gPEVay eaBhby border rounded ">
+                    <div class="sc-iRbamj image" style="background-image:url('images/users.svg') ">
+
+                    </div>
+                    <div class="shortcuts-title  text-black">Users</div>
+                </a>
+                <a href="{{ route('user_roles.user_role.index') }}"
+                   style="position:relative;"
+                   class="sc-gPEVay eaBhby border rounded ">
+                    <div class="sc-iRbamj image" style="background-image:url('images/roles.svg') ">
+
+                    </div>
+                    <div class="shortcuts-title  text-black">Roles</div>
+                </a>
+            </div>
+        </div>
         <div class="row card mt-4">
             <div class="card-body">
                 <div class="font-weight-bolder">

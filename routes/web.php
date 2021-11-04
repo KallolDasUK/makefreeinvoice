@@ -54,6 +54,7 @@ use Enam\Acc\Http\Controllers\SettingsController;
 use Enam\Acc\Models\Ledger;
 use Enam\Acc\Models\Transaction;
 use Enam\Acc\Models\TransactionDetail;
+use Enam\Acc\Utils\EntryType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -558,13 +559,13 @@ Route::group(['middleware' => 'auth:web', 'prefix' => 'app'], function () {
 
     Route::group(['prefix' => 'users'], function () {
 
-        Route::get('/', [UsersController::class,'index'])->name('users.user.index');
-        Route::get('/create',[UsersController::class,'create'])->name('users.user.create');
-        Route::get('/show/{user}',[UsersController::class,'show'])->name('users.user.show');
-        Route::get('/{user}/edit',[UsersController::class,'edit'])->name('users.user.edit');
-        Route::post('/', [UsersController::class,'store'])->name('users.user.store');
-        Route::put('user/{user}', [UsersController::class,'update'])->name('users.user.update');
-        Route::delete('/user/{user}',[UsersController::class,'destroy'])->name('users.user.destroy');
+        Route::get('/', [UsersController::class, 'index'])->name('users.user.index');
+        Route::get('/create', [UsersController::class, 'create'])->name('users.user.create');
+        Route::get('/show/{user}', [UsersController::class, 'show'])->name('users.user.show');
+        Route::get('/{user}/edit', [UsersController::class, 'edit'])->name('users.user.edit');
+        Route::post('/', [UsersController::class, 'store'])->name('users.user.store');
+        Route::put('user/{user}', [UsersController::class, 'update'])->name('users.user.update');
+        Route::delete('/user/{user}', [UsersController::class, 'destroy'])->name('users.user.destroy');
 
     });
 
@@ -575,13 +576,13 @@ Route::group(['middleware' => 'auth:web', 'prefix' => 'app'], function () {
      * */
     Route::group(['prefix' => 'user_roles'], function () {
 
-        Route::get('/', [UserRolesController::class,'index'])->name('user_roles.user_role.index');
-        Route::get('/create',[UserRolesController::class,'create'])->name('user_roles.user_role.create');
-        Route::get('/show/{userRole}',[UserRolesController::class,'show'])->name('user_roles.user_role.show')->where('id', '[0-9]+');
-        Route::get('/{userRole}/edit',[UserRolesController::class,'edit'])->name('user_roles.user_role.edit')->where('id', '[0-9]+');
-        Route::post('/', [UserRolesController::class,'store'])->name('user_roles.user_role.store');
-        Route::put('user_role/{userRole}', [UserRolesController::class,'update'])->name('user_roles.user_role.update')->where('id', '[0-9]+');
-        Route::delete('/user_role/{userRole}',[UserRolesController::class,'destroy'])->name('user_roles.user_role.destroy')->where('id', '[0-9]+');
+        Route::get('/', [UserRolesController::class, 'index'])->name('user_roles.user_role.index');
+        Route::get('/create', [UserRolesController::class, 'create'])->name('user_roles.user_role.create');
+        Route::get('/show/{userRole}', [UserRolesController::class, 'show'])->name('user_roles.user_role.show')->where('id', '[0-9]+');
+        Route::get('/{userRole}/edit', [UserRolesController::class, 'edit'])->name('user_roles.user_role.edit')->where('id', '[0-9]+');
+        Route::post('/', [UserRolesController::class, 'store'])->name('user_roles.user_role.store');
+        Route::put('user_role/{userRole}', [UserRolesController::class, 'update'])->name('user_roles.user_role.update')->where('id', '[0-9]+');
+        Route::delete('/user_role/{userRole}', [UserRolesController::class, 'destroy'])->name('user_roles.user_role.destroy')->where('id', '[0-9]+');
 
     });
 });
@@ -638,6 +639,13 @@ Route::get('master/users/login/{email}', [MasterController::class, 'loginClient'
 
 
 Route::get('/task', function () {
+
+    $txn = TransactionDetail::query()
+//       ->where('type',Ledger::class)
+//       ->where('type_id',387)
+        ->where(['type' => Ledger::class, 'type_id' => 387, 'entry_type' => EntryType::$CR])
+        ->get();
+    dd('test', $txn);
 
     foreach (User::all() as $user) {
         Auth::login($user);

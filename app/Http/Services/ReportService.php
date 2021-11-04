@@ -100,14 +100,18 @@ trait ReportService
             ->whereBetween('invoice_date', [$start_date, $end_date])
             ->get();
         $customer = Customer::find($customer_id);
+
         $opening_payments = TransactionDetail::query()
-            ->where('type', Customer::class)
-            ->where('type_id', $customer_id)
+            ->where('type', Ledger::class)
+            ->where('type_id', $customer->ledger->id)
             ->where('ledger_id', $customer->ledger->id)
             ->where('entry_type', EntryType::$CR)->get();
 
         foreach ($opening_payments as $opening_payment) {
-            $record = ['date' => $opening_payment->date, 'invoice' => "-", 'description' => 'Previous Due Payment', 'amount' => 0, 'payment' => $opening_payment->amount];
+            $record = ['date' => $opening_payment->date,
+                'invoice' => "-",
+                'description' => 'Previous Due Payment',
+                'amount' => 0, 'payment' => $opening_payment->amount];
             $records[] = (object)$record;
         }
 
