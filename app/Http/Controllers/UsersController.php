@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\UserRole;
 use Illuminate\Http\Request;
 use Exception;
 use Illuminate\Support\Facades\Hash;
@@ -15,20 +16,23 @@ class UsersController extends Controller
     {
         view()->share('title', 'User Settings');
         $users = User::query()
+            ->with('user_role')
             ->where('id', '!=', auth()->id())
             ->where('client_id', auth()->user()->client_id)
+            ->latest()
             ->paginate(25);
-
+//        dd($users);
         return view('users.index', compact('users'));
     }
 
 
     public function create()
     {
+        $roles = UserRole::all();
 
         view()->share('title', 'New User');
 
-        return view('users.create');
+        return view('users.create', compact('roles'));
     }
 
 
@@ -56,9 +60,12 @@ class UsersController extends Controller
 
     public function edit($id)
     {
-        $user = User::findOrFail($id);
+        view()->share('title', 'Edit User');
 
-        return view('users.edit', compact('user'));
+        $user = User::findOrFail($id);
+        $roles = UserRole::all();
+
+        return view('users.edit', compact('user', 'roles'));
     }
 
 
@@ -95,6 +102,7 @@ class UsersController extends Controller
             'name' => 'required|string|min:1|max:255',
             'email' => 'required|email|unique:users',
             'password' => 'required|confirmed',
+            'role_id' => 'required',
         ];
         if ($id) {
             $rules['email'] = 'required|email|unique:users,email,' . $id;

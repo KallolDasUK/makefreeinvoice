@@ -138,7 +138,6 @@ class Customer extends Model
 
     public function getAdvanceAttribute()
     {
-//        dump( $this->ledger->balance);
         if ($this->ledger->balance_type == 'Cr') {
             return $this->ledger->balance;
         }

@@ -815,3 +815,10 @@ if (!function_exists('app_features')) {
     }
 }
 
+if (!function_exists('random_item')) {
+    function random_item($items)
+    {
+       return $items[array_rand($items)];
+
+    }
+}

@@ -31,7 +31,7 @@
             <span class="text-danger font-bolder">*</span>
             <input class="form-control  {{ $errors->has('password') ? 'is-invalid' : '' }}" name="password"
                    type="password"
-                   id="password" >
+                   id="password">
 
             {!! $errors->first('password', '<p class="form-text text-danger">:message</p>') !!}
         </div>
@@ -46,10 +46,18 @@
         </div>
 
     </div>
-    <div class="col">
-        <h4>Permissions</h4>
+    <div class="col align-self-center">
+        <h2>Role <a href="{{ route('user_roles.user_role.create') }}" target="_blank">Create Role</a></h2>
         <hr>
-
+        <select name="role_id" id="role_id" class="searchable form-control" >
+            <option value="" disabled selected></option>
+            @foreach ($roles as $role)
+                <option
+                    value="{{ $role->id }}" {{ old('role_id', optional($user)->role_id) == $role->id ? 'selected' : '' }}>
+                    {{ $role->name }} [{{ $role->description }}]
+                </option>
+            @endforeach
+        </select>
 
     </div>
 </div>
