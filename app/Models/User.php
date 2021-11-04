@@ -153,6 +153,11 @@ class User extends Authenticatable
         return $this->hasMany(Vendor::class, 'user_id')->withoutGlobalScope('scopeClient');
     }
 
+    public function user_role()
+    {
+        return $this->belongsTo(UserRole::class, 'role_id');
+    }
+
     public function getPlanAttribute()
     {
         $settings = json_decode(MetaSetting::query()->withoutGlobalScope('scopeClient')->where('client_id', $this->client_id)->pluck('value', 'key')->toJson());

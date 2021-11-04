@@ -36,49 +36,58 @@
             <div class="card-body">
 
 
-                    <table class="table mb-0  table-head-custom table-vertical-center font-weight-bolder" style="font-size: 16px">
-                        <thead>
+                <table class="table mb-0  table-head-custom table-vertical-center font-weight-bolder"
+                       style="font-size: 16px">
+                    <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Role</th>
+
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach($users as $user)
                         <tr>
-                            <th>Name</th>
-                            <th>Email</th>
 
-                            <th></th>
+                            <td>{{ $user->name }}</td>
+                            <td>{{ $user->email }}</td>
+                            <td>
+                                <span
+                                    class=" badge {{ random_item(['badge-info','badge-primary','badge-warning','badge-secondary','badge-danger']) }}">
+                                {{ optional($user->user_role)->name }} [{{ optional($user->user_role)->description }}]
+
+                                </span>
+                            </td>
+                            <td>
+
+                                <form method="POST" action="{!! route('users.user.destroy', $user->id) !!}"
+                                      accept-charset="UTF-8">
+                                    <input name="_method" value="DELETE" type="hidden">
+                                    {{ csrf_field() }}
+
+                                    <div class="btn-group btn-group-sm float-right " role="group">
+
+                                        <a href="{{ route('users.user.edit', $user->id ) }}" class="mx-4"
+                                           title="Edit User">
+                                            <i class="fas fa-edit text-primary" aria-hidden="true"></i>
+                                        </a>
+
+                                        <button type="submit" style="border: none;background: transparent"
+                                                title="Delete User"
+                                                onclick="return confirm(&quot;Click Ok to delete User.&quot;)">
+                                            <i class=" fas  fa-trash text-danger" aria-hidden="true"></i>
+                                        </button>
+                                    </div>
+
+                                </form>
+
+                            </td>
                         </tr>
-                        </thead>
-                        <tbody>
-                        @foreach($users as $user)
-                            <tr>
-                                <td>{{ $user->name }}</td>
-                                <td>{{ $user->email }}</td>
-
-                                <td>
-
-                                    <form method="POST" action="{!! route('users.user.destroy', $user->id) !!}"
-                                          accept-charset="UTF-8">
-                                        <input name="_method" value="DELETE" type="hidden">
-                                        {{ csrf_field() }}
-
-                                        <div class="btn-group btn-group-sm float-right " role="group">
-
-                                            <a href="{{ route('users.user.edit', $user->id ) }}" class="mx-4"
-                                               title="Edit User">
-                                                <i class="fas fa-edit text-primary" aria-hidden="true"></i>
-                                            </a>
-
-                                            <button type="submit" style="border: none;background: transparent"
-                                                    title="Delete User"
-                                                    onclick="return confirm(&quot;Click Ok to delete User.&quot;)">
-                                                <i class=" fas  fa-trash text-danger" aria-hidden="true"></i>
-                                            </button>
-                                        </div>
-
-                                    </form>
-
-                                </td>
-                            </tr>
-                        @endforeach
-                        </tbody>
-                    </table>
+                    @endforeach
+                    </tbody>
+                </table>
 
             </div>
 
