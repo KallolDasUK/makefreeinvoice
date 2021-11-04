@@ -11,7 +11,9 @@ use App\Models\Vendor;
 use Enam\Acc\AccountingFacade;
 use Enam\Acc\Models\Ledger;
 use Enam\Acc\Models\LedgerGroup;
+use Enam\Acc\Models\TransactionDetail;
 use Enam\Acc\Traits\TransactionTrait;
+use Enam\Acc\Utils\EntryType;
 use Illuminate\Http\Request;
 use Exception;
 
@@ -66,9 +68,9 @@ class BillPaymentsController extends Controller
         if ($request->has('previous_due')) {
             $vendor = Vendor::find($billPayment->vendor_id);
             $previous_due = $request->previous_due;
-            AccountingFacade::addTransaction(optional($vendor->ledger)->id, $billPayment->ledger_id,
+            AccountingFacade::addTransaction(optional($vendor->ledger)->id, null,
                 $previous_due, $request->note, $billPayment->payment_date, "Vendor Payment",
-                Vendor::class, $billPayment->vendor_id, $billPayment->payment_sl, $vendor->name);
+                Ledger::class, optional($vendor->ledger)->id, $billPayment->payment_sl, $vendor->name);
 
         }
 
@@ -129,6 +131,14 @@ class BillPaymentsController extends Controller
         BillPaymentItem::query()->where('bill_payment_id', $billPayment->id)->get()->each(function ($model) {
             $model->delete();
         });
+        $vendor = $billPayment->vendor;
+
+        TransactionDetail::query()->where([
+            'type' => Ledger::class,
+            'type_id' => optional($vendor->ledger)->id,
+            'entry_type' => EntryType::$DR,
+            'amount' => $billPayment->previous_due,
+        ])->forceDelete();
         $billPayment->delete();
 
         return redirect()->route('bill_payments.bill_payment.index')
@@ -148,6 +158,7 @@ class BillPaymentsController extends Controller
             'payment_method_id' => 'nullable',
             'ledger_id' => 'required|nullable',
             'note' => 'string|min:1|max:1000|nullable',
+            'previous_due' => 'nullable',
         ];
 
         $data = $request->validate($rules);

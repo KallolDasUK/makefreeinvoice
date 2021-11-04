@@ -6,6 +6,7 @@
         <td class="text-right">
             <input type="number" step="any" name="previous_due" class="form-control paymentAmount text-right"
                    due="{{ $vendor->previous_due }}"
+                   max="{{ $vendor->previous_due }}"
                    id="previous_due"/></td>
     </tr>
 
@@ -31,6 +32,7 @@
                    class="paymentAmount text-right form-control"
                    step="any"
                    due="{{ $bill->due }}"
+                   max="{{ $bill->due }}"
                    type="number"/>
         </td>
     </tr>

@@ -25,7 +25,7 @@ class CustomersController extends Controller
         $customers = Customer::query()
             ->when($q != null, function ($builder) use ($q) {
                 return $builder->where('name', 'like', '%' . $q . '%')->orWhere('phone', 'like', '%' . $q . '%')->orWhere('email', 'like', '%' . $q . '%');
-            })->paginate(10);
+            })->latest()->paginate(10);
 
         $totalCustomers = 0;
         $totalAdvance = 0;

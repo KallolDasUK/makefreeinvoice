@@ -8,6 +8,7 @@
                 <span class="nav-text font-weight-bolder">General Settings</span>
             </a>
         </li>
+
         <li class="nav-item cursor-pointer">
             <a class="nav-link {{ $page === 'change_password'?'active':'' }} p-4"
                href="{{ route('settings.update_password') }}">
@@ -15,6 +16,22 @@
                 <span class="nav-text font-weight-bolder">Change Password</span>
             </a>
         </li>
+        <li class="nav-item cursor-pointer">
+            <a class="nav-link {{ $page === 'users'?'active':'' }} p-4"
+               href="{{ route('users.user.index') }}">
+                <span class="nav-icon"><i class="fa fa-users"></i></span>
+                <span class="nav-text font-weight-bolder">Users</span>
+            </a>
+        </li>
+        <li class="nav-item cursor-pointer">
+            <a class="nav-link {{ $page === 'user_roles'?'active':'' }} p-4"
+               href="{{ route('user_roles.user_role.index') }}">
+                <span class="nav-icon"><i class="fa fa-cog"></i></span>
+                <span class="nav-text font-weight-bolder">Roles</span>
+            </a>
+        </li>
+
+
         <li class="nav-item cursor-pointer">
             <a class="nav-link {{ $page === 'refer_earn'?'active':'' }} p-4"
                href="{{ route('settings.refer_earn') }}">

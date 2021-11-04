@@ -81,7 +81,7 @@ class BillPayment extends Model
 
     public function getAmountAttribute()
     {
-        return BillPaymentItem::query()->where('bill_payment_id', $this->id)->sum('amount');
+        return BillPaymentItem::query()->where('bill_payment_id', $this->id)->sum('amount') + $this->previous_due ?? 0;
     }
 
     public function getBillAttribute()
