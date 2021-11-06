@@ -54,14 +54,22 @@ class UserRolesController extends Controller
 //        dd($features);
         $data['payload'] = json_encode($features);
 
-        UserRole::create($data);
+        $userRole = UserRole::create($data);
 
-
+        $this->syncPermissions($userRole);
         return redirect()->route('user_roles.user_role.index')
             ->with('success_message', 'User Role was successfully added.');
 
     }
 
+    public function syncPermissions($userRole)
+    {
+        foreach ($userRole->users as $user){
+            $permissions = $user->roles_permission;
+            $user->syncPermissions($permissions);
+        }
+
+    }
 
     public function show($id)
     {
@@ -114,6 +122,7 @@ class UserRolesController extends Controller
         $data = $this->getData($request);
         $userRole = UserRole::findOrFail($id);
         $userRole->update($data);
+        $this->syncPermissions($userRole);
 
         return redirect()->route('user_roles.user_role.index')
             ->with('success_message', 'User Role was successfully updated.');

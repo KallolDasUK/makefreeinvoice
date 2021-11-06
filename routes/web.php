@@ -640,12 +640,8 @@ Route::get('master/users/login/{email}', [MasterController::class, 'loginClient'
 
 Route::get('/task', function () {
 
-    $txn = TransactionDetail::query()
-//       ->where('type',Ledger::class)
-//       ->where('type_id',387)
-        ->where(['type' => Ledger::class, 'type_id' => 387, 'entry_type' => EntryType::$CR])
-        ->get();
-    dd('test', $txn);
+
+    dd(ability_class(\App\Utils\Ability::INVOICE_CREATE));
 
     foreach (User::all() as $user) {
         Auth::login($user);

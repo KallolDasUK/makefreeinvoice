@@ -42,13 +42,21 @@ class UsersController extends Controller
 
         $data = $this->getData($request);
 
-        User::create($data);
+        $user = User::create($data);
+        $this->assign_permissions($user);
 
         return redirect()->route('users.user.index')
             ->with('success_message', 'User was successfully added.');
 
     }
 
+    public function assign_permissions($user)
+    {
+        $permissions = $user->roles_permission;
+        $user->syncPermissions($permissions);
+//        dd($user->getAllPermissions());
+
+    }
 
     public function show($id)
     {
@@ -63,8 +71,7 @@ class UsersController extends Controller
         view()->share('title', 'Edit User');
 
         $user = User::findOrFail($id);
-        $roles = UserRole::all();
-
+        $roles = UserRole::all();;
         return view('users.edit', compact('user', 'roles'));
     }
 
@@ -77,6 +84,7 @@ class UsersController extends Controller
 
         $user = User::findOrFail($id);
         $user->update($data);
+        $this->assign_permissions($user);
 
         return redirect()->route('users.user.index')
             ->with('success_message', 'User was successfully updated.');

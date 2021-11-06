@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Str;
 use Laravel\Cashier\Billable;
+use Spatie\Permission\Traits\HasRoles;
 
 /**
  * App\Models\User
@@ -81,7 +82,7 @@ use Laravel\Cashier\Billable;
  */
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable, Billable;
+    use HasFactory, Notifiable, Billable, HasRoles;
 
     protected $appends = ['invoice_count'];
     /**
@@ -109,6 +110,9 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+//    protected $guard_name = 'web';
+
 
     public static function getNextUserID()
     {
@@ -190,5 +194,26 @@ class User extends Authenticatable
     public function referred()
     {
         return $this->hasMany(self::class, 'referred_by', 'affiliate_tag');
+    }
+
+
+    public function getRolesPermissionAttribute()
+    {
+        $permission = json_decode(optional($this->user_role)->payload ?? '{}', true);
+        $p = [];
+        foreach ($permission as $key => $items) {
+            foreach ($items as $crudType => $hasPermission) {
+                if ($hasPermission) {
+                    $p[] = "$crudType $key";
+                }
+            }
+        }
+        return $p;
+    }
+
+    public function getIsAdminAttribute()
+    {
+        return $this->role_id == null;
+
     }
 }
