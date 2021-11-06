@@ -2,7 +2,7 @@
 
     <ul class="nav nav-tabs nav-tabs-line">
         <li class="nav-item cursor-pointer">
-            <a class="nav-link {{ $page === 'general_settings'?'active':'' }} p-4"
+            <a class="nav-link {{ $page === 'general_settings'?'active':'' }} p-4  {{ ability_class(\App\Utils\Ability::GENERAL_SETTINGS_EDIT)=='protected'?'disabled':'' }}"
                href="{{ route('accounting.settings.edit') }}">
                 <span class="nav-icon"><i class="fa fa-cog"></i></span>
                 <span class="nav-text font-weight-bolder">General Settings</span>
@@ -10,21 +10,21 @@
         </li>
 
         <li class="nav-item cursor-pointer">
-            <a class="nav-link {{ $page === 'change_password'?'active':'' }} p-4"
+            <a class="nav-link {{ $page === 'change_password'?'active':'' }} p-4 "
                href="{{ route('settings.update_password') }}">
                 <span class="nav-icon"><i class="fa fa-lock"></i></span>
                 <span class="nav-text font-weight-bolder">Change Password</span>
             </a>
         </li>
         <li class="nav-item cursor-pointer">
-            <a class="nav-link {{ $page === 'users'?'active':'' }} p-4"
+            <a class="nav-link {{ $page === 'users'?'active':'' }} p-4 {{ ability_class(\App\Utils\Ability::USER_READ)=='protected'?'disabled':'' }}"
                href="{{ route('users.user.index') }}">
                 <span class="nav-icon"><i class="fa fa-users"></i></span>
                 <span class="nav-text font-weight-bolder">Users</span>
             </a>
         </li>
         <li class="nav-item cursor-pointer">
-            <a class="nav-link {{ $page === 'user_roles'?'active':'' }} p-4"
+            <a class="nav-link {{ $page === 'user_roles'?'active':'' }} p-4 {{ ability_class(\App\Utils\Ability::ROLE_READ)=='protected'?'disabled':'' }}"
                href="{{ route('user_roles.user_role.index') }}">
                 <span class="nav-icon"><i class="fa fa-cog"></i></span>
                 <span class="nav-text font-weight-bolder">Roles</span>
