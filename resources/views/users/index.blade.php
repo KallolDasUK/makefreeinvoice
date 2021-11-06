@@ -40,6 +40,7 @@
                        style="font-size: 16px">
                     <thead>
                     <tr>
+                        <th>SL</th>
                         <th>Name</th>
                         <th>Email</th>
                         <th>Role</th>
@@ -50,6 +51,7 @@
                     <tbody>
                     @foreach($users as $user)
                         <tr>
+                            <td>{{ (($users->currentPage() - 1) * $users->perPage()) + $loop->iteration }}</td>
 
                             <td>{{ $user->name }}</td>
                             <td>{{ $user->email }}</td>

@@ -316,6 +316,18 @@
             border-radius: 2px;
         }
 
+        .protected::before {
+            content: "Restricted";
+            float: right;
+            position: absolute;
+            left: -5px;
+            color: white;
+            background: #f11109;
+            padding: 1px 5px;
+            font-size: 10px;
+            border-radius: 2px;
+        }
+
         .new-tag::before {
             content: "New";
             float: right;
@@ -333,6 +345,12 @@
         }
 
         .pro-tag {
+            cursor: no-drop;
+            text-decoration: none;
+            color: black;
+        }
+
+        .protected {
             cursor: no-drop;
             text-decoration: none;
             color: black;
@@ -436,62 +454,63 @@
                             Invoice Module</p>
                         <div class="menu-icon-grid font-weight-bolder p-0 ">
                             <a href="{{ route('invoices.invoice.create') }}"
-                               class="@cannot('create',\App\Models\Invoice::class) pro-tag @endcannot"
+                               class="@cannot('create',\App\Models\Invoice::class) pro-tag @endcannot  {{ ability_class(\App\Utils\Ability::INVOICE_CREATE) }} "
                                style="min-width: 100px;position:relative;">
                                 <i class="fa fa-plus" aria-hidden="true"></i>
                                 New <br> Invoice</a>
 
 
                             <a href="{{ route('invoices.invoice.index') }}"
-                               class="@cannot('viewAny',\App\Models\Invoice::class) pro-tag @endcannot"
+                               class="@cannot('viewAny',\App\Models\Invoice::class) pro-tag @endcannot  {{ ability_class(\App\Utils\Ability::INVOICE_READ) }} "
                                style="min-width: 100px;position:relative;"><i
                                     class="fa fa-list-alt" aria-hidden="true"></i>Manage <br>
                                 Invoices</a>
 
                             <a href="{{ route('receive_payments.receive_payment.create') }}"
-                               class="@cannot('create',\App\Models\Invoice::class) pro-tag @endcannot"
+                               class="@cannot('create',\App\Models\Invoice::class) pro-tag @endcannot {{ ability_class(\App\Utils\Ability::RECEIVE_PAYMENT_CREATE) }}"
                                style="min-width: 100px;position:relative;">
                                 <i class="fa fa-money-bill" aria-hidden="true"></i>
                                 Receive <br> Payment</a>
 
                             <a href="{{ route('products.product.index') }}"
-                               class="@cannot('create',\App\Models\Invoice::class) pro-tag @endcannot"
+                               class="@cannot('create',\App\Models\Invoice::class) pro-tag @endcannot {{ ability_class(\App\Utils\Ability::PRODUCT_CREATE) }}"
                                style="min-width: 100px;position:relative;"><i class="fab fa-product-hunt"></i> Products
-                            </a>  <a href="{{ route('products.product.barcode') }}"
-                               class="@cannot('create',\App\Models\Invoice::class) pro-tag @endcannot"
-                               style="min-width: 100px;position:relative;"><i class="fa fa-barcode"></i> Print Barcode
+                            </a> <a href="{{ route('products.product.barcode') }}"
+                                    class="@cannot('create',\App\Models\Invoice::class) pro-tag @endcannot {{ ability_class(\App\Utils\Ability::BARCODE_CREATE) }}"
+                                    style="min-width: 100px;position:relative;"><i class="fa fa-barcode"></i> Print
+                                Barcode
                             </a>
 
                             <a href="{{ route('categories.category.index') }}"
-                               class="@cannot('create',\App\Models\Invoice::class) pro-tag @endcannot"
+                               class="@cannot('create',\App\Models\Invoice::class) pro-tag @endcannot {{ ability_class(\App\Utils\Ability::CATEGORY_READ) }}"
                                style="min-width: 100px;position:relative;"><i class="fab fa-product-hunt"></i>
                                 Categories
                             </a>
                             <a href="{{ route('brands.brand.index') }}"
-                               class="@cannot('create',\App\Models\Invoice::class) pro-tag @endcannot"
+                               class="@cannot('create',\App\Models\Invoice::class) pro-tag @endcannot {{ ability_class(\App\Utils\Ability::BRAND_READ) }}"
                                style="min-width: 100px;position:relative;"><i class="fab fa-product-hunt"></i>
                                 Brands
                             </a>
                             <a href="{{ route('s_rs.s_r.index') }}"
-                               class="@cannot('create',\App\Models\Invoice::class) pro-tag @endcannot"
+                               class="@cannot('create',\App\Models\Invoice::class) pro-tag @endcannot {{ ability_class(\App\Utils\Ability::INVOICE_CREATE) }}"
                                style="min-width: 100px;position:relative;"><i
                                     class="fa fa-users" aria-hidden="true"></i>Sales Rep. (SR)</a>
 
                             <a href="{{ route('customers.customer.index') }}"
-                               class="@cannot('create',\App\Models\Invoice::class) pro-tag @endcannot"
+                               class="@cannot('create',\App\Models\Invoice::class) pro-tag @endcannot {{ ability_class(\App\Utils\Ability::CUSTOMER_READ) }}"
                                style="min-width: 100px;position:relative;"><i
                                     class="fa fa-users" aria-hidden="true"></i>Customers</a>
 
                             <a href="{{ route('sales_returns.sales_return.index') }}"
-                               class=""
+                               class="{{ ability_class(\App\Utils\Ability::SALES_RETURN_READ) }}"
                                style="min-width: 100px;position:relative;"><i
                                     class="fa fa-list-alt" aria-hidden="true"></i>Sales <br>
                                 Return</a>
                             <a href="{{ route('stock_entries.stock_entry.create') }}"
-                               class=""
+                               class="{{ ability_class(\App\Utils\Ability::STOCK_ENTRY_CREATE) }}"
                                style="min-width: 100px;position:relative;"><i
                                     class="fa fa-plus" aria-hidden="true"></i>Add Stock <br>
-                                </a>
+                            </a>
 
 
                         </div>
@@ -518,68 +537,68 @@
                             Bill/Purchase Module</p>
                         <div class="menu-icon-grid font-weight-bolder p-0">
                             <a href="{{ route('bills.bill.create') }}"
-                               class="@cannot('create',\App\Models\Bill::class) pro-tag @endcannot"
+                               class="@cannot('create',\App\Models\Bill::class) pro-tag @endcannot {{ ability_class(\App\Utils\Ability::BILL_CREATE) }}"
                                style="min-width: 100px;position: relative">
 
                                 <i class="fa fa-plus" aria-hidden="true"></i>
                                 New <br> Bill</a>
                             <a href="{{ route('bills.bill.index') }}"
-                               class="@cannot('viewAny',\App\Models\Bill::class) pro-tag @endcannot"
+                               class="@cannot('viewAny',\App\Models\Bill::class) pro-tag @endcannot {{ ability_class(\App\Utils\Ability::BILL_READ) }}"
                                style="min-width: 100px;position: relative">
                                 <i class="fa fa-list-alt ribbon" aria-hidden="true"></i>Manage <br>
                                 Bills</a>
 
                             <a href="{{ route('purchase_orders.purchase_order.create') }}"
-                               class="@cannot('create',\App\Models\Bill::class) pro-tag @endcannot"
+                               class="@cannot('create',\App\Models\Bill::class) pro-tag @endcannot {{ ability_class(\App\Utils\Ability::PURCHASE_ORDER_CREATE) }}"
                                style="min-width: 100px;position: relative">
 
                                 <i class="fa fa-plus" aria-hidden="true"></i>
                                 Purchase <br> Order</a>
                             <a href="{{ route('purchase_orders.purchase_order.index') }}"
-                               class="@cannot('viewAny',\App\Models\Bill::class) pro-tag @endcannot"
+                               class="@cannot('viewAny',\App\Models\Bill::class) pro-tag @endcannot {{ ability_class(\App\Utils\Ability::PURCHASE_ORDER_READ) }}"
                                style="min-width: 100px;position: relative">
                                 <i class="fa fa-list-alt ribbon" aria-hidden="true"></i>Manage <br>
                                 Pur.. Order</a>
 
                             <a href="{{ route('bill_payments.bill_payment.create') }}"
-                               class="@cannot('create',\App\Models\Bill::class) pro-tag @endcannot"
+                               class="@cannot('create',\App\Models\Bill::class) pro-tag @endcannot {{ ability_class(\App\Utils\Ability::PAY_BILL_CREATE) }}"
                                style="min-width: 100px;position: relative">
 
                                 <i class="fa fa-money-bill" aria-hidden="true"></i>
                                 Pay <br> Bill</a>
                             <a href="{{ route('products.product.index') }}"
-                               class="@cannot('viewAny',\App\Models\Bill::class) pro-tag @endcannot"
+                               class="@cannot('viewAny',\App\Models\Bill::class) pro-tag @endcannot {{ ability_class(\App\Utils\Ability::PRODUCT_READ) }}"
                                style="min-width: 100px;position: relative">
                                 <i class="fab fa-product-hunt"></i> Products
                             </a>
                             <a href="{{ route('categories.category.index') }}"
-                               class="@cannot('create',\App\Models\Invoice::class) pro-tag @endcannot"
+                               class="@cannot('create',\App\Models\Invoice::class) pro-tag @endcannot {{ ability_class(\App\Utils\Ability::CATEGORY_READ) }}"
                                style="min-width: 100px;position:relative;"><i class="fab fa-product-hunt"></i>
                                 Categories
                             </a>
                             <a href="{{ route('brands.brand.index') }}"
-                               class="@cannot('create',\App\Models\Invoice::class) pro-tag @endcannot"
+                               class="@cannot('create',\App\Models\Invoice::class) pro-tag @endcannot {{ ability_class(\App\Utils\Ability::BRAND_READ) }}"
                                style="min-width: 100px;position:relative;"><i class="fab fa-product-hunt"></i>
                                 Brands
                             </a>
                             <a href="{{ route('vendors.vendor.index') }}"
-                               class="@cannot('viewAny',\App\Models\Bill::class) pro-tag @endcannot"
+                               class="@cannot('viewAny',\App\Models\Bill::class) pro-tag @endcannot {{ ability_class(\App\Utils\Ability::VENDOR_READ) }}"
                                style="min-width: 100px;position: relative">
                                 <i class="fa fa-users" aria-hidden="true"></i>Vendors</a>
 
                             <a href="{{ route('vendor_advance_payments.vendor_advance_payment.index') }}"
-                               class="@cannot('viewAny',\App\Models\Bill::class) pro-tag @endcannot"
+                               class="@cannot('viewAny',\App\Models\Bill::class) pro-tag @endcannot {{ ability_class(\App\Utils\Ability::VENDOR_ADVANCE_READ) }}"
                                style="min-width: 100px;position: relative">
                                 <i class="fa fa-money-bill-alt" aria-hidden="true"></i>Vendor Advance</a>
 
 
                             <a href="{{ route('purchase_returns.purchase_return.create') }}"
-                               class=""
+                               class="{{ ability_class(\App\Utils\Ability::PURCHASE_RETURN_CREATE) }}"
                                style="min-width: 100px;position: relative">
                                 <i class="fa fa-plus" aria-hidden="true"></i>
                                 New Purchase Ret..</a>
                             <a href="{{ route('purchase_returns.purchase_return.index') }}"
-                               class="@cannot('viewAny',\App\Models\Bill::class) pro-tag @endcannot"
+                               class="@cannot('viewAny',\App\Models\Bill::class) pro-tag @endcannot {{ ability_class(\App\Utils\Ability::PURCHASE_RETURN_READ) }}"
                                style="min-width: 100px;position: relative">
                                 <i class="fa fa-list-alt ribbon" aria-hidden="true"></i>
                                 Purchase Return</a>
@@ -592,9 +611,10 @@
         </li>
         <!--end::Item-->
         <!--begin::Item-->
-        <li class="nav-item">
-            <a href="#" class="nav-link dropdown-toggle rounded" data-toggle="dropdown" data-target="#kt_header_tab_2"
-               role="tab" aria-selected="false">
+        <li class="nav-item " style="position:relative;">
+            <a href="#" class="nav-link dropdown-toggle rounded  {{ ability_class(\App\Utils\Ability::ACCOUNTING_CREATE)=='protected'?'disabled':'' }}" data-toggle="dropdown" data-target="#kt_header_tab_2"
+               role="tab" aria-selected="false"
+            >
                 <span class="nav-title text-uppercase">Accounting</span>
                 <span class="nav-desc">Finance & Audit</span>
                 <i class="fas fa-sort-down"></i>
@@ -673,8 +693,8 @@
         </li>
         <!--end::Item-->
         <!--begin::Item-->
-        <li class="nav-item">
-            <a href="{{ route('reports.report.index') }}" class="nav-link rounded">
+        <li class="nav-item ">
+            <a href="{{ route('reports.report.index') }}" class="nav-link rounded {{ ability_class(\App\Utils\Ability::REPORT_READ)=='protected'?'disabled':'' }} ">
                 <span class="nav-title text-uppercase">Reports</span>
                 <span class="nav-desc">Print, Send,  Save Reports</span>
             </a>
@@ -851,15 +871,15 @@
                     <i class="fab fa-youtube"></i>
                     How to Use? Check Tutorial</a>
             </div>
-{{--            @if(!optional(auth()->user())->subscribed('default'))--}}
-{{--                <div><p class="text-center">--}}
-{{--                        <strong><a href="javascript:;"--}}
-{{--                                   class="subscribeModal btn btn-sm btn-info">Upgrade to Pro</a> & unlock the--}}
-{{--                            treasure</strong></p></div>--}}
-{{--                --}}{{-- https://www.youtube.com/watch?v=UPXeH8r9Jhc&list=PL5FPulw8-MaotxlscrDUAmT-l3a_J8bxs --}}
-{{--            @else--}}
-{{--                <div class="">&nbsp;</div>--}}
-{{--            @endif--}}
+            {{--            @if(!optional(auth()->user())->subscribed('default'))--}}
+            {{--                <div><p class="text-center">--}}
+            {{--                        <strong><a href="javascript:;"--}}
+            {{--                                   class="subscribeModal btn btn-sm btn-info">Upgrade to Pro</a> & unlock the--}}
+            {{--                            treasure</strong></p></div>--}}
+            {{--                --}}{{-- https://www.youtube.com/watch?v=UPXeH8r9Jhc&list=PL5FPulw8-MaotxlscrDUAmT-l3a_J8bxs --}}
+            {{--            @else--}}
+            {{--                <div class="">&nbsp;</div>--}}
+            {{--            @endif--}}
             @if($country == "Bangladesh")
                 <div class="text-center">For any help or enquiry please call at <h2>
                         <a href="tel:+8801680852026"><i class="fa fa-phone"></i> +88 016 8085 2026</a>
@@ -878,7 +898,8 @@
                         </span>Admin Panel</a>
                 @endif
                 <a href="{{ route('pos_sales.pos_sale.create') }}"
-                   class="btn btn-info btn-lg font-weight-bolder font-size-sm " style="font-size: 16px">
+                   class="btn btn-info btn-lg font-weight-bolder font-size-sm {{ ability_class(\App\Utils\Ability::POS_CREATE) }}"
+                   style="font-size: 16px;position: relative">
                     <i class="fas fa-cash-register" aria-hidden="true"></i>
 
                     </span>POS Sale</a>
@@ -914,11 +935,12 @@
                             <br>
                         @else
 
-                            <strong class="d-none"> Free Plan <a class="font-weight-bolder subscribeModal" href="javascript:;">Upgrade
+                            <strong class="d-none"> Free Plan <a class="font-weight-bolder subscribeModal"
+                                                                 href="javascript:;">Upgrade
                                     Now</a>
 
                             </strong>
-                        <strong>Premium Plan on Trial</strong>
+                            <strong>Premium Plan on Trial</strong>
                             <br>
 
 
@@ -1165,6 +1187,8 @@
         $('.pro-tag').on('click', function () {
             $('#proModal').modal('show')
         })
+        $('.protected').attr('href', 'javascript:;')
+
 
     })
 

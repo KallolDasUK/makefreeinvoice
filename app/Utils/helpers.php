@@ -802,14 +802,18 @@ if (!function_exists('app_features')) {
             'category' => 'Category',
             'brand' => 'Brand',
             'stock_entry' => 'Stock Entry',
+            'expense' => 'Expense Entry',
             'customer_advance' => 'Customer Advance Payment',
             'vendor_advance' => 'Vendor Advance Payment',
-            'pay_bill' => 'Pay Bill',
             'production' => 'Production',
             'inventory_adjustment' => 'Inventory Adjustment',
+            'pay_bill' => 'Pay Bill',
             'receive_payment' => 'Receive Payment',
             'general_settings' => 'General Settings',
             'accounting' => 'Accounting Module',
+            'user' => 'Users',
+            'role' => 'Role',
+            'reports' => 'All Reports',
         ];
         return $features;
     }
@@ -818,7 +822,19 @@ if (!function_exists('app_features')) {
 if (!function_exists('random_item')) {
     function random_item($items)
     {
-       return $items[array_rand($items)];
+        return $items[array_rand($items)];
+
+    }
+}
+if (!function_exists('ability_class')) {
+    function ability_class($ability)
+    {
+//        dd('test');
+        if (auth()->user()->can($ability) || auth()->user()->is_admin) {
+            return "";
+        }
+
+        return "protected";
 
     }
 }
