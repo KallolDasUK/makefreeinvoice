@@ -18,6 +18,7 @@ class UsersController extends Controller
         $users = User::query()
             ->with('user_role')
             ->where('id', '!=', auth()->id())
+            ->where('role_id', '!=', null)
             ->where('client_id', auth()->user()->client_id)
             ->latest()
             ->paginate(25);
