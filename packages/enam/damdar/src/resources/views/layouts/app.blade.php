@@ -694,7 +694,7 @@
             </a>
         </li>
         <li class="nav-item">
-            <a href="{{ route('accounting.settings.edit') }}" class="nav-link rounded">
+            <a href="{{ route('accounting.settings.edit') }}" class="nav-link rounded {{ ability_class(\App\Utils\Ability::GENERAL_SETTINGS_READ)=='protected'?'disabled':'' }}">
                 <span class="nav-title text-uppercase">Settings</span>
                 <span class="nav-desc">Customization &amp; Personalization</span>
             </a>
