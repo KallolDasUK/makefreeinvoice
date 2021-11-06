@@ -31,6 +31,7 @@ class MasterController extends Controller
     {
 
         $users = User::withCount(['invoices', 'pos_sales'])
+            ->where('role_id', null)
             ->orderBy('invoices_count', 'desc')
             ->orderBy('created_at', 'asc')
             ->paginate(25);
@@ -40,7 +41,7 @@ class MasterController extends Controller
         $totalInvoices = 0;
         $totalBills = 0;
         $totalClients += count(User::all());
-        foreach (User::all() as $user) {
+        foreach (User::query()->where('role_id', null)->get() as $user) {
             $totalInvoices += count($user->invoices);
             $totalBills += count($user->bills);
         }
