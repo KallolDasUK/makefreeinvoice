@@ -8,7 +8,7 @@
 
 
             <div class="btn-group btn-group-sm float-right" role="group">
-                <a href="{{ route('customers.customer.index') }}" class="btn btn-primary" title="Show All Customer">
+                <a href="{{ route('customers.customer.index') }}" class="btn btn-primary  {{ ability(\App\Utils\Ability::CUSTOMER_READ) }}" title="Show All Customer">
                     <i class=" fas fa-fw fa-th-list" aria-hidden="true"></i>
                     Show All Customer
                 </a>

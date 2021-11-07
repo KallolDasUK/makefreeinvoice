@@ -10,7 +10,7 @@
 
             <div class="btn-group btn-group-sm float-right" role="group">
                 <a href="{{ route('customer_advance_payments.customer_advance_payment.index') }}"
-                   class="btn btn-primary" title="Show All Customer Advance Payment">
+                   class="btn btn-primary {{ ability(\App\Utils\Ability::CUSTOMER_ADVANCE_READ) }}" title="Show All Customer Advance Payment">
                     <i class=" fas fa-fw fa-th-list" aria-hidden="true"></i>
                     Show All Customer Advance Payment
                 </a>

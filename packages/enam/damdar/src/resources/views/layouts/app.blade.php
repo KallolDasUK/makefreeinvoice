@@ -470,7 +470,7 @@
                                class="@cannot('create',\App\Models\Invoice::class) pro-tag @endcannot {{ ability_class(\App\Utils\Ability::PRODUCT_CREATE) }}"
                                style="min-width: 100px;position:relative;"><i class="fab fa-product-hunt"></i> Products
                             </a> <a href="{{ route('products.product.barcode') }}"
-                                    class="@cannot('create',\App\Models\Invoice::class) pro-tag @endcannot {{ ability_class(\App\Utils\Ability::BARCODE_CREATE) }}"
+                                    class="@cannot('create',\App\Models\Invoice::class) pro-tag @endcannot {{ ability_class(\App\Utils\Ability::BARCODE_READ) }}"
                                     style="min-width: 100px;position:relative;"><i class="fa fa-barcode"></i> Print
                                 Barcode
                             </a>
@@ -1182,6 +1182,7 @@
             $('#proModal').modal('show')
         })
         $('.protected').attr('href', 'javascript:;')
+        $('.no-link').attr('href', 'javascript:;')
 
 
     })

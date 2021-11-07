@@ -154,7 +154,7 @@
                     <div class="shortcuts-title  text-black  mt-4">My Products</div>
                 </a> <a href="{{ route('products.product.barcode') }}"
                         style="position:relative;"
-                        class="sc-gPEVay eaBhby border rounded {{ ability_class(\App\Utils\Ability::BARCODE_CREATE) }} ">
+                        class="sc-gPEVay eaBhby border rounded {{ ability_class(\App\Utils\Ability::BARCODE_READ) }} ">
 
                     <div class="sc-iRbamj image" style="background-image:url('images/barcode.svg') ">
 
@@ -339,7 +339,7 @@
                 </div>
                 <a href="{{ route('accounting.settings.edit') }}"
                    style="position:relative;"
-                   class="sc-gPEVay eaBhby border rounded {{ ability_class(\App\Utils\Ability::GENERAL_SETTINGS_EDIT) }}">
+                   class="sc-gPEVay eaBhby border rounded {{ ability_class(\App\Utils\Ability::GENERAL_SETTINGS_READ) }}">
                     <div class="sc-iRbamj image" style="background-image:url('images/settings.svg') ">
 
                     </div>

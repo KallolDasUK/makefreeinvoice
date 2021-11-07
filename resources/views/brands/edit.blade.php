@@ -9,12 +9,12 @@
 
             <div class="btn-group btn-group-sm float-right" role="group">
 
-                <a href="{{ route('brands.brand.index') }}" class="btn btn-primary mr-2" title="Show All Brand">
+                <a href="{{ route('brands.brand.index') }}" class="btn btn-primary mr-2  {{ ability(\App\Utils\Ability::BRAND_READ) }}" title="Show All Brand">
                     <i class=" fas fa-fw fa-th-list" aria-hidden="true"></i>
                     Show All Brand
                 </a>
 
-                <a href="{{ route('brands.brand.create') }}" class="btn btn-success" title="Create New Brand">
+                <a href="{{ route('brands.brand.create') }}" class="btn btn-success  {{ ability(\App\Utils\Ability::BRAND_CREATE) }}" title="Create New Brand">
                     <i class=" fas fa-fw fa-plus" aria-hidden="true"></i>
                     Create New Brand
                 </a>

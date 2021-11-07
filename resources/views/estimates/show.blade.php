@@ -72,25 +72,26 @@
                     <input name="_method" value="DELETE" type="hidden">
                     {{ csrf_field() }}
                     <div class="btn-group btn-group-sm" role="group">
-                        <a href="{{ route('estimates.estimate.index') }}" class="btn btn-primary mr-2"
+                        <a href="{{ route('estimates.estimate.index') }}" class="btn btn-primary mr-2  {{ ability(\App\Utils\Ability::ESTIMATE_READ) }}"
                            title="Show All Invoice">
                             <i class=" fas fa-fw fa-th-list" aria-hidden="true"></i>
                             Show All Estimate
                         </a>
 
-                        <a href="{{ route('estimates.estimate.create') }}" class="btn btn-success mr-2"
+                        <a href="{{ route('estimates.estimate.create') }}" class="btn btn-success mr-2  {{ ability(\App\Utils\Ability::ESTIMATE_CREATE) }}"
                            title="Create New Estimate">
                             <i class=" fas fa-fw fa-plus" aria-hidden="true"></i>
                             Create New Estimate
                         </a>
 
-                        <a href="{{ route('estimates.estimate.edit', $estimate->id ) }}" class="btn btn-primary mr-2"
+                        <a href="{{ route('estimates.estimate.edit', $estimate->id ) }}" class="btn btn-primary mr-2  {{ ability(\App\Utils\Ability::ESTIMATE_EDIT) }}"
                            title="Edit Invoice">
                             <i class=" fas fa-fw fa-pencil-alt" aria-hidden="true"></i>
                             Edit Estimate
                         </a>
 
                         <button type="submit" class="btn btn-danger" title="Delete Invoice"
+                                {{ ability(\App\Utils\Ability::ESTIMATE_DELETE) }}
                                 onclick="return confirm(&quot;Click Ok to delete Invoice.?&quot;)">
                             <i class=" fas fa-fw fa-trash-alt" aria-hidden="true"></i>
                             Delete Estimate

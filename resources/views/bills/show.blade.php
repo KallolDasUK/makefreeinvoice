@@ -71,25 +71,26 @@
                     <input name="_method" value="DELETE" type="hidden">
                     {{ csrf_field() }}
                     <div class="btn-group btn-group-sm" role="group">
-                        <a href="{{ route('bills.bill.index') }}" class="btn btn-primary mr-2"
+                        <a href="{{ route('bills.bill.index') }}" class="btn btn-primary mr-2 {{ ability(\App\Utils\Ability::BILL_READ) }}"
                            title="Show All Bill">
                             <i class=" fas fa-fw fa-th-list" aria-hidden="true"></i>
                             Show All Bill
                         </a>
 
-                        <a href="{{ route('bills.bill.create') }}" class="btn btn-success mr-2"
+                        <a href="{{ route('bills.bill.create') }}" class="btn btn-success mr-2  {{ ability(\App\Utils\Ability::BILL_CREATE) }}"
                            title="Create New Bill">
                             <i class=" fas fa-fw fa-plus" aria-hidden="true"></i>
                             Create New Bill
                         </a>
 
-                        <a href="{{ route('bills.bill.edit', $bill->id ) }}" class="btn btn-primary mr-2"
+                        <a href="{{ route('bills.bill.edit', $bill->id ) }}" class="btn btn-primary mr-2  {{ ability(\App\Utils\Ability::BILL_EDIT) }}"
                            title="Edit Bill">
                             <i class=" fas fa-fw fa-pencil-alt" aria-hidden="true"></i>
                             Edit Bill
                         </a>
 
                         <button type="submit" class="btn btn-danger" title="Delete Bill"
+                                {{ ability(\App\Utils\Ability::BILL_DELETE) }}
                                 onclick="return confirm(&quot;Click Ok to delete Bill.?&quot;)">
                             <i class=" fas fa-fw fa-trash-alt" aria-hidden="true"></i>
                             Delete Bill

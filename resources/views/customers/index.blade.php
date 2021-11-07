@@ -44,7 +44,7 @@
                 <div class="col">
                     <div class="btn-group btn-group-sm float-right" role="group">
                         <a style="font-size: 16px" href="{{ route('customers.customer.create') }}"
-                           class="btn btn-success btn-lg font-weight-bolder font-size-sm" title="Create New Customer">
+                           class="btn btn-success btn-lg font-weight-bolder font-size-sm  {{ ability(\App\Utils\Ability::CUSTOMER_CREATE) }}" title="Create New Customer">
                             <i class="fas fa-fw fa-plus" aria-hidden="true"></i>
                             New Customer
                         </a>
@@ -52,7 +52,7 @@
                     </div>
 {{--                    <div class="clearfix"></div>--}}
                     <a  href="{{ route('customer_advance_payments.customer_advance_payment.index') }}"
-                        class="btn btn-secondary font-weight-bolder font-size-sm float-right mx-2" title="Create New Customer">
+                        class="btn btn-secondary font-weight-bolder font-size-sm float-right mx-2  {{ ability(\App\Utils\Ability::CUSTOMER_ADVANCE_READ) }}" title="Create New Customer">
                         <i class="fa fa-money-bill" aria-hidden="true"></i>
                         Advance Payments
                     </a>
@@ -144,12 +144,12 @@
                                     </span>
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                         <a href="{{ route('customer_advance_payments.customer_advance_payment.create',['customer_id'=>$customer->id]) }}"
-                                           class="dropdown-item btn  align-items-center">
+                                           class="dropdown-item btn  align-items-center  {{ ability(\App\Utils\Ability::CUSTOMER_ADVANCE_CREATE) }}">
                                             <span class="fa fa-money-bill mx-4"></span> <strong> Make Advance
                                                 Payment</strong>
                                         </a>
                                         <a href="{{ route('customers.customer.edit',$customer->id) }}"
-                                           class="dropdown-item btn">
+                                           class="dropdown-item btn  {{ ability(\App\Utils\Ability::CUSTOMER_EDIT) }}">
                                             <span class="fa fa-pencil-alt mx-4"></span> <strong>Edit</strong>
                                         </a>
 
@@ -158,6 +158,7 @@
                                               action="{!! route('customers.customer.destroy', $customer->id) !!}">
                                             {{ csrf_field() }}
                                             <button class="dropdown-item "
+                                                    {{ ability(\App\Utils\Ability::CUSTOMER_DELETE) }}
                                                     onclick="return confirm('Click Ok to delete Customer')">
                                                 @method('DELETE')
                                                 <span class="fa fa-trash-alt mx-4 text-danger"></span>

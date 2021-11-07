@@ -10,7 +10,7 @@
             <h5 class="my-1 float-left">Create New Bill Payment</h5>
 
             <div class="btn-group btn-group-sm float-right" role="group">
-                <a href="{{ route('bill_payments.bill_payment.index') }}" class="btn btn-primary"
+                <a href="{{ route('bill_payments.bill_payment.index') }}" class="btn btn-primary {{ ability(\App\Utils\Ability::PAY_BILL_READ) }}"
                    title="Show All Bill Payment">
                     <i class=" fas fa-fw fa-th-list" aria-hidden="true"></i>
                     Show All Bill Payment

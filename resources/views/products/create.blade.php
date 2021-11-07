@@ -9,7 +9,7 @@
             <h5 class="my-1 float-left">Create New Product</h5>
 
             <div class="btn-group btn-group-sm float-right" role="group">
-                <a href="{{ route('products.product.index') }}" class="btn btn-primary" title="Show All Product">
+                <a href="{{ route('products.product.index') }}" class="btn btn-primary {{ ability(\App\Utils\Ability::PRODUCT_READ) }}" title="Show All Product">
                     <i class=" fas fa-fw fa-th-list" aria-hidden="true"></i>
                     Show All Product
                 </a>

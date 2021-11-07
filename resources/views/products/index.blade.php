@@ -22,13 +22,15 @@
 
             <div class="btn-group btn-group-sm float-right" role="group">
                 <a href="{{ route('products.product.barcode') }}"
-                   class="btn btn-success btn-lg font-weight-bolder font-size-sm mx-4" style="font-size: 16px"
+                   class="btn btn-success btn-lg font-weight-bolder font-size-sm mx-4 {{ ability(\App\Utils\Ability::BARCODE_READ) }}"
+                   style="font-size: 16px"
                    title="Create New Product">
                     <i class="fa fa-barcode" aria-hidden="true"></i>
                     Print Barcode
                 </a>
                 <a href="{{ route('products.product.create') }}"
-                   class="btn btn-success btn-lg font-weight-bolder font-size-sm" style="font-size: 16px"
+                   class="btn btn-success btn-lg font-weight-bolder font-size-sm {{ ability(\App\Utils\Ability::PRODUCT_CREATE) }}"
+                   style="font-size: 16px"
                    title="Create New Product">
                     <i class="fas fa-fw fa-plus" aria-hidden="true"></i>
                     Create New Product
@@ -89,17 +91,17 @@
                                         {{ csrf_field() }}
 
                                         <div class="btn-group btn-group-sm float-right " role="group">
-                                            <a href="{{ route('products.product.show', $product->id ) }}"
-                                               title="Show Product">
-                                                <i class="fa fa-eye text-info" aria-hidden="true"></i>
-                                            </a>
-                                            <a href="{{ route('products.product.edit', $product->id ) }}" class="mx-4"
+
+                                            <a href="{{ route('products.product.edit', $product->id ) }}"
+                                               class="btn mx-4 {{ ability(\App\Utils\Ability::PRODUCT_EDIT) }}"
                                                title="Edit Product">
                                                 <i class="fas fa-edit text-primary" aria-hidden="true"></i>
                                             </a>
 
-                                            <button type="submit" style="border: none;background: transparent"
+                                            <button type="submit"
                                                     title="Delete Product"
+                                                    class="btn"
+                                                    {{ ability(\App\Utils\Ability::PRODUCT_DELETE) }}
                                                     onclick="return confirm(&quot;Click Ok to delete Product.&quot;)">
                                                 <i class="fas  fa-trash text-danger" aria-hidden="true"></i>
                                             </button>

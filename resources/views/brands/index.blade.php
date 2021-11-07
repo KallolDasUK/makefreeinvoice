@@ -17,10 +17,11 @@
 
         <div class="card-header">
 
-            <h5  class="my-1 float-left">Brands</h5>
+            <h5 class="my-1 float-left">Brands</h5>
 
             <div class="btn-group btn-group-sm float-right" role="group">
-                <a href="{{ route('brands.brand.create') }}" class="btn btn-success" title="Create New Brand">
+                <a href="{{ route('brands.brand.create') }}"
+                   class="btn btn-success  {{ ability(\App\Utils\Ability::BRAND_CREATE) }}" title="Create New Brand">
                     <i class="fas fa-fw fa-plus" aria-hidden="true"></i>
                     Create New Brand
                 </a>
@@ -33,55 +34,54 @@
                 <h4>No Brands Available.</h4>
             </div>
         @else
-        <div class="card-body">
+            <div class="card-body">
 
-            <div class="table-responsive">
-                <table class="table table-striped table-sm">
-                    <thead>
+                <div class="table-responsive">
+                    <table class="table table-striped table-sm">
+                        <thead>
                         <tr>
-                                <th>Name</th>
-
+                            <th>Name</th>
                             <th></th>
                         </tr>
-                    </thead>
-                    <tbody>
-                    @foreach($brands as $brand)
-                        <tr>
+                        </thead>
+                        <tbody>
+                        @foreach($brands as $brand)
+                            <tr>
                                 <td>{{ $brand->name }}</td>
+                                <td>
+                                    <form method="POST" action="{!! route('brands.brand.destroy', $brand->id) !!}"
+                                          accept-charset="UTF-8">
+                                        <input name="_method" value="DELETE" type="hidden">
+                                        {{ csrf_field() }}
 
-                            <td>
+                                        <div class="btn-group btn-group-sm float-right " role="group">
 
-                                <form method="POST" action="{!! route('brands.brand.destroy', $brand->id) !!}" accept-charset="UTF-8">
-                                <input name="_method" value="DELETE" type="hidden">
-                                {{ csrf_field() }}
+                                            <a href="{{ route('brands.brand.edit', $brand->id ) }}" class="mx-4 btn  {{ ability(\App\Utils\Ability::BRAND_EDIT) }}"
+                                               title="Edit Brand">
+                                                <i class="fas fa-edit text-primary" aria-hidden="true"></i>
+                                            </a>
 
-                                    <div class="btn-group btn-group-sm float-right " role="group">
-                                        <a href="{{ route('brands.brand.show', $brand->id ) }}"title="Show Brand">
-                                            <i class="fa fa-eye text-info" aria-hidden="true"></i>
-                                        </a>
-                                        <a href="{{ route('brands.brand.edit', $brand->id ) }}" class="mx-4" title="Edit Brand">
-                                            <i class="fas fa-edit text-primary" aria-hidden="true"></i>
-                                        </a>
+                                            <button type="submit" style="border: none;background: transparent"
+                                                    title="Delete Brand"
+                                                    {{ ability(\App\Utils\Ability::BRAND_DELETE) }}
+                                                    onclick="return confirm(&quot;Click Ok to delete Brand.&quot;)">
+                                                <i class=" fas  fa-trash text-danger" aria-hidden="true"></i>
+                                            </button>
+                                        </div>
 
-                                        <button type="submit" style="border: none;background: transparent"  title="Delete Brand" onclick="return confirm(&quot;Click Ok to delete Brand.&quot;)">
-                                            <i class=" fas  fa-trash text-danger" aria-hidden="true"></i>
-                                        </button>
-                                    </div>
+                                    </form>
+                                </td>
+                            </tr>
+                        @endforeach
+                        </tbody>
+                    </table>
 
-                                </form>
-
-                            </td>
-                        </tr>
-                    @endforeach
-                    </tbody>
-                </table>
-
+                </div>
             </div>
-        </div>
 
-        <div class="card-footer">
-            {!! $brands->render() !!}
-        </div>
+            <div class="card-footer">
+                {!! $brands->render() !!}
+            </div>
 
         @endif
 
@@ -90,27 +90,30 @@
 
 @section('js')
 
-     <script>
-         $(document).ready(function () {
-             $('table').DataTable({
-                 responsive: true,
-                 "order": [],
-                 dom: 'lBfrtip',
-                 buttons: [
-                     'copy', 'excel', 'pdf', 'print'
-                 ]
+    <script>
+        $(document).ready(function () {
+            $('table').DataTable({
+                responsive: true,
+                "order": [],
+                dom: 'lBfrtip',
+                buttons: [
+                    'copy', 'excel', 'pdf', 'print'
+                ]
 
-             });
-         });
-     </script>
+            });
+        });
+    </script>
 
-     <style>
-         .dataTables_filter {
-             float: right;
-         }
-        i:hover { color: #0248fa !important; }
+    <style>
+        .dataTables_filter {
+            float: right;
+        }
 
-     </style>
+        i:hover {
+            color: #0248fa !important;
+        }
+
+    </style>
 
 
 @endsection

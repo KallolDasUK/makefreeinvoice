@@ -19,7 +19,6 @@
 
         <div class="card-header">
 
-            <h5 class="my-1 float-left">User Roles</h5>
 
             <div class="btn-group btn-group-sm float-right" role="group">
                 <a href="{{ route('user_roles.user_role.create') }}" class="btn btn-success"
@@ -38,10 +37,12 @@
         @else
             <div class="card-body">
 
-                <div class="table-responsive">
-                    <table class="table table-striped table-sm">
+                <div >
+                    <table class="table mb-0  table-head-custom table-vertical-center font-weight-bolder"
+                           style="font-size: 16px">
                         <thead>
                         <tr>
+                            <th>SL</th>
                             <th>Name</th>
                             <th>Description</th>
 
@@ -51,6 +52,8 @@
                         <tbody>
                         @foreach($userRoles as $userRole)
                             <tr>
+                                <td>{{ (($userRoles->currentPage() - 1) * $userRoles->perPage()) + $loop->iteration }}</td>
+
                                 <td>{{ $userRole->name }}</td>
                                 <td>{{ $userRole->description }}</td>
 
@@ -63,11 +66,8 @@
                                         {{ csrf_field() }}
 
                                         <div class="btn-group btn-group-sm float-right " role="group">
-                                            <a href="{{ route('user_roles.user_role.show', $userRole->id ) }}"
-                                               title="Show User Role">
-                                                <i class="fa fa-eye text-info" aria-hidden="true"></i>
-                                            </a>
-                                            <a href="{{ route('user_roles.user_role.edit', $userRole->id ) }}"
+
+                                            <a  href="{{ route('user_roles.user_role.edit', $userRole->id ) }}"
                                                class="mx-4" title="Edit User Role">
                                                 <i class="fas fa-edit text-primary" aria-hidden="true"></i>
                                             </a>

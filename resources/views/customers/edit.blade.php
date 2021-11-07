@@ -10,12 +10,12 @@
 
             <div class="btn-group btn-group-sm float-right" role="group">
 
-                <a href="{{ route('customers.customer.index') }}" class="btn btn-primary mr-2" title="Show All Customer">
+                <a href="{{ route('customers.customer.index') }}" class="btn btn-primary mr-2  {{ ability(\App\Utils\Ability::CUSTOMER_READ) }}" title="Show All Customer">
                     <i class=" fas fa-fw fa-th-list" aria-hidden="true"></i>
                     Show All Customer
                 </a>
 
-                <a href="{{ route('customers.customer.create') }}" class="btn btn-success" title="Create New Customer">
+                <a href="{{ route('customers.customer.create') }}" class="btn btn-success  {{ ability(\App\Utils\Ability::CUSTOMER_CREATE) }}" title="Create New Customer">
                     <i class=" fas fa-fw fa-plus" aria-hidden="true"></i>
                     Create New Customer
                 </a>

@@ -22,7 +22,7 @@
 
             <div class="btn-group btn-group-sm float-right" role="group">
                 <a href="{{ route('customer_advance_payments.customer_advance_payment.create') }}"
-                   class="btn btn-success" title="Create New Customer Advance Payment">
+                   class="btn btn-success  {{ ability(\App\Utils\Ability::CUSTOMER_ADVANCE_CREATE) }}" title="Create New Customer Advance Payment">
                     <i class="fas fa-fw fa-plus" aria-hidden="true"></i>
                     Create New Customer Advance Payment
                 </a>
@@ -69,17 +69,15 @@
                                         {{ csrf_field() }}
 
                                         <div class="btn-group btn-group-sm float-right " role="group">
-                                            <a href="{{ route('customer_advance_payments.customer_advance_payment.show', $customerAdvancePayment->id ) }}"
-                                               title="Show Customer Advance Payment">
-                                                <i class="fa fa-eye text-info" aria-hidden="true"></i>
-                                            </a>
+
                                             <a href="{{ route('customer_advance_payments.customer_advance_payment.edit', $customerAdvancePayment->id ) }}"
-                                               class="mx-4" title="Edit Customer Advance Payment">
+                                               class="mx-4 btn  {{ ability(\App\Utils\Ability::CUSTOMER_ADVANCE_EDIT) }}" title="Edit Customer Advance Payment">
                                                 <i class="fas fa-edit text-primary" aria-hidden="true"></i>
                                             </a>
 
-                                            <button type="submit" style="border: none;background: transparent"
+                                            <button type="submit"  {{ ability(\App\Utils\Ability::CUSTOMER_ADVANCE_DELETE) }}
                                                     title="Delete Customer Advance Payment"
+
                                                     onclick="return confirm(&quot;Click Ok to delete Customer Advance Payment.&quot;)">
                                                 <i class=" fas  fa-trash text-danger" aria-hidden="true"></i>
                                             </button>

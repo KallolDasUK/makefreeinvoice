@@ -12,7 +12,7 @@
     </div>
 
     <div class="text-right">
-        <a href="{{ route('bills.bill.index') }}" class="btn btn-primary " title="Show All Bills">
+        <a href="{{ route('bills.bill.index') }}" class="btn btn-primary {{ ability(\App\Utils\Ability::BILL_READ) }}" title="Show All Bills">
             <i class=" fas fa-fw fa-th-list" aria-hidden="true"></i>
             Show All Bills
         </a>
