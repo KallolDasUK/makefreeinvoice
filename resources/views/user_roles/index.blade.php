@@ -21,7 +21,7 @@
 
 
             <div class="btn-group btn-group-sm float-right" role="group">
-                <a href="{{ route('user_roles.user_role.create') }}" class="btn btn-success"
+                <a href="{{ route('user_roles.user_role.create') }}" class="btn btn-success  {{  ability(\App\Utils\Ability::ROLE_CREATE) }}"
                    title="Create New User Role">
                     <i class="fas fa-fw fa-plus" aria-hidden="true"></i>
                     Create New User Role
@@ -68,11 +68,12 @@
                                         <div class="btn-group btn-group-sm float-right " role="group">
 
                                             <a  href="{{ route('user_roles.user_role.edit', $userRole->id ) }}"
-                                               class="mx-4" title="Edit User Role">
+                                               class="mx-4  {{  ability(\App\Utils\Ability::ROLE_EDIT) }}" title="Edit User Role">
                                                 <i class="fas fa-edit text-primary" aria-hidden="true"></i>
                                             </a>
 
                                             <button type="submit" style="border: none;background: transparent"
+                                                    {{  ability(\App\Utils\Ability::ROLE_DELETE) }}
                                                     title="Delete User Role"
                                                     onclick="return confirm(&quot;Click Ok to delete User Role.&quot;)">
                                                 <i class=" fas  fa-trash text-danger" aria-hidden="true"></i>

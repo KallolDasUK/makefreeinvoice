@@ -21,7 +21,7 @@
             <h5  class="my-1 float-left">Inventory Adjustments</h5>
 
             <div class="btn-group btn-group-sm float-right" role="group">
-                <a href="{{ route('inventory_adjustments.inventory_adjustment.create') }}" class="btn btn-success" title="Create New Inventory Adjustment">
+                <a href="{{ route('inventory_adjustments.inventory_adjustment.create') }}" class="btn btn-success  {{  ability(\App\Utils\Ability::INVENTORY_ADJUSTMENT_CREATE) }}" title="Create New Inventory Adjustment">
                     <i class="fas fa-fw fa-plus" aria-hidden="true"></i>
                     Create New Inventory Adjustment
                 </a>
@@ -60,14 +60,14 @@
                                 {{ csrf_field() }}
 
                                     <div class="btn-group btn-group-sm float-right " role="group">
-                                        <a href="{{ route('inventory_adjustments.inventory_adjustment.show', $inventoryAdjustment->id ) }}"title="Show Inventory Adjustment">
+                                        <a href="{{ route('inventory_adjustments.inventory_adjustment.show', $inventoryAdjustment->id ) }}" title="Show Inventory Adjustment" class="btn  {{  ability(\App\Utils\Ability::INVENTORY_ADJUSTMENT_READ) }}">
                                             <i class="fa fa-eye text-info" aria-hidden="true"></i>
                                         </a>
-                                        <a href="{{ route('inventory_adjustments.inventory_adjustment.edit', $inventoryAdjustment->id ) }}" class="mx-4" title="Edit Inventory Adjustment">
+                                        <a href="{{ route('inventory_adjustments.inventory_adjustment.edit', $inventoryAdjustment->id ) }}" class="mx-4 btn  {{  ability(\App\Utils\Ability::INVENTORY_ADJUSTMENT_EDIT) }}" title="Edit Inventory Adjustment">
                                             <i class="fas fa-edit text-primary" aria-hidden="true"></i>
                                         </a>
 
-                                        <button type="submit" style="border: none;background: transparent"  title="Delete Inventory Adjustment" onclick="return confirm(&quot;Click Ok to delete Inventory Adjustment.&quot;)">
+                                        <button type="submit" class="btn btn-default" {{  ability(\App\Utils\Ability::INVENTORY_ADJUSTMENT_DELETE) }} title="Delete Inventory Adjustment" onclick="return confirm(&quot;Click Ok to delete Inventory Adjustment.&quot;)">
                                             <i class=" fas  fa-trash text-danger" aria-hidden="true"></i>
                                         </button>
                                     </div>

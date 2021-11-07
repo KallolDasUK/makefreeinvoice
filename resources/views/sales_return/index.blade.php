@@ -62,7 +62,7 @@
             </h3>
             <div class="card-toolbar">
                 <a href="{{ route('sales_returns.sales_return.create') }}"
-                   class="btn btn-success btn-lg font-weight-bolder font-size-sm " style="font-size: 16px">
+                   class="btn btn-success btn-lg font-weight-bolder font-size-sm  {{  ability(\App\Utils\Ability::SALES_RETURN_CREATE) }}" style="font-size: 16px">
                     <i class="fas fa-fw fa-plus" aria-hidden="true"></i>
 
                     </span>Create Sales Return</a>
@@ -213,7 +213,7 @@
                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
 
                                             <a href="{{ route('sales_returns.sales_return.edit',$invoice->id??-1) }}"
-                                               class="dropdown-item btn">
+                                               class="dropdown-item btn  {{  ability(\App\Utils\Ability::SALES_RETURN_EDIT) }}">
                                                 <span class="fa fa-pencil-alt mx-4"></span> <strong>Edit</strong>
                                             </a>
 
@@ -222,6 +222,7 @@
                                                   action="{!! route('sales_returns.sales_return.destroy', $invoice->id??-1) !!}">
                                                 {{ csrf_field() }}
                                                 <button class="dropdown-item "
+                                                        {{  ability(\App\Utils\Ability::SALES_RETURN_DELETE) }}
                                                         onclick="return confirm('Click Ok to delete Invoice')">
                                                     @method('DELETE')
                                                     <span class="fa fa-trash-alt mx-4 text-danger"></span>

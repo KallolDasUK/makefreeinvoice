@@ -10,12 +10,12 @@
 
             <div class="btn-group btn-group-sm float-right" role="group">
 
-                <a href="{{ route('vendor_advance_payments.vendor_advance_payment.index') }}" class="btn btn-primary mr-2" title="Show All Vendor Advance Payment">
+                <a href="{{ route('vendor_advance_payments.vendor_advance_payment.index') }}" class="btn btn-primary mr-2  {{  ability(\App\Utils\Ability::VENDOR_ADVANCE_READ) }}" title="Show All Vendor Advance Payment">
                     <i class=" fas fa-fw fa-th-list" aria-hidden="true"></i>
                     Show All Vendor Advance Payment
                 </a>
 
-                <a href="{{ route('vendor_advance_payments.vendor_advance_payment.create') }}" class="btn btn-success" title="Create New Vendor Advance Payment">
+                <a href="{{ route('vendor_advance_payments.vendor_advance_payment.create') }}" class="btn btn-success  {{  ability(\App\Utils\Ability::VENDOR_ADVANCE_CREATE) }}" title="Create New Vendor Advance Payment">
                     <i class=" fas fa-fw fa-plus" aria-hidden="true"></i>
                     Create New Vendor Advance Payment
                 </a>

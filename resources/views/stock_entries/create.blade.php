@@ -8,7 +8,7 @@
 
 
             <div class="btn-group btn-group-sm float-right" role="group">
-                <a href="{{ route('stock_entries.stock_entry.index') }}" class="btn btn-primary" title="Show All Stock Entry">
+                <a href="{{ route('stock_entries.stock_entry.index') }}" class="btn btn-primary  {{  ability(\App\Utils\Ability::STOCK_ENTRY_READ) }}" title="Show All Stock Entry">
                     <i class=" fas fa-fw fa-th-list" aria-hidden="true"></i>
                     Show All Stock Entry
                 </a>

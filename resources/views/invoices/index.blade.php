@@ -116,7 +116,7 @@
             </h3>
             <div class="card-toolbar">
                 <a href="{{ route('invoices.invoice.create') }}"
-                   class="btn btn-success btn-lg font-weight-bolder font-size-sm " style="font-size: 16px">
+                   class="btn btn-success btn-lg font-weight-bolder font-size-sm  {{  ability(\App\Utils\Ability::INVOICE_CREATE) }}" style="font-size: 16px">
                     <i class="fas fa-fw fa-plus" aria-hidden="true"></i>
 
                     </span>Create an invoice</a>
@@ -302,18 +302,19 @@
                                             </a>
                                             <a href="javascript:;"
                                                share_link="{{ route('invoices.invoice.share',$invoice->secret) }}"
-
+                                               {{  ability(\App\Utils\Ability::INVOICE_READ) }}
                                                class="dropdown-item btn shareLink">
                                                 <span class="fa fa-share mx-4"></span> <strong>Get Share Link</strong>
                                             </a>
                                             <a href="javascript:;"
                                                link="{{ route('invoices.invoice.payments',$invoice->id) }}"
-
+                                               {{  ability(\App\Utils\Ability::INVOICE_READ) }}
                                                class="dropdown-item btn view_payments">
                                                 <span class="fa fa-money-check mx-4"></span> <strong>View
                                                     Payments</strong>
                                             </a>
                                             <a href="{{ route('invoices.invoice.edit',$invoice->id) }}"
+                                               {{  ability(\App\Utils\Ability::INVOICE_EDIT) }}
                                                class="dropdown-item btn">
                                                 <span class="fa fa-pencil-alt mx-4"></span> <strong>Edit</strong>
                                             </a>
@@ -323,6 +324,7 @@
                                                   action="{!! route('invoices.invoice.destroy', $invoice->id) !!}">
                                                 {{ csrf_field() }}
                                                 <button class="dropdown-item "
+                                                        {{  ability(\App\Utils\Ability::INVOICE_DELETE) }}
                                                         onclick="return confirm('Click Ok to delete Invoice')">
                                                     @method('DELETE')
                                                     <span class="fa fa-trash-alt mx-4 text-danger"></span>

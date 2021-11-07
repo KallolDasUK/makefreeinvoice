@@ -55,6 +55,7 @@
                 /*margin: 0px;*/
                 max-width: 100%;
             }
+
             #invoice-container, #invoice-container * {
                 visibility: visible;
             }
@@ -91,26 +92,30 @@
                     <input name="_method" value="DELETE" type="hidden">
                     {{ csrf_field() }}
                     <div class="btn-group btn-group-sm" role="group">
-                        <a href="{{ route('invoices.invoice.index') }}" class="btn btn-primary mr-2"
+                        <a href="{{ route('invoices.invoice.index') }}"
+                           class="btn btn-primary mr-2   {{  ability(\App\Utils\Ability::INVOICE_READ) }}"
                            title="Show All Invoice">
                             <i class=" fas fa-fw fa-th-list" aria-hidden="true"></i>
                             Show All Invoice
                         </a>
 
-                        <a href="{{ route('invoices.invoice.create') }}" class="btn btn-success mr-2"
+                        <a href="{{ route('invoices.invoice.create') }}"
+                           class="btn btn-success mr-2   {{  ability(\App\Utils\Ability::INVOICE_CREATE) }}"
                            title="Create New Invoice">
                             <i class=" fas fa-fw fa-plus" aria-hidden="true"></i>
                             Create New Invoice
                         </a>
 
-                        <a href="{{ route('invoices.invoice.edit', $invoice->id ) }}" class="btn btn-primary mr-2"
+                        <a href="{{ route('invoices.invoice.edit', $invoice->id ) }}"
+                           class="btn btn-primary mr-2   {{  ability(\App\Utils\Ability::INVOICE_EDIT) }}"
                            title="Edit Invoice">
                             <i class=" fas fa-fw fa-pencil-alt" aria-hidden="true"></i>
                             Edit Invoice
                         </a>
 
                         <button type="submit" class="btn btn-danger" title="Delete Invoice"
-                                onclick="return confirm(&quot;Click Ok to delete Invoice.?&quot;)">
+                                {{  ability(\App\Utils\Ability::INVOICE_DELETE) }}
+                                onclick="return confirm('Click Ok to delete Invoice.')">
                             <i class=" fas fa-fw fa-trash-alt" aria-hidden="true"></i>
                             Delete Invoice
                         </button>
@@ -135,7 +140,7 @@
                    class="btn btn-outline-secondary   btn-lg " style="font-size: 20px"><i
                         class="fa fa-share"></i> Share
                 </a> <a href="{{ route('invoices.invoice.send',$invoice->id) }}"
-                   class="btn btn-outline-secondary   btn-lg " style="font-size: 20px"><i
+                        class="btn btn-outline-secondary   btn-lg " style="font-size: 20px"><i
                         class="far fa-envelope-open"></i> Email Invoice
                 </a>
             </div>

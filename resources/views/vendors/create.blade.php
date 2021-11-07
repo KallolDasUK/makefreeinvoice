@@ -9,7 +9,7 @@
             <h5  class="my-1 float-left">Create New Vendor</h5>
 
             <div class="btn-group btn-group-sm float-right" role="group">
-                <a href="{{ route('vendors.vendor.index') }}" class="btn btn-primary" title="Show All Vendor">
+                <a href="{{ route('vendors.vendor.index') }}" class="btn btn-primary {{  ability(\App\Utils\Ability::VENDOR_READ) }}" title="Show All Vendor">
                     <i class=" fas fa-fw fa-th-list" aria-hidden="true"></i>
                     Show All Vendor
                 </a>

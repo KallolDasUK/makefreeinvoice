@@ -62,7 +62,7 @@
             </h3>
             <div class="card-toolbar">
                 <a href="{{ route('purchase_returns.purchase_return.create') }}"
-                   class="btn btn-success btn-lg font-weight-bolder font-size-sm " style="font-size: 16px">
+                   class="btn btn-success btn-lg font-weight-bolder font-size-sm {{  ability(\App\Utils\Ability::PURCHASE_RETURN_CREATE) }}" style="font-size: 16px">
                     <i class="fas fa-fw fa-plus" aria-hidden="true"></i>
 
                     </span>Register New Return</a>
@@ -166,7 +166,7 @@
                                 </td>
                                 <td class="pl-0">
                                     <a href="{{ route('purchase_returns.purchase_return.show',$invoice->id) }}"
-                                       class="text-dark-75 font-weight-bolder text-hover-primary mb-1 font-size-lg ">{{ \Carbon\Carbon::parse($invoice->date)->format('d/m/Y') }}</a>
+                                       class="text-dark-75 font-weight-bolder text-hover-primary mb-1 font-size-lg {{  ability(\App\Utils\Ability::PURCHASE_RETURN_DELETE) }}">{{ \Carbon\Carbon::parse($invoice->date)->format('d/m/Y') }}</a>
 
                                     @if($invoice->due_date)
                                         <span
@@ -202,7 +202,7 @@
                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
 
                                             <a href="{{ route('purchase_returns.purchase_return.edit',$invoice->id) }}"
-                                               class="dropdown-item btn">
+                                               class="dropdown-item btn {{  ability(\App\Utils\Ability::PURCHASE_RETURN_EDIT) }}">
                                                 <span class="fa fa-pencil-alt mx-4"></span> <strong>Edit</strong>
                                             </a>
 
@@ -211,6 +211,7 @@
                                                   action="{!! route('purchase_returns.purchase_return.destroy', $invoice->id) !!}">
                                                 {{ csrf_field() }}
                                                 <button class="dropdown-item "
+                                                        {{  ability(\App\Utils\Ability::PURCHASE_RETURN_DELETE) }}
                                                         onclick="return confirm('Click Ok to delete Invoice')">
                                                     @method('DELETE')
                                                     <span class="fa fa-trash-alt mx-4 text-danger"></span>

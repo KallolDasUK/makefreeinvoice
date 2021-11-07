@@ -91,25 +91,26 @@
                     <input name="_method" value="DELETE" type="hidden">
                     {{ csrf_field() }}
                     <div class="btn-group btn-group-sm" role="group">
-                        <a href="{{ route('purchase_returns.purchase_return.index') }}" class="btn btn-primary mr-2"
+                        <a href="{{ route('purchase_returns.purchase_return.index') }}" class="btn btn-primary mr-2 {{  ability(\App\Utils\Ability::PURCHASE_RETURN_READ) }}"
                            title="Show All Invoice">
                             <i class=" fas fa-fw fa-th-list" aria-hidden="true"></i>
                             Show All Invoice
                         </a>
 
-                        <a href="{{ route('purchase_returns.purchase_return.create') }}" class="btn btn-success mr-2"
+                        <a href="{{ route('purchase_returns.purchase_return.create') }}" class="btn btn-success mr-2 {{  ability(\App\Utils\Ability::PURCHASE_RETURN_CREATE) }}"
                            title="Create New Invoice">
                             <i class=" fas fa-fw fa-plus" aria-hidden="true"></i>
                             Create New Invoice
                         </a>
 
-                        <a href="{{ route('purchase_returns.purchase_return.edit', $purchaseReturn->id ) }}" class="btn btn-primary mr-2"
+                        <a href="{{ route('purchase_returns.purchase_return.edit', $purchaseReturn->id ) }}" class="btn btn-primary mr-2 {{  ability(\App\Utils\Ability::PURCHASE_RETURN_EDIT) }}"
                            title="Edit Invoice">
                             <i class=" fas fa-fw fa-pencil-alt" aria-hidden="true"></i>
                             Edit Invoice
                         </a>
 
                         <button type="submit" class="btn btn-danger" title="Delete Invoice"
+                                {{  ability(\App\Utils\Ability::PURCHASE_RETURN_DELETE) }}
                                 onclick="return confirm(&quot;Click Ok to delete Invoice.?&quot;)">
                             <i class=" fas fa-fw fa-trash-alt" aria-hidden="true"></i>
                             Delete Invoice

@@ -9,7 +9,7 @@
             <h5 class="my-1 float-left">Create New Vendor Advance Payment</h5>
 
             <div class="btn-group btn-group-sm float-right" role="group">
-                <a href="{{ route('vendor_advance_payments.vendor_advance_payment.index') }}" class="btn btn-primary"
+                <a href="{{ route('vendor_advance_payments.vendor_advance_payment.index') }}" class="btn btn-primary   {{  ability(\App\Utils\Ability::VENDOR_ADVANCE_READ) }}"
                    title="Show All Vendor Advance Payment">
                     <i class=" fas fa-fw fa-th-list" aria-hidden="true"></i>
                     Show All Vendor Advance Payment

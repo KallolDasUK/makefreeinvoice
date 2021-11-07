@@ -20,7 +20,7 @@
 
 
             <div class="btn-group btn-group-sm float-right" role="group">
-                <a href="{{ route('users.user.create') }}" class="btn btn-success" title="Create New User">
+                <a href="{{ route('users.user.create') }}" class="btn btn-success   {{  ability(\App\Utils\Ability::USER_CREATE) }}" title="Create New User">
                     <i class="fas fa-fw fa-plus" aria-hidden="true"></i>
                     Create New User
                 </a>
@@ -71,13 +71,14 @@
 
                                     <div class="btn-group btn-group-sm float-right " role="group">
 
-                                        <a href="{{ route('users.user.edit', $user->id ) }}" class="mx-4"
+                                        <a href="{{ route('users.user.edit', $user->id ) }}" class="mx-4   {{  ability(\App\Utils\Ability::USER_EDIT) }}"
                                            title="Edit User">
                                             <i class="fas fa-edit text-primary" aria-hidden="true"></i>
                                         </a>
 
                                         <button type="submit" style="border: none;background: transparent"
                                                 title="Delete User"
+                                                {{  ability(\App\Utils\Ability::USER_DELETE) }}
                                                 onclick="return confirm(&quot;Click Ok to delete User.&quot;)">
                                             <i class=" fas  fa-trash text-danger" aria-hidden="true"></i>
                                         </button>

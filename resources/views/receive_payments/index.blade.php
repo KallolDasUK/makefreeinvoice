@@ -22,7 +22,8 @@
             <h5 class="my-1 float-left">Receive Payments</h5>
 
             <div class="btn-group btn-group-sm float-right" role="group">
-                <a href="{{ route('receive_payments.receive_payment.create') }}" class="btn btn-success"
+                <a href="{{ route('receive_payments.receive_payment.create') }}"
+                   class="btn btn-success {{  ability(\App\Utils\Ability::RECEIVE_PAYMENT_CREATE) }}"
                    title="Create New Receive Payment">
                     <i class="fas fa-fw fa-plus" aria-hidden="true"></i>
                     Create New Receive Payment
@@ -70,6 +71,7 @@
 
                                 <td>
                                     <form method="POST"
+                                          {{  ability(\App\Utils\Ability::RECEIVE_PAYMENT_DELETE) }}
                                           action="{!! route('receive_payments.receive_payment.destroy', $receivePayment->id) !!}"
                                           accept-charset="UTF-8">
                                         <input name="_method" value="DELETE" type="hidden">
@@ -86,12 +88,14 @@
                                             </span>
 
                                             <a href="{{ route('receive_payments.receive_payment.edit', $receivePayment->id ) }}"
-                                               class="mx-4 btn btn-outline-secondary" title="Edit Receive Payment">
+                                               class="mx-4 btn btn-outline-secondary {{  ability(\App\Utils\Ability::RECEIVE_PAYMENT_EDIT) }}"
+                                               title="Edit Receive Payment">
                                                 <i class="fas fa-edit text-primary" aria-hidden="true"></i>
                                             </a>
 
                                             <button type="submit"
                                                     title="Delete Receive Payment"
+                                                    {{  ability(\App\Utils\Ability::RECEIVE_PAYMENT_DELETE) }}
                                                     class="btn btn-outline-secondary"
                                                     onclick="return confirm(&quot;Click Ok to delete Receive Payment.&quot;)">
                                                 <i class=" fas  fa-trash text-danger" aria-hidden="true"></i>

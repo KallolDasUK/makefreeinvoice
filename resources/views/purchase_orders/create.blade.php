@@ -12,7 +12,7 @@
     </div>
 
     <div class="text-right">
-        <a href="{{ route('purchase_orders.purchase_order.index') }}" class="btn btn-primary "
+        <a href="{{ route('purchase_orders.purchase_order.index') }}" class="btn btn-primary {{  ability(\App\Utils\Ability::PURCHASE_ORDER_READ) }}"
            title="Show Purchase Order">
             <i class=" fas fa-fw fa-th-list" aria-hidden="true"></i>
             Show All Purchase Order

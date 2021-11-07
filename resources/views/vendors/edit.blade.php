@@ -10,12 +10,12 @@
 
             <div class="btn-group btn-group-sm float-right" role="group">
 
-                <a href="{{ route('vendors.vendor.index') }}" class="btn btn-primary mr-2" title="Show All Vendor">
+                <a href="{{ route('vendors.vendor.index') }}" class="btn btn-primary mr-2 {{  ability(\App\Utils\Ability::VENDOR_READ) }}" title="Show All Vendor">
                     <i class=" fas fa-fw fa-th-list" aria-hidden="true"></i>
                     Show All Vendor
                 </a>
 
-                <a href="{{ route('vendors.vendor.create') }}" class="btn btn-success" title="Create New Vendor">
+                <a href="{{ route('vendors.vendor.create') }}" class="btn btn-success  {{  ability(\App\Utils\Ability::VENDOR_CREATE) }}" title="Create New Vendor">
                     <i class=" fas fa-fw fa-plus" aria-hidden="true"></i>
                     Create New Vendor
                 </a>

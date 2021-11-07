@@ -10,13 +10,13 @@
 
             <div class="btn-group btn-group-sm float-right" role="group">
 
-                <a href="{{ route('productions.production.index') }}" class="btn btn-primary mr-2"
+                <a href="{{ route('productions.production.index') }}" class="btn btn-primary mr-2  {{  ability(\App\Utils\Ability::PRODUCTION_READ) }}"
                    title="Show All Production">
                     <i class=" fas fa-fw fa-th-list" aria-hidden="true"></i>
                     Show All Production
                 </a>
 
-                <a href="{{ route('productions.production.create') }}" class="btn btn-success"
+                <a href="{{ route('productions.production.create') }}" class="btn btn-success {{  ability(\App\Utils\Ability::PRODUCTION_CREATE) }}"
                    title="Create New Production">
                     <i class=" fas fa-fw fa-plus" aria-hidden="true"></i>
                     Create New Production

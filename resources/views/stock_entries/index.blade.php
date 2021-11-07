@@ -21,7 +21,7 @@
             <h5  class="my-1 float-left">Stock Entries</h5>
 
             <div class="btn-group btn-group-sm float-right" role="group">
-                <a href="{{ route('stock_entries.stock_entry.create') }}" class="btn btn-success" title="Create New Stock Entry">
+                <a href="{{ route('stock_entries.stock_entry.create') }}" class="btn btn-success  {{  ability(\App\Utils\Ability::STOCK_ENTRY_CREATE) }}" title="Create New Stock Entry">
                     <i class="fas fa-fw fa-plus" aria-hidden="true"></i>
                     Create New Stock Entry
                 </a>
@@ -65,14 +65,14 @@
                                 {{ csrf_field() }}
 
                                     <div class="btn-group btn-group-sm float-right " role="group">
-                                        <a href="{{ route('stock_entries.stock_entry.show', $stockEntry->id ) }}"title="Show Stock Entry">
+                                        <a class="btn  {{  ability(\App\Utils\Ability::STOCK_ENTRY_READ) }}" href="{{ route('stock_entries.stock_entry.show', $stockEntry->id ) }}" title="Show Stock Entry">
                                             <i class="fa fa-eye text-info" aria-hidden="true"></i>
                                         </a>
-                                        <a href="{{ route('stock_entries.stock_entry.edit', $stockEntry->id ) }}" class="mx-4" title="Edit Stock Entry">
+                                        <a href="{{ route('stock_entries.stock_entry.edit', $stockEntry->id ) }}" class="mx-4 {{  ability(\App\Utils\Ability::STOCK_ENTRY_EDIT) }}" title="Edit Stock Entry">
                                             <i class="fas fa-edit text-primary" aria-hidden="true"></i>
                                         </a>
 
-                                        <button type="submit" style="border: none;background: transparent"  title="Delete Stock Entry" onclick="return confirm(&quot;Click Ok to delete Stock Entry.&quot;)">
+                                        <button type="submit"  {{  ability(\App\Utils\Ability::STOCK_ENTRY_DELETE) }} title="Delete Stock Entry" onclick="return confirm(&quot;Click Ok to delete Stock Entry.&quot;)">
                                             <i class=" fas  fa-trash text-danger" aria-hidden="true"></i>
                                         </button>
                                     </div>
