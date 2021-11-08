@@ -1,4 +1,4 @@
-<div id="invoice-container" class="container-fluid invoice-container"  contenteditable="true">
+<div id="invoice-container" class="container-fluid invoice-container" contenteditable="true">
 
 {{--    @if($invoice->due <=0)--}}
 {{--        <img--}}
@@ -185,6 +185,14 @@
                                 <td colspan="5" class="text-right"><strong>Due:</strong></td>
                                 <td class="text-right">
                                     <strong>{{ $invoice->currency }}{{ decent_format($invoice->due) }}</strong>
+                                </td>
+                            </tr>
+                        @endif
+                        @if($invoice->previous_due>0)
+                            <tr>
+                                <td colspan="5" class="text-right"><strong>Previous Due:</strong></td>
+                                <td class="text-right">
+                                    <strong>{{ $invoice->currency }}{{ decent_format($invoice->previous_due) }}</strong>
                                 </td>
                             </tr>
                         @endif
