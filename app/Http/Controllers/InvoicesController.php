@@ -125,7 +125,7 @@ class InvoicesController extends Controller
         unset($data['business_logo']);
 
         $invoice = Invoice::create($data);
-        $invoice->previous_due = optional($invoice->customer)->previous_due;
+        $invoice->previous_due = optional($invoice->customer)->receivables;
         $invoice->saveQuietly();
         $this->insertDataToOtherTable($invoice, $invoice_items, $extraFields, $additionalFields);
         $this->saveTermsNDNote($data);
