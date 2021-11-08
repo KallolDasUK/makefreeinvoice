@@ -12,6 +12,7 @@ use App\Models\PosItem;
 use App\Models\PosPayment;
 use App\Models\PosSale;
 use App\Models\Product;
+use App\Utils\Ability;
 use Enam\Acc\Models\Branch;
 use Enam\Acc\Models\Ledger;
 use Enam\Acc\Models\LedgerGroup;
@@ -72,9 +73,11 @@ class PosSalesController extends Controller
 
         }
 //        dd($ledgers);
+
+        $can_delete = ability(Ability::POS_DELETE);
         return view('pos_sales.create',
             compact('customers', 'branches', 'ledgers', 'ledger_id', 'products', 'categories', 'title', 'orders',
-                'paymentMethods', 'bookmarks', 'start_date', 'end_date', 'charges'));
+                'paymentMethods', 'bookmarks', 'start_date', 'end_date', 'charges', 'can_delete'));
     }
 
     public function getAssetLedgers()

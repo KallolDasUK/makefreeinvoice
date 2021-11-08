@@ -35,7 +35,8 @@ var posRactive = new Ractive({
             change: 0,
             start_date: start_date,
             end_date: end_date,
-            needUpdate: true
+            needUpdate: true,
+            can_delete:can_delete
         },
         observe: {
             'products': (newProducts) => {

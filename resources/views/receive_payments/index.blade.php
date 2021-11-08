@@ -31,7 +31,61 @@
             </div>
 
         </div>
+        <div class="card mb-2">
+            <div class="card-body">
+                <form action="{{ route('receive_payments.receive_payment.index') }}">
+                    <div class="row align-items-end mb-4 mx-auto justify-content-center">
 
+                        <div class="col-lg-3 col-xl-2">
+
+                            <select name="customer_id" id="customer_id" class="form-control searchable"
+                                    >
+                                <option></option>
+                                @foreach($customers as $c)
+                                    <option
+                                        value="{{ $c->id }}" {{ $customer_id == $c->id?'selected':'' }}>
+                                        {{ $c->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+
+                        </div>
+                        <div class="col">
+                            <div class="row align-items-center">
+                                <div class="input-daterange input-group" id="start_date">
+                                    <input type="text" class="form-control col-2" name="start_date"
+                                           value="{{ $start_date??'' }}"
+                                           placeholder="Start">
+                                    <div class="input-group-append">
+									<span class="input-group-text">
+										...
+                                    </span>
+                                    </div>
+                                    <input type="text" class="form-control col-2" name="end_date" id="end_date"
+                                           value="{{ $end_date??'' }}"
+
+                                           placeholder="End">
+                                    <button role="button" type="submit"
+                                            class="btn btn-primary px-6 mx-2 col-3 font-weight-bold">
+                                        <i class="fas fa-sliders-h"></i>
+                                        Update Report
+                                    </button>
+
+                                    @if( $customer_id !=null)
+                                        <a href="{{ route('receive_payments.receive_payment.index') }}" title="Clear Filter"
+                                           class="btn btn-icon btn-light-danger"> X</a>
+                                    @endif
+
+
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+        </div>
         @if(count($receivePayments) == 0)
             <div class="card-body text-center">
                 <h4>No Receive Payments Available.</h4>
@@ -122,19 +176,25 @@
     </div>
 @endsection
 
-@section('scripts')
+@section('js')
 
     <script>
         $(document).ready(function () {
-            $('table').DataTable({
-                responsive: true,
-                "order": [],
-                dom: 'lBfrtip',
-                buttons: [
-                    'copy', 'excel', 'pdf', 'print'
-                ]
+
+
+            var datepicker = $.fn.datepicker.noConflict();
+            $.fn.bootstrapDP = datepicker;
+            $("#start_date,#end_date").bootstrapDP({
+
+                autoclose: true,
+                format: "yyyy-mm-dd",
+                immediateUpdates: true,
+                todayBtn: true,
+                todayHighlight: true,
+                clearBtn: true
 
             });
+
         });
     </script>
 
