@@ -314,8 +314,8 @@
                                                     Payments</strong>
                                             </a>
                                             <a href="{{ route('invoices.invoice.edit',$invoice->id) }}"
-                                               {{  ability(\App\Utils\Ability::INVOICE_EDIT) }}
-                                               class="dropdown-item btn">
+
+                                               class="dropdown-item btn {{  ability(\App\Utils\Ability::INVOICE_EDIT) }}">
                                                 <span class="fa fa-pencil-alt mx-4"></span> <strong>Edit</strong>
                                             </a>
 
