@@ -381,7 +381,7 @@ trait TransactionTrait
             ->whereBetween('date', [$start_date, $end_date])
             ->orderBy('date')->get();
         $transaction_details = $transaction_details->filter(function ($txn_item) {
-            return $txn_item->note != EntryType::$OPENING_BALANCE;
+            return !($txn_item->note == EntryType::$OPENING_BALANCE && $txn_item->voucher_no != null);
         });
 
 
