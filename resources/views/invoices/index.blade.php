@@ -272,11 +272,13 @@
                                 </td>
                                 <td class="pr-0 text-right">
                                     @if($invoice->due > 0)
-                                        <span style="text-decoration: underline"
-                                              class="btn  font-weight-bolder text-success  font-size-lg underline  text-hover-danger cursor-pointer mx-4 recordPaymentBtn {{  ability(\App\Utils\Ability::RECEIVE_PAYMENT_CREATE) }}"
-                                              invoice_id="{{ $invoice->id }}" currency="{{ $invoice->currency }}"
+                                        <button style="text-decoration: underline"
+                                              class="btn  font-weight-bolder text-success  font-size-lg underline  text-hover-danger cursor-pointer mx-4 recordPaymentBtn "
+                                              invoice_id="{{ $invoice->id }}"
+                                                {{  ability(\App\Utils\Ability::RECEIVE_PAYMENT_CREATE) }}
+                                              currency="{{ $invoice->currency }}"
                                               invoice_number="{{ $invoice->invoice_number }}"
-                                              due="{{ $invoice->due }}"> Receive Payment</span>
+                                              due="{{ $invoice->due }}"> Receive Payment</button>
                                     @endif
 
 
