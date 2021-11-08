@@ -182,7 +182,7 @@
                                 </td>
                             </tr>
                         @endif
-                        @if($invoice->due>0)
+                        @if($invoice->due > 0)
                             <tr>
                                 <td colspan="5" class="text-right"><strong>Due:</strong></td>
                                 <td class="text-right">
