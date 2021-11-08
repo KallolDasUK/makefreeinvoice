@@ -25,11 +25,19 @@ class ReceivePaymentsController extends Controller
     use TransactionTrait;
 
 
-    public function index()
+    public function index(Request $request)
     {
-        $receivePayments = ReceivePayment::with('customer', 'ledger')->latest()->paginate(10);
-
-        return view('receive_payments.index', compact('receivePayments'));
+        $customer_id = $request->customer_id;
+        $start_date = $request->start_date ?? today()->startOfMonth()->toDateString();
+        $end_date = $request->end_date ?? today()->toDateString();
+        $receivePayments = ReceivePayment::with('customer', 'ledger')
+            ->when($customer_id != null, function ($query) use ($customer_id) {
+                return $query->where('customer_id', $customer_id);
+            })
+            ->whereBetween('payment_date', [$start_date, $end_date])
+            ->latest()->paginate(10);
+        $customers = Customer::all();
+        return view('receive_payments.index', compact('receivePayments', 'customers', 'customer_id', 'start_date', 'end_date'));
     }
 
 
