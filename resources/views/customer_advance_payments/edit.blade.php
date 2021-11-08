@@ -10,12 +10,12 @@
 
             <div class="btn-group btn-group-sm float-right" role="group">
 
-                <a href="{{ route('customer_advance_payments.customer_advance_payment.index') }}" class="btn btn-primary mr-2" title="Show All Customer Advance Payment">
+                <a href="{{ route('customer_advance_payments.customer_advance_payment.index') }}" class="btn btn-primary mr-2 {{ ability(\App\Utils\Ability::CUSTOMER_ADVANCE_READ) }}" title="Show All Customer Advance Payment">
                     <i class=" fas fa-fw fa-th-list" aria-hidden="true"></i>
                     Show All Customer Advance Payment
                 </a>
 
-                <a href="{{ route('customer_advance_payments.customer_advance_payment.create') }}" class="btn btn-success" title="Create New Customer Advance Payment">
+                <a href="{{ route('customer_advance_payments.customer_advance_payment.create') }}" class="btn btn-success {{ ability(\App\Utils\Ability::CUSTOMER_ADVANCE_CREATE) }}" title="Create New Customer Advance Payment">
                     <i class=" fas fa-fw fa-plus" aria-hidden="true"></i>
                     Create New Customer Advance Payment
                 </a>

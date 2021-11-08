@@ -1,4 +1,4 @@
-@extends('acc::layouts.app')
+UJ@extends('acc::layouts.app')
 
 @section('content')
 
@@ -21,7 +21,7 @@
             <h5 class="my-1 float-left"></h5>
 
             <div class="btn-group btn-group-sm float-right" role="group">
-                <a href="{{ route('productions.production.create') }}" class="btn btn-success"
+                <a href="{{ route('productions.production.create') }}" class="btn btn-success {{  ability(\App\Utils\Ability::PRODUCTION_CREATE) }}"
                    title="Create New Production">
                     <i class="fas fa-fw fa-plus" aria-hidden="true"></i>
                     Create New Production
@@ -75,12 +75,12 @@
 
                                             <a href="{{ route('productions.production.edit', $production->id ) }}"
                                                class="mx-4" title="Edit Production">
-                                                <i class="fas fa-edit text-primary" aria-hidden="true"></i>
+                                                <i class="fas fa-edit text-primary {{  ability(\App\Utils\Ability::PRODUCTION_EDIT) }}" aria-hidden="true"></i>
                                             </a>
 
-                                            <button type="submit" style="border: none;background: transparent"
+                                            <button type="submit" {{  ability(\App\Utils\Ability::PRODUCTION_READ) }}
                                                     title="Delete Production"
-                                                    onclick="return confirm(&quot;Click Ok to delete Production.&quot;)">
+                                                    onclick="return confirm('Click Ok to delete Production.')">
                                                 <i class=" fas  fa-trash text-danger" aria-hidden="true"></i>
                                             </button>
                                         </div>

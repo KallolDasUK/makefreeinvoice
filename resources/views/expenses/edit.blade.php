@@ -10,12 +10,12 @@
 
             <div class="btn-group btn-group-sm float-right" role="group">
 
-                <a href="{{ route('expenses.expense.index') }}" class="btn btn-primary mr-2" title="Show All Expense">
+                <a href="{{ route('expenses.expense.index') }}" class="btn btn-primary mr-2 {{ ability(\App\Utils\Ability::EXPENSE_READ) }} " title="Show All Expense">
                     <i class=" fas fa-fw fa-th-list" aria-hidden="true"></i>
                     Show All Expense
                 </a>
 
-                <a href="{{ route('expenses.expense.create') }}" class="btn btn-success" title="Create New Expense">
+                <a href="{{ route('expenses.expense.create') }}" class="btn btn-success {{ ability(\App\Utils\Ability::EXPENSE_CREATE) }} " title="Create New Expense">
                     <i class=" fas fa-fw fa-plus" aria-hidden="true"></i>
                     Create New Expense
                 </a>

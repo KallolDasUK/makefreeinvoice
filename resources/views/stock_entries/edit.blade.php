@@ -10,13 +10,13 @@
 
             <div class="btn-group btn-group-sm float-right" role="group">
 
-                <a href="{{ route('stock_entries.stock_entry.index') }}" class="btn btn-primary mr-2"
+                <a href="{{ route('stock_entries.stock_entry.index') }}" class="btn btn-primary mr-2  {{  ability(\App\Utils\Ability::STOCK_ENTRY_READ) }}"
                    title="Show All Stock Entry">
                     <i class=" fas fa-fw fa-th-list" aria-hidden="true"></i>
                     Show All Stock Entry
                 </a>
 
-                <a href="{{ route('stock_entries.stock_entry.create') }}" class="btn btn-success"
+                <a href="{{ route('stock_entries.stock_entry.create') }}" class="btn btn-success  {{  ability(\App\Utils\Ability::STOCK_ENTRY_CREATE) }}"
                    title="Create New Stock Entry">
                     <i class=" fas fa-fw fa-plus" aria-hidden="true"></i>
                     Create New Stock Entry

@@ -10,7 +10,7 @@
             <h5 class="my-1 float-left">Create New Inventory Adjustment</h5>
 
             <div class="btn-group btn-group-sm float-right" role="group">
-                <a href="{{ route('inventory_adjustments.inventory_adjustment.index') }}" class="btn btn-primary"
+                <a href="{{ route('inventory_adjustments.inventory_adjustment.index') }}" class="btn btn-primary {{  ability(\App\Utils\Ability::INVENTORY_ADJUSTMENT_READ) }}"
                    title="Show All Inventory Adjustment">
                     <i class=" fas fa-fw fa-th-list" aria-hidden="true"></i>
                     Show All Inventory Adjustment

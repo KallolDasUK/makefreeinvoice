@@ -8,7 +8,7 @@
             <h5  class="my-1 float-left">Create New Brand</h5>
 
             <div class="btn-group btn-group-sm float-right" role="group">
-                <a href="{{ route('brands.brand.index') }}" class="btn btn-primary" title="Show All Brand">
+                <a href="{{ route('brands.brand.index') }}" class="btn btn-primary  {{ ability(\App\Utils\Ability::BRAND_READ) }}" title="Show All Brand">
                     <i class=" fas fa-fw fa-th-list" aria-hidden="true"></i>
                     Show All Brand
                 </a>

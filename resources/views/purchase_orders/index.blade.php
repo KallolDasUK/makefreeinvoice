@@ -107,7 +107,7 @@
             </h3>
             <div class="card-toolbar">
                 <a href="{{ route('purchase_orders.purchase_order.create') }}"
-                   class="btn btn-success btn-lg font-weight-bolder font-size-sm " style="font-size: 16px">
+                   class="btn btn-success btn-lg font-weight-bolder font-size-sm  {{  ability(\App\Utils\Ability::PURCHASE_ORDER_CREATE) }}" style="font-size: 16px">
                     <i class="fas fa-fw fa-plus" aria-hidden="true"></i>
 
                     </span>Purchase A Order</a>
@@ -267,8 +267,7 @@
                                         </button>
                                     @endif
                                     @if(!$purchase_order->converted)
-                                        <a class="border mx-4 text-center "
-
+                                        <a class="border mx-4 text-center btn  {{  ability(\App\Utils\Ability::PURCHASE_ORDER_EDIT) }}"
                                            href="{{ route('purchase_orders.purchase_order.edit',$purchase_order->id) }}">
                                             <svg
                                                 style="height: 25px;width: 25px"
@@ -303,6 +302,7 @@
                                         {{ csrf_field() }}
                                         <button class="border mx-4 text-danger"
                                                 style="height: 35px;width: 35px"
+                                                {{  ability(\App\Utils\Ability::PURCHASE_ORDER_DELETE) }}
                                                 onclick="return confirm('Click Ok to delete Bill')">
                                             @method('DELETE')
 

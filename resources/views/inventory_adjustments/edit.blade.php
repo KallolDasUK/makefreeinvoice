@@ -11,13 +11,13 @@
 
             <div class="btn-group btn-group-sm float-right" role="group">
 
-                <a href="{{ route('inventory_adjustments.inventory_adjustment.index') }}" class="btn btn-primary mr-2"
+                <a href="{{ route('inventory_adjustments.inventory_adjustment.index') }}" class="btn btn-primary mr-2  {{  ability(\App\Utils\Ability::INVENTORY_ADJUSTMENT_READ) }}"
                    title="Show All Inventory Adjustment">
                     <i class=" fas fa-fw fa-th-list" aria-hidden="true"></i>
                     Show All Inventory Adjustment
                 </a>
 
-                <a href="{{ route('inventory_adjustments.inventory_adjustment.create') }}" class="btn btn-success"
+                <a href="{{ route('inventory_adjustments.inventory_adjustment.create') }}" class="btn btn-success  {{  ability(\App\Utils\Ability::INVENTORY_ADJUSTMENT_CREATE) }}"
                    title="Create New Inventory Adjustment">
                     <i class=" fas fa-fw fa-plus" aria-hidden="true"></i>
                     Create New Inventory Adjustment

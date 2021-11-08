@@ -49,9 +49,6 @@ class UserRolesController extends Controller
             $features[$code]['edit'] = boolval($request->edit[$code]);
             $features[$code]['delete'] = boolval($request->delete[$code]);
         }
-
-
-//        dd($features);
         $data['payload'] = json_encode($features);
 
         $userRole = UserRole::create($data);
@@ -118,10 +115,19 @@ class UserRolesController extends Controller
     public function update($id, Request $request)
     {
 
-
+        $features = [];
         $data = $this->getData($request);
+        foreach (app_features() as $code => $name) {
+            $features[$code]['create'] = boolval($request->create[$code]);
+            $features[$code]['read'] = boolval($request->read[$code]);
+            $features[$code]['edit'] = boolval($request->edit[$code]);
+            $features[$code]['delete'] = boolval($request->delete[$code]);
+        }
+        $data['payload'] = json_encode($features);
         $userRole = UserRole::findOrFail($id);
         $userRole->update($data);
+//        dd($data);
+
         $this->syncPermissions($userRole);
 
         return redirect()->route('user_roles.user_role.index')

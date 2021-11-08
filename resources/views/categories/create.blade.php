@@ -9,7 +9,7 @@
             <h5  class="my-1 float-left">Create New Category</h5>
 
             <div class="btn-group btn-group-sm float-right" role="group">
-                <a href="{{ route('categories.category.index') }}" class="btn btn-primary" title="Show All Category">
+                <a href="{{ route('categories.category.index') }}" class="btn btn-primary  {{ ability(\App\Utils\Ability::CATEGORY_READ) }}" title="Show All Category">
                     <i class=" fas fa-fw fa-th-list" aria-hidden="true"></i>
                     Show All Category
                 </a>

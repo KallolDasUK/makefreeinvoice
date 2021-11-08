@@ -8,7 +8,7 @@
     @include('partials.ajax-tax-create-form')
     @include('partials.ajax-payment-method-create-form')
     <div class="text-right">
-        <a href="{{ route('invoices.invoice.index') }}" class="btn btn-primary " title="Show All Invoices">
+        <a href="{{ route('invoices.invoice.index') }}" class="btn btn-primary {{  ability(\App\Utils\Ability::INVOICE_READ) }}" title="Show All Invoices">
             <i class=" fas fa-fw fa-th-list" aria-hidden="true"></i>
             Show All Invoices
         </a>

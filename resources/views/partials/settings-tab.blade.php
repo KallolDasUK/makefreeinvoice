@@ -2,7 +2,7 @@
 
     <ul class="nav nav-tabs nav-tabs-line">
         <li class="nav-item cursor-pointer">
-            <a class="nav-link {{ $page === 'general_settings'?'active':'' }} p-4  {{ ability_class(\App\Utils\Ability::GENERAL_SETTINGS_EDIT)=='protected'?'disabled':'' }}"
+            <a class="nav-link {{ $page === 'general_settings'?'active':'' }} p-4  {{ ability(\App\Utils\Ability::GENERAL_SETTINGS_READ) }}"
                href="{{ route('accounting.settings.edit') }}">
                 <span class="nav-icon"><i class="fa fa-cog"></i></span>
                 <span class="nav-text font-weight-bolder">General Settings</span>

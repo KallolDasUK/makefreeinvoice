@@ -9,7 +9,7 @@
         <h2>Add an Expense</h2>
     </div>
     <div class="text-right">
-        <a href="{{ route('expenses.expense.index') }}" class="btn btn-primary " title="Show All Expenses">
+        <a href="{{ route('expenses.expense.index') }}" class="btn btn-primary  {{ ability(\App\Utils\Ability::EXPENSE_READ) }} " title="Show All Expenses">
             <i class=" fas fa-fw fa-th-list" aria-hidden="true"></i>
             My Expense List
         </a>

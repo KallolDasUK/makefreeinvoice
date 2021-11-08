@@ -9,14 +9,14 @@
 
             <h5  class="my-1 float-left">{{ !empty($user->name) ? $user->name : 'User' }}</h5>
 
-            <div class="btn-group btn-group-sm float-right" role="group">
+            <div class=" float-right" role="group">
 
-                <a href="{{ route('users.user.index') }}" class="btn btn-primary mr-2" title="Show All User">
+                <a href="{{ route('users.user.index') }}" class="btn btn-primary mr-2 {{ ability(\App\Utils\Ability::USER_READ) }}" title="Show All User">
                     <i class=" fas fa-fw fa-th-list" aria-hidden="true"></i>
                     Show All User
                 </a>
 
-                <a href="{{ route('users.user.create') }}" class="btn btn-success" title="Create New User">
+                <a href="{{ route('users.user.create') }}" class="btn btn-success {{ ability(\App\Utils\Ability::USER_CREATE) }}" title="Create New User">
                     <i class=" fas fa-fw fa-plus" aria-hidden="true"></i>
                     Create New User
                 </a>

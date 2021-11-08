@@ -13,13 +13,13 @@
 
             <div class="btn-group btn-group-sm float-right" role="group">
 
-                <a href="{{ route('estimates.estimate.index') }}" class="btn btn-primary mr-2"
+                <a href="{{ route('estimates.estimate.index') }}" class="btn btn-primary mr-2  {{ ability(\App\Utils\Ability::ESTIMATE_READ) }}"
                    title="Show All estimate">
                     <i class=" fas fa-fw fa-th-list" aria-hidden="true"></i>
                     Show All estimate
                 </a>
 
-                <a href="{{ route('estimates.estimate.create') }}" class="btn btn-success" title="Create New estimate">
+                <a href="{{ route('estimates.estimate.create') }}" class="btn btn-success  {{ ability(\App\Utils\Ability::ESTIMATE_CREATE) }}" title="Create New estimate">
                     <i class=" fas fa-fw fa-plus" aria-hidden="true"></i>
                     Create New estimate
                 </a>

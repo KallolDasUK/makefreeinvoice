@@ -15,19 +15,19 @@
             <div class="btn-group btn-group-sm float-right" role="group">
 
                 <a href="{{ route('purchase_returns.purchase_return.show',$invoice->id) }}"
-                   class="btn btn-outline-primary mr-2 " title="Show All Invoice"
+                   class="btn btn-outline-primary mr-2 {{  ability(\App\Utils\Ability::PURCHASE_RETURN_READ) }}" title="Show All Invoice"
                    style="font-size: 16px"
                 >
                     <i class=" fas fa-fw fa-eye" aria-hidden="true"></i>
                     Preview Invoice
                 </a>
-                <a href="{{ route('purchase_returns.purchase_return.index') }}" class="btn btn-primary mr-2"
+                <a href="{{ route('purchase_returns.purchase_return.index') }}" class="btn btn-primary mr-2 {{  ability(\App\Utils\Ability::PURCHASE_RETURN_READ) }}"
                    title="Show All Invoice">
                     <i class=" fas fa-fw fa-th-list" aria-hidden="true"></i>
                     Show All Invoice
                 </a>
 
-                <a href="{{ route('purchase_returns.purchase_return.create') }}" class="btn btn-success"
+                <a href="{{ route('purchase_returns.purchase_return.create') }}" class="btn btn-success {{  ability(\App\Utils\Ability::PURCHASE_RETURN_CREATE) }}"
                    title="Create New Invoice">
                     <i class=" fas fa-fw fa-plus" aria-hidden="true"></i>
                     Register New Purchase Return

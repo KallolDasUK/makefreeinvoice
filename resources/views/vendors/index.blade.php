@@ -42,7 +42,7 @@
 
                 <div class="col">
                     <div class="btn-group btn-group-sm float-right" role="group">
-                        <a style="font-size: 16px"  href="{{ route('vendors.vendor.create') }}" class="btn btn-success btn-lg font-weight-bolder"
+                        <a style="font-size: 16px"  href="{{ route('vendors.vendor.create') }}" class="btn btn-success btn-lg font-weight-bolder {{  ability(\App\Utils\Ability::VENDOR_CREATE) }}"
                            title="Create New Vendor">
                             <i class="fas fa-fw fa-plus" aria-hidden="true"></i>
                              New Vendor
@@ -50,7 +50,7 @@
                     </div>
                     <div class="clearfix"></div>
                     <a  href="{{ route('vendor_advance_payments.vendor_advance_payment.index') }}"
-                        class="btn btn-secondary font-weight-bolder font-size-sm float-right mt-2" title="Create New Customer">
+                        class="btn btn-secondary font-weight-bolder font-size-sm float-right mt-2 {{  ability(\App\Utils\Ability::VENDOR_ADVANCE_READ) }}" title="Create New Customer">
                         <i class="fa fa-money-bill" aria-hidden="true"></i>
                         Advance Payments
                     </a>
@@ -142,12 +142,12 @@
                                     </span>
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                         <a href="{{ route('vendor_advance_payments.vendor_advance_payment.create',['vendor_id'=>$vendor->id]) }}"
-                                           class="dropdown-item btn  align-items-center">
+                                           class="dropdown-item btn  align-items-center  {{  ability(\App\Utils\Ability::VENDOR_ADVANCE_CREATE) }}">
                                             <span class="fa fa-money-bill mx-4"></span> <strong> Make Advance
                                                 Payment</strong>
                                         </a>
                                         <a href="{{ route('vendors.vendor.edit',$vendor->id) }}"
-                                           class="dropdown-item btn">
+                                           class="dropdown-item btn {{  ability(\App\Utils\Ability::VENDOR_EDIT) }}">
                                             <span class="fa fa-pencil-alt mx-4"></span> <strong>Edit</strong>
                                         </a>
 
@@ -156,6 +156,7 @@
                                               action="{!! route('vendors.vendor.destroy', $vendor->id) !!}">
                                             {{ csrf_field() }}
                                             <button class="dropdown-item "
+                                                    {{  ability(\App\Utils\Ability::VENDOR_DELETE) }}
                                                     onclick="return confirm('Click Ok to delete Vendor')">
                                                 @method('DELETE')
                                                 <span class="fa fa-trash-alt mx-4 text-danger"></span>

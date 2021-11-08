@@ -9,7 +9,7 @@
         <h2>Add an Estimate</h2>
     </div>
     <div class="text-right">
-        <a href="{{ route('estimates.estimate.index') }}" class="btn btn-primary " title="Show All estimates">
+        <a href="{{ route('estimates.estimate.index') }}" class="btn btn-primary  {{ ability(\App\Utils\Ability::ESTIMATE_READ) }}" title="Show All estimates">
             <i class=" fas fa-fw fa-th-list" aria-hidden="true"></i>
             My Estimate List
         </a>

@@ -13,22 +13,22 @@
             <input name="_method" value="DELETE" type="hidden">
             {{ csrf_field() }}
                 <div class="btn-group btn-group-sm" role="group">
-                    <a href="{{ route('vendors.vendor.index') }}" class="btn btn-primary mr-2" title="Show All Vendor">
+                    <a href="{{ route('vendors.vendor.index') }}" class="btn btn-primary mr-2  {{  ability(\App\Utils\Ability::VENDOR_READ) }}" title="Show All Vendor">
                         <i class=" fas fa-fw fa-th-list" aria-hidden="true"></i>
                         Show All Vendor
                     </a>
 
-                    <a href="{{ route('vendors.vendor.create') }}" class="btn btn-success mr-2" title="Create New Vendor">
+                    <a href="{{ route('vendors.vendor.create') }}" class="btn btn-success mr-2  {{  ability(\App\Utils\Ability::VENDOR_CREATE) }}" title="Create New Vendor">
                         <i class=" fas fa-fw fa-plus" aria-hidden="true"></i>
                         Create New Vendor
                     </a>
 
-                    <a href="{{ route('vendors.vendor.edit', $vendor->id ) }}" class="btn btn-primary mr-2" title="Edit Vendor">
+                    <a href="{{ route('vendors.vendor.edit', $vendor->id ) }}" class="btn btn-primary mr-2  {{  ability(\App\Utils\Ability::VENDOR_EDIT) }}" title="Edit Vendor">
                         <i class=" fas fa-fw fa-pencil-alt" aria-hidden="true"></i>
                         Edit Vendor
                     </a>
 
-                    <button type="submit" class="btn btn-danger" title="Delete Vendor" onclick="return confirm(&quot;Click Ok to delete Vendor.?&quot;)">
+                    <button type="submit" class="btn btn-danger  {{  ability(\App\Utils\Ability::VENDOR_DELETE) }}" title="Delete Vendor" onclick="return confirm(&quot;Click Ok to delete Vendor.?&quot;)">
                         <i class=" fas fa-fw fa-trash-alt" aria-hidden="true"></i>
                         Delete Vendor
                     </button>

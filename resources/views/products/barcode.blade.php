@@ -65,7 +65,8 @@
                 </div>
 
                 <div class="col-md-12 mt-4">
-                    <button type="submit" class="btn btn-primary "><i class="fa fa-eye"></i>
+                    <button type="submit" class="btn btn-primary " {{ ability(\App\Utils\Ability::BARCODE_CREATE) }}>
+                        <i class="fa fa-eye"></i>
                         Show Barcode
                     </button>
 

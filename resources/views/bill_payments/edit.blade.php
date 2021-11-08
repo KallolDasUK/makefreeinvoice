@@ -11,13 +11,13 @@
 
             <div class="btn-group btn-group-sm float-right" role="group">
 
-                <a href="{{ route('bill_payments.bill_payment.index') }}" class="btn btn-primary mr-2"
+                <a href="{{ route('bill_payments.bill_payment.index') }}" class="btn btn-primary mr-2 {{ ability(\App\Utils\Ability::PAY_BILL_READ) }}"
                    title="Show All Bill Payment">
                     <i class=" fas fa-fw fa-th-list" aria-hidden="true"></i>
                     Show All Bill Payment
                 </a>
 
-                <a href="{{ route('bill_payments.bill_payment.create') }}" class="btn btn-success"
+                <a href="{{ route('bill_payments.bill_payment.create') }}" class="btn btn-success {{ ability(\App\Utils\Ability::PAY_BILL_CREATE) }}"
                    title="Create New Bill Payment">
                     <i class=" fas fa-fw fa-plus" aria-hidden="true"></i>
                     Create New Bill Payment

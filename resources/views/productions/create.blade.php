@@ -9,7 +9,7 @@
             <h5 class="my-1 float-left"></h5>
 
             <div class="btn-group btn-group-sm float-right" role="group">
-                <a href="{{ route('productions.production.index') }}" class="btn btn-primary"
+                <a href="{{ route('productions.production.index') }}" class="btn btn-primary  {{  ability(\App\Utils\Ability::PRODUCTION_READ) }}"
                    title="Show All Production">
                     <i class=" fas fa-fw fa-th-list" aria-hidden="true"></i>
                     Show All Production

@@ -9,7 +9,7 @@
 
 
             <div class="btn-group btn-group-sm float-right" role="group">
-                <a href="{{ route('user_roles.user_role.index') }}" class="btn btn-primary" title="Show All User Role">
+                <a href="{{ route('user_roles.user_role.index') }}" class="btn btn-primary  {{  ability(\App\Utils\Ability::ROLE_READ) }}" title="Show All User Role">
                     <i class=" fas fa-fw fa-th-list" aria-hidden="true"></i>
                     Show All User Role
                 </a>

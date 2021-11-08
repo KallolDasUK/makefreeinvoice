@@ -21,7 +21,7 @@
             <h5 class="my-1 float-left">Vendor Advance Payments</h5>
 
             <div class="btn-group btn-group-sm float-right" role="group">
-                <a href="{{ route('vendor_advance_payments.vendor_advance_payment.create') }}" class="btn btn-success"
+                <a href="{{ route('vendor_advance_payments.vendor_advance_payment.create') }}" class="btn btn-success  {{  ability(\App\Utils\Ability::VENDOR_ADVANCE_CREATE) }}"
                    title="Create New Vendor Advance Payment">
                     <i class="fas fa-fw fa-plus" aria-hidden="true"></i>
                     Create New Vendor Advance Payment
@@ -71,11 +71,12 @@
                                         <div class="btn-group btn-group-sm float-right " role="group">
 
                                             <a href="{{ route('vendor_advance_payments.vendor_advance_payment.edit', $vendorAdvancePayment->id ) }}"
-                                               class="mx-4" title="Edit Vendor Advance Payment">
+                                               class="mx-4 btn  {{  ability(\App\Utils\Ability::VENDOR_ADVANCE_EDIT) }}" title="Edit Vendor Advance Payment">
                                                 <i class="fas fa-edit text-primary" aria-hidden="true"></i>
                                             </a>
 
                                             <button type="submit" style="border: none;background: transparent"
+                                                    {{  ability(\App\Utils\Ability::VENDOR_ADVANCE_DELETE) }}
                                                     title="Delete Vendor Advance Payment"
                                                     onclick="return confirm(&quot;Click Ok to delete Vendor Advance Payment.&quot;)">
                                                 <i class=" fas  fa-trash text-danger" aria-hidden="true"></i>

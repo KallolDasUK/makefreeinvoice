@@ -838,3 +838,15 @@ if (!function_exists('ability_class')) {
 
     }
 }
+if (!function_exists('ability')) {
+    function ability($ability)
+    {
+//        dd('test');
+        if (auth()->user()->can($ability) || auth()->user()->is_admin) {
+            return "";
+        }
+
+        return "disabled";
+
+    }
+}

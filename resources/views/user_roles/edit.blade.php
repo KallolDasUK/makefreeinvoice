@@ -11,12 +11,12 @@
 
             <div class="btn-group btn-group-sm float-right" role="group">
 
-                <a href="{{ route('user_roles.user_role.index') }}" class="btn btn-primary mr-2" title="Show All User Role">
+                <a href="{{ route('user_roles.user_role.index') }}" class="btn btn-primary mr-2  {{  ability(\App\Utils\Ability::ROLE_READ) }}" title="Show All User Role">
                     <i class=" fas fa-fw fa-th-list" aria-hidden="true"></i>
                     Show All User Role
                 </a>
 
-                <a href="{{ route('user_roles.user_role.create') }}" class="btn btn-success" title="Create New User Role">
+                <a href="{{ route('user_roles.user_role.create') }}" class="btn btn-success  {{  ability(\App\Utils\Ability::ROLE_CREATE) }}" title="Create New User Role">
                     <i class=" fas fa-fw fa-plus" aria-hidden="true"></i>
                     Create New User Role
                 </a>
@@ -37,9 +37,7 @@
             <form method="POST" action="{{ route('user_roles.user_role.update', $userRole->id) }}" id="edit_user_role_form" name="edit_user_role_form" accept-charset="UTF-8" class="form-horizontal">
             {{ csrf_field() }}
             <input name="_method" type="hidden" value="PUT">
-            @include ('user_roles.form', [
-                                        'userRole' => $userRole,
-                                      ])
+            @include ('user_roles.form', ['userRole' => $userRole])
 
                 <div class="form-group">
                     <div class="col-md-offset-2 col-md-10">

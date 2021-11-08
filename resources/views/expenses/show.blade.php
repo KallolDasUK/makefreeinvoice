@@ -37,25 +37,26 @@
                     <input name="_method" value="DELETE" type="hidden">
                     {{ csrf_field() }}
                     <div class="btn-group btn-group-sm" role="group">
-                        <a href="{{ route('expenses.expense.index') }}" class="btn btn-primary mr-2"
+                        <a href="{{ route('expenses.expense.index') }}" class="btn btn-primary mr-2 {{  ability(\App\Utils\Ability::EXPENSE_READ) }}"
                            title="Show All Expense">
                             <i class=" fas fa-fw fa-th-list" aria-hidden="true"></i>
                             Show All Expense
                         </a>
 
-                        <a href="{{ route('expenses.expense.create') }}" class="btn btn-success mr-2"
+                        <a href="{{ route('expenses.expense.create') }}" class="btn btn-success mr-2 {{  ability(\App\Utils\Ability::EXPENSE_CREATE) }}"
                            title="Create New Expense">
                             <i class=" fas fa-fw fa-plus" aria-hidden="true"></i>
                             Create New Expense
                         </a>
 
-                        <a href="{{ route('expenses.expense.edit', $expense->id ) }}" class="btn btn-primary mr-2"
+                        <a href="{{ route('expenses.expense.edit', $expense->id ) }}" class="btn btn-primary mr-2 {{  ability(\App\Utils\Ability::EXPENSE_EDIT) }}"
                            title="Edit Expense">
                             <i class=" fas fa-fw fa-pencil-alt" aria-hidden="true"></i>
                             Edit Expense
                         </a>
 
                         <button type="submit" class="btn btn-danger" title="Delete Expense"
+                                {{  ability(\App\Utils\Ability::EXPENSE_DELETE) }}
                                 onclick="return confirm(&quot;Click Ok to delete Expense.?&quot;)">
                             <i class=" fas fa-fw fa-trash-alt" aria-hidden="true"></i>
                             Delete Expense

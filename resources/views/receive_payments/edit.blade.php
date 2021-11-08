@@ -11,12 +11,12 @@
 
             <div class="btn-group btn-group-sm float-right" role="group">
 
-                <a href="{{ route('receive_payments.receive_payment.index') }}" class="btn btn-primary mr-2" title="Show All Receive Payment">
+                <a href="{{ route('receive_payments.receive_payment.index') }}" class="btn btn-primary mr-2 {{  ability(\App\Utils\Ability::RECEIVE_PAYMENT_READ) }}" title="Show All Receive Payment">
                     <i class=" fas fa-fw fa-th-list" aria-hidden="true"></i>
                     Show All Receive Payment
                 </a>
 
-                <a href="{{ route('receive_payments.receive_payment.create') }}" class="btn btn-success" title="Create New Receive Payment">
+                <a href="{{ route('receive_payments.receive_payment.create') }}" class="btn btn-success {{  ability(\App\Utils\Ability::RECEIVE_PAYMENT_CREATE) }}" title="Create New Receive Payment">
                     <i class=" fas fa-fw fa-plus" aria-hidden="true"></i>
                     Create New Receive Payment
                 </a>

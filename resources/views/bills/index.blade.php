@@ -107,7 +107,8 @@
             </h3>
             <div class="card-toolbar">
                 <a href="{{ route('bills.bill.create') }}"
-                   class="btn btn-success btn-lg font-weight-bolder font-size-sm " style="font-size: 16px">
+                   class="btn btn-success btn-lg font-weight-bolder font-size-sm {{ ability(\App\Utils\Ability::BILL_CREATE) }}"
+                   style="font-size: 16px">
                     <i class="fas fa-fw fa-plus" aria-hidden="true"></i>
 
                     </span>Create a bill</a>
@@ -125,7 +126,8 @@
                         >
                     </div>
                     <div class="mx-2">
-                        <select name="vendor" id="vendor" class="form-control" style="min-width: 200px;max-width: 200px">
+                        <select name="vendor" id="vendor" class="form-control"
+                                style="min-width: 200px;max-width: 200px">
                             <option></option>
                             @foreach($vendors as $vendor)
                                 <option value="{{ $vendor->id }}"
@@ -167,102 +169,102 @@
             </form>
             <div>
                 @if(count($bills)>0)
-                <table class="table table-head-custom table-vertical-center" id="kt_advance_table_widget_1">
-                    <thead>
-                    <tr class="text-left">
-                        <th class="pl-0" style="width: 20px">
-                            <label class="checkbox checkbox-lg checkbox-inline">
-                                <input type="checkbox" value="1">
-                                <span></span>
-                            </label>
-                        </th>
-                        <th class="text-left">Bill Number</th>
-                        <th class="pr-0">Vendor</th>
-                        <th>Bill Date</th>
-                        <th>Payment</th>
-                        <th class="text-right">Amount</th>
-                        <th class="pr-0 text-right" style="min-width: 150px">action</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-
-
-                    @foreach($bills as $bill)
-
-                        <tr>
-
-                            <td class="pl-0">
+                    <table class="table table-head-custom table-vertical-center" id="kt_advance_table_widget_1">
+                        <thead>
+                        <tr class="text-left">
+                            <th class="pl-0" style="width: 20px">
                                 <label class="checkbox checkbox-lg checkbox-inline">
                                     <input type="checkbox" value="1">
                                     <span></span>
                                 </label>
-                            </td>
-                            <td class="text-center ">
-                                <a class="font-weight-bolder d-block font-size-lg underline text-left bill_number"
-                                   href="{{ route('bills.bill.show',$bill->id) }}">
-                                    <i class="fa fa-external-link-alt font-normal text-secondary"
-                                       style="font-size: 10px"></i>
-                                    {{ $bill->bill_number }}
-                                </a>
-                            </td>
-                            <td>
-                                <a href="{{ route('bills.bill.show',$bill->id) }}"
-                                   class="text-dark-75 font-weight-bolder d-block font-size-lg bill_number">{{ optional($bill->vendor)->name }}</a>
-                                <span
-                                    class="text-muted font-weight-bold">{{ optional($bill->vendor)->email }}</span>
-                            </td>
-                            <td class="pl-0">
-                                <a href="{{ route('bills.bill.show',$bill->id) }}"
-                                   class="text-dark-75 font-weight-bolder text-hover-primary mb-1 font-size-lg bill_number">{{ \Carbon\Carbon::parse($bill->bill_date)->toDateString() }}</a>
+                            </th>
+                            <th class="text-left">Bill Number</th>
+                            <th class="pr-0">Vendor</th>
+                            <th>Bill Date</th>
+                            <th>Payment</th>
+                            <th class="text-right">Amount</th>
+                            <th class="pr-0 text-right" style="min-width: 150px">action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
 
-                                @if($bill->due_date)
+
+                        @foreach($bills as $bill)
+
+                            <tr>
+
+                                <td class="pl-0">
+                                    <label class="checkbox checkbox-lg checkbox-inline">
+                                        <input type="checkbox" value="1">
+                                        <span></span>
+                                    </label>
+                                </td>
+                                <td class="text-center ">
+                                    <a class="font-weight-bolder d-block font-size-lg underline text-left bill_number {{ ability(\App\Utils\Ability::BILL_READ)=='disabled'?'no-link':'' }}"
+                                       href="{{ route('bills.bill.show',$bill->id) }}">
+                                        <i class="fa fa-external-link-alt font-normal text-secondary "
+                                           style="font-size: 10px"></i>
+                                        {{ $bill->bill_number }}
+                                    </a>
+                                </td>
+                                <td>
+                                    <a href="{{ route('bills.bill.show',$bill->id) }}"
+                                       class="text-dark-75 font-weight-bolder d-block font-size-lg bill_number {{ ability(\App\Utils\Ability::BILL_READ)=='disabled'?'no-link':'' }}">{{ optional($bill->vendor)->name }}</a>
                                     <span
-                                        class="text-muted font-weight-bold text-muted d-block">Due on {{ \Carbon\Carbon::parse($bill->due_date)->toDateString() }}</span>
-                                @endif
-                            </td>
-                            <td>
-                                <div class="font-weight-bolder  ">
-                                    @php
-                                        $class = '';
-                                        if ($bill->payment_status == \App\Models\Bill::Paid) {
-                                               $class = "badge badge-primary";
-                                            }elseif($bill->payment_status == \App\Models\Bill::Partial){
-                                            $class = "badge badge-warning";
-                                            }else{
-                                            $class = "badge badge-secondary";
+                                        class="text-muted font-weight-bold">{{ optional($bill->vendor)->email }}</span>
+                                </td>
+                                <td class="pl-0">
+                                    <a href="{{ route('bills.bill.show',$bill->id) }}"
+                                       class="text-dark-75 font-weight-bolder text-hover-primary mb-1 font-size-lg bill_number  {{ ability(\App\Utils\Ability::BILL_READ)=='disabled'?'no-link':'' }}">{{ \Carbon\Carbon::parse($bill->bill_date)->toDateString() }}</a>
 
-                                            }
-                                    @endphp
-                                    <span style="font-size: 12px"
-                                          class="{{ $class }} ">{{ $bill->payment_status }}</span>
-                                </div>
-                            </td>
+                                    @if($bill->due_date)
+                                        <span
+                                            class="text-muted font-weight-bold text-muted d-block">Due on {{ \Carbon\Carbon::parse($bill->due_date)->toDateString() }}</span>
+                                    @endif
+                                </td>
+                                <td>
+                                    <div class="font-weight-bolder  ">
+                                        @php
+                                            $class = '';
+                                            if ($bill->payment_status == \App\Models\Bill::Paid) {
+                                                   $class = "badge badge-primary";
+                                                }elseif($bill->payment_status == \App\Models\Bill::Partial){
+                                                $class = "badge badge-warning";
+                                                }else{
+                                                $class = "badge badge-secondary";
 
-                            <td class="text-right">
-                                <div class="font-weight-bolder  ">
+                                                }
+                                        @endphp
+                                        <span style="font-size: 12px"
+                                              class="{{ $class }} ">{{ $bill->payment_status }}</span>
+                                    </div>
+                                </td>
+
+                                <td class="text-right">
+                                    <div class="font-weight-bolder  ">
                                     <span
                                         style="font-size: 20px"><small>{{ $bill->currency }}</small>{{ decent_format($bill->total,2) }} </span>
 
-                                </div>
-                                @if($bill->due>0)
+                                    </div>
+                                    @if($bill->due>0)
 
 
-                                    <span
-                                        class=" font-weight-bold text-info d-block">Due :  {{ decent_format($bill->due) }}</span>
+                                        <span
+                                            class=" font-weight-bold text-info d-block">Due :  {{ decent_format($bill->due) }}</span>
 
-                                @endif
-                            </td>
-                            <td class="pr-0 text-right">
-                                @if($bill->due > 0)
-                                    <span style="text-decoration: underline"
-                                          class=" font-weight-bolder text-success  font-size-lg underline  text-hover-danger cursor-pointer mx-4 billPaymentBtn"
-                                          bill_id="{{ $bill->id }}" currency="{{ $bill->currency }}"
-                                          bill_number="{{ $bill->bill_number }}"
-                                          due="{{ $bill->due }}">Record Payment</span>
-                                @endif
+                                    @endif
+                                </td>
+                                <td class="pr-0 text-right">
+                                    @if($bill->due > 0)
+                                        <span style="text-decoration: underline"
+                                              class=" font-weight-bolder text-success  font-size-lg underline  text-hover-danger cursor-pointer mx-4 billPaymentBtn"
+                                              bill_id="{{ $bill->id }}" currency="{{ $bill->currency }}"
+                                              bill_number="{{ $bill->bill_number }}"
+                                              due="{{ $bill->due }}">Record Payment</span>
+                                    @endif
 
 
-                                <div class="dropdown d-inline dropleft">
+                                    <div class="dropdown d-inline dropleft">
                                     <span class=" dropdown-toggle mr-4 " type="button" style="font-size: 25px"
                                           id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
                                           aria-expanded="false">
@@ -276,47 +278,50 @@
                                                 d="M157.1 216h197.8c10.7 0 16.1 13 8.5 20.5l-98.9 98.3c-4.7 4.7-12.2 4.7-16.9 0l-98.9-98.3c-7.7-7.5-2.3-20.5 8.4-20.5zM504 256c0 137-111 248-248 248S8 393 8 256 119 8 256 8s248 111 248 248zm-48 0c0-110.5-89.5-200-200-200S56 145.5 56 256s89.5 200 200 200 200-89.5 200-200z"
                                                 class=""></path></svg>
                                     </span>
-                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
 
-                                        <a href="javascript:;"
-                                           share_link="{{ route('bills.bill.share',$bill->secret??'null') }}"
+                                            <a href="javascript:;"
+                                               share_link="{{ route('bills.bill.share',$bill->secret??'null') }}"
 
-                                           class="dropdown-item btn shareLink">
-                                            <span class="fa fa-share mx-4"></span> <strong>Get Share Link</strong>
-                                        </a>
-                                        <a href="{{ route('bills.bill.edit',$bill->id) }}"
-                                           class="dropdown-item btn">
-                                            <span class="fa fa-pencil-alt mx-4"></span> <strong>Edit</strong>
-                                        </a>
+                                               class="dropdown-item btn shareLink {{ ability(\App\Utils\Ability::BILL_CREATE) }}">
+                                                <span class="fa fa-share mx-4"></span> <strong>Get Share Link</strong>
+                                            </a>
+                                            <a href="{{ route('bills.bill.edit',$bill->id) }}"
+                                               class="dropdown-item btn {{ ability(\App\Utils\Ability::BILL_EDIT) }}">
+                                                <span class="fa fa-pencil-alt mx-4"></span> <strong>Edit</strong>
+                                            </a>
 
 
-                                        <form method="POST"
-                                              action="{!! route('bills.bill.destroy', $bill->id) !!}">
-                                            {{ csrf_field() }}
-                                            <button class="dropdown-item "
-                                                    onclick="return confirm('Click Ok to delete Bill')">
-                                                @method('DELETE')
-                                                <span class="fa fa-trash-alt mx-4 text-danger"></span>
-                                                <span>
+                                            <form method="POST"
+                                                  action="{!! route('bills.bill.destroy', $bill->id) !!}">
+                                                {{ csrf_field() }}
+                                                <button class="dropdown-item "
+                                                        {{ ability(\App\Utils\Ability::BILL_DELETE) }}
+                                                        onclick="return confirm('Click Ok to delete Bill')">
+                                                    @method('DELETE')
+                                                    <span class="fa fa-trash-alt mx-4 text-danger"></span>
+                                                    <span>
                                                     <strong>Delete</strong>
                                                 </span>
-                                            </button>
-                                        </form>
+                                                </button>
+                                            </form>
+                                        </div>
                                     </div>
-                                </div>
 
 
-                            </td>
-                        </tr>
+                                </td>
+                            </tr>
 
-                    @endforeach
+                        @endforeach
 
-                    </tbody>
-                </table>
+                        </tbody>
+                    </table>
 
                 @else
                     <div class="text-center">
-                        <img style="text-align: center;margin: 0 auto;" src="https://1.bp.blogspot.com/-oFZuUJWkeVI/YU2wRxUt26I/AAAAAAAAFKw/tA92-qZCPksDCerRYqgANfzaeF8xtGTFQCLcBGAsYHQ/s320/norecord.png" alt="">
+                        <img style="text-align: center;margin: 0 auto;"
+                             src="https://1.bp.blogspot.com/-oFZuUJWkeVI/YU2wRxUt26I/AAAAAAAAFKw/tA92-qZCPksDCerRYqgANfzaeF8xtGTFQCLcBGAsYHQ/s320/norecord.png"
+                             alt="">
                     </div>
                 @endif
                 <div class="float-right">

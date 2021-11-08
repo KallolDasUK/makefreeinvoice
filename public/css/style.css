@@ -1551,5 +1551,14 @@ td {
 }
 
 .protected {
-    color: gray!important;
+    color: gray !important;
+}
+
+.disabled {
+    cursor: not-allowed !important;
+
+}
+.no-link {
+    cursor: not-allowed !important;
+
 }

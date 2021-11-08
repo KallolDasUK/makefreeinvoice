@@ -21,7 +21,7 @@
             <h5 class="my-1 float-left">Bill Payments</h5>
 
             <div class="btn-group btn-group-sm float-right" role="group">
-                <a href="{{ route('bill_payments.bill_payment.create') }}" class="btn btn-success"
+                <a href="{{ route('bill_payments.bill_payment.create') }}" class="btn btn-success {{ ability(\App\Utils\Ability::PAY_BILL_CREATE) }}"
                    title="Create New Bill Payment">
                     <i class="fas fa-fw fa-plus" aria-hidden="true"></i>
                     Create New Bill Payment
@@ -72,17 +72,16 @@
                                         {{ csrf_field() }}
 
                                         <div class="btn-group btn-group-sm float-right " role="group">
-                                            <a href="{{ route('bill_payments.bill_payment.show', $billPayment->id ) }}"
-                                               title="Show Bill Payment">
-                                                <i class="fa fa-eye text-info" aria-hidden="true"></i>
-                                            </a>
+
                                             <a href="{{ route('bill_payments.bill_payment.edit', $billPayment->id ) }}"
-                                               class="mx-4" title="Edit Bill Payment">
+                                               class="mx-4 btn {{ ability(\App\Utils\Ability::PAY_BILL_EDIT) }}" title="Edit Bill Payment">
                                                 <i class="fas fa-edit text-primary" aria-hidden="true"></i>
                                             </a>
 
-                                            <button type="submit" style="border: none;background: transparent"
+                                            <button type="submit"
                                                     title="Delete Bill Payment"
+                                                    class="btn"
+                                                    {{ ability(\App\Utils\Ability::PAY_BILL_DELETE) }}
                                                     onclick="return confirm(&quot;Click Ok to delete Bill Payment.&quot;)">
                                                 <i class=" fas  fa-trash text-danger" aria-hidden="true"></i>
                                             </button>

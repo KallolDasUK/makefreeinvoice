@@ -49,7 +49,7 @@
             </h3>
             <div class="card-toolbar">
                 <a href="{{ route('estimates.estimate.create') }}"
-                   class="btn btn-success btn-lg font-weight-bolder font-size-sm " style="font-size: 16px">
+                   class="btn btn-success btn-lg font-weight-bolder font-size-sm  {{ ability(\App\Utils\Ability::ESTIMATE_CREATE) }}" style="font-size: 16px">
                     <i class="fas fa-fw fa-plus" aria-hidden="true"></i>
 
                     </span>Create an estimate</a>
@@ -91,7 +91,7 @@
                                 </label>
                             </td>
                             <td class="text-center">
-                                <a class="font-weight-bolder d-block font-size-lg underline text-left estimate_number"
+                                <a class="font-weight-bolder d-block font-size-lg underline text-left estimate_number "
                                    href="{{ route('estimates.estimate.show',$estimate->id) }}">
                                     <i class="fa fa-external-link-alt font-normal text-secondary"
                                        style="font-size: 10px"></i>
@@ -100,7 +100,7 @@
                             </td>
                             <td>
                                 <a href="{{ route('estimates.estimate.show',$estimate->id) }}"
-                                   class="text-dark-75 font-weight-bolder d-block font-size-lg estimate_number">{{ optional($estimate->customer)->name }}</a>
+                                   class="text-dark-75 font-weight-bolder d-block font-size-lg estimate_number btn ">{{ optional($estimate->customer)->name }}</a>
                                 <span
                                     class="text-muted font-weight-bold">{{ optional($estimate->customer)->email }}</span>
                             </td>
@@ -140,27 +140,27 @@
                                     </span>
                                     <div class="dropdown-menu float-left" aria-labelledby="dropdownMenuButton">
                                         <a href="{{ route('estimates.estimate.show',[$estimate->id,'print'=>true]) }}"
-                                           class="dropdown-item btn" >
+                                           class="dropdown-item btn  {{ ability(\App\Utils\Ability::ESTIMATE_READ) }}" >
                                             <span class="fa fa-print mx-4"></span> <strong>
                                                 Print</strong>
                                         </a>
                                         <a href="{{ route('estimates.estimate.show',[$estimate->id,'download'=>true]) }}"
-                                           class="dropdown-item btn" >
+                                           class="dropdown-item btn  {{ ability(\App\Utils\Ability::ESTIMATE_READ) }}" >
                                             <span class="fa fa-download mx-4"></span> <strong>Download</strong>
                                         </a>
                                         <a href="{{ route('estimates.estimate.send',$estimate->id) }}"
-                                           class="dropdown-item btn">
+                                           class="dropdown-item btn  {{ ability(\App\Utils\Ability::ESTIMATE_READ) }}">
                                             <span class="far fa-envelope-open mx-4"></span> <strong>Email
                                                 Estimate</strong>
                                         </a>
                                         <a href="javascript:;"
                                            share_link="{{ route('estimates.estimate.share',$estimate->secret) }}"
 
-                                           class="dropdown-item btn shareLink">
+                                           class="dropdown-item btn shareLink  {{ ability(\App\Utils\Ability::ESTIMATE_READ) }}">
                                             <span class="fa fa-share mx-4"></span> <strong>Get Share Link</strong>
                                         </a>
                                         <a href="{{ route('estimates.estimate.edit',$estimate->id) }}"
-                                           class="dropdown-item btn">
+                                           class="dropdown-item btn  {{ ability(\App\Utils\Ability::ESTIMATE_EDIT) }}">
                                             <span class="fa fa-pencil-alt mx-4"></span> <strong>Edit</strong>
                                         </a>
 
@@ -171,6 +171,7 @@
 
                                             @method('DELETE')
                                             <button type="submit" class="btn dropdown-item text-danger"
+                                                    {{ ability(\App\Utils\Ability::ESTIMATE_DELETE) }}
                                                     onclick="if (!confirm('Are you sure?')) { return false }"><span>                                                 <span
                                                         class="fa fa-trash-alt mx-4"></span>
                                                     Delete</span></button>

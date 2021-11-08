@@ -67,7 +67,8 @@
             <h2 class="my-1 float-left">Expenses</h2>
 
             <div class="btn-group btn-group-sm float-right btn-lg" role="group">
-                <a href="{{ route('expenses.expense.create') }}" class="btn btn-success" title="Create New Expense"
+                <a href="{{ route('expenses.expense.create') }}"
+                   class="btn btn-success {{ ability(\App\Utils\Ability::EXPENSE_CREATE) }} " title="Create New Expense"
                    style="font-size:  20px">
                     <i class="fas fa-fw fa-plus" aria-hidden="true"></i>
                     Create an Expense
@@ -151,9 +152,10 @@
                             <tr class="text-dark-75 font-weight-bolder">
                                 <td class="text-dark-75 font-weight-bolder font-size-lg">{{ $loop->iteration }}</td>
                                 <td class="text-dark-75 font-weight-bolder font-size-lg"><a
-                                        href="{{ route('expenses.expense.show',$expense->id) }}">{{ $expense->date }}</a>
+                                        href="{{ route('expenses.expense.show',$expense->id) }}"
+                                        class=" {{ ability(\App\Utils\Ability::EXPENSE_READ)=='disabled'?'no-link':'' }}">{{ $expense->date }}</a>
                                 </td>
-                                <td><a href="{{ route('expenses.expense.show',$expense->id) }}">{{ $expense->ref }}</a>
+                                <td><a href="{{ route('expenses.expense.show',$expense->id) }}" class=" {{ ability(\App\Utils\Ability::EXPENSE_READ)=='disabled'?'no-link':'' }}">{{ $expense->ref }}</a>
                                 </td>
 
                                 <td>{{ optional($expense->ledger)->ledger_name }}</td>
@@ -185,16 +187,16 @@
                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
 
                                             <a href="{{ route('expenses.expense.edit',$expense->id) }}"
-                                               class="dropdown-item btn">
+                                               class="dropdown-item btn {{ ability(\App\Utils\Ability::EXPENSE_EDIT) }} ">
                                                 <span class="fa fa-pencil-alt mx-4"></span> <strong>Edit</strong>
                                             </a>
                                             <a href="{{ route('expenses.expense.show',[$expense->id,'print'=>true]) }}"
-                                               class="dropdown-item btn">
+                                               class="dropdown-item btn {{ ability(\App\Utils\Ability::EXPENSE_READ) }} ">
                                                 <span class="fa fa-print mx-4 text-info"></span> <strong>Print
                                                     Receipt</strong>
                                             </a> <a
                                                 href="{{ route('expenses.expense.show',[$expense->id,'download'=>true]) }}"
-                                                class="dropdown-item btn">
+                                                class="dropdown-item btn {{ ability(\App\Utils\Ability::EXPENSE_READ) }} ">
                                                 <span class="fa fa-download mx-4 text-primary"></span> <strong>Download
                                                     Receipt</strong>
                                             </a>
@@ -202,6 +204,7 @@
                                                   action="{!! route('expenses.expense.destroy', $expense->id) !!}">
                                                 {{ csrf_field() }}
                                                 <button class="dropdown-item "
+                                                        {{ ability(\App\Utils\Ability::EXPENSE_DELETE) }}
                                                         onclick="return confirm('Click Ok to delete Expense')">
                                                     @method('DELETE')
                                                     <span class="fa fa-trash-alt mx-4 text-danger"></span>

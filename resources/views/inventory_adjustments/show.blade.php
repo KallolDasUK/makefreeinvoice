@@ -39,24 +39,25 @@
                     {{ csrf_field() }}
                     <div class="btn-group btn-group-sm" role="group">
                         <a href="{{ route('inventory_adjustments.inventory_adjustment.index') }}"
-                           class="btn btn-primary mr-2" title="Show All Inventory Adjustment">
+                           class="btn btn-primary mr-2 {{  ability(\App\Utils\Ability::INVENTORY_ADJUSTMENT_READ) }}" title="Show All Inventory Adjustment">
                             <i class=" fas fa-fw fa-th-list" aria-hidden="true"></i>
                             Show All  Adjustment
                         </a>
 
                         <a href="{{ route('inventory_adjustments.inventory_adjustment.create') }}"
-                           class="btn btn-success mr-2" title="Create New Inventory Adjustment">
+                           class="btn btn-success mr-2 {{  ability(\App\Utils\Ability::INVENTORY_ADJUSTMENT_CREATE) }}" title="Create New Inventory Adjustment">
                             <i class=" fas fa-fw fa-plus" aria-hidden="true"></i>
                             Create New  Adjustment
                         </a>
 
                         <a href="{{ route('inventory_adjustments.inventory_adjustment.edit', $inventoryAdjustment->id ) }}"
-                           class="btn btn-primary mr-2" title="Edit Inventory Adjustment">
+                           class="btn btn-primary mr-2 {{  ability(\App\Utils\Ability::INVENTORY_ADJUSTMENT_EDIT) }}" title="Edit Inventory Adjustment">
                             <i class=" fas fa-fw fa-pencil-alt" aria-hidden="true"></i>
                             Edit  Adjustment
                         </a>
 
                         <button type="submit" class="btn btn-danger" title="Delete Inventory Adjustment"
+                                {{  ability(\App\Utils\Ability::INVENTORY_ADJUSTMENT_DELETE) }}
                                 onclick="return confirm(&quot;Click Ok to delete Inventory Adjustment.?&quot;)">
                             <i class=" fas fa-fw fa-trash-alt" aria-hidden="true"></i>
                             Delete  Adjustment

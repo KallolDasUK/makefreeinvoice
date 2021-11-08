@@ -20,7 +20,7 @@
           enctype="multipart/form-data">
         @csrf
         <div class="mx-auto text-right">
-            <button type="submit" class="btn btn-primary btn-lg {{ ability_class(\App\Utils\Ability::GENERAL_SETTINGS_EDIT)=='protected'?'disabled':'' }}">Save Settings</button>
+            <button type="submit" class="btn btn-primary btn-lg" {{ ability(\App\Utils\Ability::GENERAL_SETTINGS_EDIT) }}>Save Settings</button>
 
         </div>
         <div class="form-group row">
@@ -173,7 +173,7 @@
             </div>
         </div>
         <div class="mx-auto text-right">
-            <button type="submit" class="btn btn-primary btn-lg {{ ability_class(\App\Utils\Ability::GENERAL_SETTINGS_EDIT)=='protected'?'disabled':'' }}">Save Settings</button>
+            <button type="submit" class="btn btn-primary btn-lg"  {{ ability(\App\Utils\Ability::GENERAL_SETTINGS_EDIT) }}>Save Settings</button>
 
         </div>
     </form>
