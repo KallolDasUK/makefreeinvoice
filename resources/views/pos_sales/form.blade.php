@@ -282,7 +282,7 @@
         <div class="col-6">
 
 
-          <button type="button" on-click="@this.onOrderDelete(id)"   class="btn btn-outline-danger btn-sm " style="min-width: 100px;">
+          <button type="button" on-click="@this.onOrderDelete(id)"   class="btn btn-outline-danger btn-sm " {{ can_delete }} style="min-width: 100px;">
          <i class="fa fa-edit"></i>
          DELETE</button>
         <button class="btn btn-secondary btn-sm mx-2" on-click="@this.onOrderView(id)"  type="button">
