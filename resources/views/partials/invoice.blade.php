@@ -174,12 +174,14 @@
                                 <strong>{{ $invoice->currency }}{{ decent_format($invoice->total) }}</strong>
                             </td>
                         </tr>
-                        <tr>
-                            <td colspan="5" class="text-right"><strong>Paid:</strong></td>
-                            <td class="text-right">
-                                <strong>{{ $invoice->currency }}{{ decent_format($invoice->payment) }}</strong>
-                            </td>
-                        </tr>
+                        @if($invoice->payment>0)
+                            <tr>
+                                <td colspan="5" class="text-right"><strong>Paid:</strong></td>
+                                <td class="text-right">
+                                    <strong>{{ $invoice->currency }}{{ decent_format($invoice->payment) }}</strong>
+                                </td>
+                            </tr>
+                        @endif
                         @if($invoice->due>0)
                             <tr>
                                 <td colspan="5" class="text-right"><strong>Due:</strong></td>
