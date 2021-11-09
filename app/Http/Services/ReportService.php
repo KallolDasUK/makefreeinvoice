@@ -152,10 +152,10 @@ trait ReportService
             ->whereBetween('bill_date', [$start_date, $end_date])
             ->get();
         $vendor = Vendor::find($vendor_id);
+
         $opening_payments = TransactionDetail::query()
-            ->where('type', Vendor::class)
-            ->where('type_id', $vendor_id)
-            ->where('ledger_id', $vendor->ledger->id)
+            ->where('type', Ledger::class)
+            ->where('type_id', $vendor->ledger->id)
             ->where('entry_type', EntryType::$DR)->get();
 
         foreach ($opening_payments as $opening_payment) {

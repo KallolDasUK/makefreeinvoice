@@ -83,7 +83,7 @@ class ReceivePaymentsController extends Controller
             $customer = Customer::find($request->customer_id);
             $previous_due = $request->previous_due;
             if ($previous_due > 0) {
-                AccountingFacade::addTransaction(null, optional($customer->ledger)->id,
+                AccountingFacade::addTransaction($payments->deposit_to, optional($customer->ledger)->id,
                     $previous_due, "OpeningBalance", $rp->payment_date, "Customer Payment", Ledger::class, optional($customer->ledger)->id, $rp->payment_sl, $customer->name);
 
             }
