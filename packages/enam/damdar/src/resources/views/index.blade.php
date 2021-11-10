@@ -136,6 +136,10 @@
                 <div class="font-weight-bolder">
                     PRODUCT SHORTCUTS
                 </div>
+                <div class="float-right">
+                    <a class="btn btn-outline-secondary text-primary btn-link font-weight-bolder" href="{{ route('shortcuts.shortcut.index') }}"> <span class="fa fa-link mr-2"></span> Manage Shortcuts</a>
+                </div>
+                <div class="clearfix"></div>
                 <a href="{{ route('products.product.create') }}"
                    style="position:relative;"
                    class="sc-gPEVay eaBhby border rounded {{ ability_class(\App\Utils\Ability::PRODUCT_CREATE) }}  @cannot('viewAny',\App\Models\InventoryAdjustment::class) pro-tag @endcannot">
@@ -152,15 +156,29 @@
 
                     </div>
                     <div class="shortcuts-title  text-black  mt-4">My Products</div>
-                </a> <a href="{{ route('products.product.barcode') }}"
-                        style="position:relative;"
-                        class="sc-gPEVay eaBhby border rounded {{ ability_class(\App\Utils\Ability::BARCODE_READ) }} ">
+                </a>
+                <a href="{{ route('products.product.barcode') }}"
+                   style="position:relative;"
+                   class="sc-gPEVay eaBhby border rounded {{ ability_class(\App\Utils\Ability::BARCODE_READ) }} ">
 
                     <div class="sc-iRbamj image" style="background-image:url('images/barcode.svg') ">
 
                     </div>
                     <div class="shortcuts-title  text-black  mt-4">Print Barcode</div>
                 </a>
+
+                @foreach(\App\Models\Shortcut::all() as $shortcut)
+                    <a href="{{ $shortcut->link }}"
+                       style="position:relative;"
+                       class="sc-gPEVay eaBhby border rounded ">
+
+                        <div class="sc-iRbamj image" style="background-image:url('images/link.svg') ">
+
+                        </div>
+                        <div class="shortcuts-title  text-black  mt-4">{{ $shortcut->name }}</div>
+                    </a>
+                @endforeach
+
 
             </div>
         </div>

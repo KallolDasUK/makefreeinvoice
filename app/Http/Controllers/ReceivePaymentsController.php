@@ -77,18 +77,7 @@ class ReceivePaymentsController extends Controller
             PosPayment::create(['pos_sales_id' => $pos_payment->pos_id, 'receive_payment_id' => $rp->id, 'amount' => $pos_payment->amount,
                 'date' => $rp->payment_date, 'ledger_id' => $rp->deposit_to]);
         }
-
-
-        if ($request->has('previous_due')) {
-            $customer = Customer::find($request->customer_id);
-            $previous_due = $request->previous_due;
-            if ($previous_due > 0) {
-                AccountingFacade::addTransaction($rp->deposit_to, optional($customer->ledger)->id,
-                    $previous_due, "OpeningBalance", $rp->payment_date, "Customer Payment", Ledger::class, optional($customer->ledger)->id, $rp->payment_sl, $customer->name);
-
-            }
-
-        }
+        $this->storePreviousDue($request, $rp);
         return redirect()->route('receive_payments.receive_payment.index')->with('success_message', 'Receive Payment was successfully added.');
 
     }
@@ -120,12 +109,17 @@ class ReceivePaymentsController extends Controller
 
     public function update($id, Request $request)
     {
-
-//        dd($request->all());
-
         $data = $this->getData($request);
-
         $receivePayment = ReceivePayment::findOrFail($id);
+
+        $customer = $receivePayment->customer;
+
+        TransactionDetail::query()->where([
+            'type' => Ledger::class,
+            'type_id' => optional($customer->ledger)->id,
+            'amount' => $receivePayment->previous_due,
+            'ref' => $receivePayment->payment_sl
+        ])->forceDelete();
         $receivePayment->update($data);
         ReceivePaymentItem::query()->where('receive_payment_id', $receivePayment->id)->get()->each(function ($model) {
             $model->delete();
@@ -137,17 +131,36 @@ class ReceivePaymentsController extends Controller
         $pos_payments = json_decode($request->pos ?? '{}');
 
         foreach ($payments as $payment) {
-            ReceivePaymentItem::create(['invoice_id' => $payment->invoice_id, 'receive_payment_id' => $receivePayment->id, 'amount' => $payment->amount]);
+            try {
+                ReceivePaymentItem::create(['invoice_id' => $payment->invoice_id, 'receive_payment_id' => $receivePayment->id, 'amount' => $payment->amount]);
+            } catch (\Exception $exception) {
+            }
         }
         foreach ($pos_payments as $pos_payment) {
             PosPayment::create(['pos_sales_id' => $pos_payment->pos_id, 'receive_payment_id' => $receivePayment->id, 'amount' => $pos_payment->amount,
                 'date' => $receivePayment->payment_date, 'ledger_id' => $receivePayment->deposit_to]);
         }
-
+        $this->storePreviousDue($request, $receivePayment);
         return redirect()->route('receive_payments.receive_payment.index')->with('success_message', 'Receive Payment was successfully updated.');
 
     }
 
+    public function storePreviousDue($request, $receivePayment)
+    {
+        if ($request->has('previous_due')) {
+            $customer = Customer::find($request->customer_id);
+            $previous_due = $request->previous_due;
+            if ($previous_due > 0) {
+                AccountingFacade::addTransaction($receivePayment->deposit_to, optional($customer->ledger)->id,
+                    $previous_due, "OpeningBalance", $receivePayment->payment_date,
+                    "Customer Payment",
+                    Ledger::class, optional($customer->ledger)->id,
+                    $receivePayment->payment_sl, $customer->name);
+
+            }
+
+        }
+    }
 
     public function destroy($id)
     {

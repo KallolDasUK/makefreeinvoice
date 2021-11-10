@@ -65,6 +65,18 @@ class BillPaymentsController extends Controller
 
             }
         }
+        $this->storePreviousDue($request, $billPayment);
+
+        return redirect()->route('bill_payments.bill_payment.index')
+            ->with('success_message', 'Bill Payment was successfully added.');
+
+    }
+
+    public function storePreviousDue($request, $billPayment)
+    {
+
+
+
         if ($request->has('previous_due')) {
             $vendor = Vendor::find($billPayment->vendor_id);
             $previous_due = $request->previous_due;
@@ -72,14 +84,8 @@ class BillPaymentsController extends Controller
                 $previous_due, EntryType::$OPENING_BALANCE, $billPayment->payment_date, "Vendor Payment",
                 Ledger::class, optional($vendor->ledger)->id, $billPayment->payment_sl, $vendor->name);
 
-
         }
-
-        return redirect()->route('bill_payments.bill_payment.index')
-            ->with('success_message', 'Bill Payment was successfully added.');
-
     }
-
 
     public function show($id)
     {
@@ -111,14 +117,28 @@ class BillPaymentsController extends Controller
         $data = $this->getData($request);
 
         $billPayment = BillPayment::findOrFail($id);
+        $vendor = $billPayment->vendor;
+
+        TransactionDetail::query()->where([
+            'type' => Ledger::class,
+            'type_id' => optional($vendor->ledger)->id,
+            'amount' => $billPayment->previous_due,
+            'ref' => $billPayment->payment_sl
+        ])->forceDelete();
+
         $billPayment->update($data);
         BillPaymentItem::query()->where('bill_payment_id', $billPayment->id)->get()->each(function ($model) {
             $model->delete();
         });
         $payments = json_decode($request->data ?? '{}');
         foreach ($payments as $payment) {
-            BillPaymentItem::create(['bill_id' => $payment->bill_id, 'bill_payment_id' => $billPayment->id, 'amount' => $payment->amount]);
+            try {
+                BillPaymentItem::create(['bill_id' => $payment->bill_id, 'bill_payment_id' => $billPayment->id, 'amount' => $payment->amount]);
+            } catch (\Exception $exception) {
+
+            }
         }
+        $this->storePreviousDue($request, $billPayment);
 
         return redirect()->route('bill_payments.bill_payment.index')
             ->with('success_message', 'Bill Payment was successfully updated.');

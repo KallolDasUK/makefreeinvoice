@@ -119,6 +119,24 @@
         </thead>
         <tbody id="tbody">
         @if($receivePayment)
+
+            @if($receivePayment->previous_due>0)
+                <tr>
+                    <td colspan="3" style="padding-top: 0px;"></td>
+                    <td colspan="1" class="text-right">Previous Due</td>
+                    <td colspan="1" class="text-right">{{ $receivePayment->customer->previous_due + $receivePayment->previous_due }}</td>
+                    <td class="text-right">
+                        <input type="number" step="any"
+                               name="previous_due"
+                               class="form-control paymentAmount text-right"
+                               due="{{ $receivePayment->customer->previous_due + $receivePayment->previous_due }}"
+                               max="{{ $receivePayment->customer->previous_due + $receivePayment->previous_due }}"
+                               value="{{ $receivePayment->previous_due }}"
+                               id="previous_due"/></td>
+                </tr>
+
+            @endif
+
             @foreach($receivePayment->items as $item)
                 <tr>
                     <td> {{ $item->invoice->invoice_date }} <br> </td>
@@ -162,7 +180,7 @@
             @endforeach
             <tr>
                 <td colspan="2" style="padding-top: 0px;"></td>
-                <td colspan="2" class="text-right">Total</td>
+                <td colspan="3" class="text-right">Total</td>
                 <td class="text-right"><input type="text" name="totalAmount" class="form-control"
                                               value="{{ $receivePayment->items->sum('amount') }}"
                                               style="cursor: no-drop" id="totalAmount"/></td>

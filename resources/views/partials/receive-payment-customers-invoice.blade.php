@@ -1,4 +1,4 @@
-@if(/*$customer->previous_due>0*/true)
+@if($customer->previous_due>0)
     <tr>
         <td colspan="3" style="padding-top: 0px;"></td>
         <td colspan="1" class="text-right">Previous Due</td>
