@@ -108,6 +108,7 @@ class Customer extends Model
         $debit = TransactionDetail::query()
             ->where('type', Ledger::class)
             ->where('type_id', $this->ledger->id)
+            ->where('ledger_id',$this->ledger->id)
             ->where('entry_type', EntryType::$DR)
             ->where('note', "OpeningBalance")
             ->sum('amount');
@@ -115,8 +116,9 @@ class Customer extends Model
         $credit = TransactionDetail::query()
             ->where('type', Ledger::class)
             ->where('type_id', $this->ledger->id)
-            ->where('note', "OpeningBalance")
+            ->where('ledger_id',$this->ledger->id)
             ->where('entry_type', EntryType::$CR)
+            ->where('note', "OpeningBalance")
             ->sum('amount');
 //        dd($debit,$credit);
         $due = $debit - $credit;
