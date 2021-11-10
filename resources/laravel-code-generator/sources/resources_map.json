@@ -97,5 +97,9 @@
     {
         "model-name": "UserRole",
         "resource-file": "user_roles.json"
+    },
+    {
+        "model-name": "Shortcut",
+        "resource-file": "shortcuts.json"
     }
 ]

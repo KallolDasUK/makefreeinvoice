@@ -165,7 +165,7 @@ class ReportController extends AccountingReportsController
 
     public function ledgerReport(Request $request)
     {
-        $start_date = $request->start_date ?? today()->startOfYear()->toDateString();
+        $start_date = $request->start_date ?? today()->startOfMonth()->toDateString();
         $end_date = $request->end_date ?? today()->toDateString();
         $branch_id = $request->branch_id ?? 'All';
         $ledger_id = $request->ledger_id ?? null;

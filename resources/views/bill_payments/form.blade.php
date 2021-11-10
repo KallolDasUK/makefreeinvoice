@@ -1,4 +1,3 @@
-
 <div class="row">
     <div class="col">
         <div class="form-group row">
@@ -102,8 +101,6 @@
 </div>
 
 
-
-
 <div class="form-group px-4">
     <h3 class="ml-4">Unpaid Bills</h3>
     <table class="table line-item-table">
@@ -120,6 +117,26 @@
         </thead>
         <tbody id="tbody">
         @if($billPayment)
+
+            @if($billPayment->previous_due)
+                <tr>
+                    <td colspan="3" style="padding-top: 0px;"></td>
+                    <td colspan="1" class="text-right">Previous Due</td>
+                    <td colspan="1"
+                        class="text-right">{{ $billPayment->vendor->previous_due + $billPayment->previous_due }}</td>
+                    <td class="text-right">
+                        <input type="number" step="any" name="previous_due"
+                               class="form-control paymentAmount text-right"
+                               due="{{ $billPayment->previous_due + $billPayment->previous_due }}"
+                               max="{{ $billPayment->vendor->previous_due + $billPayment->previous_due }}"
+                               id="previous_due"
+                               value="{{ $billPayment->previous_due }}"/></td>
+                </tr>
+
+            @endif
+
+
+
             @foreach($billPayment->items as $item)
                 <tr>
                     <td> {{ $item->bill->bill_date }} <br>

@@ -142,7 +142,7 @@
                                             </span>
 
                                             <a href="{{ route('receive_payments.receive_payment.edit', $receivePayment->id ) }}"
-                                               class="mx-4 btn btn-outline-secondary disabled {{  ability(\App\Utils\Ability::RECEIVE_PAYMENT_EDIT) }}"
+                                               class="mx-4 btn  {{  ability(\App\Utils\Ability::RECEIVE_PAYMENT_EDIT) }}"
                                                title="Edit Receive Payment">
                                                 <i class="fas fa-edit text-primary" aria-hidden="true"></i>
                                             </a>
@@ -150,7 +150,7 @@
                                             <button type="submit"
                                                     title="Delete Receive Payment"
                                                     {{  ability(\App\Utils\Ability::RECEIVE_PAYMENT_DELETE) }}
-                                                    class="btn btn-outline-secondary"
+                                                    class="btn "
                                                     onclick="return confirm(&quot;Click Ok to delete Receive Payment.&quot;)">
                                                 <i class=" fas  fa-trash text-danger" aria-hidden="true"></i>
                                             </button>

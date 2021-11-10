@@ -55,7 +55,8 @@
                         <tbody class="font-weight-bolder" style="font-size: 14px">
                         @foreach($billPayments as $billPayment)
                             <tr>
-                                <td>{{ $loop->iteration }}</td>
+                                <td>{{ (($billPayments->currentPage() - 1) * $billPayments->perPage()) + $loop->iteration }}</td>
+
                                 <td>{{ $billPayment->payment_sl }}</td>
                                 <td>{{ optional($billPayment->vendor)->name }}</td>
                                 <td>{{ $billPayment->bill }}</td>
@@ -74,7 +75,7 @@
                                         <div class="btn-group btn-group-sm float-right " role="group">
 
                                             <a href="{{ route('bill_payments.bill_payment.edit', $billPayment->id ) }}"
-                                               class="mx-4 btn  disabled {{ ability(\App\Utils\Ability::PAY_BILL_EDIT) }}" title="Edit Bill Payment">
+                                               class="mx-4 btn   {{ ability(\App\Utils\Ability::PAY_BILL_EDIT) }}" title="Edit Bill Payment">
                                                 <i class="fas fa-edit text-primary" aria-hidden="true"></i>
                                             </a>
 

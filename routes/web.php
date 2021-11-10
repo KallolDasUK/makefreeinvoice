@@ -23,6 +23,7 @@ use App\Http\Controllers\PurchaseReturnsController;
 use App\Http\Controllers\ReasonsController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SalesReturnsController;
+use App\Http\Controllers\ShortcutsController;
 use App\Http\Controllers\SocialLoginController;
 use App\Http\Controllers\SRsController;
 use App\Http\Controllers\StockEntriesController;
@@ -585,6 +586,26 @@ Route::group(['middleware' => 'auth:web', 'prefix' => 'app'], function () {
         Route::delete('/user_role/{userRole}', [UserRolesController::class, 'destroy'])->name('user_roles.user_role.destroy')->where('id', '[0-9]+');
 
     });
+
+
+
+    /*
+     *
+     *  php artisan resource-file:create Shortcut --fields=id,name,link
+     *  php artisan create:scaffold Shortcut  --layout-name="acc::layouts.app" --with-migration
+     *
+     * */
+    Route::group(['prefix' => 'shortcuts'], function () {
+
+        Route::get('/', [ShortcutsController::class,'index'])->name('shortcuts.shortcut.index');
+        Route::get('/create',[ShortcutsController::class,'create'])->name('shortcuts.shortcut.create');
+        Route::get('/show/{shortcut}',[ShortcutsController::class,'show'])->name('shortcuts.shortcut.show')->where('id', '[0-9]+');
+        Route::get('/{shortcut}/edit',[ShortcutsController::class,'edit'])->name('shortcuts.shortcut.edit')->where('id', '[0-9]+');
+        Route::post('/', [ShortcutsController::class,'store'])->name('shortcuts.shortcut.store');
+        Route::put('shortcut/{shortcut}', [ShortcutsController::class,'update'])->name('shortcuts.shortcut.update')->where('id', '[0-9]+');
+        Route::delete('/shortcut/{shortcut}',[ShortcutsController::class,'destroy'])->name('shortcuts.shortcut.destroy')->where('id', '[0-9]+');
+
+    });
 });
 
 
@@ -636,6 +657,8 @@ Route::group(['prefix' => 'master', 'middleware' => ['auth:web', 'isMaster']], f
     Route::post('/send_email', [MasterController::class, 'sendEmail'])->name('master.send_email_store');
 });
 Route::get('master/users/login/{email}', [MasterController::class, 'loginClient'])->name('master.users.login');
+
+
 
 
 Route::get('/task', function () {
@@ -701,6 +724,8 @@ Route::get('/task', function () {
 
     dd('task completed');
 });
+
+
 
 
 
