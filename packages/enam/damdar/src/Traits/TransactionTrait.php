@@ -25,6 +25,7 @@ use Enam\Acc\Utils\LedgerHelper;
 use Enam\Acc\Utils\Nature;
 use Enam\Acc\Utils\VoucherType;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 trait TransactionTrait
 {
@@ -385,20 +386,38 @@ trait TransactionTrait
         });
 
 
-        $openingDebit = (int)TransactionDetail::query()
+//      $testOpen =   DB::table('transaction_details')
+//            ->where('ledger_id', $ledger->id)
+//            ->where('entry_type', EntryType::$DR)
+////            ->where('note', '!=', EntryType::$OPENING_BALANCE)
+//            ->where('date', '<', $start_date)
+//            ->sum('amount');
+
+//      dd($testOpen);
+        $openingDebitTxn = TransactionDetail::query()
             ->where('ledger_id', $ledger->id)
             ->where('entry_type', EntryType::$DR)
-            ->where('note', '!=', EntryType::$OPENING_BALANCE)
             ->where('date', '<', $start_date)
-            ->sum('amount');
+            ->get();
+
+        $openingDebitTxn = $openingDebitTxn->filter(function ($txn_item) {
+            return !($txn_item->note == EntryType::$OPENING_BALANCE && $txn_item->voucher_no != null);
+        });
+        $openingDebit = $openingDebitTxn->sum('amount');
 
 
-        $openingCredit = (int)TransactionDetail::query()
+        $openingCreditTxn = TransactionDetail::query()
             ->where('ledger_id', $ledger->id)
             ->where('entry_type', EntryType::$CR)
-            ->where('note', '!=', EntryType::$OPENING_BALANCE)
-            ->where('date', '<', $start_date)
-            ->sum('amount');
+            ->where('date', '<', $start_date)->get();
+
+        $openingCreditTxn = $openingCreditTxn->filter(function ($txn_item) {
+            return !($txn_item->note == EntryType::$OPENING_BALANCE && $txn_item->voucher_no != null);
+        });
+        $openingCredit = $openingCreditTxn->sum('amount');
+
+
+//        dd($openingDebit, $openingCredit);
         if ($prevent_opening) {
             $openingDebit = 0;
             $openingCredit = 0;

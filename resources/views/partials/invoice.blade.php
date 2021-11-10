@@ -16,7 +16,11 @@
                         class="rounded"
                         src="{{ asset('storage/'.$settings->business_logo) }}"
                         width="100"
+                        height="100"
                         alt="">
+                @endif
+                @if($settings->business_name ?? false)
+                    <h3 class="mt-2"> {{ $settings->business_name ?? '' }}</h3>
                 @endif
             </div>
             <div class="col-sm-5 text-center text-sm-right">
