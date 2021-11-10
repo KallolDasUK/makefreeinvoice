@@ -73,7 +73,6 @@ class BillPaymentsController extends Controller
                 Ledger::class, optional($vendor->ledger)->id, $billPayment->payment_sl, $vendor->name);
 
 
-
         }
 
         return redirect()->route('bill_payments.bill_payment.index')
@@ -138,9 +137,11 @@ class BillPaymentsController extends Controller
         TransactionDetail::query()->where([
             'type' => Ledger::class,
             'type_id' => optional($vendor->ledger)->id,
-            'entry_type' => EntryType::$DR,
             'amount' => $billPayment->previous_due,
+            'ref' => $billPayment->payment_sl
         ])->forceDelete();
+
+
         $billPayment->delete();
 
         return redirect()->route('bill_payments.bill_payment.index')

@@ -164,9 +164,10 @@ class ReceivePaymentsController extends Controller
         TransactionDetail::query()->where([
             'type' => Ledger::class,
             'type_id' => optional($customer->ledger)->id,
-            'entry_type' => EntryType::$CR,
             'amount' => $receivePayment->previous_due,
+            'ref' => $receivePayment->payment_sl
         ])->forceDelete();
+
 
         $receivePayment->delete();
 
