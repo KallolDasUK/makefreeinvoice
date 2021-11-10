@@ -86,11 +86,14 @@ class Vendor extends Model
         $debit = TransactionDetail::query()
             ->where('type', Ledger::class)
             ->where('type_id', $this->ledger->id)
+            ->where('ledger_id',$this->ledger->id)
+
             ->where('entry_type', EntryType::$DR)
             ->where('note', "OpeningBalance")
             ->sum('amount');
         $credit = TransactionDetail::query()
             ->where('type', Ledger::class)
+            ->where('ledger_id',$this->ledger->id)
             ->where('type_id', $this->ledger->id)
             ->where('note', "OpeningBalance")
             ->where('entry_type', EntryType::$CR)
