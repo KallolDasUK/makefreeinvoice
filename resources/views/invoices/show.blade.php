@@ -47,8 +47,8 @@
                 font-size: 3rem;
             }
 
-            h2 {
-                font-size: 2rem;
+            h3 {
+                font-size: 3rem;
             }
 
             .invoice-container {
