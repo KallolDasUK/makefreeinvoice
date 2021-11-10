@@ -69,7 +69,7 @@ class BillPaymentsController extends Controller
             $vendor = Vendor::find($billPayment->vendor_id);
             $previous_due = $request->previous_due;
             AccountingFacade::addTransaction(optional($vendor->ledger)->id, $billPayment->ledger_id,
-                $previous_due, $request->note, $billPayment->payment_date, "Vendor Payment",
+                $previous_due, EntryType::$OPENING_BALANCE, $billPayment->payment_date, "Vendor Payment",
                 Ledger::class, optional($vendor->ledger)->id, $billPayment->payment_sl, $vendor->name);
 
 
