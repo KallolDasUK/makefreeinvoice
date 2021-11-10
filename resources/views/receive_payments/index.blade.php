@@ -142,7 +142,7 @@
                                             </span>
 
                                             <a href="{{ route('receive_payments.receive_payment.edit', $receivePayment->id ) }}"
-                                               class="mx-4 btn btn-outline-secondary {{  ability(\App\Utils\Ability::RECEIVE_PAYMENT_EDIT) }}"
+                                               class="mx-4 btn btn-outline-secondary disabled {{  ability(\App\Utils\Ability::RECEIVE_PAYMENT_EDIT) }}"
                                                title="Edit Receive Payment">
                                                 <i class="fas fa-edit text-primary" aria-hidden="true"></i>
                                             </a>
