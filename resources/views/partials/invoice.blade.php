@@ -1,13 +1,6 @@
 <div id="invoice-container" class="container-fluid invoice-container" contenteditable="true">
 
-{{--    @if($invoice->due <=0)--}}
-{{--        <img--}}
-{{--            style="position:absolute;left: 40%"--}}
-{{--            src="https://1.bp.blogspot.com/-ipKsZJ94Ls8/YVhAMZyF9AI/AAAAAAAAFLs/6K1fArUFbsseAlBOu2-PJIKDtWIu1y_tQCLcBGAsYHQ/s320/paid-5025785_1280.webp"--}}
-{{--            alt="" width="150">--}}
 
-{{--@endif--}}
-<!-- Header -->
     <header>
         <div class="row align-items-center">
             <div class="col-sm-7 text-center text-sm-left mb-3 mb-sm-0">

@@ -203,7 +203,7 @@ class ProductsController extends Controller
         $rules = [
             'product_type' => 'required|nullable',
             'name' => 'required|nullable|string',
-            'code' => 'nullable|string|unique:products,code',
+            'code' => 'nullable|string|unique_saas:products,code',
             'sku' => 'nullable|string|min:0|max:255',
             'photo' => ['file', 'nullable'],
             'category_id' => 'nullable',
@@ -217,13 +217,18 @@ class ProductsController extends Controller
             'opening_stock' => 'string|min:1|nullable|numeric',
             'opening_stock_price' => 'nullable|numeric',
         ];
+
+
         if ($id) {
 
-            $rules['code'] = 'nullable|string|unique:products,code,' . $id;
+            $rules['code'] = 'nullable|string|unique_saas:products,code,' . $id;
         }
 //        dd($request->all());
 
-        $data = $request->validate($rules);
+        $data = $request->validate($rules,['code.unique_saas'=>'Product Code Already In Use']);
+
+
+
         if ($request->has('custom_delete_photo')) {
             $data['photo'] = null;
         }

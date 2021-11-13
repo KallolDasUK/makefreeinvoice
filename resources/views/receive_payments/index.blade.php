@@ -1,7 +1,7 @@
 @extends('acc::layouts.app')
 
 @section('content')
-    @include('partials.blank_modal')
+    @include('partials.customer_payment_receipt_modal')
 
     @if(Session::has('success_message'))
         <div class="alert alert-success">
