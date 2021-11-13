@@ -49,7 +49,7 @@ $(document).ready(function () {
 })
 
 $('form').on('submit', function (e) {
-    // e.preventDefault()preventDefault
+    // preventDefault
     let data = [];
     $('.invoice').each(function () {
         let invoice_id = $(this).attr('invoice_id')
@@ -68,6 +68,7 @@ $('form').on('submit', function (e) {
     $('#pos').val(JSON.stringify(pos_payments))
 
     console.log($('form').serializeArray())
+    // e.preventDefault()
 })
 
 $(document).on('input', '.paymentAmount', function () {

@@ -147,7 +147,7 @@
                     <td class="text-right" style="width:16%; position: relative;">
                         <input name="payment[]"
                                invoice_id="{{ $item->invoice->id }}"
-                               class="paymentAmount text-right form-control"
+                               class="paymentAmount invoice text-right form-control"
                                step="any"
                                due="{{ $item->invoice->due + $item->amount   }}"
                                value="{{ $item->amount }}"

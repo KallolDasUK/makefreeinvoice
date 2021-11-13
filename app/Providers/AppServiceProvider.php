@@ -24,6 +24,7 @@ use App\Observers\PosPaymentObserver;
 use App\Observers\PosSaleObserver;
 use App\Observers\ReceivePaymentItemObserver;
 use App\Policies\ReportPolicy;
+use App\Rules\UniqueCode;
 use Enam\Acc\AccountingFacade;
 use Enam\Acc\Http\Controllers\TransactionsController;
 use Enam\Acc\Models\Ledger;
@@ -31,7 +32,9 @@ use Enam\Acc\Models\TransactionDetail;
 use Enam\Acc\Traits\TransactionTrait;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Queue\Events\JobProcessed;
@@ -51,14 +54,27 @@ class AppServiceProvider extends ServiceProvider
         //
     }
 
-    /**
-     * Bootstrap any application services.
-     *
-     * @return void
-     */
+
     public function boot()
     {
 
+        Validator::extend('unique_saas', function ($attribute, $value, $parameters) {
+            $table = $parameters[0] ?? null;
+            $field_name = $parameters[1] ?? null;
+            $index = $parameters[2] ?? null;
+            if ($index) {
+                $exits = DB::table($table)
+                    ->where('client_id', auth()->user()->client_id)
+                    ->where('id', '!=', $index)
+                    ->where($field_name, $value)->exists();
+            } else {
+                $exits = DB::table($table)
+                    ->where('client_id', auth()->user()->client_id)
+                    ->where($field_name, $value)->exists();
+            }
+            return !$exits;
+        });
+//        Validator::extend('test', UniqueCode::class);
         $country = ip_info(\request()->ip(), "Country");
 //        $country = "";
 

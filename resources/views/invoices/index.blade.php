@@ -13,7 +13,7 @@
 
 
     @include('partials.ajax-ledger-create-form')
-    @include('partials.blank_modal')
+    @include('partials.customer_payment_receipt_modal')
 
 
     @if(Session::has('success_message'))

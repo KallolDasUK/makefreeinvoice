@@ -159,7 +159,9 @@ trait ReportService
             ->where('entry_type', EntryType::$DR)->get();
 
         foreach ($opening_payments as $opening_payment) {
-            $record = ['date' => $opening_payment->date, 'bill' => "-", 'description' => 'Previous Due Payment', 'amount' => 0, 'payment' => $opening_payment->amount];
+            $record = ['date' => $opening_payment->date, 'bill' => "-",
+                'description' => 'Previous Due Payment', 'amount' => 0,
+                'payment' => $opening_payment->amount];
             $records[] = (object)$record;
         }
         foreach (VendorAdvancePayment::query()->where('vendor_id', $vendor_id)->get() as $customerAdvancePayment) {
