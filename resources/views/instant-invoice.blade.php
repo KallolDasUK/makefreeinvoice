@@ -1498,6 +1498,8 @@
     @verbatim
         <div style="background: #efefef">
             <h1 class="d-none">Invoice Generator - Free Invoice Pedia</h1>
+            <p class="d-none">The world's simplest way to invoice customers, from your phone or laptop. Save time, stay
+                organized and look professional!</p>
 
             <div id="app" style="margin-top: 118px;">
 
@@ -1516,10 +1518,9 @@
                      contenteditable="true">
                     <form name="invoiceGenerator" class="inv-generator">
 
-
-                        <div class="comp-addr-outer clearfix">
-                            <div class="vtop comp-addr-invoice">
-                                <div class="float-right pull-right">
+                        <div class="row">
+                            <div class="col">
+                                <div class="">
                                     <input hidden id="logo" type='file' v-on:change="readURL"/>
                                     <label for="logo">
                                         <div
@@ -1531,91 +1532,60 @@
                                         </div>
                                     </label>
                                 </div>
+                            </div>
+                            <div class="col">
                                 <input class="c-name form-control" type="text"
                                        v-model="title"
                                        tabindex="5" id="title"
                                        name="title"
                                        data-json-node="title" data-is-array="false"
                                        style="background-image: url(&quot;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABHklEQVQ4EaVTO26DQBD1ohQWaS2lg9JybZ+AK7hNwx2oIoVf4UPQ0Lj1FdKktevIpel8AKNUkDcWMxpgSaIEaTVv3sx7uztiTdu2s/98DywOw3Dued4Who/M2aIx5lZV1aEsy0+qiwHELyi+Ytl0PQ69SxAxkWIA4RMRTdNsKE59juMcuZd6xIAFeZ6fGCdJ8kY4y7KAuTRNGd7jyEBXsdOPE3a0QGPsniOnnYMO67LgSQN9T41F2QGrQRRFCwyzoIF2qyBuKKbcOgPXdVeY9rMWgNsjf9ccYesJhk3f5dYT1HX9gR0LLQR30TnjkUEcx2uIuS4RnI+aj6sJR0AM8AaumPaM/rRehyWhXqbFAA9kh3/8/NvHxAYGAsZ/il8IalkCLBfNVAAAAABJRU5ErkJggg==&quot;); background-repeat: no-repeat; background-attachment: scroll; background-size: 16px 18px; background-position: 98% 50%; cursor: auto;">
+
                             </div>
-                            <div class="comp-addr-inner">
-                                <input type="text" id="company_name" class="adr bld f20 form-control"
-                                       style="height: 30px"
-                                       tabindex="1"
-                                       autofocus="focus"
-                                       placeholder="Your Company"
-                                       name="company_name"
-                                       v-model="company.company"
-                                       data-json-node="company_name" data-is-array="false">
-                                <small id="address1_err" class="text-danger hide">Please fill in your company’s
-                                    name</small>
-                                <input type="text" id="custName" class="adr form-control" tabindex="2"
-                                       placeholder="Your Name"
-                                       v-model="company.name"
-
-                                       name="user_name"
-                                       data-json-node="user_name" data-is-array="false">
-
-                                <input type="text" id="address2" class="adr form-control" tabindex="3"
-                                       placeholder="Company’s Address"
-                                       v-model="company.address1"
-                                       name="company_address_1"/>
-                                <input type="text" class="adr form-control" tabindex="4"
-                                       placeholder="City, State Zip"
-                                       v-model="company.address2"
-
-                                       name="company_address_2">
-
-                                <input type="text" class="adr form-control" tabindex="4" id="companyCountry"
-                                       placeholder="Country"
-                                       v-model="company.country"
-
-                                       name="company_country" data-json-node="company_country" data-is-array="false"
-                                >
-                                <br>
-                            </div>
-
                         </div>
-                        <ul class="pull-left bill-addr">
-                            <li class="adr-lft pull-left">
-                                <input type="text" value="Bill To:" id="billToLabel"
-                                       class="adr bill-to bld form-control"
-                                       tabindex="6"
-                                       name="bill_to_label"
-                                       data-json-node="bill_to_label" data-is-array="false">
-                                <input type="text" id="billingAddress1" class="adr form-control" tabindex="6"
-                                       placeholder="Your Client’s Company"
-                                       name="customer_name"
-                                       v-model="bill.company"
-                                       data-json-node="customer_name" data-is-array="false">
-                                <small id="billingAddress1_err" class="text-danger hide">Please fill in your client’s
-                                    name
-                                    or
-                                    their
-                                    company name</small>
 
-                                <input type="text" id="billingAddress2" class="adr form-control" tabindex="7"
-                                       placeholder="Client’s Address"
+                        <ul class="row justify-content-around align-items-center">
+                            <div class="col-5">
+                                <div class="">
+                                    <input type="text" id="company_name" class="adr bld f20 form-control"
+                                           style="height: 30px"
+                                           tabindex="1"
+                                           autofocus="focus"
+                                           placeholder="Your Company"
+                                           name="company_name"
+                                           v-model="company.company"
+                                           data-json-node="company_name" data-is-array="false">
+                                    <small id="address1_err" class="text-danger hide">Please fill in your company’s
+                                        name</small>
+                                    <input type="text" id="custName" class="adr form-control" tabindex="2"
+                                           placeholder="Your Name"
+                                           v-model="company.name"
 
-                                       v-model="bill.address1"
+                                           name="user_name"
+                                           data-json-node="user_name" data-is-array="false">
 
-                                       name="customer_billing_address_1" data-json-node="customer_billing_address_1"
-                                       data-is-array="false">
-                                <input type="text" class="adr form-control" id="billingAddress3" tabindex="8"
-                                       placeholder="City, State Zip"
+                                    <input type="text" id="address2" class="adr form-control" tabindex="3"
+                                           placeholder="Company’s Address"
+                                           v-model="company.address1"
+                                           name="company_address_1"/>
+                                    <input type="text" class="adr form-control" tabindex="4"
+                                           placeholder="City, State Zip"
+                                           v-model="company.address2"
 
-                                       v-model="bill.address2"
+                                           name="company_address_2">
 
-                                       name="customer_billing_address_2" data-json-node="customer_billing_address_2"
-                                       data-is-array="false">
+                                    <input type="text" class="adr form-control" tabindex="4" id="companyCountry"
+                                           placeholder="Country"
+                                           v-model="company.country"
 
+                                           name="company_country" data-json-node="company_country" data-is-array="false"
+                                    >
+                                    <br>
+                                </div>
 
-                                <input type="text" class="adr form-control" tabindex="10" id="customerCountry"
-                                       placeholder="Country"
-                                       v-model="bill.country"
-                                       name="customer_billing_country">
-                            </li>
-                            <li class="adr-rgt pull-left">
+                            </div>
+
+                            <li class="col-3">
                                 <table width="100%" cellpadding="0" cellspacing="0" class="bill"
                                        style="table-layout: fixed">
                                     <tbody>
@@ -1677,13 +1647,44 @@
                                     </tbody>
                                 </table>
                             </li>
+                            <li class="col-4" style="text-align: right">
+                                <input type="text" value="Bill To:" id="billToLabel"
+                                       class="adr bill-to bld form-control text-right"
+                                       tabindex="6">
+                                <input type="text" id="billingAddress1" class="adr form-control" tabindex="6"
+                                       placeholder="Your Client’s Company"
+                                       name="customer_name"
+                                       v-model="bill.company" style="text-align: right">
+                                <small id="billingAddress1_err" class="text-danger hide">Please fill in your client’s
+                                    name
+                                    or
+                                    their
+                                    company name</small>
+
+                                <input type="text" id="billingAddress2" class="adr form-control" tabindex="7"
+                                       placeholder="Client’s Address"
+
+                                       v-model="bill.address1"
+                                       style="text-align: right">
+                                <input type="text" class="adr form-control" id="billingAddress3" tabindex="8"
+                                       placeholder="City, State Zip"
+
+                                       v-model="bill.address2"
+                                       style="text-align: right">
+
+
+                                <input type="text" class="adr form-control" tabindex="10" id="customerCountry"
+                                       placeholder="Country"
+                                       v-model="bill.country"
+                                       style="text-align: right">
+                            </li>
                         </ul>
 
                         <div class="lineItemDIV">
                             <table width="100%" cellpadding="0" cellspacing="0" class="column"
                                    style="table-layout: fixed">
                                 <thead>
-                                <tr class="hd">
+                                <tr class="hd " style="text-align: center">
 
                                     <td width="40%">
                                         <input style="text-align:left; margin-left: 10px!important;" type="text"
@@ -1700,7 +1701,7 @@
                                                tabindex="19"
 
 
-                                               style="height: 20px!important;"
+                                               style="height: 20px!important;text-align: center"
                                                name="quantity"
                                                data-json-node="quantity" data-is-array="false"
                                                data-parent-json="line_items_header">
@@ -1709,7 +1710,7 @@
                                         <input type="text" value="Rate" id="itemRateLabel" class="bld w100 text-left"
                                                tabindex="19"
 
-                                               style="height: 20px!important;"
+                                               style="height: 20px!important;text-align: center"
 
                                                name="rate"
                                                data-json-node="rate" data-is-array="false"
@@ -1720,19 +1721,19 @@
                                     <td width="18%">
                                         <input type="text" value="Amount" id="itemAmtLabel"
                                                class="bld w100 text-right form-control"
-                                               style="text-align:right;" tabindex="19"
+                                               style="text-align:center;" tabindex="19"
                                         >
                                     </td>
                                     <td width="18%">
                                         <input type="text" value="VAT %" id="itemAmtLabel"
                                                class="bld w100 text-right form-control"
-                                               style="text-align:right;" tabindex="19"
+                                               style="text-align:center;" tabindex="19"
                                         >
                                     </td>
                                     <td width="18%">
                                         <input type="text" value="TOTAL" id="itemAmtLabel"
                                                class="bld w100 text-right form-control"
-                                               style="text-align:right;" tabindex="19"
+                                               style="text-align:center;" tabindex="19"
                                         >
                                     </td>
 
@@ -1760,7 +1761,7 @@
                                     </td>
                                     <td>
                                         <input type="number" step="any" class=" form-control text-right"
-                                               style="font-size: 18px;font-weight: bolder"
+                                               style="font-size: 18px;font-weight: bolder;text-align: center"
                                                v-model="items[index].qnt"
                                                @blur="items[index].qnt = items[index].qnt.toFixed(2)"
 
@@ -1768,8 +1769,8 @@
                                     </td>
                                     <td>
                                         <input
-                                            type="number" step="any" class=" form-control text-right"
-                                            style="font-size: 18px;font-weight: bolder"
+                                            type="number" step="any" class=" form-control "
+                                            style="font-size: 18px;font-weight: bolder;text-align: center"
                                             v-model="items[index].price"
                                             @blur="items[index].price = items[index].price.toFixed(2)"
                                             tabindex="20">
@@ -1778,21 +1779,21 @@
 
                                     <td>
                                         <input type="number" step="any" class=" form-control text-right"
-                                               style="font-size: 18px;font-weight: bolder"
+                                               style="font-size: 18px;font-weight: bolder;text-align: center"
                                                :value="items[index].amount"
                                                readonly
                                                tabindex="20">
                                     </td>
                                     <td>
                                         <input type="number" step="any" class=" form-control text-right"
-                                               style="font-size: 18px;font-weight: bolder"
+                                               style="font-size: 18px;font-weight: bolder;text-align: center"
                                                v-model="items[index].vat"
                                                @blur="items[index].vat = items[index].vat.toFixed(2)"
                                                tabindex="20">
                                     </td>
                                     <td>
                                         <input type="number" step="any" class=" form-control text-right"
-                                               style="font-size: 18px;font-weight: bolder"
+                                               style="font-size: 18px;font-weight: bolder;text-align: center"
                                                readonly
                                                :value="items[index].total"
                                                tabindex="20">
@@ -2083,9 +2084,11 @@
                                 .attr('src', e.target.result)
                                 .width(120)
                                 .height(110);
+                            localStorage.setItem('logo', $('#blah').attr('src'))
                         };
 
                         reader.readAsDataURL(input.files[0]);
+
                     }
                 }
             },
@@ -2115,6 +2118,7 @@
                 let billCache = localStorage.getItem('bill')
                 let titleCache = localStorage.getItem('title')
                 let notesCache = localStorage.getItem('notes')
+                let logoCache = localStorage.getItem('logo')
                 let termsCache = localStorage.getItem('terms')
                 let invoice_dateCache = localStorage.getItem('invoice_date')
                 let due_dateCache = localStorage.getItem('due_date')
@@ -2138,6 +2142,10 @@
                 }
                 if (termsCache) {
                     this.terms = termsCache;
+                }
+                if (logoCache) {
+
+                    $('#blah').attr('src', logoCache)
                 }
             }
         }
