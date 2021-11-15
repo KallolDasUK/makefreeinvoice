@@ -1545,7 +1545,7 @@
                         </div>
 
                         <ul class="row justify-content-around align-items-center">
-                            <div class="col-5">
+                            <div class="col-4">
                                 <div class="">
                                     <input type="text" id="company_name" class="adr bld f20 form-control"
                                            style="height: 30px"
@@ -1585,7 +1585,7 @@
 
                             </div>
 
-                            <li class="col-3">
+                            <li class="col-4">
                                 <table width="100%" cellpadding="0" cellspacing="0" class="bill"
                                        style="table-layout: fixed">
                                     <tbody>
