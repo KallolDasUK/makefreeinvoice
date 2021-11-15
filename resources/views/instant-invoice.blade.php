@@ -1534,7 +1534,7 @@
                                 </div>
                             </div>
                             <div class="col">
-                                <input class="c-name form-control" type="text"
+                                <input class="c-name form-control ml-2" type="text"
                                        v-model="title"
                                        tabindex="5" id="title"
                                        name="title"
@@ -1543,20 +1543,19 @@
 
                             </div>
                         </div>
+                        <input type="text" id="company_name" class="adr bld f20 form-control"
+                               style="height: 30px"
+                               tabindex="1"
+                               autofocus="focus"
+                               placeholder="Your Company"
+                               name="company_name"
+                               v-model="company.company">
 
                         <ul class="row justify-content-around align-items-center">
                             <div class="col-4">
                                 <div class="">
-                                    <input type="text" id="company_name" class="adr bld f20 form-control"
-                                           style="height: 30px"
-                                           tabindex="1"
-                                           autofocus="focus"
-                                           placeholder="Your Company"
-                                           name="company_name"
-                                           v-model="company.company"
-                                           data-json-node="company_name" data-is-array="false">
-                                    <small id="address1_err" class="text-danger hide">Please fill in your company’s
-                                        name</small>
+
+
                                     <input type="text" id="custName" class="adr form-control" tabindex="2"
                                            placeholder="Your Name"
                                            v-model="company.name"
