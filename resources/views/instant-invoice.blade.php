@@ -879,7 +879,7 @@
             }
 
             .title {
-                font-size: 18px
+
             }
 
             .logo-tp {
@@ -1445,7 +1445,10 @@
             #section-to-print, #section-to-print * {
                 visibility: visible;
             }
-
+            .hideFromPrint{
+                visibility: hidden;
+                display: none;
+            }
             #add-new-item {
                 visibility: hidden;
                 display: none;
@@ -1760,7 +1763,7 @@
                                     </td>
                                     <td>
                                         <input type="number" step="any" class=" form-control text-right"
-                                               style="font-size: 18px;font-weight: bolder;text-align: center"
+                                               style="font-weight: bolder;text-align: center"
                                                v-model="items[index].qnt"
                                                @blur="items[index].qnt = items[index].qnt.toFixed(2)"
 
@@ -1769,7 +1772,7 @@
                                     <td>
                                         <input
                                             type="number" step="any" class=" form-control "
-                                            style="font-size: 18px;font-weight: bolder;text-align: center"
+                                            style="font-weight: bolder;text-align: center"
                                             v-model="items[index].price"
                                             @blur="items[index].price = items[index].price.toFixed(2)"
                                             tabindex="20">
@@ -1778,21 +1781,21 @@
 
                                     <td>
                                         <input type="number" step="any" class=" form-control text-right"
-                                               style="font-size: 18px;font-weight: bolder;text-align: center"
+                                               style="font-weight: bolder;text-align: center"
                                                :value="items[index].amount"
                                                readonly
                                                tabindex="20">
                                     </td>
                                     <td>
                                         <input type="number" step="any" class=" form-control text-right"
-                                               style="font-size: 18px;font-weight: bolder;text-align: center"
+                                               style="font-weight: bolder;text-align: center"
                                                v-model="items[index].vat"
                                                @blur="items[index].vat = items[index].vat.toFixed(2)"
                                                tabindex="20">
                                     </td>
                                     <td>
                                         <input type="number" step="any" class=" form-control text-right"
-                                               style="font-size: 18px;font-weight: bolder;text-align: center"
+                                               style="font-weight: bolder;text-align: center"
                                                readonly
                                                :value="items[index].total"
                                                tabindex="20">
@@ -1828,10 +1831,10 @@
                                     <td></td>
                                     <td></td>
                                     <td></td>
-                                    <td class=" text-right"><b class="font-weight-bolder" style="font-size: 18px">Sub
+                                    <td class=" text-right"><b class="font-weight-bolder" style="">Sub
                                             Total</b></td>
                                     <td class=" text-right"><b class="font-weight-bolder "
-                                                               style="font-size: 18px;margin-right: 15px">{{ sub_total }}</b>
+                                                               style="margin-right: 15px">{{ sub_total }}</b>
                                     </td>
 
                                 </tr>
@@ -1842,10 +1845,10 @@
                                     <td></td>
                                     <td></td>
                                     <td></td>
-                                    <td class=" text-right"><b class="font-weight-bolder" style="font-size: 18px">
+                                    <td class=" text-right"><b class="font-weight-bolder" style="">
                                             Vat</b></td>
                                     <td class=" text-right"><b class="font-weight-bolder "
-                                                               style="font-size: 18px;margin-right: 15px">{{ vat }}</b>
+                                                               style="margin-right: 15px">{{ vat }}</b>
                                     </td>
 
                                 </tr>
@@ -1854,21 +1857,30 @@
                                     <td></td>
                                     <td></td>
                                     <td></td>
-                                    <td class=" text-right"><b class="font-weight-bolder" style="font-size: 18px">Discount</b>
-                                        <select name="" id="" v-model="discount_type">
+                                    <td class=" text-right"><b class="font-weight-bolder" style="">Discount</b>
+                                        <select class="hideFromPrint" name="" id="" v-model="discount_type">
                                             <option value="flat">Flat</option>
                                             <option value="%">%</option>
                                         </select>
                                     </td>
-                                    <td class=" text-right">
-                                        <b class="font-weight-bolder " style="font-size: 18px;margin-right: 15px">
+                                    <td class=" text-right mr-4">
+                                        <b class="" style="">
                                             <input type="number"
                                                    v-model="discount"
                                                    step="any"
-                                                   class="form-control text-right d-inline" tabindex="20"
+                                                   style="font-weight: bold"
+                                                   class="form-control text-right hideFromPrint" tabindex="20"
                                                    @blur="discount = discount.toFixed(2)"
-                                                   style="font-size: 18px; font-weight: bolder;">
-                                            ({{ discountValue }})
+                                                  >
+                                            <input type="number"
+                                                   readonly
+                                                   v-model="discountValue"
+                                                   step="any"
+                                                   style="font-weight: bold"
+                                                   class="form-control text-right " tabindex="20"
+
+                                            >
+
                                         </b>
                                     </td>
 
@@ -1879,9 +1891,32 @@
                                     <td></td>
                                     <td></td>
                                     <td class=" text-right"><b class="font-weight-bolder"
-                                                               style="font-size: 18px">Total</b></td>
+                                                               style="">Total</b></td>
                                     <td class=" text-right"><b class="font-weight-bolder "
-                                                               style="font-size: 18px;margin-right: 15px">{{ total }}</b>
+                                                               style="margin-right: 15px">{{ total }}</b>
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td class=" text-right"><b class="font-weight-bolder"
+                                                               style="">Paid</b></td>
+                                    <td class=" text-right"><b class="font-weight-bolder "
+                                                               style="margin-right: 15px">{{ total }}</b>
+                                    </td>
+
+                                </tr>  <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td class=" text-right"><b class="font-weight-bolder"
+                                                               style="">Due</b></td>
+                                    <td class=" text-right"><b class="font-weight-bolder "
+                                                               style="margin-right: 15px">0.00</b>
                                     </td>
 
                                 </tr>
