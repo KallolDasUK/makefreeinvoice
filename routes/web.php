@@ -614,6 +614,8 @@ Route::group(['middleware' => 'auth:web', 'prefix' => 'app'], function () {
  *  php artisan create:scaffold Blog  --layout-name="layouts.app" --with-migration
  *
  * */
+
+Route::view('/instant-invoice','instant-invoice');
 Route::get('p/{slug}', [BlogsController::class, 'show'])->name('blogs.blog.show')->where('id', '[0-9]+');
 
 
