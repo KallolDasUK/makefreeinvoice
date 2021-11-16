@@ -390,21 +390,21 @@
                                             </td>
                                             <td class=" ">
 
-                                                    <input type="number"
-                                                           v-model="discount"
-                                                           step="any"
-                                                           style="font-size: 16px;color:black;margin-left:15px;text-align: right"
-                                                           class="form-control text-right hideFromPrint" tabindex="20"
-                                                           @blur="discount = discount.toFixed(2)"
-                                                    >
-                                                    <input type="number"
-                                                           readonly
-                                                           v-model="discountValue"
-                                                           step="any"
-                                                           style="font-size: 16px;color:black;margin-left:15px;text-align: right"
-                                                           class="form-control text-right " tabindex="20"
+                                                <input type="number"
+                                                       v-model="discount"
+                                                       step="any"
+                                                       style="font-size: 16px;color:black;margin-left:15px;text-align: right"
+                                                       class="form-control text-right hideFromPrint" tabindex="20"
+                                                       @blur="discount = discount.toFixed(2)"
+                                                >
+                                                <input type="number"
+                                                       readonly
+                                                       v-model="discountValue"
+                                                       step="any"
+                                                       style="font-size: 16px;color:black;margin-left:15px;text-align: right"
+                                                       class="form-control text-right " tabindex="20"
 
-                                                    >
+                                                >
 
 
                                             </td>
@@ -476,7 +476,7 @@
                                         </div>
                                     </div>
                                     <div style="float: right;margin-top: 50px">
-                                        Powered By invoicepedia.com
+
                                     </div>
                                 </div>
 
@@ -492,10 +492,52 @@
 
             <div class="card shadow rounded border-0  ">
                 <div class="card-body">
-                    <h5 class="card-title"><b>Join Now</b> and track your invoices for free</h5>
-                    {{--                            @if($errors->any())--}}
-                    {{--                                {{ implode('', $errors->all('<div>:message</div>')) }}--}}
-                    {{--                            @endif--}}
+
+                    <h5 class="card-title"><b  style="color: #065a92">Join Now</b>, <b>Why should you log in?</b></h5>
+
+
+
+                    <div class="item-list">
+                        <div class="item">
+                            <div class="item-label">
+                                Invoices
+                            </div>
+                            <div class="item-description">Manage and email invoices to your client</div>
+                        </div>
+                        <div class="item">
+                            <div class="item-label">
+                                Products
+                            </div>
+                            <div class="item-description">Track Stock, Purchase, Sell & Manage Inventory</div>
+                        </div>
+                        <div class="item">
+                            <div class="item-label">
+                                Customers / Suppliers
+                            </div>
+                            <div class="item-description">Add, Delete, Edit and Collect/Pay from customers / suppliers and email invoices</div>
+                        </div>
+
+                        <div class="item">
+                            <div class="item-label">
+                               Purchase
+                            </div>
+                            <div class="item-description">Track your purchase products and get detail reports.</div>
+                        </div>
+                        <div class="item">
+                            <div class="item-label">
+                               NO LIMIT
+                            </div>
+                            <div class="item-description">Create unlimited invoices, customers, suppliers, purchase, expense entry and much more</div>
+                        </div>
+                        <div class="item">
+                            <div class="item-label">
+                               14/7 SUPPORT
+                            </div>
+                            <div class="item-description"> Get in touch with our team within a moment.</div>
+                        </div>
+                    </div>
+
+
                     <div>
                         <form class="login-form mt-4" action="{{ route('register') }}" method="post">
                             @csrf
@@ -739,9 +781,36 @@
                     })
                 },
                 print() {
+                    $('input:text').each(function () {
+                        let el = $(this).val();
+                        if (!el) {
+                            console.log($(this))
+                            $(this).toggle()
+                        }
+
+                    })
+
                     window.print()
+                    $('input:text').each(function () {
+                        let el = $(this).val();
+                        if (!el) {
+                            console.log($(this))
+                            $(this).toggle()
+                        }
+
+                    })
+                    // $('input:text[value=""]').show()
+
                 },
                 save() {
+                    $('input:text').each(function () {
+                        let el = $(this).val();
+                        if (!el) {
+                            console.log($(this))
+                            $(this).toggle()
+                        }
+
+                    })
                     $('.hideFromPrint').toggle()
                     var element = document.getElementById('section-to-print');
                     let invoice_number = "InvoicePedia"
@@ -753,6 +822,14 @@
                     };
                     html2pdf(element, opt);
                     $('.hideFromPrint').toggle()
+                    $('input:text').each(function () {
+                        let el = $(this).val();
+                        if (!el) {
+                            console.log($(this))
+                            $(this).toggle()
+                        }
+
+                    })
 
 
                 },
