@@ -36,6 +36,13 @@
           crossorigin="anonymous" referrerpolicy="no-referrer"/>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"
             integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+    <link href='http://fonts.googleapis.com/css?family=Orbitron:400,700,900' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/fallingtextrotator.css') }}" />
+
+    <script src="{{ asset('js/jquery.lettering-0.6.1.min.js') }}"></script>
+
+    <script src="{{ asset('js/fallingtextrotator.js') }}"></script>
     <link rel="icon" type="image/png" href="{{ asset('favicon.ico') }}"/>
     <link rel="icon" type="image/png" href="{{ asset('favicon-32x32.png') }}"/>
     <link rel="icon" type="image/png" href="{{ asset('favicon-16x16.png') }}"/>
@@ -84,9 +91,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.2.1/js.cookie.min.js"
             integrity="sha512-Meww2sXqNHxI1+5Dyh/9KAtvI9RZSA4c1K2k5iL02oiPO/RH3Q30L3M1albtqMg50u4gRTYdV4EXOQqXEI336A=="
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-</head>
-@yield('css')
 
+@yield('css')
+</head>
 <body>
 
 <header id="topnav" class="defaultscroll sticky">

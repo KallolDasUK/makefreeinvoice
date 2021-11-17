@@ -1520,7 +1520,7 @@ input[READONLY]:focus {
     left: -10px;
     width: 12px;
     height: 1px;
-    background: #000;
+    background: #0077cc;
 }
 .item-list .item:first-child:after {
     content: "";
