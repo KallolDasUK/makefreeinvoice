@@ -296,6 +296,39 @@ $(document).ready(function () {
         }
         $('.paymentContainer').toggle(100)
     })
+
+    $(document).on('keypress', '.qnt', function (e) {
+        var keyCode = e.keyCode || e.which;
+        if (keyCode === 13) {
+            ractive.addEstimateItem();
+            let index = parseInt($(e.target).attr('index')) + 1
+            $('#itemSelect' + index).select2('open');
+            e.preventDefault();
+            return false;
+        }
+    })
+
+    $(document).on('keyup keypress', '.rate', function (e) {
+        var keyCode = e.keyCode || e.which;
+        if (keyCode === 13) {
+            e.preventDefault();
+            return false;
+        }
+    })
+    $(document).on('keyup keypress', '.unit', function (e) {
+        var keyCode = e.keyCode || e.which;
+        if (keyCode === 13) {
+            e.preventDefault();
+            return false;
+        }
+    })
+    $(document).on('keyup keypress', '.description', function (e) {
+        var keyCode = e.keyCode || e.which;
+        if (keyCode === 13) {
+            e.preventDefault();
+            return false;
+        }
+    })
 })
 
 

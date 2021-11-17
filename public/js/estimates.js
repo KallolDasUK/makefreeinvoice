@@ -76,6 +76,7 @@ var ractive = new Ractive({
         });
 
         $("#estimate_item_table tbody").sortable();
+        $('.qnt').tooltip({'trigger': 'focus', 'title': 'Hit Enter to add new Line'});
 
 
     },
@@ -133,6 +134,8 @@ var ractive = new Ractive({
         }
     }
 });
+$('.qnt').tooltip({'trigger': 'focus', 'title': 'Hit Enter to add new Line'});
+
 var ractiveExtra = new Ractive({
     target: '#extra',
     template: '#extraTemplate',

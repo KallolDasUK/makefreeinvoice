@@ -349,9 +349,9 @@
                                         <tr>
                                             <td>
 
-                                                <div id="add-new-item">
+                                                <div id="add-new-item" class="hideFromPrint">
                                                     <a
-                                                        class=" btn btn-outline-primary btn-sm"
+                                                        class=" btn btn-outline-primary btn-sm hideFromPrint"
                                                         style="cursor:pointer;margin-left:0px;margin-top: -1px;"
                                                         title="Add Row"
                                                         v-on:click="addItem"><span class="fa fa-plus">&nbsp;</span>Add

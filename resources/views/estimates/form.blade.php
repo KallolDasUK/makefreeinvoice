@@ -352,7 +352,7 @@
                             {{ /each }}
         </select>
         </div>
-   <input type="text" value="{{ description }}" style="border: none!important;" class="form-control  input-sm" placeholder="Item Description ...">
+   <input type="text" value="{{ description }}" style="border: none!important;" class="form-control  input-sm description" placeholder="Item Description ...">
             </td>
             <td> <input type="number" step="any" style="text-align: end"  class="form-control  input-sm rate" value="{{ price }}" required></td>
             <td> <input type="number" step="any" style="text-align: end"  class="form-control   input-sm qnt" value="{{ qnt }}" required>
