@@ -1543,7 +1543,7 @@ input[READONLY]:focus {
 .item-list .item .item-label {
     position: relative;
     font-weight: bold;
-    text-transform: uppercase;
+    text-transform: capitalize;
     font-size: 13px;
     color: #0077cc;
 }
