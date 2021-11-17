@@ -496,44 +496,51 @@
                     <h5 class="card-title"><b  style="color: #065a92">Join Now</b>, <b>Why should you log in?</b></h5>
 
 
-
+{{--
+Save Product to our Database
+Save Customer to our Database
+Save your logo and address
+Use unlimited times
+Track your invoice
+Super User Friendly
+&
+All features are absolutely FREE
+--}}
                     <div class="item-list">
                         <div class="item">
                             <div class="item-label">
-                                Invoices
+                                Save Product to our Database
                             </div>
-                            <div class="item-description">Manage and email invoices to your client</div>
                         </div>
                         <div class="item">
                             <div class="item-label">
-                                Products
+                                Save Customer to our Database
                             </div>
-                            <div class="item-description">Track Stock, Purchase, Sell & Manage Inventory</div>
                         </div>
                         <div class="item">
                             <div class="item-label">
-                                Customers / Suppliers
+                                Save your logo and address
                             </div>
-                            <div class="item-description">Add, Delete, Edit and Collect/Pay from customers / suppliers and email invoices</div>
                         </div>
 
                         <div class="item">
                             <div class="item-label">
-                               Purchase
+                                Use unlimited times
                             </div>
-                            <div class="item-description">Track your purchase products and get detail reports.</div>
                         </div>
                         <div class="item">
                             <div class="item-label">
-                               NO LIMIT
+                                Track your invoice
                             </div>
-                            <div class="item-description">Create unlimited invoices, customers, suppliers, purchase, expense entry and much more</div>
                         </div>
                         <div class="item">
                             <div class="item-label">
-                               14/7 SUPPORT
+                                Super User Friendly
                             </div>
-                            <div class="item-description"> Get in touch with our team within a moment.</div>
+                        </div> <div class="item">
+                            <div class="item-label">
+                                All features are absolutely FREE
+                            </div>
                         </div>
                     </div>
 
