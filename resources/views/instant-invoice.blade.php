@@ -488,31 +488,30 @@
             <div class="card shadow rounded border-0  ">
                 <div class="card-body">
 
-                    <h5 class="card-title"><b  style="color: #065a92">Join Now</b>, <b>Why should you log in?</b></h5>
+                    <h5 class="card-title"><b style="color: #065a92">Join Now</b>, <b>Why should you log in?</b></h5>
 
 
-{{--
-Save Product to our Database
-Save Customer to our Database
-Save your logo and address
-Use unlimited times
-Track your invoice
-Super User Friendly
-&
-All features are absolutely FREE
---}}
+                    {{--
+                    Save Product to our Database
+                    Save Customer to our Database
+                    Save your logo and address
+                    Use unlimited times
+                    Track your invoice
+                    Super User Friendly
+                    &
+                    All features are absolutely FREE
+                    --}}
                     <ul id="headline" class="fallingtextrotator" style="height:1em;">
-                        <li>Save Product to our Database</li>
-                        <li>Save Customer to our Database</li>
-                        <li>Save your logo and address</li>
-                        <li>Use unlimited times</li>
+                        <li>Save Product</li>
+                        <li>Save Customer</li>
+                        <li>Save logo and address</li>
                         <li>Track your invoice</li>
+                        <li>Use unlimited times</li>
                         <li>Super User Friendly</li>
-                        <li>All features are absolutely FREE</li>
+                        <li>ABSOLUTELY FREE</li>
                     </ul>
 
 
-                    <p>&nbsp</p>
                     <div class="item-list d-none mt-4">
                         <div class="item">
                             <div class="item-label">
@@ -544,7 +543,8 @@ All features are absolutely FREE
                             <div class="item-label">
                                 Super User Friendly
                             </div>
-                        </div> <div class="item">
+                        </div>
+                        <div class="item">
                             <div class="item-label">
                                 All features are absolutely FREE
                             </div>
@@ -946,12 +946,12 @@ All features are absolutely FREE
     <script>
 
 
-        jQuery(function(){ // on DOM load
+        jQuery(function () { // on DOM load
 
             $('#headline').fallingtextrotator({
                 pause: 3000,
                 cycles: 2,
-                ontextchange:function(msgindex, msg, eachchar){
+                ontextchange: function (msgindex, msg, eachchar) {
                     //console.log(msgindex, msg, eachchar)
                 }
             })

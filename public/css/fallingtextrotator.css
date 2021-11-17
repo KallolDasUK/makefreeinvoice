@@ -3,7 +3,7 @@ ul.fallingtextrotator{
     text-shadow: 2px 2px #C0F5A9, 3px 3px #C0F5A9, 4px 4px #C0F5A9, 5px 5px #C0F5A9, 6px 6px #C0F5A9;
     font-size: 20px; /* font size of text */
     color: #217C23;
-    letter-spacing: 10px;
+    letter-spacing: 6px;
     font-weight: 800;
     text-transform: initial;
     position: relative;
