@@ -7,11 +7,6 @@
     <link rel="stylesheet" href="{{ asset('css/instant-invoice.css') }}">
     <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
 
-
-
-
-
-
 @endsection
 @section('content')
     <h1 class="d-none">Invoice Generator - Free Invoice Pedia</h1>
@@ -506,7 +501,19 @@ Super User Friendly
 &
 All features are absolutely FREE
 --}}
-                    <div class="item-list">
+                    <ul id="headline" class="fallingtextrotator" style="height:1em;">
+                        <li>Save Product to our Database</li>
+                        <li>Save Customer to our Database</li>
+                        <li>Save your logo and address</li>
+                        <li>Use unlimited times</li>
+                        <li>Track your invoice</li>
+                        <li>Super User Friendly</li>
+                        <li>All features are absolutely FREE</li>
+                    </ul>
+
+
+                    <p>&nbsp</p>
+                    <div class="item-list d-none mt-4">
                         <div class="item">
                             <div class="item-label">
                                 Save Product to our Database
@@ -935,6 +942,21 @@ All features are absolutely FREE
         $(document).ready(function () {
             $('#company_name').focus()
         })
+    </script>
+    <script>
+
+
+        jQuery(function(){ // on DOM load
+
+            $('#headline').fallingtextrotator({
+                pause: 3000,
+                cycles: 2,
+                ontextchange:function(msgindex, msg, eachchar){
+                    //console.log(msgindex, msg, eachchar)
+                }
+            })
+        })
+
     </script>
 @endsection
 
