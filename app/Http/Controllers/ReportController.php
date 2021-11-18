@@ -87,14 +87,14 @@ class ReportController extends AccountingReportsController
 
         $title = "Vendor Statement";
 
-        if ($vendor_id){
+        if ($vendor_id) {
             $records = $this->getVendorStatement($start_date, $end_date, $vendor_id);
             $previous = $this->getVendorOpeningBalance($start_date, $end_date, $vendor_id);
             $opening = $previous->amount - $previous->payment + $previous->balance;
-        }else{
+        } else {
             $records = [];
             $previous = 0;
-            $opening =0;
+            $opening = 0;
         }
 
         return view('reports.vendor-statement', compact('title', 'start_date', 'end_date', 'vendors', 'records', 'vendor_id', 'vendor', 'previous', 'opening'));
@@ -105,12 +105,15 @@ class ReportController extends AccountingReportsController
         $start_date = $request->start_date ?? today()->startOfYear()->toDateString();
         $end_date = $request->end_date ?? today()->toDateString();
         $report_type = $request->report_type ?? 'accrual';
+        $brand_id = $request->brand_id;
+        $category_id = $request->category_id;
+        $product_id = $request->product_id;
         $title = "Stock Report";
 
-        $records = $this->getStockReport($start_date, $end_date);
+        $records = $this->getStockReport($start_date, $end_date, $brand_id, $category_id, $product_id);
 
 
-        return view('reports.stock-report', compact('title', 'start_date', 'end_date', 'report_type', 'records'));
+        return view('reports.stock-report', compact('title', 'start_date', 'end_date', 'report_type', 'product_id', 'records', 'brand_id', 'category_id'));
     }
 
 

@@ -320,11 +320,21 @@ trait ReportService
         return $opening_stock;
     }
 
-    public function getStockReport($start_date, $end_date)
+    public function getStockReport($start_date, $end_date, $brand_id, $category_id, $product_id)
     {
         $records = [];
 
-        $products = Product::all();
+        $products = Product::query()
+            ->when($brand_id != null, function ($query) use ($brand_id) {
+                return $query->where('brand_id', $brand_id);
+            })
+            ->when($category_id != null, function ($query) use ($category_id) {
+                return $query->where('category_id', $category_id);
+            })
+            ->when($product_id != null, function ($query) use ($product_id) {
+                return $query->where('id', $product_id);
+            })
+            ->get();
         foreach ($products as $product) {
             $record = ['name' => $product->name, 'price' => $product->price, 'opening_stock' => 0, 'purchase' => 0, 'sold' => 0, 'added' => 0, 'removed' => 0, 'stock' => 0, 'stockValue' => 0];
 
