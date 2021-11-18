@@ -84,7 +84,42 @@
 
                         <div class="col">
                             <div class="row align-items-center">
-                                <div class="input-daterange input-group" id="start_date">
+                                <div class="col-4 ">
+                                    <select id="product_id" name="product_id" class="form-control mr-2 ">
+                                        <option></option>
+                                        @foreach(\App\Models\Product::all() as $product)
+                                            <option value="{{ $product->id }}"
+                                                    @if($product->id == $product_id) selected @endif>
+                                                {{ $product->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-4">
+                                    <select id="brand_id" name="brand_id" class="form-control mr-2 ">
+                                        <option></option>
+                                        @foreach(\App\Models\Brand::all() as $brand)
+                                            <option value="{{ $brand->id }}"
+                                                    @if($brand->id == $brand_id) selected @endif>
+                                                {{ $brand->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-4 ">
+                                    <select id="category_id" name="category_id" class="form-control mr-2"
+                                    >
+                                        <option></option>
+                                        @foreach(\App\Models\Category::all() as $category)
+                                            <option value="{{ $category->id }}"
+                                                    @if($category->id == $category_id) selected @endif>
+                                                {{ $category->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                <div class="input-daterange col-12 input-group  mt-4" id="start_date">
                                     <input type="text" class="form-control col-2" name="start_date"
                                            value="{{ $start_date??'' }}"
                                            placeholder="Start">
@@ -277,7 +312,9 @@
         });
 
         $('[data-toggle="popover"]').popover()
-
+        $('#category_id').select2({placeholder: '-- Category --', allowClear: true})
+        $('#brand_id').select2({placeholder: '-- Brand --', allowClear: true})
+        $('#product_id').select2({placeholder: '-- Product --', allowClear: true})
 
     </script>
 @endpush
