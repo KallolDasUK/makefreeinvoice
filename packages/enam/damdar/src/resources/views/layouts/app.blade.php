@@ -1220,6 +1220,7 @@
 
     $(document).ready(function () {
         $('.searchable').select2({placeholder: '-- Choose --', allowClear: true})
+        $('#user_id').select2({placeholder: '--By--', allowClear: true})
 
 
         $('.invoice-container[contenteditable=true]').tooltip({'title': 'Click to EDIT'});

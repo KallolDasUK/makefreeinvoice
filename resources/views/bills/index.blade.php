@@ -135,6 +135,18 @@
                             @endforeach
                         </select>
                     </div>
+                    @if(auth()->user()->is_admin)
+                        <div class="mx-2">
+                            <select name="user_id" id="user_id" class="form-control"
+                                    style="max-width: 130px">
+                                <option></option>
+                                @foreach(\App\Models\User::query()->where('client_id',auth()->user()->client_id)->get() as $user)
+                                    <option value="{{ $user->id }}"
+                                            @if($user->id == $user_id) selected @endif>{{ $user->name }} {{ $user->email }} </option>
+                                @endforeach
+                            </select>
+                        </div>
+                    @endif
                     <div class="col">
                         <div class="row align-items-center">
                             <div class="input-daterange input-group" id="start_date">

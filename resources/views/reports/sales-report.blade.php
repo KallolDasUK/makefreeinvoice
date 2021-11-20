@@ -84,9 +84,10 @@
 
                         <div class="col">
                             <div class="row align-items-center">
-                                <div class="col">
+                                <div class="mx-2">
                                     <select id="customer_id" name="customer_id" class=" form-control m-2"
 
+                                            style="max-width: 130px"
                                     >
                                         <option></option>
                                         @foreach($customers as $customer)
@@ -95,8 +96,10 @@
                                         @endforeach
                                     </select>
                                 </div>
-                                <div class="col">
-                                    <select id="invoice_id" name="invoice_id" class=" form-control mr-2">
+                                <div class="mx-2">
+                                    <select id="invoice_id" name="invoice_id" class=" form-control "
+                                            style="max-width: 130px"
+                                    >
                                         <option></option>
                                         @foreach($invoices as $invoice)
                                             <option value="{{ $invoice->invoice_number }}"
@@ -112,8 +115,10 @@
                                         @endforeach
                                     </select>
                                 </div>
-                                <div class="col">
-                                    <select id="payment_status" name="payment_status" class="form-control mr-2"
+                                <div class="mx-2">
+                                    <select id="payment_status" name="payment_status" class="form-control "
+                                            style="max-width: 130px"
+
                                     >
                                         <option></option>
                                         @foreach([\App\Models\Invoice::Paid,\App\Models\Invoice::UnPaid,\App\Models\Invoice::Partial] as $status)
@@ -124,6 +129,18 @@
                                         @endforeach
                                     </select>
                                 </div>
+                                @if(auth()->user()->is_admin)
+                                    <div class="mx-2">
+                                        <select name="user_id" id="user_id" class="form-control"
+                                                style="max-width: 130px">
+                                            <option></option>
+                                            @foreach(\App\Models\User::query()->where('client_id',auth()->user()->client_id)->get() as $user)
+                                                <option value="{{ $user->id }}"
+                                                        @if($user->id == $user_id) selected @endif>{{ $user->name }} {{ $user->email }} </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                @endif
                                 <div class="col-3 row">
                                     <div class="input-daterange input-group" id="start_date">
 
