@@ -1,5 +1,5 @@
 @php($title="Instant Invoice Generator - InvoicePedia")
-@extends('landing.layouts.app')
+@extends('landing.layouts.app',['hide_messenger'=>true])
 
 
 @section('css')

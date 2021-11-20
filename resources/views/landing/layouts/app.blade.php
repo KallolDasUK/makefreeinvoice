@@ -15,7 +15,8 @@
     {{--    <link href="https://shreethemes.in/landrick/layouts/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>--}}
     <link href="https://shreethemes.in/landrick/landing/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
 
-    <!-- Icons -->
+    @php($hide_messenger=$hide_messenger??false)
+<!-- Icons -->
     <link href="{{ asset('css/materialicons.css') }}" rel="stylesheet"
           type="text/css"/>
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v3.0.6/css/line.css">
@@ -38,7 +39,7 @@
             integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 
     <link href='http://fonts.googleapis.com/css?family=Orbitron:400,700,900' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="{{ asset('css/fallingtextrotator.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/fallingtextrotator.css') }}"/>
 
     <script src="{{ asset('js/jquery.lettering-0.6.1.min.js') }}"></script>
 
@@ -92,7 +93,7 @@
             integrity="sha512-Meww2sXqNHxI1+5Dyh/9KAtvI9RZSA4c1K2k5iL02oiPO/RH3Q30L3M1albtqMg50u4gRTYdV4EXOQqXEI336A=="
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-@yield('css')
+    @yield('css')
 </head>
 <body>
 
@@ -234,27 +235,28 @@
 <!-- Your Chat plugin code -->
 <div id="fb-customer-chat" class="fb-customerchat">
 </div>
+@if(!$hide_messenger)
+    <script>
+        var chatbox = document.getElementById('fb-customer-chat');
+        chatbox.setAttribute("page_id", "108404041579131");
+        chatbox.setAttribute("attribution", "biz_inbox");
 
-<script>
-    var chatbox = document.getElementById('fb-customer-chat');
-    chatbox.setAttribute("page_id", "108404041579131");
-    chatbox.setAttribute("attribution", "biz_inbox");
+        window.fbAsyncInit = function () {
+            FB.init({
+                xfbml: true,
+                version: 'v11.0'
+            });
+        };
 
-    window.fbAsyncInit = function () {
-        FB.init({
-            xfbml: true,
-            version: 'v11.0'
-        });
-    };
-
-    (function (d, s, id) {
-        var js, fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) return;
-        js = d.createElement(s);
-        js.id = id;
-        js.src = 'https://connect.facebook.net/en_US/sdk/xfbml.customerchat.js';
-        fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));
-</script>
+        (function (d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s);
+            js.id = id;
+            js.src = 'https://connect.facebook.net/en_US/sdk/xfbml.customerchat.js';
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+    </script>
+@endif
 </body>
 </html>

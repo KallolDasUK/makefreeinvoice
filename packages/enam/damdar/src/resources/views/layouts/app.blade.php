@@ -860,15 +860,6 @@
                 @endif
                 {{ $title??'' }} </b>
 
-            {{--            @if(!optional(auth()->user())->subscribed('default'))--}}
-            {{--                <div><p class="text-center">--}}
-            {{--                        <strong><a href="javascript:;"--}}
-            {{--                                   class="subscribeModal btn btn-sm btn-info">Upgrade to Pro</a> & unlock the--}}
-            {{--                            treasure</strong></p></div>--}}
-            {{--                --}}{{-- https://www.youtube.com/watch?v=UPXeH8r9Jhc&list=PL5FPulw8-MaotxlscrDUAmT-l3a_J8bxs --}}
-            {{--            @else--}}
-            {{--                <div class="">&nbsp;</div>--}}
-            {{--            @endif--}}
             @if($country == "Bangladesh")
                 <div>
                     <a href="https://www.youtube.com/watch?v=UPXeH8r9Jhc&list=PL5FPulw8-MaotxlscrDUAmT-l3a_J8bxs"
