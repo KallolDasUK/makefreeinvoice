@@ -701,14 +701,18 @@ trait TransactionTrait
         return $records;
     }
 
-    public function getSalesReport($start_date, $end_date, $customer_id, $invoice_id, $payment_status)
+    public function getSalesReport($start_date, $end_date, $customer_id, $invoice_id, $payment_status,$user_id)
     {
         $records = [];
         $invoices = Invoice::query()
             ->whereBetween('invoice_date', [$start_date, $end_date])
             ->when($customer_id != null, function ($query) use ($customer_id) {
                 return $query->where('customer_id', $customer_id);
-            })->when($invoice_id != null, function ($query) use ($invoice_id) {
+            })
+            ->when($user_id != null, function ($query) use ($user_id) {
+                return $query->where('user_id', $user_id);
+            })
+            ->when($invoice_id != null, function ($query) use ($invoice_id) {
                 return $query->where('invoice_number', $invoice_id);
             })->when($payment_status != null, function ($query) use ($payment_status) {
                 return $query->where('payment_status', $payment_status);
@@ -726,6 +730,9 @@ trait TransactionTrait
             ->whereBetween('date', [$start_date, $end_date])
             ->when($customer_id != null, function ($query) use ($customer_id) {
                 return $query->where('customer_id', $customer_id);
+            })
+            ->when($user_id != null, function ($query) use ($user_id) {
+                return $query->where('user_id', $user_id);
             })->when($invoice_id != null, function ($query) use ($invoice_id) {
                 return $query->where('pos_number', $invoice_id);
             })->when($payment_status != null, function ($query) use ($payment_status) {

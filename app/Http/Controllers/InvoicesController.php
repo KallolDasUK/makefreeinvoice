@@ -47,10 +47,14 @@ class InvoicesController extends Controller
         $end_date = $request->end_date;
         $customer_id = $request->customer;
         $sr_id = $request->sr_id;
+        $user_id = $request->user_id;
+
         $q = $request->q;
         $invoices = Invoice::with('customer')
             ->when($customer_id != null, function ($query) use ($customer_id) {
                 return $query->where('customer_id', $customer_id);
+            }) ->when($user_id != null, function ($query) use ($user_id) {
+                return $query->where('user_id', $user_id);
             })->when($sr_id != null, function ($query) use ($sr_id) {
                 return $query->where('sr_id', $sr_id);
             })->when($q != null, function ($query) use ($q) {
@@ -71,7 +75,7 @@ class InvoicesController extends Controller
         view()->share('title', 'All Invoices');
 
         return view('invoices.index', compact('invoices', 'q', 'cashAcId', 'depositAccounts', 'paymentMethods',
-                'start_date', 'end_date', 'customer_id', 'customers', 'ledgerGroups', 'sr_id') + $this->summaryReport($start_date, $end_date));
+                'start_date', 'user_id','end_date', 'customer_id', 'customers', 'ledgerGroups', 'sr_id') + $this->summaryReport($start_date, $end_date));
     }
 
     public function summaryReport($start_date, $end_date)
@@ -89,7 +93,6 @@ class InvoicesController extends Controller
         $paymentMethods = PaymentMethod::query()->get();
         $customers = Customer::pluck('name', 'id')->all();
         $products = Product::all();
-
         $categories = Category::all();
         $taxes = Tax::query()->latest()->get()->toArray();
         $extraFields = optional(Invoice::query()->latest()->first())->extra_fields ?? [];
@@ -97,7 +100,9 @@ class InvoicesController extends Controller
         $next_invoice = Invoice::nextInvoiceNumber();
         $ledgerGroups = LedgerGroup::all();
         view()->share('title', 'Create an Invoice');
-        return view('invoices.create', compact('customers', 'ledgerGroups', 'products', 'taxes', 'next_invoice', 'categories', 'extraFields', 'invoice_fields', 'cashAcId', 'depositAccounts', 'paymentMethods'));
+        return view('invoices.create', compact('customers',
+            'ledgerGroups', 'products', 'taxes', 'next_invoice', 'categories', 'extraFields',
+            'invoice_fields', 'cashAcId', 'depositAccounts', 'paymentMethods'));
     }
 
     public function items($id)

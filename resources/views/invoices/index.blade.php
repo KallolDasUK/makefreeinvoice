@@ -116,7 +116,8 @@
             </h3>
             <div class="card-toolbar">
                 <a href="{{ route('invoices.invoice.create') }}"
-                   class="btn btn-success btn-lg font-weight-bolder font-size-sm  {{  ability(\App\Utils\Ability::INVOICE_CREATE) }}" style="font-size: 16px">
+                   class="btn btn-success btn-lg font-weight-bolder font-size-sm  {{  ability(\App\Utils\Ability::INVOICE_CREATE) }}"
+                   style="font-size: 16px">
                     <i class="fas fa-fw fa-plus" aria-hidden="true"></i>
 
                     </span>Create an invoice</a>
@@ -136,16 +137,18 @@
                     </div>
                     <div class="mx-2">
                         <select name="customer" id="customer" class="form-control"
-                                style="min-width: 200px;max-width: 200px">
+                                style="min-width: 150px;max-width: 150px">
                             <option></option>
                             @foreach($customers as $customer)
                                 <option value="{{ $customer->id }}"
                                         @if($customer->id == $customer_id) selected @endif>{{ $customer->name }} {{ $customer->phone }} </option>
                             @endforeach
                         </select>
-                    </div> <div class="mx-2">
+                    </div>
+
+                    <div class="mx-2">
                         <select name="sr_id" id="sr_id" class="form-control"
-                                style="min-width: 150px;max-width: 150px">
+                                style="min-width: 100px;max-width: 100px">
                             <option></option>
                             @foreach(\App\Models\SR::all() as $sr)
                                 <option value="{{ $sr->id }}"
@@ -153,6 +156,19 @@
                             @endforeach
                         </select>
                     </div>
+
+                    @if(auth()->user()->is_admin)
+                        <div class="mx-2">
+                            <select name="user_id" id="user_id" class="form-control"
+                                    style="max-width: 100px">
+                                <option></option>
+                                @foreach(\App\Models\User::query()->where('client_id',auth()->user()->client_id)->get() as $user)
+                                    <option value="{{ $user->id }}"
+                                            @if($user->id == $user_id) selected @endif>{{ $user->name }} {{ $user->email }} </option>
+                                @endforeach
+                            </select>
+                        </div>
+                    @endif
                     <div class="col">
                         <div class="row align-items-center">
                             <div class="input-daterange input-group" id="start_date">
@@ -273,12 +289,13 @@
                                 <td class="pr-0 text-right">
                                     @if($invoice->due > 0)
                                         <button style="text-decoration: underline"
-                                              class="btn  font-weight-bolder text-success  font-size-lg underline  text-hover-danger cursor-pointer mx-4 recordPaymentBtn "
-                                              invoice_id="{{ $invoice->id }}"
+                                                class="btn  font-weight-bolder text-success  font-size-lg underline  text-hover-danger cursor-pointer mx-4 recordPaymentBtn "
+                                                invoice_id="{{ $invoice->id }}"
                                                 {{  ability(\App\Utils\Ability::RECEIVE_PAYMENT_CREATE) }}
-                                              currency="{{ $invoice->currency }}"
-                                              invoice_number="{{ $invoice->invoice_number }}"
-                                              due="{{ $invoice->due }}"> Receive Payment</button>
+                                                currency="{{ $invoice->currency }}"
+                                                invoice_number="{{ $invoice->invoice_number }}"
+                                                due="{{ $invoice->due }}"> Receive Payment
+                                        </button>
                                     @endif
 
 

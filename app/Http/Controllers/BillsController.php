@@ -51,10 +51,15 @@ class BillsController extends Controller
         $end_date = $request->end_date;
         $vendor_id = $request->vendor;
         $q = $request->q;
+        $user_id = $request->user_id;
         $bills = Bill::with('vendor')
             ->when($vendor_id != null, function ($query) use ($vendor_id) {
                 return $query->where('vendor_id', $vendor_id);
-            })->when($q != null, function ($query) use ($q) {
+            })
+            ->when($user_id != null, function ($query) use ($user_id) {
+                return $query->where('user_id', $user_id);
+            })
+            ->when($q != null, function ($query) use ($q) {
                 return $query->where('bill_number', 'like', '%' . $q . '%');
             })
             ->when($start_date != null && $end_date != null, function ($query) use ($start_date, $end_date) {
@@ -74,7 +79,7 @@ class BillsController extends Controller
         $paymentMethods = PaymentMethod::query()->get();
         $vendors = Vendor::all();
         return view('bills.index', compact('bills', 'cashAcId', 'depositAccounts', 'paymentMethods',
-            'start_date', 'end_date', 'vendor_id', 'vendors', 'q', 'totalAmount', 'totalDue', 'totalPaid'));
+            'start_date', 'end_date', 'vendor_id', 'vendors', 'q', 'totalAmount', 'totalDue', 'totalPaid', 'user_id'));
     }
 
 

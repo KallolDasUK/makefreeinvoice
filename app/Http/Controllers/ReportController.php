@@ -347,8 +347,9 @@ class ReportController extends AccountingReportsController
         $end_date = $request->end_date ?? today()->toDateString();
         $customer_id = $request->customer_id;
         $invoice_id = $request->invoice_id;
+        $user_id = $request->user_id;
         $payment_status = $request->payment_status;
-        $records = $this->getSalesReport($start_date, $end_date, $customer_id, $invoice_id, $payment_status);
+        $records = $this->getSalesReport($start_date, $end_date, $customer_id, $invoice_id, $payment_status, $user_id);
         $title = 'Sales Report';
 
         $invoices = Invoice::all();
@@ -356,7 +357,7 @@ class ReportController extends AccountingReportsController
         $customers = Customer::all();
         return view('reports.sales-report', compact('title', 'pos_sales',
             'records', 'invoices', 'customers', 'start_date', 'end_date',
-            'customer_id', 'invoice_id', 'payment_status'));
+            'customer_id', 'invoice_id', 'payment_status', 'user_id'));
     }
 
     public function salesReportDetails(Request $request)
