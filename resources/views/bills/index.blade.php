@@ -49,7 +49,9 @@
                         <div class="d-flex align-items-center justify-content-center">
                             <div class="card-body ">
                                 Total Amount
-                                <h3>{{ $settings->currency??'$' }}{{ decent_format_dash($totalAmount??'') }}</h3>
+                                <div class="stage">
+                                    <div id="total_amount" class="dot-elastic ml-4"></div>
+                                </div>
                             </div>
                             <div class="vertical-divider"></div>
                         </div>
@@ -64,7 +66,9 @@
                         <div class="d-flex align-items-center justify-content-center">
                             <div class="card-body ">
                                 Total Due
-                                <h3>{{ $settings->currency??'$' }}{{ decent_format_dash($totalDue??'') }}</h3>
+                                <div class="stage">
+                                    <div id="total_due" class="dot-elastic ml-4"></div>
+                                </div>
                             </div>
                             <div class="vertical-divider"></div>
                         </div>
@@ -79,7 +83,9 @@
                         <div class="d-flex align-items-center justify-content-center">
                             <div class="card-body ">
                                 Total Paid
-                                <h3>{{ $settings->currency??'$' }}{{ decent_format_dash($totalPaid??'') }}</h3>
+                                <div class="stage">
+                                    <div id="total_paid" class="dot-elastic ml-4"></div>
+                                </div>
                             </div>
                             <div class="vertical-divider"></div>
                         </div>
@@ -149,8 +155,8 @@
                     @endif
                     <div class="col">
                         <div class="row align-items-center">
-                            <div class="input-daterange input-group" id="start_date">
-                                <input type="text" class="form-control col-2" name="start_date"
+                            <div class="input-daterange input-group" >
+                                <input type="text" class="form-control col-2" name="start_date" id="start_date"
                                        value="{{ $start_date }}"
                                        placeholder="From">
                                 <div class="input-group-append">
@@ -530,6 +536,24 @@
                     $(element).removeClass('is-invalid');
                 }
             });
+
+
+            /* LOAD INVOICE SUMMARY DATA */
+            let start_date = $('#start_date').val()
+            let end_date = $('#end_date').val()
+            $.ajax({
+                url: route('ajax.billSummaryReport'),
+                type: 'get',
+                data: {start_date, end_date},
+                success: function (response) {
+                    $('.dot-elastic').removeClass('dot-elastic')
+                    $('#total_paid').text(response.total_paid)
+                    $('#total_due').text(response.total_due)
+                    $('#total_amount').text(response.total_amount)
+                },
+
+            });
+
         })
     </script>
 

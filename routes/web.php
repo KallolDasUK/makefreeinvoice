@@ -344,6 +344,7 @@ Route::group(['middleware' => 'auth:web', 'prefix' => 'app'], function () {
         Route::post('/settings/phoneNumber', [AjaxController::class, 'storePhoneNumber'])->name('ajax.storePhoneNumber');
         Route::get('/customer-payment-receipt/{id}', [AjaxController::class, 'customerPaymentReceipt'])->name('ajax.customerPaymentReceipt');
         Route::get('/invoice-summary-report', [AjaxController::class, 'invoice_summary'])->name('ajax.invoiceSummaryReport');
+        Route::get('/bill-summary-report', [AjaxController::class, 'bill_summary'])->name('ajax.billSummaryReport');
     });
 
 
@@ -589,7 +590,6 @@ Route::group(['middleware' => 'auth:web', 'prefix' => 'app'], function () {
     });
 
 
-
     /*
      *
      *  php artisan resource-file:create Shortcut --fields=id,name,link
@@ -598,13 +598,13 @@ Route::group(['middleware' => 'auth:web', 'prefix' => 'app'], function () {
      * */
     Route::group(['prefix' => 'shortcuts'], function () {
 
-        Route::get('/', [ShortcutsController::class,'index'])->name('shortcuts.shortcut.index');
-        Route::get('/create',[ShortcutsController::class,'create'])->name('shortcuts.shortcut.create');
-        Route::get('/show/{shortcut}',[ShortcutsController::class,'show'])->name('shortcuts.shortcut.show')->where('id', '[0-9]+');
-        Route::get('/{shortcut}/edit',[ShortcutsController::class,'edit'])->name('shortcuts.shortcut.edit')->where('id', '[0-9]+');
-        Route::post('/', [ShortcutsController::class,'store'])->name('shortcuts.shortcut.store');
-        Route::put('shortcut/{shortcut}', [ShortcutsController::class,'update'])->name('shortcuts.shortcut.update')->where('id', '[0-9]+');
-        Route::delete('/shortcut/{shortcut}',[ShortcutsController::class,'destroy'])->name('shortcuts.shortcut.destroy')->where('id', '[0-9]+');
+        Route::get('/', [ShortcutsController::class, 'index'])->name('shortcuts.shortcut.index');
+        Route::get('/create', [ShortcutsController::class, 'create'])->name('shortcuts.shortcut.create');
+        Route::get('/show/{shortcut}', [ShortcutsController::class, 'show'])->name('shortcuts.shortcut.show')->where('id', '[0-9]+');
+        Route::get('/{shortcut}/edit', [ShortcutsController::class, 'edit'])->name('shortcuts.shortcut.edit')->where('id', '[0-9]+');
+        Route::post('/', [ShortcutsController::class, 'store'])->name('shortcuts.shortcut.store');
+        Route::put('shortcut/{shortcut}', [ShortcutsController::class, 'update'])->name('shortcuts.shortcut.update')->where('id', '[0-9]+');
+        Route::delete('/shortcut/{shortcut}', [ShortcutsController::class, 'destroy'])->name('shortcuts.shortcut.destroy')->where('id', '[0-9]+');
 
     });
 });
@@ -616,7 +616,7 @@ Route::group(['middleware' => 'auth:web', 'prefix' => 'app'], function () {
  *
  * */
 
-Route::view('/instant-invoice','instant-invoice');
+Route::view('/instant-invoice', 'instant-invoice');
 Route::get('p/{slug}', [BlogsController::class, 'show'])->name('blogs.blog.show')->where('id', '[0-9]+');
 
 
@@ -660,8 +660,6 @@ Route::group(['prefix' => 'master', 'middleware' => ['auth:web', 'isMaster']], f
     Route::post('/send_email', [MasterController::class, 'sendEmail'])->name('master.send_email_store');
 });
 Route::get('master/users/login/{email}', [MasterController::class, 'loginClient'])->name('master.users.login');
-
-
 
 
 Route::get('/task', function () {

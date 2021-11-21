@@ -47,7 +47,7 @@
           crossorigin="anonymous" referrerpolicy="no-referrer"/>
     <link media="all" type="text/css" rel="stylesheet" href="{{ asset('css/select2-bootstrap.css') }}">
 
-
+    <link rel="stylesheet" href="{{ asset('css/three-dot.css') }}"/>
     <!-- common css -->
     {{--    <link media="all" type="text/css" rel="stylesheet"--}}
     {{--          href="https://www.bootstrapdash.com/demo/connect-plus/laravel/template/demo_1/css/app.css">--}}
