@@ -43,6 +43,7 @@ class InvoicesController extends Controller
     public function index(Request $request)
     {
         $this->authorize('viewAny', Invoice::class);
+
         $start_date = $request->start_date;
         $end_date = $request->end_date;
         $customer_id = $request->customer;
@@ -75,15 +76,10 @@ class InvoicesController extends Controller
         view()->share('title', 'All Invoices');
 
         return view('invoices.index', compact('invoices', 'q', 'cashAcId', 'depositAccounts', 'paymentMethods',
-                'start_date', 'user_id','end_date', 'customer_id', 'customers', 'ledgerGroups', 'sr_id') + $this->summaryReport($start_date, $end_date));
+                'start_date', 'user_id','end_date', 'customer_id', 'customers', 'ledgerGroups', 'sr_id'));
     }
 
-    public function summaryReport($start_date, $end_date)
-    {
 
-
-        return ['overdue' => Invoice::overdue($start_date, $end_date), 'draft' => Invoice::draft($start_date, $end_date), 'paid' => Invoice::paid($start_date, $end_date), 'due' => Invoice::due($start_date, $end_date), 'total' => Invoice::total($start_date, $end_date)];
-    }
 
     public function create()
     {
@@ -201,7 +197,6 @@ class InvoicesController extends Controller
 
         $invoice = Invoice::with('customer')->findOrFail($id);
         $this->authorize('view', $invoice);
-
         $invoice->taxes;
         return view('invoices.show', compact('invoice'));
     }

@@ -66,9 +66,6 @@ class AjaxController extends Controller
 
     public function invoicePayment(Request $request)
     {
-//        sleep(5);
-//        return $request->all();
-
         $request->validate(['payment_date' => 'required', 'invoice_id' => 'required']);
         $paymentSerial = 'PM' . str_pad(ReceivePayment::query()->count(), 3, '0', STR_PAD_LEFT);
 
@@ -84,7 +81,7 @@ class AjaxController extends Controller
 
         ReceivePaymentItem::create(['receive_payment_id' => $receivePayment->id, 'invoice_id' => $invoice->id, 'amount' => $request->amount]);
         session()->flash('success_message', 'Payment Recorded Successfully for Invoice ' . $invoice->invoice_number);
-        return ['success_message' => 'Payment Recorded Successfully for Invoice ' . $invoice->invoice_number,'id'=>$receivePayment->id];
+        return ['success_message' => 'Payment Recorded Successfully for Invoice ' . $invoice->invoice_number, 'id' => $receivePayment->id];
     }
 
     public function storePhoneNumber(Request $request)
@@ -130,6 +127,19 @@ class AjaxController extends Controller
 
         $pos_payment = PosPayment::query()->where('receive_payment_id', $id)->get();
         return view('partials.customer-payment-receipt-content', compact('rp', 'pos_payment'));
+
+    }
+
+
+    public function invoice_summary(Request $request)
+    {
+        $start_date = $request->start_date ?? today()->startOfMonth()->toDateString();
+        $end_date = $request->end_date ?? today()->toDateString();
+        return ['overdue' => decent_format_dash_if_zero(Invoice::overdue($start_date, $end_date)),
+            'draft' =>decent_format_dash_if_zero( Invoice::draft($start_date, $end_date)),
+            'paid' => decent_format_dash_if_zero(Invoice::paid($start_date, $end_date)),
+            'due' => decent_format_dash_if_zero(Invoice::due($start_date, $end_date)),
+            'total' => decent_format_dash_if_zero(Invoice::total($start_date, $end_date))];
 
     }
 

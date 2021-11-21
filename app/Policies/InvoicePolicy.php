@@ -15,7 +15,6 @@ class InvoicePolicy extends BasePolicy
     use HandlesAuthorization;
 
 
-
     private function has_access($ability)
     {
         try {

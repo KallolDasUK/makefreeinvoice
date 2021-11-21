@@ -74,10 +74,7 @@ class AppServiceProvider extends ServiceProvider
             }
             return !$exits;
         });
-//        Validator::extend('test', UniqueCode::class);
         $country = ip_info(\request()->ip(), "Country");
-//        $country = "";
-
 
         Paginator::useBootstrap();
         view()->composer('*', function ($view) use ($country) {

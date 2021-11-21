@@ -387,6 +387,7 @@ class ReportController extends AccountingReportsController
         $end_date = $request->end_date ?? today()->toDateString();
         $vendor_id = $request->vendor;
         $bill_id = $request->bill_id;
+        $user_id = $request->user_id;
         $payment_status = $request->payment_status;
         $records = $this->getPurchaseReport($start_date, $end_date, $vendor_id, $bill_id, $payment_status);
         $title = 'Purchase Report';
