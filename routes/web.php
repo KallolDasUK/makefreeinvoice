@@ -343,6 +343,7 @@ Route::group(['middleware' => 'auth:web', 'prefix' => 'app'], function () {
         Route::post('/bill-payment', [AjaxController::class, 'billPayment'])->name('ajax.billPayment');
         Route::post('/settings/phoneNumber', [AjaxController::class, 'storePhoneNumber'])->name('ajax.storePhoneNumber');
         Route::get('/customer-payment-receipt/{id}', [AjaxController::class, 'customerPaymentReceipt'])->name('ajax.customerPaymentReceipt');
+        Route::get('/invoice-summary-report', [AjaxController::class, 'invoice_summary'])->name('ajax.invoiceSummaryReport');
     });
 
 

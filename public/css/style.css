@@ -1558,7 +1558,15 @@ td {
     cursor: not-allowed !important;
 
 }
+
 .no-link {
     cursor: not-allowed !important;
+
+}
+
+.stage div {
+    font-size: 20px;
+    color: black;
+    font-weight: bolder;
 
 }

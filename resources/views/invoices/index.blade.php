@@ -5,7 +5,8 @@
           href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css"
           integrity="sha512-mSYUmp1HYZDFaVKK//63EcZq4iFWFjxSL+Z3T/aCt4IO9Cejm03q3NKKYN6pFQzY0SBOr8h+eCIAZHPXcpZaNw=="
           crossorigin="anonymous" referrerpolicy="no-referrer"/>
-
+    <link rel="stylesheet"
+          href="{{ asset('css/three-dot.css') }}"/>
 
 
 @endsection
@@ -40,8 +41,13 @@
                         <div class="d-flex align-items-center justify-content-center">
                             <div class="card-body ">
                                 Overdue
-                                <h3>{{ $settings->currency??'$' }}{{ decent_format_dash($overdue) }}</h3>
+                                <div class="stage">
+                                    <div id="overdue" class="dot-elastic ml-4"></div>
+                                </div>
+
                             </div>
+
+
                             <div class="vertical-divider"></div>
                         </div>
 
@@ -55,7 +61,9 @@
                         <div class="d-flex align-items-center justify-content-center">
                             <div class="card-body ">
                                 Draft Amount
-                                <h3>{{ $settings->currency??'$' }}{{ decent_format_dash($draft) }}</h3>
+                                <div class="stage">
+                                    <div id="draft" class="dot-elastic ml-4"></div>
+                                </div>
                             </div>
                             <div class="vertical-divider"></div>
                         </div>
@@ -69,7 +77,9 @@
                         <div class="d-flex align-items-center justify-content-center">
                             <div class="card-body ">
                                 Paid Amount
-                                <h3>{{ $settings->currency??'$' }}{{ decent_format_dash($paid) }}</h3>
+                                <div class="stage">
+                                    <div id="paid" class="dot-elastic ml-4"></div>
+                                </div>
                             </div>
                             <div class="vertical-divider"></div>
                         </div>
@@ -82,7 +92,9 @@
                         <div class="d-flex align-items-center justify-content-center">
                             <div class="card-body ">
                                 Total Due
-                                <h3>{{ $settings->currency??'$' }}{{ decent_format_dash($due) }}</h3>
+                                <div class="stage">
+                                    <div id="due" class="dot-elastic ml-4"></div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -93,7 +105,9 @@
                         <div class="d-flex align-items-center justify-content-center">
                             <div class="card-body ">
                                 Total Amount
-                                <h3>{{ $settings->currency??'$' }}{{ decent_format_dash($total) }}</h3>
+                                <div class="stage">
+                                    <div id="total" class="dot-elastic ml-4"></div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -508,7 +522,6 @@
             $('#customer').select2({placeholder: 'Customer', allowClear: true})
             $('#sr_id').select2({placeholder: '-- SR --', allowClear: true})
 
-
             var datepicker = $.fn.datepicker.noConflict();
             $.fn.bootstrapDP = datepicker;
             $("#start_date,#end_date").bootstrapDP({
@@ -536,7 +549,6 @@
                         });
                 }
             })
-            /* Creating Ledger Account Via Ajax With Validation */
             $('#createLedgerForm').validate({
                 submitHandler: function (form) {
                     $.ajax({
@@ -589,7 +601,24 @@
                 }
             });
 
-            // showCustomerPaymentReceipt(45)
+
+            /* LOAD INVOICE SUMMARY DATA */
+            let start_date = $('#start_date').val()
+            let end_date = $('#end_date').val()
+            $.ajax({
+                url: route('ajax.invoiceSummaryReport'),
+                type: 'get',
+                data: {start_date, end_date},
+                success: function (response) {
+                    $('.dot-elastic').removeClass('dot-elastic')
+                    $('#overdue').text(response.overdue)
+                    $('#due').text(response.due)
+                    $('#total').text(response.total)
+                    $('#paid').text(response.paid)
+                    $('#draft').text(response.draft)
+                },
+
+            });
         })
 
 

@@ -94,7 +94,6 @@ class EstimatesController extends Controller
 
     public function insertDataToOtherTable($estimate, $estimate_items, $extraFields, $additionalFields)
     {
-//        dd($estimate_items);
         foreach ($estimate_items as $estimate_item) {
             $product_id = $estimate_item->product_id;
             if (!is_numeric($product_id)) {
