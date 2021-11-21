@@ -14,6 +14,7 @@ use App\Models\PosSale;
 use App\Models\ReceivePayment;
 use App\Models\ReceivePaymentItem;
 use App\Models\Vendor;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class AjaxController extends Controller
@@ -133,14 +134,33 @@ class AjaxController extends Controller
 
     public function invoice_summary(Request $request)
     {
-        $start_date = $request->start_date ;
-        $end_date = $request->end_date ;
+        $start_date = $request->start_date;
+        $end_date = $request->end_date;
         return ['overdue' => decent_format_dash_if_zero(Invoice::overdue($start_date, $end_date)),
             'draft' => decent_format_dash_if_zero(Invoice::draft($start_date, $end_date)),
             'paid' => decent_format_dash_if_zero(Invoice::paid($start_date, $end_date)),
             'due' => decent_format_dash_if_zero(Invoice::due($start_date, $end_date)),
             'total' => decent_format_dash_if_zero(Invoice::total($start_date, $end_date))];
 
+    }
+
+    public function bill_summary(Request $request)
+    {
+        $start_date = $request->start_date;
+        $end_date = $request->end_date;
+        $bills = Bill::query()
+            ->when($start_date != null && $end_date != null, function ($query) use ($start_date, $end_date) {
+                $start_date = Carbon::parse($start_date)->toDateString();
+                $end_date = Carbon::parse($end_date)->toDateString();
+                return $query->whereBetween('bill_date', [$start_date, $end_date]);
+            })
+            ->latest();
+        $totalAmount = $bills->get()->sum('total');
+        $totalDue = $bills->get()->sum('due');
+        $totalPaid = $bills->get()->sum('paid');
+        return ['total_amount' => decent_format_dash_if_zero($totalAmount),
+            'total_due' => decent_format_dash_if_zero($totalDue),
+            'total_paid' => decent_format_dash_if_zero($totalPaid)];
     }
 
 }
