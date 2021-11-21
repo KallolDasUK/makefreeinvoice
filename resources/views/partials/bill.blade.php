@@ -23,7 +23,7 @@
     <main>
         <div class="row">
             <div class="col-sm-6">
-                <strong>Date:</strong> {{ \Carbon\Carbon::parse($bill->date)->format('d/m/y') }}</div>
+                <strong>Date:</strong> {{ \Carbon\Carbon::parse($bill->bill_date)->format('d M Y') }}</div>
             <div class="col-sm-6 text-sm-right"><strong>Bill No:</strong> {{ $bill->bill_number }}
             </div>
 

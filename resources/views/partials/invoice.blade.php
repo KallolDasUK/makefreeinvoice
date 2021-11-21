@@ -27,7 +27,7 @@
     <main>
         <div class="row">
             <div class="col-sm-4">
-                <strong>Date:</strong> {{ \Carbon\Carbon::parse($invoice->date)->format('d/m/y') }}</div>
+                <strong>Date:</strong> {{ \Carbon\Carbon::parse($invoice->invoice_date)->format('d M Y') }}</div>
 
             <div class="col-sm-4 text-center">
                 @if($invoice->due_date)
