@@ -202,7 +202,7 @@ class ProductsController extends Controller
     {
         $rules = [
             'product_type' => 'required|nullable',
-            'name' => 'required|nullable|string',
+            'name' => 'required|string',
             'code' => 'nullable|string|unique_saas:products,code',
             'sku' => 'nullable|string|min:0|max:255',
             'photo' => ['file', 'nullable'],
@@ -220,7 +220,6 @@ class ProductsController extends Controller
 
 
         if ($id) {
-
             $rules['code'] = 'nullable|string|unique_saas:products,code,' . $id;
         }
 //        dd($request->all());

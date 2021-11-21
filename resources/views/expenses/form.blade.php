@@ -72,7 +72,6 @@
     </div>
 </div>
 
-
 <div class="row">
     <div class="col">
         <div class="form-group  row align-items-center">
@@ -149,6 +148,7 @@
 <div class="row mx-auto" style="width: 90%">
     <div id="line_table" style="width: 100%"></div>
 </div>
+
 
 <div class="row mx-auto" style="width: 90%">
     <div class="col"></div>
@@ -315,7 +315,6 @@
 
              {{/each}}
     </script>
-
 @endverbatim
 
 

@@ -246,9 +246,11 @@
             var datepicker = $.fn.datepicker.noConflict();
             $.fn.bootstrapDP = datepicker;
             $("#start_date,#end_date").bootstrapDP({
-                rtl: KTUtil.isRTL(),
-                todayHighlight: true,
-                templates: arrows
+                autoclose: true,
+                format: "yyyy-mm-dd",
+                immediateUpdates: true,
+                todayBtn: true,
+                todayHighlight: true
             });
         });
 
