@@ -55,9 +55,9 @@
 
 
                 </div>
-                <div class="col ">
+                <div class="col " style="display: none">
 
-                    <div class="card " style="border: none">
+                    <div class="card " style="border: none;">
                         <div class="d-flex align-items-center justify-content-center">
                             <div class="card-body ">
                                 Draft Amount
