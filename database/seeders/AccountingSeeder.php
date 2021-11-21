@@ -29,6 +29,7 @@ class AccountingSeeder extends Seeder
             'nature' => Nature::$ASSET,
             'cashflow_type' => CashFlowType::$FINANCIAL,
             'is_default' => true]);
+
         GroupMap::create(['key' => $lg_ca->group_name, 'value' => $lg_ca->id]);
 
 

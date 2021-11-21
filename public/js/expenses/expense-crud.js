@@ -240,6 +240,7 @@ $('#createLedgerForm').validate({
         $(element).removeClass('is-invalid');
     }
 });
+
 $('.amount').tooltip({'trigger': 'focus', 'title': 'Hit Enter to add new Line'});
 $(document).on('keypress', '.amount', function (e) {
     var keyCode = e.keyCode || e.which;

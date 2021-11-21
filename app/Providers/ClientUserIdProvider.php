@@ -43,11 +43,9 @@ class ClientUserIdProvider extends ServiceProvider
             'estimates',
             'estimate_items',
             'estimate_extra_fields',
-
             'bills',
             'bill_items',
             'bill_extra_fields',
-
             'categories',
             'brands',
             'products',
@@ -55,7 +53,6 @@ class ClientUserIdProvider extends ServiceProvider
             'taxes',
             'extra_fields',
             'meta_settings',
-
             'receive_payments',
             'receive_payment_items',
             'bill_payments',
@@ -108,6 +105,8 @@ class ClientUserIdProvider extends ServiceProvider
 
 
         }
+
+
 
     }
 }

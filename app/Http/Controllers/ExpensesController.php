@@ -55,6 +55,7 @@ class ExpensesController extends Controller
 
 
         $data = $this->getData($request);
+
         $expense_items = $data['expense_items'];
         unset($data['expense_items']);
         $expense = Expense::create($data);
@@ -66,7 +67,6 @@ class ExpensesController extends Controller
             ->with('success_message', 'Expense was successfully added.');
 
     }
-
 
     public function show($id)
     {

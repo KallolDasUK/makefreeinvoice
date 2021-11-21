@@ -1,10 +1,15 @@
 @extends('acc::layouts.app')
 
+
 @section('content')
+
+
     @include('partials.ajax-ledger-create-form')
     @include('partials.ajax-customer-create-form')
     @include('partials.ajax-tax-create-form')
     @include('partials.ajax-vendor-create-form')
+
+
     <div class="float-left">
         <h2>Add an Expense</h2>
     </div>

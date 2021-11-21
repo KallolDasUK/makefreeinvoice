@@ -185,8 +185,8 @@
                     @endif
                     <div class="col">
                         <div class="row align-items-center">
-                            <div class="input-daterange input-group" id="start_date">
-                                <input type="text" class="form-control col-2" name="start_date"
+                            <div class="input-daterange input-group">
+                                <input type="text" class="form-control col-2" name="start_date" id="start_date"
                                        value="{{ $start_date }}"
                                        placeholder="From">
                                 <div class="input-group-append">

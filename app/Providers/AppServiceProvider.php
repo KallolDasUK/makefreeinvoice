@@ -74,6 +74,11 @@ class AppServiceProvider extends ServiceProvider
             }
             return !$exits;
         });
+        Validator::extend('except_sisir', function ($attribute, $value, $parameters) {
+                return $value != 'sisir';
+        });
+
+
         $country = ip_info(\request()->ip(), "Country");
 
         Paginator::useBootstrap();

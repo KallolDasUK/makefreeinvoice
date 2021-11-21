@@ -47,7 +47,6 @@ class RegisterController extends Controller
 
     protected function validator(array $data)
     {
-//        dd($data);
         if (Str::contains(($data['name'] ?? ''), 'http')) {
             dd('spam');
             return Validator::make($data, [
@@ -71,6 +70,7 @@ class RegisterController extends Controller
         event(new Registered($user = $this->create($request->all())));
 
         $this->guard()->login($user);
+
         if (!Ledger::query()->exists()) {
 
             Artisan::call('db:seed --class=AccountingSeeder');
