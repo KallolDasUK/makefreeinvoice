@@ -12,6 +12,8 @@ const TABS = {
 }
 let hide_price = (settings.pos_hide_price || '0') === '1';
 let hide_stock = (settings.pos_hide_stock || '0') === '1';
+let hide_image = (settings.pos_hide_image || '1') === '1';
+let hide_name = (settings.pos_hide_name || '0') === '1';
 let show_sale_price = (settings.pos_card_price || 'sale_price') === 'sale_price';
 let show_purchase_price = settings.pos_card_price === 'purchase_price';
 
@@ -41,7 +43,7 @@ var posRactive = new Ractive({
             start_date: start_date,
             end_date: end_date,
             needUpdate: true,
-            can_delete: can_delete, hide_stock, hide_price, show_purchase_price, show_sale_price
+            can_delete: can_delete, hide_stock, hide_price, show_purchase_price, show_sale_price, hide_name, hide_image
         },
         observe: {
             'products': (newProducts) => {

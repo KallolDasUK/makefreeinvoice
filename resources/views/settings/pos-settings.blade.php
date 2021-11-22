@@ -61,6 +61,28 @@
                        value="1" {{ ($settings->pos_hide_price??'0')?'checked':'' }}>
             </div>
         </div>
+        <div class="form-group row align-items-center">
+            <div class="col-form-label col-lg-2 ">
+                <label for="pos_hide_name" class="font-weight-bolder ">Hide Product Name</label>
+            </div>
+            <div class="col-lg-4">
+                <input type="hidden" name="pos_hide_name" value="0">
+                <input id="pos_hide_name" type="checkbox" name="pos_hide_name"
+                       class="form-control check-mark checkbox form-check-input"
+                       value="1" {{ ($settings->pos_hide_name??'0')?'checked':'' }}>
+            </div>
+        </div>
+        <div class="form-group row align-items-center">
+            <div class="col-form-label col-lg-2 ">
+                <label for="pos_hide_image" class="font-weight-bolder ">Hide Product Image</label>
+            </div>
+            <div class="col-lg-4">
+                <input type="hidden" name="pos_hide_image" value="0">
+                <input id="pos_hide_image" type="checkbox" name="pos_hide_image"
+                       class="form-control check-mark checkbox form-check-input"
+                       value="1" {{ ($settings->pos_hide_image??'1')?'checked':'' }}>
+            </div>
+        </div>
 
         <div class="form-group row">
             <div class="col-form-label col-lg-2 required">

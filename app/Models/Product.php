@@ -65,7 +65,7 @@ class Product extends Model
 {
 
     protected $guarded = [];
-    protected $appends = ['stock', 'short_name', 'stock_value'];
+    protected $appends = ['stock', 'short_name', 'stock_value','image'];
 
     public function category()
     {
@@ -91,6 +91,15 @@ class Product extends Model
     {
 
         return $this->currentStock($this, today()->toDateString());
+
+    }
+
+    public function getImageAttribute()
+    {
+        if ($this->photo) {
+            return asset('storage/'.$this->photo);
+        }
+        return '';
 
     }
 
