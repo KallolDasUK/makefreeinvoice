@@ -192,10 +192,10 @@
 
         {{^ hide_price }}
         {{# show_sale_price }}
-            <span style="position:absolute;right: 5px;bottom: 5px;font-weight: normal">{{ currency }} {{ sell_price.replace('.00','') }}</span>
+            <span style="position:absolute;right: 5px;bottom: 5px;font-weight: normal">{{ currency }}{{ sell_price.replace('.00','') }}</span>
          {{/ show_sale_price }}
         {{# show_purchase_price }}
-        <span style="position:absolute;right: 5px;bottom: 5px;font-weight: normal">{{ currency }} {{ purchase_price.replace('.00','') }}</span>
+        <span style="position:absolute;right: 5px;bottom: 5px;font-weight: normal">{{ currency }}{{ purchase_price.replace('.00','') }}</span>
          {{/ show_purchase_price }}
 
         {{/ hide_price }}
@@ -229,10 +229,10 @@
 
         {{^ hide_price }}
         {{# show_sale_price }}
-        <span style="position:absolute;right: 5px;bottom: 5px;font-weight: normal">{{ currency }} {{ sell_price.replace('.00','') }}</span>
+        <span style="position:absolute;right: 5px;bottom: 5px;font-weight: normal">{{ currency }}{{ sell_price.replace('.00','') }}</span>
          {{/ show_sale_price }}
         {{# show_purchase_price }}
-        <span style="position:absolute;right: 5px;bottom: 5px;font-weight: normal">{{ currency }} {{ purchase_price.replace('.00','') }}</span>
+        <span style="position:absolute;right: 5px;bottom: 5px;font-weight: normal">{{ currency }}{{ purchase_price.replace('.00','') }}</span>
          {{/ show_purchase_price }}
 
         {{/ hide_price }}
