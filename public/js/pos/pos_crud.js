@@ -281,7 +281,11 @@ $(document).ready(function () {
                 $.notify("Order Placed", "success")
                 posRactive.unshift('orders', order);
                 $('#posPaymentModal').modal('hide')
-                posRactive.onOrderPrint(order.id)
+                if (pos_print_receipt){
+                    // alert("printing "+pos_print_receipt)
+                    posRactive.onOrderPrint(order.id)
+                }
+
                 setTimeout(() => {
                     // posRactive.set('charges', pos_charges);
                 }, 1000)

@@ -84,6 +84,17 @@
             </div>
         </div>
 
+        <div class="form-group row align-items-center">
+            <div class="col-form-label col-lg-2 ">
+                <label for="pos_print_receipt" class="font-weight-bolder ">Print Receipt After Sale</label>
+            </div>
+            <div class="col-lg-4">
+                <input type="hidden" name="pos_print_receipt" value="0">
+                <input id="pos_print_receipt" type="checkbox" name="pos_print_receipt"
+                       class="form-control check-mark checkbox form-check-input"
+                       value="1" {{ ($settings->pos_print_receipt??'1')?'checked':'' }}>
+            </div>
+        </div>
         <div class="form-group row">
             <div class="col-form-label col-lg-2 required">
                 <label class="font-weight-bolder"> </label>

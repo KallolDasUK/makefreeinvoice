@@ -390,7 +390,7 @@
         <small></small>
     </td>
     <td style="text-align: center">
-        <input style="max-width: 50px" type="text"
+        <input style="max-width: 90px" type="text"
                class="form-control form-control-sm text-center"
                value="{{ price }}">
         </td>
