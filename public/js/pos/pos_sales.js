@@ -59,7 +59,10 @@ var posRactive = new Ractive({
                 posRactive.calculate()
 
                 $('#pos_items').val(JSON.stringify(newPosItems))
-                $('#product_search').focus()
+                setTimeout(()=>{
+                    $('#product_search').focus()
+
+                },5000)
 
             },
             'charges': (newCharges) => {
