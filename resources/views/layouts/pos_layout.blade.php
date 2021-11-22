@@ -391,6 +391,9 @@
             white-space: normal;
             color: #232323;
             background-color: #c2e1f3;
+            /*background-image: url("https://solidstarts.com/wp-content/uploads/introducing-avocado-to-babies.jpg");*/
+            background-repeat: no-repeat;
+            background-size: 105px 85px;
             border-color: #c2e1f3;
         }
 
