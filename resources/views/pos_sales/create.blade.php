@@ -35,6 +35,7 @@
         var orders = @json($orders);
         var can_delete = @json($can_delete);
         var settings = @json($settings);
+        var pos_print_receipt = (settings.pos_print_receipt || true) === '1' ;
         console.log(settings)
         var currency = settings.currency;
         var sample_pos_item = {
@@ -53,9 +54,9 @@
 
         });
     </script>
-    <script src="{{ asset('js/product.js') }}?v=1.8"></script>
-    <script src="{{ asset('js/pos/pos_sales.js') }}?v=1.8"></script>
-    <script src="{{ asset('js/pos/pos_crud.js') }}?v=1.8"></script>
-    <script src="{{ asset('js/pos/pos_payment.js') }}?v=1.8"></script>
+    <script src="{{ asset('js/product.js') }}?v=1.9"></script>
+    <script src="{{ asset('js/pos/pos_sales.js') }}?v=1.9"></script>
+    <script src="{{ asset('js/pos/pos_crud.js') }}?v=1.9"></script>
+    <script src="{{ asset('js/pos/pos_payment.js') }}?v=1.9"></script>
 @endsection
 
