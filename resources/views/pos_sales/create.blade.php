@@ -34,6 +34,8 @@
         var token = $("meta[name='csrf-token']").attr("content");
         var orders = @json($orders);
         var can_delete = @json($can_delete);
+        var settings = @json($settings);
+        console.log(settings)
         var currency = '$';
         var sample_pos_item = {
             product_id: '', description: '', price: '', qnt: 1, tax_id: '', attribute_id: '', unit: 'unit', amount: ''

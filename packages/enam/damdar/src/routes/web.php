@@ -150,9 +150,6 @@ Route::middleware(['web', 'auth:web'])->prefix('app')->group(function () {
             Route::get('/pdf', [AccountingReportsController::class, 'rpbPDF'])->name('accounting.report.receipt-payment-branch.pdf');
         });
 
-        Route::group(['prefix' => 'accounting/settings'], function () {
-            Route::get('/', [SettingsController::class, 'edit'])->name('accounting.settings.edit');
-            Route::post('/store', [SettingsController::class, 'update'])->name('accounting.settings.update');
-        });
+
 
     });

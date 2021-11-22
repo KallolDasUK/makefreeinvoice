@@ -184,9 +184,22 @@
 
         <div class="ml-2 item rounded btn" on-click="@this.onProductSelected(id)" >
              <span class="">{{ short_name }}</span>
-                 <span class="{{ stock > 0 ?'':'text-danger' }}"
+
+             {{^ hide_stock }}
+        <span class="{{ stock > 0 ?'':'text-danger' }}"
               style="position:absolute;left: 5px;bottom: 5px"><small>{{ stock }}</small></span>
-        <span style="position:absolute;right: 5px;bottom: 5px;font-weight: normal">{{ currency }}{{ sell_price.replace('.00','') }}</span>
+{{/ hide_stock }}
+
+        {{^ hide_price }}
+        {{# show_sale_price }}
+            <span style="position:absolute;right: 5px;bottom: 5px;font-weight: normal">{{ currency }} {{ sell_price.replace('.00','') }}</span>
+         {{/ show_sale_price }}
+        {{# show_purchase_price }}
+        <span style="position:absolute;right: 5px;bottom: 5px;font-weight: normal">{{ currency }} {{ purchase_price.replace('.00','') }}</span>
+         {{/ show_purchase_price }}
+
+        {{/ hide_price }}
+
     </div>
     </span>
 {{ /each }}
@@ -208,9 +221,21 @@
 
         <div class="ml-2 item rounded btn" on-click="@this.onProductSelected(id)" >
              <span class="">{{ short_name }}</span>
-                 <span class="{{ stock > 0 ?'':'text-danger' }}"
+
+             {{^ hide_stock }}
+        <span class="{{ stock > 0 ?'':'text-danger' }}"
               style="position:absolute;left: 5px;bottom: 5px"><small>{{ stock }}</small></span>
-        <span style="position:absolute;right: 5px;bottom: 5px;font-weight: normal">{{ currency }}{{ sell_price.replace('.00','') }}</span>
+{{/ hide_stock }}
+
+        {{^ hide_price }}
+        {{# show_sale_price }}
+        <span style="position:absolute;right: 5px;bottom: 5px;font-weight: normal">{{ currency }} {{ sell_price.replace('.00','') }}</span>
+         {{/ show_sale_price }}
+        {{# show_purchase_price }}
+        <span style="position:absolute;right: 5px;bottom: 5px;font-weight: normal">{{ currency }} {{ purchase_price.replace('.00','') }}</span>
+         {{/ show_purchase_price }}
+
+        {{/ hide_price }}
     </div>
     </span>
 {{ /each }}

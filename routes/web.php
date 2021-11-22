@@ -91,6 +91,14 @@ Route::group(['middleware' => 'auth:web', 'prefix' => 'app'], function () {
 
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
+
+    Route::group(['prefix' => 'accounting/settings'], function () {
+        Route::get('/', [SettingsController::class, 'edit'])->name('accounting.settings.edit');
+        Route::get('/pos', [SettingsController::class, 'posSettings'])->name('accounting.settings.pos_settings');
+        Route::post('/pos', [SettingsController::class, 'posSettingsStore'])->name('accounting.settings.pos_settings_store');
+        Route::post('/store', [SettingsController::class, 'update'])->name('accounting.settings.update');
+    });
+
     /*
      *  php artisan resource-file:create Customer --fields=id,name,photo,company_name,phone,email,address,website
      *  php artisan create:scaffold Customer  --layout-name="layouts.app" --with-migration

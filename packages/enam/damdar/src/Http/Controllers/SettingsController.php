@@ -26,6 +26,11 @@ class SettingsController extends Controller
         return view('acc::settings.settings');
     }
 
+    public function posSettings()
+    {
+        View::share('title', 'POS Settings');
+        return view('settings.pos-settings');
+    }
 
     public function update(Request $request)
     {
@@ -39,6 +44,18 @@ class SettingsController extends Controller
             MetaSetting::query()->updateOrCreate(['key' => $key], ['value' => $value]);
         }
         return back()->with('success_message', 'Settings was successfully updated.');
+
+    }
+
+    public function posSettingsStore(Request $request)
+    {
+
+        $params = $request->all();
+
+        foreach ($params as $key => $value) {
+            MetaSetting::query()->updateOrCreate(['key' => $key], ['value' => $value]);
+        }
+        return back()->with('success_message', 'POS Settings was successfully updated.');
 
     }
 

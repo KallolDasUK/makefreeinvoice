@@ -10,6 +10,11 @@ const TABS = {
     RESERVED: "orders",
 
 }
+let hide_price = (settings.pos_hide_price || '0') === '1';
+let hide_stock = (settings.pos_hide_stock || '0') === '1';
+let show_sale_price = (settings.pos_card_price || 'sale_price') === 'sale_price';
+let show_purchase_price = settings.pos_card_price === 'purchase_price';
+
 var posRactive = new Ractive({
         target: '#pos',
         template: '#posTemplate',
@@ -36,7 +41,7 @@ var posRactive = new Ractive({
             start_date: start_date,
             end_date: end_date,
             needUpdate: true,
-            can_delete:can_delete
+            can_delete: can_delete, hide_stock, hide_price, show_purchase_price, show_sale_price
         },
         observe: {
             'products': (newProducts) => {
@@ -52,13 +57,14 @@ var posRactive = new Ractive({
                 posRactive.calculate()
 
                 $('#pos_items').val(JSON.stringify(newPosItems))
+                $('#product_search').focus()
 
             },
             'charges': (newCharges) => {
                 let needUpdate = posRactive.get('needUpdate')
                 if (needUpdate) {
                     posRactive.calculate()
-                    console.log('calculate', newCharges,needUpdate)
+                    console.log('calculate', newCharges, needUpdate)
                 }
                 $('#charges').val(JSON.stringify(newCharges))
 
@@ -126,8 +132,7 @@ var posRactive = new Ractive({
         ,
         onChargeDelete(i) {
             posRactive.splice('charges', i, 1);
-        }
-        ,
+        },
         calculate(paymentChanged = false) {
             let charges = posRactive.get('charges')
             let total = posRactive.get('sub_total')
@@ -174,8 +179,7 @@ var posRactive = new Ractive({
             posRactive.set('given', given)
             posRactive.set('change', change)
 
-        }
-        ,
+        },
         onPaymentRowCreate() {
             let change = posRactive.get('change');
             let nextAmount = 0;
@@ -396,3 +400,9 @@ function percentage(percent, total) {
 /* Calling Functions */
 
 setUpProductSearch()
+
+$(document).on('click', '#product_search', function () {
+    $('#product_search').focus()
+    // alert('lsd')
+})
+console.log(posRactive.get())
