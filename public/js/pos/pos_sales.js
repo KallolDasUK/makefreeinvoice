@@ -59,10 +59,7 @@ var posRactive = new Ractive({
                 posRactive.calculate()
 
                 $('#pos_items').val(JSON.stringify(newPosItems))
-                setTimeout(()=>{
-                    $('#product_search').focus()
 
-                },5000)
 
             },
             'charges': (newCharges) => {
@@ -119,16 +116,22 @@ var posRactive = new Ractive({
         delete_pos_item(i) {
             posRactive.splice('pos_items', i, 1);
             $('#product_search').focus()
+            $('#product_search').focus()
+
         }
         ,
         increment(i) {
             let pos_item = posRactive.get(`pos_items.${i}`);
             posRactive.set(`pos_items.${i}.qnt`, ++pos_item.qnt)
+            $('#product_search').focus()
+
         }
         ,
         decrement(i) {
             let pos_item = posRactive.get(`pos_items.${i}`);
             posRactive.set(`pos_items.${i}.qnt`, --pos_item.qnt)
+            $('#product_search').focus()
+
         }
         ,
         onChargeCreate() {
@@ -406,7 +409,7 @@ function percentage(percent, total) {
 
 setUpProductSearch()
 
-$(document).on('click', '#product_search', function () {
+$(document).on('blur', '.col-5 input, textarea', function () {
     $('#product_search').focus()
     // alert('lsd')
 })
