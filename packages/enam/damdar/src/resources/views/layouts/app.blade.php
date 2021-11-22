@@ -671,7 +671,9 @@
                                 <a href="{{ route('reports.report.voucher_report') }}">Voucher </a>
                             </li>
                             <li>
-                                <a href="{{ route('reports.report.cashbook') }}">Cashbook</a>
+                                <a
+                                    href="{{ route('reports.report.ledger_report',['ledger_id'=>\Enam\Acc\Models\Ledger::CASH_AC()]) }}">
+                                    Cashbook</a>
                             </li>
 
                             <li>

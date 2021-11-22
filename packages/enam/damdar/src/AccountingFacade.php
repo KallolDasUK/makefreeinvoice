@@ -183,7 +183,7 @@ class AccountingFacade extends Facade
          * */
 
         self::addTransaction($receivePaymentItem->receive_payment->deposit_to, optional($customer->ledger)->id, $receivePaymentItem->amount,
-            $receivePaymentItem->receive_payment->notes, $receivePaymentItem->receive_payment->payment_date,
+            $receivePaymentItem->receive_payment->note, $receivePaymentItem->receive_payment->payment_date,
             'Customer Payment', ReceivePaymentItem::class, $receivePaymentItem->id,
             $invoice->invoice_number, optional($invoice->customer)->name);
     }
@@ -236,7 +236,7 @@ class AccountingFacade extends Facade
         $bill = $billPaymentItem->bill;
         $vendor = $bill->vendor;
         self::addTransaction(optional($vendor->ledger)->id, $billPaymentItem->bill_payment->ledger_id, $billPaymentItem->amount,
-            $billPaymentItem->bill_payment->notes, $billPaymentItem->bill_payment->payment_date,
+            $billPaymentItem->bill_payment->note, $billPaymentItem->bill_payment->payment_date,
             'Vendor Payment', BillPaymentItem::class, $billPaymentItem->id,
             $bill->bill_number, optional($bill->vendor)->name);
     }

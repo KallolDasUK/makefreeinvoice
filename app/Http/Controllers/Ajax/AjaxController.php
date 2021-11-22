@@ -7,6 +7,7 @@ use App\Models\Bill;
 use App\Models\BillPayment;
 use App\Models\BillPaymentItem;
 use App\Models\Customer;
+use App\Models\Expense;
 use App\Models\Invoice;
 use App\Models\MetaSetting;
 use App\Models\PosPayment;
@@ -15,6 +16,7 @@ use App\Models\ReceivePayment;
 use App\Models\ReceivePaymentItem;
 use App\Models\Vendor;
 use Carbon\Carbon;
+use Enam\Acc\Models\Ledger;
 use Illuminate\Http\Request;
 
 class AjaxController extends Controller
@@ -163,4 +165,31 @@ class AjaxController extends Controller
             'total_paid' => decent_format_dash_if_zero($totalPaid)];
     }
 
+
+    public function today_report()
+    {
+        $today_sale = Invoice::query()->where('invoice_date', today()->toDateString())->sum('total');
+        $today_sale += PosSale::query()->where('date', today()->toDateString())->sum('total');
+        $today_sale = decent_format_dash_if_zero($today_sale);
+
+        $due_sale = Invoice::query()->where('invoice_date', today()->toDateString())->get()->sum('due');
+        $due_sale += PosSale::query()->where('date', today()->toDateString())->get()->sum('due');
+        $due_sale = decent_format_dash_if_zero($due_sale);
+
+        $due_collection = ReceivePayment::query()->where('payment_date', today()->toDateString())->get()->sum('amount');
+        $due_collection += PosPayment::query()->where('date', today()->toDateString())->sum('amount');
+        $due_collection = decent_format_dash_if_zero($due_collection);
+
+
+        $due_payment = BillPayment::query()->where('payment_date', today()->toDateString())->get()->sum('amount');
+        $due_payment = decent_format_dash_if_zero($due_payment);
+
+        $expense = Expense::query()->where('date', today()->toDateString())->get()->sum('amount');
+        $expense = decent_format_dash_if_zero($expense);
+
+        $cash = optional(Ledger::find(Ledger::CASH_AC()))->balance;
+        $cash = decent_format_dash_if_zero($cash ?? 0);
+
+        return view('partials.today-report', compact('today_sale', 'due_sale', 'due_collection', 'due_payment', 'expense', 'cash'));
+    }
 }

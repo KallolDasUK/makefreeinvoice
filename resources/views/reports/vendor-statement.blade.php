@@ -289,7 +289,7 @@
                                             <td class=" border-0">{{ $loop->iteration }}</td>
                                             <td class="text-start border-0">{{ $record->date }}</td>
                                             <td class="text-right border-0">{{ $record->bill }}</td>
-                                            <td class="text-right border-0">{{ $record->description }}</td>
+                                            <td class="text-right border-0">{!! $record->description !!}</td>
                                             <td class="text-right border-0">{{ decent_format_dash_if_zero($record->payment) }}</td>
                                             <td class="text-right border-0">{{ decent_format_dash_if_zero($record->amount) }}</td>
                                             <td class="text-right border-0  bg-secondary font-weight-bolder">{{ decent_format_dash_if_zero($balance) }}</td>

@@ -127,7 +127,7 @@ trait ReportService
             if ($invoice->payments()->sum('amount') > 0) {
                 foreach ($invoice->payments as $payment) {
                     if ($payment->receive_payment->payment_date > $start_date && $payment->receive_payment->payment_date <= $end_date) {
-                        $record = ['date' => $payment->receive_payment->payment_date, 'invoice' => $invoice->invoice_number, 'description' => 'Payment Received', 'payment' => $payment->amount, 'amount' => 0];
+                        $record = ['date' => $payment->receive_payment->payment_date, 'invoice' => $invoice->invoice_number, 'description' => 'Payment By '. optional(optional($payment->receive_payment)->ledger)->ledger_name.'<br>'.optional($payment->receive_payment)->note, 'payment' => $payment->amount, 'amount' => 0];
                         $records[] = (object)$record;
                     }
 
@@ -175,7 +175,7 @@ trait ReportService
             if ($bill->payments()->sum('amount') > 0) {
                 foreach ($bill->payments as $payment) {
                     if ((optional($payment->bill_payment)->payment_date > $start_date && optional($payment->bill_payment)->payment_date <= $end_date)) {
-                        $record = ['date' => optional($payment->bill_payment)->payment_date, 'bill' => $bill->bill_number, 'description' => 'Paid by ' . optional(optional($payment->bill_payment)->paymentMethod)->name, 'payment' => $payment->amount, 'amount' => 0];
+                        $record = ['date' => optional($payment->bill_payment)->payment_date, 'bill' => $bill->bill_number, 'description' => 'Payment by ' . optional(optional($payment->bill_payment)->ledger)->ledger_name.'<br>'.optional($payment->bill_payment)->note, 'payment' => $payment->amount, 'amount' => 0];
                         $records[] = (object)$record;
                     }
 

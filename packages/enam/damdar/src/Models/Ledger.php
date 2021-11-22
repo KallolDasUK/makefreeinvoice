@@ -180,7 +180,7 @@ class Ledger extends Model
     {
 
         return TransactionDetail::query()
-            ->where('ledger_id',$this->id)
+            ->where('ledger_id', $this->id)
             ->where('entry_type', EntryType::$DR)
             ->sum('amount');
     }
@@ -188,7 +188,7 @@ class Ledger extends Model
     public function getCrAttribute()
     {
         return TransactionDetail::query()
-            ->where('ledger_id',$this->id)
+            ->where('ledger_id', $this->id)
             ->where('entry_type', EntryType::$CR)
             ->sum('amount');
     }
@@ -215,9 +215,9 @@ class Ledger extends Model
 
         $totalCr = $this->cr;
         $totalDr = $this->dr;
-        if ($this->id == 369){
+        if ($this->id == 369) {
 
-            dd($totalCr,$totalDr);
+            dd($totalCr, $totalDr);
         }
         $currentBalance = 0;
         $type = '';
@@ -246,6 +246,8 @@ class Ledger extends Model
     {
         return GroupMap::query()->where('key', LedgerHelper::$CASH_AC)->first()->value ?? null;
     }
+
+
 
     public static function ACCOUNTS_RECEIVABLE()
     {

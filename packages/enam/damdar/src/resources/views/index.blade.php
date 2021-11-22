@@ -134,10 +134,15 @@
         <div class="row card mt-4">
             <div class="card-body">
                 <div class="font-weight-bolder">
-                    PRODUCT SHORTCUTS
+                    QUICK SHORTCUTS
                 </div>
                 <div class="float-right">
-                    <a class="btn btn-outline-secondary text-primary btn-link font-weight-bolder" href="{{ route('shortcuts.shortcut.index') }}"> <span class="fa fa-link mr-2"></span> Manage Shortcuts</a>
+                    <button class="btn btn-outline-info  font-weight-bolder" id="todays_report" ><span
+                            class="fa fa-file mr-2"></span> Today's Report
+                    </button>
+                    <a class="btn btn-outline-secondary text-primary btn-link font-weight-bolder"
+                       href="{{ route('shortcuts.shortcut.index') }}"> <span class="fa fa-link mr-2"></span> Manage
+                        Shortcuts</a>
                 </div>
                 <div class="clearfix"></div>
                 <a href="{{ route('products.product.create') }}"
@@ -433,7 +438,7 @@
                     <div class="shortcuts-title sc-jlyJG gSoaLO title">Profit & Loss</div>
                 </a>
                 <a class="sc-gPEVay eaBhby {{ ability_class(\App\Utils\Ability::REPORT_READ) }}   @cannot('ap_aging') pro-tag @endcannot"
-                   href="{{ route('reports.report.cashbook') }}">
+                   href="{{ route('reports.report.ledger_report',['ledger_id'=>\Enam\Acc\Models\Ledger::CASH_AC()]) }}">
                     <div class="sc-iRbamj image" style="background-image:url('images/estimate.svg') ">
 
                     </div>
@@ -528,6 +533,20 @@
     </div>
 
 
+    <div class="modal fade" id="todayReportModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true" style="z-index: 99999;">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+
+                <div class="modal-body">
+                    <div class="content px-2 py-0" id="content">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
 @endsection
 
@@ -537,10 +556,22 @@
     <script>
         $(document).ready(function () {
 
-            // $('input').focus()
             $('.development').on('click', function () {
                 swal.fire("Under Development!");
             })
+            /* LOAD Today Report */
+            $('#todays_report').on('click',function () {
+                $('#todayReportModal').modal('show')
+                $.ajax({
+                    url: route('ajax.todayReport'),
+                    type: 'get',
+                    success: function (response) {
+                        $('#content').html(response)
+                    },
+
+                });
+            })
+
 
 
         })
