@@ -38,7 +38,7 @@ class ReportController extends AccountingReportsController
     {
 
         $this->authorize('tax_summary');
-        $start_date = $request->start_date ?? today()->startOfYear()->toDateString();
+        $start_date = $request->start_date ?? today()->startOfMonth()->toDateString();
         $end_date = $request->end_date ?? today()->toDateString();
         $report_type = $request->report_type ?? 'accrual';
         $title = "Tax Report Summary";
@@ -52,7 +52,7 @@ class ReportController extends AccountingReportsController
     public function customerStatement(Request $request)
     {
 
-        $start_date = $request->start_date ?? today()->startOfYear()->toDateString();
+        $start_date = $request->start_date ?? today()->startOfMonth()->toDateString();
         $end_date = $request->end_date ?? today()->toDateString();
         $customer_id = $request->customer_id;
         $customers = Customer::all();
@@ -78,7 +78,7 @@ class ReportController extends AccountingReportsController
     public function vendorStatement(Request $request)
     {
 
-        $start_date = $request->start_date ?? today()->startOfYear()->toDateString();
+        $start_date = $request->start_date ?? today()->startOfMonth()->toDateString();
         $end_date = $request->end_date ?? today()->toDateString();
         $vendor_id = $request->vendor_id;
         $vendors = Vendor::all();
@@ -102,7 +102,7 @@ class ReportController extends AccountingReportsController
 
     public function stockReport(Request $request)
     {
-        $start_date = $request->start_date ?? today()->startOfYear()->toDateString();
+        $start_date = $request->start_date ?? today()->startOfMonth()->toDateString();
         $end_date = $request->end_date ?? today()->toDateString();
         $report_type = $request->report_type ?? 'accrual';
         $brand_id = $request->brand_id;
@@ -136,7 +136,7 @@ class ReportController extends AccountingReportsController
 
     public function trialBalance(Request $request)
     {
-        $start_date = $request->start_date ?? today()->startOfYear()->toDateString();
+        $start_date = $request->start_date ?? today()->startOfMonth()->toDateString();
         $end_date = $request->end_date ?? today()->toDateString();
         $branch_id = $request->branch_id ?? 'All';
         $title = "Trial Balance";
@@ -152,7 +152,7 @@ class ReportController extends AccountingReportsController
     {
 
         $this->authorize('profit_loss');
-        $start_date = $request->start_date ?? today()->startOfYear()->toDateString();
+        $start_date = $request->start_date ?? today()->startOfMonth()->toDateString();
         $end_date = $request->end_date ?? today()->toDateString();
         $branch_id = $request->branch_id ?? 'All';
         $title = "Loss Profit Report";
@@ -185,7 +185,7 @@ class ReportController extends AccountingReportsController
 
     public function receiptPaymentReport(Request $request)
     {
-        $start_date = $request->start_date ?? today()->startOfYear()->toDateString();
+        $start_date = $request->start_date ?? today()->startOfMonth()->toDateString();
         $end_date = $request->end_date ?? today()->toDateString();
         $branch_id = $request->branch_id ?? 'All';
         $title = "Receipt & Payment Reports";
@@ -201,7 +201,7 @@ class ReportController extends AccountingReportsController
 
     public function cashbookReport(Request $request)
     {
-        $start_date = $request->start_date ?? today()->startOfYear()->toDateString();
+        $start_date = $request->start_date ?? today()->startOfMonth()->toDateString();
         $end_date = $request->end_date ?? today()->toDateString();
         $branch_id = $request->branch_id ?? 'All';
         $ledger_id = Ledger::CASH_AC();
@@ -221,7 +221,7 @@ class ReportController extends AccountingReportsController
     {
 
         $this->authorize('balance_sheet');
-        $start_date = $request->start_date ?? today()->startOfYear()->toDateString();
+        $start_date = $request->start_date ?? today()->startOfMonth()->toDateString();
         $end_date = $request->end_date ?? today()->toDateString();
         $branch_id = $request->branch_id ?? null;
         $prevent_opening = boolval($request->prevent_opening ?? false);
@@ -325,7 +325,7 @@ class ReportController extends AccountingReportsController
 
     public function voucherReport(Request $request)
     {
-        $start_date = $request->start_date ?? today()->startOfYear()->toDateString();
+        $start_date = $request->start_date ?? today()->startOfMonth()->toDateString();
         $end_date = $request->end_date ?? today()->toDateString();
         $branch_id = $request->branch_id ?? 'All';
         $title = 'Voucher Reports';

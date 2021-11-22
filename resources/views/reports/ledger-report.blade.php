@@ -194,7 +194,7 @@
                             <tbody>
                             <tr style="font-weight: bolder;text-align: center">
                                 <td></td>
-                                <td colspan="5"  class="text-left">OPENING BALANCE</td>
+                                <td colspan="5" class="text-left">OPENING BALANCE</td>
                                 <td>{{ decent_format_dash($data->opening_debit??0) }}</td>
                                 <td>{{ decent_format_dash($data->opening_credit??0) }}</td>
                             </tr>
@@ -208,7 +208,7 @@
                                     <td class="text-left"
                                         style="max-width: 200px">{{ implode(',',participants(optional($txnDetail->transaction)->id,$txnDetail->ledger_id)) }}</td>
 
-                                    <td class="text-left">{!! str_replace('\n','</br>',$txnDetail->transaction_details) !!}</td>
+                                    <td class="text-left">{!! str_replace('\n','</br>',$txnDetail->transaction_details) !!} {!! '<br>'.$txnDetail->note !!}</td>
                                     <td class="text-left">{{ optional($txnDetail->transaction)->txn_type }}</td>
                                     <td class="text-left">{{ $txnDetail->ref??optional($txnDetail->transaction)->voucher_no }}</td>
 
@@ -225,9 +225,11 @@
 
                                 </tr>
                             @empty
-                                    <tr>
-                                        <td colspan="7" class="text-center font-weight-bolder">No Transaction Made During this periods. :(</td>
-                                    </tr>
+                                <tr>
+                                    <td colspan="7" class="text-center font-weight-bolder">No Transaction Made During
+                                        this periods. :(
+                                    </td>
+                                </tr>
                             @endforelse
                             <tr style="font-weight: bolder;text-align: center">
                                 <td></td>

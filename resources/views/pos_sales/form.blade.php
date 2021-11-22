@@ -222,8 +222,10 @@
         <span class="product" style="position:relative;">
         <i class="fas fa-bookmark bookmark_icon"  data-toggle="tooltip" data-placement="top" title="Remove Bookmark"  product-id="{{id}}" style="position: absolute;right: 0;z-index: 20;display: none"></i>
 
-        <div class="ml-2 item rounded btn" on-click="@this.onProductSelected(id)" >
-             <span class="">{{ short_name }}</span>
+        <div class="ml-2 item rounded btn" on-click="@this.onProductSelected(id)" style=" {{^ hide_image }} background-image: url('{{ image }}'); {{/ hide_image }}"  >
+              {{^ hide_name }}
+        <span class="">{{ short_name }}</span>
+        {{/ hide_name }}
 
              {{^ hide_stock }}
         <span class="{{ stock > 0 ?'':'text-danger' }}"

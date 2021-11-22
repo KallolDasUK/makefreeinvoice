@@ -41,9 +41,11 @@ use App\Models\BillPaymentItem;
 use App\Models\Blog;
 use App\Models\Customer;
 use App\Models\EstimateItem;
+use App\Models\Expense;
 use App\Models\ExpenseItem;
 use App\Models\Invoice;
 use App\Models\InvoiceItem;
+use App\Models\PosPayment;
 use App\Models\PosSale;
 use App\Models\Reason;
 use App\Models\ReceivePaymentItem;
@@ -353,6 +355,7 @@ Route::group(['middleware' => 'auth:web', 'prefix' => 'app'], function () {
         Route::get('/customer-payment-receipt/{id}', [AjaxController::class, 'customerPaymentReceipt'])->name('ajax.customerPaymentReceipt');
         Route::get('/invoice-summary-report', [AjaxController::class, 'invoice_summary'])->name('ajax.invoiceSummaryReport');
         Route::get('/bill-summary-report', [AjaxController::class, 'bill_summary'])->name('ajax.billSummaryReport');
+        Route::get('/today-report', [AjaxController::class, 'today_report'])->name('ajax.todayReport');
     });
 
 
@@ -673,7 +676,7 @@ Route::get('master/users/login/{email}', [MasterController::class, 'loginClient'
 Route::get('/task', function () {
 
 
-    dd(ability_class(\App\Utils\Ability::INVOICE_CREATE));
+    dd('');
 
     foreach (User::all() as $user) {
         Auth::login($user);

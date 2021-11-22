@@ -224,7 +224,7 @@
                 </a>
 
                 <a class="sc-gPEVay eaBhby @cannot('cash_book') pro-tag @endcannot"
-                   href="{{ route('reports.report.cashbook') }}">
+                   href="{{ route('reports.report.ledger_report',['ledger_id'=>\Enam\Acc\Models\Ledger::CASH_AC()]) }}">
                     <div class="sc-iRbamj image" style="background-image:url('{{ asset('images/estimate.svg') }}') ">
 
                     </div>
