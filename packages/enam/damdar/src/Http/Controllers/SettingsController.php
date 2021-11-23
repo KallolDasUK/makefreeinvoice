@@ -80,7 +80,13 @@ class SettingsController extends Controller
     public function referEarn()
     {
         $user = auth()->user();
-        return view('settings.refer-earn', compact('user'));
+        $affiliatedUsers = $user->referred;
+        $totalReferredUser = count($affiliatedUsers ?? []);
+
+
+        $totalEarnings = decent_format_dash_if_zero(0);
+        $balance = decent_format_dash_if_zero(0);
+        return view('settings.refer-earn', compact('user', 'affiliatedUsers', 'totalReferredUser', 'totalEarnings', 'balance'));
 
     }
 
