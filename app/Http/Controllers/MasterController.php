@@ -35,7 +35,7 @@ class MasterController extends Controller
         $end_date = $request->end_date;
 
 
-        $users = User::withCount(['invoices', 'pos_sales'])
+        $users = User::query()->withCount(['invoices', 'pos_sales'])
             ->where('role_id', null)
             ->when($filter_type != null, function ($query) use ($filter_type, $start_date, $end_date) {
                 if ($filter_type == "active_within") {
@@ -46,18 +46,19 @@ class MasterController extends Controller
                 }
                 return $query;
             })
-            ->orderBy('invoices_count', $sort_type ?? 'desc')
-            ->paginate(25);
+            ->orderBy('invoices_count', $sort_type ?? 'desc');
+
 
 //        dd($users);
-        $totalClients = 0;
         $totalInvoices = 0;
         $totalBills = 0;
-        $totalClients += count(User::all());
-        foreach (User::query()->where('role_id', null)->get() as $user) {
+        $totalClients = count($users->get());
+//        dd($users->items());
+        foreach ($users->get() as $user) {
             $totalInvoices += count($user->invoices);
             $totalBills += count($user->bills);
         }
+        $users = $users->paginate(25);
         $totalPosSale = count(\DB::table('pos_sales')->where('client_id', '!=', null)->get());
         return view('master.users', compact('users', 'totalBills', 'totalClients',
             'totalInvoices', 'totalPosSale', 'start_date', 'end_date', 'filter_type', 'sort_type'));
