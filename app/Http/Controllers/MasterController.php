@@ -27,13 +27,26 @@ class MasterController extends Controller
         return view('master.index');
     }
 
-    public function users()
+    public function users(Request $request)
     {
+        $filter_type = $request->filter_type;
+        $sort_type = $request->sort_type;
+        $start_date = $request->start_date;
+        $end_date = $request->end_date;
+
 
         $users = User::withCount(['invoices', 'pos_sales'])
             ->where('role_id', null)
-            ->orderBy('invoices_count', 'desc')
-            ->orderBy('created_at', 'asc')
+            ->when($filter_type != null, function ($query) use ($filter_type, $start_date, $end_date) {
+                if ($filter_type == "active_within") {
+                    return $query->whereBetween('last_active_at', [$start_date, $end_date]);
+
+                } elseif ($filter_type == "joined_within") {
+                    return $query->whereBetween('created_at', [$start_date, $end_date]);
+                }
+                return $query;
+            })
+            ->orderBy('invoices_count', $sort_type ?? 'desc')
             ->paginate(25);
 
 //        dd($users);
@@ -46,7 +59,8 @@ class MasterController extends Controller
             $totalBills += count($user->bills);
         }
         $totalPosSale = count(\DB::table('pos_sales')->where('client_id', '!=', null)->get());
-        return view('master.users', compact('users', 'totalBills', 'totalClients', 'totalInvoices', 'totalPosSale'));
+        return view('master.users', compact('users', 'totalBills', 'totalClients',
+            'totalInvoices', 'totalPosSale', 'start_date', 'end_date', 'filter_type', 'sort_type'));
     }
 
     public function deleteUser($id)

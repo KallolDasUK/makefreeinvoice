@@ -44,7 +44,54 @@
                 </div>
             </div>
         </div>
+        <div class="card">
+            <div class="card-body">
+                <form action="{{ route('master.users') }}">
+                    <div class="row align-items-end justify-content-center">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="">Filter Type</label>
+                                <select name="filter_type" id="filter_type" class="form-control" required>
+                                    <option value="" disabled selected>-- Choose --</option>
+                                    <option value="active_within" @if($filter_type == "active_within") selected @endif>Active Within</option>
+                                    <option value="joined_within"  @if($filter_type == "joined_within") selected @endif>Joined Within</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="">Sort Type</label>
+                                <select name="sort_type" id="sort_type" class="form-control" required>
+                                    <option value="" disabled selected>-- Choose --</option>
+                                    <option value="asc"  @if($sort_type == "asc") selected @endif>Ascending</option>
+                                    <option value="desc" @if($sort_type == "desc") selected @endif>Descending</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="">Start Date</label>
+                                <input type="date" name="start_date" class="form-control" required value="{{ $start_date }}">
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="">End Date</label>
+                                <input type="date" name="end_date" class="form-control" required value="{{ $end_date }}">
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="">&nbsp</label>
+                                <input type="submit" value="Filter" class="btn btn-primary">
+                                <a href="{{ route('master.users') }}" class="btn btn-danger">Clear Filter</a>
+                            </div>
+                        </div>
+                    </div>
+                </form>
 
+            </div>
+        </div>
 
         <table class="table table-bordered table-sm">
             <thead>
@@ -100,7 +147,8 @@
                     <td>{{ count($user->customers)==0?'-':count($user->customers) }}</td>
                     <td>{{ count($user->vendors)==0?'-':count($user->vendors) }}</td>
                     <td>
-                        <a class="btn btn-sm btn-danger" onclick="return confirm('are you sure?')" href="{{ route('master.users.delete',$user->id) }}">Delete</a>
+                        <a class="btn btn-sm btn-danger d-none" onclick="return confirm('are you sure?')"
+                           href="{{ route('master.users.delete',$user->id) }}">Delete</a>
 
                     </td>
                     <td>
