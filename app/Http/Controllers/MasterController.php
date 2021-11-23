@@ -35,18 +35,29 @@ class MasterController extends Controller
         $end_date = $request->end_date;
 
 
-        $users = User::query()->withCount(['invoices', 'pos_sales'])
+        $users = User::query()
+            ->withCount(['invoices', 'pos_sales'])
             ->where('role_id', null)
             ->when($filter_type != null, function ($query) use ($filter_type, $start_date, $end_date) {
                 if ($filter_type == "active_within") {
                     return $query->whereBetween('last_active_at', [$start_date, $end_date]);
-
                 } elseif ($filter_type == "joined_within") {
                     return $query->whereBetween('created_at', [$start_date, $end_date]);
                 }
                 return $query;
             })
-            ->orderBy('invoices_count', $sort_type ?? 'desc');
+            ->when($sort_type != null, function ($query) use ($sort_type, $filter_type) {
+
+                if ($filter_type == "active_within") {
+                    return $query->orderBy('last_active_at', $sort_type ?? 'desc');
+                } elseif ($filter_type == "joined_within") {
+                    return $query->orderBy('created_at', $sort_type ?? 'desc');
+                }
+                return $query;
+            })
+            ->when($sort_type == null, function ($query) {
+                return $query->orderBy('invoices_count', $sort_type ?? 'desc');
+            });
 
 
 //        dd($users);
