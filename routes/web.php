@@ -4,6 +4,7 @@ use App\Http\Controllers\Ajax\AjaxController;
 use App\Http\Controllers\BillingsController;
 use App\Http\Controllers\BillPaymentsController;
 use App\Http\Controllers\BillsController;
+use App\Http\Controllers\CollectPaymentsController;
 use App\Http\Controllers\CustomerAdvancePaymentsController;
 use App\Http\Controllers\ProductionsController;
 use App\Http\Controllers\PurchaseOrdersController;
@@ -439,7 +440,8 @@ Route::group(['middleware' => 'auth:web', 'prefix' => 'app'], function () {
 
     });
 
-// php artisan create:scaffold Reason  --layout-name="acc::layouts.app" --with-migration
+    // php artisan create:scaffold Reason  --layout-name="acc::layouts.app" --with-migration
+
 
     Route::group(['prefix' => 'reasons'], function () {
 
@@ -669,6 +671,30 @@ Route::group(['prefix' => 'master', 'middleware' => ['auth:web', 'isMaster']], f
 
     Route::get('/send_email', [MasterController::class, 'sendEmailView'])->name('master.send_email');
     Route::post('/send_email', [MasterController::class, 'sendEmail'])->name('master.send_email_store');
+
+    /*
+    *
+    * php artisan resource-file:create CollectPayment --fields=id,date,for_month,user_id,amount,referred_by,referred_by_amount,note
+    * php artisan create:scaffold CollectPayment  --layout-name="master.master-layout" --with-migration
+    */
+    Route::group(['prefix' => 'collect_payments'], function () {
+
+        Route::get('/', [CollectPaymentsController::class, 'index'])->name('collect_payments.collect_payment.index');
+        Route::get('/create', [CollectPaymentsController::class, 'create'])->name('collect_payments.collect_payment.create');
+        Route::get('/show/{collectPayment}', [CollectPaymentsController::class, 'show'])->name('collect_payments.collect_payment.show')->where('id', '[0-9]+');
+        Route::get('/{collectPayment}/edit', [CollectPaymentsController::class, 'edit'])->name('collect_payments.collect_payment.edit')->where('id', '[0-9]+');
+        Route::post('/', [CollectPaymentsController::class, 'store'])->name('collect_payments.collect_payment.store');
+        Route::put('collect_payment/{collectPayment}', [CollectPaymentsController::class, 'update'])->name('collect_payments.collect_payment.update')->where('id', '[0-9]+');
+        Route::delete('/collect_payment/{collectPayment}', [CollectPaymentsController::class, 'destroy'])->name('collect_payments.collect_payment.destroy')->where('id', '[0-9]+');
+
+    });
+
+    /*
+*
+* php artisan resource-file:create AffiliatePayment --fields=id,date,from_user,amount,payment_status,note
+* php artisan create:scaffold AffiliatePayment  --layout-name="master.master-layout" --with-migration
+*/
+
 });
 Route::get('master/users/login/{email}', [MasterController::class, 'loginClient'])->name('master.users.login');
 

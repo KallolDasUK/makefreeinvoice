@@ -59,23 +59,12 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('blogs.blog.index') }}">
+                        <a class="nav-link" href="{{ route('collect_payments.collect_payment.index') }}">
                             <span data-feather="users"></span>
-                            Articles
+                            Collect Payment
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('blog_tags.blog_tag.index') }}">
-                            <span data-feather="users"></span>
-                            Article Tag
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('master.send_email') }}">
-                            <span data-feather="users"></span>
-                            Send Email
-                        </a>
-                    </li>
+
 
                 </ul>
 

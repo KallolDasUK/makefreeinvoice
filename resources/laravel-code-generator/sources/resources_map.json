@@ -101,5 +101,9 @@
     {
         "model-name": "Shortcut",
         "resource-file": "shortcuts.json"
+    },
+    {
+        "model-name": "CollectPayment",
+        "resource-file": "collect_payments.json"
     }
 ]

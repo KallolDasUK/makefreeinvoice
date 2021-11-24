@@ -131,7 +131,24 @@
 
                 </div>
             </div>
-            <div class="col"></div>
+            <div class="col">
+                <div class="card ">
+                    <div class="d-flex align-items-center justify-content-center">
+                        <div class="card-body ">
+                            <button class="btn btn-primary" style="width: 100%">
+                                <i class="fa fa-outdent"></i>
+                                Withdraw Fund</button>
+                            <hr>
+                                <button class="btn btn-info" style="width: 100%">
+                                    <i class="fa fa-history"></i>
+                                    Payment History</button>
+
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
         </div>
 
         <div class="card">
@@ -143,6 +160,7 @@
                         <th scope="col">Name</th>
                         <th scope="col">Email</th>
                         <th scope="col">Joined</th>
+                        <th scope="col">Active</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -152,6 +170,7 @@
                             <td>{{ $user->name }}</td>
                             <td>{{ $user->email }}</td>
                             <td>{{ \Carbon\Carbon::parse($user->created_at)->diffForHumans() }}</td>
+                            <td>{{ \Carbon\Carbon::parse($user->last_active_at)->diffForHumans() }}</td>
                         </tr>
                     @empty
                         <tr>
