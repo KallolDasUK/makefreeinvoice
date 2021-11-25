@@ -15,7 +15,7 @@ class CreateAffiliatePayablesTable extends Migration
     {
         Schema::create('affiliate_payables', function (Blueprint $table) {
             $table->id();
-//            date,from_user,amount,payment_status,note
+//          date,from_user,amount,payment_status,note
             $table->date('date')->nullable();
             $table->string('amount')->nullable();
             $table->string('from_user')->nullable();

@@ -29,7 +29,7 @@
 
         <span class="text-danger font-bolder">*</span>
 
-        <select class="form-control" id="user_id" name="user_id">
+        <select class="form-control searchable" id="user_id" name="user_id">
             <option value="" style="display: none;"
                     {{ old('user_id', optional($collectPayment)->user_id ?: '') == '' ? 'selected' : '' }} disabled
                     selected>Select user
@@ -65,7 +65,7 @@
         <label for="referred_by">Referred By</label>
 
 
-        <select class="form-control" id="referred_by" name="referred_by">
+        <select class="form-control searchable" id="referred_by" name="referred_by">
             <option value=""
                     {{ old('referred_by', optional($collectPayment)->referred_by ?: '') == '' ? 'selected' : '' }}
                     selected>Select referred by

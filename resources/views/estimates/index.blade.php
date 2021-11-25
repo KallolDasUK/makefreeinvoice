@@ -44,7 +44,7 @@
         <!--begin::Header-->
         <div class="card-header border-0 py-5">
             <h3 class="card-title align-items-start flex-column">
-                <span class="card-label font-weight-bolder text-dark">Estimates</span>
+                <span class="card-label font-weight-bolder text-dark">Proforma Invoices</span>
                 <span class="text-muted mt-3 font-weight-bold font-size-sm">More than 400+ new members</span>
             </h3>
             <div class="card-toolbar">
@@ -52,7 +52,7 @@
                    class="btn btn-success btn-lg font-weight-bolder font-size-sm  {{ ability(\App\Utils\Ability::ESTIMATE_CREATE) }}" style="font-size: 16px">
                     <i class="fas fa-fw fa-plus" aria-hidden="true"></i>
 
-                    </span>Create an estimate</a>
+                    </span>Create a proforma</a>
             </div>
         </div>
         <!--end::Header-->

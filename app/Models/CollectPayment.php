@@ -14,7 +14,7 @@ class CollectPayment extends Model
     }
 
 
-    public function referred_by()
+    public function referred()
     {
         return $this->belongsTo('App\Models\User', 'referred_by');
     }

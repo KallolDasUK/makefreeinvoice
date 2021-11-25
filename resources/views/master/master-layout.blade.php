@@ -16,10 +16,13 @@
           crossorigin="anonymous" referrerpolicy="no-referrer"/>
     <!-- Custom styles for this template -->
     <link href="{{ asset('js/master/dashboard.css') }}" rel="stylesheet">
-
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+            integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css"
           integrity="sha512-nMNlpuaDPrqlEls3IX/Q56H36qvBASwb3ipuo3MxeWbsQB1881ox0cRv7UPTgBlriqoynt35KjEwgGUeUXIPnw=="
           crossorigin="anonymous" referrerpolicy="no-referrer"/>
+
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     @yield('css')
     @push('css')
 </head>
@@ -62,6 +65,12 @@
                         <a class="nav-link" href="{{ route('collect_payments.collect_payment.index') }}">
                             <span data-feather="users"></span>
                             Collect Payment
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('payment_requests.payment_request.index') }}">
+                            <span data-feather="users"></span>
+                            Withdraw Request
                         </a>
                     </li>
 
@@ -113,33 +122,11 @@
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 <script>
-    var ctx = document.getElementById("myChart");
-    var myChart = new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
-            datasets: [{
-                data: [15339, 21345, 18483, 24003, 23489, 24092, 12034],
-                lineTension: 0,
-                backgroundColor: 'transparent',
-                borderColor: '#007bff',
-                borderWidth: 4,
-                pointBackgroundColor: '#007bff'
-            }]
-        },
-        options: {
-            scales: {
-                yAxes: [{
-                    ticks: {
-                        beginAtZero: false
-                    }
-                }]
-            },
-            legend: {
-                display: false,
-            }
-        }
-    });
+
+
+    $(document).ready(function () {
+        $('.searchable').select2({placeholder: "-- Choose --"})
+    })
 </script>
 
 @yield('js')

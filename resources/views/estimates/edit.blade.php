@@ -9,19 +9,19 @@
 
         <div class="card-header">
 
-            <h5 class="my-1 float-left">{{ !empty($title) ? $title : 'Edit Estimate #'.$estimate->estimate_number }}</h5>
+            <h5 class="my-1 float-left">{{ !empty($title) ? $title : 'Edit Proforma #'.$estimate->estimate_number }}</h5>
 
             <div class="btn-group btn-group-sm float-right" role="group">
 
                 <a href="{{ route('estimates.estimate.index') }}" class="btn btn-primary mr-2  {{ ability(\App\Utils\Ability::ESTIMATE_READ) }}"
                    title="Show All estimate">
                     <i class=" fas fa-fw fa-th-list" aria-hidden="true"></i>
-                    Show All estimate
+                    Show All Proforma
                 </a>
 
                 <a href="{{ route('estimates.estimate.create') }}" class="btn btn-success  {{ ability(\App\Utils\Ability::ESTIMATE_CREATE) }}" title="Create New estimate">
                     <i class=" fas fa-fw fa-plus" aria-hidden="true"></i>
-                    Create New estimate
+                    Create New Proforma
                 </a>
 
             </div>

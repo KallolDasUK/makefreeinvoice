@@ -2,7 +2,9 @@
 
 namespace Enam\Acc\Http\Controllers;
 
+use App\Models\CollectPayment;
 use App\Models\MetaSetting;
+use App\Models\PaymentRequest;
 use App\Models\User;
 use Enam\Acc\Http\Controllers\Controller;
 use Enam\Acc\Models\Ledger;
@@ -84,8 +86,12 @@ class SettingsController extends Controller
         $totalReferredUser = count($affiliatedUsers ?? []);
 
 
-        $totalEarnings = decent_format_dash_if_zero(0);
-        $balance = decent_format_dash_if_zero(0);
+        $collectPayments = CollectPayment::query()->where('referred_by', $user->id)->sum('referred_by_amount');
+        $totalEarnings = decent_format_dash_if_zero($collectPayments);
+        $totalWithdraw = PaymentRequest::query()->where('user_id', $user->id)->sum('amount');
+
+
+        $balance = decent_format_dash_if_zero($collectPayments - $totalWithdraw);
         return view('settings.refer-earn', compact('user', 'affiliatedUsers', 'totalReferredUser', 'totalEarnings', 'balance'));
 
     }

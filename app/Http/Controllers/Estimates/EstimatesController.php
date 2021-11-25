@@ -61,7 +61,7 @@ class EstimatesController extends Controller
         $taxes = Tax::query()->latest()->get()->toArray();
         $extraFields = optional(Estimate::query()->latest()->first())->extra_fields ?? [];
         $estimate_fields = optional(Estimate::query()->latest()->first())->estimate_extra ?? [];
-        $next_invoice = 'EST-' . str_pad(count(Estimate::query()->get()) + 1, 4, '0', STR_PAD_LEFT);
+        $next_invoice = 'PRF-' . str_pad(count(Estimate::query()->get()) + 1, 4, '0', STR_PAD_LEFT);
 
         return view('estimates.create', compact('customers', 'products', 'taxes', 'next_invoice', 'categories', 'extraFields', 'estimate_fields', 'cashAcId', 'depositAccounts', 'paymentMethods'));
     }

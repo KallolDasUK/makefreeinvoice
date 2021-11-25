@@ -6,12 +6,12 @@
     @include('partials.ajax-tax-create-form')
     @include('partials.ajax-payment-method-create-form')
     <div class="float-left">
-        <h2>Add an Estimate</h2>
+        <h2>Add a Proforma</h2>
     </div>
     <div class="text-right">
         <a href="{{ route('estimates.estimate.index') }}" class="btn btn-primary  {{ ability(\App\Utils\Ability::ESTIMATE_READ) }}" title="Show All estimates">
             <i class=" fas fa-fw fa-th-list" aria-hidden="true"></i>
-            My Estimate List
+            My Proforma List
         </a>
     </div>
     <p class="clearfix"></p>
@@ -33,7 +33,7 @@
 
                         <button class="btn btn-primary btn-lg btn-fw" type="submit">
 
-                            <i class="far fa-save"></i> Save estimate
+                            <i class="far fa-save"></i> Save Proforma
                         </button>
                     </div>
                 </div>

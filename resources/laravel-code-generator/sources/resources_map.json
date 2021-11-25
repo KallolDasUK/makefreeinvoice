@@ -105,5 +105,9 @@
     {
         "model-name": "CollectPayment",
         "resource-file": "collect_payments.json"
+    },
+    {
+        "model-name": "PaymentRequest",
+        "resource-file": "payment_requests.json"
     }
 ]

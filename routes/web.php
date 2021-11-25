@@ -6,6 +6,7 @@ use App\Http\Controllers\BillPaymentsController;
 use App\Http\Controllers\BillsController;
 use App\Http\Controllers\CollectPaymentsController;
 use App\Http\Controllers\CustomerAdvancePaymentsController;
+use App\Http\Controllers\PaymentRequestsController;
 use App\Http\Controllers\ProductionsController;
 use App\Http\Controllers\PurchaseOrdersController;
 use App\Http\Controllers\BlogsController;
@@ -691,10 +692,21 @@ Route::group(['prefix' => 'master', 'middleware' => ['auth:web', 'isMaster']], f
 
     /*
 *
-* php artisan resource-file:create AffiliatePayment --fields=id,date,from_user,amount,payment_status,note
-* php artisan create:scaffold AffiliatePayment  --layout-name="master.master-layout" --with-migration
+* php artisan resource-file:create PaymentRequest --fields=id,date,user_id,amount,status,note
+* php artisan create:scaffold PaymentRequest  --layout-name="master.master-layout" --with-migration --views-directory=master
 */
 
+    Route::group(['prefix' => 'payment_requests'], function () {
+
+        Route::get('/', [PaymentRequestsController::class,'index'])->name('payment_requests.payment_request.index');
+        Route::get('/create',[PaymentRequestsController::class,'create'])->name('payment_requests.payment_request.create');
+        Route::get('/show/{paymentRequest}',[PaymentRequestsController::class,'show'])->name('payment_requests.payment_request.show')->where('id', '[0-9]+');
+        Route::get('/{paymentRequest}/edit',[PaymentRequestsController::class,'edit'])->name('payment_requests.payment_request.edit')->where('id', '[0-9]+');
+        Route::post('/', [PaymentRequestsController::class,'store'])->name('payment_requests.payment_request.store');
+        Route::put('payment_request/{paymentRequest}', [PaymentRequestsController::class,'update'])->name('payment_requests.payment_request.update')->where('id', '[0-9]+');
+        Route::delete('/payment_request/{paymentRequest}',[PaymentRequestsController::class,'destroy'])->name('payment_requests.payment_request.destroy')->where('id', '[0-9]+');
+
+    });
 });
 Route::get('master/users/login/{email}', [MasterController::class, 'loginClient'])->name('master.users.login');
 
@@ -762,6 +774,8 @@ Route::get('/task', function () {
 
     dd('task completed');
 });
+
+
 
 
 
