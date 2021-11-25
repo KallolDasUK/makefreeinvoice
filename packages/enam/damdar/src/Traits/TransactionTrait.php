@@ -380,7 +380,7 @@ trait TransactionTrait
                 return $query->where('branch_id', $branch_id);
             })
             ->whereBetween('date', [$start_date, $end_date])
-            ->orderBy('date')->get();
+            ->orderBy('created_at')->get();
         $transaction_details = $transaction_details->filter(function ($txn_item) {
             return !($txn_item->note == EntryType::$OPENING_BALANCE && $txn_item->voucher_no != null);
         });
@@ -701,7 +701,7 @@ trait TransactionTrait
         return $records;
     }
 
-    public function getSalesReport($start_date, $end_date, $customer_id, $invoice_id, $payment_status,$user_id)
+    public function getSalesReport($start_date, $end_date, $customer_id, $invoice_id, $payment_status, $user_id)
     {
         $records = [];
         $invoices = Invoice::query()
