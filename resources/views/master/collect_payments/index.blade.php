@@ -58,7 +58,7 @@
                                 <td>{{ $collectPayment->for_month }}</td>
                                 <td>{{ optional($collectPayment->user)->name }}</td>
                                 <td>{{ $collectPayment->amount }}</td>
-                                <td>{{ optional($collectPayment->referred_by)->name }}</td>
+                                <td>{{ optional($collectPayment->referred)->name }}</td>
                                 <td>{{ $collectPayment->referred_by_amount }}</td>
 
                                 <td>

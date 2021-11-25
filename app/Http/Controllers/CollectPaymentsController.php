@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\AffiliatePayable;
 use App\Models\CollectPayment;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -33,7 +34,8 @@ class CollectPaymentsController extends Controller
 
         $data = $this->getData($request);
 
-        CollectPayment::create($data);
+        $collectPayment = CollectPayment::create($data);
+        $this->syncWithPayable($collectPayment);
 
         return redirect()->route('collect_payments.collect_payment.index')
             ->with('success_message', 'Collect Payment was successfully added.');
@@ -53,7 +55,7 @@ class CollectPaymentsController extends Controller
     {
         $collectPayment = CollectPayment::findOrFail($id);
         $users = User::pluck('name', 'id')->all();
-
+//        dd($collectPayment->referred);
         return view('master.collect_payments.edit', compact('collectPayment', 'users', 'users'));
     }
 
@@ -66,6 +68,7 @@ class CollectPaymentsController extends Controller
 
         $collectPayment = CollectPayment::findOrFail($id);
         $collectPayment->update($data);
+        $this->syncWithPayable($collectPayment);
 
         return redirect()->route('collect_payments.collect_payment.index')
             ->with('success_message', 'Collect Payment was successfully updated.');
@@ -73,19 +76,29 @@ class CollectPaymentsController extends Controller
     }
 
 
+    public function syncWithPayable(CollectPayment $payment)
+
+    {
+        AffiliatePayable::query()->where('type', get_class($payment))->where('type_id', $payment->id)->delete();
+
+        AffiliatePayable::create([
+            'date' => $payment->date,
+            'amount' => $payment->referred_by_amount,
+            'from_user' => $payment->user_id,
+            'type' => get_class($payment),
+            'type_id' => $payment->id,
+        ]);
+
+    }
+
     public function destroy($id)
     {
-        try {
-            $collectPayment = CollectPayment::findOrFail($id);
-            $collectPayment->delete();
 
-            return redirect()->route('collect_payments.collect_payment.index')
-                ->with('success_message', 'Collect Payment was successfully deleted.');
-        } catch (Exception $exception) {
-
-            return back()->withInput()
-                ->withErrors(['unexpected_error' => 'Unexpected error occurred while trying to process your request.']);
-        }
+        $collectPayment = CollectPayment::findOrFail($id);
+        AffiliatePayable::query()->where('type', get_class($collectPayment))->where('type_id', $collectPayment->id)->delete();
+        $collectPayment->delete();
+        return redirect()->route('collect_payments.collect_payment.index')
+            ->with('success_message', 'Collect Payment was successfully deleted.');
     }
 
 

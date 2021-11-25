@@ -34,6 +34,26 @@
                                value="{{ route('register',['via'=>$user->affiliate_tag]) }}" style="font-size: 14px">
                         <button id="copyLink" class="btn btn-secondary mx-4 col">Copy Link</button>
                     </div>
+                    <div class="row">
+                        <div class="col-6 mt-4">
+                            <div class="card ">
+                                <div class="d-flex align-items-center justify-content-center">
+                                    <div class="card-body ">
+                                        <button class="btn btn-primary" style="width: 100%">
+                                            <i class="fa fa-outdent"></i>
+                                            Withdraw Fund</button>
+                                        <hr>
+                                        <button class="btn btn-info" style="width: 100%">
+                                            <i class="fa fa-history"></i>
+                                            Payment History</button>
+
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="col">
@@ -86,7 +106,7 @@
         </div>
 
         <div class="row mb-4">
-            <div class="col ">
+            <div class="col-3 ">
 
                 <div class="card ">
                     <div class="d-flex align-items-center justify-content-center">
@@ -102,7 +122,7 @@
 
 
             </div>
-            <div class="col ">
+            <div class="col-3 ">
 
                 <div class="card ">
                     <div class="d-flex align-items-center justify-content-center">
@@ -118,7 +138,7 @@
 
 
             </div>
-            <div class="col">
+            <div class="col-3">
                 <div class="card ">
                     <div class="d-flex align-items-center justify-content-center">
                         <div class="card-body ">
@@ -131,24 +151,21 @@
 
                 </div>
             </div>
-            <div class="col">
+            <div class="col-3">
                 <div class="card ">
                     <div class="d-flex align-items-center justify-content-center">
                         <div class="card-body ">
-                            <button class="btn btn-primary" style="width: 100%">
-                                <i class="fa fa-outdent"></i>
-                                Withdraw Fund</button>
-                            <hr>
-                                <button class="btn btn-info" style="width: 100%">
-                                    <i class="fa fa-history"></i>
-                                    Payment History</button>
-
-
+                            Available Balance
+                            <div class="stage">
+                                <div class="ml-4">{{ $balance }}</div>
+                            </div>
                         </div>
                     </div>
 
                 </div>
             </div>
+
+
         </div>
 
         <div class="card">

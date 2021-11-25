@@ -13,7 +13,7 @@
                 @endif
             </div>
             <div class="col-sm-5 text-center text-sm-right">
-                <h4 class="text-7 mb-0">Estimate</h4>
+                <h4 class="text-7 mb-0">Proforma Invoice</h4>
             </div>
         </div>
         <hr>

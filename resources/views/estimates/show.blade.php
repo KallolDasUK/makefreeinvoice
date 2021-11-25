@@ -75,26 +75,26 @@
                         <a href="{{ route('estimates.estimate.index') }}" class="btn btn-primary mr-2  {{ ability(\App\Utils\Ability::ESTIMATE_READ) }}"
                            title="Show All Invoice">
                             <i class=" fas fa-fw fa-th-list" aria-hidden="true"></i>
-                            Show All Estimate
+                            Show All p
                         </a>
 
                         <a href="{{ route('estimates.estimate.create') }}" class="btn btn-success mr-2  {{ ability(\App\Utils\Ability::ESTIMATE_CREATE) }}"
-                           title="Create New Estimate">
+                           title="Create New Proforma">
                             <i class=" fas fa-fw fa-plus" aria-hidden="true"></i>
-                            Create New Estimate
+                            Create New Proforma
                         </a>
 
                         <a href="{{ route('estimates.estimate.edit', $estimate->id ) }}" class="btn btn-primary mr-2  {{ ability(\App\Utils\Ability::ESTIMATE_EDIT) }}"
                            title="Edit Invoice">
                             <i class=" fas fa-fw fa-pencil-alt" aria-hidden="true"></i>
-                            Edit Estimate
+                            Edit Proforma
                         </a>
 
                         <button type="submit" class="btn btn-danger" title="Delete Invoice"
                                 {{ ability(\App\Utils\Ability::ESTIMATE_DELETE) }}
                                 onclick="return confirm(&quot;Click Ok to delete Invoice.?&quot;)">
                             <i class=" fas fa-fw fa-trash-alt" aria-hidden="true"></i>
-                            Delete Estimate
+                            Delete Proforma
                         </button>
                     </div>
                 </form>
@@ -119,7 +119,7 @@
                 </a>
                 <a href="{{ route('estimates.estimate.send',$estimate->id) }}"
                    class="btn btn-outline-secondary   btn-lg " style="font-size: 20px"><i
-                        class="far fa-envelope-open"></i> Email Estimate
+                        class="far fa-envelope-open"></i> Email Proforma
                 </a>
                 <a href="{{ route('estimates.estimate.convert_to_invoice',$estimate->id) }}"
                    class="btn btn-outline-secondary text-primary    " style="font-size: 20px"><i

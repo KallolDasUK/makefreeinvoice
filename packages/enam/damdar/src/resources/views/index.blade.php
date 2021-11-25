@@ -238,7 +238,7 @@
                     <div class="sc-iRbamj image" style="background-image:url('images/estimate.svg') ">
 
                     </div>
-                    <div class="shortcuts-title sc-jlyJG gSoaLO ">Add Estimate</div>
+                    <div class="shortcuts-title sc-jlyJG gSoaLO ">Add Proforma</div>
                 </a>
                 <a href="{{ route('estimates.estimate.index') }}"
                    style="position:relative;"
@@ -247,7 +247,7 @@
                     <div class="sc-iRbamj image" style="background-image:url('images/manage_invoice.svg') ">
 
                     </div>
-                    <div class="shortcuts-title  text-black">My Estimates</div>
+                    <div class="shortcuts-title  text-black">My Proforma</div>
                 </a>
 
             </div>
