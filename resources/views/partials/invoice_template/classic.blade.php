@@ -203,12 +203,19 @@
     </main>
     <!-- Footer -->
 
-    <div class="row mt-4">
+    <div class="row mt-4 justify-content-center">
         <div class="col">
             <p><strong>Terms & Condition :</strong> <br>
                 {{ $invoice->terms_condition }}</p>
             <p><strong>Notes :</strong> <br>
                 {{ $invoice->notes }}</p>
+        </div>
+        <div class="col align-self-center text-center justify-content-center">
+            <div class=" ml-4">
+                <div id="qr_code">
+
+                </div>
+            </div>
         </div>
         <div class="col text-right">
             @foreach($invoice->extra_fields as $ef)
@@ -221,5 +228,6 @@
             @endforeach
         </div>
     </div>
+
 
 </div>
