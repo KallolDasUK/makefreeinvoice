@@ -39,13 +39,17 @@
                             <div class="card ">
                                 <div class="d-flex align-items-center justify-content-center">
                                     <div class="card-body ">
-                                        <button class="btn btn-primary" style="width: 100%">
+                                        <button class="btn btn-primary" style="width: 100%" data-toggle="modal"
+                                                data-target="#withdrawModal">
                                             <i class="fa fa-outdent"></i>
-                                            Withdraw Fund</button>
+                                            Withdraw Fund
+                                        </button>
                                         <hr>
-                                        <button class="btn btn-info" style="width: 100%">
+                                        <button class="btn btn-info" style="width: 100%" data-toggle="modal"
+                                                data-target="#paymentHistoryModal">
                                             <i class="fa fa-history"></i>
-                                            Payment History</button>
+                                            Payment History
+                                        </button>
 
 
                                     </div>
@@ -129,7 +133,7 @@
                         <div class="card-body ">
                             Total Earnings
                             <div class="stage">
-                                <div class="ml-4">{{ $totalEarnings }}</div>
+                                <div class="ml-4">{{ decent_format_dash_if_zero($totalEarnings) }}</div>
                             </div>
                         </div>
                     </div>
@@ -142,9 +146,9 @@
                 <div class="card ">
                     <div class="d-flex align-items-center justify-content-center">
                         <div class="card-body ">
-                            Available Balance
+                            Withdrawn
                             <div class="stage">
-                                <div class="ml-4">{{ $balance }}</div>
+                                <div class="ml-4">{{ decent_format_dash_if_zero($totalWithdraw) }}</div>
                             </div>
                         </div>
                     </div>
@@ -157,7 +161,7 @@
                         <div class="card-body ">
                             Available Balance
                             <div class="stage">
-                                <div class="ml-4">{{ $balance }}</div>
+                                <div class="ml-4">{{ decent_format_dash_if_zero($balance) }}</div>
                             </div>
                         </div>
                     </div>
@@ -205,26 +209,108 @@
 
     </div>
 
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+        Launch demo modal
+    </button>
 
+    <!--Payment History Modal -->
+    <div class="modal fade" id="paymentHistoryModal" tabindex="-1" role="dialog"
+         aria-labelledby="paymentHistoryModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="paymentHistoryModalLabel">Payment History</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <table class="table">
+                        <tr>
+                            <th> Date</th>
+                            <th> Amount</th>
+                            <th> Description</th>
+                            <th> Status</th>
+                        </tr>
+                        @forelse($histories as $history)
+                            <tr>
+                                <td> {{ $history->date }}</td>
+                                <td> {{ decent_format_dash_if_zero($history->amount) }}</td>
+                                <td> {{ $history->note }}</td>
+                                <td>
+                                    @if($history->status=="Approved")
+                                        <span class="badge badge-success">Approved</span>
+                                    @elseif($history->status=="Processing")
+                                        <span class="badge badge-warning">Processing</span>
+                                    @elseif($history->status=="Rejected")
+                                        <span class="badge badge-danger">Rejected</span>
+                                    @else
+                                        {{ $history->status }}
+                                    @endif
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="3"> No Transactions.</td>
+                            </tr>
+                        @endforelse
+
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Withdraw Modal -->
+    <div class="modal fade" id="withdrawModal" tabindex="-1" role="dialog" aria-labelledby="withdrawModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="withdrawModalLabel">Withdraw Funds</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                    <form id="withdrawForm" action="{{ route('ajax.withdrawFund') }}">
+                        @csrf
+
+                        <div class="form-group">
+                            <label for="amount">Withdraw Amount</label>
+                            <input type="number" class="form-control" id="amount" name="amount" required
+                                   max="{{ $balance }}" min="10" step="any" value="{{ $balance }}">
+                        </div>
+                        <div class="form-group">
+                            <label for="payment_method">Payment Information</label>
+                            <textarea required class="form-control" name="payment_method" id="payment_method" cols="30"
+                                      rows="7"
+                                      placeholder="Bank Name: &#10;A/C Name: &#10;or &#10;BKash: &#10;or &#10;Nagad: &#10;"></textarea>
+
+
+                            <p>It may take upto 3 business days to complete the transfer.</p>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" onclick="$('#withdrawForm').submit()" class="btn btn-primary">Request
+                        Withdraw
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @push('js')
     <script src="{{ asset('js/subscriptions/subscribe.js') }}"></script>
-    <script>
-        function copyToClipboard(element) {
-            var $temp = $("<input>");
-            $("body").append($temp);
-            $temp.val($(element).val()).select();
-            document.execCommand("copy");
-            $temp.remove();
-            alert('Affiliate Link Copied')
-        }
+    <script src="{{ asset('js/refer-earn.js') }}"></script>
 
-        $(document).ready(function () {
-            $('#copyLink').on('click', function () {
-                copyToClipboard($('#refer_link'))
-            })
-        })
-    </script>
 @endpush
 
