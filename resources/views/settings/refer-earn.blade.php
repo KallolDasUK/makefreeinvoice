@@ -277,25 +277,29 @@
                     </button>
                 </div>
                 <div class="modal-body">
+                    @if($balance > 0)
+                        <form id="withdrawForm" action="{{ route('ajax.withdrawFund') }}">
+                            @csrf
 
-                    <form id="withdrawForm" action="{{ route('ajax.withdrawFund') }}">
-                        @csrf
-
-                        <div class="form-group">
-                            <label for="amount">Withdraw Amount</label>
-                            <input type="number" class="form-control" id="amount" name="amount" required
-                                   max="{{ $balance }}" min="10" step="any" value="{{ $balance }}">
-                        </div>
-                        <div class="form-group">
-                            <label for="payment_method">Payment Information</label>
-                            <textarea required class="form-control" name="payment_method" id="payment_method" cols="30"
-                                      rows="7"
-                                      placeholder="Bank Name: &#10;A/C Name: &#10;or &#10;BKash: &#10;or &#10;Nagad: &#10;"></textarea>
+                            <div class="form-group">
+                                <label for="amount">Withdraw Amount</label>
+                                <input type="number" class="form-control" id="amount" name="amount" required
+                                       max="{{ $balance }}"  step="any" value="{{ $balance }}">
+                            </div>
+                            <div class="form-group">
+                                <label for="payment_method">Payment Information</label>
+                                <textarea required class="form-control" name="payment_method" id="payment_method"
+                                          cols="30"
+                                          rows="7"
+                                          placeholder="Bank Name: &#10;A/C Name: &#10;or &#10;BKash: &#10;or &#10;Nagad: &#10;"></textarea>
 
 
-                            <p>It may take upto 3 business days to complete the transfer.</p>
-                        </div>
-                    </form>
+                                <p>It may take upto 3 business days to complete the transfer.</p>
+                            </div>
+                        </form>
+                    @else
+                        Not have enough balance to withdraw.
+                    @endif
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -309,6 +313,9 @@
 @endsection
 
 @push('js')
+    <script>
+        let balance = {{ $balance }};
+    </script>
     <script src="{{ asset('js/subscriptions/subscribe.js') }}"></script>
     <script src="{{ asset('js/refer-earn.js') }}"></script>
 

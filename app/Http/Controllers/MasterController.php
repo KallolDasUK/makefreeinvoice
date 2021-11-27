@@ -38,6 +38,7 @@ class MasterController extends Controller
         $users = User::query()
             ->withCount(['invoices', 'pos_sales'])
             ->where('role_id', null)
+            ->where('id', '!=', auth()->id())
             ->when($filter_type != null, function ($query) use ($filter_type, $start_date, $end_date) {
                 if ($filter_type == "active_within") {
                     return $query->whereBetween('last_active_at', [$start_date, $end_date]);
