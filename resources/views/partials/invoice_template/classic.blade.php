@@ -229,15 +229,15 @@
         </div>
 
     </div>
-    <div class="col mt-4">
-        <div class="row">
+    <div class=" " style="margin-top: 50px;position:relative;">
+        <div class="row ">
             <div class="col">
                 <hr>
                 <b class="" >Client Signature</b>
             </div>
             <div class="col">
                 <hr>
-                <b>Authorized Signature</b>
+                <p class="text-right"><b >Authorized Signature</b></p>
             </div>
         </div>
 
