@@ -41,9 +41,9 @@ class MasterController extends Controller
             ->where('id', '!=', auth()->id())
             ->when($filter_type != null, function ($query) use ($filter_type, $start_date, $end_date) {
                 if ($filter_type == "active_within") {
-                    return $query->whereBetween('last_active_at', [$start_date, $end_date]);
+                    return $query->whereBetween('last_active_at', [$start_date, Carbon::parse($end_date)->addDay()->toDateString()]);
                 } elseif ($filter_type == "joined_within") {
-                    return $query->whereBetween('created_at', [$start_date, $end_date]);
+                    return $query->whereBetween('created_at', [$start_date, Carbon::parse($end_date)->addDay()->toDateString()]);
                 }
                 return $query;
             })
