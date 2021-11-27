@@ -17,7 +17,7 @@
                 @endif
             </div>
             <div class="col-sm-5 text-center text-sm-right">
-                <h1 >Invoice</h1>
+                <h1>Invoice</h1>
             </div>
         </div>
         <hr>
@@ -39,28 +39,7 @@
 
         </div>
         <hr>
-        <div class="row">
-            <div class="col-sm-6 text-sm-right order-sm-1"><strong> From:</strong>
-                <address>
-                    {{ $settings->business_name??'n/a' }}
-                    @if($settings->street_1??'')
-                        <br> {{ $settings->street_1??'' }}
-                    @endif
-                    @if($settings->street_2??'')
-                        <br> {{ $settings->street_2??'' }}
-                    @endif
-                    @if(($settings->state??'') || ($settings->zip_post??'') )
-                        <br> {{ $settings->state??'' }} {{ $settings->zip_post??'' }}
-                    @endif
-                    @if($settings->email??'')
-                        <br> {{ $settings->email??'' }}
-                    @endif
-                    @if($settings->phone??'')
-                        <br> {{ $settings->phone??'' }}
-                    @endif
-                </address>
-            </div>
-            <div class="col-sm-6 order-sm-0"><strong>To:</strong>
+        <div class="row"> <div class="col "><strong>To:</strong>
                 @if($invoice->customer)
                     <address>
                         {{ $invoice->customer->company_name?? $invoice->customer->name??'N/A' }}<br>
@@ -84,6 +63,37 @@
                         No address / No Client Selected
                     </address>
                 @endif
+            </div>
+
+            <div class="col align-self-center text-center">
+                @foreach($invoice->extra_fields as $ef)
+
+                    @if($ef->name == "")
+                                                @continue
+                    @endif
+                    <p><strong>{{ $ef->name }} :</strong> <br>
+                        {{ $ef->value }}</p>
+                @endforeach
+            </div>
+            <div class="col text-sm-right "><strong> From:</strong>
+                <address>
+                    {{ $settings->business_name??'n/a' }}
+                    @if($settings->street_1??'')
+                        <br> {{ $settings->street_1??'' }}
+                    @endif
+                    @if($settings->street_2??'')
+                        <br> {{ $settings->street_2??'' }}
+                    @endif
+                    @if(($settings->state??'') || ($settings->zip_post??'') )
+                        <br> {{ $settings->state??'' }} {{ $settings->zip_post??'' }}
+                    @endif
+                    @if($settings->email??'')
+                        <br> {{ $settings->email??'' }}
+                    @endif
+                    @if($settings->phone??'')
+                        <br> {{ $settings->phone??'' }}
+                    @endif
+                </address>
             </div>
         </div>
 
@@ -204,26 +214,31 @@
     <!-- Footer -->
 
     <div class="row mt-4 justify-content-center align-items-center">
-        <div class="col-6 ">
+        <div class="col ">
             <p><strong>Terms & Condition :</strong> <br>
                 {{ $invoice->terms_condition }}</p>
             <p><strong>Notes :</strong> <br>
                 {{ $invoice->notes }}</p>
         </div>
-        <div class="col align-self-center">
-            @foreach($invoice->extra_fields as $ef)
 
-                @if($ef->name == "")
-                    @continue
-                @endif
-                <p><strong>{{ $ef->name }} :</strong> <br>
-                    {{ $ef->value }}</p>
-            @endforeach
-        </div>
+
         <div class="mr-3 float-right align-self-center text-center justify-content-center">
 
-                <div id="qr_code" class="mx-auto"></div>
+            <div id="qr_code" class="mx-auto"></div>
 
+        </div>
+
+    </div>
+    <div class="col mt-4">
+        <div class="row">
+            <div class="col">
+                <hr>
+                <b class="" >Client Signature</b>
+            </div>
+            <div class="col">
+                <hr>
+                <b>Authorized Signature</b>
+            </div>
         </div>
 
     </div>
