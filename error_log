@@ -1,0 +1,1 @@
+[06-Nov-2021 19:31:51 Asia/Dhaka] PHP Fatal error:  Trait 'Spatie\Permission\Traits\HasRoles' not found in /home/kinetixb/app.invoicepedia.com/app/Models/User.php on line 83
