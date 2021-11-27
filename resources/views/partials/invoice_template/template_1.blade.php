@@ -7,27 +7,7 @@
 <div id="invoice-container" class="container-fluid invoice-container-template-1" contenteditable="true">
     <div class="header_block border border-dark p-2" style="min-height: 100px">
         <div class="row">
-            <div class="col-sm-6 text-sm-right order-sm-1"><strong> From:</strong>
-                <address>
-                    <b>{{ $settings->business_name??'n/a' }}</b>
-                    @if($settings->street_1??'')
-                        <br> {{ $settings->street_1??'' }}
-                    @endif
-                    @if($settings->street_2??'')
-                        <br> {{ $settings->street_2??'' }}
-                    @endif
-                    @if(($settings->state??'') || ($settings->zip_post??'') )
-                        <br> {{ $settings->state??'' }} {{ $settings->zip_post??'' }}
-                    @endif
-                    @if($settings->email??'')
-                        <br> {{ $settings->email??'' }}
-                    @endif
-                    @if($settings->phone??'')
-                        <br> {{ $settings->phone??'' }}
-                    @endif
-                </address>
-            </div>
-            <div class="col-sm-6 order-sm-0"><strong>To:</strong>
+            <div class="col "><strong>To:</strong>
                 @if($invoice->customer)
                     <address>
                         <b> {{ $invoice->customer->company_name?? $invoice->customer->name??'N/A' }}</b><br>
@@ -52,28 +32,43 @@
                     </address>
                 @endif
             </div>
-        </div>
-        <div class="row align-items-center justify-content-center">
-            <div class="col"></div>
-            <div class="col mb-3 mb-sm-0 text-center">
-                                @if($settings->business_logo??false)
-                                    <img
-                                        class="rounded"
-                                        src="{{ asset('storage/'.$settings->business_logo) }}"
-                                        width="100"
-                                        height="100"
-                                        alt="">
-                                @endif
+            <div class="col  align-self-center justify-content-center text-center">
+                @if($settings->business_logo??false)
+                    <img
+                        class="rounded"
+                        src="{{ asset('storage/'.$settings->business_logo) }}"
+                        width="100"
+                        height="100"
+                        alt="">
+                @endif
                 @if($settings->business_name ?? false)
                     <h2 class="mt-2"> {{ $settings->business_name ?? '' }}</h2>
                 @endif
             </div>
-            <div class="col">
-
+            <div class="col text-sm-right "><strong> From:</strong>
+                <address>
+                    <b>{{ $settings->business_name??'n/a' }}</b>
+                    @if($settings->street_1??'')
+                        <br> {{ $settings->street_1??'' }}
+                    @endif
+                    @if($settings->street_2??'')
+                        <br> {{ $settings->street_2??'' }}
+                    @endif
+                    @if(($settings->state??'') || ($settings->zip_post??'') )
+                        <br> {{ $settings->state??'' }} {{ $settings->zip_post??'' }}
+                    @endif
+                    @if($settings->email??'')
+                        <br> {{ $settings->email??'' }}
+                    @endif
+                    @if($settings->phone??'')
+                        <br> {{ $settings->phone??'' }}
+                    @endif
+                </address>
             </div>
 
 
         </div>
+
     </div>
     <div class="extra_info_block border border-dark p-2">
         <div class="row align-content-between justify-content-between">
