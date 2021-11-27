@@ -1570,3 +1570,26 @@ td {
     font-weight: bolder;
 
 }
+
+.template {
+    cursor: pointer;
+    color: black!important;
+}
+.template b{
+    cursor: pointer;
+    color: black!important;
+}
+
+.template-active {
+    background: #065a92 !important;
+    color: white!important;
+}
+.template-active b {
+    background: #065a92 !important;
+    color: white!important;
+}
+
+.template:hover {
+    opacity: 0.5;
+}
+

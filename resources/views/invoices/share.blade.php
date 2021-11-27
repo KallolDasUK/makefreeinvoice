@@ -77,7 +77,17 @@
         -o-border-radius: 6px;
         border-radius: 6px;
     }
-
+    .invoice-container-template-1 {
+        margin: 15px auto;
+        padding: 20px;
+        max-width: 850px;
+        background-color: #fff;
+        /*border: 1px solid #ccc;*/
+        -moz-border-radius: 6px;
+        -webkit-border-radius: 6px;
+        -o-border-radius: 6px;
+        border-radius: 6px;
+    }
     b, strong {
         font-weight: bolder;
     }
@@ -132,7 +142,7 @@
         </div>
     </div>
     <p class="clearfix"></p>
-    @include('partials.invoice')
+    @include('partials.invoice_template.template_1')
 
 </div>
 
