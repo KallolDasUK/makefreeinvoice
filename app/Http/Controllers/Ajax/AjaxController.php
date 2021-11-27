@@ -10,6 +10,7 @@ use App\Models\Customer;
 use App\Models\Expense;
 use App\Models\Invoice;
 use App\Models\MetaSetting;
+use App\Models\PaymentRequest;
 use App\Models\PosPayment;
 use App\Models\PosSale;
 use App\Models\ReceivePayment;
@@ -191,5 +192,17 @@ class AjaxController extends Controller
         $cash = decent_format_dash_if_zero($cash ?? 0);
 
         return view('partials.today-report', compact('today_sale', 'due_sale', 'due_collection', 'due_payment', 'expense', 'cash'));
+    }
+
+    public function withdrawFund(Request $request)
+    {
+        PaymentRequest::create([
+            'date' => today()->toDateString(),
+            'user_id' => auth()->id(),
+            'amount' => $request->amount,
+            'status' => 'Processing',
+            'note' => $request->payment_method
+        ]);
+        return [];
     }
 }

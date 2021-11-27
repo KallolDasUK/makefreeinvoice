@@ -87,12 +87,15 @@ class SettingsController extends Controller
 
 
         $collectPayments = CollectPayment::query()->where('referred_by', $user->id)->sum('referred_by_amount');
-        $totalEarnings = decent_format_dash_if_zero($collectPayments);
-        $totalWithdraw = PaymentRequest::query()->where('user_id', $user->id)->sum('amount');
+        $totalEarnings = $collectPayments;
+        $totalWithdraw = PaymentRequest::query()->where('user_id', $user->id)
+            ->where('status', '!=', 'Rejected')->sum('amount');
+        $histories = PaymentRequest::query()->where('user_id', $user->id)->latest()->get();
 
-
-        $balance = decent_format_dash_if_zero($collectPayments - $totalWithdraw);
-        return view('settings.refer-earn', compact('user', 'affiliatedUsers', 'totalReferredUser', 'totalEarnings', 'balance'));
+        $balance = $collectPayments - $totalWithdraw;
+        return view('settings.refer-earn', compact('user',
+            'affiliatedUsers', 'totalReferredUser', 'totalEarnings',
+            'balance', 'totalWithdraw', 'histories'));
 
     }
 
