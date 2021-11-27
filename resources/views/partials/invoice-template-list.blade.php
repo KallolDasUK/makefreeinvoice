@@ -27,7 +27,7 @@
             <a href="{{ route('invoices.invoice.show',[$invoice->id,'template'=>'template_1']) }}">
                 <img class="" src="{{ asset('images/templates/arabian.png') }}" alt="" style="width: 100%;"
                      height="180">
-                <div class="text-center m-0 p-0 "><b>No Logo + QR Code</b></div>
+                <div class="text-center m-0 p-0 "><b>Bordered + QR Code</b></div>
             </a>
         </div>
     </div>
