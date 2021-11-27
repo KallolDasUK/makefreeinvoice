@@ -132,7 +132,7 @@
         </div>
     </div>
     <p class="clearfix"></p>
-    @include('partials.invoice')
+    @include('partials.invoice_template.invoice')
 
 </div>
 

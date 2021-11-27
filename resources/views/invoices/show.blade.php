@@ -2,7 +2,12 @@
 @section('js')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.8.1/html2pdf.bundle.min.js"
             integrity="sha512-vDKWohFHe2vkVWXHp3tKvIxxXg0pJxeid5eo+UjdjME3DBFBn2F8yWOE0XmiFcFbXxrEOR1JriWEno5Ckpn15A=="
-            crossorigin="anonymous" referrerpolicy="no-referrer"></script>@endsection
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"
+            integrity="sha512-CNgIRecGo7nphbeZ04Sc13ka07paqdeTu0WR1IM4kNcpmBAUSHSQX0FslNhTDadL4O5SAGapGt4FodqL8My0mA=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+@endsection
 @section('css')
     <style>
         .invoice-container {
@@ -11,6 +16,18 @@
             max-width: 850px;
             background-color: #fff;
             border: 1px solid #ccc;
+            -moz-border-radius: 6px;
+            -webkit-border-radius: 6px;
+            -o-border-radius: 6px;
+            border-radius: 6px;
+        }
+
+        .invoice-container-template-1 {
+            margin: 15px auto;
+            padding: 20px;
+            max-width: 850px;
+            background-color: #fff;
+            /*border: 1px solid #ccc;*/
             -moz-border-radius: 6px;
             -webkit-border-radius: 6px;
             -o-border-radius: 6px;
@@ -72,82 +89,97 @@
 @section('content')
 
     <div class="">
-        <div class="">
-            @if(Session::has('success_message'))
-                <div class="alert alert-success">
-                    <i class=" fas fa-fw fa-check" aria-hidden="true"></i>
-                    {!! session('success_message') !!}
 
-                    <button type="button" class="close" data-dismiss="alert" aria-label="close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+        <div class="d-flex">
+            <div class="template_section flex " style="width: 200px">
+
+                @include('partials.invoice-template-list',['template'=>$template])
+
+            </div>
+            <div class="main_section flex" style="width: 100%">
+                <div class="">
+                    @if(Session::has('success_message'))
+                        <div class="alert alert-success">
+                            <i class=" fas fa-fw fa-check" aria-hidden="true"></i>
+                            {!! session('success_message') !!}
+
+                            <button type="button" class="close" data-dismiss="alert" aria-label="close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+
+                        </div>
+                    @endif
+
+                    <div class="" style="margin: 0px auto;max-width: 850px">
+
+                        <form method="POST" action="{!! route('invoices.invoice.destroy', $invoice->id) !!}"
+                              accept-charset="UTF-8">
+                            <input name="_method" value="DELETE" type="hidden">
+                            {{ csrf_field() }}
+                            <div class="btn-group btn-group-sm" role="group">
+                                <a href="{{ route('invoices.invoice.index') }}"
+                                   class="btn btn-primary mr-2   {{  ability(\App\Utils\Ability::INVOICE_READ) }}"
+                                   title="Show All Invoice">
+                                    <i class=" fas fa-fw fa-th-list" aria-hidden="true"></i>
+                                    Show All Invoice
+                                </a>
+
+                                <a href="{{ route('invoices.invoice.create') }}"
+                                   class="btn btn-success mr-2   {{  ability(\App\Utils\Ability::INVOICE_CREATE) }}"
+                                   title="Create New Invoice">
+                                    <i class=" fas fa-fw fa-plus" aria-hidden="true"></i>
+                                    Create New Invoice
+                                </a>
+
+                                <a href="{{ route('invoices.invoice.edit', $invoice->id ) }}"
+                                   class="btn btn-primary mr-2   {{  ability(\App\Utils\Ability::INVOICE_EDIT) }}"
+                                   title="Edit Invoice">
+                                    <i class=" fas fa-fw fa-pencil-alt" aria-hidden="true"></i>
+                                    Edit Invoice
+                                </a>
+
+                                <button type="submit" class="btn btn-danger" title="Delete Invoice"
+                                        {{  ability(\App\Utils\Ability::INVOICE_DELETE) }}
+                                        onclick="return confirm('Click Ok to delete Invoice.')">
+                                    <i class=" fas fa-fw fa-trash-alt" aria-hidden="true"></i>
+                                    Delete Invoice
+                                </button>
+                            </div>
+                        </form>
+
+                    </div>
 
                 </div>
-            @endif
-
-            <div class="text-center">
-
-                <form method="POST" action="{!! route('invoices.invoice.destroy', $invoice->id) !!}"
-                      accept-charset="UTF-8">
-                    <input name="_method" value="DELETE" type="hidden">
-                    {{ csrf_field() }}
-                    <div class="btn-group btn-group-sm" role="group">
-                        <a href="{{ route('invoices.invoice.index') }}"
-                           class="btn btn-primary mr-2   {{  ability(\App\Utils\Ability::INVOICE_READ) }}"
-                           title="Show All Invoice">
-                            <i class=" fas fa-fw fa-th-list" aria-hidden="true"></i>
-                            Show All Invoice
-                        </a>
-
-                        <a href="{{ route('invoices.invoice.create') }}"
-                           class="btn btn-success mr-2   {{  ability(\App\Utils\Ability::INVOICE_CREATE) }}"
-                           title="Create New Invoice">
-                            <i class=" fas fa-fw fa-plus" aria-hidden="true"></i>
-                            Create New Invoice
-                        </a>
-
-                        <a href="{{ route('invoices.invoice.edit', $invoice->id ) }}"
-                           class="btn btn-primary mr-2   {{  ability(\App\Utils\Ability::INVOICE_EDIT) }}"
-                           title="Edit Invoice">
-                            <i class=" fas fa-fw fa-pencil-alt" aria-hidden="true"></i>
-                            Edit Invoice
-                        </a>
-
-                        <button type="submit" class="btn btn-danger" title="Delete Invoice"
-                                {{  ability(\App\Utils\Ability::INVOICE_DELETE) }}
-                                onclick="return confirm('Click Ok to delete Invoice.')">
-                            <i class=" fas fa-fw fa-trash-alt" aria-hidden="true"></i>
-                            Delete Invoice
+                <p class="clearfix"></p>
+                <div class="bg-white mb-0" style="margin: 0px auto;max-width: 850px">
+                    <div class="btn-group btn-group-sm d-print-none" style="width: 100%">
+                        <button id="printBtn"
+                                class="btn btn-outline-secondary  btn-lg" style="font-size: 20px"><i
+                                class="fa fa-print"></i> Print
                         </button>
+                        <button id="downloadButton"
+                                class="btn btn-outline-secondary   btn-lg" style="font-size: 20px"><i
+                                class="fa fa-download"></i> Download
+                        </button>
+                        <a href="{{ route('invoices.invoice.share',$invoice->secret) }}"
+                           class="btn btn-outline-secondary   btn-lg " style="font-size: 20px"><i
+                                class="fa fa-share"></i> Share
+                        </a> <a href="{{ route('invoices.invoice.send',$invoice->id) }}"
+                                class="btn btn-outline-secondary   btn-lg " style="font-size: 20px"><i
+                                class="far fa-envelope-open"></i> Email Invoice
+                        </a>
                     </div>
-                </form>
+                </div>
+                <p class="clearfix"></p>
 
-            </div>
-
-        </div>
-        <p class="clearfix"></p>
-        <div class="text-center bg-white mb-0" style="margin: 0px auto;max-width: 850px">
-            <div class="btn-group btn-group-sm d-print-none" style="width: 100%">
-                <button id="printBtn"
-                        class="btn btn-outline-secondary  btn-lg" style="font-size: 20px"><i
-                        class="fa fa-print"></i> Print
-                </button>
-                <button id="downloadButton"
-                        class="btn btn-outline-secondary   btn-lg" style="font-size: 20px"><i
-                        class="fa fa-download"></i> Download
-                </button>
-                <a href="{{ route('invoices.invoice.share',$invoice->secret) }}"
-                   class="btn btn-outline-secondary   btn-lg " style="font-size: 20px"><i
-                        class="fa fa-share"></i> Share
-                </a> <a href="{{ route('invoices.invoice.send',$invoice->id) }}"
-                        class="btn btn-outline-secondary   btn-lg " style="font-size: 20px"><i
-                        class="far fa-envelope-open"></i> Email Invoice
-                </a>
+                @if($template == "template_1")
+                    @include('partials.invoice_template.template_1')
+                @else
+                    @include('partials.invoice_template.classic')
+                @endif
             </div>
         </div>
-        <p class="clearfix"></p>
 
-        @include('partials.invoice')
 
     </div>
 
@@ -170,6 +202,14 @@
             };
             html2pdf(element, opt);
         })
+        var qrcode = new QRCode(document.getElementById("qr_code"), {
+            text: "{{route('invoices.invoice.share',[$invoice->secret,'template'=>$template])}}",
+            width: 128,
+            height: 128,
+            colorDark: "#000000",
+            colorLight: "#ffffff",
+            correctLevel: QRCode.CorrectLevel.H
+        });
 
 
     </script>

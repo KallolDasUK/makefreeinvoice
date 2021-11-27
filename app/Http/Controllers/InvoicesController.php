@@ -54,7 +54,7 @@ class InvoicesController extends Controller
         $invoices = Invoice::with('customer')
             ->when($customer_id != null, function ($query) use ($customer_id) {
                 return $query->where('customer_id', $customer_id);
-            }) ->when($user_id != null, function ($query) use ($user_id) {
+            })->when($user_id != null, function ($query) use ($user_id) {
                 return $query->where('user_id', $user_id);
             })->when($sr_id != null, function ($query) use ($sr_id) {
                 return $query->where('sr_id', $sr_id);
@@ -76,9 +76,8 @@ class InvoicesController extends Controller
         view()->share('title', 'All Invoices');
 
         return view('invoices.index', compact('invoices', 'q', 'cashAcId', 'depositAccounts', 'paymentMethods',
-                'start_date', 'user_id','end_date', 'customer_id', 'customers', 'ledgerGroups', 'sr_id'));
+            'start_date', 'user_id', 'end_date', 'customer_id', 'customers', 'ledgerGroups', 'sr_id'));
     }
-
 
 
     public function create()
@@ -191,14 +190,21 @@ class InvoicesController extends Controller
 
     }
 
-    public function show($id)
+    public function show(Request $request, $id)
     {
         view()->share('title', 'View Invoice');
 
         $invoice = Invoice::with('customer')->findOrFail($id);
         $this->authorize('view', $invoice);
         $invoice->taxes;
-        return view('invoices.show', compact('invoice'));
+        if ($request->template) {
+            if ($request->template == "classic" || $request->template == "template_1")
+                MetaSetting::query()->updateOrCreate(['key' => 'invoice_template'], ['value' => $request->template]);
+        }
+        $settings = json_decode(MetaSetting::query()->pluck('value', 'key')->toJson());
+//        dd($settings);
+        $template = $settings->invoice_template ?? 'classic';
+        return view('invoices.show', compact('invoice', 'template'));
     }
 
     public function saveTermsNDNote($data)
