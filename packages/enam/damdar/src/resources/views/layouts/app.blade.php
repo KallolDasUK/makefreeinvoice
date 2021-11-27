@@ -28,7 +28,7 @@
           crossorigin="anonymous" referrerpolicy="no-referrer"/>
 
     <link media="all" type="text/css" rel="stylesheet" href="{{ asset('css/materialicon.css') }}">
-    <link media="all" type="text/css" rel="stylesheet" href="{{ asset('css/style.css') }}?v=1">
+    <link media="all" type="text/css" rel="stylesheet" href="{{ asset('css/style.css') }}?v=2">
     <link media="all" type="text/css" rel="stylesheet"
           href="https://preview.keenthemes.com/metronic/theme/html/demo2/dist/assets/css/style.bundle.css?v=7.2.8">
     <link media="all" type="text/css" rel="stylesheet"
