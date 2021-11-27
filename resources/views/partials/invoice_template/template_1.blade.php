@@ -84,9 +84,11 @@
             <div class="col-4 my-2"><strong>Invoice No:</strong> {{ $invoice->invoice_number }}
             </div>
             @foreach($invoice->extra_fields as $ef)
+                @if($ef->name == "")
+                    @continue
+                @endif
                 <div class="col-4 my-2">
                     <strong>{{ $ef->name }} :</strong> {{ $ef->value }}
-
                 </div>
             @endforeach
 
@@ -223,7 +225,7 @@
             <p class="border border-dark p-2"><strong>Notes :</strong> <br>
                 {{ $invoice->notes }}</p>
         </div>
-        <div class="flex-1 mt-4 ml-4 mb-4" >
+        <div class="flex-1 mt-4 ml-4 mb-4">
             <div id="qr_code">
 
             </div>
