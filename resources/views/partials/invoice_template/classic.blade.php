@@ -212,6 +212,10 @@
         </div>
         <div class="col text-right">
             @foreach($invoice->extra_fields as $ef)
+
+                @if($ef->name == "")
+                    @continue
+                @endif
                 <p><strong>{{ $ef->name }} :</strong> <br>
                     {{ $ef->value }}</p>
             @endforeach
