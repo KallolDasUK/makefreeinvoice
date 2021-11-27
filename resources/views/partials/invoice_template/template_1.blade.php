@@ -56,18 +56,17 @@
         <div class="row align-items-center justify-content-center">
             <div class="col"></div>
             <div class="col mb-3 mb-sm-0 text-center">
-                {{--                @if($settings->business_logo??false)--}}
-                {{--                    <img--}}
-                {{--                        class="rounded"--}}
-                {{--                        src="{{ asset('storage/'.$settings->business_logo) }}"--}}
-                {{--                        width="100"--}}
-                {{--                        height="100"--}}
-                {{--                        alt="">--}}
-                {{--                @endif--}}
+                                @if($settings->business_logo??false)
+                                    <img
+                                        class="rounded"
+                                        src="{{ asset('storage/'.$settings->business_logo) }}"
+                                        width="100"
+                                        height="100"
+                                        alt="">
+                                @endif
                 @if($settings->business_name ?? false)
                     <h2 class="mt-2"> {{ $settings->business_name ?? '' }}</h2>
                 @endif
-                <h3>Invoice</h3>
             </div>
             <div class="col">
 
