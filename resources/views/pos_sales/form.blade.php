@@ -185,7 +185,7 @@
         <div class="ml-2 item rounded btn" on-click="@this.onProductSelected(id)" style=" {{^ hide_image }}
         background-image: url('{{ image }}'); {{/ hide_image }}" >
         {{^ hide_name }}
-        <span class="" style="text-shadow: 1px 1px white;">{{ short_name }}</span>
+        <span class="" style="text-shadow: 0px 0px 3px white;">{{ short_name }}</span>
         {{/ hide_name }}
 
 
