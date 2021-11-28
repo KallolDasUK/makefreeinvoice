@@ -72,22 +72,22 @@
     </div>
     <div class="extra_info_block border border-dark p-2">
         <div class="row align-content-between justify-content-between">
-            <div class="col-4  my-2">
+            <div class="col-4 ">
                 <strong>Date:</strong> {{ \Carbon\Carbon::parse($invoice->invoice_date)->format('d M Y') }}</div>
             @if($invoice->due_date)
-                <div class="col-4  my-2 ">
+                <div class="col-4 ">
 
                     <strong> Due Date:</strong> {{ \Carbon\Carbon::parse($invoice->due_date)->format('d/m/y') }}
 
                 </div>
             @endif
-            <div class="col-4 my-2"><strong>Invoice No:</strong> {{ $invoice->invoice_number }}
+            <div class="col-4 "><strong>Invoice No:</strong> {{ $invoice->invoice_number }}
             </div>
             @foreach($invoice->extra_fields as $ef)
                 @if($ef->name == "")
                     @continue
                 @endif
-                <div class="col-4 my-2">
+                <div class="col-4 ">
                     <strong>{{ $ef->name }} :</strong> {{ $ef->value }}
                 </div>
             @endforeach
@@ -99,13 +99,12 @@
     <!-- Main Content -->
     <main>
 
-        <hr>
 
 
         <div class="card">
             <div class="card-body p-0">
                 <div class="">
-                    <table class="table mb-0 border border-dark">
+                    <table class="table mb-0 table-sm">
                         <thead class="card-header">
                         <tr>
                             <td class=" "><strong>SL</strong></td>

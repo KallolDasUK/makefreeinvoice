@@ -24,7 +24,7 @@
 
         .invoice-container-template-1 {
             margin: 15px auto;
-            padding: 20px;
+            padding: 0px;
             max-width: 850px;
             background-color: #fff;
             /*border: 1px solid #ccc;*/
