@@ -56,7 +56,9 @@
                         <thead>
                         <tr>
                             <th>SL</th>
+                            <th>Image</th>
                             <th>Type</th>
+
                             <th>Name</th>
                             <th>Code</th>
                             <th>Stock</th>
@@ -73,7 +75,10 @@
                         @foreach($products as $product)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
-                                <td>{{ $product->product_type }}</td>
+
+                                <td>
+                                    <img class="rounded" src="{{ asset('storage/'.$product->photo) }}" alt="" width="50">
+                                </td>   <td>{{ $product->product_type }}</td>
                                 <td>{{ $product->name }}</td>
                                 <td>{{ $product->code }}</td>
                                 <td>{{ $product->stock }}</td>
