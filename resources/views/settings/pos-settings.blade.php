@@ -94,6 +94,16 @@
                        class="form-control check-mark checkbox form-check-input"
                        value="1" {{ ($settings->pos_print_receipt??'1')?'checked':'' }}>
             </div>
+        </div>   <div class="form-group row align-items-center">
+            <div class="col-form-label col-lg-2 ">
+                <label for="pos_prevent_sale_out_of_stock" class="font-weight-bolder ">Prevent Sale On <br> <b class="text-danger">'Out of Stock'</b></label>
+            </div>
+            <div class="col-lg-4">
+                <input type="hidden" name="pos_prevent_sale_out_of_stock" value="0">
+                <input id="pos_prevent_sale_out_of_stock" type="checkbox" name="pos_prevent_sale_out_of_stock"
+                       class="form-control check-mark checkbox form-check-input"
+                       value="1" {{ ($settings->pos_prevent_sale_out_of_stock??'0')?'checked':'' }}>
+            </div>
         </div>
         <div class="form-group row">
             <div class="col-form-label col-lg-2 required">

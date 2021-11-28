@@ -252,11 +252,19 @@ $(document).ready(function () {
 
     function placeOrder() {
 
-
         let form = $('#create_pos_sale_form');
         form.action = form.attr('action')
         form.method = form.attr('method')
-        // alert(form.action)
+        let pos_items = posRactive.get('pos_items');
+        for (let i = 0; i < pos_items.length; i++) {
+            let item = pos_items[i]
+            let product = _.find(products, function (product) {
+                return product.id == item.product_id;
+            });
+            product.stock = product.stock - item.qnt;
+        }
+
+        posRactive.set('products',products)
         $.ajax({
             accepts: {
                 text: "application/json"
@@ -288,7 +296,7 @@ $(document).ready(function () {
                 $.notify("Order Placed", "success")
                 posRactive.unshift('orders', order);
                 $('#posPaymentModal').modal('hide')
-                if (pos_print_receipt){
+                if (pos_print_receipt) {
                     // alert("printing "+pos_print_receipt)
                     posRactive.onOrderPrint(order.id)
                 }
@@ -299,7 +307,7 @@ $(document).ready(function () {
                 // posRactive.set('needUpdate', false);
                 posRactive.set('charges', []);
                 posRactive.set('pos_items', []);
-                console.info('setting charges',pos_charges)
+                console.info('setting charges', pos_charges)
                 posRactive.set('charges', pos_charges);
             }
         });
