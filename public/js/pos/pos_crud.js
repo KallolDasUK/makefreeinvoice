@@ -21,10 +21,15 @@ $(document).ready(function () {
     /*  Creating Product Via Ajax with Validation */
     $('#createProductForm').validate({
         submitHandler: function (form) {
+
+            var formData = new FormData(form);
+            // alert('hey')
             $.ajax({
                 url: form.action,
                 type: form.method,
-                data: $(form).serialize(),
+                data: formData,
+                processData: false,
+                contentType: false,
                 beforeSend: () => {
                     $('#storeProduct').prop('disabled', true)
                     $('.spinner').removeClass('d-none')
@@ -43,6 +48,8 @@ $(document).ready(function () {
                     $('.spinner').addClass('d-none')
                 }
             });
+
+
         },
         rules: {
             name: {

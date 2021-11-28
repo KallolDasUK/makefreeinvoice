@@ -49,6 +49,7 @@ use App\Models\Invoice;
 use App\Models\InvoiceItem;
 use App\Models\PosPayment;
 use App\Models\PosSale;
+use App\Models\ProductUnit;
 use App\Models\Reason;
 use App\Models\ReceivePaymentItem;
 use App\Models\Tax;
@@ -715,7 +716,7 @@ Route::get('master/users/login/{email}', [MasterController::class, 'loginClient'
 Route::get('/task', function () {
 
 
-    dd('');
+    dd( array_merge(['KG', 'M', 'CM', 'BOX', 'LT.'],ProductUnit::query()->pluck('name')->unique()->toArray()) );
 
     foreach (User::all() as $user) {
         Auth::login($user);
