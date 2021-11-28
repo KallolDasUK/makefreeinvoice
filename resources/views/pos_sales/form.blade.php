@@ -405,9 +405,14 @@
                     <span class="fa fa-trash-alt"></span>
                 </button>
                 <button type="button" class="btn btn-sm btn-danger {{ qnt > 1?'':'d-none' }}" style="font-weight: bolder;" on-click="@this.decrement(i)">-</button>
-                <input style="max-width: 50px" type="text"
+                <input style="min-width: 80px;max-width: 80px" type="number" step="any"
                        class="form-control form-control-sm text-center mx-2"
-                       value="{{ qnt }}">
+                       value="{{ qnt }}"
+                        {{# prevent_sale_on_stock_out }}
+                            max="{{ product.stock }}"
+                        {{/ prevent_sale_on_stock_out }}
+
+                       >
                 <button type="button" class="btn btn-sm btn-primary" style="font-weight: bolder;" on-click="@this.increment(i)">
                     +
                 </button>

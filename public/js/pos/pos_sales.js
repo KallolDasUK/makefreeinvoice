@@ -12,6 +12,7 @@ const TABS = {
 }
 let hide_price = (settings.pos_hide_price || '0') === '1';
 let hide_stock = (settings.pos_hide_stock || '0') === '1';
+let prevent_sale_on_stock_out = (settings.pos_prevent_sale_out_of_stock || '0') === '1';
 let hide_image = (settings.pos_hide_image || '1') === '1';
 let hide_name = (settings.pos_hide_name || '0') === '1';
 let show_sale_price = (settings.pos_card_price || 'sale_price') === 'sale_price';
@@ -43,7 +44,14 @@ var posRactive = new Ractive({
             start_date: start_date,
             end_date: end_date,
             needUpdate: true,
-            can_delete: can_delete, hide_stock, hide_price, show_purchase_price, show_sale_price, hide_name, hide_image
+            can_delete: can_delete,
+            hide_stock,
+            hide_price,
+            show_purchase_price,
+            show_sale_price,
+            hide_name,
+            hide_image,
+            prevent_sale_on_stock_out
         },
         observe: {
             'products': (newProducts) => {
@@ -57,7 +65,6 @@ var posRactive = new Ractive({
                 posRactive.set('sub_total', sub_total)
                 posRactive.set('total', sub_total)
                 posRactive.calculate()
-
                 $('#pos_items').val(JSON.stringify(newPosItems))
 
 
@@ -122,6 +129,16 @@ var posRactive = new Ractive({
         ,
         increment(i) {
             let pos_item = posRactive.get(`pos_items.${i}`);
+            let product = _.find(products, function (product) {
+                return product.id == pos_item.product_id;
+            });
+            if (prevent_sale_on_stock_out && product.stock <= pos_item.qnt) {
+                $.notify(`${product.name} is out of stock`, "error", {
+                    globalPosition: 'bottom left',
+                });
+                return;
+            }
+
             posRactive.set(`pos_items.${i}.qnt`, ++pos_item.qnt)
             $('#product_search').focus()
 
@@ -372,6 +389,13 @@ function addToCart(id) {
     let product = _.find(products, function (product) {
         return product.id == id;
     });
+
+    if (prevent_sale_on_stock_out && product.stock < 1) {
+        $.notify(`${product.name} is out of stock`, "error", {
+            globalPosition: 'bottom left',
+        });
+        return;
+    }
 
     let is_product_already_in_cart = _.findIndex(posRactive.get('pos_items'), function (item) {
         return item.product_id == id;

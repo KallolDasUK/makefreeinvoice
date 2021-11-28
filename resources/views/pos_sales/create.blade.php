@@ -54,9 +54,9 @@
 
         });
     </script>
-    <script src="{{ asset('js/product.js') }}?v=1.11"></script>
-    <script src="{{ asset('js/pos/pos_sales.js') }}?v=2.11"></script>
-    <script src="{{ asset('js/pos/pos_crud.js') }}?v=1.11"></script>
-    <script src="{{ asset('js/pos/pos_payment.js') }}?v=1.11"></script>
+    <script src="{{ asset('js/product.js') }}?v=1.12"></script>
+    <script src="{{ asset('js/pos/pos_sales.js') }}?v=2.12"></script>
+    <script src="{{ asset('js/pos/pos_crud.js') }}?v=1.12"></script>
+    <script src="{{ asset('js/pos/pos_payment.js') }}?v=1.12"></script>
 @endsection
 
