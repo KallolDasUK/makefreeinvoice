@@ -29,7 +29,7 @@ class Kernel extends ConsoleKernel
 //            $notification = new NotificationController;
 //            $notification->testEmail();
 //        })->everyMinute();
-        $schedule->command('email:test')->everyMinute();
+//        $schedule->command('email:test')->everyMinute();
     }
 
     /**
