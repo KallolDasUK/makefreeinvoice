@@ -40,9 +40,7 @@ class ProductsController extends Controller
             return Product::query()->orderBy('name')->get();
 
         }
-        //dd($products);
         $products = Product::with('category')->latest()->get();
-//        dd($products);
         return view('products.index', compact('products'));
     }
 
