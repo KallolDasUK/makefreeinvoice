@@ -6,6 +6,7 @@ use App\Http\Controllers\BillPaymentsController;
 use App\Http\Controllers\BillsController;
 use App\Http\Controllers\CollectPaymentsController;
 use App\Http\Controllers\CustomerAdvancePaymentsController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PaymentRequestsController;
 use App\Http\Controllers\ProductionsController;
 use App\Http\Controllers\PurchaseOrdersController;
@@ -715,7 +716,8 @@ Route::get('master/users/login/{email}', [MasterController::class, 'loginClient'
 
 Route::get('/task', function () {
 
-
+    $notification = new NotificationController;
+    $notification->testEmail();
     dd( array_merge(['KG', 'M', 'CM', 'BOX', 'LT.'],ProductUnit::query()->pluck('name')->unique()->toArray()) );
 
     foreach (User::all() as $user) {

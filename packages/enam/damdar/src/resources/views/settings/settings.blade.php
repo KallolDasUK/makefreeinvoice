@@ -20,7 +20,10 @@
           enctype="multipart/form-data">
         @csrf
         <div class="mx-auto text-right">
-            <button type="submit" class="btn btn-primary btn-lg" {{ ability(\App\Utils\Ability::GENERAL_SETTINGS_EDIT) }}>Save Settings</button>
+            <button type="submit"
+                    class="btn btn-primary btn-lg" {{ ability(\App\Utils\Ability::GENERAL_SETTINGS_EDIT) }}>Save
+                Settings
+            </button>
 
         </div>
         <div class="form-group row">
@@ -73,6 +76,32 @@
             </div>
             <div class="col-lg-4">
                 <input type="text" class="form-control" name="business_name" value="{{ $settings->business_name??'' }}">
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-form-label col-lg-2 required">
+                <label class="font-weight-bolder"> Vat Registration </label>
+            </div>
+            <div class="col-lg-4">
+                <input class="form-control" name="vat_reg" type="text" value="{{ $settings->vat_reg??'' }}">
+                <small class="form-text">
+                    In TLV QR code manner vat registration number mandatory.</small>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-form-label col-lg-2 required">
+                <label class="font-weight-bolder"> QR Code Style </label>
+            </div>
+            <div class="col-lg-4">
+                <select id="qr_code_style" class="form-control" name="qr_code_style">
+                    <option value="link"
+                            @if(($settings->qr_code_style??'') === 'link') selected @endif>Online Viewable Link</option>
+                    <option value="tlv"  @if(($settings->qr_code_style??'') === 'tlv') selected @endif>Tag Length Value (TLV)</option>
+
+                </select>
+                <small class="form-text">
+                    Each invoice will contain a QR code following TLV or Viewable link.</small>
+
             </div>
         </div>
         <div class="form-group row">
@@ -173,7 +202,10 @@
             </div>
         </div>
         <div class="mx-auto text-right">
-            <button type="submit" class="btn btn-primary btn-lg"  {{ ability(\App\Utils\Ability::GENERAL_SETTINGS_EDIT) }}>Save Settings</button>
+            <button type="submit"
+                    class="btn btn-primary btn-lg" {{ ability(\App\Utils\Ability::GENERAL_SETTINGS_EDIT) }}>Save
+                Settings
+            </button>
 
         </div>
     </form>

@@ -203,7 +203,7 @@
             html2pdf(element, opt);
         })
         var qrcode = new QRCode(document.getElementById("qr_code"), {
-            text: "{{route('invoices.invoice.share',[$invoice->secret,'template'=>$template])}}",
+            text: "{{ $qr_code }}",
             width: 128,
             height: 128,
             colorDark: "#000000",
