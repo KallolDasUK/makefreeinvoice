@@ -67,7 +67,7 @@
         var copiedObject = jQuery.extend(true, {}, sample_pos_item)
         var pos_items = [];
 
-        {{--var charges = @json($charges);--}}
+        var charges = @json($charges);
         var payments = [];
 
         $(document).ready(function () {
