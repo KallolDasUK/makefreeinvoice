@@ -22,6 +22,23 @@
 @section('js')
 
     <script>
+
+        {{--var data = $.ajax({--}}
+        {{--    type: "GET",--}}
+        {{--    url: "{{ route('ajax.posCreateData') }}",--}}
+        {{--    async: true--}}
+        {{--}).responseText;--}}
+
+        {{--$.ajax({--}}
+        {{--    url: "{{ route('ajax.posCreateData') }}",--}}
+        {{--    async: false,--}}
+        {{--    success: function (response) {--}}
+        {{--        console.log(response)--}}
+
+        {{--    }--}}
+        {{--});--}}
+
+        {{--console.log(data)--}}
         var products = @json($products);
         var customers = @json($customers);
         var ledgers = @json($ledgers);
@@ -31,11 +48,14 @@
         var start_date = @json($start_date);
         var end_date = @json($end_date);
         var paymentMethods = @json($paymentMethods);
+
+
+
         var token = $("meta[name='csrf-token']").attr("content");
         var orders = @json($orders);
         var can_delete = @json($can_delete);
         var settings = @json($settings);
-        var pos_print_receipt = (settings.pos_print_receipt || true) === '1' ;
+        var pos_print_receipt = (settings.pos_print_receipt || '1') === '1';
         console.log(settings)
         var currency = settings.currency;
         var sample_pos_item = {
@@ -47,7 +67,7 @@
         var copiedObject = jQuery.extend(true, {}, sample_pos_item)
         var pos_items = [];
 
-        var charges = @json($charges);
+        {{--var charges = @json($charges);--}}
         var payments = [];
 
         $(document).ready(function () {

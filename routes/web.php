@@ -361,6 +361,7 @@ Route::group(['middleware' => 'auth:web', 'prefix' => 'app'], function () {
         Route::get('/bill-summary-report', [AjaxController::class, 'bill_summary'])->name('ajax.billSummaryReport');
         Route::get('/today-report', [AjaxController::class, 'today_report'])->name('ajax.todayReport');
         Route::get('/withdraw-funds', [AjaxController::class, 'withdrawFund'])->name('ajax.withdrawFund');
+        Route::get('/pos-create-data', [AjaxController::class, 'posCreateData'])->name('ajax.posCreateData');
     });
 
 

@@ -103,14 +103,15 @@ class PosSalesController extends Controller
 
 //        $p = PosSale::find(51)->load('pos_charges');
 //        dd($p);
+//        $time_start = microtime(true);
         if (!Customer::query()->where('name', Customer::WALK_IN_CUSTOMER)->exists()) {
             Customer::create(['name' => Customer::WALK_IN_CUSTOMER]);
         }
-        $customers = Customer::all();
+        $customers = Customer::all()->makeHidden(['advance', 'receivables'])->toArray();
         $branches = Branch::pluck('id', 'id')->all();
         $ledgers = Ledger::find($this->getAssetLedgers())->toArray();
         $categories = Category::all();
-        $products = Product::all();
+        $products = Product::all()->makeHidden([ 'stock_value']);
         $paymentMethods = PaymentMethod::all();
         $title = "POS - Point Of Sale";
         $ledger_id = Ledger::CASH_AC();
@@ -135,9 +136,10 @@ class PosSalesController extends Controller
 //        dd($ledgers);
 
         $can_delete = ability(Ability::POS_DELETE);
-        return view('pos_sales.create',
-            compact('customers', 'branches', 'ledgers', 'ledger_id', 'products', 'categories', 'title', 'orders',
-                'paymentMethods', 'bookmarks', 'start_date', 'end_date', 'charges', 'can_delete'));
+
+//        dd('Execution Seconds');
+        return view('pos_sales.create',compact('customers', 'branches', 'ledgers', 'ledger_id', 'products', 'categories', 'title', 'orders',
+            'paymentMethods', 'bookmarks', 'start_date', 'end_date', 'charges', 'can_delete'));
     }
 
     public function getAssetLedgers()

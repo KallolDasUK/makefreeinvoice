@@ -68,6 +68,8 @@ class Customer extends Model
     protected $guarded = [];
     protected $appends = ['advance', 'receivables'];
 
+
+
     public function getAddressAttribute()
     {
 
