@@ -31,6 +31,7 @@
         "van-ons/laraberg": "^1.1"
     },
     "require-dev": {
+        "barryvdh/laravel-debugbar": "^3.6",
         "barryvdh/laravel-ide-helper": "^2.10",
         "crestapps/laravel-code-generator": "^2.4",
         "facade/ignition": "^2.5",

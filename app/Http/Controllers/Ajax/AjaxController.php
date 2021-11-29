@@ -6,22 +6,30 @@ use App\Http\Controllers\Controller;
 use App\Models\Bill;
 use App\Models\BillPayment;
 use App\Models\BillPaymentItem;
+use App\Models\Category;
 use App\Models\Customer;
 use App\Models\Expense;
 use App\Models\Invoice;
 use App\Models\MetaSetting;
+use App\Models\PaymentMethod;
 use App\Models\PaymentRequest;
 use App\Models\PosPayment;
 use App\Models\PosSale;
+use App\Models\Product;
 use App\Models\ReceivePayment;
 use App\Models\ReceivePaymentItem;
 use App\Models\Vendor;
+use App\Utils\Ability;
 use Carbon\Carbon;
+use Enam\Acc\Models\Branch;
 use Enam\Acc\Models\Ledger;
+use Enam\Acc\Traits\TransactionTrait;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class AjaxController extends Controller
 {
+    use TransactionTrait;
 
     public function receivePaymentCustomerInvoice(Request $request)
     {
@@ -204,5 +212,43 @@ class AjaxController extends Controller
             'note' => $request->payment_method
         ]);
         return [];
+    }
+
+    public function posCreateData()
+    {
+        $customers = Customer::all()->makeHidden(['advance', 'receivables'])->toArray();
+        $branches = Branch::pluck('id', 'id')->all();
+        $ledgers = Ledger::find($this->getAssetLedgers())->toArray();
+        $categories = Category::all();
+        $products = Product::all()->makeHidden(['stock', 'short_name', 'stock_value','image']);
+        $paymentMethods = PaymentMethod::all();
+        $title = "POS - Point Of Sale";
+        $ledger_id = Ledger::CASH_AC();
+        $bookmarks = Product::query()->where('is_bookmarked', true)->get();
+        $start_date = today()->toDateString();
+        $end_date = today()->toDateString();
+        $orders = PosSale::query()->whereBetween('date', [$start_date, $end_date])->latest()->get();
+        $charges = [['key' => 'Discount', 'Value' => ''], ['key' => '', 'Value' => '']];
+        if (count(PosSale::query()->get()) > 0) {
+            $last_order = PosSale::query()->get()->last();
+            $pos_charges = $last_order->pos_charges()->select('key', 'value')->get()->toArray();
+            foreach ($pos_charges as $index => $pos_charge) {
+                if (Str::contains(strtolower($pos_charge['key']), 'discount')) {
+                    $pos_charges[$index]['value'] = '';
+                }
+            }
+            $charges = $pos_charges;
+//            dd($pos_charges);
+        } else {
+
+        }
+//        dd($ledgers);
+
+        $can_delete = ability(Ability::POS_DELETE);
+
+//        return ['customers' => $customers];
+
+        return compact('customers', 'branches', 'ledgers', 'ledger_id', 'products', 'categories', 'title', 'orders',
+            'paymentMethods', 'bookmarks', 'start_date', 'end_date', 'charges', 'can_delete');
     }
 }
