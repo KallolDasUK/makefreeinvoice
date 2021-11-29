@@ -6,6 +6,7 @@ use Enam\Acc\Models\Branch;
 use Enam\Acc\Models\Ledger;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 /**
  * App\Models\PosSale
@@ -140,6 +141,19 @@ class PosSale extends Model
     {
         return $this->pos_charges()->sum('amount');
     }
+
+    public function getTaxAttribute()
+    {
+
+        $tax = 0;
+        foreach ($this->pos_charges() as $item) {
+            if (Str::contains(strtolower($item->key), 'vat') || Str::contains(strtolower($item->key), 'tax')) {
+                $tax += $item->amount;
+            }
+        }
+        return $tax;
+    }
+
 
     public function getPaymentAttribute()
     {

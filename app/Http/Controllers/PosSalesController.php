@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 
 use App\Models\Category;
 use App\Models\Customer;
+use App\Models\MetaSetting;
 use App\Models\PaymentMethod;
 use App\Models\PosCharge;
 use App\Models\PosItem;
@@ -13,6 +14,7 @@ use App\Models\PosPayment;
 use App\Models\PosSale;
 use App\Models\Product;
 use App\Utils\Ability;
+use Carbon\Carbon;
 use Enam\Acc\Models\Branch;
 use Enam\Acc\Models\Ledger;
 use Enam\Acc\Models\LedgerGroup;
@@ -25,6 +27,64 @@ use Illuminate\Support\Str;
 class PosSalesController extends Controller
 {
     use TransactionTrait;
+
+
+    public function pos_receipt_public(Request $request, $id)
+    {
+//        $id = $request->id;
+//        dd($id);
+        $posSale = PosSale::with('customer', 'branch', 'ledger')->withoutGlobalScope('scopeClient')->findOrFail($id);
+        $client_id = $posSale->client_id;
+        $settings = json_decode(MetaSetting::query()
+            ->withoutGlobalScope('scopeClient')
+            ->where('client_id', $client_id)
+            ->pluck('value', 'key')->toJson());
+        $qr_code = route('pos_sales.pos_sale.receipt', $posSale->id);
+        $qr_code_style = $settings->qr_code_style ?? 'link';
+        if ($qr_code_style == 'tlv') {
+            $business_name = $settings->business_name ?? auth()->user()->name ?? 'Unknown Seller';
+
+            $seller_name = '';
+            $seller_name .= '1';
+            $seller_name .= '' . strlen($business_name);
+            $seller_name .= '' . $business_name;
+
+            $vat_number = $settings->vat_reg ?? '123456789';
+            $vat_registration = '';
+            $vat_registration .= '2';
+            $vat_registration .= '' . strlen($vat_number);
+            $vat_registration .= '' . $vat_number;
+
+            $creating_time = Carbon::parse($posSale->created_at);
+            $invoice_date = Carbon::parse($posSale->date)->toDateString() . ' ' . $creating_time->toTimeString();
+//            dd($invoice_date);
+            $time_stamp = '';
+            $time_stamp .= '3';
+            $time_stamp .= '' . strlen($invoice_date);
+            $time_stamp .= '' . $invoice_date;
+
+            $taxable = number_format($posSale->total, 2, '.', '');
+            $invoice_total = '';
+            $invoice_total .= '4';
+            $invoice_total .= '' . strlen($taxable);
+            $invoice_total .= '' . $taxable;
+
+
+            $tax = number_format($posSale->tax, 2, '.', '');
+            $vat_total = '';
+            $vat_total .= '5';
+            $vat_total .= '' . strlen($tax);
+            $vat_total .= '' . $tax;
+
+
+            $qr_code = $seller_name . '' . $vat_registration . '' . $time_stamp . '' . $invoice_total . '' . $vat_total;
+            $qr_code = base64_encode($qr_code);
+
+
+        }
+
+        return view('pos_sales.pos_receipt_public', compact('posSale', 'settings', 'qr_code'));
+    }
 
     public function index()
     {
@@ -245,7 +305,52 @@ class PosSalesController extends Controller
         $id = $request->pos_sales_id;
         $posSale = PosSale::with('customer', 'branch', 'ledger')->findOrFail($id);
 
-        return view('partials.order-details', compact('posSale'));
+        $settings = json_decode(MetaSetting::query()->pluck('value', 'key')->toJson());
+
+        $qr_code = route('pos_sales.pos_sale.receipt', $posSale->id);
+        $qr_code_style = $settings->qr_code_style ?? 'link';
+        if ($qr_code_style == 'tlv') {
+            $business_name = $settings->business_name ?? auth()->user()->name ?? 'Unknown Seller';
+
+            $seller_name = '';
+            $seller_name .= '1';
+            $seller_name .= '' . strlen($business_name);
+            $seller_name .= '' . $business_name;
+
+            $vat_number = $settings->vat_reg ?? '123456789';
+            $vat_registration = '';
+            $vat_registration .= '2';
+            $vat_registration .= '' . strlen($vat_number);
+            $vat_registration .= '' . $vat_number;
+
+            $creating_time = Carbon::parse($posSale->created_at);
+            $invoice_date = Carbon::parse($posSale->date)->toDateString() . ' ' . $creating_time->toTimeString();
+//            dd($invoice_date);
+            $time_stamp = '';
+            $time_stamp .= '3';
+            $time_stamp .= '' . strlen($invoice_date);
+            $time_stamp .= '' . $invoice_date;
+
+            $taxable = number_format($posSale->total, 2, '.', '');
+            $invoice_total = '';
+            $invoice_total .= '4';
+            $invoice_total .= '' . strlen($taxable);
+            $invoice_total .= '' . $taxable;
+
+
+            $tax = number_format($posSale->tax, 2, '.', '');
+            $vat_total = '';
+            $vat_total .= '5';
+            $vat_total .= '' . strlen($tax);
+            $vat_total .= '' . $tax;
+
+
+            $qr_code = $seller_name . '' . $vat_registration . '' . $time_stamp . '' . $invoice_total . '' . $vat_total;
+            $qr_code = base64_encode($qr_code);
+
+
+        }
+        return view('partials.order-details', compact('posSale', 'qr_code'));
     }
 
     public function eye($id)

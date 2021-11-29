@@ -781,6 +781,9 @@ Route::get('/task', function () {
 
 
 
+Route::get('/app/pos_sales/receipt/{id}', [PosSalesController::class, 'pos_receipt_public'])->name('pos_sales.pos_sale.receipt');
+
+
 
 
 
