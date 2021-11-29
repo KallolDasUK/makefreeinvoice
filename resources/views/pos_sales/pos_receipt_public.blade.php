@@ -25,6 +25,9 @@
     <div class="text-center">
 
         <span style="font-size: 20px">{{ $settings->business_name??'n/a' }}</span>
+        @if($settings->vat_reg??'')
+            <br> Vat Reg:  {!! $settings->vat_reg??'' !!}
+        @endif
         @if($settings->street_1??'')
             <br> {{ $settings->street_1??'' }}
         @endif
