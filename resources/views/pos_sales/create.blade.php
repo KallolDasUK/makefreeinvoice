@@ -50,7 +50,7 @@
         var paymentMethods = @json($paymentMethods);
 
 
-
+        var no_image = "{{ asset('images/no_image.png') }}";
         var token = $("meta[name='csrf-token']").attr("content");
         var orders = @json($orders);
         var can_delete = @json($can_delete);
@@ -74,9 +74,9 @@
 
         });
     </script>
-    <script src="{{ asset('js/product.js') }}?v=1.12"></script>
-    <script src="{{ asset('js/pos/pos_sales.js') }}?v=2.12"></script>
-    <script src="{{ asset('js/pos/pos_crud.js') }}?v=1.12"></script>
-    <script src="{{ asset('js/pos/pos_payment.js') }}?v=1.12"></script>
+    <script src="{{ asset('js/product.js') }}?v=1.13"></script>
+    <script src="{{ asset('js/pos/pos_sales.js') }}?v=2.13"></script>
+    <script src="{{ asset('js/pos/pos_crud.js') }}?v=1.13"></script>
+    <script src="{{ asset('js/pos/pos_payment.js') }}?v=1.13"></script>
 @endsection
 

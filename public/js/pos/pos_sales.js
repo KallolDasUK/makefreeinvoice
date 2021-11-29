@@ -353,7 +353,11 @@ function setUpProductSearch() {
         if (product.code) {
             name = product.code + ' ' + name;
         }
-        return {label: name, value: product.id};
+        var icon = product.image;
+        if (!icon){
+            icon = no_image;
+        }
+        return {label: name, value: product.id,icon:icon};
     });
     $("#product_search").autocomplete({
         source: product_names,
@@ -373,6 +377,13 @@ function setUpProductSearch() {
         }
 
     });
+
+    $("#product_search").data("ui-autocomplete")._renderItem = function (ul, item) {
+        console.log(item)
+        return $('<li/>', {'data-value': item.label}).append($('<a/>', {href: "#"})
+            .append($('<img/>', {src: item.icon,style:'width:50px'})).append(item.label))
+            .appendTo(ul);
+    };
 }
 
 function showLabel(event, ui) {
