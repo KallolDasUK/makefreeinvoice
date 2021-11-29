@@ -119,7 +119,7 @@ Total in word :
 <span> <b>{{ (new NumberFormatter("en", NumberFormatter::SPELLOUT))->format($posSale->total) }}</b> </span>
 
 <br>
-<div id="qr_code" class="text-center mx-auto">
+<div id="qr_code" class="text-center mt-4">
 </div>
 
 <br>
