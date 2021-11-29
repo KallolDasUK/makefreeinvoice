@@ -97,26 +97,49 @@
         <tr>
 
 
-        <td></td>
-        <td colspan="2">Paid</td>
-        <td> {{ decent_format_dash_if_zero($posSale->payment) }}</td></tr>
+            <td></td>
+            <td colspan="2">Paid</td>
+            <td> {{ decent_format_dash_if_zero($posSale->payment) }}</td>
+        </tr>
     @endif
     @if($posSale->due>0)
         <tr>
 
 
-        <td></td>
-        <td colspan="2">Due</td>
-        <td> {{ decent_format_dash_if_zero($posSale->due) }}</td> </tr>
+            <td></td>
+            <td colspan="2">Due</td>
+            <td> {{ decent_format_dash_if_zero($posSale->due) }}</td>
+        </tr>
     @endif
 
 
 </table>
+
 Total in word :
 <span> <b>{{ (new NumberFormatter("en", NumberFormatter::SPELLOUT))->format($posSale->total) }}</b> </span>
+
+<br>
+<div id="qr_code" class="text-center mx-auto">
+</div>
+
 <br>
 @if(!optional(auth()->user())->subscribed('default'))
-    <p class="float-right mt-4">Generated on {{ \Carbon\Carbon::parse($posSale->date)->format('d M Y') }} by invoicepedia.com</p>
+    <p class="float-right mt-4">Generated on {{ \Carbon\Carbon::parse($posSale->date)->format('d M Y') }} by
+        invoicepedia.com</p>
 @endif
 
+<script>
+    var qrcode = new QRCode(document.getElementById("qr_code"), {
+        text: "{{ $qr_code }}",
+        width: 100,
+        height: 100,
+        colorDark: "#000000",
+        colorLight: "#ffffff",
+        correctLevel: QRCode.CorrectLevel.H
+    });
+    $(document).ready(function () {
+        $('#qr_code img').css('margin','0 auto') ;
+    })
+
+</script>
 

@@ -76,16 +76,24 @@
     <script src="https://cdn.jsdelivr.net/npm/underscore@1.13.1/underscore-umd-min.js"></script>
 
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"
+            integrity="sha512-CNgIRecGo7nphbeZ04Sc13ka07paqdeTu0WR1IM4kNcpmBAUSHSQX0FslNhTDadL4O5SAGapGt4FodqL8My0mA=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     @yield('css')
     @stack('css')
 
     <style>
+
+        #qr_code img {
+            margin: 0 auto;
+        }
+
         .ui-menu-item .ui-menu-item-wrapper.ui-state-active {
             background: #065a92 !important;
             font-weight: bold !important;
             color: #ffffff !important;
         }
+
         i:hover {
             color: inherit !important;
         }
@@ -412,10 +420,16 @@
             background: #FCE97F;
             animation: fadebackground 6s 2s;
         }
+
         @keyframes fadebackground {
-            from {background-color: #FCE97F;}
-            to {background-color: #065a92;}
+            from {
+                background-color: #FCE97F;
+            }
+            to {
+                background-color: #065a92;
+            }
         }
+
         /* width */
         ::-webkit-scrollbar {
             width: 5px;
@@ -436,7 +450,9 @@
             background: #555;
         }
     </style>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/notify/0.4.2/notify.min.js" integrity="sha512-efUTj3HdSPwWJ9gjfGR71X9cvsrthIA78/Fvd/IN+fttQVy7XWkOAXb295j8B3cmm/kFKVxjiNYzKw9IQJHIuQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/notify/0.4.2/notify.min.js"
+            integrity="sha512-efUTj3HdSPwWJ9gjfGR71X9cvsrthIA78/Fvd/IN+fttQVy7XWkOAXb295j8B3cmm/kFKVxjiNYzKw9IQJHIuQ=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
 
 <body class="">
@@ -662,7 +678,7 @@
 
 <script>
     $(document).ready(function () {
-        $('#ledger_group_id').select2({placeholder:"Select Group",dropdownParent: $("#ledgerModal")})
+        $('#ledger_group_id').select2({placeholder: "Select Group", dropdownParent: $("#ledgerModal")})
 
     })
 </script>
