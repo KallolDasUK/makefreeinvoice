@@ -126,7 +126,7 @@
 
                             <tr class="">
                                 <td>{{ $loop->iteration }}</td>
-                                <td class="">
+                                <td class=""  style="width: 200px!important;">
                                     <b>{{ optional($item->product)->name??'Item Deleted!' }}</b>
                                     @if($item->description)
                                         <br>

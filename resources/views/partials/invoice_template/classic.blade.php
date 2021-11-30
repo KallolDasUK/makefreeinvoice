@@ -104,7 +104,7 @@
                         <thead class="card-header">
                         <tr>
                             <td class=" border-0"><strong>SL</strong></td>
-                            <td class=" border-0"><strong>Description</strong></td>
+                            <td class=" border-0" ><strong>Description</strong></td>
                             <td class=" text-center border-0"><strong>Unit</strong></td>
 
                             <td class=" text-center border-0"><strong>Rate</strong></td>
@@ -118,8 +118,11 @@
 
                             <tr class="">
                                 <td>{{ $loop->iteration }}</td>
-                                <td class="">
-                                    {{ optional($item->product)->name??'Item Deleted!' }}
+                                <td class=""  style="width: 200px!important;">
+                                    <span >
+                                           {{ optional($item->product)->name??'Item Deleted!' }}
+                                    </span>
+
                                     @if($item->description)
                                         <br>
                                         <small> {{ $item->description }} </small>
@@ -233,7 +236,7 @@
 
         <div class="mr-3 float-right align-self-center text-center justify-content-center">
 
-            <div id="qr_code" class="mx-auto"></div>
+            <div id="qr_code" class="mx-auto" style="width: 100px"></div>
 
         </div>
 
