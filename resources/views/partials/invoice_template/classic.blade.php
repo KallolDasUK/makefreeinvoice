@@ -100,16 +100,16 @@
         <div class="card">
             <div class="card-body p-0">
                 <div class="table-responsive">
-                    <table class="table mb-0">
+                    <table class="table mb-0 table-sm"  style="table-layout: fixed">
                         <thead class="card-header">
                         <tr>
-                            <td class=" border-0"><strong>SL</strong></td>
-                            <td class=" border-0" ><strong>Description</strong></td>
-                            <td class=" text-center border-0"><strong>Unit</strong></td>
+                            <td class=" " width="30"><strong>SL</strong></td>
+                            <td class=" "><strong>Description</strong></td>
+                            <td class=" text-center " width="80"><strong>Unit</strong></td>
 
-                            <td class=" text-center border-0"><strong>Rate</strong></td>
-                            <td class=" text-center border-0"><strong>QTY</strong></td>
-                            <td class=" text-right border-0"><strong>Amount</strong></td>
+                            <td class=" text-center  " width="80"><strong>Rate</strong></td>
+                            <td class=" text-center " width="80"><strong>QTY</strong></td>
+                            <td class=" text-right " width="80"><strong>Amount</strong></td>
                         </tr>
                         </thead>
                         <tbody>
