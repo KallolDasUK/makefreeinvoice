@@ -247,6 +247,16 @@ class InvoicesController extends Controller
             $qr_code = base64_encode($qr_code);
 
 
+        } elseif ($qr_code_style == 'text') {
+            $business_name = $settings->business_name ?? auth()->user()->name ?? 'Unknown Seller';
+            $vat_number = $settings->vat_reg ?? '123456789';
+            $creating_time = Carbon::parse($invoice->created_at);
+            $invoice_date = Carbon::parse($invoice->invoice_date)->toDateString() . ' ' . $creating_time->toTimeString();
+            $taxable = number_format($invoice->total, 2, '.', '');
+            $tax = number_format($invoice->taxable_amount, 2, '.', '');
+
+            $qr_code = " Seller Name: $business_name Vat Reg: $vat_number Total: $taxable Tax: $tax  Date and Time: $invoice_date";
+
         }
 
         return view('invoices.show', compact('invoice', 'template', 'qr_code'));

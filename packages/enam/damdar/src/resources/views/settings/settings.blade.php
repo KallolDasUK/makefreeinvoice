@@ -95,8 +95,13 @@
             <div class="col-lg-4">
                 <select id="qr_code_style" class="form-control" name="qr_code_style">
                     <option value="link"
-                            @if(($settings->qr_code_style??'') === 'link') selected @endif>Online Viewable Link</option>
-                    <option value="tlv"  @if(($settings->qr_code_style??'') === 'tlv') selected @endif>Tag Length Value (TLV)</option>
+                            @if(($settings->qr_code_style??'') === 'link') selected @endif>Online Viewable Link
+                    </option>
+                    <option value="tlv" @if(($settings->qr_code_style??'') === 'tlv') selected @endif>Tag Length Value
+                        (TLV)
+                    </option>
+                    <option value="text" @if(($settings->qr_code_style??'') === 'text') selected @endif>Plain Text
+                    </option>
 
                 </select>
                 <small class="form-text">
