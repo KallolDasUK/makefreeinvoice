@@ -253,19 +253,19 @@
                                     @endif
                                 </td>
                                 <td class="pr-0 text-right">
-                                    @if(!$purchase_order->converted)
-                                        <a style="text-decoration: underline"
-                                           class=" font-weight-bolder text-success  font-size-lg underline  text-hover-danger cursor-pointer mx-4"
-                                           onclick="return confirm('Are you sure? Got the order?')"
-                                           href="{{ route('purchase_orders.purchase_order.convert_to_bill',$purchase_order->id) }}">Receive
-                                            Order</a>
-                                    @else
-                                        <button
-                                            type="button"
-                                            class="btn btn-outline-info disabled  font-weight-bolder"
-                                        >Order Received
-                                        </button>
-                                    @endif
+{{--                                    @if(!$purchase_order->converted)--}}
+{{--                                        <a style="text-decoration: underline"--}}
+{{--                                           class=" font-weight-bolder text-success  font-size-lg underline  text-hover-danger cursor-pointer mx-4"--}}
+{{--                                           onclick="return confirm('Are you sure? Got the order?')"--}}
+{{--                                           href="{{ route('purchase_orders.purchase_order.convert_to_bill',$purchase_order->id) }}">Receive--}}
+{{--                                            Order</a>--}}
+{{--                                    @else--}}
+{{--                                        <button--}}
+{{--                                            type="button"--}}
+{{--                                            class="btn btn-outline-info disabled  font-weight-bolder"--}}
+{{--                                        >Order Received--}}
+{{--                                        </button>--}}
+{{--                                    @endif--}}
                                     @if(!$purchase_order->converted)
                                         <a class="border mx-4 text-center btn  {{  ability(\App\Utils\Ability::PURCHASE_ORDER_EDIT) }}"
                                            href="{{ route('purchase_orders.purchase_order.edit',$purchase_order->id) }}">
