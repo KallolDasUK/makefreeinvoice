@@ -111,7 +111,7 @@ class PosSalesController extends Controller
         $branches = Branch::pluck('id', 'id')->all();
         $ledgers = Ledger::find($this->getAssetLedgers())->toArray();
         $categories = Category::all();
-        $products = Product::all()->makeHidden([ 'stock_value']);
+        $products = Product::all()->makeHidden(['stock_value']);
         $paymentMethods = PaymentMethod::all();
         $title = "POS - Point Of Sale";
         $ledger_id = Ledger::CASH_AC();
@@ -138,7 +138,7 @@ class PosSalesController extends Controller
         $can_delete = ability(Ability::POS_DELETE);
 
 //        dd('Execution Seconds');
-        return view('pos_sales.create',compact('customers', 'branches', 'ledgers', 'ledger_id', 'products', 'categories', 'title', 'orders',
+        return view('pos_sales.create', compact('customers', 'branches', 'ledgers', 'ledger_id', 'products', 'categories', 'title', 'orders',
             'paymentMethods', 'bookmarks', 'start_date', 'end_date', 'charges', 'can_delete'));
     }
 
@@ -349,6 +349,17 @@ class PosSalesController extends Controller
 
             $qr_code = $seller_name . '' . $vat_registration . '' . $time_stamp . '' . $invoice_total . '' . $vat_total;
             $qr_code = base64_encode($qr_code);
+
+
+        } elseif ($qr_code_style == 'text') {
+            $business_name = $settings->business_name ?? auth()->user()->name ?? 'Unknown Seller';
+            $vat_number = $settings->vat_reg ?? '123456789';
+            $creating_time = Carbon::parse($posSale->created_at);
+            $invoice_date = Carbon::parse($posSale->date)->toDateString() . ' ' . $creating_time->toTimeString();
+            $taxable = number_format($posSale->total, 2, '.', '');
+            $tax = number_format($posSale->tax, 2, '.', '');
+
+            $qr_code = " Seller Name: $business_name Vat Reg: $vat_number Total: $taxable Tax: $tax Date and Time: $invoice_date";
 
 
         }

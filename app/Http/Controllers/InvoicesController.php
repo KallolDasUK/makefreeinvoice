@@ -255,12 +255,7 @@ class InvoicesController extends Controller
             $taxable = number_format($invoice->total, 2, '.', '');
             $tax = number_format($invoice->taxable_amount, 2, '.', '');
 
-            $qr_code = <<<EOT
-                  Seller Name: $seller_name
-                  Vat Reg: $vat_number
-                  Total: $taxable
-                  Tax: $tax
-                EOT;;
+            $qr_code = " Seller Name: $business_name Vat Reg: $vat_number Total: $taxable Tax: $tax  Date and Time: $invoice_date";
 
         }
 
