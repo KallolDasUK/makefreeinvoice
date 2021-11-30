@@ -1,6 +1,10 @@
 <style>
     table, th, td {
-        border: 1px solid black;
+        border: 0.5px solid #777676;
+    }
+     .border-dark{
+        border: 0.5px solid #777676 !important;
+
     }
 </style>
 
@@ -42,7 +46,7 @@
                         alt="">
                 @endif
                 @if($settings->business_name ?? false)
-                    <h2 class="mt-2"> {{ $settings->business_name ?? '' }}</h2>
+                    <h3 class="mt-2"> {{ $settings->business_name ?? '' }}</h3>
                 @endif
             </div>
             <div class="col text-sm-right "><strong> From:</strong>
@@ -98,7 +102,6 @@
 
     <!-- Main Content -->
     <main>
-
 
 
         <div class="card">
@@ -215,33 +218,35 @@
             </div>
         </div>
     </main>
-    <!-- Footer -->
-    <div class="footer_block d-flex">
-        <div class="flex-1 mt-4" style="width: 100%">
+    <footer>
+        <!-- Footer -->
+        <div class="footer_block d-flex">
+            <div class="flex-1 mt-4" style="width: 100%">
 
-            <p class="border border-dark p-2"><strong>Terms & Condition :</strong> <br>
-                {{ $invoice->terms_condition }}</p>
-            <p class="border border-dark p-2"><strong>Notes :</strong> <br>
-                {{ $invoice->notes }}</p>
-        </div>
-        <div class="flex-1 mt-4 ml-4 mb-4">
-            <div id="qr_code">
+                <p class="border border-dark p-2"><strong>Terms & Condition :</strong> <br>
+                    {{ $invoice->terms_condition }}</p>
+                <p class="border border-dark p-2"><strong>Notes :</strong> <br>
+                    {{ $invoice->notes }}</p>
+            </div>
+            <div class="flex-1 mt-4 ml-4 mb-4">
+                <div id="qr_code">
 
+                </div>
             </div>
         </div>
-    </div>
 
 
-    <div class="d-flex">
-        <div class="col border border-dark  p-2 mr-4">
-            <p class=""><strong>Client Signature :</strong> <br>
-            </p>
+        <div class="d-flex">
+            <div class="col border border-dark  p-2 mr-4">
+                <p class=""><strong>Client Signature :</strong> <br>
+                </p>
+            </div>
+            <div class="col border border-dark p-2">
+                <p class=""><strong>Authorized Signature :</strong> <br>
+                </p>
+            </div>
         </div>
-        <div class="col border border-dark p-2">
-            <p class=""><strong>Authorized Signature :</strong> <br>
-            </p>
-        </div>
-    </div>
+    </footer>
 </div>
 
 
