@@ -2,7 +2,8 @@
     table, th, td {
         border: 0.5px solid #777676;
     }
-     .border-dark{
+
+    .border-dark {
         border: 0.5px solid #777676 !important;
 
     }
@@ -212,6 +213,16 @@
                                 </td>
                             </tr>
                         @endif
+                        @php($totalDue= $invoice->due + $invoice->previous_due )
+                        @if($totalDue>0)
+                            <tr>
+                                <td colspan="5" class="text-right"><strong>Total Due:</strong></td>
+                                <td class="text-right">
+                                    <strong>{{ $invoice->currency }}{{ decent_format($totalDue) }}</strong>
+                                </td>
+                            </tr>
+                        @endif
+
                         </tfoot>
                     </table>
                 </div>
