@@ -27,6 +27,7 @@
             padding: 0px;
             max-width: 850px;
             background-color: #fff;
+
             /*border: 1px solid #ccc;*/
             -moz-border-radius: 6px;
             -webkit-border-radius: 6px;
@@ -65,7 +66,7 @@
             }
 
             h3 {
-                font-size: 3rem;
+                font-size: 2rem;
             }
 
             .invoice-container {
@@ -82,6 +83,13 @@
                 left: 0;
                 top: 0;
                 right: 0;
+                min-height: 297mm !important;
+            }
+
+            footer {
+                position: absolute;
+                bottom: 0;
+                width: 100%;
             }
         }
     </style>
