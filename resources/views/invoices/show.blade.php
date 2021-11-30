@@ -48,7 +48,10 @@
             font-size: 28px !important;
             font-size: 1.75rem !important;
         }
-
+        @page {
+            margin: 0!important;
+            padding: 0!important;
+        }
         @media print {
             body * {
                 visibility: hidden;
