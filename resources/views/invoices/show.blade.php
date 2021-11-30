@@ -3,9 +3,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.8.1/html2pdf.bundle.min.js"
             integrity="sha512-vDKWohFHe2vkVWXHp3tKvIxxXg0pJxeid5eo+UjdjME3DBFBn2F8yWOE0XmiFcFbXxrEOR1JriWEno5Ckpn15A=="
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"
-            integrity="sha512-CNgIRecGo7nphbeZ04Sc13ka07paqdeTu0WR1IM4kNcpmBAUSHSQX0FslNhTDadL4O5SAGapGt4FodqL8My0mA=="
-            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <script type="text/javascript" src="{{ asset('js/jquery.qrcode.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/qrcode.js') }}"></script>
 
 @endsection
 @section('css')
@@ -48,10 +48,12 @@
             font-size: 28px !important;
             font-size: 1.75rem !important;
         }
+
         @page {
-            margin: 0!important;
-            padding: 0!important;
+            margin: 0 !important;
+            padding: 0 !important;
         }
+
         @media print {
             body * {
                 visibility: hidden;
@@ -213,15 +215,18 @@
             };
             html2pdf(element, opt);
         })
-        var qrcode = new QRCode(document.getElementById("qr_code"), {
-            text: "{{ $qr_code }}",
-            width: 128,
-            height: 128,
-            colorDark: "#000000",
-            colorLight: "#ffffff",
-            correctLevel: QRCode.CorrectLevel.H
+        {{--var qrcode = new QRCode(document.getElementById("qr_code"), {--}}
+        {{--    text: "{{ $qr_code }}",--}}
+        {{--    width: 128,--}}
+        {{--    height: 128,--}}
+        {{--    colorDark: "#000000",--}}
+        {{--    colorLight: "#ffffff",--}}
+        {{--    correctLevel: QRCode.CorrectLevel.H--}}
+        {{--});--}}
+
+        jQuery('#qr_code').qrcode({
+            text	: "{{ $qr_code }}",
+            width: 100,height: 100,
         });
-
-
     </script>
 @endpush
