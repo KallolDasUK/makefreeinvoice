@@ -108,16 +108,16 @@
         <div class="card">
             <div class="card-body p-0">
                 <div class="">
-                    <table class="table mb-0 table-sm">
+                    <table class="table mb-0 table-sm " style="table-layout: fixed">
                         <thead class="card-header">
                         <tr>
-                            <td class=" "><strong>SL</strong></td>
+                            <td class=" " width="30"><strong>SL</strong></td>
                             <td class=" "><strong>Description</strong></td>
-                            <td class=" text-center "><strong>Unit</strong></td>
+                            <td class=" text-center " width="80"><strong>Unit</strong></td>
 
-                            <td class=" text-center  "><strong>Rate</strong></td>
-                            <td class=" text-center "><strong>QTY</strong></td>
-                            <td class=" text-right "><strong>Amount</strong></td>
+                            <td class=" text-center  " width="80"><strong>Rate</strong></td>
+                            <td class=" text-center " width="80"><strong>QTY</strong></td>
+                            <td class=" text-right " width="80"><strong>Amount</strong></td>
                         </tr>
                         </thead>
                         <tbody>
@@ -126,7 +126,7 @@
 
                             <tr class="">
                                 <td>{{ $loop->iteration }}</td>
-                                <td class=""  style="width: 200px!important;">
+                                <td class="">
                                     <b>{{ optional($item->product)->name??'Item Deleted!' }}</b>
                                     @if($item->description)
                                         <br>
