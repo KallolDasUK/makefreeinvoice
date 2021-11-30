@@ -377,13 +377,16 @@ function setUpProductSearch() {
         }
 
     });
+    if(!hide_image){
+        $("#product_search").data("ui-autocomplete")._renderItem = function (ul, item) {
+            console.log(item)
+            return $('<li/>', {'data-value': item.label}).append($('<a/>', {href: "#"})
+                .append($('<img/>', {src: item.icon,style:'width:50px'})).append(item.label))
+                .appendTo(ul);
+        };
+    }
 
-    $("#product_search").data("ui-autocomplete")._renderItem = function (ul, item) {
-        console.log(item)
-        return $('<li/>', {'data-value': item.label}).append($('<a/>', {href: "#"})
-            .append($('<img/>', {src: item.icon,style:'width:50px'})).append(item.label))
-            .appendTo(ul);
-    };
+
 }
 
 function showLabel(event, ui) {
