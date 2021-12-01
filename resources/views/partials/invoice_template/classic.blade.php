@@ -107,9 +107,9 @@
                             <td class=" "><strong>Description</strong></td>
                             <td class=" text-center " width="80"><strong>Unit</strong></td>
 
-                            <td class=" text-center  " width="80"><strong>Rate</strong></td>
-                            <td class=" text-center " width="80"><strong>QTY</strong></td>
-                            <td class=" text-right " width="80"><strong>Amount</strong></td>
+                            <td class=" text-center  " width="120"><strong>Rate</strong></td>
+                            <td class=" text-center " width="120"><strong>QTY</strong></td>
+                            <td class=" text-right " width="120"><strong>Amount</strong></td>
                         </tr>
                         </thead>
                         <tbody>

@@ -136,7 +136,7 @@ class PosSalesController extends Controller
 //        dd($ledgers);
 
         $can_delete = ability(Ability::POS_DELETE);
-
+//dd($products);
 //        dd('Execution Seconds');
         return view('pos_sales.create', compact('customers', 'branches', 'ledgers', 'ledger_id', 'products', 'categories', 'title', 'orders',
             'paymentMethods', 'bookmarks', 'start_date', 'end_date', 'charges', 'can_delete'));

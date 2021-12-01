@@ -23,23 +23,7 @@
 
     <script>
 
-        {{--var data = $.ajax({--}}
-        {{--    type: "GET",--}}
-        {{--    url: "{{ route('ajax.posCreateData') }}",--}}
-        {{--    async: true--}}
-        {{--}).responseText;--}}
-
-        {{--$.ajax({--}}
-        {{--    url: "{{ route('ajax.posCreateData') }}",--}}
-        {{--    async: false,--}}
-        {{--    success: function (response) {--}}
-        {{--        console.log(response)--}}
-
-        {{--    }--}}
-        {{--});--}}
-
-        {{--console.log(data)--}}
-        var products = @json($products);
+        var products = @json($products); //bal test
         var customers = @json($customers);
         var ledgers = @json($ledgers);
         var cash_ledger_id = "{{ $ledger_id }}";
