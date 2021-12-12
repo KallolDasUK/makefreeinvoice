@@ -23,6 +23,7 @@
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.0",
         "laraveldaily/laravel-invoices": "^2.0",
+        "salla/zatca": "^1.0",
         "spatie/laravel-honeypot": "^3.0",
         "spatie/laravel-permission": "^5.3",
         "stichoza/google-translate-php": "^4.1",
