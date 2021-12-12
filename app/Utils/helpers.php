@@ -143,6 +143,10 @@ if (!function_exists('currencies')) {
                 'countryname' => 'People\'s Republic of Bangladesh',
                 'name' => 'Bangladeshi taka',
                 'symbol' => '&#2547;'),
+            array('code' => 'BDT',
+                'countryname' => 'United Arab Emirates',
+                'name' => 'Dirham',
+                'symbol' => 'د.إ'),
 
             array('code' => 'BYN',
                 'countryname' => 'Belarus',
