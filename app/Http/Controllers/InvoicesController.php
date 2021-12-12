@@ -28,6 +28,8 @@ use Enam\Acc\Utils\LedgerHelper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
+use Salla\ZATCA\GenerateQrCode;
+use Salla\ZATCA\Tags\Seller;
 
 class InvoicesController extends Controller
 {
@@ -190,9 +192,20 @@ class InvoicesController extends Controller
 
     }
 
+    public function getTLVForValue($tagNum = null, $tagValue = null)
+    {
+        $code = '';
+        $tagBuf = Buffer($tagNum);
+
+        return $code;
+
+    }
+
+
     public function show(Request $request, $id)
     {
         view()->share('title', 'View Invoice');
+
 
         $invoice = Invoice::with('customer')->findOrFail($id);
         $this->authorize('view', $invoice);
@@ -207,44 +220,31 @@ class InvoicesController extends Controller
 
         $qr_code = route('invoices.invoice.share', [$invoice->secret, 'template' => $template]);
         $qr_code_style = $settings->qr_code_style ?? 'link';
+
+
         if ($qr_code_style == 'tlv') {
             $business_name = $settings->business_name ?? auth()->user()->name ?? 'Unknown Seller';
 
-            $seller_name = '';
-            $seller_name .= '1';
-            $seller_name .= '' . strlen($business_name);
-            $seller_name .= '' . $business_name;
 
+            $seller_name =$business_name;
             $vat_number = $settings->vat_reg ?? '123456789';
-            $vat_registration = '';
-            $vat_registration .= '2';
-            $vat_registration .= '' . strlen($vat_number);
-            $vat_registration .= '' . $vat_number;
-
             $creating_time = Carbon::parse($invoice->created_at);
             $invoice_date = Carbon::parse($invoice->invoice_date)->toDateString() . ' ' . $creating_time->toTimeString();
-//            dd($invoice_date);
-            $time_stamp = '';
-            $time_stamp .= '3';
-            $time_stamp .= '' . strlen($invoice_date);
-            $time_stamp .= '' . $invoice_date;
-
             $taxable = number_format($invoice->total, 2, '.', '');
-            $invoice_total = '';
-            $invoice_total .= '4';
-            $invoice_total .= '' . strlen($taxable);
-            $invoice_total .= '' . $taxable;
-
-
             $tax = number_format($invoice->taxable_amount, 2, '.', '');
-            $vat_total = '';
-            $vat_total .= '5';
-            $vat_total .= '' . strlen($tax);
-            $vat_total .= '' . $tax;
 
+            $dataToEncode = [
+                [1, $seller_name],
+                [2, $vat_number],
+                [3, $invoice_date],
+                [4, $taxable],
+                [5, $tax]
+            ];
 
-            $qr_code = $seller_name . '' . $vat_registration . '' . $time_stamp . '' . $invoice_total . '' . $vat_total;
-            $qr_code = base64_encode($qr_code);
+            $__TLV = __getTLV($dataToEncode);
+            $__QR = base64_encode($__TLV);
+            $qr_code = $__QR;
+//            dd($qr_code);
 
 
         } elseif ($qr_code_style == 'text') {
