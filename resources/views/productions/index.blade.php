@@ -1,4 +1,4 @@
-UJ@extends('acc::layouts.app')
+@extends('acc::layouts.app')
 
 @section('content')
 
