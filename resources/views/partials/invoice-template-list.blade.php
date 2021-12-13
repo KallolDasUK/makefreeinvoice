@@ -22,6 +22,15 @@
                 <div class="text-center m-0 p-0 "><b>Elegant</b></div>
             </a>
         </div>
+        <div class=" mt-4 card border border-dark template @if($template=='arabic') template-active @endif"
+        >
+            <a href="{{ route('invoices.invoice.show',[$invoice->id,'template'=>'arabic']) }}">
+
+                <img class="" src="{{ asset('images/templates/classic.png') }}" alt="" style="width: 100%;"
+                     height="180">
+                <div class="text-center m-0 p-0 "><b>Arabic</b></div>
+            </a>
+        </div>
         <div class=" mt-4 card border border-dark  template @if($template=='template_1') template-active @endif">
 
             <a href="{{ route('invoices.invoice.show',[$invoice->id,'template'=>'template_1']) }}">

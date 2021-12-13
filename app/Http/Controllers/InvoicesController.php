@@ -211,13 +211,14 @@ class InvoicesController extends Controller
         $this->authorize('view', $invoice);
         $invoice->taxes;
         if ($request->template) {
-            if ($request->template == "classic" || $request->template == "template_1")
+            if ($request->template == "classic" || $request->template == "template_1"|| $request->template == "arabic")
                 MetaSetting::query()->updateOrCreate(['key' => 'invoice_template'], ['value' => $request->template]);
         }
         $settings = json_decode(MetaSetting::query()->pluck('value', 'key')->toJson());
 //        dd($settings);
         $template = $settings->invoice_template ?? 'classic';
 
+//        dd($template);
         $qr_code = route('invoices.invoice.share', [$invoice->secret, 'template' => $template]);
         $qr_code_style = $settings->qr_code_style ?? 'link';
 
