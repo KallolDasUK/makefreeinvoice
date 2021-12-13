@@ -226,7 +226,7 @@ class InvoicesController extends Controller
             $business_name = $settings->business_name ?? auth()->user()->name ?? 'Unknown Seller';
 
 
-            $seller_name =$business_name;
+            $seller_name = $business_name;
             $vat_number = $settings->vat_reg ?? '123456789';
             $creating_time = Carbon::parse($invoice->created_at);
             $invoice_date = Carbon::parse($invoice->invoice_date)->toDateString() . ' ' . $creating_time->toTimeString();
@@ -244,7 +244,6 @@ class InvoicesController extends Controller
             $__TLV = __getTLV($dataToEncode);
             $__QR = base64_encode($__TLV);
             $qr_code = $__QR;
-//            dd($qr_code);
 
 
         } elseif ($qr_code_style == 'text') {
@@ -257,9 +256,11 @@ class InvoicesController extends Controller
 
             $qr_code = " Seller Name: $business_name Vat Reg: $vat_number Total: $taxable Tax: $tax  Date and Time: $invoice_date";
 
+        } elseif ($qr_code_style == 'hide') {
+            $qr_code = '';
         }
 
-        return view('invoices.show', compact('invoice', 'template', 'qr_code'));
+        return view('invoices.show', compact('invoice', 'template', 'qr_code', 'qr_code_style'));
     }
 
     public function saveTermsNDNote($data)

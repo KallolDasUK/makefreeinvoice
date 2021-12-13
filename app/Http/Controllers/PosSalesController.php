@@ -138,8 +138,10 @@ class PosSalesController extends Controller
         $can_delete = ability(Ability::POS_DELETE);
 //dd($products);
 //        dd('Execution Seconds');
+        $p = $products->toArray();
+//        dd($p);
         return view('pos_sales.create', compact('customers', 'branches', 'ledgers', 'ledger_id', 'products', 'categories', 'title', 'orders',
-            'paymentMethods', 'bookmarks', 'start_date', 'end_date', 'charges', 'can_delete'));
+            'paymentMethods', 'bookmarks', 'start_date', 'end_date', 'charges', 'can_delete','p'));
     }
 
     public function getAssetLedgers()
@@ -314,41 +316,26 @@ class PosSalesController extends Controller
         if ($qr_code_style == 'tlv') {
             $business_name = $settings->business_name ?? auth()->user()->name ?? 'Unknown Seller';
 
-            $seller_name = '';
-            $seller_name .= '1';
-            $seller_name .= '' . strlen($business_name);
-            $seller_name .= '' . $business_name;
 
+            $seller_name = $business_name;
             $vat_number = $settings->vat_reg ?? '123456789';
-            $vat_registration = '';
-            $vat_registration .= '2';
-            $vat_registration .= '' . strlen($vat_number);
-            $vat_registration .= '' . $vat_number;
-
             $creating_time = Carbon::parse($posSale->created_at);
             $invoice_date = Carbon::parse($posSale->date)->toDateString() . ' ' . $creating_time->toTimeString();
-//            dd($invoice_date);
-            $time_stamp = '';
-            $time_stamp .= '3';
-            $time_stamp .= '' . strlen($invoice_date);
-            $time_stamp .= '' . $invoice_date;
-
             $taxable = number_format($posSale->total, 2, '.', '');
-            $invoice_total = '';
-            $invoice_total .= '4';
-            $invoice_total .= '' . strlen($taxable);
-            $invoice_total .= '' . $taxable;
-
-
             $tax = number_format($posSale->tax, 2, '.', '');
-            $vat_total = '';
-            $vat_total .= '5';
-            $vat_total .= '' . strlen($tax);
-            $vat_total .= '' . $tax;
 
 
-            $qr_code = $seller_name . '' . $vat_registration . '' . $time_stamp . '' . $invoice_total . '' . $vat_total;
-            $qr_code = base64_encode($qr_code);
+            $dataToEncode = [
+                [1, $seller_name],
+                [2, $vat_number],
+                [3, $invoice_date],
+                [4, $taxable],
+                [5, $tax]
+            ];
+
+            $__TLV = __getTLV($dataToEncode);
+            $__QR = base64_encode($__TLV);
+            $qr_code = $__QR;
 
 
         } elseif ($qr_code_style == 'text') {
@@ -359,11 +346,11 @@ class PosSalesController extends Controller
             $taxable = number_format($posSale->total, 2, '.', '');
             $tax = number_format($posSale->tax, 2, '.', '');
 
-            $qr_code = " Seller Name: $business_name Vat Reg: $vat_number Total: $taxable Tax: $tax Date and Time: $invoice_date";
+            $qr_code = "Seller Name: $business_name Vat Reg: $vat_number Total: $taxable Tax: $tax Date and Time: $invoice_date";
 
 
         }
-        return view('partials.order-details', compact('posSale', 'qr_code'));
+        return view('partials.order-details', compact('posSale', 'qr_code', 'qr_code_style'));
     }
 
     public function eye($id)
