@@ -134,15 +134,20 @@ Total in word :
 <script>
 
     var qr_code_style = "{{ $qr_code_style }}";
-    if(qr_code_style !== 'hide'){
-        jQuery('#qr_code').qrcode({
-            text: "{{ $qr_code }}",
-            width: 150, height: 150,
-        });
-    }
+
 
     $(document).ready(function () {
+
+        if(qr_code_style !== 'hide'){
+            jQuery('#qr_code').qrcode({
+                text: "{{ $qr_code }}",
+                width: 150, height: 150,
+            });
+        }
         $('#qr_code img').css('margin','0 auto') ;
+
+
+
     })
 
 </script>
