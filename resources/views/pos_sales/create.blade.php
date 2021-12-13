@@ -1,5 +1,7 @@
 @extends('layouts.pos_layout')
 
+
+
 @section('content')
     @include('partials.ajax-category-create-form')
     @include('partials.ajax-product-create-form')
@@ -20,7 +22,8 @@
 @endsection
 
 @section('js')
-
+    <script type="text/javascript" src="{{ asset('js/jquery.qrcode.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/qrcode.js') }}"></script>
     <script>
 
         var products = @json($products);
