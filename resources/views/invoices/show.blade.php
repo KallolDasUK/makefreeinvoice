@@ -187,6 +187,8 @@
 
                 @if($template == "template_1")
                     @include('partials.invoice_template.template_1')
+                @elseif($template == "arabic")
+                    @include('partials.invoice_template.arabic')
                 @else
                     @include('partials.invoice_template.classic')
                 @endif
@@ -229,7 +231,7 @@
         if (qr_code_style !== 'hide') {
             jQuery('#qr_code').qrcode({
                 text: "{{ $qr_code }}",
-                width: 150, height: 150,
+                width: 120, height: 120,
             });
         }
 
