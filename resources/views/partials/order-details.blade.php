@@ -135,13 +135,9 @@ Total in word :
 
     var qr_code_style = "{{ $qr_code_style }}";
     if(qr_code_style !== 'hide'){
-        var qrcode = new QRCode(document.getElementById("qr_code"), {
+        jQuery('#qr_code').qrcode({
             text: "{{ $qr_code }}",
-            width: 100,
-            height: 100,
-            colorDark: "#000000",
-            colorLight: "#ffffff",
-            correctLevel: QRCode.CorrectLevel.H
+            width: 150, height: 150,
         });
     }
 
