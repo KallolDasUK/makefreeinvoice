@@ -581,7 +581,7 @@ if (!function_exists('currencies')) {
             array('code' => 'SAR',
                 'countryname' => 'Saudi Arabia',
                 'name' => 'Saudi riyal',
-                'symbol' => '&#65020;'),
+                'symbol' => '&#65020; '),
 
             array('code' => 'RSD',
                 'countryname' => 'Serbia',
