@@ -145,7 +145,6 @@ Total in word :
                 width: 150, height: 150,
             });
         }
-        $('#qr_code img').css('margin','0 auto') ;
 
 
 
