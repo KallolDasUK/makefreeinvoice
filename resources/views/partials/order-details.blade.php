@@ -136,14 +136,15 @@ Total in word :
 
     var qr_code_style = "{{ $qr_code_style }}";
 
-
-    $(document).ready(function () {
-
-        if(qr_code_style !== 'hide'){
-            jQuery('#qr_code').qrcode({
+ jQuery('#qr_code').qrcode({
                 text: "{{ $qr_code }}",
                 width: 150, height: 150,
             });
+    $(document).ready(function () {
+
+        if(qr_code_style !== 'hide'){
+            // alert('test');
+           
         }
 
 

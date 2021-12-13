@@ -256,7 +256,7 @@ var posRactive = new Ractive({
                 success: function (response) {
                     // $('#blankModal').modal('show')
                     $('#content').html(response)
-                    $('#printable').printThis()
+                    $('#printable').printThis({canvas: true})
                     $('#product_search').focus()
 
                 }
@@ -318,7 +318,7 @@ var posRactive = new Ractive({
 function onReceiptPrint() {
     $('#blankModal').modal('hide')
 
-    $('#printable').printThis()
+    $('#printable').printThis({canvas: true})
 }
 
 function initPaymentMethod() {
