@@ -102,6 +102,8 @@
                     </option>
                     <option value="text" @if(($settings->qr_code_style??'') === 'text') selected @endif>Plain Text
                     </option>
+                    <option value="hide" @if(($settings->qr_code_style??'') === 'hide') selected @endif>Hide QR Code
+                    </option>
 
                 </select>
                 <small class="form-text">

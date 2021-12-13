@@ -224,9 +224,14 @@
         {{--    correctLevel: QRCode.CorrectLevel.H--}}
         {{--});--}}
 
-        jQuery('#qr_code').qrcode({
-            text	: "{{ $qr_code }}",
-            width: 150,height: 150,
-        });
+
+        var qr_code_style = @json($qr_code_style);
+        if (qr_code_style !== 'hide') {
+            jQuery('#qr_code').qrcode({
+                text: "{{ $qr_code }}",
+                width: 150, height: 150,
+            });
+        }
+
     </script>
 @endpush

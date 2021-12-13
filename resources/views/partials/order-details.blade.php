@@ -132,14 +132,19 @@ Total in word :
 @endif
 
 <script>
-    var qrcode = new QRCode(document.getElementById("qr_code"), {
-        text: "{{ $qr_code }}",
-        width: 100,
-        height: 100,
-        colorDark: "#000000",
-        colorLight: "#ffffff",
-        correctLevel: QRCode.CorrectLevel.H
-    });
+
+    var qr_code_style = "{{ $qr_code_style }}";
+    if(qr_code_style !== 'hide'){
+        var qrcode = new QRCode(document.getElementById("qr_code"), {
+            text: "{{ $qr_code }}",
+            width: 100,
+            height: 100,
+            colorDark: "#000000",
+            colorLight: "#ffffff",
+            correctLevel: QRCode.CorrectLevel.H
+        });
+    }
+
     $(document).ready(function () {
         $('#qr_code img').css('margin','0 auto') ;
     })

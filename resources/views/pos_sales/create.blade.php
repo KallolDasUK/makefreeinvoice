@@ -23,7 +23,7 @@
 
     <script>
 
-        var products = @json($products); //bal test
+        var products = @json($products);
         var customers = @json($customers);
         var ledgers = @json($ledgers);
         var cash_ledger_id = "{{ $ledger_id }}";
