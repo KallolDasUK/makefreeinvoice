@@ -130,7 +130,8 @@ Total in word :
     <p class="float-right mt-4">Generated on {{ \Carbon\Carbon::parse($posSale->date)->format('d M Y') }} by
         invoicepedia.com</p>
 @endif
-
+<script type="text/javascript" src="{{ asset('js/jquery.qrcode.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/qrcode.js') }}"></script>
 <script>
 
     var qr_code_style = "{{ $qr_code_style }}";
