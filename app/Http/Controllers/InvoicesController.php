@@ -492,7 +492,7 @@ class InvoicesController extends Controller
         auth()->logout();
         $invoice = Invoice::query()->withoutGlobalScope('scopeClient')->with('customer')->where('secret', $secret)->firstOrFail();
         $settings = json_decode(MetaSetting::query()->where('client_id', $invoice->client_id)->pluck('value', 'key')->toJson());
-        $settings = json_decode(MetaSetting::query()->pluck('value', 'key')->toJson());
+//        $settings = json_decode(MetaSetting::query()->pluck('value', 'key')->toJson());
         $template = $settings->invoice_template ?? 'classic';
         return view('invoices.share', compact('invoice', 'settings','template'));
     }
