@@ -12,6 +12,7 @@ use App\Models\InvoiceExtraField;
 use App\Models\InvoiceItem;
 use App\Models\MetaSetting;
 use App\Models\PaymentMethod;
+use App\Models\PosSale;
 use App\Models\Product;
 use App\Models\ReceivePayment;
 use App\Models\ReceivePaymentItem;
@@ -77,6 +78,7 @@ class SalesReturnsController extends Controller
 
     public function create()
     {
+        view()->share('title', 'Retarn a Sale');
         $this->authorize('create', Invoice::class);
         $cashAcId = optional(GroupMap::query()->firstWhere('key', LedgerHelper::$CASH_AC))->value;
         $depositAccounts = Ledger::find($this->getAssetLedgers())->sortBy('ledger_name');
@@ -89,7 +91,11 @@ class SalesReturnsController extends Controller
         $invoice_fields = optional(Invoice::query()->latest()->first())->invoice_extra ?? [];
         $next_invoice = SalesReturn::nextInvoiceNumber();
         $ledgerGroups = LedgerGroup::all();
-        return view('sales_return.create', compact('customers', 'ledgerGroups', 'products', 'taxes', 'next_invoice', 'categories', 'extraFields', 'invoice_fields', 'cashAcId', 'depositAccounts', 'paymentMethods'));
+        $posInvoice = PosSale::query()->latest()->pluck('pos_number')->toArray();
+        $invoices = Invoice::query()->latest()->pluck('invoice_number')->toArray();
+        $invoices = array_merge($posInvoice, $invoices);
+//        dd($invoices );
+        return view('sales_return.create', compact('customers', 'invoices', 'ledgerGroups', 'products', 'taxes', 'next_invoice', 'categories', 'extraFields', 'invoice_fields', 'cashAcId', 'depositAccounts', 'paymentMethods'));
     }
 
     public function store(Request $request)
@@ -217,7 +223,6 @@ class SalesReturnsController extends Controller
         SalesReturnExtraField::query()->where('sales_return_id', $invoice->id)->delete();
         SalesReturnItem::query()->where('sales_return_id', $invoice->id)->delete();
         ExtraField::query()->where('type', get_class($invoice))->where('type_id', $invoice->id)->delete();
-
 
 
         $invoice->update($data);

@@ -12,6 +12,7 @@ use App\Models\InvoiceExtraField;
 use App\Models\InvoiceItem;
 use App\Models\MetaSetting;
 use App\Models\PaymentMethod;
+use App\Models\PosSale;
 use App\Models\Product;
 use App\Models\ReceivePayment;
 use App\Models\ReceivePaymentItem;
@@ -104,8 +105,18 @@ class InvoicesController extends Controller
 
     public function items($id)
     {
-        $invoice = Invoice::with('customer')->findOrFail($id);
-        return ['customer_id' => $invoice->customer_id, 'items' => $invoice->invoice_items];
+        $invoice = Invoice::with('customer')->firstWhere('invoice_number', $id);
+        $pos = PosSale::with('customer')->firstWhere('pos_number', $id);
+        $items = array_merge(optional(optional($invoice)->invoice_items)->toArray() ?? [], optional(optional($pos)->pos_items)->toArray() ?? []);
+
+
+        $customer_id = null;
+        if ($invoice) {
+            $customer_id = $invoice->customer_id;
+        } elseif ($pos) {
+            $customer_id = $pos->customer_id;
+        }
+        return ['customer_id' => $customer_id, 'items' => $items];
     }
 
 
@@ -211,7 +222,7 @@ class InvoicesController extends Controller
         $this->authorize('view', $invoice);
         $invoice->taxes;
         if ($request->template) {
-            if ($request->template == "classic" || $request->template == "template_1"|| $request->template == "arabic")
+            if ($request->template == "classic" || $request->template == "template_1" || $request->template == "arabic")
                 MetaSetting::query()->updateOrCreate(['key' => 'invoice_template'], ['value' => $request->template]);
         }
         $settings = json_decode(MetaSetting::query()->pluck('value', 'key')->toJson());
@@ -481,7 +492,9 @@ class InvoicesController extends Controller
         auth()->logout();
         $invoice = Invoice::query()->withoutGlobalScope('scopeClient')->with('customer')->where('secret', $secret)->firstOrFail();
         $settings = json_decode(MetaSetting::query()->where('client_id', $invoice->client_id)->pluck('value', 'key')->toJson());
-        return view('invoices.share', compact('invoice', 'settings'));
+        $settings = json_decode(MetaSetting::query()->pluck('value', 'key')->toJson());
+        $template = $settings->invoice_template ?? 'classic';
+        return view('invoices.share', compact('invoice', 'settings','template'));
     }
 
 }

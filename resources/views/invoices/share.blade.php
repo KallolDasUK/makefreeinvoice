@@ -105,6 +105,26 @@
     @media print {
         body * {
             visibility: hidden;
+            font-size: 1.5rem;
+            color: #181818 !important;
+
+        }
+
+        h1 {
+            font-size: 4rem;
+        }
+
+        h2 {
+            font-size: 3rem;
+        }
+
+        h3 {
+            font-size: 2rem;
+        }
+
+        .invoice-container {
+            /*margin: 0px;*/
+            max-width: 100%;
         }
 
         #invoice-container, #invoice-container * {
@@ -116,6 +136,13 @@
             left: 0;
             top: 0;
             right: 0;
+            min-height: 297mm !important;
+        }
+
+        footer {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
         }
     }
 </style>
@@ -142,7 +169,13 @@
         </div>
     </div>
     <p class="clearfix"></p>
-    @include('partials.invoice_template.template_1')
+    @if($template == "template_1")
+        @include('partials.invoice_template.template_1')
+    @elseif($template == "arabic")
+        @include('partials.invoice_template.arabic')
+    @else
+        @include('partials.invoice_template.classic')
+    @endif
 
 </div>
 
@@ -154,6 +187,7 @@
             window.print()
 
         })
+        $('#invoice-container').attr('contenteditable',false)
 
     })
 </script>

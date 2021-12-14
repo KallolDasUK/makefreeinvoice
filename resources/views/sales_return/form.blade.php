@@ -37,10 +37,8 @@
 
             <select name="invoice_number" id="invoice_number" class="form-control searchable" required>
                 <option></option>
-                @foreach(\App\Models\Invoice::query()->latest()->get() as $invoice)
-
-                    <option
-                        value="{{ $invoice->id }}" @if($sales_return !=null) {{ $sales_return->invoice_number == $invoice->id?'selected':'' }} @endif>{{ $invoice->invoice_number }}</option>
+                @foreach($invoices as $invoice_number)
+                    <option value="{{ $invoice_number }}" @if($sales_return !=null) {{ $sales_return->invoice_number == $invoice_number?'selected':'' }} @endif>{{ $invoice_number }}</option>
                 @endforeach
             </select>
 
@@ -70,7 +68,7 @@
             <input class="form-control"
                    name="date"
                    type="date" id="date"
-                   value="{{ optional($invoice)->date??today()->toDateString() }}"
+                   value="{{ optional($sales_return)->date??today()->toDateString() }}"
                    required>
 
         </div>

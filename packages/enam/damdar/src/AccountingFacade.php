@@ -133,7 +133,6 @@ class AccountingFacade extends Facade
          * */
 
 
-
         $customer = $invoice->customer;
 
 
@@ -324,8 +323,13 @@ class AccountingFacade extends Facade
     {
 
         $sales_opposite_ledger = $salesReturn->deposit_to;
-        $invoice = Invoice::find($salesReturn->invoice_number);
 
+
+        $invoice = Invoice::query()->firstWhere('invoice_number', $salesReturn->invoice_number);
+        $pos = PosSale::query()->firstWhere('pos_number', $salesReturn->invoice_number);
+        if ($invoice == null) {
+            $invoice = $pos;
+        }
         if ($invoice->due >= $salesReturn->total) {
             $sales_opposite_ledger = optional($invoice->customer->ledger)->id;
         }

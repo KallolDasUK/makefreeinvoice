@@ -437,7 +437,7 @@
                         <th style="width: 13%" scope="col" class="font-weight-bold">Stock</th>
                          <th style="width: 13%" scope="col" class="font-weight-bold">Rate</th>
                         <th style="width: 13%"  scope="col" class="font-weight-bold">Quantity</th>
-                        <th  style="width: 20%"  scope="col" class="font-weight-bold">Tax <sup><a target="_blank" href="/taxes">view taxes</a></sup></th>
+                        <th  style="width: 20%"  scope="col" class="font-weight-bold">Tax <sup><a target="_blank" href="/app/taxes">view taxes</a></sup></th>
                         <th  style="width: 13%" scope="col" class="font-weight-bold">Amount</th>
                          <th   ></th>
                     </tr>
