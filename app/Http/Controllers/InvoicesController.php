@@ -489,7 +489,7 @@ class InvoicesController extends Controller
 
     public function share($secret)
     {
-        auth()->logout();
+//        auth()->logout();
         $invoice = Invoice::query()->withoutGlobalScope('scopeClient')->with('customer')->where('secret', $secret)->firstOrFail();
         $settings = json_decode(MetaSetting::query()->where('client_id', $invoice->client_id)->pluck('value', 'key')->toJson());
 //        $settings = json_decode(MetaSetting::query()->pluck('value', 'key')->toJson());
