@@ -494,7 +494,49 @@ class InvoicesController extends Controller
         $settings = json_decode(MetaSetting::query()->where('client_id', $invoice->client_id)->pluck('value', 'key')->toJson());
 //        $settings = json_decode(MetaSetting::query()->pluck('value', 'key')->toJson());
         $template = $settings->invoice_template ?? 'classic';
-        return view('invoices.share', compact('invoice', 'settings','template'));
+
+        $qr_code = route('invoices.invoice.share', [$invoice->secret, 'template' => $template]);
+        $qr_code_style = $settings->qr_code_style ?? 'link';
+
+
+        if ($qr_code_style == 'tlv') {
+            $business_name = $settings->business_name ?? auth()->user()->name ?? 'Unknown Seller';
+
+
+            $seller_name = $business_name;
+            $vat_number = $settings->vat_reg ?? '123456789';
+            $creating_time = Carbon::parse($invoice->created_at);
+            $invoice_date = Carbon::parse($invoice->invoice_date)->toDateString() . ' ' . $creating_time->toTimeString();
+            $taxable = number_format($invoice->total, 2, '.', '');
+            $tax = number_format($invoice->taxable_amount, 2, '.', '');
+
+            $dataToEncode = [
+                [1, $seller_name],
+                [2, $vat_number],
+                [3, $invoice_date],
+                [4, $taxable],
+                [5, $tax]
+            ];
+
+            $__TLV = __getTLV($dataToEncode);
+            $__QR = base64_encode($__TLV);
+            $qr_code = $__QR;
+
+
+        } elseif ($qr_code_style == 'text') {
+            $business_name = $settings->business_name ?? auth()->user()->name ?? 'Unknown Seller';
+            $vat_number = $settings->vat_reg ?? '123456789';
+            $creating_time = Carbon::parse($invoice->created_at);
+            $invoice_date = Carbon::parse($invoice->invoice_date)->toDateString() . ' ' . $creating_time->toTimeString();
+            $taxable = number_format($invoice->total, 2, '.', '');
+            $tax = number_format($invoice->taxable_amount, 2, '.', '');
+
+            $qr_code = "Seller Name: $business_name Vat Reg: $vat_number Total: $taxable Tax: $tax  Date and Time: $invoice_date";
+
+        } elseif ($qr_code_style == 'hide') {
+            $qr_code = '';
+        }
+        return view('invoices.share', compact('invoice', 'settings', 'template', 'qr_code', 'qr_code_style'));
     }
 
 }

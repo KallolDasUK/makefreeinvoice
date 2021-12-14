@@ -64,6 +64,8 @@
     <link href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css" rel="stylesheet"/>
     <link media="all" type="text/css" rel="stylesheet"
           href="https://cdn.datatables.net/1.10.24/css/dataTables.bootstrap4.min.css">
+    <script type="text/javascript" src="{{ asset('js/jquery.qrcode.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/qrcode.js') }}"></script>
 </head>
 <style>
     .invoice-container {
@@ -188,7 +190,13 @@
 
         })
         $('#invoice-container').attr('contenteditable',false)
-
+        var qr_code_style = @json($qr_code_style);
+        if (qr_code_style !== 'hide') {
+            jQuery('#qr_code').qrcode({
+                text: "{{ $qr_code }}",
+                width: 120, height: 120,
+            });
+        }
     })
 </script>
 </body>
