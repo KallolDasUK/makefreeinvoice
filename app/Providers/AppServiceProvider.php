@@ -92,8 +92,11 @@ class AppServiceProvider extends ServiceProvider
 //                dd($is_desktop);
                 $view->with('settings', $settings);
             }
+
+//            dd(auth()->user()->user_unseen_notifications);
             $view->with('is_desktop', $is_desktop);
             $view->with('country', $country);
+            $view->with('user', auth()->user());
 
         });
 

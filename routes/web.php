@@ -34,6 +34,7 @@ use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\TaxesController;
 use App\Http\Controllers\ReceivePaymentsController;
 use App\Http\Controllers\PaymentMethodsController;
+use App\Http\Controllers\UserNotificationsController;
 use App\Http\Controllers\UserRolesController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\VendorAdvancePaymentsController;
@@ -659,9 +660,7 @@ Route::group(['prefix' => 'master', 'middleware' => ['auth:web', 'isMaster']], f
 
     });
 
-    Route::group([
-        'prefix' => 'blog_tags',
-    ], function () {
+    Route::group(['prefix' => 'blog_tags'], function () {
 
         Route::get('/', [BlogTagsController::class, 'index'])->name('blog_tags.blog_tag.index');
         Route::get('/create', [BlogTagsController::class, 'create'])->name('blog_tags.blog_tag.create');
@@ -691,6 +690,19 @@ Route::group(['prefix' => 'master', 'middleware' => ['auth:web', 'isMaster']], f
         Route::post('/', [CollectPaymentsController::class, 'store'])->name('collect_payments.collect_payment.store');
         Route::put('collect_payment/{collectPayment}', [CollectPaymentsController::class, 'update'])->name('collect_payments.collect_payment.update')->where('id', '[0-9]+');
         Route::delete('/collect_payment/{collectPayment}', [CollectPaymentsController::class, 'destroy'])->name('collect_payments.collect_payment.destroy')->where('id', '[0-9]+');
+
+    });
+
+    Route::group(['prefix' => 'user_notifications'], function () {
+
+        Route::get('/', [UserNotificationsController::class,'index'])->name('user_notifications.user_notification.index');
+        Route::get('/seen', [UserNotificationsController::class,'markSeen'])->name('user_notifications.user_notification.mark-seen')->withoutMiddleware('isMaster');
+        Route::get('/create',[UserNotificationsController::class,'create'])->name('user_notifications.user_notification.create');
+        Route::get('/show/{userNotification}',[UserNotificationsController::class,'show'])->name('user_notifications.user_notification.show')->where('id', '[0-9]+');
+        Route::get('/{userNotification}/edit',[UserNotificationsController::class,'edit'])->name('user_notifications.user_notification.edit')->where('id', '[0-9]+');
+        Route::post('/', [UserNotificationsController::class,'store'])->name('user_notifications.user_notification.store');
+        Route::put('user_notification/{userNotification}', [UserNotificationsController::class,'update'])->name('user_notifications.user_notification.update')->where('id', '[0-9]+');
+        Route::delete('/user_notification/{userNotification}',[UserNotificationsController::class,'destroy'])->name('user_notifications.user_notification.destroy')->where('id', '[0-9]+');
 
     });
 
@@ -785,14 +797,7 @@ Route::get('/task', function () {
 Route::get('/app/pos_sales/receipt/{id}', [PosSalesController::class, 'pos_receipt_public'])->name('pos_sales.pos_sale.receipt');
 
 
-
-
-
-
-
-
-
-
-
+// php artisan resource-file:create UserNotification --fields=id,type,title,body,user_id,seen
+//  php artisan create:scaffold UserNotification  --layout-name="master.master-layout" --with-migration
 
 

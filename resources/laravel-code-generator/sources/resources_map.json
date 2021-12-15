@@ -109,5 +109,9 @@
     {
         "model-name": "PaymentRequest",
         "resource-file": "payment_requests.json"
+    },
+    {
+        "model-name": "UserNotification",
+        "resource-file": "user_notifications.json"
     }
 ]

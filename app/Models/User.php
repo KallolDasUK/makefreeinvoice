@@ -152,6 +152,11 @@ class User extends Authenticatable
         return $this->hasMany(Customer::class, 'user_id')->withoutGlobalScope('scopeClient');
     }
 
+    public function user_unseen_notifications()
+    {
+        return $this->hasMany(UserNotification::class, 'user_id')->where('seen', false);
+    }
+
     public function vendors()
     {
         return $this->hasMany(Vendor::class, 'user_id')->withoutGlobalScope('scopeClient');

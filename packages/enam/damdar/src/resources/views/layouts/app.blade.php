@@ -22,11 +22,15 @@
     @routes
 
     <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-    
-      gtag('config', 'G-J35PC4G2SJ');
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'G-J35PC4G2SJ');
     </script>
     <script src="https://use.fontawesome.com/715fc6bd34.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
@@ -612,7 +616,9 @@
         <!--end::Item-->
         <!--begin::Item-->
         <li class="nav-item " style="position:relative;">
-            <a href="#" class="nav-link dropdown-toggle rounded  {{ ability_class(\App\Utils\Ability::ACCOUNTING_CREATE)=='protected'?'disabled':'' }}" data-toggle="dropdown" data-target="#kt_header_tab_2"
+            <a href="#"
+               class="nav-link dropdown-toggle rounded  {{ ability_class(\App\Utils\Ability::ACCOUNTING_CREATE)=='protected'?'disabled':'' }}"
+               data-toggle="dropdown" data-target="#kt_header_tab_2"
                role="tab" aria-selected="false"
             >
                 <span class="nav-title text-uppercase">Accounting</span>
@@ -696,13 +702,15 @@
         <!--end::Item-->
         <!--begin::Item-->
         <li class="nav-item ">
-            <a href="{{ route('reports.report.index') }}" class="nav-link rounded {{ ability_class(\App\Utils\Ability::REPORT_READ)=='protected'?'disabled':'' }} ">
+            <a href="{{ route('reports.report.index') }}"
+               class="nav-link rounded {{ ability_class(\App\Utils\Ability::REPORT_READ)=='protected'?'disabled':'' }} ">
                 <span class="nav-title text-uppercase">Reports</span>
                 <span class="nav-desc">Print, Send,  Save Reports</span>
             </a>
         </li>
         <li class="nav-item">
-            <a href="{{ route('accounting.settings.edit') }}" class="nav-link rounded {{ ability_class(\App\Utils\Ability::GENERAL_SETTINGS_READ)=='protected'?'disabled':'' }}">
+            <a href="{{ route('accounting.settings.edit') }}"
+               class="nav-link rounded {{ ability_class(\App\Utils\Ability::GENERAL_SETTINGS_READ)=='protected'?'disabled':'' }}">
                 <span class="nav-title text-uppercase">Settings</span>
                 <span class="nav-desc">Customization &amp; Personalization</span>
             </a>
@@ -990,6 +998,7 @@
 </div>
 
 @include('partials.ajax-phone-number')
+@include('partials.user-notifications')
 <script>var KTAppSettings = {
         "breakpoints": {"sm": 576, "md": 768, "lg": 992, "xl": 1200, "xxl": 1200},
         "colors": {
@@ -1089,7 +1098,18 @@
 <script>
     $(document).ready(function () {
 
+        let has_notification = "{{ count($user->user_unseen_notifications) }}"
 
+        if (has_notification>0) {
+            $('#notificationModal').modal('show')
+        }
+        $('#closeNoticeBtn').on('click', function () {
+            $('#notificationModal').modal('hide')
+            $.ajax({
+                url: route('user_notifications.user_notification.mark-seen'),
+                type: 'get'
+            });
+        });
         Date.prototype.addDays = function (days) {
             var date = new Date(this.valueOf());
             date.setDate(date.getDate() + days);

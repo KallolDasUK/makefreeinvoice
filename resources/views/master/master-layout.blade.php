@@ -73,6 +73,12 @@
                             Withdraw Request
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('user_notifications.user_notification.index') }}">
+                            <span data-feather="users"></span>
+                            Send Notification
+                        </a>
+                    </li>
 
 
                 </ul>
