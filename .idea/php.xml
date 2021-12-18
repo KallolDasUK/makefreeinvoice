@@ -143,7 +143,6 @@
       <path value="$PROJECT_DIR$/vendor/artesaos/seotools" />
       <path value="$PROJECT_DIR$/vendor/symfony/polyfill-php81" />
       <path value="$PROJECT_DIR$/vendor/mobiledetect/mobiledetectlib" />
-      <path value="$PROJECT_DIR$/vendor/jaybizzle/crawler-detect" />
       <path value="$PROJECT_DIR$/vendor/jenssegers/agent" />
       <path value="$PROJECT_DIR$/vendor/tightenco/ziggy" />
       <path value="$PROJECT_DIR$/vendor/spatie/laravel-honeypot" />
@@ -155,6 +154,20 @@
       <path value="$PROJECT_DIR$/vendor/chillerlan/php-settings-container" />
       <path value="$PROJECT_DIR$/vendor/chillerlan/php-qrcode" />
       <path value="$PROJECT_DIR$/vendor/salla/zatca" />
+      <path value="$PROJECT_DIR$/vendor/grpc/grpc" />
+      <path value="$PROJECT_DIR$/vendor/google/auth" />
+      <path value="$PROJECT_DIR$/vendor/google/protobuf" />
+      <path value="$PROJECT_DIR$/vendor/google/cloud-core" />
+      <path value="$PROJECT_DIR$/vendor/google/grpc-gcp" />
+      <path value="$PROJECT_DIR$/vendor/google/common-protos" />
+      <path value="$PROJECT_DIR$/vendor/firebase/php-jwt" />
+      <path value="$PROJECT_DIR$/vendor/laravel/serializable-closure" />
+      <path value="$PROJECT_DIR$/vendor/psr/cache" />
+      <path value="$PROJECT_DIR$/vendor/rize/uri-template" />
+      <path value="$PROJECT_DIR$/vendor/joggapp/laravel-google-translate" />
+      <path value="$PROJECT_DIR$/vendor/google/cloud-translate" />
+      <path value="$PROJECT_DIR$/vendor/jaybizzle/crawler-detect" />
+      <path value="$PROJECT_DIR$/vendor/google/gax" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="7.3" />

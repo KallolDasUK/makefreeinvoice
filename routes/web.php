@@ -5,6 +5,7 @@ use App\Http\Controllers\BillingsController;
 use App\Http\Controllers\BillPaymentsController;
 use App\Http\Controllers\BillsController;
 use App\Http\Controllers\CollectPaymentsController;
+use App\Http\Controllers\ContactInvoiceController;
 use App\Http\Controllers\CustomerAdvancePaymentsController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PaymentRequestsController;
@@ -203,6 +204,21 @@ Route::group(['middleware' => 'auth:web', 'prefix' => 'app'], function () {
         Route::put('bill/{bill}', [BillsController::class, 'update'])->name('bills.bill.update')->where('id', '[0-9]+');
         Route::delete('/bill/{bill}', [BillsController::class, 'destroy'])->name('bills.bill.destroy')->where('id', '[0-9]+');
         Route::get('/items/{bill}', [BillsController::class, 'items'])->name('bills.bill.items');
+
+    });
+    Route::group(['prefix' => 'contact_invoices'], function () {
+
+        Route::get('/', [ContactInvoiceController::class, 'index'])->name('contact_invoices.contact_invoice.index');
+        Route::get('/create', [ContactInvoiceController::class, 'create'])->name('contact_invoices.contact_invoice.create');
+        Route::get('/show/{contact_invoice}', [ContactInvoiceController::class, 'show'])->name('contact_invoices.contact_invoice.show')->where('id', '[0-9]+');
+        Route::get('/share/{contact_invoice}', [ContactInvoiceController::class, 'share'])->name('contact_invoices.contact_invoice.share')->where('id', '[0-9]+')->withoutMiddleware('auth:web');
+        Route::get('/send/{contact_invoice}', [ContactInvoiceController::class, 'send'])->name('contact_invoices.contact_invoice.send')->where('id', '[0-9]+');
+        Route::get('/{contact_invoice}/edit', [ContactInvoiceController::class, 'edit'])->name('contact_invoices.contact_invoice.edit')->where('id', '[0-9]+');
+        Route::post('/', [ContactInvoiceController::class, 'store'])->name('contact_invoices.contact_invoice.store');
+        Route::post('/send/{contact_invoice}', [ContactInvoiceController::class, 'sendBillMail'])->name('contact_invoices.contact_invoice.send_bill_mail');
+        Route::put('contact_invoice/{contact_invoice}', [ContactInvoiceController::class, 'update'])->name('contact_invoices.contact_invoice.update')->where('id', '[0-9]+');
+        Route::delete('/contact_invoice/{contact_invoice}', [ContactInvoiceController::class, 'destroy'])->name('contact_invoices.contact_invoice.destroy')->where('id', '[0-9]+');
+        Route::get('/items/{contact-invoice}', [ContactInvoiceController::class, 'items'])->name('contact_invoices.contact_invoice.items');
 
     });
 

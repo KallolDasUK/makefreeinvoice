@@ -162,6 +162,26 @@ class User extends Authenticatable
         return $this->hasMany(Vendor::class, 'user_id')->withoutGlobalScope('scopeClient');
     }
 
+    public function getAddressAttribute()
+    {
+        $address = '';
+
+        if ($this->settings->street_1 ?? false) {
+            $address .= $this->settings->street_1;
+        }
+        if ($this->settings->street_2 ?? false) {
+            $address .= ',' . $this->settings->street_2;
+        }
+        if ($this->settings->state ?? false) {
+            $address .= ',' . $this->settings->state;
+        }
+        if ($this->settings->zip_post ?? false) {
+            $address .= ',' . $this->settings->zip_post;
+        }
+        return $address;
+
+    }
+
     public function user_role()
     {
         return $this->belongsTo(UserRole::class, 'role_id');

@@ -17,15 +17,7 @@ $(document).ready(function () {
 
 
     $('#currency').select2()
-    $('#sr_id').select2({placeholder: "-- Sales Representative --", allowClear: true});
 
-
-    // $.ajax({
-    //     url: route('products.product.index'),
-    //     success: function (response) {
-    //         ractive.set('products', response)
-    //     }
-    // })
     /*  Creating Product Via Ajax with Validation */
     $('#createProductForm').validate({
         submitHandler: function (form) {
@@ -41,11 +33,11 @@ $(document).ready(function () {
                     ractive.push('products', response)
                     $('#productModal').modal('hide');
                     let i = $('#createProductForm').attr('index') || 0;
-                    ractive.set(`invoice_items.${i}.product_id`, response.id)
-                    ractive.set(`invoice_items.${i}.price`, response.sell_price)
-                    ractive.set(`invoice_items.${i}.unit`, response.sell_unit || 'unit')
-                    ractive.set(`invoice_items.${i}.description`, response.description || '')
-                    ractive.set(`invoice_items.${i}.stock`, response.stock || '')
+                    ractive.set(`bill_items.${i}.product_id`, response.id)
+                    ractive.set(`bill_items.${i}.price`, response.purchase_price)
+                    ractive.set(`bill_items.${i}.unit`, response.sell_unit || 'unit')
+                    ractive.set(`bill_items.${i}.description`, response.description || '')
+                    ractive.set(`bill_items.${i}.stock`, response.stock || '')
                     $(`#row${i}`).find('.qnt').focus()
                     $('#createProductForm').trigger("reset");
                     $('#storeProduct').prop('disabled', false)
@@ -145,7 +137,7 @@ $(document).ready(function () {
                     $('#taxModal').modal('hide');
                     let i = $('#createTaxForm').attr('index') || 0;
                     ractive.push('taxes', response)
-                    ractive.set(`invoice_items.${i}.tax_id`, response.id)
+                    ractive.set(`bill_items.${i}.tax_id`, response.id)
                     console.log(ractive.get('taxes'))
                     $('#createTaxForm').trigger("reset");
                     $('#storeTax').prop('disabled', false)
@@ -294,24 +286,14 @@ $(document).ready(function () {
     })
     $('#deposit_to').select2()
 
-
-    $('#is_recurring').on('change', function () {
-        if ($('#is_recurring').is(':checked')) {
-            $('.recurringContainer').show(100)
-            $('#recurringSection').addClass('border p-2 bg-secondary rounded')
-        } else {
-            $('.recurringContainer').hide(100)
-            $('#recurringSection').removeClass('border p-2 bg-secondary rounded')
-
-        }
-    })
     $('#paymentCheckBox').on('change', function () {
-
         let payable = ractive.get('payable') || 0;
+
         if ($('#paymentCheckBox').is(':checked')) {
             console.log('checked')
             $('#paymentAmount').prop('required', true)
             $('#paymentAmount').val(payable)
+
         } else {
             console.log('not checked')
             $('#paymentAmount').prop('required', false)
@@ -322,23 +304,13 @@ $(document).ready(function () {
     })
 })
 
-//
-// $('form').on('keyup keypress', function (e) {
-//     var keyCode = e.keyCode || e.which;
-//     if (keyCode === 13) {
-//         e.preventDefault();
-//         return false;
-//     }
-// });
 
 $('.qnt').tooltip({'trigger': 'focus', 'title': 'Hit Enter to add new Line'});
-$(document).on('focus', '.select2', function () {
-    $(this).siblings('select').select2('open');
-});
+
 $(document).on('keypress', '.qnt', function (e) {
     var keyCode = e.keyCode || e.which;
     if (keyCode === 13) {
-        ractive.addInvoiceItem();
+        ractive.addBillItem();
         let index = parseInt($(e.target).attr('index')) + 1
         $('#itemSelect' + index).select2('open');
         e.preventDefault();
@@ -346,6 +318,9 @@ $(document).on('keypress', '.qnt', function (e) {
     }
 })
 
+$(document).on('focus', '.select2', function () {
+    $(this).siblings('select').select2('open');
+});
 $(document).on('keyup keypress', '.rate', function (e) {
     var keyCode = e.keyCode || e.which;
     if (keyCode === 13) {
@@ -367,7 +342,6 @@ $(document).on('keyup keypress', '.description', function (e) {
         return false;
     }
 })
-
 $('#deposit_to').select2({
     placeholder: "--", allowClear: true
 }).on('select2:open', function () {
@@ -435,11 +409,10 @@ $('#createLedgerForm').validate({
         $(element).removeClass('is-invalid');
     }
 });
-
-$('#customer_id').on('change', function () {
+$('#vendor_id').on('change', function () {
 
     $.ajax({
-        url: route('customers.customer.advance_info', $(this).val()),
+        url: route('vendors.vendor.advance_info', $(this).val()),
         beforeSend: () => {
             $('#from_advance').val('0').trigger('change')
             $('#advance').val('0').trigger('change')

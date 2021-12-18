@@ -72,6 +72,21 @@ class Customer extends Model
 
     public function getAddressAttribute()
     {
+        $address = '';
+
+        if ($this->street_1 ?? false) {
+            $address .= $this->street_1;
+        }
+        if ($this->street_2 ?? false) {
+            $address .= ',' . $this->street_2;
+        }
+        if ($this->state ?? false) {
+            $address .= ',' . $this->state;
+        }
+        if ($this->zip_post ?? false) {
+            $address .= ',' . $this->zip_post;
+        }
+        return $address;
 
     }
 

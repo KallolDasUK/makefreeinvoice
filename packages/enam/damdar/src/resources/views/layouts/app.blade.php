@@ -469,6 +469,10 @@
                                style="min-width: 100px;position:relative;"><i
                                     class="fa fa-list-alt" aria-hidden="true"></i>Manage <br>
                                 Invoices</a>
+                            <a href="{{ route('contact_invoices.contact_invoice.index') }}"
+                               style="min-width: 100px;position:relative;"><i
+                                    class="fa fa-list-alt" aria-hidden="true"></i>Tax <br>
+                                Invoices</a>
 
                             <a href="{{ route('receive_payments.receive_payment.create') }}"
                                class="@cannot('create',\App\Models\Invoice::class) pro-tag @endcannot {{ ability_class(\App\Utils\Ability::RECEIVE_PAYMENT_CREATE) }}"
@@ -510,6 +514,7 @@
                                style="min-width: 100px;position:relative;"><i
                                     class="fa fa-list-alt" aria-hidden="true"></i>Sales <br>
                                 Return</a>
+
                             <a href="{{ route('stock_entries.stock_entry.create') }}"
                                class="{{ ability_class(\App\Utils\Ability::STOCK_ENTRY_CREATE) }}"
                                style="min-width: 100px;position:relative;"><i
@@ -1100,7 +1105,7 @@
 
         let has_notification = "{{ count($user->user_unseen_notifications) }}"
 
-        if (has_notification>0) {
+        if (has_notification > 0) {
             $('#notificationModal').modal('show')
         }
         $('#closeNoticeBtn').on('click', function () {
