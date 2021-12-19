@@ -206,6 +206,11 @@
                 width: 120, height: 120,
             });
         }
+        //
+
+        $('#supplier_name_ar').on('blur',function () {
+            // alert("input event fired");
+        })
 
 
     </script>

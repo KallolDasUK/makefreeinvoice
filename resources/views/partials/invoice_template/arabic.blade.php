@@ -21,8 +21,9 @@
             </div>
             <div class="col text-center text-sm-right">
                 <h1>
-                    Invoice <br>
-                    فاتورة
+                    Tax Invoice <br>
+                    فاتورة ضريبية
+
                 </h1>
             </div>
         </div>
