@@ -59,6 +59,11 @@
             body {
                 -webkit-print-color-adjust: exact !important;
             }
+
+            .border_bottom {
+                border: none !important;
+            }
+
             body * {
                 visibility: hidden;
                 font-size: 1.5rem;
@@ -123,24 +128,28 @@
             @endif
             <div class="text-center">
 
-                <form method="POST" action="{!! route('contact_invoices.contact_invoice.destroy', $contact_invoice->id) !!}"
+                <form method="POST"
+                      action="{!! route('contact_invoices.contact_invoice.destroy', $contact_invoice->id) !!}"
                       accept-charset="UTF-8">
                     <input name="_method" value="DELETE" type="hidden">
                     {{ csrf_field() }}
                     <div class="btn-group btn-group-sm" role="group">
-                        <a href="{{ route('contact_invoices.contact_invoice.index') }}" class="btn btn-primary mr-2 {{ ability(\App\Utils\Ability::BILL_READ) }}"
+                        <a href="{{ route('contact_invoices.contact_invoice.index') }}"
+                           class="btn btn-primary mr-2 {{ ability(\App\Utils\Ability::BILL_READ) }}"
                            title="Show All Contact Invoice">
                             <i class=" fas fa-fw fa-th-list" aria-hidden="true"></i>
                             Show All Contact Invoice
                         </a>
 
-                        <a href="{{ route('contact_invoices.contact_invoice.create') }}" class="btn btn-success mr-2  {{ ability(\App\Utils\Ability::BILL_CREATE) }}"
+                        <a href="{{ route('contact_invoices.contact_invoice.create') }}"
+                           class="btn btn-success mr-2  {{ ability(\App\Utils\Ability::BILL_CREATE) }}"
                            title="Create New Contact Invoice">
                             <i class=" fas fa-fw fa-plus" aria-hidden="true"></i>
                             Create New Contact Invoice
                         </a>
 
-                        <a href="{{ route('contact_invoices.contact_invoice.edit', $contact_invoice->id ) }}" class="btn btn-primary mr-2  {{ ability(\App\Utils\Ability::BILL_EDIT) }}"
+                        <a href="{{ route('contact_invoices.contact_invoice.edit', $contact_invoice->id ) }}"
+                           class="btn btn-primary mr-2  {{ ability(\App\Utils\Ability::BILL_EDIT) }}"
                            title="Edit Contact Invoice">
                             <i class=" fas fa-fw fa-pencil-alt" aria-hidden="true"></i>
                             Edit Contact Invoice
@@ -176,7 +185,8 @@
         </div>
         <p class="clearfix"></p>
         @include('partials.contact_invoice_template.classic')
-
+        <input type="hidden" id="customer_id" value="{{ optional($contact_invoice->customer)->id }}">
+        <input type="hidden" id="contact_invoice_id" value="{{ $contact_invoice->id }}">
     </div>
 
 @endsection
@@ -208,9 +218,60 @@
         }
         //
 
-        $('#supplier_name_ar').on('blur',function () {
-            // alert("input event fired");
+        $('#supplier_name_ar').on('blur', function () {
+            saveInsertedData()
         })
+        $('#supplier_address_ar').on('blur', function () {
+            saveInsertedData()
+        })
+
+        $('#supplier_vat_ar').on('blur', function () {
+            saveInsertedData()
+        })
+
+
+        $('#customer_name_ar').on('blur', function () {
+            saveInsertedData()
+        })
+        $('#customer_address_ar').on('blur', function () {
+            saveInsertedData()
+        })
+        $('#subject_ar').on('blur', function () {
+            saveInsertedData()
+        })
+        $('#month_ar').on('blur', function () {
+            saveInsertedData()
+        })
+
+        function saveInsertedData() {
+            var _token = $('meta[name=csrf-token]').attr('content');
+            let customer_name_ar = $('#customer_name_ar').text();
+            let customer_address_ar = $('#customer_name_ar').text();
+            let supplier_name_ar = $('#supplier_name_ar').text();
+            let supplier_address_ar = $('#supplier_address_ar').text();
+            let supplier_vat_ar = $('#supplier_vat_ar').text();
+            let subject_ar = $('#subject_ar').text();
+            let month_ar = $('#month_ar').text();
+            let customer_id = $('#customer_id').val();
+            let contact_invoice_id = $('#contact_invoice_id').val();
+
+            $.ajax({
+                url: route('ajax.storeContactInvoiceInfo'),
+                type: 'post',
+                data: {
+                    _token,
+                    customer_id,
+                    contact_invoice_id,
+                    customer_name_ar,
+                    customer_address_ar,
+                    supplier_name_ar,
+                    supplier_address_ar,
+                    supplier_vat_ar,
+                    subject_ar,
+                    month_ar
+                },
+            });
+        }
 
 
     </script>

@@ -7,6 +7,7 @@ use App\Models\Bill;
 use App\Models\BillPayment;
 use App\Models\BillPaymentItem;
 use App\Models\Category;
+use App\Models\ContactInvoice;
 use App\Models\Customer;
 use App\Models\Expense;
 use App\Models\Invoice;
@@ -21,6 +22,7 @@ use App\Models\ReceivePaymentItem;
 use App\Models\Vendor;
 use App\Utils\Ability;
 use Carbon\Carbon;
+use Cassandra\Custom;
 use Enam\Acc\Models\Branch;
 use Enam\Acc\Models\Ledger;
 use Enam\Acc\Traits\TransactionTrait;
@@ -100,6 +102,29 @@ class AjaxController extends Controller
     {
         $phone = $request->phone;
         MetaSetting::query()->updateOrCreate(['key' => 'phone'], ['value' => $phone]);
+        return [];
+    }
+
+    public function storeContactInvoiceInfo(Request $request)
+    {
+        $customer_id = $request->customer_id;
+        $customer = Customer::find($customer_id);
+        $contact_invoice_id = $request->contact_invoice_id;
+        $contact_invoice = ContactInvoice::find($contact_invoice_id);
+        MetaSetting::query()->updateOrCreate(['key' => 'supplier_name_ar'], ['value' => $request->supplier_name_ar]);
+        MetaSetting::query()->updateOrCreate(['key' => 'supplier_address_ar'], ['value' => $request->supplier_address_ar]);
+        MetaSetting::query()->updateOrCreate(['key' => 'supplier_vat_ar'], ['value' => $request->supplier_vat_ar]);
+        if ($customer) {
+            $customer->customer_name_ar = $request->supplier_name_ar;
+            $customer->customer_address_ar = $request->customer_address_ar;
+            $customer->save();
+        }
+        if ($contact_invoice_id) {
+            $contact_invoice->subject_ar = $request->subject_ar;
+            $contact_invoice->month_ar = $request->month_ar;
+            $contact_invoice->save();
+        }
+
         return [];
     }
 
@@ -220,7 +245,7 @@ class AjaxController extends Controller
         $branches = Branch::pluck('id', 'id')->all();
         $ledgers = Ledger::find($this->getAssetLedgers())->toArray();
         $categories = Category::all();
-        $products = Product::all()->makeHidden(['stock', 'short_name', 'stock_value','image']);
+        $products = Product::all()->makeHidden(['stock', 'short_name', 'stock_value', 'image']);
         $paymentMethods = PaymentMethod::all();
         $title = "POS - Point Of Sale";
         $ledger_id = Ledger::CASH_AC();

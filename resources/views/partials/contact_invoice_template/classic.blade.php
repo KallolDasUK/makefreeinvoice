@@ -17,7 +17,7 @@
 <div id="invoice-container" class="container-fluid invoice-container">
 
 
-    <table  style="margin-top: 200px">
+    <table style="margin-top: 200px">
         <tr class="text-center">
             <th colspan="5"><h2>Tax Invoice</h2></th>
             <th colspan="5"><h2>فاتورة ضريبية
@@ -44,7 +44,7 @@
                     <span>Invoice for the month of {{ \Carbon\Carbon::parse($contact_invoice->invoice_date)->monthName }} {{ \Carbon\Carbon::parse($contact_invoice->invoice_date)->year }}</span>
                 </p>
             </td>
-            <td colspan="5" style="min-height: 200px;text-align: right">
+            <td colspan="5" style="min-height: 200px;text-align: right;direction: rtl">
                 <p id="supplier_name_ar" class="border_bottom" contenteditable="true">
                     &nbsp; {{ $settings->supplier_name_ar??'' }} </p>
 
@@ -54,11 +54,14 @@
                 <p id="supplier_vat_ar" class="border_bottom" contenteditable="true">
                     &nbsp; {{ $settings->supplier_vat_ar??'' }}</p>
 
-                <p id="customer_name_ar" class="border_bottom" contenteditable="true"></p>
+                <p id="customer_name_ar" class="border_bottom"
+                   contenteditable="true"> {{ optional($contact_invoice->customer)->customer_name_ar??'' }}</p>
 
-                <p id="customer_address_ar" class="border_bottom" contenteditable="true"></p>
-                <p id="subject_ar" class="border_bottom" contenteditable="true"></p>
-                <p id="month_ar" class="border_bottom" contenteditable="true"></p>
+                <p id="customer_address_ar" class="border_bottom"
+                   contenteditable="true"> {{ optional($contact_invoice->customer)->customer_address_ar??'' }}</p>
+                <p id="subject_ar" class="border_bottom"
+                   contenteditable="true">{{ $contact_invoice->subject_ar??'' }}</p>
+                <p id="month_ar" class="border_bottom" contenteditable="true">{{ $contact_invoice->month_ar??'' }}</p>
 
             </td>
         </tr>
@@ -133,7 +136,7 @@
     </div>
     <div class="row p-4 m-4 align-items-center justify-content-between text-center">
         <div class="col">
-           <p> <b>Chief Executive Officer</b> المدير لتنفيذي </p>
+            <p><b>Chief Executive Officer</b> المدير لتنفيذي </p>
             <p><b>Majed Al Otaibi</b>
                 بي
                 ماجد العت</p></div>
