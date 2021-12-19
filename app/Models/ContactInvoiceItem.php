@@ -32,7 +32,7 @@ class ContactInvoiceItem extends Model
     public function getTaxAmountAttribute()
     {
         $tax_amount = 0;
-        if ($this->tax_id == null) {
+        if (!$this->tax_id) {
             return $tax_amount;
         }
         $tax = Tax::find($this->tax_id);
