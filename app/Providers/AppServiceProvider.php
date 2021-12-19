@@ -30,6 +30,7 @@ use Enam\Acc\Http\Controllers\TransactionsController;
 use Enam\Acc\Models\Ledger;
 use Enam\Acc\Models\TransactionDetail;
 use Enam\Acc\Traits\TransactionTrait;
+use GPBMetadata\Google\Api\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\DB;
@@ -51,7 +52,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+
     }
 
 
@@ -75,13 +76,17 @@ class AppServiceProvider extends ServiceProvider
             return !$exits;
         });
         Validator::extend('except_sisir', function ($attribute, $value, $parameters) {
-                return $value != 'sisir';
+            return $value != 'sisir';
         });
 
 
         $country = ip_info(\request()->ip(), "Country");
 
         Paginator::useBootstrap();
+
+
+
+
         view()->composer('*', function ($view) use ($country) {
             $is_desktop = true;
             if (optional(auth()->user())->client_id) {
@@ -90,6 +95,10 @@ class AppServiceProvider extends ServiceProvider
                 $agent = new Agent();
                 $is_desktop = $agent->isDesktop();
 //                dd($is_desktop);
+                if ($settings->timezone ?? false) {
+                    config(['app.timezone' => $settings->timezone]);
+                    date_default_timezone_set($settings->timezone);
+                }
                 $view->with('settings', $settings);
             }
 

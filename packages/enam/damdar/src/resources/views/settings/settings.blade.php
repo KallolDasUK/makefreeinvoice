@@ -111,6 +111,23 @@
 
             </div>
         </div>
+
+        <div class="form-group row">
+            <div class="col-form-label col-lg-2 required">
+                <label class="font-weight-bolder"> Timezone </label>
+            </div>
+            <div class="col-lg-4">
+                <select id="timezone" class="form-control searchable" name="timezone">
+                    <option value="" disabled selected></option>
+
+                    @foreach(timezone_list() as $name => $offset)
+                        <option value="{{ $name }}"
+                                @if(($settings->timezone??'') === $name) selected @endif> {{ $name }} {{ $offset }}</option>
+                    @endforeach
+                </select>
+
+            </div>
+        </div>
         <div class="form-group row">
             <div class="col-form-label col-lg-2 required">
                 <label class="font-weight-bolder"> Industry </label>
@@ -228,7 +245,12 @@
             $('#currency').select2({placeholder: " ----"})
             $('#ledger_group_id').select2();
             var avatar1 = new KTImageInput('kt_image_1');
+            var timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+            // alert(timezone)
+            if (!$('#timezone').val()){
 
+                $('#timezone').val(timezone);
+            }
         })
     </script>
 @endsection

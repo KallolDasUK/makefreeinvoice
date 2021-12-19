@@ -6,6 +6,7 @@ use App\Models\CollectPayment;
 use App\Models\MetaSetting;
 use App\Models\PaymentRequest;
 use App\Models\User;
+use Carbon\Carbon;
 use Enam\Acc\Http\Controllers\Controller;
 use Enam\Acc\Models\Ledger;
 use Enam\Acc\Models\LedgerGroup;
@@ -25,6 +26,8 @@ class SettingsController extends Controller
     public function edit()
     {
         View::share('title', 'Settings');
+
+//        dd(Carbon::today());
         return view('acc::settings.settings');
     }
 

@@ -18,6 +18,7 @@ class Controller extends BaseController
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
 
+
     public function getTxns()
     {
         if (session()->has('txns')) {
