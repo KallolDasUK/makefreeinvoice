@@ -19,13 +19,15 @@ class SetTimezoneMiddleware
     public function handle(Request $request, Closure $next)
     {
 
-        $settings = json_decode(MetaSetting::query()->pluck('value', 'key')->toJson());
-//        dd(settings(),$request->user());
-        if ($settings->timezone ?? false) {
-            config(['app.timezone' => $settings->timezone]);
-            date_default_timezone_set($settings->timezone);
-//            dd('timezone set');
+
+        if (auth()->id()) {
+            $settings = json_decode(MetaSetting::query()->pluck('value', 'key')->toJson());
+            if ($settings->timezone ?? false) {
+                config(['app.timezone' => $settings->timezone]);
+                date_default_timezone_set($settings->timezone);
+            }
         }
+
         return $next($request);
     }
 }
