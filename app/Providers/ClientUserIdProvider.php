@@ -59,6 +59,8 @@ class ClientUserIdProvider extends ServiceProvider
             'receive_payment_items',
             'bill_payments',
             'bill_payment_items',
+            'contact_invoice_payments',
+            'contact_invoice_payment_items',
             'expenses',
             'expense_items',
             'vendors',

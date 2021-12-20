@@ -5,6 +5,8 @@ namespace App\Providers;
 use App\Models\Bill;
 use App\Models\BillPayment;
 use App\Models\BillPaymentItem;
+use App\Models\ContactInvoice;
+use App\Models\ContactInvoicePaymentItem;
 use App\Models\Customer;
 use App\Models\Estimate;
 use App\Models\ExpenseItem;
@@ -18,6 +20,8 @@ use App\Models\ReceivePaymentItem;
 use App\Models\User;
 use App\Observers\BillObserver;
 use App\Observers\BillPaymentItemObserver;
+use App\Observers\ContactInvoiceObserver;
+use App\Observers\ContactInvoicePaymentItemObserver;
 use App\Observers\ExpenseItemObserver;
 use App\Observers\InvoiceObserver;
 use App\Observers\PosPaymentObserver;
@@ -85,8 +89,6 @@ class AppServiceProvider extends ServiceProvider
         Paginator::useBootstrap();
 
 
-
-
         view()->composer('*', function ($view) use ($country) {
             $is_desktop = true;
             if (optional(auth()->user())->client_id) {
@@ -112,11 +114,15 @@ class AppServiceProvider extends ServiceProvider
 
         Invoice::observe(InvoiceObserver::class);
         Bill::observe(BillObserver::class);
+        ContactInvoice::observe(ContactInvoiceObserver::class);
         PosSale::observe(PosSaleObserver::class);
         PosPayment::observe(PosPaymentObserver::class);
         ExpenseItem::observe(ExpenseItemObserver::class);
         ReceivePaymentItem::observe(ReceivePaymentItemObserver::class);
+
         BillPaymentItem::observe(BillPaymentItemObserver::class);
+        ContactInvoicePaymentItem::observe(ContactInvoicePaymentItemObserver::class);
+
         Estimate::created(function ($estimate) {
             $random = Str::random(40);
             $estimate->secret = $random;

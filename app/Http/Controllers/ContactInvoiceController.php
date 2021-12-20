@@ -12,6 +12,8 @@ use App\Models\Category;
 use App\Models\ContactInvoice;
 use App\Models\ContactInvoiceExtraField;
 use App\Models\ContactInvoiceItem;
+use App\Models\ContactInvoicePayment;
+use App\Models\ContactInvoicePaymentItem;
 use App\Models\Customer;
 use App\Models\ExtraField;
 use App\Models\MetaSetting;
@@ -155,22 +157,21 @@ class ContactInvoiceController extends Controller
         $bill->payment_status = $bill->payment_status_text;
         $bill->save();
         if (!$bill->is_payment) return;
-//        $paymentSerial = 'BPM' . str_pad(BillPayment::query()->count(), 3, '0', STR_PAD_LEFT);
-//
-//        $billPayment = BillPayment::create([
-//            'payment_date' => $bill->payment_date,
-//            'bill_id' => $bill->id,
-//            'vendor_id' => $bill->vendor_id,
-//            'payment_method_id' => $bill->payment_method_id,
-//            'ledger_id' => $bill->deposit_to,
-//            'payment_sl' => $paymentSerial,
-//            'note' => $bill->notes,
-//            'payment_date' => $bill->bill_date
-//        ]);
-//
-//        BillPaymentItem::create(['bill_payment_id' => $billPayment->id, 'bill_id' => $bill->id, 'amount' => $bill->payment_amount]);
-//        $bill->bill_payment_id = $billPayment->id;
-//        $bill->save();
+        $paymentSerial = 'CPM' . str_pad(ContactInvoicePayment::query()->count(), 3, '0', STR_PAD_LEFT);
+
+        $billPayment = ContactInvoicePayment::create([
+            'contact_invoice_id' => $bill->id,
+            'customer_id' => $bill->customer_id,
+            'payment_method_id' => $bill->payment_method_id,
+            'ledger_id' => $bill->deposit_to,
+            'payment_sl' => $paymentSerial,
+            'note' => $bill->notes,
+            'payment_date' => $bill->bill_date
+        ]);
+
+        ContactInvoicePaymentItem::create(['contact_invoice_payment_id' => $billPayment->id, 'contact_invoice_id' => $bill->id, 'amount' => $bill->payment_amount]);
+        $bill->invoice_payment_id = $billPayment->id;
+        $bill->save();
 
     }
 
@@ -281,10 +282,10 @@ class ContactInvoiceController extends Controller
         ContactInvoiceExtraField::query()->where('contact_invoice_id', $bill->id)->delete();
         ContactInvoiceItem::query()->where('contact_invoice_id', $bill->id)->delete();
         ExtraField::query()->where('type', get_class($bill))->where('type_id', $bill->id)->delete();
-//        BillPayment::query()->where('id', $bill->bill_payment_id)->delete();
-//        BillPaymentItem::query()->where('bill_payment_id', $bill->bill_payment_id)->get()->each(function ($model) {
-//            $model->delete();
-//        });
+        ContactInvoicePayment::query()->where('id', $bill->invoice_payment_id)->delete();
+        ContactInvoicePaymentItem::query()->where('contact_invoice_payment_id', $bill->invoice_payment_id)->get()->each(function ($model) {
+            $model->delete();
+        });
         $bill->update($data);
 
 
@@ -306,12 +307,12 @@ class ContactInvoiceController extends Controller
         ContactInvoiceItem::query()->where('contact_invoice_id', $bill->id)->delete();
         ExtraField::query()->where('type', get_class($bill))->where('type_id', $bill->id)->delete();
 
-//        BillPayment::query()->where('bill_id', $bill->id)->get()->each(function ($model) {
-//            $model->delete();
-//        });
-//        BillPaymentItem::query()->where('bill_id', $bill->id)->get()->each(function ($model) {
-//            $model->delete();
-//        });
+        ContactInvoicePayment::query()->where('contact_invoice_id', $bill->id)->get()->each(function ($model) {
+            $model->delete();
+        });
+        ContactInvoicePaymentItem::query()->where('contact_invoice_id', $bill->id)->get()->each(function ($model) {
+            $model->delete();
+        });
         $bill->delete();
 
         return redirect()->route('contact_invoices.contact_invoice.index')->with('success_message', 'Tax Invoice was successfully deleted.');

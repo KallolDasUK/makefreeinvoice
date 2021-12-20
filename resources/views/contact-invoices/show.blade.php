@@ -177,10 +177,7 @@
                         class="btn btn-outline-secondary   btn-lg" style="font-size: 20px"><i
                         class="fa fa-download"></i> Download
                 </button>
-                <a href="{{ route('contact_invoices.contact_invoice.share',$contact_invoice->secret) }}"
-                   class="btn btn-outline-secondary   btn-lg " style="font-size: 20px"><i
-                        class="fa fa-share"></i> Share
-                </a>
+
             </div>
         </div>
         <p class="clearfix"></p>

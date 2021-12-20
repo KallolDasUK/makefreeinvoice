@@ -50,7 +50,7 @@ class ContactInvoice extends Model
 
     public function payments()
     {
-        return $this->hasMany(ReceivePaymentItem::class, 'invoice_id');
+        return $this->hasMany(ContactInvoicePaymentItem::class, 'contact_invoice_id');
     }
 
     public function getDueAttribute()
@@ -140,6 +140,7 @@ class ContactInvoice extends Model
         }
         return $next_invoice;
     }
+
     public function getAgeAttribute()
     {
         $age = 0;

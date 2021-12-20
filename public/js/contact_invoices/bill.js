@@ -32,14 +32,14 @@ var ractive = new Ractive({
         }).on('select2:open', function (event) {
             let a = $(this).data('select2');
             let doExits = a.$results.parents('.select2-results').find('button')
-            if (!doExits.length) {
-                a.$results.parents('.select2-results')
-                    .append('<div><button  data-toggle="modal" data-target="#productModal" class="btn btn-default text-primary underline btn-fw" style="width: 100%">+ Add Item</button></div>')
-                    .on('click', function (b) {
-                        $(event.target).select2("close");
-                        $('#createProductForm').attr('index', i)
-                    });
-            }
+            // if (!doExits.length) {
+            //     a.$results.parents('.select2-results')
+            //         .append('<div><button  data-toggle="modal" data-target="#productModal" class="btn btn-default text-primary underline btn-fw" style="width: 100%">+ Add Item</button></div>')
+            //         .on('click', function (b) {
+            //             $(event.target).select2("close");
+            //             $('#createProductForm').attr('index', i)
+            //         });
+            // }
         }).on('change', function (event) {
             let i = $(this).attr('index');
             ractive.set(`bill_items.${i}.product_id`, $(this).val())
@@ -204,14 +204,14 @@ for (let i = 0; i < bill_items.length; i++) {
     }).on('select2:open', function (event) {
         let a = $(this).data('select2');
         let doExits = a.$results.parents('.select2-results').find('button')
-        if (!doExits.length) {
-            a.$results.parents('.select2-results')
-                .append('<div><button  data-toggle="modal" data-target="#productModal" class="btn btn-default text-primary underline btn-fw" style="width: 100%">+ Add Item</button></div>')
-                .on('click', function (b) {
-                    $(event.target).select2("close");
-                    $('#createProductForm').attr('index', i)
-                });
-        }
+        // if (!doExits.length) {
+        //     a.$results.parents('.select2-results')
+        //         .append('<div><button  data-toggle="modal" data-target="#productModal" class="btn btn-default text-primary underline btn-fw" style="width: 100%">+ Add Item</button></div>')
+        //         .on('click', function (b) {
+        //             $(event.target).select2("close");
+        //             $('#createProductForm').attr('index', i)
+        //         });
+        // }
     }).on('change', function (event) {
         // let i = $(this).attr('index');
         ractive.set(`bill_items.${i}.product_id`, $(this).val())

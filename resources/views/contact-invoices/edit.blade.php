@@ -86,16 +86,16 @@
         var create = false;
         console.log(pair, 'pairs')
         $(document).ready(function () {
-            $('#vendor_id').select2({
+            $('#customer_id').select2({
                 placeholder: "Choose or New Vendor"
             }).on('select2:open', function () {
                 let a = $(this).data('select2');
                 let doExits = a.$results.parents('.select2-results').find('button')
                 if (!doExits.length) {
                     a.$results.parents('.select2-results')
-                        .append('<div><button  data-toggle="modal" data-target="#vendorModal" class="btn btn-default text-primary underline btn-fw" style="width: 100%">+ Add New Vendor</button></div>')
+                        .append('<div><button  data-toggle="modal" data-target="#customerModal" class="btn btn-default text-primary underline btn-fw" style="width: 100%">+ Add New Customer</button></div>')
                         .on('click', function (b) {
-                            $("#vendor_id").select2("close");
+                            $("#customer_id").select2("close");
                         });
                 }
             })

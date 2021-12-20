@@ -256,7 +256,7 @@
                                                 {{ csrf_field() }}
                                                 <button class="dropdown-item "
                                                         {{ ability(\App\Utils\Ability::BILL_DELETE) }}
-                                                        onclick="return confirm('Click Ok to delete Bill')">
+                                                        onclick="return confirm('Click Ok to delete Invoice')">
                                                     @method('DELETE')
                                                     <span class="fa fa-trash-alt mx-4 text-danger"></span>
                                                     <span>
@@ -394,7 +394,7 @@
 
             })
 
-            $('.invoice_number').tooltip({'title': 'Show Bill'});
+            $('.invoice_number').tooltip({'title': 'Show Invoice'});
             $('#customer_id').select2({placeholder: 'All Customer', allowClear: true})
 
 

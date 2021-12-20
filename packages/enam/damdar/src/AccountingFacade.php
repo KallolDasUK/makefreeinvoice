@@ -5,6 +5,8 @@ namespace Enam\Acc;
 use App\Models\Bill;
 use App\Models\BillItem;
 use App\Models\BillPaymentItem;
+use App\Models\ContactInvoice;
+use App\Models\ContactInvoicePaymentItem;
 use App\Models\Expense;
 use App\Models\ExpenseItem;
 use App\Models\Invoice;
@@ -229,6 +231,31 @@ class AccountingFacade extends Facade
         TransactionDetail::query()->where(['type' => Bill::class, 'type_id' => $bill->id])->forceDelete();
     }
 
+    public function on_contact_invoice_create(ContactInvoice $contact_invoice)
+    {
+        $customer = $contact_invoice->customer;
+        self::addTransaction(optional($customer->ledger)->id, Ledger::SALES_AC(), $contact_invoice->total, $contact_invoice->notes,
+            $contact_invoice->invoice_date, 'ContactInvoice', ContactInvoice::class, $contact_invoice->id,
+            $contact_invoice->invoice_number, optional($contact_invoice->customer)->name);
+    }
+
+    public function on_contact_invoice_delete(ContactInvoice $contact_invoice)
+    {
+        Transaction::query()->where(['type' => ContactInvoice::class, 'type_id' => $contact_invoice->id])->forceDelete();
+        TransactionDetail::query()->where(['type' => ContactInvoice::class, 'type_id' => $contact_invoice->id])->forceDelete();
+    }
+
+    public function on_contact_invoice_payment_create(ContactInvoicePaymentItem $receivePaymentItem)
+    {
+        $invoice = $receivePaymentItem->bill;
+        $customer = $invoice->customer;
+
+        self::addTransaction($receivePaymentItem->bill_payment->ledger_id, optional($customer->ledger)->id, $receivePaymentItem->total,
+            $receivePaymentItem->bill_payment->note, $receivePaymentItem->bill_payment->payment_date,
+            'Customer Payment', ContactInvoicePaymentItem::class, $receivePaymentItem->id,
+            $invoice->invoice_number, optional($invoice->customer)->name);
+    }
+
 
     public function on_bill_payment_create(BillPaymentItem $billPaymentItem)
     {
@@ -240,10 +267,10 @@ class AccountingFacade extends Facade
             $bill->bill_number, optional($bill->vendor)->name);
     }
 
-    public function on_bill_payment_delete(BillPaymentItem $billPaymentItem)
+    public function on_bill_payment_delete($billPaymentItem)
     {
-        Transaction::query()->where(['type' => BillPaymentItem::class, 'type_id' => $billPaymentItem->id])->forceDelete();
-        TransactionDetail::query()->where(['type' => BillPaymentItem::class, 'type_id' => $billPaymentItem->id])->forceDelete();
+        Transaction::query()->where(['type' => get_class($billPaymentItem), 'type_id' => $billPaymentItem->id])->forceDelete();
+        TransactionDetail::query()->where(['type' => get_class($billPaymentItem), 'type_id' => $billPaymentItem->id])->forceDelete();
     }
 
 

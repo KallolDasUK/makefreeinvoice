@@ -75,16 +75,16 @@
             <td colspan="5"></td>
             <td colspan="5"></td>
         </tr>
-        <tr class="text-black" style="background-color: #ffe699">
-            <td>SL No م</td>
-            <td>Category <br> الفئة</td>
-            <td>Total Workers <br>العدد العمال</td>
-            <td>Monthly Cost <br> التكلفة الشهرية</td>
-            <td>Daily Cost <br> لتكلفة اليومية</td>
-            <td>Working Days <br>عدد أيام العمل</td>
-            <td>Total <br>ل االج</td>
-            <td>Vat <br>ضريبة</td>
-            <td>Total <br>ل االجما يل ا</td>
+        <tr class="text-black font-weight-bold" style="background-color: #ffe699">
+            <th>SL No م</th>
+            <th>Category <br> الفئة</th>
+            <th>Total Workers <br>العدد العمال</th>
+            <th>Monthly Cost <br> التكلفة الشهرية</th>
+            <th>Daily Cost <br> لتكلفة اليومية</th>
+            <th>Working Days <br>عدد أيام العمل</th>
+            <th>Total <br>ل االج</th>
+            <th>Vat <br>ضريبة</th>
+            <th>Total <br>ل االجما يل ا</th>
         </tr>
 
         @foreach($contact_invoice->invoice_items as $item)
