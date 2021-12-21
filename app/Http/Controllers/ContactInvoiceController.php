@@ -99,7 +99,7 @@ class ContactInvoiceController extends Controller
         $categories = Category::query()->latest()->get();
         $taxes = Tax::query()->latest()->get()->toArray();
         $extraFields = optional(ContactInvoice::query()->latest()->first())->extra_fields ?? [];
-        $bill_fields = optional(ContactInvoice::query()->latest()->first())->bill_extra ?? [];
+        $bill_fields = optional(ContactInvoice::query()->latest()->first())->invoice_extra ?? [];
         $next_invoice = ContactInvoice::nextInvoiceNumber();
 
         return view('contact-invoices.create', compact('customers', 'products', 'taxes', 'next_invoice', 'categories', 'extraFields', 'bill_fields', 'cashAcId', 'depositAccounts', 'paymentMethods'));
