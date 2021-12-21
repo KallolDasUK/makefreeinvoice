@@ -180,7 +180,7 @@
             @endforeach
             </tbody>
         </table>
-        {!! $users->links() !!}
+        {!! $users->withQueryString()->links() !!}
     </div>
 @endsection
 
