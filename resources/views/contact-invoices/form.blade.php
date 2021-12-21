@@ -151,7 +151,7 @@
                        type="checkbox" {{ optional($contact_invoice)->is_payment?'checked':'' }}>
                 &nbsp;
                 <label for="paymentCheckBox" class="form-check-label"><span
-                        class="text-bold"> I have paid the bill </span></label>
+                        class="text-bold"> I have received the payment</span></label>
             </label>
 
             <div class="advanceContainer d-none">
