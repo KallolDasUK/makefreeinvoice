@@ -32,9 +32,9 @@
 
                 </p>
 
-                <p id="supplier_address"><b>Address</b> : {{ auth()->user()->address }}</p>
+                <p id="supplier_address"><b>Address</b> : {{ auth()->user()->address??'' }}</p>
 
-                <p id="supplier_vat"><b>Supplier VAT No</b> : {{ $settings->vat_reg }}</p>
+                <p id="supplier_vat"><b>Supplier VAT No</b> : {{ $settings->vat_reg??'' }}</p>
 
                 <p id="supplier_vat"><b>Customer Name </b>: {{ $contact_invoice->customer->name }}</p>
 
