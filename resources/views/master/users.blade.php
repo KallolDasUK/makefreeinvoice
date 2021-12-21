@@ -64,7 +64,7 @@
                         <div class="col">
                             <div class="form-group">
                                 <label for="">Email</label>
-                                <select name="email" id="email" class="form-control searchable" required>
+                                <select name="email" id="email" class="form-control searchable" >
 
                                     <option value="" disabled selected>-- Choose --</option>
                                     @foreach(\App\Models\User::query()->get() as $user)
