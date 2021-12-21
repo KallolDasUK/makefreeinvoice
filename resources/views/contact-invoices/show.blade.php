@@ -243,7 +243,7 @@
         function saveInsertedData() {
             var _token = $('meta[name=csrf-token]').attr('content');
             let customer_name_ar = $('#customer_name_ar').text();
-            let customer_address_ar = $('#customer_name_ar').text();
+            let customer_address_ar = $('#customer_address_ar').text();
             let supplier_name_ar = $('#supplier_name_ar').text();
             let supplier_address_ar = $('#supplier_address_ar').text();
             let supplier_vat_ar = $('#supplier_vat_ar').text();
