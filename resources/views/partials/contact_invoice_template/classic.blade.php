@@ -131,13 +131,13 @@
 
         <tr class="text-center">
             <td colspan="3">Total Before Tax @ 15%</td>
-            <th colspan="3" style="direction: rtl">الإجمالي قبل ضريبة 15%
+            <th colspan="3" style="direction: rtl"> الإجمالي قبل ضريبة  15%
             </th>
             <td colspan="3">{{ $contact_invoice->sub_total }}</td>
         </tr>
         <tr class="text-center">
             <td colspan="3">Value Added Tax @ 15%</td>
-            <th colspan="3" style="direction: rtl"> ضريبة القيمة المضافة  15%</th>
+            <th colspan="3" style="direction: rtl"> ضريبة القيمة المضافة 15%</th>
             <td colspan="3">{{ $contact_invoice->taxable_amount }}</td>
         </tr>
         <tr class="text-center" style="background-color: #ddebf7">
