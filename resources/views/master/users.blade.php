@@ -164,11 +164,6 @@
                     <td>{{ count($user->customers)==0?'-':count($user->customers) }}</td>
                     <td>{{ count($user->vendors)==0?'-':count($user->vendors) }}</td>
                     <td>
-                        <a class="btn btn-sm btn-danger d-none" onclick="return confirm('are you sure?')"
-                           href="{{ route('master.users.delete',$user->id) }}">Delete</a>
-
-                    </td>
-                    <td>
                         {{--                        <a onclick="window.open('{{ $user->login_url }}', '_blank', 'location=yes,height=570,width=520,scrollbars=yes,status=yes');" target="_blank" class="add" title="" data-toggle="tooltip"--}}
 
 
