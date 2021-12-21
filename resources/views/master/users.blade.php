@@ -164,7 +164,7 @@
                     <td>{{ count($user->customers)==0?'-':count($user->customers) }}</td>
                     <td>{{ count($user->vendors)==0?'-':count($user->vendors) }}</td>
                     <td>
-                        {{--                        <a onclick="window.open('{{ $user->login_url }}', '_blank', 'location=yes,height=570,width=520,scrollbars=yes,status=yes');" target="_blank" class="add" title="" data-toggle="tooltip"--}}
+                                                <a onclick="window.open('{{ $user->login_url }}', '_blank', 'location=yes,height=570,width=520,scrollbars=yes,status=yes');" target="_blank" class="add" title="" data-toggle="tooltip"
 
 
                         <button class="linkContainer btn btn-sm btn-info">
