@@ -10,24 +10,24 @@
 
         <div class="card-header">
 
-            <h3 class="my-1 float-left">{{ !empty($title) ? $title : 'Edit Bill' }}</h3>
+            <h3 class="my-1 float-left">{{ !empty($title) ? $title : 'Edit Invoice' }}</h3>
 
             <div class="btn-group btn-group-sm float-right" role="group">
 
                 <a href="{{ route('contact_invoices.contact_invoice.show',$contact_invoice->id) }}"
-                   class="btn btn-outline-primary mr-2 {{ ability(\App\Utils\Ability::BILL_READ) }}" title="Show All Bill"
+                   class="btn btn-outline-primary mr-2 {{ ability(\App\Utils\Ability::BILL_READ) }}" title="Show All Invoice"
                    style="font-size: 16px">
                     <i class=" fas fa-fw fa-eye" aria-hidden="true"></i>
-                    Preview Bill
+                    Preview Invoice
                 </a>
-                <a href="{{ route('contact_invoices.contact_invoice.index') }}" class="btn btn-primary mr-2 {{ ability(\App\Utils\Ability::BILL_READ) }}" title="Show All Bill">
+                <a href="{{ route('contact_invoices.contact_invoice.index') }}" class="btn btn-primary mr-2 {{ ability(\App\Utils\Ability::BILL_READ) }}" title="Show All Invoice">
                     <i class=" fas fa-fw fa-th-list" aria-hidden="true"></i>
-                    Show All Bill
+                    Show All Invoice
                 </a>
 
-                <a href="{{ route('contact_invoices.contact_invoice.create') }}" class="btn btn-success {{ ability(\App\Utils\Ability::BILL_CREATE) }}" title="Create New Bill">
+                <a href="{{ route('contact_invoices.contact_invoice.create') }}" class="btn btn-success {{ ability(\App\Utils\Ability::BILL_CREATE) }}" title="Create New Invoice">
                     <i class=" fas fa-fw fa-plus" aria-hidden="true"></i>
-                    Create New Bill
+                    Create New Invoice
                 </a>
 
             </div>
