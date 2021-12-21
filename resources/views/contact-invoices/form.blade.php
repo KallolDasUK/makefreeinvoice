@@ -264,7 +264,7 @@
 
                 </td>
             </tr>
-            <tr>
+            <tr style="display: none">
                 <td><b class="font-weight-bolder text-black mr-2" style="font-size: 14px">Shipping Charges</b>
 
                     <input type="number" step="any" class="input-sm form-control d-inline-block"
