@@ -145,7 +145,7 @@
             <td colspan="3">Total</td>
             <th colspan="3" style="direction: rtl">إجمالي
             </th>
-            <td colspan="3">{{ $contact_invoice->total }}</td>
+            <td colspan="3">{{ $contact_invoice->due }}</td>
         </tr>
         <tr class="text-center">
             <td colspan="9">
