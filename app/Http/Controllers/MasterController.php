@@ -33,13 +33,17 @@ class MasterController extends Controller
         $sort_type = $request->sort_type;
         $start_date = $request->start_date;
         $end_date = $request->end_date;
+        $email = $request->email;
 
 
         $users = User::query()
             ->withCount(['invoices', 'pos_sales'])
             ->where('role_id', null)
             ->where('id', '!=', auth()->id())
-            ->when($filter_type != null, function ($query) use ($filter_type, $start_date, $end_date) {
+            ->when($email != null, function ($query) use ($email) {
+                return $query->where('email', $email);
+            })
+            ->when($filter_type != null && $email == null, function ($query) use ($filter_type, $start_date, $end_date) {
                 if ($filter_type == "active_within") {
                     return $query->whereBetween('last_active_at', [$start_date, Carbon::parse($end_date)->addDay()->toDateString()]);
                 } elseif ($filter_type == "joined_within") {
@@ -47,7 +51,7 @@ class MasterController extends Controller
                 }
                 return $query;
             })
-            ->when($sort_type != null, function ($query) use ($sort_type, $filter_type) {
+            ->when($sort_type != null && $email == null, function ($query) use ($sort_type, $filter_type) {
 
                 if ($filter_type == "active_within") {
                     return $query->orderBy('last_active_at', $sort_type ?? 'desc');
@@ -56,7 +60,7 @@ class MasterController extends Controller
                 }
                 return $query;
             })
-            ->when($sort_type == null, function ($query) {
+            ->when($sort_type == null && $email == null, function ($query) {
                 return $query->orderBy('invoices_count', $sort_type ?? 'desc');
             });
 
@@ -73,7 +77,7 @@ class MasterController extends Controller
         $users = $users->paginate(25);
         $totalPosSale = count(\DB::table('pos_sales')->where('client_id', '!=', null)->get());
         return view('master.users', compact('users', 'totalBills', 'totalClients',
-            'totalInvoices', 'totalPosSale', 'start_date', 'end_date', 'filter_type', 'sort_type'));
+            'totalInvoices', 'totalPosSale', 'start_date', 'end_date', 'filter_type', 'sort_type', 'email'));
     }
 
     public function deleteUser($id)

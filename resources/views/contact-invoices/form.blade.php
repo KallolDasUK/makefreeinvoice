@@ -16,7 +16,8 @@
             <input class="form-control  {{ $errors->has('invoice_number') ? 'is-invalid' : '' }}"
                    name="invoice_number"
                    type="text" id="invoice_number"
-                   value="{{ old('invoice_number', optional($contact_invoice)->invoice_number)??$next_invoice }}" required>
+                   value="{{ old('invoice_number', optional($contact_invoice)->invoice_number)??$next_invoice }}"
+                   required>
             {!! $errors->first('invoice_number', '<p class="form-text text-danger">:message</p>') !!}
         </div>
 
@@ -27,7 +28,8 @@
             <br>
             <input class="form-control {{ $errors->has('order_number') ? 'is-invalid' : '' }}"
                    name="order_number"
-                   type="text" id="order_number" value="{{ old('order_number', optional($contact_invoice)->order_number) }}">
+                   type="text" id="order_number"
+                   value="{{ old('order_number', optional($contact_invoice)->order_number) }}">
 
             {!! $errors->first('order_number', '<p class="form-text text-danger">:message</p>') !!}
 
@@ -126,7 +128,8 @@
 <div class="row">
     <div class="col">
 
-        <p class="p-2 rounded text-primary d-flex font-weight-bolder text-center"
+        <div class="d-none">
+        <p  class="p-2 rounded text-primary d-flex font-weight-bolder text-center d-none"
            style="background: whitesmoke;font-size: 16px;cursor:pointer;"
            data-toggle="collapse"
            href="#additionalCollapse" role="button"
@@ -137,7 +140,7 @@
 
 
         </p>
-        <div class="collapse" id="additionalCollapse">
+        <div class="collapse d-none" id="additionalCollapse">
             <table class="table table-borderless">
 
 
@@ -146,6 +149,7 @@
                 </tbody>
             </table>
         </div>
+    </div>
         <div><label class=" form-check form-check-inline form-control-plaintext" id="paymentSection">
                 <input id="paymentCheckBox" class="form-check-input" name="is_payment"
                        type="checkbox" {{ optional($contact_invoice)->is_payment?'checked':'' }}>
@@ -463,6 +467,7 @@
 
 
 
+
     </script>
 @endverbatim
 @verbatim
@@ -593,6 +598,7 @@
 
 
 
+
     </script>
 @endverbatim
 @verbatim
@@ -617,6 +623,7 @@
               <td><span class="text-primary " on-click="@this.addAdditionalField()" style="cursor:pointer;">+ Add More</span></td>
               <td></td>
           </tr>
+
 
 
 
