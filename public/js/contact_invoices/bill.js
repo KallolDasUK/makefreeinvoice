@@ -325,7 +325,7 @@ function calculateOthers() {
 
     $('#bill_items').val(JSON.stringify(ractive.get('bill_items')))
     console.log($('#bill_items').val())
-    $('#additional').val(JSON.stringify(ractiveExtra.get('pairs').filter((pair) => pair.value !== '' && pair.value !== 0)))
+    $('#additional').val(JSON.stringify(ractiveExtra.get('pairs').filter((pair) => pair.value !== '')))
     // console.log(ractiveExtra.get('pairs').filter((pair) => pair.value !== '' && pair.value !== 0))
     let advancePayment = $('#advance').val() || 0;
     ractive.set('payable', total)

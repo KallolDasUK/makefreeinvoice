@@ -226,6 +226,7 @@ class ContactInvoiceController extends Controller
             $qr_code = '';
         }
         $contact_invoice = $invoice;
+//        dd($contact_invoice->invoice_extra);
         return view('contact-invoices.show', compact('contact_invoice', 'qr_code_style', 'qr_code'));
     }
 

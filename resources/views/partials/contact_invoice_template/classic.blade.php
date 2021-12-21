@@ -66,10 +66,10 @@
             </td>
         </tr>
         <tr class="text-center">
-            <td colspan="5"><span>Invoice No (رقم الفاتورة): <span
-                        class="ml-4">{{ $contact_invoice->invoice_number }}</span></span></td>
-            <td colspan="5"><span>Date (تاريخ): <span class="ml-4">{{ $contact_invoice->invoice_date }}</span></span>
-            </td>
+            <th colspan="5"><span>Invoice No (رقم الفاتورة): <span
+                        class="ml-4">{{ $contact_invoice->invoice_number }}</span></span></th>
+            <th colspan="5"><span>Date (تاريخ): <span class="ml-4">{{ $contact_invoice->invoice_date }}</span></span>
+            </th>
         </tr>
         <tr>
             <td colspan="5"></td>
@@ -103,22 +103,43 @@
 
         <tr class="text-center">
             <td colspan="3">Total Amount Before Tax</td>
-            <td colspan="3">ة
-                يل المبلغ قبل ال
-                إ
-            </td>
+            <th colspan="3" style="direction: rtl">ة
+                المبلغ قبل الضريبة الإجمالي
+            </th>
+            <td colspan="3">{{ $contact_invoice->sub_total }}</td>
+        </tr>
+
+        @foreach($contact_invoice->invoice_extra as $ie )
+            @if(!$ie->value)
+                @php($ie->value = 0)
+            @endif
+            <tr class="text-center">
+                <td colspan="3">{{ $ie->first }} </td>
+                <th colspan="3" style="direction: rtl">
+                    {{ $ie->last }}
+                </th>
+                <td colspan="3"
+                    @if(floatval($ie->value)<0) - @endif{{ $contact_invoice->currency }}>{{ decent_format(floatval(abs($ie->value))) }}</td>
+            </tr>
+
+        @endforeach
+
+        <tr class="text-center">
+            <td colspan="3">Total Before Tax @ 15%</td>
+            <th colspan="3" style="direction: rtl">الإجمالي قبل ضريبة 15%
+            </th>
             <td colspan="3">{{ $contact_invoice->sub_total }}</td>
         </tr>
         <tr class="text-center">
-            <td colspan="3">Value Added Tax</td>
-            <td colspan="3">إجمالي مبلغ الضريبة
-            </td>
+            <td colspan="3">Value Added Tax @ 15%</td>
+            <th colspan="3" style="direction: rtl">15% @ ضريبة القيمة المضافة
+            </th>
             <td colspan="3">{{ $contact_invoice->taxable_amount }}</td>
         </tr>
         <tr class="text-center" style="background-color: #ddebf7">
             <td colspan="3">Total</td>
-            <td colspan="3">مجموع
-            </td>
+            <th colspan="3" style="direction: rtl">إجمالي
+            </th>
             <td colspan="3">{{ $contact_invoice->total }}</td>
         </tr>
         <tr class="text-center">
@@ -132,14 +153,13 @@
     </table>
     <div class="row p-4 m-4 align-items-center justify-content-between text-center">
         <div class="col">Regards</div>
-        <div class="col">شاكرين و مقررين</div>
+        <div class="col font-weight-bolder">شاكرين و مقررين</div>
     </div>
     <div class="row p-4 m-4 align-items-center justify-content-between text-center">
         <div class="col">
-            <p><b>Chief Executive Officer</b> المدير لتنفيذي </p>
-            <p><b>Majed Al Otaibi</b>
-                بي
-                ماجد العت</p></div>
+            <p><b>Chief Executive Officer المدير لتنفيذي </b></p>
+            <p class=" font-weight-bolder">Majed Al Otaibi
+                ماجد العتيبي</p></div>
         <div class="col">
             <div id="qr_code" class="mx-auto" style="width: 120px"></div>
         </div>
