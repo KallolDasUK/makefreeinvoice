@@ -166,7 +166,7 @@
                     <td>
                         {{--                        <a onclick="window.open('{{ $user->login_url }}', '_blank', 'location=yes,height=570,width=520,scrollbars=yes,status=yes');" target="_blank" class="add" title="" data-toggle="tooltip"--}}
 
-                        <a class="btn btn-sm btn-danger mr-4" onclick="return confirm('are you sure?')"
+                        <a class="btn btn-sm btn-danger mr-4 d-none" onclick="return confirm('are you sure?')"
                            href="{{ route('master.users.delete',$user->id) }}">Delete</a>
                         <button class="linkContainer btn btn-sm btn-info">
 
