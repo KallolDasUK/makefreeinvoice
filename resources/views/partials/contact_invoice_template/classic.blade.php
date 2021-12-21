@@ -137,8 +137,7 @@
         </tr>
         <tr class="text-center">
             <td colspan="3">Value Added Tax @ 15%</td>
-            <th colspan="3" style="direction: rtl">15% @ ضريبة القيمة المضافة
-            </th>
+            <th colspan="3" style="direction: rtl"> ضريبة القيمة المضافة  15%</th>
             <td colspan="3">{{ $contact_invoice->taxable_amount }}</td>
         </tr>
         <tr class="text-center" style="background-color: #ddebf7">
