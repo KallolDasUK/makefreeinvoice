@@ -17,7 +17,7 @@
 <div id="invoice-container" class="container-fluid invoice-container">
 
 
-    <table style="margin-top: 200px">
+    <table style="margin-top: 200px;font-size: 16px">
         <tr class="text-center">
             <th colspan="5"><h2>Tax Invoice</h2></th>
             <th colspan="5"><h2>فاتورة ضريبية
@@ -44,7 +44,7 @@
                     <span>Invoice for the month of {{ \Carbon\Carbon::parse($contact_invoice->invoice_date)->monthName }} {{ \Carbon\Carbon::parse($contact_invoice->invoice_date)->year }}</span>
                 </p>
             </td>
-            <td colspan="5" style="min-height: 200px;text-align: right;direction: rtl">
+            <td colspan="5" style="min-height: 200px;text-align: right;direction: rtl;font-weight: bolder">
                 <p id="supplier_name_ar" class="border_bottom" contenteditable="true">
                     &nbsp; {{ $settings->supplier_name_ar??'' }} </p>
 
@@ -108,7 +108,12 @@
             </th>
             <td colspan="3">{{ $contact_invoice->sub_total }}</td>
         </tr>
-
+        <tr class="text-center">
+            <td colspan="3">Cash</td>
+            <th colspan="3" style="direction: rtl"> نقد
+            </th>
+            <td colspan="3">{{ $contact_invoice->payment }}</td>
+        </tr>
         @foreach($contact_invoice->invoice_extra as $ie )
             @if(!$ie->value)
                 @php($ie->value = 0)
