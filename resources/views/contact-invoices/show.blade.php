@@ -96,7 +96,6 @@
                 top: 0;
                 right: 0;
                 min-height: 297mm !important;
-                padding:0px 35px;
             }
 
             footer {

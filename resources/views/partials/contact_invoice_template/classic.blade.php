@@ -1,7 +1,7 @@
 <style>
     table, th, td, tr {
         border: 1px solid black;
-        padding: 5px;
+        padding: 2px;
     }
 
     .border-dark {
@@ -24,7 +24,7 @@
                 </h2></th>
         </tr>
         <tr>
-            <td colspan="5" style="height: 200px;width: 50%">
+            <td colspan="5" style="width: 50%">
                 <p
                     id="supplier_name">
                     <b>Supplier Name</b> :
@@ -44,7 +44,7 @@
                     <span>Invoice for the month of {{ \Carbon\Carbon::parse($contact_invoice->invoice_date)->monthName }} {{ \Carbon\Carbon::parse($contact_invoice->invoice_date)->year }}</span>
                 </p>
             </td>
-            <td colspan="5" style="min-height: 200px;text-align: right;direction: rtl;font-weight: bolder">
+            <td colspan="5" style="text-align: right;direction: rtl;font-weight: bolder">
                 <p id="supplier_name_ar" class="border_bottom" contenteditable="true">
                     &nbsp; {{ $settings->supplier_name_ar??'' }} </p>
 
@@ -75,7 +75,7 @@
             <td colspan="5"></td>
             <td colspan="5"></td>
         </tr>
-        <tr class="text-black font-weight-bold" style="background-color: #ffe699">
+        <tr class="text-black font-weight-bold text-center" style="background-color: #ffe699">
             <th>SL No م</th>
             <th>Category <br> الفئة</th>
             <th>Total Workers <br>العدد العمال</th>
@@ -88,7 +88,7 @@
         </tr>
 
         @foreach($contact_invoice->invoice_items as $item)
-            <tr>
+            <tr class="text-center">
                 <td>{{ $loop->index + 1 }}</td>
                 <td>{{ optional($item->product)->name }}</td>
                 <td>{{ $item->workers }}</td>
