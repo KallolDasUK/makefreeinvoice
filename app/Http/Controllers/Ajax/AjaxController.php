@@ -157,6 +157,7 @@ class AjaxController extends Controller
     public function contactInvoicePayment(Request $request)
     {
 
+//       return dd($request->all());
         $request->validate(['payment_date' => 'required', 'invoice_id' => 'required']);
         $paymentSerial = 'CIPM' . str_pad(ReceivePayment::query()->count(), 3, '0', STR_PAD_LEFT);
 

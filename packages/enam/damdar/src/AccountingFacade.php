@@ -234,7 +234,7 @@ class AccountingFacade extends Facade
     public function on_contact_invoice_create(ContactInvoice $contact_invoice)
     {
         $customer = $contact_invoice->customer;
-        self::addTransaction(optional($customer->ledger)->id, Ledger::SALES_AC(), $contact_invoice->total, $contact_invoice->notes,
+        self::addTransaction(optional($customer->ledger)->id, Ledger::SALES_AC(), $contact_invoice->total, "Tax Invoice",
             $contact_invoice->invoice_date, 'ContactInvoice', ContactInvoice::class, $contact_invoice->id,
             $contact_invoice->invoice_number, optional($contact_invoice->customer)->name);
     }
@@ -250,7 +250,7 @@ class AccountingFacade extends Facade
         $invoice = $receivePaymentItem->bill;
         $customer = $invoice->customer;
 
-        self::addTransaction($receivePaymentItem->bill_payment->ledger_id, optional($customer->ledger)->id, $receivePaymentItem->total,
+        self::addTransaction($receivePaymentItem->bill_payment->ledger_id, optional($customer->ledger)->id, $receivePaymentItem->amount,
             $receivePaymentItem->bill_payment->note, $receivePaymentItem->bill_payment->payment_date,
             'Customer Payment', ContactInvoicePaymentItem::class, $receivePaymentItem->id,
             $invoice->invoice_number, optional($invoice->customer)->name);
