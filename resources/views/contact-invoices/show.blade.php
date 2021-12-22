@@ -13,7 +13,7 @@
     <style>
         .invoice-container {
             margin: 15px auto;
-            padding:0px 30px;
+            padding:0px 35px;
             max-width: 850px;
             /*background-color: #fff;*/
             border: 0px solid #ccc;
@@ -50,10 +50,7 @@
             font-size: 1.75rem !important;
         }
 
-        @page {
-            margin: 0 !important;
-            padding: 0 !important;
-        }
+
 
         @media print {
             body {
@@ -99,6 +96,7 @@
                 top: 0;
                 right: 0;
                 min-height: 297mm !important;
+                padding:0px 35px;
             }
 
             footer {
