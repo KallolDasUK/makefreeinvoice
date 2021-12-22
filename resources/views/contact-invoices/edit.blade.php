@@ -117,6 +117,6 @@
 
         });
     </script>
-    <script src="{{ asset('js/contact_invoices/bill.js') }}"></script>
-    <script src="{{ asset('js/contact_invoices/bill-crud.js') }}"></script>
+    <script src="{{ asset('js/contact_invoices/bill.js') }}?v=1.0"></script>
+    <script src="{{ asset('js/contact_invoices/bill-crud.js') }}?v=1.0"></script>
 @endsection
