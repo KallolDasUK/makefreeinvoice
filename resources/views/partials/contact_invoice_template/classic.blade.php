@@ -1,14 +1,34 @@
 <style>
-    /*table, th, td, tr {*/
-    /*    border: 1px solid black;*/
-    /*    padding: 2px;*/
-    /*}*/
+
 
     /*.border-dark {*/
     /*    border: 0.5px solid #777676 !important;*/
 
     /*}*/
+    .border-none {
+        border-collapse: collapse;
+        border: none;
+    }
 
+    .border-none td {
+        border: 1px solid black;
+    }
+
+    .border-none tr:first-child td {
+        border-top: none;
+    }
+
+    .border-none tr:last-child td {
+        border-bottom: none;
+    }
+
+    .border-none tr td:first-child {
+        border-left: none;
+    }
+
+    .border-none tr td:last-child {
+        border-right: none;
+    }
     .border_bottom {
         border-bottom: 1px dashed black;
 
@@ -17,11 +37,11 @@
 <div id="invoice-container" class="container-fluid invoice-container">
 
 
-    <table style="margin-top: 200px;font-size: 16px">
+    <table class="border-none" style="margin-top: 200px;font-size: 16px;margin-left: 20px;margin-right: 20px">
         <tr class="text-center">
-            <th colspan="5"><h2>Tax Invoice</h2></th>
-            <th colspan="5"><h2>فاتورة ضريبية
-                </h2></th>
+            <td colspan="5"><h2>Tax Invoice</h2></td>
+            <td colspan="5"><h2>فاتورة ضريبية
+                </h2></td>
         </tr>
         <tr>
             <td colspan="5" style="width: 50%">
@@ -76,15 +96,15 @@
             <td colspan="5"></td>
         </tr>
         <tr class="text-black font-weight-bold text-center" style="background-color: #ffe699">
-            <th>SL No م</th>
-            <th>Category <br> الفئة</th>
-            <th>Total Workers <br>العدد العمال</th>
-            <th>Monthly Cost <br> التكلفة الشهرية</th>
-            <th>Daily Cost <br> لتكلفة اليومية</th>
-            <th>Working Days <br>عدد أيام العمل</th>
-            <th>Total <br>ل االج</th>
-            <th>Vat <br>ضريبة</th>
-            <th>Total <br>ل االجما يل ا</th>
+            <td>SL No م</td>
+            <td>Category <br> الفئة</td>
+            <td>Total Workers <br>العدد العمال</td>
+            <td>Monthly Cost <br> التكلفة الشهرية</td>
+            <td>Daily Cost <br> لتكلفة اليومية</td>
+            <td>Working Days <br>عدد أيام العمل</td>
+            <td>Total <br>ل االج</td>
+            <td>Vat <br>ضريبة</td>
+            <td>Total <br>ل االجما يل ا</td>
         </tr>
 
         @foreach($contact_invoice->invoice_items as $item)
@@ -110,8 +130,7 @@
         </tr>
         <tr class="text-center">
             <td colspan="3">Cash</td>
-            <th colspan="3" style="direction: rtl"> نقد
-            </th>
+            <td colspan="3" style="direction: rtl"> نقد</td>
             <td colspan="3">{{ $contact_invoice->payment }}</td>
         </tr>
         @foreach($contact_invoice->invoice_extra as $ie )
@@ -120,9 +139,9 @@
             @endif
             <tr class="text-center">
                 <td colspan="3">{{ $ie->first }} </td>
-                <th colspan="3" style="direction: rtl">
+                <td colspan="3" style="direction: rtl">
                     {{ $ie->last }}
-                </th>
+                </td>
                 <td colspan="3"
                     @if(floatval($ie->value)<0) - @endif{{ $contact_invoice->currency }}>{{ decent_format(floatval(abs($ie->value))) }}</td>
             </tr>
@@ -131,19 +150,19 @@
 
         <tr class="text-center">
             <td colspan="3">Total Before Tax @ 15%</td>
-            <th colspan="3" style="direction: rtl"> الإجمالي قبل ضريبة 15%
-            </th>
+            <td colspan="3" style="direction: rtl"> الإجمالي قبل ضريبة 15%
+            </td>
             <td colspan="3">{{ $contact_invoice->sub_total }}</td>
         </tr>
         <tr class="text-center">
             <td colspan="3">Value Added Tax @ 15%</td>
-            <th colspan="3" style="direction: rtl"> ضريبة القيمة المضافة 15%</th>
+            <td colspan="3" style="direction: rtl"> ضريبة القيمة المضافة 15%</td>
             <td colspan="3">{{ $contact_invoice->taxable_amount }}</td>
         </tr>
         <tr class="text-center" style="background-color: #ddebf7">
             <td colspan="3">Total</td>
-            <th colspan="3" style="direction: rtl">إجمالي
-            </th>
+            <td colspan="3" style="direction: rtl">إجمالي
+            </td>
             <td colspan="3">{{ $contact_invoice->total }}</td>
         </tr>
         <tr class="text-center">
