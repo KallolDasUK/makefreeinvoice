@@ -166,7 +166,7 @@ class ContactInvoiceController extends Controller
             'ledger_id' => $bill->deposit_to,
             'payment_sl' => $paymentSerial,
             'note' => $bill->notes,
-            'payment_date' => $bill->bill_date
+            'payment_date' => $bill->invoice_date
         ]);
 
         ContactInvoicePaymentItem::create(['contact_invoice_payment_id' => $billPayment->id, 'contact_invoice_id' => $bill->id, 'amount' => $bill->payment_amount]);

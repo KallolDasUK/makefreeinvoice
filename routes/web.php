@@ -372,6 +372,7 @@ Route::group(['middleware' => 'auth:web', 'prefix' => 'app'], function () {
         Route::post('/invoice-payment-transactions/{invoice}', [AjaxController::class, 'invoicePaymentTransactions'])->name('invoices.invoice.payments');
         Route::post('/invoice-payment', [AjaxController::class, 'invoicePayment'])->name('ajax.recordPayment');
         Route::post('/bill-payment', [AjaxController::class, 'billPayment'])->name('ajax.billPayment');
+        Route::post('/contact-invoice-payment', [AjaxController::class, 'contactInvoicePayment'])->name('ajax.contactInvoicePayment');
         Route::post('/settings/phoneNumber', [AjaxController::class, 'storePhoneNumber'])->name('ajax.storePhoneNumber');
         Route::post('/settings/contact-invoice', [AjaxController::class, 'storeContactInvoiceInfo'])->name('ajax.storeContactInvoiceInfo');
         Route::get('/customer-payment-receipt/{id}', [AjaxController::class, 'customerPaymentReceipt'])->name('ajax.customerPaymentReceipt');
@@ -712,14 +713,14 @@ Route::group(['prefix' => 'master', 'middleware' => ['auth:web', 'isMaster']], f
 
     Route::group(['prefix' => 'user_notifications'], function () {
 
-        Route::get('/', [UserNotificationsController::class,'index'])->name('user_notifications.user_notification.index');
-        Route::get('/seen', [UserNotificationsController::class,'markSeen'])->name('user_notifications.user_notification.mark-seen')->withoutMiddleware('isMaster');
-        Route::get('/create',[UserNotificationsController::class,'create'])->name('user_notifications.user_notification.create');
-        Route::get('/show/{userNotification}',[UserNotificationsController::class,'show'])->name('user_notifications.user_notification.show')->where('id', '[0-9]+');
-        Route::get('/{userNotification}/edit',[UserNotificationsController::class,'edit'])->name('user_notifications.user_notification.edit')->where('id', '[0-9]+');
-        Route::post('/', [UserNotificationsController::class,'store'])->name('user_notifications.user_notification.store');
-        Route::put('user_notification/{userNotification}', [UserNotificationsController::class,'update'])->name('user_notifications.user_notification.update')->where('id', '[0-9]+');
-        Route::delete('/user_notification/{userNotification}',[UserNotificationsController::class,'destroy'])->name('user_notifications.user_notification.destroy')->where('id', '[0-9]+');
+        Route::get('/', [UserNotificationsController::class, 'index'])->name('user_notifications.user_notification.index');
+        Route::get('/seen', [UserNotificationsController::class, 'markSeen'])->name('user_notifications.user_notification.mark-seen')->withoutMiddleware('isMaster');
+        Route::get('/create', [UserNotificationsController::class, 'create'])->name('user_notifications.user_notification.create');
+        Route::get('/show/{userNotification}', [UserNotificationsController::class, 'show'])->name('user_notifications.user_notification.show')->where('id', '[0-9]+');
+        Route::get('/{userNotification}/edit', [UserNotificationsController::class, 'edit'])->name('user_notifications.user_notification.edit')->where('id', '[0-9]+');
+        Route::post('/', [UserNotificationsController::class, 'store'])->name('user_notifications.user_notification.store');
+        Route::put('user_notification/{userNotification}', [UserNotificationsController::class, 'update'])->name('user_notifications.user_notification.update')->where('id', '[0-9]+');
+        Route::delete('/user_notification/{userNotification}', [UserNotificationsController::class, 'destroy'])->name('user_notifications.user_notification.destroy')->where('id', '[0-9]+');
 
     });
 
@@ -731,13 +732,13 @@ Route::group(['prefix' => 'master', 'middleware' => ['auth:web', 'isMaster']], f
 
     Route::group(['prefix' => 'payment_requests'], function () {
 
-        Route::get('/', [PaymentRequestsController::class,'index'])->name('payment_requests.payment_request.index');
-        Route::get('/create',[PaymentRequestsController::class,'create'])->name('payment_requests.payment_request.create');
-        Route::get('/show/{paymentRequest}',[PaymentRequestsController::class,'show'])->name('payment_requests.payment_request.show')->where('id', '[0-9]+');
-        Route::get('/{paymentRequest}/edit',[PaymentRequestsController::class,'edit'])->name('payment_requests.payment_request.edit')->where('id', '[0-9]+');
-        Route::post('/', [PaymentRequestsController::class,'store'])->name('payment_requests.payment_request.store');
-        Route::put('payment_request/{paymentRequest}', [PaymentRequestsController::class,'update'])->name('payment_requests.payment_request.update')->where('id', '[0-9]+');
-        Route::delete('/payment_request/{paymentRequest}',[PaymentRequestsController::class,'destroy'])->name('payment_requests.payment_request.destroy')->where('id', '[0-9]+');
+        Route::get('/', [PaymentRequestsController::class, 'index'])->name('payment_requests.payment_request.index');
+        Route::get('/create', [PaymentRequestsController::class, 'create'])->name('payment_requests.payment_request.create');
+        Route::get('/show/{paymentRequest}', [PaymentRequestsController::class, 'show'])->name('payment_requests.payment_request.show')->where('id', '[0-9]+');
+        Route::get('/{paymentRequest}/edit', [PaymentRequestsController::class, 'edit'])->name('payment_requests.payment_request.edit')->where('id', '[0-9]+');
+        Route::post('/', [PaymentRequestsController::class, 'store'])->name('payment_requests.payment_request.store');
+        Route::put('payment_request/{paymentRequest}', [PaymentRequestsController::class, 'update'])->name('payment_requests.payment_request.update')->where('id', '[0-9]+');
+        Route::delete('/payment_request/{paymentRequest}', [PaymentRequestsController::class, 'destroy'])->name('payment_requests.payment_request.destroy')->where('id', '[0-9]+');
 
     });
 });
@@ -748,7 +749,7 @@ Route::get('/task', function () {
 
     $notification = new NotificationController;
     $notification->testEmail();
-    dd( array_merge(['KG', 'M', 'CM', 'BOX', 'LT.'],ProductUnit::query()->pluck('name')->unique()->toArray()) );
+    dd(array_merge(['KG', 'M', 'CM', 'BOX', 'LT.'], ProductUnit::query()->pluck('name')->unique()->toArray()));
 
     foreach (User::all() as $user) {
         Auth::login($user);
@@ -808,7 +809,6 @@ Route::get('/task', function () {
 
     dd('task completed');
 });
-
 
 
 Route::get('/app/pos_sales/receipt/{id}', [PosSalesController::class, 'pos_receipt_public'])->name('pos_sales.pos_sale.receipt');

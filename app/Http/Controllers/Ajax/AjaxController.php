@@ -8,6 +8,8 @@ use App\Models\BillPayment;
 use App\Models\BillPaymentItem;
 use App\Models\Category;
 use App\Models\ContactInvoice;
+use App\Models\ContactInvoicePayment;
+use App\Models\ContactInvoicePaymentItem;
 use App\Models\Customer;
 use App\Models\Expense;
 use App\Models\Invoice;
@@ -150,6 +152,29 @@ class AjaxController extends Controller
 
         session()->flash('success_message', 'Payment Recorded Successfully for Bill ' . $bill->bill_number);
         return ['success_message' => 'Payment Recorded Successfully for Bill ' . $bill->bill_number];
+    }
+
+    public function contactInvoicePayment(Request $request)
+    {
+
+        $request->validate(['payment_date' => 'required', 'invoice_id' => 'required']);
+        $paymentSerial = 'CIPM' . str_pad(ReceivePayment::query()->count(), 3, '0', STR_PAD_LEFT);
+
+        $invoice = ContactInvoice::find($request->invoice_id);
+        $payment = ContactInvoicePayment::create([
+            'contact_invoice_id' => $invoice->id,
+            'customer_id' => $invoice->customer_id,
+            'payment_method_id' => $invoice->payment_method_id,
+            'ledger_id' => $invoice->deposit_to,
+            'payment_sl' => $paymentSerial,
+            'note' => $invoice->notes,
+            'payment_date' => $invoice->invoice_date
+        ]);
+
+        ContactInvoicePaymentItem::create(['contact_invoice_payment_id' => $payment->id, 'contact_invoice_id' => $invoice->id, 'amount' => $request->amount]);
+        session()->flash('success_message', 'Payment Recorded Successfully for Tax Invoice ' . $invoice->invoice_number);
+        return ['success_message' => 'Payment Recorded Successfully for Tax Invoice ' . $invoice->invoice_number, 'id' => $payment->id];
+
     }
 
 

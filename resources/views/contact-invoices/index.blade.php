@@ -38,7 +38,7 @@
 
     @include('partials.ajax-ledger-create-form')
 
-    @include('partials.bill-payment-modal')
+    @include('partials.contact-invoice-payment-modal')
 
 
 
@@ -214,13 +214,13 @@
                                     @endif
                                 </td>
                                 <td class="pr-0 text-right">
-{{--                                    @if($contact_invoice->due > 0)--}}
-{{--                                        <span style="text-decoration: underline"--}}
-{{--                                              class=" font-weight-bolder text-success  font-size-lg underline  text-hover-danger cursor-pointer mx-4 billPaymentBtn"--}}
-{{--                                              bill_id="{{ $contact_invoice->id }}" currency="{{ $contact_invoice->currency }}"--}}
-{{--                                              invoice_number="{{ $contact_invoice->invoice_number }}"--}}
-{{--                                              due="{{ $contact_invoice->due }}">Record Payment</span>--}}
-{{--                                    @endif--}}
+                                    @if($contact_invoice->due > 0)
+                                        <span style="text-decoration: underline"
+                                              class=" font-weight-bolder text-success  font-size-lg underline  text-hover-danger cursor-pointer mx-4 billPaymentBtn"
+                                              invoice_id="{{ $contact_invoice->id }}" currency="{{ $contact_invoice->currency }}"
+                                              invoice_number="{{ $contact_invoice->invoice_number }}"
+                                              due="{{ $contact_invoice->due }}">Record Payment</span>
+                                    @endif
 
 
                                     <div class="dropdown d-inline dropleft">
@@ -321,11 +321,11 @@
     <script>
         $(document).ready(function () {
             $('.billPaymentBtn').on('click', function () {
-                let bill_id = $(this).attr('bill_id')
+                let invoice_id = $(this).attr('invoice_id')
                 let currency = $(this).attr('currency')
                 let due = $(this).attr('due')
                 let invoice_number = $(this).attr('invoice_number')
-                $('#bill_id').val(bill_id)
+                $('#invoice_id').val(invoice_id)
                 $('.currency').text(currency)
                 $('.invoice_number').text(invoice_number)
                 $('#amount').val(due)

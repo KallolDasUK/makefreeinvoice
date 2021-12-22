@@ -1,13 +1,13 @@
 <style>
-    table, th, td, tr {
-        border: 1px solid black;
-        padding: 2px;
-    }
+    /*table, th, td, tr {*/
+    /*    border: 1px solid black;*/
+    /*    padding: 2px;*/
+    /*}*/
 
-    .border-dark {
-        border: 0.5px solid #777676 !important;
+    /*.border-dark {*/
+    /*    border: 0.5px solid #777676 !important;*/
 
-    }
+    /*}*/
 
     .border_bottom {
         border-bottom: 1px dashed black;
@@ -131,7 +131,7 @@
 
         <tr class="text-center">
             <td colspan="3">Total Before Tax @ 15%</td>
-            <th colspan="3" style="direction: rtl"> الإجمالي قبل ضريبة  15%
+            <th colspan="3" style="direction: rtl"> الإجمالي قبل ضريبة 15%
             </th>
             <td colspan="3">{{ $contact_invoice->sub_total }}</td>
         </tr>
@@ -144,7 +144,7 @@
             <td colspan="3">Total</td>
             <th colspan="3" style="direction: rtl">إجمالي
             </th>
-            <td colspan="3">{{ $contact_invoice->due }}</td>
+            <td colspan="3">{{ $contact_invoice->total }}</td>
         </tr>
         <tr class="text-center">
             <td colspan="9">
