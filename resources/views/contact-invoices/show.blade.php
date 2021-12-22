@@ -13,10 +13,10 @@
     <style>
         .invoice-container {
             margin: 15px auto;
-            padding: 13px;
+            padding:0px 30px;
             max-width: 850px;
-            background-color: #fff;
-            border: 1px solid #ccc;
+            /*background-color: #fff;*/
+            border: 0px solid #ccc;
             -moz-border-radius: 6px;
             -webkit-border-radius: 6px;
             -o-border-radius: 6px;
