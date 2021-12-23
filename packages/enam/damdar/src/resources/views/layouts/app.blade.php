@@ -471,7 +471,7 @@
                                 Invoices</a>
                             <a href="{{ route('contact_invoices.contact_invoice.index') }}"
                                style="min-width: 100px;position:relative;"><i
-                                    class="fa fa-list-alt" aria-hidden="true"></i>Tax <br>
+                                    class="fa fa-list-alt" aria-hidden="true"></i>Worker <br>
                                 Invoices</a>
 
                             <a href="{{ route('receive_payments.receive_payment.create') }}"
