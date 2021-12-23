@@ -144,6 +144,12 @@
 
                     </div>
                     <div class="shortcuts-title sc-jlyJG gSoaLO title">Stock Report</div>
+                </a> <a class="sc-gPEVay eaBhby   @cannot('stock_report') pro-tag @endcannot"
+                        href="{{ route('reports.report.stock-report-details') }}">
+                    <div class="sc-iRbamj image" style="background-image:url('{{ asset('images/estimate.svg') }}') ">
+
+                    </div>
+                    <div class="shortcuts-title sc-jlyJG gSoaLO title">Stock Report Details</div>
                 </a>
                 <a class="sc-gPEVay eaBhby  "
                    href="{{ route('reports.report.due_collection_report') }}">

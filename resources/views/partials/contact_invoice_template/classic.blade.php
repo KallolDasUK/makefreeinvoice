@@ -64,7 +64,7 @@
                     <span>Invoice for the month of {{ \Carbon\Carbon::parse($contact_invoice->invoice_date)->monthName }} {{ \Carbon\Carbon::parse($contact_invoice->invoice_date)->year }}</span>
                 </p>
             </td>
-            <td colspan="5" style="text-align: right;direction: rtl;font-weight: bolder">
+            <td colspan="5" style="text-align: right;direction: rtl;font-weight: bolder;font-size: 18px">
                 <p id="supplier_name_ar" class="border_bottom" contenteditable="true">
                     &nbsp; {{ $settings->supplier_name_ar??'' }} </p>
 

@@ -79,7 +79,7 @@
 
         <div class="card mb-2">
             <div class="card-body">
-                <form action="{{ route('reports.report.stock-report') }}">
+                <form action="{{ route('reports.report.stock-report-details') }}">
                     <div class="row align-items-end mb-4 mx-auto justify-content-center">
 
                         <div class="col">
@@ -95,31 +95,9 @@
                                         @endforeach
                                     </select>
                                 </div>
-                                <div class="col-4">
-                                    <select id="brand_id" name="brand_id" class="form-control mr-2 ">
-                                        <option></option>
-                                        @foreach(\App\Models\Brand::all() as $brand)
-                                            <option value="{{ $brand->id }}"
-                                                    @if($brand->id == $brand_id) selected @endif>
-                                                {{ $brand->name }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="col-4 ">
-                                    <select id="category_id" name="category_id" class="form-control mr-2"
-                                    >
-                                        <option></option>
-                                        @foreach(\App\Models\Category::all() as $category)
-                                            <option value="{{ $category->id }}"
-                                                    @if($category->id == $category_id) selected @endif>
-                                                {{ $category->name }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
 
-                                <div class="input-daterange col-12 input-group  mt-4" id="start_date">
+
+                                <div class="input-daterange col-8 input-group" id="start_date">
                                     <input type="text" class="form-control col-2" name="start_date"
                                            value="{{ $start_date??'' }}"
                                            placeholder="Start">
@@ -172,7 +150,8 @@
 
                     @if($settings->business_name??false)
                         <h3>{{ $settings->business_name }}</h3>
-                        <h1>Stock Report</h1>
+                        <h1>Stock Report Details
+                            @if($product_id) of {{ \App\Models\Product::find($product_id)->name }} @endif</h1>
                         <span>From {{ $start_date??'-' }} to {{ $end_date??'-' }}</span>
                     @endif
                 </div>
@@ -191,7 +170,7 @@
                             <table class="table mb-0 table-bordered table-sm">
                                 <thead class="card-header">
                                 <tr>
-                                    <td class=" border-0"><strong>SL</strong></td>
+                                    <td class=" border-0"><strong>#</strong></td>
                                     <td class=" border-0"><strong>Item</strong></td>
                                     <td class=" border-0"><strong>Rate</strong></td>
                                     <td class="text-right  border-0"> Opening <br>
@@ -221,8 +200,8 @@
                                 @foreach($records as $record)
                                     <tr>
                                         <td class=" border-0">{{ $loop->iteration }}</td>
-                                        <td class="text-start border-0">{{ $record->name }}</td>
-                                        <td class="text-start border-0">{{ $record->price }}</td>
+                                        <td class="text-start border-0" style="white-space: nowrap;">{{ $record->date }}</td>
+                                        <td class="text-start border-0">{{ decent_format_dash($record->price) }}</td>
                                         <td class="text-right border-0">{{ decent_format_dash($record->opening_stock) }}</td>
                                         <td class="text-right border-0">{{ decent_format_dash($record->purchase) }}</td>
                                         <td class="text-right border-0">{{ decent_format_dash($record->sold) }}</td>

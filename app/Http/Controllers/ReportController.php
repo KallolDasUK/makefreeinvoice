@@ -116,6 +116,25 @@ class ReportController extends AccountingReportsController
         return view('reports.stock-report', compact('title', 'start_date', 'end_date', 'report_type', 'product_id', 'records', 'brand_id', 'category_id'));
     }
 
+    public function stockReportDetails(Request $request)
+    {
+        $start_date = $request->start_date ?? today()->startOfMonth()->toDateString();
+        $end_date = $request->end_date ?? today()->toDateString();
+
+
+        $report_type = $request->report_type ?? 'accrual';
+        $brand_id = $request->brand_id;
+        $category_id = $request->category_id;
+        $product_id = $request->product_id;
+        $title = "Stock Report Details";
+
+        $records = $this->getStockReportDetails($start_date, $end_date, $product_id);
+
+        dd('d');
+
+        return view('reports.stock-report-details', compact('title', 'start_date', 'end_date', 'report_type', 'product_id', 'records', 'brand_id', 'category_id'));
+    }
+
 
     public function arAgingReport(Request $request)
     {

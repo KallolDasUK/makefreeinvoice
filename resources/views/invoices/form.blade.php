@@ -117,7 +117,10 @@
                         selected></option>
                 @foreach ($customers as $key => $customer)
                     <option
-                        value="{{ $key }}" {{ old('customer_id', optional($invoice)->customer_id) == $key ? 'selected' : '' }}>
+                        value="{{ $key }}"
+                        {{ old('customer_id', optional($invoice)->customer_id) == $key ? 'selected' : '' }}
+                        @if($invoice == null && $customer == 'Walk In Customer') selected @endif
+                    >
                         {{ $customer }}
                     </option>
                 @endforeach
@@ -368,7 +371,7 @@
 
 
 <div id="recurringSection" class="d-none">
-    <label class=" form-check form-check-inline form-control-plaintext" >
+    <label class=" form-check form-check-inline form-control-plaintext">
         <input id="is_recurring" class="form-check-input" name="is_recurring"
                type="checkbox" {{ optional($invoice)->is_recurring?'checked':'' }}>
         &nbsp;
@@ -402,7 +405,8 @@
             </div>
             <div class="form-group col">
                 <div class="col-form-label  required">
-                    <label class="font-weight-bolder " style="font-size: 14px">and Ends (leaving empty ends never)</label>
+                    <label class="font-weight-bolder " style="font-size: 14px">and Ends (leaving empty ends
+                        never)</label>
                 </div>
                 <input type="date" class="form-control  form-control-sm">
             </div>
@@ -534,6 +538,7 @@
             <span role="button" on-click="@this.addInvoiceItem()" class="btn btn-sm btn-primary"
                   style="cursor: pointer"><i class="fa fa-plus-circle"></i> Add Line</span>
         </div>
+
 
 
 
@@ -714,6 +719,7 @@
 
 
 
+
     </script>
 @endverbatim
 @verbatim
@@ -738,6 +744,7 @@
               <td><span class="text-primary " on-click="@this.addAdditionalField()" style="cursor:pointer;">+ Add More</span></td>
               <td></td>
           </tr>
+
 
 
 
