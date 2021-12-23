@@ -126,6 +126,7 @@
                 </form>
             </div>
         </div>
+        @if($selected_product)
         <div class="float-right">
             <div class="btn-group btn-group-lg float-right bg-white" role="group" aria-label="Large button group">
                 <button id="printBtn" type="button" class="btn btn-outline-secondary">
@@ -142,118 +143,135 @@
         </div>
 
         <p class="clearfix"></p>
-        <div id="invoice-container" class="container-fluid invoice-container">
 
-            <!-- Header -->
-            <header>
-                <div class="text-center">
+            <div id="invoice-container" class="container-fluid invoice-container">
 
-                    @if($settings->business_name??false)
-                        <h3>{{ $settings->business_name }}</h3>
-                        <h1>Stock Report Details
-                            @if($product_id) of {{ \App\Models\Product::find($product_id)->name }} @endif</h1>
-                        <span>From {{ $start_date??'-' }} to {{ $end_date??'-' }}</span>
-                    @endif
-                </div>
+                <!-- Header -->
+                <header>
+                    <div class="text-center">
 
-                <hr>
-            </header>
+                        @if($settings->business_name??false)
+                            <h3>{{ $settings->business_name }}</h3>
+                            <h1>Stock Report Details
+                                @if($product_id) of {{ \App\Models\Product::find($product_id)->name }} @endif</h1>
+                            <span>From {{ $start_date??'-' }} to {{ $end_date??'-' }}</span>
+                        @endif
+                    </div>
 
-            <!-- Main Content -->
-            <main>
+                    <hr>
+                </header>
 
-                <hr>
+                <!-- Main Content -->
+                <main>
 
-                <div class="card">
-                    <div class="card-body p-0">
-                        <div class="">
-                            <table class="table mb-0 table-bordered table-sm">
-                                <thead class="card-header">
-                                <tr>
-                                    <td class=" border-0"><strong>#</strong></td>
-                                    <td class=" border-0"><strong>Item</strong></td>
-                                    <td class=" border-0"><strong>Rate</strong></td>
-                                    <td class="text-right  border-0"> Opening <br>
-                                        Quantity (As on {{ $start_date }})
-                                    </td>
+                    <hr>
 
-                                    <td class="text-right border-0">Purchase</td>
-                                    <td class="text-right border-0">Sold</td>
-
-                                    <td class="text-right border-0 ">Purchase <br> Return (-)</td>
-                                    <td class="text-right border-0 ">Sales <br> Return (+)</td>
-
-                                    <td class="text-right border-0 ">Used In <br> Production (-)</td>
-                                    <td class="text-right border-0 ">Produced In <br> Production (+)</td>
-
-
-                                    <td class="text-right border-0 ">Stock <br> Adjusted (Added +)</td>
-                                    <td class="text-right border-0 ">Stock <br> Adjusted (Removed -)</td>
-                                    <td class="text-right border-0 ">Stock <br> Entry</td>
-
-
-                                    <td class="text-right border-0  bg-secondary">Stock</td>
-                                    <td class="text-right border-0  bg-secondary">Stock Value</td>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                @foreach($records as $record)
+                    <div class="card">
+                        <div class="card-body p-0">
+                            <div class="">
+                                <table class="table mb-0 table-bordered table-sm">
+                                    <thead class="card-header">
                                     <tr>
-                                        <td class=" border-0">{{ $loop->iteration }}</td>
-                                        <td class="text-start border-0" style="white-space: nowrap;">{{ $record->date }}</td>
-                                        <td class="text-start border-0">{{ decent_format_dash($record->price) }}</td>
-                                        <td class="text-right border-0">{{ decent_format_dash($record->opening_stock) }}</td>
-                                        <td class="text-right border-0">{{ decent_format_dash($record->purchase) }}</td>
-                                        <td class="text-right border-0">{{ decent_format_dash($record->sold) }}</td>
-                                        <td class="text-right border-0">{{ decent_format_dash($record->purchase_return) }}</td>
-                                        <td class="text-right border-0">{{ decent_format_dash($record->sales_return) }}</td>
-                                        <td class="text-right border-0">{{ decent_format_dash($record->used_in_production) }}</td>
-                                        <td class="text-right border-0">{{ decent_format_dash($record->produced_in_production) }}</td>
-
-
-                                        <td class="text-right border-0">{{ decent_format_dash($record->added) }}</td>
-                                        <td class="text-right border-0  ">{{ decent_format_dash($record->removed) }}</td>
-                                        <td class="text-right border-0  ">{{ decent_format_dash($record->stock_entry) }}</td>
-
-                                        <td class="text-right border-0  bg-secondary">{{ decent_format_dash($record->stock) }}</td>
-                                        <td class="text-right border-0  bg-secondary">{{ decent_format_dash_if_zero($record->stockValue) }}</td>
+                                        <td colspan="12" style="text-align: right"><span class="font-weight-bolder"
+                                                                                         style="font-size: 18px">Opening Stock</span>
+                                        </td>
+                                        <td style="text-align: center"><span class="font-weight-bolder"
+                                                                             style="font-size: 18px"> {{ $opening_stock }} {{ $selected_product->purchase_unit }}</span>
+                                        </td>
 
                                     </tr>
-                                @endforeach
-
-                                </tbody>
-                                <tfoot class="card-footer">
-
-                                <tr>
-                                    <td class="text-right border-0"></td>
-                                    <td class="text-start border-0"></td>
-                                    <td class="text-start border-0"></td>
-                                    <td class="text-right border-0 font-weight-bolder">{{ decent_format_dash(collect($records)->sum('opening_stock')) }}</td>
-                                    <td class="text-right border-0 font-weight-bolder">{{ decent_format_dash(collect($records)->sum('purchase')) }}</td>
-                                    <td class="text-right border-0 font-weight-bolder">{{ decent_format_dash(collect($records)->sum('sold')) }}</td>
-                                    <td class="text-right border-0 font-weight-bolder">{{ decent_format_dash(collect($records)->sum('purchase_return')) }}</td>
-                                    <td class="text-right border-0 font-weight-bolder">{{ decent_format_dash(collect($records)->sum('sales_return')) }}</td>
-                                    <td class="text-right border-0 font-weight-bolder">{{ decent_format_dash(collect($records)->sum('used_in_production')) }}</td>
-                                    <td class="text-right border-0 font-weight-bolder">{{ decent_format_dash(collect($records)->sum('produced_in_production')) }}</td>
-                                    <td class="text-right border-0 font-weight-bolder">{{ decent_format_dash(collect($records)->sum('added')) }}</td>
-                                    <td class="text-right border-0 font-weight-bolder  ">{{ decent_format_dash(collect($records)->sum('removed')) }}</td>
-                                    <td class="text-right border-0 font-weight-bolder  ">{{ decent_format_dash(collect($records)->sum('stock_entry')) }}</td>
-                                    <td class="text-right border-0 font-weight-bolder bg-secondary ">{{ decent_format_dash(collect($records)->sum('stock')) }}</td>
-                                    <td class="text-right border-0 font-weight-bolder   bg-secondary">{{ decent_format_dash_if_zero(collect($records)->sum('stockValue')) }}</td>
+                                    <tr>
+                                        <td class=" border-0"><strong>#</strong></td>
+                                        <td class=" border-0"><strong>Date</strong></td>
 
 
-                                </tr>
-                                </tfoot>
-                            </table>
+                                        <td class="text-right border-0">Purchase</td>
+                                        <td class="text-right border-0">Sold</td>
+
+                                        <td class="text-right border-0 ">Purchase <br> Return (-)</td>
+                                        <td class="text-right border-0 ">Sales <br> Return (+)</td>
+
+                                        <td class="text-right border-0 ">Used In <br> Production (-)</td>
+                                        <td class="text-right border-0 ">Produced In <br> Production (+)</td>
+
+
+                                        <td class="text-right border-0 ">Stock <br> Adjusted (Added +)</td>
+                                        <td class="text-right border-0 ">Stock <br> Adjusted (Removed -)</td>
+                                        <td class="text-right border-0 ">Stock <br> Entry</td>
+
+
+                                        <td class="text-right border-0  bg-secondary">Stock</td>
+                                        <td class="text-right border-0  bg-secondary">Stock Value <br> <small>(Based on Purchase Price)</small></td>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    @php($stock = $opening_stock)
+                                    @foreach($records as $record)
+                                        @php($stock += $record->stock )
+                                        <tr>
+                                            <td class=" border-0">{{ $loop->iteration }}</td>
+                                            <td class="text-start border-0"
+                                                style="white-space: nowrap;">{{ $record->date }}</td>
+                                            <td class="text-right border-0">{{ decent_format_dash($record->purchase) }}</td>
+                                            <td class="text-right border-0">{{ decent_format_dash($record->sold) }}</td>
+                                            <td class="text-right border-0">{{ decent_format_dash($record->purchase_return) }}</td>
+                                            <td class="text-right border-0">{{ decent_format_dash($record->sales_return) }}</td>
+                                            <td class="text-right border-0">{{ decent_format_dash($record->used_in_production) }}</td>
+                                            <td class="text-right border-0">{{ decent_format_dash($record->produced_in_production) }}</td>
+
+
+                                            <td class="text-right border-0">{{ decent_format_dash($record->added) }}</td>
+                                            <td class="text-right border-0  ">{{ decent_format_dash($record->removed) }}</td>
+                                            <td class="text-right border-0  ">{{ decent_format_dash($record->stock_entry) }}</td>
+
+                                            <td class="text-right border-0  bg-secondary">{{ decent_format_dash($stock) }} {{ $selected_product->purchase_unit }}</td>
+                                            <td class="text-right border-0  bg-secondary">{{ decent_format_dash_if_zero($stock * $selected_product->purchase_price) }}</td>
+
+                                        </tr>
+                                    @endforeach
+
+                                    </tbody>
+                                    <tfoot class="card-footer">
+
+                                    <tr>
+                                        <td class="text-start border-0"></td>
+                                        <td class="text-start border-0"></td>
+                                        <td class="text-right border-0 font-weight-bolder">{{ decent_format_dash(collect($records)->sum('purchase')) }}</td>
+                                        <td class="text-right border-0 font-weight-bolder">{{ decent_format_dash(collect($records)->sum('sold')) }}</td>
+                                        <td class="text-right border-0 font-weight-bolder">{{ decent_format_dash(collect($records)->sum('purchase_return')) }}</td>
+                                        <td class="text-right border-0 font-weight-bolder">{{ decent_format_dash(collect($records)->sum('sales_return')) }}</td>
+                                        <td class="text-right border-0 font-weight-bolder">{{ decent_format_dash(collect($records)->sum('used_in_production')) }}</td>
+                                        <td class="text-right border-0 font-weight-bolder">{{ decent_format_dash(collect($records)->sum('produced_in_production')) }}</td>
+                                        <td class="text-right border-0 font-weight-bolder">{{ decent_format_dash(collect($records)->sum('added')) }}</td>
+                                        <td class="text-right border-0 font-weight-bolder  ">{{ decent_format_dash(collect($records)->sum('removed')) }}</td>
+                                        <td class="text-right border-0 font-weight-bolder  ">{{ decent_format_dash(collect($records)->sum('stock_entry')) }}</td>
+
+                                        <td class="text-right border-0  bg-secondary font-weight-bolder ">{{ decent_format_dash($stock) }} {{ $selected_product->purchase_unit }}</td>
+                                        <td class="text-right border-0  bg-secondary font-weight-bolder ">{{ decent_format_dash_if_zero($stock * $selected_product->purchase_price) }}</td>
+
+
+                                    </tr>
+                                    <tr>
+                                        <td colspan="12" style="text-align: right"><span class="font-weight-bolder"
+                                                                                         style="font-size: 18px">Closing Stock</span>
+                                        </td>
+                                        <td style="text-align: center"><span class="font-weight-bolder"
+                                                                             style="font-size: 18px"> {{ $stock }} {{ $selected_product->purchase_unit }}</span>
+                                        </td>
+
+                                    </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </main>
-            <!-- Footer -->
+
+                </main>
+                <!-- Footer -->
 
 
-        </div>
-
+            </div>
+        @endif
 
     </div>
 

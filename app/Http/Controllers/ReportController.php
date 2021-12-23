@@ -127,12 +127,11 @@ class ReportController extends AccountingReportsController
         $category_id = $request->category_id;
         $product_id = $request->product_id;
         $title = "Stock Report Details";
+        $selected_product = Product::find($product_id);
+        list($records, $opening_stock) = $this->getStockReportDetails($start_date, $end_date, $product_id);
+//        dd($product->sell_unit);
 
-        $records = $this->getStockReportDetails($start_date, $end_date, $product_id);
-
-        dd('d');
-
-        return view('reports.stock-report-details', compact('title', 'start_date', 'end_date', 'report_type', 'product_id', 'records', 'brand_id', 'category_id'));
+        return view('reports.stock-report-details', compact('title', 'selected_product', 'start_date', 'end_date', 'report_type', 'product_id', 'records', 'brand_id', 'category_id', 'opening_stock'));
     }
 
 

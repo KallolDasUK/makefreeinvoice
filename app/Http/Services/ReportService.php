@@ -479,9 +479,12 @@ trait ReportService
     {
         $records = [];
         $period = CarbonPeriod::create($start_date, $end_date);
+        $product = Product::find($product_id);
+        if ($product == null) return [$records, 0];
+        $opening_stock = $this->openingStock($product, $start_date, $end_date);
+
         foreach ($period as $date) {
             $record = ['date' => '', 'price' => 0, 'opening_stock' => 0, 'purchase' => 0, 'sold' => 0, 'added' => 0, 'removed' => 0, 'stock' => 0, 'stockValue' => 0, 'purchase_return' => 0, 'sales_return' => 0, 'used_in_production' => 0, 'produced_in_production' => 0, 'stock_entry' => 0];
-            $opening_stock = $this->openingStock($product, $start_date, $end_date);
             $record['opening_stock'] = $opening_stock;
 
             $sold = InvoiceItem::query()
@@ -538,7 +541,7 @@ trait ReportService
             $record['stock_entry'] = $stock_entry;
             $record['used_in_production'] = $used_in_production;
             $record['produced_in_production'] = $produced_in_production;
-            $record['stock'] = ($opening_stock + $purchase + $added + $sales_return + $produced_in_production + $stock_entry) - ($sold + $removed + $purchase_return + $used_in_production);
+            $record['stock'] = ($purchase + $added + $sales_return + $produced_in_production + $stock_entry) - ($sold + $removed + $purchase_return + $used_in_production);
             $record['stockValue'] = $record['price'] * $record['stock'];
 
             $record['date'] = $date->toDateString();
@@ -546,6 +549,6 @@ trait ReportService
         }
 
 
-        return $records;
+        return [$records, $opening_stock];
     }
 }
