@@ -37,11 +37,11 @@
 <div id="invoice-container" class="container-fluid invoice-container">
 
 
-    <table class="border-none" style="margin-top: 200px;font-size: 16px;margin-left: 20px;margin-right: 20px">
+    <table class="border-none" style="margin-top: 250px;font-size: 16px;margin-left: 20px;margin-right: 20px">
         <tr class="text-center">
-            <td colspan="5"><h2>Tax Invoice</h2></td>
-            <td colspan="5"><h2>فاتورة ضريبية
-                </h2></td>
+            <td colspan="5"><h1 class="font-weight-bolder">Tax Invoice</h1></td>
+            <td colspan="5"><h1 class="font-weight-bolder">فاتورة ضريبية
+                </h1></td>
         </tr>
         <tr>
             <td colspan="5" style="width: 50%">
@@ -123,8 +123,7 @@
 
         <tr class="text-center">
             <td colspan="3">Total Amount Before Tax</td>
-            <th colspan="3" style="direction: rtl">ة
-                المبلغ قبل الضريبة الإجمالي
+            <th colspan="3" style="direction: rtl">المبلغ الإجمالي قبل الضريبة
             </th>
             <td colspan="3">{{ $contact_invoice->sub_total }}</td>
         </tr>
