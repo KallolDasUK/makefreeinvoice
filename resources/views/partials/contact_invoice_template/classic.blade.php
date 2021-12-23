@@ -40,7 +40,7 @@
     <table class="border-none" style="margin-top: 250px;font-size: 16px;margin-left: 20px;margin-right: 20px">
         <tr class="text-center">
             <td colspan="5"><h1 class="font-weight-bolder">Tax Invoice</h1></td>
-            <td colspan="5"><h1 class="font-weight-bolder">فاتورة ضريبية
+            <td colspan="5"><h1 class="font-weight-bolder" style="font-size: 35px">فاتورة ضريبية
                 </h1></td>
         </tr>
         <tr>

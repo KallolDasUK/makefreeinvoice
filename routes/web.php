@@ -418,11 +418,13 @@ Route::group(['middleware' => 'auth:web', 'prefix' => 'app'], function () {
 
     Route::group(['prefix' => 'reports'], function () {
 
+
         Route::get('/', [ReportController::class, 'index'])->name('reports.report.index');
         Route::get('/tax-report', [ReportController::class, 'taxReport'])->name('reports.report.tax_report');
         Route::get('/ar-aging-report', [ReportController::class, 'arAgingReport'])->name('reports.report.ar_aging_report');
         Route::get('/ap-aging-report', [ReportController::class, 'apAgingReport'])->name('reports.report.ap_aging_report');
         Route::get('/stock-report', [ReportController::class, 'stockReport'])->name('reports.report.stock-report');
+        Route::get('/stock-report-details', [ReportController::class, 'getStockReportDetails'])->name('reports.report.stock-report-details');
         Route::get('/trial-balance', [ReportController::class, 'trialBalance'])->name('reports.report.trial_balance');
         Route::get('/ledger-report', [ReportController::class, 'ledgerReport'])->name('reports.report.ledger_report');
         Route::get('/loss-profit', [ReportController::class, 'lossProfitReport'])->name('reports.report.loss_profit_report');
