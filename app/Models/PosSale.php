@@ -146,7 +146,8 @@ class PosSale extends Model
     {
 
         $tax = 0;
-        foreach ($this->pos_charges() as $item) {
+        foreach ($this->pos_charges as $item) {
+//            dump($item->key);
             if (Str::contains(strtolower($item->key), 'vat') || Str::contains(strtolower($item->key), 'tax')) {
                 $tax += $item->amount;
             }

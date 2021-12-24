@@ -98,8 +98,8 @@ class PosSalesController extends Controller
     public function create()
     {
 
-//        $p = PosSale::find(51)->load('pos_charges');
-//        dd($p);
+//        $p = PosSale::find(817);
+//        dd($p->tax);
 //        $time_start = microtime(true);
         if (!Customer::query()->where('name', Customer::WALK_IN_CUSTOMER)->exists()) {
             Customer::create(['name' => Customer::WALK_IN_CUSTOMER]);
