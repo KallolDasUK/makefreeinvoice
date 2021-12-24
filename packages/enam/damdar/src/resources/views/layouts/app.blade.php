@@ -962,7 +962,7 @@
 
             </div>
             <div class="col">
-                <h2 class="d-inline-block">{{ \Carbon\Carbon::now()->format('h:i a Y-m-d ') }}{{ \Carbon\Carbon::now()->timezoneName }}  </h2>
+                <h4 class="d-inline-block">{{ \Carbon\Carbon::now()->format('h:i a Y-m-d ') }}{{ \Carbon\Carbon::now()->timezoneName }}  </h4>
                 <h2>  <a href="{{ route('accounting.settings.edit') }}"> <i class="fa fa-pencil-alt mr-4"></i>Change Timezone</a></h2>
 
             </div>
