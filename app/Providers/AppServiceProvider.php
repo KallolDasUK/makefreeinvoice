@@ -37,6 +37,7 @@ use Enam\Acc\Traits\TransactionTrait;
 use GPBMetadata\Google\Api\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Validator;
@@ -62,7 +63,7 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot()
     {
-
+//        Blade::setEchoFormat('e(utf8_encode(%s))');
         Validator::extend('unique_saas', function ($attribute, $value, $parameters) {
             $table = $parameters[0] ?? null;
             $field_name = $parameters[1] ?? null;

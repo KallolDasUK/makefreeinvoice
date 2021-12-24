@@ -45,7 +45,7 @@
         var sample_item = {
             product_id: '', qnt: ''
         };
-        var products = @json($products);
+        var products = @json($products,JSON_INVALID_UTF8_IGNORE);
         var production_items = [jQuery.extend(true, {}, sample_item)];
         var used_items = [jQuery.extend(true, {}, sample_item)];
 

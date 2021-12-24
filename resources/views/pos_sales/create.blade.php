@@ -12,11 +12,12 @@
     @include('partials.ajax-ledger-create-form')
     <form method="POST" action="{{ route('pos_sales.pos_sale.store') }}" accept-charset="UTF-8"
           id="create_pos_sale_form" name="create_pos_sale_form" class="form-horizontal">
-        {{ csrf_field() }}
+        @csrf
         @include ('pos_sales.form', ['posSale' => null])
 
 
     </form>
+
 
 
 @endsection
@@ -26,12 +27,12 @@
     <script type="text/javascript" src="{{ asset('js/qrcode.js') }}"></script>
     <script>
 
-        var products = @json($products);
-        var customers = @json($customers);
+        var products = @json($products,JSON_INVALID_UTF8_IGNORE);
+        var customers = @json($customers,JSON_INVALID_UTF8_IGNORE);
         var ledgers = @json($ledgers);
         var cash_ledger_id = "{{ $ledger_id }}";
-        var categories = @json($categories);
-        var bookmarks = @json($bookmarks);
+        var categories = @json($categories,JSON_INVALID_UTF8_IGNORE);
+        var bookmarks = @json($bookmarks,JSON_INVALID_UTF8_IGNORE);
         var start_date = @json($start_date);
         var end_date = @json($end_date);
         var paymentMethods = @json($paymentMethods);
@@ -39,7 +40,7 @@
 
         var no_image = "{{ asset('images/no_image.png') }}";
         var token = $("meta[name='csrf-token']").attr("content");
-        var orders = @json($orders);
+        var orders = @json($orders,JSON_INVALID_UTF8_IGNORE);
         var can_delete = @json($can_delete);
         var settings = @json($settings);
         var pos_print_receipt = (settings.pos_print_receipt || '1') === '1';

@@ -65,12 +65,13 @@ class Product extends Model
 {
 
     protected $guarded = [];
-    protected $appends = ['stock', 'short_name', 'stock_value','image'];
+    protected $appends = ['stock', 'short_name', 'stock_value', 'image'];
 
     public function category()
     {
         return $this->belongsTo(Category::class, 'category_id');
     }
+
 
     public function brand()
     {
@@ -97,7 +98,7 @@ class Product extends Model
     public function getImageAttribute()
     {
         if ($this->photo) {
-            return asset('storage/'.$this->photo);
+            return asset('storage/' . $this->photo);
         }
         return '';
 
@@ -136,6 +137,7 @@ class Product extends Model
             $shortName = substr($this->name, 0, $maxLength) . '...';
         }
 
+//        return utf8_encode($shortName);
         return $shortName;
 
     }

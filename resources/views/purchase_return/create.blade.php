@@ -55,7 +55,7 @@
         var pair = @json($invoice_fields);
         var taxes = @json($taxes);
         var invoice_items = [copiedObject];
-        var products = @json($products);
+        var products = @json($products,JSON_INVALID_UTF8_IGNORE);
         var additional_fields = @json($extraFields);
         if (additional_fields.length === 0) {
             additional_fields = [{name: '', value: ''}];

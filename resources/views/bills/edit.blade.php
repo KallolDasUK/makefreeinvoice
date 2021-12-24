@@ -81,7 +81,7 @@
         var pair = @json($billExtraField);
         var taxes = @json($taxes);
         var bill_items = @json($bill_items);
-        var products = @json($products);
+        var products = @json($products,JSON_INVALID_UTF8_IGNORE);
         var additional_fields = @json($extraFields);
         var create = false;
         console.log(pair, 'pairs')

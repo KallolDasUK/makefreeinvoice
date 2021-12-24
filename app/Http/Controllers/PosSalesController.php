@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-
 use App\Models\Category;
 use App\Models\Customer;
 use App\Models\MetaSetting;
@@ -21,7 +19,6 @@ use Enam\Acc\Models\LedgerGroup;
 use Enam\Acc\Traits\TransactionTrait;
 use Enam\Acc\Utils\Nature;
 use Illuminate\Http\Request;
-use Exception;
 use Illuminate\Support\Str;
 
 class PosSalesController extends Controller
@@ -111,7 +108,10 @@ class PosSalesController extends Controller
         $branches = Branch::pluck('id', 'id')->all();
         $ledgers = Ledger::find($this->getAssetLedgers())->toArray();
         $categories = Category::all();
-        $products = Product::all()->makeHidden(['stock_value']);
+        $products = Product::all()->makeHidden(['stock_value'])->all();
+//        $products = $products->toArray();
+//        dd(json_encode($products),json_last_error_msg());
+
         $paymentMethods = PaymentMethod::all();
         $title = "POS - Point Of Sale";
         $ledger_id = Ledger::CASH_AC();
@@ -136,12 +136,11 @@ class PosSalesController extends Controller
 //        dd($ledgers);
 
         $can_delete = ability(Ability::POS_DELETE);
-//dd($products);
 //        dd('Execution Seconds');
-        $p = $products->toArray();
+        $p = [];
 //        dd($p);
         return view('pos_sales.create', compact('customers', 'branches', 'ledgers', 'ledger_id', 'products', 'categories', 'title', 'orders',
-            'paymentMethods', 'bookmarks', 'start_date', 'end_date', 'charges', 'can_delete','p'));
+            'paymentMethods', 'bookmarks', 'start_date', 'end_date', 'charges', 'can_delete', 'p'));
     }
 
     public function getAssetLedgers()
