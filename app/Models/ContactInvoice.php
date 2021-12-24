@@ -19,7 +19,10 @@ class ContactInvoice extends Model
     protected $guarded = [];
     protected $appends = ['due'];
 
-
+    public function getCreatedAtAttribute($value)
+    {
+        return Carbon::parse($value)->timezone(auth()->user()->timezone);
+    }
     public function customer()
     {
 

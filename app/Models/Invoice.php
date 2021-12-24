@@ -103,6 +103,11 @@ class Invoice extends Model
     protected $appends = ['due'];
 
 
+    public function getCreatedAtAttribute($value)
+    {
+        return Carbon::parse($value)->timezone(auth()->user()->timezone);
+    }
+
     public function customer()
     {
 
@@ -223,6 +228,7 @@ class Invoice extends Model
         }
         return $next_invoice;
     }
+
     public function getAgeAttribute()
     {
         $age = 0;

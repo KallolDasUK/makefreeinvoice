@@ -47,6 +47,7 @@ class InvoicesController extends Controller
     {
         $this->authorize('viewAny', Invoice::class);
 
+
         $start_date = $request->start_date;
         $end_date = $request->end_date;
         $customer_id = $request->customer;
@@ -217,8 +218,8 @@ class InvoicesController extends Controller
     {
         view()->share('title', 'View Invoice');
 
-
         $invoice = Invoice::with('customer')->findOrFail($id);
+//        dd($invoice->created_at);
         $this->authorize('view', $invoice);
         $invoice->taxes;
         if ($request->template) {

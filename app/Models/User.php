@@ -204,6 +204,11 @@ class User extends Authenticatable
         return json_decode(MetaSetting::query()->withoutGlobalScope('scopeClient')->where('client_id', $this->client_id)->pluck('value', 'key')->toJson());
     }
 
+    public function getTimezoneAttribute()
+    {
+        return $this->settings->timezone ?? config('app.timezone');
+    }
+
 
     public function getLoginUrlAttribute()
     {

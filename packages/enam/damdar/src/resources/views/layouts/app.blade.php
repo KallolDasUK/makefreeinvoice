@@ -899,7 +899,6 @@
 
             @endif
             <div>
-
                 @if(auth()->user()->role == 'master')
                     <a href="{{ route('master.users') }}"
                        class="btn btn-danger btn-lg font-weight-bolder font-size-sm " style="font-size: 16px">
@@ -960,6 +959,11 @@
                         </h5>
                     </div>
                 </div>
+
+            </div>
+            <div class="col">
+                <h2 class="d-inline-block">{{ \Carbon\Carbon::now()->format('h:i a Y-m-d ') }}{{ \Carbon\Carbon::now()->timezoneName }}  </h2>
+                <h2>  <a href="{{ route('accounting.settings.edit') }}"> <i class="fa fa-pencil-alt mr-4"></i>Change Timezone</a></h2>
 
             </div>
 
