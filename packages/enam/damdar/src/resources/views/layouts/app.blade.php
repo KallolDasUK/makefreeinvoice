@@ -564,12 +564,12 @@
                                style="min-width: 100px;position: relative">
 
                                 <i class="fa fa-plus" aria-hidden="true"></i>
-                                Purchase <br> Order</a>
+                                Demand <br> Order</a>
                             <a href="{{ route('purchase_orders.purchase_order.index') }}"
                                class="@cannot('viewAny',\App\Models\Bill::class) pro-tag @endcannot {{ ability_class(\App\Utils\Ability::PURCHASE_ORDER_READ) }}"
                                style="min-width: 100px;position: relative">
                                 <i class="fa fa-list-alt ribbon" aria-hidden="true"></i>Manage <br>
-                                Pur.. Order</a>
+                                Demand Order</a>
 
                             <a href="{{ route('bill_payments.bill_payment.create') }}"
                                class="@cannot('create',\App\Models\Bill::class) pro-tag @endcannot {{ ability_class(\App\Utils\Ability::PAY_BILL_CREATE) }}"
