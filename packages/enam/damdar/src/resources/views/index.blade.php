@@ -137,7 +137,7 @@
                     QUICK SHORTCUTS
                 </div>
                 <div class="float-right">
-                    <button class="btn btn-outline-info  font-weight-bolder" id="todays_report" ><span
+                    <button class="btn btn-outline-info  font-weight-bolder" id="todays_report"><span
                             class="fa fa-file mr-2"></span> Today's Report
                     </button>
                     <a class="btn btn-outline-secondary text-primary btn-link font-weight-bolder"
@@ -187,6 +187,11 @@
 
             </div>
         </div>
+        @if(auth()->user()->ads == "true")
+            <div class="banner-full ads">
+                <img src="{{ asset('images/banner_1.webp') }}" alt="" style="width: 100%">
+            </div>
+        @endif
         <div class="row card mt-4" style="margin-top: 20px">
             <div class="card-body">
                 <div class="font-weight-bolder">
@@ -560,7 +565,7 @@
                 swal.fire("Under Development!");
             })
             /* LOAD Today Report */
-            $('#todays_report').on('click',function () {
+            $('#todays_report').on('click', function () {
                 $('#todayReportModal').modal('show')
                 $.ajax({
                     url: route('ajax.todayReport'),
@@ -571,7 +576,6 @@
 
                 });
             })
-
 
 
         })

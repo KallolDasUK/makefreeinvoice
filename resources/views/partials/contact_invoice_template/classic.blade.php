@@ -14,21 +14,21 @@
         border: 1px solid black;
     }
 
-    .border-none tr:first-child td {
-        border-top: none;
-    }
+    /*.border-none tr:first-child td {*/
+    /*    border-top: none;*/
+    /*}*/
 
-    .border-none tr:last-child td {
-        border-bottom: none;
-    }
+    /*.border-none tr:last-child td {*/
+    /*    border-bottom: none;*/
+    /*}*/
 
-    .border-none tr td:first-child {
-        border-left: none;
-    }
+    /*.border-none tr td:first-child {*/
+    /*    border-left: none;*/
+    /*}*/
 
-    .border-none tr td:last-child {
-        border-right: none;
-    }
+    /*.border-none tr td:last-child {*/
+    /*    border-right: none;*/
+    /*}*/
     .border_bottom {
         border-bottom: 1px dashed black;
 

@@ -381,6 +381,7 @@ Route::group(['middleware' => 'auth:web', 'prefix' => 'app'], function () {
         Route::get('/today-report', [AjaxController::class, 'today_report'])->name('ajax.todayReport');
         Route::get('/withdraw-funds', [AjaxController::class, 'withdrawFund'])->name('ajax.withdrawFund');
         Route::get('/pos-create-data', [AjaxController::class, 'posCreateData'])->name('ajax.posCreateData');
+        Route::post('/toggle-ads-settings', [AjaxController::class, 'toggleAdSettings'])->name('ajax.toggleAdSettings');
     });
 
 
@@ -603,6 +604,7 @@ Route::group(['middleware' => 'auth:web', 'prefix' => 'app'], function () {
 
         Route::get('/', [UsersController::class, 'index'])->name('users.user.index');
         Route::get('/create', [UsersController::class, 'create'])->name('users.user.create');
+//        Route::get('/ad-settings', [UsersController::class, 'create'])->name('users.user.create');
         Route::get('/show/{user}', [UsersController::class, 'show'])->name('users.user.show');
         Route::get('/{user}/edit', [UsersController::class, 'edit'])->name('users.user.edit');
         Route::post('/', [UsersController::class, 'store'])->name('users.user.store');

@@ -21,6 +21,7 @@ use App\Models\PosSale;
 use App\Models\Product;
 use App\Models\ReceivePayment;
 use App\Models\ReceivePaymentItem;
+use App\Models\User;
 use App\Models\Vendor;
 use App\Utils\Ability;
 use Carbon\Carbon;
@@ -301,5 +302,16 @@ class AjaxController extends Controller
 
         return compact('customers', 'branches', 'ledgers', 'ledger_id', 'products', 'categories', 'title', 'orders',
             'paymentMethods', 'bookmarks', 'start_date', 'end_date', 'charges', 'can_delete');
+    }
+
+    public function toggleAdSettings(Request $request)
+    {
+        $show_ads = $request->show_ads;
+        $user = User::find($request->user_id);
+        $updated = MetaSetting::withoutGlobalScope('scopeClient')
+            ->where('client_id', $user->client_id)
+            ->updateOrCreate(['key' => 'ads', 'client_id' => $user->client_id], ['value' => $show_ads, 'client_id' => $user->client_id]);
+        return [$user->settings];
+
     }
 }

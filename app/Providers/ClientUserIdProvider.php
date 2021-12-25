@@ -101,6 +101,7 @@ class ClientUserIdProvider extends ServiceProvider
             $className::creating(function ($model) use ($className) {
                 try {
                     $model->user_id = auth()->id();
+                    if ($model->client_id) return;
                     $model->client_id = auth()->user()->client_id;
                 } catch (\Exception $exception) {
 //                    dump($className);
@@ -109,7 +110,6 @@ class ClientUserIdProvider extends ServiceProvider
 
 
         }
-
 
 
     }

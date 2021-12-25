@@ -872,7 +872,11 @@
 
         </div>
     </nav>
-
+    @if(auth()->user()->ads == "true")
+        <div class="banner-full ads">
+            <img src="{{ asset('images/banner_2.webp') }}" alt="" style="width: 100%">
+        </div>
+    @endif
 
     <div id="main" class="mt-4" style="min-height: 70vh">
 
@@ -954,7 +958,8 @@
 
                         @endif
                         <strong class="mb-2">{{ optional(auth()->user())->email }}</strong>
-                        <strong class="d-inline-block text-dark">{{ \Carbon\Carbon::now()->format('h:i a Y-m-d ') }}{{ \Carbon\Carbon::now()->timezoneName }}  </strong>
+                        <strong
+                            class="d-inline-block text-dark">{{ \Carbon\Carbon::now()->format('h:i a Y-m-d ') }}{{ \Carbon\Carbon::now()->timezoneName }}  </strong>
 
                         <h5><a href="{{ route('accounting.settings.edit') }}"><i class="fa fa-cog"></i> Account Settings</a>
                         </h5>

@@ -64,7 +64,7 @@
                         <div class="col">
                             <div class="form-group">
                                 <label for="">Email</label>
-                                <select name="email" id="email" class="form-control searchable" >
+                                <select name="email" id="email" class="form-control searchable">
 
                                     <option value="" disabled selected>-- Choose --</option>
                                     @foreach(\App\Models\User::query()->get() as $user)
@@ -114,7 +114,7 @@
             <thead>
             <tr>
                 <th>Name</th>
-                <th>Role</th>
+                <th>Show Ads</th>
                 <th>On Plan</th>
                 <th>Joined</th>
                 <th>Last Active</th>
@@ -148,7 +148,13 @@
 
 
                     </td>
-                    <td>{{ Str::title($user->role) }}</td>
+                    <td>
+                        <label>
+                            Ads <br>
+                            <input class="ads_checkbox" type="checkbox" user_id="{{ $user->id }}"
+                                   @if($user->ads == "true") checked @endif>
+                        </label>
+                    </td>
                     <td>{{ Str::title($user->plan) }}</td>
                     <td> {{ \Carbon\Carbon::parse($user->created_at)->diffForHumans() }}</td>
                     @if($user->last_active_at)
@@ -186,6 +192,16 @@
 
 @section('js')
     <script>
+
+        $('.ads_checkbox').on('change', function () {
+            let is_checked = this.checked;
+            $.ajax({
+                url: route('ajax.toggleAdSettings'),
+                method: 'post',
+                data: {_token: "{{ csrf_token() }}", show_ads: is_checked, user_id: $(this).attr('user_id')}
+            })
+        });
+
 
         $(document).ready(function () {
             $('.linkContainer').on('click', function () {

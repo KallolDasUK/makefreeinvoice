@@ -209,6 +209,12 @@ class User extends Authenticatable
         return $this->settings->timezone ?? config('app.timezone');
     }
 
+    public function getAdsAttribute()
+    {
+//        dd($this->settings);
+        return $this->settings->ads ?? "false";
+    }
+
 
     public function getLoginUrlAttribute()
     {
