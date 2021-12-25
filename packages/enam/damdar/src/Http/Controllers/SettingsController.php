@@ -37,6 +37,12 @@ class SettingsController extends Controller
         return view('settings.pos-settings');
     }
 
+    public function personalizationSettings()
+    {
+        View::share('title', 'Personalization Settings');
+        return view('settings.personalization-settings');
+    }
+
     public function update(Request $request)
     {
 
@@ -53,6 +59,18 @@ class SettingsController extends Controller
     }
 
     public function posSettingsStore(Request $request)
+    {
+
+        $params = $request->all();
+
+        foreach ($params as $key => $value) {
+            MetaSetting::query()->updateOrCreate(['key' => $key], ['value' => $value]);
+        }
+        return back()->with('success_message', 'POS Settings was successfully updated.');
+
+    }
+
+    public function personalizationSettingsStore(Request $request)
     {
 
         $params = $request->all();

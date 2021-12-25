@@ -15,6 +15,13 @@
                 <span class="nav-text font-weight-bolder">POS Settings</span>
             </a>
         </li>
+        <li class="nav-item cursor-pointer">
+            <a class="nav-link {{ $page === 'personalization_settings'?'active':'' }} p-4 "
+               href="{{ route('accounting.settings.personalization_settings_store') }}">
+                <span class="nav-icon"><i class="fa fa-cog"></i></span>
+                <span class="nav-text font-weight-bolder">Personalization</span>
+            </a>
+        </li>
 
         <li class="nav-item cursor-pointer">
             <a class="nav-link {{ $page === 'shortcuts'?'active':'' }} p-4  {{ ability(\App\Utils\Ability::GENERAL_SETTINGS_READ) }}"

@@ -888,16 +888,20 @@
                 {{ $title??'' }} </b>
 
             @if($country == "Bangladesh")
-                <div>
-                    <a href="https://www.youtube.com/watch?v=UPXeH8r9Jhc&list=PL5FPulw8-MaotxlscrDUAmT-l3a_J8bxs"
-                       class=" btn  btn-outline-danger " target="_blank">
-                        <i class="fab fa-youtube"></i>
-                        How to Use? Check Tutorial</a>
-                </div>
-                <div class="text-center">For any help or enquiry please call at <h2>
-                        <a href="tel:+8801680852026"><i class="fa fa-phone"></i> +88 016 8085 2026</a>
-                    </h2>
-                </div>
+                @if($settings->show_youtube_videos ?? false)
+                    <div>
+                        <a href="https://www.youtube.com/watch?v=UPXeH8r9Jhc&list=PL5FPulw8-MaotxlscrDUAmT-l3a_J8bxs"
+                           class=" btn  btn-outline-danger " target="_blank">
+                            <i class="fab fa-youtube"></i>
+                            How to Use? Check Tutorial</a>
+                    </div>
+                @endif
+                @if($settings->show_support_number ?? false)
+                    <div class="text-center">For any help or enquiry please call at <h2>
+                            <a href="tel:+8801680852026"><i class="fa fa-phone"></i> +88 016 8085 2026</a>
+                        </h2>
+                    </div>
+                @endif
             @else
                 <div class="">&nbsp;</div>
 
@@ -1275,30 +1279,30 @@
 <!-- Your Chat plugin code -->
 <div id="fb-customer-chat" class="fb-customerchat">
 </div>
+@if($settings->show_messenger_chat_box??true)
+    <script>
+        var chatbox = document.getElementById('fb-customer-chat');
+        chatbox.setAttribute("page_id", "108404041579131");
+        chatbox.setAttribute("attribution", "biz_inbox");
 
-<script>
-    var chatbox = document.getElementById('fb-customer-chat');
-    chatbox.setAttribute("page_id", "108404041579131");
-    chatbox.setAttribute("attribution", "biz_inbox");
+        window.fbAsyncInit = function () {
+            FB.init({
+                xfbml: true,
+                version: 'v11.0'
+            });
+        };
 
-    window.fbAsyncInit = function () {
-        FB.init({
-            xfbml: true,
-            version: 'v11.0'
-        });
-    };
-
-    (function (d, s, id) {
-        var js, fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) return;
-        js = d.createElement(s);
-        js.id = id;
-        js.src = 'https://connect.facebook.net/en_US/sdk/xfbml.customerchat.js';
-        fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));
-    $('#ledger_group_id').select2({dropdownParent: $("#ledgerModal")})
-</script>
-
+        (function (d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s);
+            js.id = id;
+            js.src = 'https://connect.facebook.net/en_US/sdk/xfbml.customerchat.js';
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+        $('#ledger_group_id').select2({dropdownParent: $("#ledgerModal")})
+    </script>
+@endif
 </body>
 
 </html>

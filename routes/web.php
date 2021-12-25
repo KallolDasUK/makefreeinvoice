@@ -104,6 +104,8 @@ Route::group(['middleware' => 'auth:web', 'prefix' => 'app'], function () {
         Route::get('/', [SettingsController::class, 'edit'])->name('accounting.settings.edit');
         Route::get('/pos', [SettingsController::class, 'posSettings'])->name('accounting.settings.pos_settings');
         Route::post('/pos', [SettingsController::class, 'posSettingsStore'])->name('accounting.settings.pos_settings_store');
+        Route::get('/personalization', [SettingsController::class, 'personalizationSettings'])->name('accounting.settings.personalization_settings');
+        Route::post('/personalization', [SettingsController::class, 'personalizationSettingsStore'])->name('accounting.settings.personalization_settings_store');
         Route::post('/store', [SettingsController::class, 'update'])->name('accounting.settings.update');
     });
 
