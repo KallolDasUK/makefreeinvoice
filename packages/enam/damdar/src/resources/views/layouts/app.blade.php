@@ -888,7 +888,7 @@
                 {{ $title??'' }} </b>
 
             @if($country == "Bangladesh")
-                @if($settings->show_youtube_videos ?? false)
+                @if($settings->show_youtube_videos ?? true)
                     <div>
                         <a href="https://www.youtube.com/watch?v=UPXeH8r9Jhc&list=PL5FPulw8-MaotxlscrDUAmT-l3a_J8bxs"
                            class=" btn  btn-outline-danger " target="_blank">
@@ -896,7 +896,7 @@
                             How to Use? Check Tutorial</a>
                     </div>
                 @endif
-                @if($settings->show_support_number ?? false)
+                @if($settings->show_support_number ?? true)
                     <div class="text-center">For any help or enquiry please call at <h2>
                             <a href="tel:+8801680852026"><i class="fa fa-phone"></i> +88 016 8085 2026</a>
                         </h2>
