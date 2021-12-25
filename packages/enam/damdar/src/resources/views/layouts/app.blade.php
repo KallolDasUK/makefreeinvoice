@@ -954,16 +954,16 @@
 
                         @endif
                         <strong class="mb-2">{{ optional(auth()->user())->email }}</strong>
+                        <strong class="d-inline-block text-dark">{{ \Carbon\Carbon::now()->format('h:i a Y-m-d ') }}{{ \Carbon\Carbon::now()->timezoneName }}  </strong>
 
                         <h5><a href="{{ route('accounting.settings.edit') }}"><i class="fa fa-cog"></i> Account Settings</a>
                         </h5>
+
                     </div>
                 </div>
 
             </div>
             <div class="col">
-                <h4 class="d-inline-block">{{ \Carbon\Carbon::now()->format('h:i a Y-m-d ') }}{{ \Carbon\Carbon::now()->timezoneName }}  </h4>
-                <h2>  <a href="{{ route('accounting.settings.edit') }}"> <i class="fa fa-pencil-alt mr-4"></i>Change Timezone</a></h2>
 
             </div>
 

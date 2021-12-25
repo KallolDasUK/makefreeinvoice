@@ -219,7 +219,6 @@ class InvoicesController extends Controller
         view()->share('title', 'View Invoice');
 
         $invoice = Invoice::with('customer')->findOrFail($id);
-//        dd($invoice->created_at);
         $this->authorize('view', $invoice);
         $invoice->taxes;
         if ($request->template) {
@@ -242,7 +241,9 @@ class InvoicesController extends Controller
             $seller_name = $business_name;
             $vat_number = $settings->vat_reg ?? '123456789';
             $creating_time = Carbon::parse($invoice->created_at);
+
             $invoice_date = Carbon::parse($invoice->invoice_date)->toDateString() . ' ' . $creating_time->toTimeString();
+//            dd($invoice_date);
             $taxable = number_format($invoice->total, 2, '.', '');
             $tax = number_format($invoice->taxable_amount, 2, '.', '');
 
