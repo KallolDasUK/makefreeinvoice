@@ -102,7 +102,7 @@
         <!--begin::Header-->
         <div class="card-header border-0 py-5">
             <h3 class="card-title align-items-start flex-column">
-                <span class="card-label font-weight-bolder text-dark">Purchase Orders</span>
+                <span class="card-label font-weight-bolder text-dark">Demand Orders</span>
                 <span class="text-muted mt-3 font-weight-bold font-size-sm"></span>
             </h3>
             <div class="card-toolbar">
@@ -110,7 +110,7 @@
                    class="btn btn-success btn-lg font-weight-bolder font-size-sm  {{  ability(\App\Utils\Ability::PURCHASE_ORDER_CREATE) }}" style="font-size: 16px">
                     <i class="fas fa-fw fa-plus" aria-hidden="true"></i>
 
-                    </span>Purchase A Order</a>
+                    </span>Demand A Order</a>
             </div>
         </div>
         <!--end::Header-->

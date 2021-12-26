@@ -412,7 +412,7 @@ class ReportController extends AccountingReportsController
 
         $bills = Bill::all();
         $vendors = Vendor::all();
-        return view('reports.purchase-report', compact('title', 'records', 'bills', 'vendors', 'start_date', 'end_date', 'vendor_id', 'bill_id', 'payment_status'));
+        return view('reports.purchase-report', compact('title', 'records', 'bills', 'vendors', 'start_date', 'end_date', 'vendor_id', 'bill_id', 'payment_status', 'user_id'));
     }
 
     public function purchaseReportDetails(Request $request)

@@ -8,14 +8,14 @@
     @include('partials.ajax-ledger-create-form')
 
     <div class="float-left">
-        <h2>Purchase A Order</h2>
+        <h2>Demand A Order</h2>
     </div>
 
     <div class="text-right">
         <a href="{{ route('purchase_orders.purchase_order.index') }}" class="btn btn-primary {{  ability(\App\Utils\Ability::PURCHASE_ORDER_READ) }}"
-           title="Show Purchase Order">
+           title="Show Demand Order">
             <i class=" fas fa-fw fa-th-list" aria-hidden="true"></i>
-            Show All Purchase Order
+            Show All Demand Order
         </a>
     </div>
     <p class="clearfix"></p>
@@ -37,7 +37,7 @@
 
                         <button class="btn btn-primary btn-lg btn-fw" type="submit">
 
-                            <i class="far fa-save"></i> Save Bill
+                            <i class="far fa-save"></i> Save Demand Order
                         </button>
                     </div>
                 </div>

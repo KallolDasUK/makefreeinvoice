@@ -10,7 +10,7 @@
 
         <div class="card-header">
 
-            <h3 class="my-1 float-left">{{ !empty($title) ? $title : 'Edit Bill' }}</h3>
+            <h3 class="my-1 float-left">{{ !empty($title) ? $title : 'Edit Demand Order' }}</h3>
 
             <div class="btn-group btn-group-sm float-right" role="group">
 
@@ -19,16 +19,16 @@
                    style="font-size: 16px"
                 >
                     <i class=" fas fa-fw fa-eye" aria-hidden="true"></i>
-                    Preview Bill
+                    Preview Demand
                 </a>
                 <a href="{{ route('purchase_orders.purchase_order.index') }}" class="btn btn-primary mr-2  {{  ability(\App\Utils\Ability::PURCHASE_ORDER_READ) }}" title="Show All Bill">
                     <i class=" fas fa-fw fa-th-list" aria-hidden="true"></i>
-                    Show All Bill
+                    Show All Demand
                 </a>
 
                 <a href="{{ route('purchase_orders.purchase_order.create') }}" class="btn btn-success  {{  ability(\App\Utils\Ability::PURCHASE_ORDER_CREATE) }}" title="Create New Bill">
                     <i class=" fas fa-fw fa-plus" aria-hidden="true"></i>
-                    Create New Bill
+                    Create New Demand
                 </a>
 
             </div>
@@ -44,7 +44,7 @@
                 </ul>
             @endif
 
-            <form method="POST" action="{{ route('purchase_orders.purchase_order.store', $purchase_order->id) }}" id="edit_invoice_form"
+            <form method="POST" action="{{ route('purchase_orders.purchase_order.update', $purchase_order->id) }}" id="edit_invoice_form"
                   name="edit_invoice_form" accept-charset="UTF-8" class="form-horizontal" enctype="multipart/form-data">
                 {{ csrf_field() }}
                 <input name="_method" type="hidden" value="PUT">
@@ -56,7 +56,7 @@
                         <button class="btn btn-primary btn-lg btn-fw" type="submit">
 
                             <i class="far fa-share-square"></i>
-                            Update Purchase Order
+                            Update Demand Order
                         </button>
                     </div>
                 </div>
