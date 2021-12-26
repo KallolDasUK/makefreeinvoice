@@ -957,8 +957,8 @@
 
                             </strong>
                             <strong>Premium
-                                Plan @if(!(\Illuminate\Support\Str::contains(\Illuminate\Support\Facades\Route::current()->uri(),'lgrd')))
-                                    On Trial @endif </strong>
+                                Plan @if(!str_contains(Request::url(),'lgrd'))
+                                On Trial @endif </strong>
                             <br>
 
 
