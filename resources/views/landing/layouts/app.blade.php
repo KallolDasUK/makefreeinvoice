@@ -235,6 +235,10 @@
 <!-- Your Chat plugin code -->
 <div id="fb-customer-chat" class="fb-customerchat">
 </div>
+
+@if(str_contains(Request::url(),'lgrd'))
+    @php($hide_messenger = true)
+@endif
 @if(!$hide_messenger)
     <script>
         var chatbox = document.getElementById('fb-customer-chat');
