@@ -956,14 +956,16 @@
                                     Now</a>
 
                             </strong>
-                            <strong>Premium Plan on Trial</strong>
+                            <strong>Premium
+                                Plan @if(!(\Illuminate\Support\Str::contains(\Illuminate\Support\Facades\Route::current(),'lgrd')))
+                                    On Trial @endif </strong>
                             <br>
 
 
                         @endif
                         <strong class="mb-2">{{ optional(auth()->user())->email }}</strong>
                         <strong
-                            class="d-inline-block text-dark">{{ \Carbon\Carbon::now()->format('h:i a Y-m-d ') }}{{ \Carbon\Carbon::now()->timezoneName }}  </strong>
+                            class="d-inline-block">{{ \Carbon\Carbon::now()->format('h:i a Y-m-d ') }}{{ \Carbon\Carbon::now()->timezoneName }}  </strong>
 
                         <h5><a href="{{ route('accounting.settings.edit') }}"><i class="fa fa-cog"></i> Account Settings</a>
                         </h5>
