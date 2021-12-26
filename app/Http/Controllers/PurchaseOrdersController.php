@@ -256,8 +256,8 @@ class PurchaseOrdersController extends Controller
         unset($data['additional']);
         unset($data['additional_fields']);
 
-        $purchase_order = Bill::findOrFail($id);
-        $this->authorize('update', $purchase_order);
+        $purchase_order = PurchaseOrder::findOrFail($id);
+//        $this->authorize('update', $purchase_order);
 
         BillExtraField::query()->where('bill_id', $purchase_order->id)->delete();
         BillItem::query()->where('bill_id', $purchase_order->id)->delete();
