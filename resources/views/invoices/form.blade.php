@@ -115,13 +115,19 @@
             <select class="customer form-control select2" id="customer_id" name="customer_id" required>
                 <option value="" disabled
                         selected></option>
-                @foreach ($customers as $key => $customer)
+                @foreach ($customers as $customer)
                     <option
-                        value="{{ $key }}"
-                        {{ old('customer_id', optional($invoice)->customer_id) == $key ? 'selected' : '' }}
-                        @if($invoice == null && $customer == 'Walk In Customer') selected @endif
-                    >
-                        {{ $customer }}
+                        value="{{ $customer->id }}"
+                        {{ old('customer_id', optional($invoice)->customer_id) == $customer->id ? 'selected' : '' }}
+                        @if($invoice == null && $customer->name == 'Walk In Customer') selected @endif>
+                        @if($settings->customer_id_feature??'0')
+                            @if($customer->customer_ID)
+                                [{{ $customer->customer_ID }}]
+                            @endif
+                        @endif
+                        {{ $customer->name }} {{ $customer->phone }}
+
+
                     </option>
                 @endforeach
             </select>

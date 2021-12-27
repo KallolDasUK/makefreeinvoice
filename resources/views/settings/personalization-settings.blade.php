@@ -56,6 +56,17 @@
                        value="1" {{ ($settings->show_messenger_chat_box??'1')?'checked':'' }}>
             </div>
         </div>
+        <div class="form-group row align-items-center">
+            <div class="col-form-label col-lg-2 ">
+                <label for="pos_hide_name" class="font-weight-bolder ">Manual Customer ID Input</label>
+            </div>
+            <div class="col-lg-4 bg-secondary">
+                <input type="hidden" name="customer_id_feature" value="0">
+                <input id="customer_id_feature" type="checkbox" name="customer_id_feature"
+                       class="form-control check-mark checkbox form-check-input"
+                       value="1" {{ ($settings->customer_id_feature??'0')?'checked':'' }}>
+            </div>
+        </div>
         <div class="form-group row">
             <div class="col-form-label col-lg-2 required">
                 <label class="font-weight-bolder"> </label>

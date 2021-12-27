@@ -15,6 +15,14 @@
                                 <input type="text" class="form-control " id="name" name="name">
                             </div>
                         </div>
+                        @if($settings->customer_id_feature??'0')
+                            <div class="col">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="customer_ID">Customer ID</label>
+                                    <input class="form-control" name="customer_ID" type="text" id="customer_ID">
+                                </div>
+                            </div>
+                        @endif
                         <div class="col">
                             <div class="form-group">
                                 <label for="phone" class="col-form-label">Phone :</label>
@@ -25,15 +33,15 @@
 
                     <div class="row">
                         <div class="col">
-                            <div >
-                                <label for="opening" >Opening</label>
+                            <div>
+                                <label for="opening">Opening</label>
                                 <div>
                                     <input class="form-control" name="opening" type="number" step="any" id="opening">
                                 </div>
                             </div>
                         </div>
                         <div class="col">
-                            <div >
+                            <div>
                                 <label for="opening_type">Opening Type</label>
                                 <div>
                                     <select class="form-control" id="opening_type" name="opening_type">
@@ -90,7 +98,7 @@
                                 @foreach(countries() as $country)
                                     <option value="{{ $country }}"> {{ $country }}</option>
                                 @endforeach
-                            </select>                        </div>
+                            </select></div>
                         <div class="col-lg-4">
                             <input placeholder="City" id="city" name="city" class="form-control" type="text">
                         </div>

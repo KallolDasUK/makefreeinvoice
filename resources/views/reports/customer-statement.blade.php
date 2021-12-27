@@ -100,7 +100,13 @@
                                 @foreach($customers as $c)
                                     <option
                                         value="{{ $c->id }}" {{ $customer_id == $c->id?'selected':'' }}>
+                                        @if($settings->customer_id_feature??'0')
+                                            @if($c->customer_ID)
+                                                [{{ $c->customer_ID }}]
+                                            @endif
+                                        @endif
                                         {{ $c->name }}
+                                        {{ $c->phone }}
                                     </option>
                                 @endforeach
                             </select>

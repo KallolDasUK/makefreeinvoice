@@ -24,7 +24,10 @@ class CustomersController extends Controller
         $q = $request->q;
         $customers = Customer::query()
             ->when($q != null, function ($builder) use ($q) {
-                return $builder->where('name', 'like', '%' . $q . '%')->orWhere('phone', 'like', '%' . $q . '%')->orWhere('email', 'like', '%' . $q . '%');
+                return $builder->where('name', 'like', '%' . $q . '%')
+                    ->orWhere('phone', 'like', '%' . $q . '%')
+                    ->orWhere('customer_ID', 'like', '%' . $q . '%')
+                    ->orWhere('email', 'like', '%' . $q . '%');
             })->latest()->paginate(10);
 
         $totalCustomers = 0;
@@ -126,7 +129,7 @@ class CustomersController extends Controller
     {
 
 
-        $data = $this->getData($request);
+        $data = $this->getData($request, $id);
 
         $customer = Customer::findOrFail($id);
         $customer->update($data);
@@ -158,10 +161,13 @@ class CustomersController extends Controller
     }
 
 
-    protected function getData(Request $request)
+    protected function getData(Request $request, $id = null)
     {
         $rules = [
             'name' => 'required|nullable|string|min:1|max:255',
+            'customer_ID' => 'nullable|unique_saas:customers,customer_ID',
+//            'code' => 'nullable|string|unique_saas:products,code',
+
             'photo' => ['file', 'nullable'],
             'company_name' => 'string|min:1|nullable',
             'phone' => 'string|min:1|nullable',
@@ -179,7 +185,11 @@ class CustomersController extends Controller
             'sr_id' => 'nullable',
         ];
 
-        $data = $request->validate($rules);
+        if ($id) {
+            $rules['customer_ID'] = 'nullable|string|unique_saas:customers,customer_ID,' . $id;
+
+        }
+        $data = $request->validate($rules, ['customer_ID.unique_saas' => 'Customer ID Already In Use']);
         if ($request->has('custom_delete_photo')) {
             $data['photo'] = null;
         }

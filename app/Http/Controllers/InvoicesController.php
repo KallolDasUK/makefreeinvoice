@@ -90,7 +90,7 @@ class InvoicesController extends Controller
         $cashAcId = optional(GroupMap::query()->firstWhere('key', LedgerHelper::$CASH_AC))->value;
         $depositAccounts = Ledger::find($this->getAssetLedgers())->sortBy('ledger_name');
         $paymentMethods = PaymentMethod::query()->get();
-        $customers = Customer::pluck('name', 'id')->all();
+        $customers = Customer::all();
         $products = Product::all();
         $categories = Category::all();
         $taxes = Tax::query()->latest()->get()->toArray();
@@ -299,7 +299,7 @@ class InvoicesController extends Controller
         $invoice = Invoice::findOrFail($id);
 
         $this->authorize('update', $invoice);
-        $customers = Customer::pluck('name', 'id')->all();
+        $customers = Customer::all();
         $taxes = Tax::query()->latest()->get()->toArray();
         $invoice_items = InvoiceItem::query()->where('invoice_id', $invoice->id)->get();
         $categories = Category::query()->latest()->get();

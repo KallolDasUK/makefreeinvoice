@@ -37,22 +37,24 @@
 
                             <h3>{{ decent_format_dash_if_zero($totalAdvance) }}</h3>
                             <h5> Advance </h5>
-                           </div>
+                        </div>
                     </div>
                 </div>
 
                 <div class="col">
                     <div class="btn-group btn-group-sm float-right" role="group">
                         <a style="font-size: 16px" href="{{ route('customers.customer.create') }}"
-                           class="btn btn-success btn-lg font-weight-bolder font-size-sm  {{ ability(\App\Utils\Ability::CUSTOMER_CREATE) }}" title="Create New Customer">
+                           class="btn btn-success btn-lg font-weight-bolder font-size-sm  {{ ability(\App\Utils\Ability::CUSTOMER_CREATE) }}"
+                           title="Create New Customer">
                             <i class="fas fa-fw fa-plus" aria-hidden="true"></i>
                             New Customer
                         </a>
 
                     </div>
-{{--                    <div class="clearfix"></div>--}}
-                    <a  href="{{ route('customer_advance_payments.customer_advance_payment.index') }}"
-                        class="btn btn-secondary font-weight-bolder font-size-sm float-right mx-2  {{ ability(\App\Utils\Ability::CUSTOMER_ADVANCE_READ) }}" title="Create New Customer">
+                    {{--                    <div class="clearfix"></div>--}}
+                    <a href="{{ route('customer_advance_payments.customer_advance_payment.index') }}"
+                       class="btn btn-secondary font-weight-bolder font-size-sm float-right mx-2  {{ ability(\App\Utils\Ability::CUSTOMER_ADVANCE_READ) }}"
+                       title="Create New Customer">
                         <i class="fa fa-money-bill" aria-hidden="true"></i>
                         Advance Payments
                     </a>
@@ -70,7 +72,8 @@
                     <div class="row align-items-center mb-4">
 
                         <div class="col-4">
-                            <input name="q" type="text" class="form-control" placeholder="Name, Phone, Email"
+                            <input name="q" type="text" class="form-control"
+                                   placeholder="Name, Phone, Email, Customer ID"
                                    value="{{ $q }}">
                         </div>
                         <div class="col-4">
@@ -94,7 +97,11 @@
                     <thead>
                     <tr>
                         <th>SL</th>
+                        @if($settings->customer_id_feature??'0')
+                            <th class="text-center">Customer ID</th>
+                        @endif
                         <th>Name</th>
+
                         <th>Phone</th>
                         <th>RECEIVABLES</th>
                         <th>Advance</th>
@@ -105,6 +112,9 @@
                     @foreach($customers as $customer)
                         <tr>
                             <td>{{ (($customers->currentPage() - 1) * $customers->perPage()) + $loop->iteration }}</td>
+                            @if($settings->customer_id_feature??'0')
+                                <td class="text-center">{{ $customer->customer_ID??'-' }}</td>
+                            @endif
                             <td>
                                 <a class="customer_statement"
                                    data-toggle="tooltip" data-placement="top" title="Customer Statement"
@@ -112,6 +122,7 @@
                                 <br>
                                 <p style="font-size: 14px">{{ $customer->email }}</p>
                             </td>
+
                             <td>{{ $customer->phone??'-' }}</td>
 
                             <td class="text-center">{{ decent_format_dash_if_zero($customer->receivables) }}</td>

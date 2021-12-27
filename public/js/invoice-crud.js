@@ -104,6 +104,11 @@ $(document).ready(function () {
                     $('#storeCustomerBtn').prop('disabled', false)
                     $('.spinner').addClass('d-none')
 
+                }, error: function (xhr, textStatus, errorThrown) {
+                    $('#storeCustomerBtn').prop('disabled', false)
+                    $('.spinner').addClass('d-none')
+                    console.log(xhr, textStatus, errorThrown)
+                    $('#customer_ID').closest('.form-group').append('<span  class="error text-danger">Customer ID is already in use.</span>');
                 }
             });
         },

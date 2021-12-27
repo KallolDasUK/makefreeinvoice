@@ -45,7 +45,7 @@ class ReceivePaymentsController extends Controller
     {
         $title = "Receive Payment";
         $paymentSerial = 'PM' . str_pad(ReceivePayment::query()->count(), 3, '0', STR_PAD_LEFT);
-        $customers = Customer::pluck('name', 'id')->all();
+        $customers = Customer::all();
         $cashAcId = optional(GroupMap::query()->firstWhere('key', LedgerHelper::$CASH_AC))->value;
         $depositAccounts = Ledger::find($this->getAssetLedgers())->sortBy('ledger_name');
         $paymentMethods = PaymentMethod::query()->get();
@@ -96,7 +96,7 @@ class ReceivePaymentsController extends Controller
         $depositAccounts = Ledger::find($this->getAssetLedgers())->sortBy('ledger_name');
 
         $receivePayment = ReceivePayment::findOrFail($id);
-        $customers = Customer::pluck('name', 'id')->all();
+        $customers = Customer::all();
         $paymentMethods = PaymentMethod::query()->get();
         $ledgerGroups = LedgerGroup::all();
         $pos_payments = PosPayment::query()->where('receive_payment_id', $receivePayment->id)->get();

@@ -9,6 +9,15 @@
                        value="{{ old('name', optional($customer)->name) }}" minlength="1" maxlength="255">
                 {!! $errors->first('name', '<p class="form-text text-danger">:message</p>') !!}
             </div>
+            @if($settings->customer_id_feature??'0')
+                <div class="col">
+                    <label for="name">Customer ID</label>
+                    <input class="form-control  {{ $errors->has('customer_ID') ? 'is-invalid' : '' }}" name="customer_ID" type="text"
+                           id="customer_ID"
+                           value="{{ old('customer_ID', optional($customer)->customer_ID) }}" minlength="1" maxlength="255">
+                    {!! $errors->first('customer_ID', '<p class="form-text text-danger">:message</p>') !!}
+                </div>
+            @endif
             <div class="col">
                 <label for="sr_id">Sales Representative</label>
                 <select name="sr_id" id="sr_id" class="form-control searchable">

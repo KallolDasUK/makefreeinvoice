@@ -154,7 +154,14 @@
                             <option></option>
                             @foreach($customers as $customer)
                                 <option value="{{ $customer->id }}"
-                                        @if($customer->id == $customer_id) selected @endif>{{ $customer->name }} {{ $customer->phone }} </option>
+                                        @if($customer->id == $customer_id) selected @endif>
+                                    @if($settings->customer_id_feature??'0')
+                                        @if($customer->customer_ID)
+                                            [{{ $customer->customer_ID }}]
+                                        @endif
+                                    @endif
+
+                                    {{ $customer->name }} {{ $customer->phone }} </option>
                             @endforeach
                         </select>
                     </div>

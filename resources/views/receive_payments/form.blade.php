@@ -9,10 +9,15 @@
                         {{ old('customer_id', optional($receivePayment)->customer_id ?: '') == '' ? 'selected' : '' }} disabled
                         selected>Select customer
                 </option>
-                @foreach ($customers as $key => $customer)
+                @foreach ($customers as $customer)
                     <option
-                        value="{{ $key }}" {{ old('customer_id', optional($receivePayment)->customer_id) == $key ? 'selected' : '' }}>
-                        {{ $customer }}
+                        value="{{ $customer->id }}" {{ old('customer_id', optional($receivePayment)->customer_id) == $customer->id ? 'selected' : '' }}>
+                        @if($settings->customer_id_feature??'0')
+                            @if($customer->customer_ID)
+                                [{{ $customer->customer_ID }}]
+                            @endif
+                        @endif
+                        {{ $customer->name }} {{ $customer->phone }}
                     </option>
                 @endforeach
             </select>
