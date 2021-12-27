@@ -1,3 +1,5 @@
+
+let exp_based_product = (settings.exp_based_product || '0') === '1';
 let subTotal = parseFloat($('subTotal').val());
 var ractive = new Ractive({
     target: '#target',
@@ -7,7 +9,8 @@ var ractive = new Ractive({
         products: products,
         taxes: taxes,
         appliedTax: [],
-        currency: ''
+        currency: '',
+        exp_based_product:exp_based_product
     },
     addBillItem() {
 

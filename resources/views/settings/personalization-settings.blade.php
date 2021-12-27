@@ -66,6 +66,16 @@
                        class="form-control check-mark checkbox form-check-input"
                        value="1" {{ ($settings->customer_id_feature??'0')?'checked':'' }}>
             </div>
+        </div>  <div class="form-group row align-items-center">
+            <div class="col-form-label col-lg-2 ">
+                <label for="exp_based_product" class="font-weight-bolder ">Exp and Mfg Based Product</label>
+            </div>
+            <div class="col-lg-4 bg-secondary">
+                <input type="hidden" name="exp_based_product" value="0">
+                <input id="exp_based_product" type="checkbox" name="exp_based_product"
+                       class="form-control check-mark checkbox form-check-input"
+                       value="1" {{ ($settings->exp_based_product??'0')?'checked':'' }}>
+            </div>
         </div>
         <div class="form-group row">
             <div class="col-form-label col-lg-2 required">

@@ -12,7 +12,8 @@
     </div>
 
     <div class="text-right">
-        <a href="{{ route('bills.bill.index') }}" class="btn btn-primary {{ ability(\App\Utils\Ability::BILL_READ) }}" title="Show All Bills">
+        <a href="{{ route('bills.bill.index') }}" class="btn btn-primary {{ ability(\App\Utils\Ability::BILL_READ) }}"
+           title="Show All Bills">
             <i class=" fas fa-fw fa-th-list" aria-hidden="true"></i>
             Show All Bills
         </a>
@@ -54,7 +55,15 @@
 
     <script>
         var sample_item = {
-            product_id: '', description: '', price: '', qnt: 1, tax_id: '', unit: 'unit', stock: '-'
+            product_id: '',
+            description: '',
+            price: '',
+            qnt: 1,
+            tax_id: '',
+            unit: 'unit',
+            stock: '-',
+            exp_date: '',
+            mfg_date: ''
         };
         var copiedObject = jQuery.extend(true, {}, sample_item)
         var pair = @json($bill_fields);
@@ -65,8 +74,8 @@
         if (additional_fields.length === 0) {
             additional_fields = [{name: '', value: ''}];
         }
+        var settings = @json($settings);
         var create = true;
-        console.log(products)
         $(document).ready(function () {
 
             $('#vendor_id').select2({

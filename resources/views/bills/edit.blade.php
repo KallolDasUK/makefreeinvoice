@@ -75,7 +75,9 @@
 
     <script>
         var sample_item = {
-            product_id: '', description: '', price: '', qnt: 1, tax_id: '', unit: 'unit'
+            product_id: '', description: '', price: '', qnt: 1, tax_id: '', unit: 'unit',
+            exp_date: '',
+            mfg_date: ''
         };
         var copiedObject = jQuery.extend(true, {}, sample_item)
         var pair = @json($billExtraField);
@@ -84,6 +86,7 @@
         var products = @json($products,JSON_INVALID_UTF8_IGNORE);
         var additional_fields = @json($extraFields);
         var create = false;
+        var settings = @json($settings);
         console.log(pair, 'pairs')
         $(document).ready(function () {
             $('#vendor_id').select2({
