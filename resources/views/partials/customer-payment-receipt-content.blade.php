@@ -134,8 +134,10 @@ Total in word :
 <span> <b>{{ (new NumberFormatter("en", NumberFormatter::SPELLOUT))->format($rp->amount) }}</b> </span>
 <br>
 @if(!optional(auth()->user())->subscribed('default'))
-    <p class="float-right mt-4">Generated on {{ \Carbon\Carbon::parse($rp->payment_date)->format('d M Y') }} by
-        invoicepedia.com</p>
+    @if(!str_contains(Request::url(),'lgrd'))
+        <p class="float-right mt-4">Generated on {{ \Carbon\Carbon::parse($rp->payment_date)->format('d M Y') }} by
+            invoicepedia.com</p>
+    @endif
 @endif
 
 
