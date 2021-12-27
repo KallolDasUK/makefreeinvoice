@@ -481,4 +481,15 @@ class ReportController extends AccountingReportsController
         return view('reports.vendor-report', compact('vendors'));
     }
 
+    public function productExpiryReport(Request $request)
+    {
+        $start_date = $request->start_date;
+        $end_date = $request->end_date;
+        $records = BillItem::query()
+            ->whereBetween('exp_date', [$start_date, $end_date])
+            ->get();
+
+        return view('reports.product-expiry-report', compact('records', 'start_date', 'end_date'));
+    }
+
 }

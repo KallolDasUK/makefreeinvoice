@@ -446,6 +446,7 @@ Route::group(['middleware' => 'auth:web', 'prefix' => 'app'], function () {
         Route::get('/product-report', [ReportController::class, 'productReport'])->name('reports.report.product_report');
         Route::get('/customer-report', [ReportController::class, 'customerReport'])->name('reports.report.customer_report');
         Route::get('/vendor-report', [ReportController::class, 'vendorReport'])->name('reports.report.vendor_report');
+        Route::get('/product-expiry-report', [ReportController::class, 'productExpiryReport'])->name('reports.report.product_expiry_report');
 
     });
 

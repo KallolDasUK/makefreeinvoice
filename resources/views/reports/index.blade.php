@@ -187,6 +187,17 @@
                     <div class="shortcuts-title sc-jlyJG gSoaLO title">Vendor Report</div>
                 </a>
 
+                @if($settings->exp_based_product??'0')
+                    <a class="sc-gPEVay eaBhby  "
+                       href="{{ route('reports.report.product_expiry_report') }}">
+                        <div class="sc-iRbamj image"
+                             style="background-image:url('{{ asset('images/estimate.svg') }}') ">
+
+                        </div>
+                        <div class="shortcuts-title sc-jlyJG gSoaLO title">Product Expiry</div>
+                    </a>
+                @endif
+
                 <div class="clearfix"></div>
                 <br>
                 <h4 class="font-weight-bolder text-primary ml-4 bg-secondary p-4 rounded">Accounting Report</h4>
