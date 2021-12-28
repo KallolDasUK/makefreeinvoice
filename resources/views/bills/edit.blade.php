@@ -76,8 +76,9 @@
     <script>
         var sample_item = {
             product_id: '', description: '', price: '', qnt: 1, tax_id: '', unit: 'unit',
-            exp_date: '',
-            mfg_date: ''
+
+            exp_date: null,
+            mfg_date: null
         };
         var copiedObject = jQuery.extend(true, {}, sample_item)
         var pair = @json($billExtraField);

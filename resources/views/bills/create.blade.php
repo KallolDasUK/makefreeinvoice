@@ -62,8 +62,8 @@
             tax_id: '',
             unit: 'unit',
             stock: '-',
-            exp_date: '',
-            mfg_date: ''
+            exp_date: null,
+            mfg_date: null
         };
         var copiedObject = jQuery.extend(true, {}, sample_item)
         var pair = @json($bill_fields);
