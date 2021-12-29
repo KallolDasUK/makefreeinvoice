@@ -129,6 +129,41 @@ class Product extends Model
 
     }
 
+
+    public function getPurchasePriceAttribute($value)
+    {
+        $purchase_price = $value;
+        $settings = json_decode(MetaSetting::query()->pluck('value', 'key')->toJson());
+        $generate_report_from = $settings->generate_report_from ?? 'purchase_price';
+        if ($generate_report_from == 'purchase_price_average') {
+            $bill_items = BillItem::query()->where('product_id', $this->id)->get();
+            $averagePrice = $bill_items->sum('amount') / count($bill_items);
+            $purchase_price = $averagePrice;
+        } elseif ($generate_report_from == 'purchase_price_last') {
+            $last_bill_item = BillItem::query()->where('product_id', $this->id)->latest()->first();
+            if ($last_bill_item) {
+                $purchase_price = $last_bill_item->price;
+            }
+        } elseif ($generate_report_from == 'purchase_price_cost_average') {
+            $bill_items = BillItem::query()->where('product_id', $this->id)->get();
+
+            $prices = [];
+            foreach ($bill_items as $bill_item) {
+                $bill = $bill_item->bill;
+                $purchase_costs = $bill->charges;
+                $price = ($bill_item->amount + ($purchase_costs / count($bill->bill_items))) / $bill_item->qnt;
+                $prices[] = $price;
+//                dd($bill_items, $prices, ((104 + 0) + ($purchase_costs / count($bill->bill_items))) / $bill_item->qnt, $prices, $price, $bill->bill_items->sum('amount'));
+            }
+            $purchase_price = collect($prices)->avg();
+            if ($purchase_price <= 0) {
+                $purchase_price = $value;
+            }
+
+        }
+        return number_format($purchase_price, 2, '.', '');;
+    }
+
     public function getShortNameAttribute()
     {
         $maxLength = 25;

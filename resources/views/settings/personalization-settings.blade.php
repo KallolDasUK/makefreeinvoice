@@ -102,9 +102,6 @@
                             @if(($settings->generate_report_from??'') == 'purchase_price_last') selected @endif>Last
                         Purchase Price
                     </option>
-                    <option value="sell_price"
-                            @if(($settings->generate_report_from??'') == 'sell_price') selected @endif>Sell Price
-                    </option>
                 </select>
                 <small class="form-text message"
                        style="@if(($settings->generate_report_from??'') == 'purchase_price_average')  @else display: none @endif">
