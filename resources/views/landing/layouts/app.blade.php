@@ -236,7 +236,7 @@
 <div id="fb-customer-chat" class="fb-customerchat">
 </div>
 
-@if(str_contains(Request::url(),'lgrd'))
+@if(str_contains(Request::url(),'rda'))
     @php($hide_messenger = true)
 @endif
 @if(!$hide_messenger)

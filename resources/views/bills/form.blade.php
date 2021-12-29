@@ -68,7 +68,7 @@
 
     <div class="col">
         <div class="form-group mini">
-            <label class="font-weight-bolder">To Vendor</label>
+            <label class="font-weight-bolder">From Vendor</label>
 
             <br>
 

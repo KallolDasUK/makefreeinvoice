@@ -552,7 +552,7 @@
                                style="min-width: 100px;position: relative">
 
                                 <i class="fa fa-plus" aria-hidden="true"></i>
-                                New Bill<br>  or Purchase</a>
+                                New Bill<br> or Purchase</a>
                             <a href="{{ route('bills.bill.index') }}"
                                class="@cannot('viewAny',\App\Models\Bill::class) pro-tag @endcannot {{ ability_class(\App\Utils\Ability::BILL_READ) }}"
                                style="min-width: 100px;position: relative">
@@ -957,8 +957,8 @@
 
                             </strong>
                             <strong>Premium
-                                Plan @if(!str_contains(Request::url(),'lgrd'))
-                                On Trial @endif </strong>
+                                Plan @if(!str_contains(Request::url(),'rda'))
+                                    On Trial @endif </strong>
                             <br>
 
 
