@@ -18,6 +18,8 @@
     <link href="{{ asset('js/master/dashboard.css') }}" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"
             integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://js.pusher.com/3.1/pusher.min.js"></script>
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css"
           integrity="sha512-nMNlpuaDPrqlEls3IX/Q56H36qvBASwb3ipuo3MxeWbsQB1881ox0cRv7UPTgBlriqoynt35KjEwgGUeUXIPnw=="
           crossorigin="anonymous" referrerpolicy="no-referrer"/>
@@ -89,13 +91,7 @@
                         <span data-feather="plus-circle"></span>
                     </a>
                 </h6>
-                <ul class="nav flex-column mb-2">
-                    {{--                    <li class="nav-item">--}}
-                    {{--                        <a class="nav-link" href="#">--}}
-                    {{--                            <span data-feather="file-text"></span>--}}
-                    {{--                            Current month--}}
-                    {{--                        </a>--}}
-                    {{--                    </li>--}}
+                <ul id="log" class="nav flex-column mx-4">
 
                 </ul>
             </div>
@@ -128,8 +124,20 @@
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 <script>
+    // Enable pusher logging - don't include this in production
+    Pusher.logToConsole = true;
+    var pusher = new Pusher('41d620376d2431d10e50', {
+        encrypted: false
+    });
+    var channel = pusher.subscribe('log_activity_event');
+    // alert('testing')
+    channel.bind('log_activity_event', function (data) {
 
-
+        $('#log').prepend(data.message)
+        var colors = ['#ff0000', '#00ff00', '#0000ff', '#000','blue','#54fe34'];
+        var random_color = colors[Math.floor(Math.random() * colors.length)];
+        $('#log :first-child').css('color', random_color)
+    });
     $(document).ready(function () {
         $('.searchable').select2({placeholder: "-- Choose --"})
     })

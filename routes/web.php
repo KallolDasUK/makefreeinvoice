@@ -754,7 +754,8 @@ Route::get('master/users/login/{email}', [MasterController::class, 'loginClient'
 
 
 Route::get('/task', function () {
-
+    event(new App\Events\LogActivityEvent('Someone'));
+    dd('test');
     $notification = new NotificationController;
     $notification->testEmail();
     dd(array_merge(['KG', 'M', 'CM', 'BOX', 'LT.'], ProductUnit::query()->pluck('name')->unique()->toArray()));

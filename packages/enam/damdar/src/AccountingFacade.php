@@ -151,12 +151,6 @@ class AccountingFacade extends Facade
             if ($product->product_type != 'Goods') continue;
 
             $purchase_price = $product->purchase_price ?? 0;
-            if ($purchase_price == 0) {
-                $last_bill = BillItem::query()->where('product_id', $invoice_item->product_id)->latest()->first();
-                if ($last_bill) {
-                    $purchase_price = $last_bill->price;
-                }
-            }
             $cost_of_goods_sold = $purchase_price * $invoice_item->qnt;
             if ($cost_of_goods_sold) {
                 self::addTransaction(Ledger::COST_OF_GOODS_SOLD(), Ledger::INVENTORY_AC(), $cost_of_goods_sold, $invoice->notes,

@@ -13,6 +13,7 @@ use App\Models\ExpenseItem;
 use App\Models\Invoice;
 use App\Models\MetaSetting;
 use App\Models\PaymentMethod;
+use App\Models\PosItem;
 use App\Models\PosPayment;
 use App\Models\PosSale;
 use App\Models\ReceivePayment;
@@ -25,6 +26,7 @@ use App\Observers\ContactInvoicePaymentItemObserver;
 use App\Observers\ExpenseItemObserver;
 use App\Observers\InvoiceObserver;
 use App\Observers\PosPaymentObserver;
+use App\Observers\PosSaleItemObserver;
 use App\Observers\PosSaleObserver;
 use App\Observers\ReceivePaymentItemObserver;
 use App\Policies\ReportPolicy;
@@ -114,10 +116,14 @@ class AppServiceProvider extends ServiceProvider
 
 
         Invoice::observe(InvoiceObserver::class);
+
         Bill::observe(BillObserver::class);
         ContactInvoice::observe(ContactInvoiceObserver::class);
+
         PosSale::observe(PosSaleObserver::class);
+        PosItem::observe(PosSaleItemObserver::class);
         PosPayment::observe(PosPaymentObserver::class);
+
         ExpenseItem::observe(ExpenseItemObserver::class);
         ReceivePaymentItem::observe(ReceivePaymentItemObserver::class);
 

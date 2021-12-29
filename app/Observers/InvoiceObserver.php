@@ -2,6 +2,7 @@
 
 namespace App\Observers;
 
+use App\Events\LogActivityEvent;
 use App\Models\Invoice;
 use Enam\Acc\AccountingFacade;
 use Illuminate\Support\Str;
@@ -13,6 +14,7 @@ class InvoiceObserver
     {
         $accounting = new AccountingFacade();
         $accounting->on_invoice_create($invoice);
+        event(new LogActivityEvent((auth()->user()->name ?? '') . " created a invoice #" . $invoice->invoice_number));
     }
 
     public function invoice_item_updated(Invoice $invoice)
@@ -20,6 +22,8 @@ class InvoiceObserver
         $accounting = new AccountingFacade();
         $accounting->on_invoice_delete($invoice);
         $accounting->on_invoice_create($invoice);
+        event(new LogActivityEvent((auth()->user()->name ?? '') . " updated a invoice #" . $invoice->invoice_number));
+
     }
 
     public function created(Invoice $invoice)
@@ -34,6 +38,8 @@ class InvoiceObserver
     {
         $accounting = new AccountingFacade();
         $accounting->on_invoice_delete($invoice);
+        event(new LogActivityEvent((auth()->user()->name ?? '') . " deleted a invoice #" . $invoice->invoice_number));
+
     }
 
 

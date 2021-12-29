@@ -341,8 +341,10 @@ class InvoicesController extends Controller
         $invoice->update($data);
         $this->insertDataToOtherTable($invoice, $invoice_items, $extraFields, $additionalFields);
         $this->saveTermsNDNote($data);
+
         $invoice_observer = new InvoiceObserver;
         $invoice_observer->invoice_item_updated($invoice);
+
         return redirect()->route('invoices.invoice.show', $invoice->id)->with('success_message', 'Invoice was successfully updated.');
 
     }
