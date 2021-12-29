@@ -8,7 +8,8 @@
     @include('partials.ajax-tax-create-form')
     @include('partials.ajax-payment-method-create-form')
     <div class="text-right">
-        <a href="{{ route('invoices.invoice.index') }}" class="btn btn-primary {{  ability(\App\Utils\Ability::INVOICE_READ) }}" title="Show All Invoices">
+        <a href="{{ route('invoices.invoice.index') }}"
+           class="btn btn-primary {{  ability(\App\Utils\Ability::INVOICE_READ) }}" title="Show All Invoices">
             <i class=" fas fa-fw fa-th-list" aria-hidden="true"></i>
             Show All Invoices
         </a>
@@ -50,7 +51,7 @@
 
     <script>
         var sample_item = {
-            product_id: '', description: '', price: '', qnt: 1, tax_id: '', unit: 'unit'
+            product_id: '', description: '', price: '', qnt: 1, tax_id: '', unit: 'unit', batch: ''
         };
         var copiedObject = jQuery.extend(true, {}, sample_item)
         var pair = @json($invoice_fields);
@@ -62,6 +63,8 @@
             additional_fields = [{name: '', value: ''}];
         }
         var create = true;
+        var settings = @json($settings);
+
         console.log(products)
         $(document).ready(function () {
             $('#country').select2({placeholder: 'Select Country'})
@@ -84,11 +87,10 @@
             })
 
 
-
         });
     </script>
-    <script src="{{ asset('js/invoices.js') }}"></script>
-    <script src="{{ asset('js/invoice-crud.js') }}"></script>
+    <script src="{{ asset('js/invoices.js') }}?v=1.0"></script>
+    <script src="{{ asset('js/invoice-crud.js') }}?v=1.0"></script>
 
 @endsection
 

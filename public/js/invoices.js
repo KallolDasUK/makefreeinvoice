@@ -1,3 +1,5 @@
+let exp_based_product = (settings.exp_based_product || '0') === '1';
+// alert(exp_based_product)
 let subTotal = parseFloat($('subTotal').val());
 var ractive = new Ractive({
     target: '#target',
@@ -7,7 +9,8 @@ var ractive = new Ractive({
         products: products,
         taxes: taxes,
         appliedTax: [],
-        currency: ''
+        currency: '',
+        exp_based_product: exp_based_product
     },
     addInvoiceItem() {
 
@@ -267,6 +270,29 @@ for (let i = 0; i < invoice_items.length; i++) {
 function onProductChangeEvent(e) {
     let id = e.target.value;
     let lineIndex = parseInt($(e.target).attr('index'));
+    $.ajax({
+        url: route('ajax.productBatch'),
+        type: 'post',
+        data: {product_id: id, _token: csrf},
+
+        success: function (response) {
+
+
+            let options = '<option value="">-</option>'
+            if (response.length > 0) {
+                options = '<option value="">select batch</option>'
+            }
+            for (let i = 0; i < response.length; i++) {
+                let item = response[i];
+                let option = `<option value="${item}">${item}</option>`
+                options = options.concat(option);
+            }
+            console.log(response, options)
+            $('#batch' + lineIndex)
+                .empty()
+                .html(options);
+        }
+    });
     calculate(id, lineIndex)
 
 }

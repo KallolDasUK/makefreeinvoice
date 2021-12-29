@@ -367,8 +367,9 @@
                         <th  class="font-weight-bold" style="text-align: start;">Items <span class="text-danger">*</span></th>
                         <th style="width: 13%" scope="col" class="font-weight-bold">Stock</th>
                          {{# exp_based_product }}
+        <th style="width: 13%" scope="col" class="font-weight-bold">Batch</th>
         <th style="width: 13%" scope="col" class="font-weight-bold">Exp At</th>
-        <th style="width: 13%" scope="col" class="font-weight-bold">MFG At</th>
+
 {{/ exp_based_product }}
         <th style="width: 13%" scope="col" class="font-weight-bold">Rate</th>
         <th style="width: 13%"  scope="col" class="font-weight-bold">Quantity</th>
@@ -397,8 +398,8 @@
             </td>
              <td> {{ stock }}</td>
              {{# exp_based_product }}
+        <td style="width: 13%" scope="col" class="font-weight-bold"><input class="form-control form-control-sm" type="text" value="{{ batch }}"></td>
         <td style="width: 13%" scope="col" class="font-weight-bold"><input class="form-control form-control-sm" type="date" value="{{ exp_date }}"></td>
-        <td style="width: 13%" scope="col" class="font-weight-bold"><input class="form-control form-control-sm" type="date" value="{{ mfg_date }}"></td>
              {{/ exp_based_product }}
         <td> <input type="number" step="any" style="text-align: end"  class="form-control  input-sm rate" value="{{ price }}" required></td>
             <td> <input type="number" step="any" style="text-align: end"  class="form-control   input-sm qnt" index="{{ i }}
@@ -499,8 +500,7 @@
 
                         <input type="number"  value="{{ value }}" readonly
                         class="{{ className }}" style="border: 1px solid transparent; outline: none;text-align: end">
-                                                <span class="currency d-inline {{ className }}
-        " style="font-size: 16px">{{ currency }}</span>
+                                                <span class="currency d-inline {{ className }}" style="font-size: 16px">{{ currency }}</span>
 
                     </td>
                 </tr>

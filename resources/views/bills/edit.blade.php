@@ -15,17 +15,20 @@
             <div class="btn-group btn-group-sm float-right" role="group">
 
                 <a href="{{ route('bills.bill.show',$bill->id) }}"
-                   class="btn btn-outline-primary mr-2 {{ ability(\App\Utils\Ability::BILL_READ) }}" title="Show All Bill"
+                   class="btn btn-outline-primary mr-2 {{ ability(\App\Utils\Ability::BILL_READ) }}"
+                   title="Show All Bill"
                    style="font-size: 16px">
                     <i class=" fas fa-fw fa-eye" aria-hidden="true"></i>
                     Preview Bill
                 </a>
-                <a href="{{ route('bills.bill.index') }}" class="btn btn-primary mr-2 {{ ability(\App\Utils\Ability::BILL_READ) }}" title="Show All Bill">
+                <a href="{{ route('bills.bill.index') }}"
+                   class="btn btn-primary mr-2 {{ ability(\App\Utils\Ability::BILL_READ) }}" title="Show All Bill">
                     <i class=" fas fa-fw fa-th-list" aria-hidden="true"></i>
                     Show All Bill
                 </a>
 
-                <a href="{{ route('bills.bill.create') }}" class="btn btn-success {{ ability(\App\Utils\Ability::BILL_CREATE) }}" title="Create New Bill">
+                <a href="{{ route('bills.bill.create') }}"
+                   class="btn btn-success {{ ability(\App\Utils\Ability::BILL_CREATE) }}" title="Create New Bill">
                     <i class=" fas fa-fw fa-plus" aria-hidden="true"></i>
                     Create New Bill
                 </a>
@@ -78,7 +81,8 @@
             product_id: '', description: '', price: '', qnt: 1, tax_id: '', unit: 'unit',
 
             exp_date: null,
-            mfg_date: null
+            mfg_date: null,
+            batch: null
         };
         var copiedObject = jQuery.extend(true, {}, sample_item)
         var pair = @json($billExtraField);

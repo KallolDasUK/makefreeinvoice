@@ -489,15 +489,18 @@
                     <tr class="">
                         <th  class="font-weight-bold" style="text-align: start;">Items <span class="text-danger">*</span></th>
                         <th style="width: 13%" scope="col" class="font-weight-bold">Stock</th>
-                         <th style="width: 13%" scope="col" class="font-weight-bold">Rate</th>
-                        <th style="width: 13%"  scope="col" class="font-weight-bold">Quantity</th>
-                        <th  style="width: 20%"  scope="col" class="font-weight-bold">Tax <sup><a target="_blank" href="/app/taxes">view taxes</a></sup></th>
-                        <th  style="width: 13%" scope="col" class="font-weight-bold">Amount</th>
-                         <th   ></th>
-                    </tr>
-                    </thead>
-                <tbody>
-                {{#each invoice_items:i}}
+                           {{# exp_based_product }}
+        <th style="width: 13%" scope="col" class="font-weight-bold">Batch</th>
+{{/ exp_based_product }}
+        <th style="width: 13%" scope="col" class="font-weight-bold">Rate</th>
+       <th style="width: 13%"  scope="col" class="font-weight-bold">Quantity</th>
+       <th  style="width: 20%"  scope="col" class="font-weight-bold">Tax <sup><a target="_blank" href="/app/taxes">view taxes</a></sup></th>
+       <th  style="width: 13%" scope="col" class="font-weight-bold">Amount</th>
+        <th   ></th>
+   </tr>
+   </thead>
+<tbody>
+{{#each invoice_items:i}}
         <tr class="ui-state-default" id="row{{i}}" fade-in>
             <td>
                 <div class="d-flex">
@@ -514,8 +517,12 @@
         </div>
    <input type="text" value="{{ description }}" style="border: none!important;" class="form-control  input-sm description" placeholder="Item Description ...">
             </td>
+
             <td>{{ stock }}</td>
-            <td> <input type="number" step="any" style="text-align: end"  class="form-control  input-sm rate" value="{{ price }}" required></td>
+             {{# exp_based_product }}
+        <td style="width: 13%" scope="col" class="font-weight-bold">  <select class="form-control form-control-sm" id="batch{{i}}" value="{{ batch }}"> <option value=""  selected>-</option></select> </td>
+             {{/ exp_based_product }}
+        <td> <input type="number" step="any" style="text-align: end"  class="form-control  input-sm rate" value="{{ price }}" required></td>
             <td> <input type="number" step="any" style="text-align: end"  class="form-control   input-sm qnt" index="{{i}}
         " value="{{ qnt }}" required>
             <input class="text-right form-control input-sm unit" type="text" style="outline: none;border:0 !important;text-align: end; text-decoration: underline;text-decoration-style: dashed;text-decoration-color: red"  value="{{ unit }}"/>
@@ -544,6 +551,7 @@
             <span role="button" on-click="@this.addInvoiceItem()" class="btn btn-sm btn-primary"
                   style="cursor: pointer"><i class="fa fa-plus-circle"></i> Add Line</span>
         </div>
+
 
 
 
@@ -726,6 +734,7 @@
 
 
 
+
     </script>
 @endverbatim
 @verbatim
@@ -750,6 +759,7 @@
               <td><span class="text-primary " on-click="@this.addAdditionalField()" style="cursor:pointer;">+ Add More</span></td>
               <td></td>
           </tr>
+
 
 
 

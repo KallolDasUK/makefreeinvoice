@@ -137,7 +137,7 @@ class BillsController extends Controller
                 $product_id = $product->id;
             }
 
-            BillItem::create(['bill_id' => $bill->id, 'product_id' => $product_id, 'exp_date' => $bill_item->exp_date ?? null, 'mfg_date' => $bill_item->mfg_date ?? null,
+            BillItem::create(['bill_id' => $bill->id, 'product_id' => $product_id, 'exp_date' => $bill_item->exp_date ?? null, 'batch' => $bill_item->batch ?? null,
                 'description' => $bill_item->description, 'qnt' => $bill_item->qnt, 'unit' => $bill_item->unit ?? '',
                 'price' => $bill_item->price, 'amount' => $bill_item->price * $bill_item->qnt, 'tax_id' => $bill_item->tax_id == '' ? 0 : $bill_item->tax_id, 'date' => $bill->bill_date]);
         }

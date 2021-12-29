@@ -485,9 +485,19 @@ class ReportController extends AccountingReportsController
     {
         $start_date = $request->start_date;
         $end_date = $request->end_date;
-        $records = BillItem::query()
-            ->whereBetween('exp_date', [$start_date, $end_date])
-            ->get();
+        $records = [];
+        $bill_items = BillItem::query()->whereNotNull('batch')->get();
+        foreach ($bill_items as $bill_item) {
+            $record = [];
+            $sold_qnt_from_batch = InvoiceItem::query()->where(['product_id' => $bill_item->product_id, 'batch' => $bill_item->batch])->sum('qnt');
+            $remaining_qnt = $bill_item->qnt - $sold_qnt_from_batch;
+            if ($remaining_qnt > 0) {
+                $record = ['product' => Product::find($bill_item->product_id),
+                    'exp_date' => $bill_item->exp_date,
+                    'batch' => $bill_item->batch, 'qnt' => $remaining_qnt];
+                $records[] = (object)$record;
+            }
+        }
 
         return view('reports.product-expiry-report', compact('records', 'start_date', 'end_date'));
     }

@@ -17,18 +17,23 @@
             <div class="btn-group btn-group-sm float-right" role="group">
 
                 <a href="{{ route('invoices.invoice.show',$invoice->id) }}"
-                   class="btn btn-outline-primary mr-2  {{  ability(\App\Utils\Ability::INVOICE_READ) }}" title="Show All Invoice"
+                   class="btn btn-outline-primary mr-2  {{  ability(\App\Utils\Ability::INVOICE_READ) }}"
+                   title="Show All Invoice"
                    style="font-size: 16px"
                 >
                     <i class=" fas fa-fw fa-eye" aria-hidden="true"></i>
                     Preview Invoice
                 </a>
-                <a href="{{ route('invoices.invoice.index') }}" class="btn btn-primary mr-2  {{  ability(\App\Utils\Ability::INVOICE_READ) }}" title="Show All Invoice">
+                <a href="{{ route('invoices.invoice.index') }}"
+                   class="btn btn-primary mr-2  {{  ability(\App\Utils\Ability::INVOICE_READ) }}"
+                   title="Show All Invoice">
                     <i class=" fas fa-fw fa-th-list" aria-hidden="true"></i>
                     Show All Invoice
                 </a>
 
-                <a href="{{ route('invoices.invoice.create') }}" class="btn btn-success  {{  ability(\App\Utils\Ability::INVOICE_CREATE) }}" title="Create New Invoice">
+                <a href="{{ route('invoices.invoice.create') }}"
+                   class="btn btn-success  {{  ability(\App\Utils\Ability::INVOICE_CREATE) }}"
+                   title="Create New Invoice">
                     <i class=" fas fa-fw fa-plus" aria-hidden="true"></i>
                     Create New Invoice
                 </a>
@@ -78,7 +83,7 @@
 
     <script>
         var sample_item = {
-            product_id: '', description: '', price: '', qnt: 1, tax_id: '', unit: 'unit'
+            product_id: '', description: '', price: '', qnt: 1, tax_id: '', unit: 'unit', batch: null
         };
         var copiedObject = jQuery.extend(true, {}, sample_item)
         var pair = @json($invoiceExtraField);
@@ -89,6 +94,8 @@
         var from_advance = {{ optional($invoice)->from_advance??0 }}
 
         console.log(pair, 'pairs')
+        var settings = @json($settings);
+
         $(document).ready(function () {
             $('#country').select2({placeholder: 'Select Country'})
 

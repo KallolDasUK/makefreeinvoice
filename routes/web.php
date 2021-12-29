@@ -384,6 +384,7 @@ Route::group(['middleware' => 'auth:web', 'prefix' => 'app'], function () {
         Route::get('/withdraw-funds', [AjaxController::class, 'withdrawFund'])->name('ajax.withdrawFund');
         Route::get('/pos-create-data', [AjaxController::class, 'posCreateData'])->name('ajax.posCreateData');
         Route::post('/toggle-ads-settings', [AjaxController::class, 'toggleAdSettings'])->name('ajax.toggleAdSettings');
+        Route::post('/product-batch', [AjaxController::class, 'productBatch'])->name('ajax.productBatch');
     });
 
 

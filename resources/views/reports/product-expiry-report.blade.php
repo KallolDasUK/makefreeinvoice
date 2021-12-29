@@ -158,10 +158,10 @@
                                 <thead class="card-header">
                                 <tr>
                                     <td class=" border-0"><strong>SL</strong></td>
-                                    <td class=" border-0"><strong>Bill No</strong></td>
+                                    <td class=" border-0"><strong>Batch</strong></td>
                                     <td class=" border-0"><strong>Product Name</strong></td>
-                                    <td class=" border-0"><strong>Manufacturing Date</strong></td>
                                     <td class=" border-0"><strong>Expiry Date</strong></td>
+                                    <td class=" border-0"><strong>Expires/Expired</strong></td>
                                     <td class=" border-0"><strong>Stock</strong></td>
 
                                 </tr>
@@ -170,11 +170,11 @@
                                 @foreach($records as $record)
                                     <tr>
                                         <td class=" border-0">{{ $loop->iteration }}</td>
-                                        <td class="text-start border-0">{{ optional($record->bill)->bill_number }}</td>
+                                        <td class="text-start border-0">{{ $record->batch }}</td>
                                         <td class="text-start border-0" style="max-width: 300px">
-                                            <b>{{ optional($record->product)->name }}</b></td>
-                                        <td class="text-start border-0">{{ $record->mfg_date }}</td>
-                                        <td class="text-start border-0">{{ $record->exp_date }}</td>
+                                            {{ optional($record->product)->name }}</td>
+                                        <td class="text-start border-0 @if(\Carbon\Carbon::parse(\Carbon\Carbon::today())->greaterThan($record->exp_date)) text-danger @endif ">{{ $record->exp_date }}</td>
+                                        <td class="text-start border-0  @if(\Carbon\Carbon::parse(\Carbon\Carbon::today())->greaterThan($record->exp_date)) text-danger @endif ">{{ \Carbon\Carbon::parse($record->exp_date)->diffForHumans() }}</td>
                                         <td class="text-start border-0"
                                             style="max-width: 300px"> {{ decent_format_dash($record->qnt) }}</td>
                                     </tr>

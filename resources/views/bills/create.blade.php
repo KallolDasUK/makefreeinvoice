@@ -8,7 +8,7 @@
     @include('partials.ajax-ledger-create-form')
 
     <div class="float-left">
-        <h2>Add an Bill</h2>
+        <h2>Add a Bill</h2>
     </div>
 
     <div class="text-right">
@@ -63,7 +63,8 @@
             unit: 'unit',
             stock: '-',
             exp_date: null,
-            mfg_date: null
+            mfg_date: null,
+            batch: null
         };
         var copiedObject = jQuery.extend(true, {}, sample_item)
         var pair = @json($bill_fields);

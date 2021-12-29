@@ -66,15 +66,51 @@
                        class="form-control check-mark checkbox form-check-input"
                        value="1" {{ ($settings->customer_id_feature??'0')?'checked':'' }}>
             </div>
-        </div>  <div class="form-group row align-items-center">
+        </div>
+        <div class="form-group row align-items-center">
             <div class="col-form-label col-lg-2 ">
-                <label for="exp_based_product" class="font-weight-bolder ">Exp and Mfg Based Product</label>
+                <label for="exp_based_product" class="font-weight-bolder ">Expire-able and Batch Based Product
+                    (Recommended for medicine)</label>
             </div>
             <div class="col-lg-4 bg-secondary">
                 <input type="hidden" name="exp_based_product" value="0">
                 <input id="exp_based_product" type="checkbox" name="exp_based_product"
                        class="form-control check-mark checkbox form-check-input"
                        value="1" {{ ($settings->exp_based_product??'0')?'checked':'' }}>
+            </div>
+        </div>
+        <div class="form-group row align-items-center">
+            <div class="col-form-label col-lg-2 ">
+                <label for="generate_report_from" class="font-weight-bolder ">Generate Report From</label>
+            </div>
+            <div class="col-lg-4 bg-secondary">
+                <input type="hidden" name="generate_report_from" value="0">
+                <select name="generate_report_from" id="generate_report_from" class="form-control">
+                    <option value="purchase_price"
+                            @if(($settings->generate_report_from??'') == 'purchase_price') selected @endif>Purchase
+                        Price
+                    </option>
+                    <option value="purchase_price_cost_average"
+                            @if(($settings->generate_report_from??'') == 'purchase_price_cost_average') selected @endif>
+                        Average Purchase Price With Cost
+                    </option>
+                    <option value="purchase_price_average"
+                            @if(($settings->generate_report_from??'') == 'purchase_price_average') selected @endif>
+                        Average Purchase Price
+                    </option>
+                    <option value="purchase_price_last"
+                            @if(($settings->generate_report_from??'') == 'purchase_price_last') selected @endif>Last
+                        Purchase Price
+                    </option>
+                    <option value="sell_price"
+                            @if(($settings->generate_report_from??'') == 'sell_price') selected @endif>Sell Price
+                    </option>
+                </select>
+                <small class="form-text message"
+                       style="@if(($settings->generate_report_from??'') == 'purchase_price_average')  @else display: none @endif">
+                    At the time of purchase/bill products, Each additional purchase cost will be merged to each products
+                    purchase price.
+                </small>
             </div>
         </div>
         <div class="form-group row">
@@ -105,6 +141,11 @@
                     $('#new_password,#confirmed_password').attr('type', 'password')
 
                 }
+            })
+            $('#generate_report_from').on('change', function () {
+                if ($(this).val() == 'purchase_price_cost_average') $('.message').show();
+                else $('.message').hide();
+
             })
         })
     </script>

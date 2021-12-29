@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Ajax;
 
 use App\Http\Controllers\Controller;
 use App\Models\Bill;
+use App\Models\BillItem;
 use App\Models\BillPayment;
 use App\Models\BillPaymentItem;
 use App\Models\Category;
@@ -13,6 +14,7 @@ use App\Models\ContactInvoicePaymentItem;
 use App\Models\Customer;
 use App\Models\Expense;
 use App\Models\Invoice;
+use App\Models\InvoiceItem;
 use App\Models\MetaSetting;
 use App\Models\PaymentMethod;
 use App\Models\PaymentRequest;
@@ -312,6 +314,23 @@ class AjaxController extends Controller
             ->where('client_id', $user->client_id)
             ->updateOrCreate(['key' => 'ads', 'client_id' => $user->client_id], ['value' => $show_ads, 'client_id' => $user->client_id]);
         return [$user->settings];
+
+    }
+
+    public function productBatch(Request $request)
+    {
+        $product_id = $request->product_id;
+        $bill_items = BillItem::query()->where('product_id', $product_id)->whereNotNull('batch')->get();
+        $records = [];
+        foreach ($bill_items as $bill_item) {
+            $sold_qnt_from_batch = InvoiceItem::query()->where(['product_id' => $product_id, 'batch' => $bill_item->batch])->sum('qnt');
+            $remaining_qnt = $bill_item->qnt - $sold_qnt_from_batch;
+            if ($remaining_qnt > 0) {
+                $records[] = $bill_item->batch;
+            }
+        }
+
+        return $records;
 
     }
 }
