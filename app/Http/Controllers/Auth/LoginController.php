@@ -45,8 +45,8 @@ class LoginController extends Controller
     {
         $this->performLogout($request);
 
-        if (str_contains($request->url(),'lgrd')){
-            return redirect()->to("https://lgrd.invoicepedia.com");
+        if (str_contains($request->url(),'rda')){
+            return redirect()->to("https://rda.invoicepedia.com");
         }
         return redirect()->to("https://invoicepedia.com");
     }

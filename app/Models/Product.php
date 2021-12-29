@@ -137,7 +137,7 @@ class Product extends Model
         $generate_report_from = $settings->generate_report_from ?? 'purchase_price';
         if ($generate_report_from == 'purchase_price_average') {
             $bill_items = BillItem::query()->where('product_id', $this->id)->get();
-            $averagePrice = $bill_items->sum('amount') / count($bill_items);
+            $averagePrice = $bill_items->sum('amount') / $bill_items->sum('qnt');
             $purchase_price = $averagePrice;
         } elseif ($generate_report_from == 'purchase_price_last') {
             $last_bill_item = BillItem::query()->where('product_id', $this->id)->latest()->first();
