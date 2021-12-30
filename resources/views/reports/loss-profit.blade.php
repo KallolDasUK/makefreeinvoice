@@ -180,9 +180,10 @@
                             </tr>
                             @foreach($record as $ledger)
                                 <tr>
-                                    <td> <span
-                                            class="text-primary font-weight-bolder">→</span> <a
-                                            href="{{ route('reports.report.ledger_report',['ledger_id'=>$ledger['id']]) }}">  {{ $ledger['ledger_name'] }}</td>
+                                    <td>
+                                        <span class="text-primary font-weight-bolder">→</span> <a
+                                            href="{{ route('reports.report.ledger_report',['ledger_id'=>$ledger['id']]) }}"> {{ $ledger['ledger_name'] }}
+                                    </td>
                                     <td style="text-align: center"> {{ decent_format_dash($ledger['amount']) }}</td>
                                 </tr>
                                 @php($amount = $amount + floatval($ledger['amount']))
@@ -214,10 +215,11 @@
                                 <tr style="margin:15px">
                                     <td> <span
                                             class="text-primary font-weight-bolder">→</span> <a
-                                            href="{{ route('reports.report.ledger_report',['ledger_id'=>$ledger['id']]) }}">  {{ $ledger['ledger_name'] }}</td>
+                                            href="{{ route('reports.report.ledger_report',['ledger_id'=>$ledger['id']]) }}"> {{ $ledger['ledger_name'] }}
+                                    </td>
                                     <td style="text-align: center"> {{ decent_format_dash($ledger['amount']) }}</td>
                                 </tr>
-                                @php($amount = $amount + intval($ledger['amount']))
+                                @php($amount = $amount + floatval($ledger['amount']))
 
                             @endforeach
                         @endforeach
@@ -226,14 +228,16 @@
                             <td style="text-align: center">{{ decent_format_dash($amount) }}</td>
                         </tr>
                         <tr>
-                            <td style="color: black!important;" class="font-weight-bolder"> NET PROFIT (GROSS PROFIT - TOTAL EXPENSE)</td>
-                            <td style="text-align: center;color: black!important;"><b>{{ decent_format_dash($totalIncome-$totalExpense) }}</b></td>
+                            <td style="color: black!important;" class="font-weight-bolder"> NET PROFIT (GROSS PROFIT -
+                                TOTAL EXPENSE)
+                            </td>
+                            <td style="text-align: center;color: black!important;">
+                                <b>{{ decent_format_dash($totalIncome-$totalExpense) }}</b></td>
                         </tr>
 
                     </table>
 
                 </div>
-
 
 
             </main>

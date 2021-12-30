@@ -158,7 +158,7 @@ class InvoicesController extends Controller
         foreach ($invoice_items as $invoice_item) {
             $product_id = $invoice_item->product_id;
             if (!is_numeric($product_id)) {
-                $product = Product::create(['product_type' => 'Service', 'name' => $invoice_item->product_id, 'sell_price' => $invoice_item->price, 'sell_unit' => $invoice_item->unit ?? '',
+                $product = Product::create(['product_type' => 'Goods', 'name' => $invoice_item->product_id, 'sell_price' => $invoice_item->price, 'sell_unit' => $invoice_item->unit ?? '',
                     'description' => $invoice_item->description]);
                 $product_id = $product->id;
             }

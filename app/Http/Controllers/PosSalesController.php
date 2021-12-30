@@ -118,7 +118,9 @@ class PosSalesController extends Controller
         $bookmarks = Product::query()->where('is_bookmarked', true)->get();
         $start_date = today()->toDateString();
         $end_date = today()->toDateString();
-        $orders = PosSale::query()->whereBetween('date', [$start_date, $end_date])->latest()->get();
+        $orders = PosSale::query()->with('customer')->whereBetween('date', [$start_date, $end_date])->latest()->get();
+        $pos_numbers = PosSale::query()->select('pos_number')->get()->toArray();
+//        dd($pos_numbers);
         $charges = [['key' => 'Discount', 'Value' => ''], ['key' => '', 'Value' => '']];
         if (count(PosSale::query()->get()) > 0) {
             $last_order = PosSale::query()->get()->last();
@@ -140,7 +142,7 @@ class PosSalesController extends Controller
         $p = [];
 //        dd($p);
         return view('pos_sales.create', compact('customers', 'branches', 'ledgers', 'ledger_id', 'products', 'categories', 'title', 'orders',
-            'paymentMethods', 'bookmarks', 'start_date', 'end_date', 'charges', 'can_delete', 'p'));
+            'paymentMethods', 'bookmarks', 'start_date', 'end_date', 'charges', 'can_delete', 'p', 'pos_numbers'));
     }
 
     public function getAssetLedgers()
@@ -244,7 +246,12 @@ class PosSalesController extends Controller
     {
         $start_date = $request->start_date ?? today()->toDateString();
         $end_date = $request->end_date ?? today()->toDateString();
-        $orders = PosSale::query()->whereBetween('date', [$start_date, $end_date])->latest()->get();
+        $pos_number = $request->pos_number;
+        if ($pos_number) {
+            $orders = PosSale::query()->with('customer')->where('pos_number', 'like', '%' . $pos_number . '%')->latest()->get();
+        } else {
+            $orders = PosSale::query()->with('customer')->whereBetween('date', [$start_date, $end_date])->latest()->get();
+        }
 
 
         return $orders;

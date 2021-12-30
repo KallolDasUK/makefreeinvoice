@@ -35,6 +35,7 @@
         var bookmarks = @json($bookmarks,JSON_INVALID_UTF8_IGNORE);
         var start_date = @json($start_date);
         var end_date = @json($end_date);
+        var pos_numbers = @json($pos_numbers);
         var paymentMethods = @json($paymentMethods);
 
 
@@ -62,9 +63,9 @@
 
         });
     </script>
-    <script src="{{ asset('js/product.js') }}?v=1.14"></script>
-    <script src="{{ asset('js/pos/pos_sales.js') }}?v=2.14"></script>
-    <script src="{{ asset('js/pos/pos_crud.js') }}?v=1.14"></script>
-    <script src="{{ asset('js/pos/pos_payment.js') }}?v=1.14"></script>
+    <script src="{{ asset('js/product.js') }}?v=1.15"></script>
+    <script src="{{ asset('js/pos/pos_sales.js') }}?v=2.15"></script>
+    <script src="{{ asset('js/pos/pos_crud.js') }}?v=1.15"></script>
+    <script src="{{ asset('js/pos/pos_payment.js') }}?v=1.15"></script>
 @endsection
 

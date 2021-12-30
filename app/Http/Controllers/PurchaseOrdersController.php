@@ -129,7 +129,7 @@ class PurchaseOrdersController extends Controller
         foreach ($bill_items as $bill_item) {
             $product_id = $bill_item->product_id;
             if (!is_numeric($product_id)) {
-                $product = Product::create(['product_type' => 'Service', 'name' => $bill_item->product_id, 'purchase_price' => $bill_item->price, 'sell_unit' => $bill_item->unit ?? '',
+                $product = Product::create(['product_type' => 'Goods', 'name' => $bill_item->product_id, 'purchase_price' => $bill_item->price, 'sell_unit' => $bill_item->unit ?? '',
                     'description' => $bill_item->description]);
                 $product_id = $product->id;
             }

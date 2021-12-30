@@ -51,7 +51,8 @@ var posRactive = new Ractive({
             show_sale_price,
             hide_name,
             hide_image,
-            prevent_sale_on_stock_out
+            prevent_sale_on_stock_out,
+            pos_number: ''
         },
         observe: {
             'products': (newProducts) => {
@@ -292,6 +293,7 @@ var posRactive = new Ractive({
                     "start_date": start_date,
                     "end_date": end_date,
                     "_token": token,
+                    "pos_number": posRactive.get('pos_number')
                 },
                 beforeSend: function () {
                     posRactive.set('orders', [])
@@ -354,10 +356,10 @@ function setUpProductSearch() {
             name = product.code + ' ' + name;
         }
         var icon = product.image;
-        if (!icon){
+        if (!icon) {
             icon = no_image;
         }
-        return {label: name, value: product.id,icon:icon};
+        return {label: name, value: product.id, icon: icon};
     });
     $("#product_search").autocomplete({
         source: product_names,
@@ -377,11 +379,11 @@ function setUpProductSearch() {
         }
 
     });
-    if(!hide_image){
+    if (!hide_image) {
         $("#product_search").data("ui-autocomplete")._renderItem = function (ul, item) {
             console.log(item)
             return $('<li/>', {'data-value': item.label}).append($('<a/>', {href: "#"})
-                .append($('<img/>', {src: item.icon,style:'width:50px'})).append(item.label))
+                .append($('<img/>', {src: item.icon, style: 'width:50px'})).append(item.label))
                 .appendTo(ul);
         };
     }

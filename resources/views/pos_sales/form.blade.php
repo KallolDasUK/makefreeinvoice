@@ -263,6 +263,8 @@
 
         <div class="row align-items-center justify-content-center">
 
+                                    <input type="text" class="form-control" style="width:160px;margin-left: 10px;" placeholder="Pos Number" id="pos_number" name="pos_number" value="{{ pos_number }}">
+
                                     <div class="input-daterange input-group col" >
                                         <input type="date" class="form-control " name="start_date"  id="start_date"  value="{{ start_date }}" placeholder="Start">
                                         <div class="input-group-append">
@@ -308,13 +310,18 @@
          <button type="button" on-click="@this.onOrderPay(id)"   class="btn btn-primary btn-sm " style="min-width: 100px;height: 100%">
 
         Get Payment</button>
+
 </div>
 </h4>
-</div>
-        <div class="col-6">
+{{ customer.name }}
+        {{ customer.phone }}
+        </div>
+                <div class="col-6">
+                <div>
 
 
-          <button type="button" on-click="@this.onOrderDelete(id)"   class="btn btn-outline-danger btn-sm " {{ can_delete }} style="min-width: 100px;">
+
+                  <button type="button" on-click="@this.onOrderDelete(id)"   class="btn btn-outline-danger btn-sm " {{ can_delete }} style="min-width: 100px;">
          <i class="fa fa-edit"></i>
          DELETE</button>
         <button class="btn btn-secondary btn-sm mx-2" on-click="@this.onOrderView(id)"  type="button">
@@ -323,7 +330,10 @@
 
         <button type="button" on-click="@this.onOrderPrint(id)"   class="btn btn-outline-secondary btn-lg " style="min-width: 100px;height: 100%">
         <i class="fa fa-print"></i>
-        PRINT</button>
+        PRINT</button></div>
+        <div>
+
+</div>
 
 
 
@@ -409,16 +419,16 @@
                        class="form-control form-control-sm text-center mx-2"
                        value="{{ qnt }}"
                         {{# prevent_sale_on_stock_out }}
-                            max="{{ product.stock }}"
+        max="{{ product.stock }}"
                         {{/ prevent_sale_on_stock_out }}
 
-                       >
-                <button type="button" class="btn btn-sm btn-primary" style="font-weight: bolder;" on-click="@this.increment(i)">
-                    +
-                </button>
-            </div>
-        </td>
-        <td><input type="text" value="{{ unit }}"
+        >
+ <button type="button" class="btn btn-sm btn-primary" style="font-weight: bolder;" on-click="@this.increment(i)">
+     +
+ </button>
+</div>
+</td>
+<td><input type="text" value="{{ unit }}"
                    style="max-width: 30px;outline: none; border: 0px !important; text-align: end; text-decoration: underline dashed red;">
         </td>
         <td>{{  qnt * price  }}</td>
@@ -524,6 +534,7 @@ Payment</button>
 </div>
 
 </div>
+
 
 
 

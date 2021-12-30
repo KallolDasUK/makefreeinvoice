@@ -97,7 +97,7 @@ class EstimatesController extends Controller
         foreach ($estimate_items as $estimate_item) {
             $product_id = $estimate_item->product_id;
             if (!is_numeric($product_id)) {
-                $product = Product::create(['product_type' => 'Service', 'name' => $estimate_item->product_id, 'sell_price' => $estimate_item->price, 'sell_unit' => $estimate_item->unit ?? '',
+                $product = Product::create(['product_type' => 'Goods', 'name' => $estimate_item->product_id, 'sell_price' => $estimate_item->price, 'sell_unit' => $estimate_item->unit ?? '',
                     'description' => $estimate_item->description]);
                 $product_id = $product->id;
             }
