@@ -226,7 +226,7 @@ class PosSalesController extends Controller
             ]);
         }
         if ($request->ajax()) {
-            dd($pos_items);
+//            dd($pos_items);
             return $pos_sales->load('pos_charges');
         }
 

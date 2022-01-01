@@ -527,7 +527,7 @@ Payment</button>
                 <h3>TOTAL</h3>
             </div>
             <div class="col text-right">
-                <h2> {{ currency }} {{ total }}</h2>
+                <h2> {{ currency }} {{ twoDigit(total) }}</h2>
         </div>
 
     </div> <div class="note">

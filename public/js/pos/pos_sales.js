@@ -54,7 +54,10 @@ var posRactive = new Ractive({
             hide_image,
             prevent_sale_on_stock_out,
             pos_number: '',
-            exp_based_product
+            exp_based_product,
+            twoDigit : function(value){
+                return parseFloat(value||'0').toFixed(2)
+            }
         },
         observe: {
             'products': (newProducts) => {
