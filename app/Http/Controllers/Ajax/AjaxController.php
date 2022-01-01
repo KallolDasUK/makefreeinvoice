@@ -18,6 +18,7 @@ use App\Models\InvoiceItem;
 use App\Models\MetaSetting;
 use App\Models\PaymentMethod;
 use App\Models\PaymentRequest;
+use App\Models\PosItem;
 use App\Models\PosPayment;
 use App\Models\PosSale;
 use App\Models\Product;
@@ -324,11 +325,14 @@ class AjaxController extends Controller
         $records = [];
         foreach ($bill_items as $bill_item) {
             $sold_qnt_from_batch = InvoiceItem::query()->where(['product_id' => $product_id, 'batch' => $bill_item->batch])->sum('qnt');
-            $remaining_qnt = $bill_item->qnt - $sold_qnt_from_batch;
+            $sold_qnt_from_batch_pos = PosItem::query()->where(['product_id' => $product_id, 'batch' => $bill_item->batch])->sum('qnt');
+//            dump($sold_qnt_from_batch_pos);
+            $remaining_qnt = $bill_item->qnt - ($sold_qnt_from_batch + $sold_qnt_from_batch_pos);
             if ($remaining_qnt > 0) {
                 $records[] = $bill_item->batch;
             }
         }
+//        dd('');
 
         return $records;
 

@@ -17,6 +17,7 @@ let hide_image = (settings.pos_hide_image || '1') === '1';
 let hide_name = (settings.pos_hide_name || '0') === '1';
 let show_sale_price = (settings.pos_card_price || 'sale_price') === 'sale_price';
 let show_purchase_price = settings.pos_card_price === 'purchase_price';
+let exp_based_product = (settings.exp_based_product || '0') === '1';
 
 var posRactive = new Ractive({
         target: '#pos',
@@ -52,7 +53,8 @@ var posRactive = new Ractive({
             hide_name,
             hide_image,
             prevent_sale_on_stock_out,
-            pos_number: ''
+            pos_number: '',
+            exp_based_product
         },
         observe: {
             'products': (newProducts) => {
@@ -432,11 +434,37 @@ function addToCart(id) {
         qnt: 1,
         tax_id: '',
         unit: product.sell_unit || 'unit',
+        batch: null,
         amount: ''
     };
     var copiedObject = jQuery.extend(true, {}, sample_pos_item)
     posRactive.unshift('pos_items', copiedObject)
     $('#product_search').focus()
+    let lineIndex = 0;
+    $.ajax({
+        url: route('ajax.productBatch'),
+        type: 'post',
+        data: {product_id: id, _token: csrf},
+
+        success: function (response) {
+
+
+            let options = '<option value="">-</option>'
+            if (response.length > 0) {
+                options = '<option value="">select batch</option>'
+            }
+            for (let i = 0; i < response.length; i++) {
+                let item = response[i];
+                let option = `<option value="${item}">${item}</option>`
+                options = options.concat(option);
+            }
+            console.log(response, options)
+            $('#batch' + lineIndex)
+                .empty()
+                .html(options);
+        }
+    });
+    console.log('in cart', posRactive.get('pos_items'))
 
 }
 

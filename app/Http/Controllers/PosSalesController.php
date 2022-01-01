@@ -186,6 +186,7 @@ class PosSalesController extends Controller
             PosItem::create(['pos_sales_id' => $pos_sales->id, 'product_id' => $pos_item->product_id,
                 'price' => $pos_item->price, 'qnt' => $pos_item->qnt, 'amount' => $pos_item->amount,
                 'tax_id' => $pos_item->tax_id, 'attribute_id' => $pos_item->attribute_id,
+                'batch' => $pos_item->batch ?? null,
                 'date' => $pos_sales->date]);
         }
         foreach ($pos_charges as $pos_charge) {
@@ -225,6 +226,7 @@ class PosSalesController extends Controller
             ]);
         }
         if ($request->ajax()) {
+            dd($pos_items);
             return $pos_sales->load('pos_charges');
         }
 

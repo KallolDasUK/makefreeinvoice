@@ -9,6 +9,7 @@ use App\Models\Customer;
 use App\Models\ExpenseItem;
 use App\Models\Invoice;
 use App\Models\InvoiceItem;
+use App\Models\PosItem;
 use App\Models\PosPayment;
 use App\Models\PosSale;
 use App\Models\Product;
@@ -490,7 +491,9 @@ class ReportController extends AccountingReportsController
         foreach ($bill_items as $bill_item) {
             $record = [];
             $sold_qnt_from_batch = InvoiceItem::query()->where(['product_id' => $bill_item->product_id, 'batch' => $bill_item->batch])->sum('qnt');
-            $remaining_qnt = $bill_item->qnt - $sold_qnt_from_batch;
+            $sold_qnt_from_batch_pos = PosItem::query()->where(['product_id' => $bill_item->product_id, 'batch' => $bill_item->batch])->sum('qnt');
+
+            $remaining_qnt = $bill_item->qnt - ($sold_qnt_from_batch + $sold_qnt_from_batch_pos);
             if ($remaining_qnt > 0) {
                 $record = ['product' => Product::find($bill_item->product_id),
                     'exp_date' => $bill_item->exp_date,

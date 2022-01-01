@@ -390,6 +390,9 @@
                 <table class="table bg-white table-head-custom table-vertical-center text-center">
                     <tr>
                         <th style="text-align: start">ITEM</th>
+                        {{ #exp_based_product }}
+                        <th>Batch</th>
+                        {{ /exp_based_product }}
                         <th>PRICE</th>
                         <th>QNT</th>
                         <th>UNIT</th>
@@ -404,6 +407,11 @@
         <br>
         <small></small>
     </td>
+      {{ #exp_based_product }}
+        <td>
+            <select value="{{ batch }}" class="form-control form-control-sm" name="batch" id="batch{{i}}"><option value="">-</option></select>
+        </td>
+        {{ /exp_based_product }}
     <td style="text-align: center">
         <input style="max-width: 90px" type="text"
                class="form-control form-control-sm text-center"
