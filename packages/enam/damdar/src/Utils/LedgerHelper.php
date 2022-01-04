@@ -38,6 +38,7 @@ abstract class LedgerHelper
     /* Ledger */
 
     public static $PURCHASE_AC = "Purchase A/C";
+    public static $PURCHASE_EXPENSE_AC = "Purchase Expense A/C";
     public static $SALES_AC = "Sales A/C";
     public static $CASH_AC = "Cash A/C";
 

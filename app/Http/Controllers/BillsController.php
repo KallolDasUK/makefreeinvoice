@@ -234,12 +234,12 @@ class BillsController extends Controller
         BillExtraField::query()->where('bill_id', $bill->id)->delete();
         BillItem::query()->where('bill_id', $bill->id)->delete();
         ExtraField::query()->where('type', get_class($bill))->where('type_id', $bill->id)->delete();
-        BillPayment::query()->where('id', $bill->bill_payment_id)->delete();
-        BillPaymentItem::query()->where('bill_payment_id', $bill->bill_payment_id)->get()->each(function ($model) {
+        BillPayment::query()->where('bill_id',$bill->id)->delete();
+        BillPaymentItem::query()->where('bill_id', $bill->id)->get()->each(function ($model) {
             $model->delete();
         });
         $bill->update($data);
-
+//        dd($bill->due);
 
         $this->insertDataToOtherTable($bill, $bill_items, $extraFields, $additionalFields);
         $this->saveTermsNDNote($data);

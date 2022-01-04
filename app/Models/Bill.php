@@ -124,7 +124,7 @@ class Bill extends Model
         } catch (\Exception $exception) {
             $payment = 0;
         }
-
+//        dd(optional($this->payments));
         $due = $this->total - $payment;
 
         return number_format((float)$due, 2, '.', '');

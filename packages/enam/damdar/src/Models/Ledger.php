@@ -248,7 +248,6 @@ class Ledger extends Model
     }
 
 
-
     public static function ACCOUNTS_RECEIVABLE()
     {
         return GroupMap::query()->where('key', LedgerHelper::$ACCOUNTS_RECEIVABLE)->first()->value ?? null;
@@ -297,6 +296,11 @@ class Ledger extends Model
         return GroupMap::query()->where('key', LedgerHelper::$ACCOUNTS_PAYABLE)->first()->value ?? null;
     }
 
+    public static function EXPENSE_GROUP()
+    {
+        return GroupMap::query()->where('key', LedgerHelper::$DIRECT_EXPENSE)->first()->value ?? null;
+    }
+
     public static function SALES_AC()
     {
         return GroupMap::query()->where('key', LedgerHelper::$SALES_AC)->first()->value ?? null;
@@ -310,6 +314,21 @@ class Ledger extends Model
     public static function PURCHASE_AC()
     {
         return GroupMap::query()->where('key', LedgerHelper::$PURCHASE_AC)->first()->value ?? null;
+    }
+
+    public static function PURCHASE_EXPENSE_AC()
+    {
+
+        $purchase_expense_ac_id = GroupMap::query()->where('key', LedgerHelper::$PURCHASE_EXPENSE_AC)->first()->value ?? null;
+        if ($purchase_expense_ac_id == null) {
+            $ledger = Ledger::create(['ledger_name' => LedgerHelper::$PURCHASE_EXPENSE_AC,
+                'ledger_group_id' => Ledger::EXPENSE_GROUP(),
+                'is_default' => true]);
+            $group = GroupMap::create(['key' => $ledger->ledger_name, 'value' => $ledger->id]);
+            $purchase_expense_ac_id = $group->value;
+
+        }
+        return $purchase_expense_ac_id;
     }
 
     public static function COST_OF_GOODS_SOLD()

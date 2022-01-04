@@ -10,6 +10,7 @@ use App\Models\ContactInvoicePaymentItem;
 use App\Models\Expense;
 use App\Models\ExpenseItem;
 use App\Models\Invoice;
+use App\Models\MetaSetting;
 use App\Models\PosPayment;
 use App\Models\PosSale;
 use App\Models\PurchaseOrder;
@@ -210,13 +211,26 @@ class AccountingFacade extends Facade
     public function on_bill_create(Bill $bill)
     {
         $vendor = $bill->vendor;
-        self::addTransaction(Ledger::PURCHASE_AC(), optional($vendor->ledger)->id, $bill->total, $bill->notes,
+        $amount = $bill->total;
+
+        $settings = json_decode(MetaSetting::query()->pluck('value', 'key')->toJson());
+        if (($settings->generate_report_from ?? '') == 'purchase_price_cost_average') {
+            $amount = $amount - $bill->charges;
+            if ($bill->charges) {
+                self::addTransaction(Ledger::PURCHASE_EXPENSE_AC(), null, $bill->charges, $bill->notes,
+                    $bill->bill_date, 'Purchase Expense', Bill::class, $bill->id,
+                    $bill->bill_number, '');
+            }
+        }
+        self::addTransaction(Ledger::PURCHASE_AC(), optional($vendor->ledger)->id, $amount, $bill->notes,
             $bill->bill_date, 'Bill', Bill::class, $bill->id,
             $bill->bill_number, optional($bill->vendor)->name);
 
-        self::addTransaction(Ledger::INVENTORY_AC(), Ledger::PURCHASE_AC(), $bill->total, $bill->notes,
+        self::addTransaction(Ledger::INVENTORY_AC(), Ledger::PURCHASE_AC(), $amount, $bill->notes,
             $bill->bill_date, 'Bill', Bill::class, $bill->id,
             $bill->bill_number, optional($bill->vendor)->name);
+
+
     }
 
     public function on_bill_delete(Bill $bill)
@@ -255,10 +269,40 @@ class AccountingFacade extends Facade
     {
         $bill = $billPaymentItem->bill;
         $vendor = $bill->vendor;
-        self::addTransaction(optional($vendor->ledger)->id, $billPaymentItem->bill_payment->ledger_id, $billPaymentItem->amount,
-            $billPaymentItem->bill_payment->note, $billPaymentItem->bill_payment->payment_date,
+        $paidAmount = $billPaymentItem->amount; // 400
+
+        $due = $bill->total - BillPaymentItem::query()
+                ->where('id', '!=', $billPaymentItem->id)
+                ->where('bill_id', $bill->id)
+                ->sum('amount');
+
+        $dueAmount = $due - $bill->charges; // 600 - 100 = 500
+//        dd($dueAmount);
+        $remains = 0;
+        $amountForBill = 0;
+        if ($paidAmount > $dueAmount && ($settings->generate_report_from ?? '') == 'purchase_price_cost_average') { // 400 > 500
+            $remains = $paidAmount - $dueAmount;
+            $amountForBill = $dueAmount;
+        } else {
+            $amountForBill = $paidAmount;
+        }
+
+        self::addTransaction(optional($vendor->ledger)->id, $billPaymentItem->bill_payment->ledger_id,
+            $amountForBill, $billPaymentItem->bill_payment->note, $billPaymentItem->bill_payment->payment_date,
             'Vendor Payment', BillPaymentItem::class, $billPaymentItem->id,
             $bill->bill_number, optional($bill->vendor)->name);
+
+        if (($settings->generate_report_from ?? '') == 'purchase_price_cost_average' && $remains > 0) {
+            if ($bill->charges > 0) {
+                self::addTransaction(null, $billPaymentItem->bill_payment->ledger_id, $remains,
+                    $billPaymentItem->bill_payment->note,
+                    $billPaymentItem->bill_payment->payment_date,
+                    'Purchase Expense',
+                    BillPaymentItem::class, $billPaymentItem->id,
+                    $bill->bill_number, '');
+            }
+        }
+
     }
 
     public function on_bill_payment_delete($billPaymentItem)
