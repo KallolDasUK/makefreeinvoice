@@ -39,7 +39,8 @@
 
         </div>
         <hr>
-        <div class="row"> <div class="col "><strong>To:</strong>
+        <div class="row">
+            <div class="col "><strong>To:</strong>
                 @if($invoice->customer)
                     <address>
                         {{ $invoice->customer->company_name?? $invoice->customer->name??'N/A' }}<br>
@@ -50,7 +51,7 @@
                         @if($invoice->customer->street_2)
                             {{ $invoice->customer->street_2??'' }}<br>
                         @endif
-                        {{ $invoice->customer->state??'' }} {{ $invoice->customer->zip_post??'' }}
+                        {{ $invoice->customer->state??'' }} {{ $invoice->customer->city??'' }} {{ $invoice->customer->zip_post??'' }} {{ $invoice->customer->country??'' }}
                         @if($invoice->customer->email)
                             <br> {{ $invoice->customer->email??'' }}
                         @endif
@@ -69,7 +70,7 @@
                 @foreach($invoice->extra_fields as $ef)
 
                     @if($ef->name == "")
-                                                @continue
+                        @continue
                     @endif
                     <p><strong>{{ $ef->name }} :</strong> <br>
                         {{ $ef->value }}</p>
@@ -100,7 +101,7 @@
         <div class="card">
             <div class="card-body p-0">
                 <div class="table-responsive">
-                    <table class="table mb-0 table-sm"  style="table-layout: fixed">
+                    <table class="table mb-0 table-sm" style="table-layout: fixed">
                         <thead class="card-header">
                         <tr>
                             <td class=" " width="30"><strong>SL</strong></td>
@@ -118,8 +119,8 @@
 
                             <tr class="">
                                 <td>{{ $loop->iteration }}</td>
-                                <td class=""  style="width: 200px!important;">
-                                    <span >
+                                <td class="" style="width: 200px!important;">
+                                    <span>
                                            {{ optional($item->product)->name??'Item Deleted!' }}
                                     </span>
 
@@ -245,11 +246,11 @@
         <div class="row ">
             <div class="col">
                 <hr>
-                <b class="" >Client Signature</b>
+                <b class="">Client Signature</b>
             </div>
             <div class="col">
                 <hr>
-                <p class="text-right"><b >Authorized Signature</b></p>
+                <p class="text-right"><b>Authorized Signature</b></p>
             </div>
         </div>
 

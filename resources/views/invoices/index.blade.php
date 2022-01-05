@@ -176,6 +176,15 @@
                             @endforeach
                         </select>
                     </div>
+                    <div class="mx-2">
+                        <select name="payment_status" id="payment_status" class="form-control"
+                                style="min-width: 150px;max-width: 150px">
+                            <option selected  value="">-- Payment Status --</option>
+                            <option value="Unpaid" @if($payment_status == 'Unpaid') selected @endif>Unpaid</option>
+                            <option value="Partial" @if($payment_status == 'Partial') selected @endif> Partial</option>
+                            <option value="Paid" @if($payment_status == 'Paid') selected @endif> Paid</option>
+                        </select>
+                    </div>
 
                     @if(auth()->user()->is_admin)
                         <div class="mx-2">

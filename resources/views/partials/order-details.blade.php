@@ -36,8 +36,9 @@
                 @if($posSale->customer->street_2)
                     {{ $posSale->customer->street_2??'' }}<br>
                 @endif
-                {{ $posSale->customer->state??'' }} {{ $posSale->customer->zip_post??'' }}
-                @if($posSale->customer->email)
+                {{ $posSale->customer->state??'' }} {{ $posSale->customer->city??'' }} {{ $posSale->customer->zip_post??'' }} {{ $posSale->customer->country??'' }}
+
+            @if($posSale->customer->email)
                     <br> {{ $posSale->customer->email??'' }}
                 @endif
                 @if($posSale->customer->phone)

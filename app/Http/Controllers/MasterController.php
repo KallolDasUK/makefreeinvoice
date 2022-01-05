@@ -27,6 +27,19 @@ class MasterController extends Controller
         return view('master.index');
     }
 
+    public function user_settings_view(Request $request)
+    {
+        dd($request->all());
+        $user_id = User::find($request->user_id);
+        return view('partials.user-settings-form', compact('user_id'));
+    }
+
+    public function user_settings()
+    {
+
+        return [];
+    }
+
     public function users(Request $request)
     {
         $filter_type = $request->filter_type;

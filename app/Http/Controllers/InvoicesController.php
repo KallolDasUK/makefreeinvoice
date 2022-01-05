@@ -53,6 +53,7 @@ class InvoicesController extends Controller
         $customer_id = $request->customer;
         $sr_id = $request->sr_id;
         $user_id = $request->user_id;
+        $payment_status = $request->payment_status;
 
         $q = $request->q;
         $invoices = Invoice::with('customer')
@@ -64,6 +65,8 @@ class InvoicesController extends Controller
                 return $query->where('sr_id', $sr_id);
             })->when($q != null, function ($query) use ($q) {
                 return $query->where('invoice_number', 'like', '%' . $q . '%');
+            })->when($payment_status != null, function ($query) use ($payment_status) {
+                return $query->where('payment_status', $payment_status);
             })
             ->when($start_date != null && $end_date != null, function ($query) use ($start_date, $end_date) {
                 $start_date = Carbon::parse($start_date)->toDateString();
@@ -80,7 +83,7 @@ class InvoicesController extends Controller
         view()->share('title', 'All Invoices');
 
         return view('invoices.index', compact('invoices', 'q', 'cashAcId', 'depositAccounts', 'paymentMethods',
-            'start_date', 'user_id', 'end_date', 'customer_id', 'customers', 'ledgerGroups', 'sr_id'));
+            'start_date', 'user_id', 'end_date', 'customer_id', 'customers', 'ledgerGroups', 'sr_id', 'payment_status'));
     }
 
 

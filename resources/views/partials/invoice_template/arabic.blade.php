@@ -57,7 +57,7 @@
                         @if($invoice->customer->street_2)
                             {{ $invoice->customer->street_2??'' }}<br>
                         @endif
-                        {{ $invoice->customer->state??'' }} {{ $invoice->customer->zip_post??'' }}
+                        {{ $invoice->customer->state??'' }} {{ $invoice->customer->city??'' }} {{ $invoice->customer->zip_post??'' }} {{ $invoice->customer->country??'' }}
                         @if($invoice->customer->email)
                             <br> {{ $invoice->customer->email??'' }}
                         @endif

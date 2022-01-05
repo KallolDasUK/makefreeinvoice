@@ -667,6 +667,8 @@ Route::get('p/{slug}', [BlogsController::class, 'show'])->name('blogs.blog.show'
 
 Route::group(['prefix' => 'master', 'middleware' => ['auth:web', 'isMaster']], function () {
     Route::get('/', [MasterController::class, 'index'])->name('master.index');
+    Route::get('/user_settings_view', [MasterController::class, 'user_settings_view'])->name('master.user_settings');
+    Route::post('/user_settings', [MasterController::class, 'user_settings'])->name('master.user_settings_store');
     Route::get('/subscriptions', [MasterController::class, 'subscriptions'])->name('master.subscriptions');
     Route::post('/subscriptions/free-plan', [MasterController::class, 'freePlanSettings'])->name('master.subscriptions.free_plan');
     Route::post('/subscriptions/basic-plan', [MasterController::class, 'basicPlanSettings'])->name('master.subscriptions.basic_plan');

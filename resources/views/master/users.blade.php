@@ -1,6 +1,28 @@
 @extends('master.master-layout')
 
 @section('content')
+
+    <!-- Modal -->
+    <div class="modal fade" id="settingsModal" tabindex="-1" role="dialog" aria-labelledby="settingsModal"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">User Settings</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div id="content"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Hide</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="table-wrapper">
         <div class="table-title">
             <div class="row">
@@ -114,7 +136,7 @@
             <thead>
             <tr>
                 <th>Name</th>
-                <th>Show Ads</th>
+                <th>Settings</th>
                 <th>On Plan</th>
                 <th>Joined</th>
                 <th>Last Active</th>
@@ -150,9 +172,9 @@
                     </td>
                     <td>
                         <label>
-                            Ads <br>
-                            <input class="ads_checkbox" type="checkbox" user_id="{{ $user->id }}"
-                                   @if($user->ads == "true") checked @endif>
+                            <button class="btn btn-sm btn-link" user_id="{{ $user->id }}"
+                                    data-toggle="modal" data-target="#settingsModal"> View Settings
+                            </button>
                         </label>
                     </td>
                     <td>{{ Str::title($user->plan) }}</td>
@@ -218,6 +240,23 @@
 
                 // $(this).text('Copied')
             })
+
+            $('#settingsModal').on('shown.bs.modal', function () {
+                // alert('test')
+                //get data-id attribute of the clicked element
+                var user_id = $(e.relatedTarget).data('user-id');
+                $.ajax({
+                    url: route('master.user_settings'),
+                    method: 'get',
+
+                    data: {_token: "{{ csrf_token() }}", user_id: user_id},
+                    success: function (data) {
+                        $('#content').html(data)
+                        // alert('test')
+                    }
+                })
+            })
+
         })
     </script>
 @endsection
