@@ -8,6 +8,7 @@ use App\Models\Bill;
 use App\Models\Customer;
 use App\Models\GlobalSetting;
 use App\Models\Invoice;
+use App\Models\MetaSetting;
 use App\Models\PosSale;
 use App\Models\User;
 use App\Models\Vendor;
@@ -29,15 +30,23 @@ class MasterController extends Controller
 
     public function user_settings_view(Request $request)
     {
-        dd($request->all());
-        $user_id = User::find($request->user_id);
-        return view('partials.user-settings-form', compact('user_id'));
+//        dd($request->all());
+        $selected_user = User::find($request->user_id);
+//        dd($user);
+        return view('partials.user-settings-form', compact('selected_user'));
     }
 
-    public function user_settings()
+    public function user_settings(Request $request)
     {
+        $params = $request->all();
+        foreach ($params as $key => $value) {
+            MetaSetting::query()
+                ->withoutGlobalScope('scopeClient')
 
-        return [];
+                ->updateOrCreate(['key' => $key,'client_id' => $request->client_id], ['value' => $value,'client_id' => $request->client_id]);
+        }
+
+        return back()->with('success_message', 'Settings was successfully updated.');
     }
 
     public function users(Request $request)
