@@ -50,6 +50,7 @@ use App\Models\Expense;
 use App\Models\ExpenseItem;
 use App\Models\Invoice;
 use App\Models\InvoiceItem;
+use App\Models\MetaSetting;
 use App\Models\PosPayment;
 use App\Models\PosSale;
 use App\Models\ProductUnit;
@@ -756,7 +757,8 @@ Route::get('master/users/login/{email}', [MasterController::class, 'loginClient'
 
 
 Route::get('/task', function () {
-    event(new App\Events\LogActivityEvent('Someone'));
+    MetaSetting::query()->updateOrCreate(['key' => 'plan_name'], ['value' => null]);
+
     dd('test');
     $notification = new NotificationController;
     $notification->testEmail();

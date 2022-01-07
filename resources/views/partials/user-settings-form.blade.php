@@ -3,9 +3,10 @@
     <p class="float-right"><b>{{ $selected_user->name }}</b></p>
     <div class="form-group">
         <label for="">Plan Name</label>
-        <input class="form-control" type="text" name="custom_plan_name"
+        <input class="form-control" type="text" name="custom_plan_name" 
                value="{{ $selected_user->settings->custom_plan_name??'Premium Plan on Trial' }}">
     </div>
+
     <div class="form-group">
         <label for="">On Trial</label> <br>
         <label class="switch">

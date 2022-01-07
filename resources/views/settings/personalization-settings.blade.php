@@ -78,6 +78,16 @@
                        class="form-control check-mark checkbox form-check-input"
                        value="1" {{ ($settings->exp_based_product??'0')?'checked':'' }}>
             </div>
+        </div><div class="form-group row align-items-center">
+            <div class="col-form-label col-lg-2 ">
+                <label for="exp_based_product" class="font-weight-bolder ">Show Paid Watermark on Paid Invoice and Bill</label>
+            </div>
+            <div class="col-lg-4 bg-secondary">
+                <input type="hidden" name="paid_watermark" value="0">
+                <input id="paid_watermark" type="checkbox" name="paid_watermark"
+                       class="form-control check-mark checkbox form-check-input"
+                       value="1" {{ ($settings->paid_watermark??'0')?'checked':'' }}>
+            </div>
         </div>
         <div class="form-group row align-items-center">
             <div class="col-form-label col-lg-2 ">
