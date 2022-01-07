@@ -228,10 +228,14 @@
 
     <div class="row mt-4 justify-content-center align-items-center">
         <div class="col ">
-            <p><strong>Terms & Condition :</strong> <br>
-                {{ $invoice->terms_condition }}</p>
-            <p><strong>Notes :</strong> <br>
-                {{ $invoice->notes }}</p>
+            @if($invoice->terms_condition)
+                <p><strong>Terms & Condition :</strong> <br>
+                    {{ $invoice->terms_condition }}</p>
+            @endif
+            @if($invoice->notes)
+                <p><strong>Notes :</strong> <br>
+                    {{ $invoice->notes }}</p>
+            @endif
         </div>
 
 
