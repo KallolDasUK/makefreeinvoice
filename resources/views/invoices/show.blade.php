@@ -190,7 +190,7 @@
                         <div style=" position: absolute;
   left: 0;
   right: 0;
-  margin-top: 45%;
+  margin-top: 5%;
   z-index: 99999;
   margin-left: auto;
   margin-right: auto;
