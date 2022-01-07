@@ -119,9 +119,9 @@
         </div>
         <p class="clearfix"></p>
 
-        <div style="position:relative;">
+        <div class="paid_watermark">
             @if(($settings->paid_watermark??false) && floatval($bill->due) == 0)
-                <div style=" position: absolute;
+                <div class="paid_watermark" style=" position: absolute;
                           left: 0;
                           right: 0;
                           margin-top: 5%;
@@ -129,7 +129,7 @@
                           margin-left: auto;
                           margin-right: auto;
                           width: 100px;">
-                    <img width="200" src="{{ asset('images/paid.png') }}" alt="">
+                    <img class="paid_watermark" width="200" src="{{ asset('images/paid.webp') }}" alt="">
                 </div>
             @endif
 

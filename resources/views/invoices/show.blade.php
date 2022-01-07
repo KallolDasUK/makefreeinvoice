@@ -83,6 +83,10 @@
                 visibility: visible;
             }
 
+            .paid_watermark {
+                visibility: visible;
+            }
+
             #invoice-container {
                 position: absolute;
                 left: 0;
@@ -184,18 +188,18 @@
                     </div>
                 </div>
                 <p class="clearfix"></p>
-                <div style="position:relative;">
-{{--                    {{ dd($invoice->due) }}--}}
+                <div class="paid_watermark">
+                    {{--                    {{ dd($invoice->due) }}--}}
                     @if(($settings->paid_watermark??false) && floatval($invoice->due) == 0)
-                        <div style=" position: absolute;
+                        <div class="paid_watermark" style=" position: absolute;
                           left: 0;
                           right: 0;
-                          margin-top: 5%;
+                          margin-top: 20px;
                           z-index: 99999;
                           margin-left: auto;
                           margin-right: auto;
                           width: 100px;">
-                            <img width="200" src="{{ asset('images/paid.png') }}" alt="">
+                            <img class="paid_watermark" width="200" src="{{ asset('images/paid.webp') }}" alt="">
                         </div>
                     @endif
                     @if($template == "template_1")
