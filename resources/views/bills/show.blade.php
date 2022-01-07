@@ -118,8 +118,23 @@
             </div>
         </div>
         <p class="clearfix"></p>
-        @include('partials.bill')
 
+        <div style="position:relative;">
+            @if(($settings->paid_watermark??false) && floatval($bill->due) == 0)
+                <div style=" position: absolute;
+                          left: 0;
+                          right: 0;
+                          margin-top: 5%;
+                          z-index: 99999;
+                          margin-left: auto;
+                          margin-right: auto;
+                          width: 100px;">
+                    <img width="200" src="{{ asset('images/paid.png') }}" alt="">
+                </div>
+            @endif
+
+        @include('partials.bill')
+    </div>
     </div>
 
 @endsection

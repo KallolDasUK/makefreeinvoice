@@ -185,26 +185,26 @@
                 </div>
                 <p class="clearfix"></p>
                 <div style="position:relative;">
-
-                    @if($settings->paid_watermark??false)
+{{--                    {{ dd($invoice->due) }}--}}
+                    @if(($settings->paid_watermark??false) && floatval($invoice->due) == 0)
                         <div style=" position: absolute;
-  left: 0;
-  right: 0;
-  margin-top: 5%;
-  z-index: 99999;
-  margin-left: auto;
-  margin-right: auto;
-  width: 100px;">
+                          left: 0;
+                          right: 0;
+                          margin-top: 5%;
+                          z-index: 99999;
+                          margin-left: auto;
+                          margin-right: auto;
+                          width: 100px;">
                             <img width="200" src="{{ asset('images/paid.png') }}" alt="">
                         </div>
                     @endif
-                @if($template == "template_1")
-                    @include('partials.invoice_template.template_1')
-                @elseif($template == "arabic")
-                    @include('partials.invoice_template.arabic')
-                @else
-                    @include('partials.invoice_template.classic')
-                @endif
+                    @if($template == "template_1")
+                        @include('partials.invoice_template.template_1')
+                    @elseif($template == "arabic")
+                        @include('partials.invoice_template.arabic')
+                    @else
+                        @include('partials.invoice_template.classic')
+                    @endif
                 </div>
             </div>
         </div>
