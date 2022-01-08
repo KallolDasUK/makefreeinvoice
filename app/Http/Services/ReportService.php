@@ -532,6 +532,12 @@ trait ReportService
                 ->where('product_id', $product->id)
                 ->whereDate('date', $date)
                 ->sum('qnt');
+
+//            dd($sold);
+            if ($sold == 0 && $sales_return== 0 && $purchase== 0 && $purchase_return== 0 && $added== 0 && $removed == 0&& $stock_entry== 0 && $used_in_production== 0 && $produced_in_production== 0) {
+                continue;
+            }
+
             $record['sold'] = $sold;
             $record['sales_return'] = $sales_return;
             $record['purchase'] = $purchase;
