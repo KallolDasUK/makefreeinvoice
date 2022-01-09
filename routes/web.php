@@ -757,7 +757,7 @@ Route::get('master/users/login/{email}', [MasterController::class, 'loginClient'
 
 
 Route::get('/task', function () {
-    MetaSetting::query()->updateOrCreate(['key' => 'plan_name'], ['value' => null]);
+//    MetaSetting::query()->updateOrCreate(['key' => 'plan_name'], ['value' => null]);
 
     dd('test');
     $notification = new NotificationController;

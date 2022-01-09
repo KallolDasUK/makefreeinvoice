@@ -17,6 +17,7 @@ class InvoicePolicy extends BasePolicy
 
     private function has_access($ability)
     {
+//        dd($ability,$this->plan);
         try {
             $has_access = $this->global_settings[$this->plan . '_invoices_' . $ability];
         } catch (\Exception $exception) {

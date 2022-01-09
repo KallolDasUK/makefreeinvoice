@@ -194,6 +194,7 @@ class User extends Authenticatable
         if ($plan != null) {
             if (Str::contains(strtolower($plan), 'basic')) $plan = 'basic';
             elseif (Str::contains(strtolower($plan), 'premium')) $plan = 'premium';
+            elseif (Str::contains(strtolower($plan), 'trial')) $plan = 'premium';
         } else $plan = 'free';
 //        dump($plan);
         return $plan;

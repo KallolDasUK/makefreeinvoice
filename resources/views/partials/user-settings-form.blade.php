@@ -1,20 +1,37 @@
 <form id="user_settings_form" action="{{ route('master.user_settings_store') }}" method="post">
-    @csrf
-    <p class="float-right"><b>{{ $selected_user->name }}</b></p>
-    <div class="form-group">
-        <label for="">Plan Name</label>
-        <input class="form-control" type="text" name="custom_plan_name" 
-               value="{{ $selected_user->settings->custom_plan_name??'Premium Plan on Trial' }}">
-    </div>
 
-    <div class="form-group">
-        <label for="">On Trial</label> <br>
-        <label class="switch">
-            <input type="hidden" name="on_trial" value="1">
-            <input type="checkbox" name="on_trial" @if($selected_user->settings->on_trial??true) checked @endif>
-            <span class="slider round"></span>
-        </label>
+    <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">User Settings- {{ $selected_user->name }}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
     </div>
-    <input type="hidden" name="client_id" value="{{ $selected_user->client_id }}">
-    <input type="submit" id="user_settings_form_btn" hidden>
+    <br>
+    @csrf
+    <div class="mx-4">
+        <div class="form-group">
+            <label for="">Choose Plan</label>
+            <select class="form-control" name="plan_name" id="plan_name">
+                <option value="Trial" @if($selected_user->settings->plan_name == 'Trial') selected @endif>On Trial
+                </option>
+                <option value="Free" @if($selected_user->settings->plan_name == 'Free') selected @endif>Free Plan
+                </option>
+                <option value="Basic" @if($selected_user->settings->plan_name == 'Basic') selected @endif>Basic Plan
+                </option>
+                <option value="Premium" @if($selected_user->settings->plan_name == 'Premium') selected @endif>Premium
+                    Plan
+                </option>
+            </select>
+
+        </div>
+
+        <input type="hidden" name="client_id" value="{{ $selected_user->client_id }}">
+        <input type="submit" id="user_settings_form_btn" hidden>
+    </div>
+    <div class="mx-4">
+        <p> Joined at {{ \Carbon\Carbon::parse($selected_user->created_at) }}
+            [<b>{{ \Carbon\Carbon::parse($selected_user->created_at)->diffForHumans() }}]</b></p>
+        <p> Active at {{ \Carbon\Carbon::parse($selected_user->last_active_at) }}
+            [<b>{{ \Carbon\Carbon::parse($selected_user->last_active_at)->diffForHumans() }}]</b></p>
+    </div>
 </form>

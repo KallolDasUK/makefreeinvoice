@@ -1,6 +1,6 @@
 @include('partials.ajax-subscription-payment-form')
 
-@if(!auth()->user()->subscribed('default'))
+@if(!auth()->user()->subscribed('default') || $trial)
     <div class="">
 
 

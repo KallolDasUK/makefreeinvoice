@@ -42,8 +42,7 @@ class MasterController extends Controller
         foreach ($params as $key => $value) {
             MetaSetting::query()
                 ->withoutGlobalScope('scopeClient')
-
-                ->updateOrCreate(['key' => $key,'client_id' => $request->client_id], ['value' => $value,'client_id' => $request->client_id]);
+                ->updateOrCreate(['key' => $key, 'client_id' => $request->client_id], ['value' => $value, 'client_id' => $request->client_id]);
         }
 
         return back()->with('success_message', 'Settings was successfully updated.');

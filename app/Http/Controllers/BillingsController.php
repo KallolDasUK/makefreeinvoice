@@ -24,19 +24,32 @@ class BillingsController extends Controller
         $stripe = new \Stripe\StripeClient($key);
         $currentPlan = null;
         $price = null;
+
         if ($user->subscribed('default')) {
+
             $subscription = $user->subscriptions->first();
+            $trial = false;
             $sub_stripe_id = $subscription->stripe_id;
-            $sub = $stripe->subscriptions->retrieve($sub_stripe_id);
-            $sub->product = $stripe->products->retrieve(
-                $sub->plan->product, []
-            );
-            $currentPlan = $sub;
+            try {
+                $sub = $stripe->subscriptions->retrieve($sub_stripe_id);
+                $sub->product = $stripe->products->retrieve(
+                    $sub->plan->product, []
+                );
+                $currentPlan = $sub;
+            } catch (\Exception $exception) {
+                $trial = true;
+
+            }
+
+//            dd('testing',$sub_stripe_id);
+
+
         }
 
 
         return view('subscriptions.index', ['intent' => auth()->user()->createSetupIntent(), 'invoices' => $invoices,
-            'upcoming_invoice' => $upcoming_invoice, 'currentPlan' => $currentPlan]);
+            'upcoming_invoice' => $upcoming_invoice, 'currentPlan' => $currentPlan, 'trial' => $trial
+        ]);
     }
 
     public function purchaseSubscription(Request $request)
@@ -116,19 +129,26 @@ class BillingsController extends Controller
         $stripe = new \Stripe\StripeClient($key);
         $currentPlan = null;
         $price = null;
+        $trial = true;
+
         if ($user->subscribed('default')) {
             $subscription = $user->subscriptions->first();
             $sub_stripe_id = $subscription->stripe_id;
-            $sub = $stripe->subscriptions->retrieve($sub_stripe_id);
-            $sub->product = $stripe->products->retrieve(
-                $sub->plan->product, []
-            );
-            $currentPlan = $sub;
+            try {
+                $sub = $stripe->subscriptions->retrieve($sub_stripe_id);
+                $sub->product = $stripe->products->retrieve(
+                    $sub->plan->product, []
+                );
+                $currentPlan = $sub;
+            } catch (\Exception $exception) {
+                $trial = true;
+            }
+
         }
 
 
         return view('partials.subscribe', ['intent' => auth()->user()->createSetupIntent(), 'invoices' => $invoices,
-            'upcoming_invoice' => $upcoming_invoice, 'currentPlan' => $currentPlan]);
+            'upcoming_invoice' => $upcoming_invoice, 'currentPlan' => $currentPlan, 'trial' => $trial]);
     }
 
 
