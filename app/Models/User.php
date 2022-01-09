@@ -195,14 +195,22 @@ class User extends Authenticatable
             if (Str::contains(strtolower($plan), 'basic')) $plan = 'basic';
             elseif (Str::contains(strtolower($plan), 'premium')) $plan = 'premium';
             elseif (Str::contains(strtolower($plan), 'trial')) $plan = 'premium';
-        } else $plan = 'free';
+        } else $plan = 'trial';
 //        dump($plan);
         return $plan;
     }
 
     public function getSettingsAttribute()
     {
-        return json_decode(MetaSetting::query()->withoutGlobalScope('scopeClient')->where('client_id', $this->client_id)->pluck('value', 'key')->toJson());
+        $settings = json_decode(MetaSetting::query()->withoutGlobalScope('scopeClient')->where('client_id', $this->client_id)->pluck('value', 'key')->toJson());
+        if (($settings->plan_name ?? null) == null) {
+            MetaSetting::query()
+                ->withoutGlobalScope('scopeClient')
+                ->updateOrCreate(['key' => 'plan_name', 'client_id' => $this->client_id],
+                    ['value' => 'Trial', 'client_id' => $this->client_id]);
+
+        }
+        return $settings;
     }
 
     public function getTimezoneAttribute()

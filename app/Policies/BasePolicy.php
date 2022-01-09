@@ -27,7 +27,10 @@ class BasePolicy
             elseif (Str::contains(strtolower($this->plan), 'trial')) $this->plan = 'premium';
             elseif (Str::contains(strtolower($this->plan), 'free')) $this->plan = 'free';
             else $this->plan = 'trial';
-        } else $this->plan = 'trial';
+        } else{
+            $this->plan = 'trial';
+
+        }
 
     }
 
