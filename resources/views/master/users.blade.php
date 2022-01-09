@@ -235,7 +235,7 @@
                             </button>
                         </label>
                     </td>
-                    <td>{{ Str::title($user->plan) }}</td>
+                    <td>{{ Str::title($user->settings->plan_name??'n/a') }}</td>
                     <td> {{ \Carbon\Carbon::parse($user->created_at)->diffForHumans() }}</td>
                     @if($user->last_active_at)
                         <td> {{ \Carbon\Carbon::parse($user->last_active_at)->diffForHumans() }}</td>
