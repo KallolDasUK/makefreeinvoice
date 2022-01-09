@@ -81,6 +81,7 @@ class RegisterController extends Controller
             PaymentMethod::create(['name' => 'Cheque']);
 
             MetaSetting::query()->updateOrCreate(['key' => 'email'], ['value' => $user->email]);
+            MetaSetting::query()->updateOrCreate(['key' => 'plan_name'], ['value' => 'Trial']);
             Customer::create(['name' => Customer::WALK_IN_CUSTOMER]);
 
         }

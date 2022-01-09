@@ -12,13 +12,13 @@
         <div class="form-group">
             <label for="">Choose Plan</label>
             <select class="form-control" name="plan_name" id="plan_name">
-                <option value="Trial" @if($selected_user->settings->plan_name == 'Trial') selected @endif>On Trial
+                <option value="Trial" @if(($selected_user->settings->plan_name??'Trial') == 'Trial') selected @endif>On Trial
                 </option>
-                <option value="Free" @if($selected_user->settings->plan_name == 'Free') selected @endif>Free Plan
+                <option value="Free" @if(($selected_user->settings->plan_name??'Trial') == 'Free') selected @endif>Free Plan
                 </option>
-                <option value="Basic" @if($selected_user->settings->plan_name == 'Basic') selected @endif>Basic Plan
+                <option value="Basic" @if(($selected_user->settings->plan_name??'Trial') == 'Basic') selected @endif>Basic Plan
                 </option>
-                <option value="Premium" @if($selected_user->settings->plan_name == 'Premium') selected @endif>Premium
+                <option value="Premium" @if(($selected_user->settings->plan_name??'Trial') == 'Premium') selected @endif>Premium
                     Plan
                 </option>
             </select>
