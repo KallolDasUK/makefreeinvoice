@@ -12,10 +12,12 @@ class PosSalesPolicy extends BasePolicy
 
     private function has_access($ability)
     {
+
         try {
             $has_access = $this->global_settings[$this->plan . '_pos_sales_' . $ability];
         } catch (\Exception $exception) {
             $has_access = false;
+
         }
         return boolval($has_access);
     }
