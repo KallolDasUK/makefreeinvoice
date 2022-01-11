@@ -471,7 +471,7 @@
                                style="min-width: 100px;position:relative;"><i
                                     class="fa fa-list-alt" aria-hidden="true"></i>Manage <br>
                                 Invoices</a>
-                            <a href="{{ route('contact_invoices.contact_invoice.index') }}"
+                            <a  class="@cannot('viewAny',\App\Models\Invoice::class) pro-tag @endcannot" href="{{ route('contact_invoices.contact_invoice.index') }}"
                                style="min-width: 100px;position:relative;"><i
                                     class="fa fa-list-alt" aria-hidden="true"></i>Worker <br>
                                 Invoices</a>
@@ -512,13 +512,13 @@
                                     class="fa fa-users" aria-hidden="true"></i>Customers</a>
 
                             <a href="{{ route('sales_returns.sales_return.index') }}"
-                               class="{{ ability_class(\App\Utils\Ability::SALES_RETURN_READ) }}"
+                               class="@cannot('viewAny',\App\Models\SalesReturn::class) pro-tag @endcannot {{ ability_class(\App\Utils\Ability::SALES_RETURN_READ) }}"
                                style="min-width: 100px;position:relative;"><i
                                     class="fa fa-list-alt" aria-hidden="true"></i>Sales <br>
                                 Return</a>
 
                             <a href="{{ route('stock_entries.stock_entry.create') }}"
-                               class="{{ ability_class(\App\Utils\Ability::STOCK_ENTRY_CREATE) }}"
+                               class="@cannot('create',\App\Models\StockEntry::class) pro-tag @endcannot{{ ability_class(\App\Utils\Ability::STOCK_ENTRY_CREATE) }}"
                                style="min-width: 100px;position:relative;"><i
                                     class="fa fa-plus" aria-hidden="true"></i>Add Stock <br>
                             </a>

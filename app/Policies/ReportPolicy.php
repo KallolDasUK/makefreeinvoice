@@ -85,5 +85,60 @@ class ReportPolicy extends BasePolicy
         return $this->has_access(__FUNCTION__);
     }
 
+    public function customer_report()
+    {
+        return $this->has_access(__FUNCTION__);
+    }
+
+    public function product_report()
+    {
+        return $this->has_access(__FUNCTION__);
+    }
+
+    public function vendor_report()
+    {
+        return $this->has_access(__FUNCTION__);
+    }
+
+    public function customer_statement()
+    {
+        return $this->has_access(__FUNCTION__);
+    }
+
+    public function vendor_statement()
+    {
+        return $this->has_access(__FUNCTION__);
+    }
+
+    public function sales_report()
+    {
+        return $this->has_access(__FUNCTION__);
+    }
+
+    public function sales_report_details()
+    {
+        return $this->has_access(__FUNCTION__);
+    }
+
+    public function purchase_report()
+    {
+        return $this->has_access(__FUNCTION__);
+    }
+
+    public function purchase_report_details()
+    {
+        return $this->has_access(__FUNCTION__);
+    }
+
+    public function due_collection()
+    {
+        return $this->has_access(__FUNCTION__);
+    }
+
+    public function due_payment()
+    {
+        return $this->has_access(__FUNCTION__);
+    }
+
 
 }

@@ -158,6 +158,19 @@ class AppServiceProvider extends ServiceProvider
         Gate::define('cash_book', [ReportPolicy::class, 'cash_book']);
         Gate::define('day_book', [ReportPolicy::class, 'day_book']);
         Gate::define('balance_sheet', [ReportPolicy::class, 'balance_sheet']);
+        Gate::define('product_report', [ReportPolicy::class, 'product_report']);
+        Gate::define('customer_report', [ReportPolicy::class, 'customer_report']);
+        Gate::define('vendor_report', [ReportPolicy::class, 'vendor_report']);
+        Gate::define('customer_statement', [ReportPolicy::class, 'customer_statement']);
+        Gate::define('vendor_statement', [ReportPolicy::class, 'vendor_statement']);
+        Gate::define('sales_report', [ReportPolicy::class, 'sales_report']);
+        Gate::define('sales_report_details', [ReportPolicy::class, 'sales_report_details']);
+        Gate::define('purchase_report', [ReportPolicy::class, 'purchase_report']);
+        Gate::define('purchase_report_details', [ReportPolicy::class, 'purchase_report_details']);
+        Gate::define('due_collection', [ReportPolicy::class, 'due_collection']);
+        Gate::define('due_payment', [ReportPolicy::class, 'due_payment']);
+
+
         Gate::define('print_barcode', [ProductPolicy::class, 'print_barcode']);
         Gate::define('receive_payment', [CustomerPolicy::class, 'receive_payment']);
         Gate::define('bill_payment', [VendorPolicy::class, 'bill_payment']);

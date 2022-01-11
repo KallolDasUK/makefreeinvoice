@@ -89,7 +89,7 @@
                     </div>
                     <div class="shortcuts-title sc-jlyJG gSoaLO title">Accounts Payable Aging</div>
                 </a>
-                <a class="sc-gPEVay eaBhby"
+                <a class="sc-gPEVay eaBhby  @cannot('customer_statement') pro-tag @endcannot"
                    style="position: relative"
                    href="{{ route('reports.report.customer_statement') }}">
                     <div class="sc-iRbamj image" style="background-image:url('{{ asset('images/customer 1.svg') }}') ">
@@ -97,7 +97,7 @@
                     </div>
                     <div class="shortcuts-title sc-jlyJG gSoaLO title">Customer Statement</div>
                 </a>
-                <a class="sc-gPEVay eaBhby"
+                <a class="sc-gPEVay eaBhby @cannot('vendor_statement') pro-tag @endcannot"
                    style="position:relative;"
                    href="{{ route('reports.report.vendor_statement') }}">
                     <div class="sc-iRbamj image" style="background-image:url('{{ asset('images/customer 1.svg') }}') ">
@@ -106,7 +106,7 @@
                     <div class="shortcuts-title sc-jlyJG gSoaLO title">Vendor <br> Statement</div>
                 </a>
 
-                <a class="sc-gPEVay eaBhby"
+                <a class="sc-gPEVay eaBhby  @cannot('sales_report') pro-tag @endcannot"
                    style="position:relative;"
                    href="{{ route('reports.report.sales_report') }}">
                     <div class="sc-iRbamj image" style="background-image:url('{{ asset('images/estimate.svg') }}') ">
@@ -114,7 +114,7 @@
                     </div>
                     <div class="shortcuts-title sc-jlyJG gSoaLO title">Sales <br> Report</div>
                 </a>
-                <a class="sc-gPEVay eaBhby"
+                <a class="sc-gPEVay eaBhby @cannot('sales_report_details') pro-tag @endcannot"
                    style="position:relative;"
                    href="{{ route('reports.report.sales_report_details') }}">
                     <div class="sc-iRbamj image" style="background-image:url('{{ asset('images/estimate.svg') }}') ">
@@ -122,14 +122,14 @@
                     </div>
                     <div class="shortcuts-title sc-jlyJG gSoaLO title">Sales <br> Report Details</div>
                 </a>
-                <a class="sc-gPEVay eaBhby"
+                <a class="sc-gPEVay eaBhby  @cannot('purchase_report') pro-tag @endcannot"
                    style="position:relative;"
                    href="{{ route('reports.report.purchase_report') }}">
                     <div class="sc-iRbamj image" style="background-image:url('{{ asset('images/estimate.svg') }}') ">
 
                     </div>
                     <div class="shortcuts-title sc-jlyJG gSoaLO title">Purchase <br> Report</div>
-                </a> <a class="sc-gPEVay eaBhby"
+                </a> <a class="sc-gPEVay eaBhby  @cannot('purchase_report_details') pro-tag @endcannot"
                         style="position:relative;"
                         href="{{ route('reports.report.purchase_report_details') }}">
                     <div class="sc-iRbamj image" style="background-image:url('{{ asset('images/estimate.svg') }}') ">
@@ -144,14 +144,15 @@
 
                     </div>
                     <div class="shortcuts-title sc-jlyJG gSoaLO title">Stock Report</div>
-                </a> <a class="sc-gPEVay eaBhby   @cannot('stock_report') pro-tag @endcannot"
-                        href="{{ route('reports.report.stock-report-details') }}">
+                </a>
+                <a class="sc-gPEVay eaBhby   @cannot('stock_report') pro-tag @endcannot"
+                   href="{{ route('reports.report.stock-report-details') }}">
                     <div class="sc-iRbamj image" style="background-image:url('{{ asset('images/estimate.svg') }}') ">
 
                     </div>
                     <div class="shortcuts-title sc-jlyJG gSoaLO title">Stock Report Details</div>
                 </a>
-                <a class="sc-gPEVay eaBhby  "
+                <a class="sc-gPEVay eaBhby   @cannot('due_collection') pro-tag @endcannot"
                    href="{{ route('reports.report.due_collection_report') }}">
                     <div class="sc-iRbamj image" style="background-image:url('{{ asset('images/estimate.svg') }}') ">
 
@@ -159,27 +160,28 @@
                     <div class="shortcuts-title sc-jlyJG gSoaLO title">Due Collection</div>
                 </a>
 
-                <a class="sc-gPEVay eaBhby  "
+                <a class="sc-gPEVay eaBhby  @cannot('due_payment') pro-tag @endcannot"
                    href="{{ route('reports.report.due_payment_report') }}">
                     <div class="sc-iRbamj image" style="background-image:url('{{ asset('images/estimate.svg') }}') ">
 
                     </div>
                     <div class="shortcuts-title sc-jlyJG gSoaLO title">Due Payment</div>
                 </a>
-                <a class="sc-gPEVay eaBhby  "
+                <a class="sc-gPEVay eaBhby  @cannot('product_report') pro-tag @endcannot"
                    href="{{ route('reports.report.product_report') }}">
                     <div class="sc-iRbamj image" style="background-image:url('{{ asset('images/estimate.svg') }}') ">
 
                     </div>
                     <div class="shortcuts-title sc-jlyJG gSoaLO title">Product Report</div>
-                </a> <a class="sc-gPEVay eaBhby  "
+                </a>
+                <a class="sc-gPEVay eaBhby  @cannot('customer_report') pro-tag @endcannot "
                         href="{{ route('reports.report.customer_report') }}">
                     <div class="sc-iRbamj image" style="background-image:url('{{ asset('images/estimate.svg') }}') ">
 
                     </div>
                     <div class="shortcuts-title sc-jlyJG gSoaLO title">Customer Report</div>
                 </a>
-                <a class="sc-gPEVay eaBhby  "
+                <a class="sc-gPEVay eaBhby  @cannot('vendor_report') pro-tag @endcannot "
                    href="{{ route('reports.report.vendor_report') }}">
                     <div class="sc-iRbamj image" style="background-image:url('{{ asset('images/estimate.svg') }}') ">
 
