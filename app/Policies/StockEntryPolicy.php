@@ -2,36 +2,34 @@
 
 namespace App\Policies;
 
-use App\Models\GlobalSetting;
-use App\Models\Invoice;
-use App\Models\MetaSetting;
+use App\Models\StockEntry;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
-use Illuminate\Support\Str;
-use mysql_xdevapi\Exception;
 
-class InvoicePolicy extends BasePolicy
+class StockEntryPolicy extends BasePolicy
 {
-    use HandlesAuthorization;
-
 
     private function has_access($ability)
     {
         try {
-            $has_access = $this->global_settings[$this->plan . '_invoices_' . $ability];
+            $has_access = $this->global_settings[$this->plan . '_stock_entries_' . $ability];
         } catch (\Exception $exception) {
             $has_access = false;
         }
         return boolval($has_access);
     }
 
+    use HandlesAuthorization;
+
+
     public function viewAny(User $user)
     {
         return $this->has_access(__FUNCTION__);
+
     }
 
 
-    public function view(User $user, Invoice $invoice)
+    public function view(User $user, StockEntry $stockEntry)
     {
         return $this->has_access(__FUNCTION__);
 
@@ -45,17 +43,30 @@ class InvoicePolicy extends BasePolicy
     }
 
 
-    public function update(User $user, Invoice $invoice)
+    public function update(User $user, StockEntry $stockEntry)
     {
         return $this->has_access(__FUNCTION__);
 
     }
 
 
-    public function delete(User $user, Invoice $invoice)
+    public function delete(User $user, StockEntry $stockEntry)
     {
         return $this->has_access(__FUNCTION__);
+
     }
 
 
+    public function restore(User $user, StockEntry $stockEntry)
+    {
+        return $this->has_access(__FUNCTION__);
+
+    }
+
+
+    public function forceDelete(User $user, StockEntry $stockEntry)
+    {
+        return $this->has_access(__FUNCTION__);
+
+    }
 }

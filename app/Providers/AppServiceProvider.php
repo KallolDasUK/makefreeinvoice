@@ -29,7 +29,10 @@ use App\Observers\PosPaymentObserver;
 use App\Observers\PosSaleItemObserver;
 use App\Observers\PosSaleObserver;
 use App\Observers\ReceivePaymentItemObserver;
+use App\Policies\CustomerPolicy;
+use App\Policies\ProductPolicy;
 use App\Policies\ReportPolicy;
+use App\Policies\VendorPolicy;
 use App\Rules\UniqueCode;
 use Enam\Acc\AccountingFacade;
 use Enam\Acc\Http\Controllers\TransactionsController;
@@ -155,6 +158,9 @@ class AppServiceProvider extends ServiceProvider
         Gate::define('cash_book', [ReportPolicy::class, 'cash_book']);
         Gate::define('day_book', [ReportPolicy::class, 'day_book']);
         Gate::define('balance_sheet', [ReportPolicy::class, 'balance_sheet']);
+        Gate::define('print_barcode', [ProductPolicy::class, 'print_barcode']);
+        Gate::define('receive_payment', [CustomerPolicy::class, 'receive_payment']);
+        Gate::define('bill_payment', [VendorPolicy::class, 'bill_payment']);
     }
 }
 

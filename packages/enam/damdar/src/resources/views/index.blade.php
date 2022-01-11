@@ -147,7 +147,7 @@
                 <div class="clearfix"></div>
                 <a href="{{ route('products.product.create') }}"
                    style="position:relative;"
-                   class="sc-gPEVay eaBhby border rounded {{ ability_class(\App\Utils\Ability::PRODUCT_CREATE) }}  @cannot('viewAny',\App\Models\InventoryAdjustment::class) pro-tag @endcannot">
+                   class="sc-gPEVay eaBhby border rounded {{ ability_class(\App\Utils\Ability::PRODUCT_CREATE) }}  @cannot('create',\App\Models\Product::class) pro-tag @endcannot">
                     <div class="sc-iRbamj image" style="background-image:url('images/plus.svg') ">
 
                     </div>
@@ -155,16 +155,15 @@
                 </a>
                 <a href="{{ route('products.product.index') }}"
                    style="position:relative;"
-                   class="sc-gPEVay eaBhby border rounded {{ ability_class(\App\Utils\Ability::PRODUCT_READ) }} ">
+                   class="sc-gPEVay eaBhby border rounded {{ ability_class(\App\Utils\Ability::PRODUCT_READ) }}  @cannot('viewAny',\App\Models\Product::class) pro-tag @endcannot">
 
                     <div class="sc-iRbamj image" style="background-image:url('images/list.svg') ">
-
                     </div>
                     <div class="shortcuts-title  text-black  mt-4">My Products</div>
                 </a>
                 <a href="{{ route('products.product.barcode') }}"
                    style="position:relative;"
-                   class="sc-gPEVay eaBhby border rounded {{ ability_class(\App\Utils\Ability::BARCODE_READ) }} ">
+                   class="sc-gPEVay eaBhby border rounded {{ ability_class(\App\Utils\Ability::BARCODE_READ) }}  @cannot('print_barcode',\App\Models\Product::class) pro-tag @endcannot ">
 
                     <div class="sc-iRbamj image" style="background-image:url('images/barcode.svg') ">
 
@@ -219,14 +218,14 @@
 
                 <a href="{{ route('customers.customer.create') }}"
                    style="position:relative;"
-                   class="sc-gPEVay eaBhby border rounded {{ ability_class(\App\Utils\Ability::CUSTOMER_CREATE) }} @cannot('create',\App\Models\Invoice::class) pro-tag @endcannot">
+                   class="sc-gPEVay eaBhby border rounded {{ ability_class(\App\Utils\Ability::CUSTOMER_CREATE) }} @cannot('create',\App\Models\Customer::class) pro-tag @endcannot">
                     <div class="sc-iRbamj image" style="background-image:url('images/customer 1.svg') ">
 
                     </div>
                     <div class="shortcuts-title  text-black">Add Customer</div>
                 </a>
 
-                <a class="sc-gPEVay eaBhby border rounded {{ ability_class(\App\Utils\Ability::RECEIVE_PAYMENT_CREATE) }} @cannot('create',\App\Models\Invoice::class) pro-tag @endcannot"
+                <a class="sc-gPEVay eaBhby border rounded {{ ability_class(\App\Utils\Ability::RECEIVE_PAYMENT_CREATE) }} @cannot('receive_payment',\App\Models\Customer::class) pro-tag @endcannot"
                    style="position:relative;"
 
                    href="{{ route('receive_payments.receive_payment.create') }}">
@@ -289,7 +288,7 @@
                 </a>
                 <a href="{{ route('bill_payments.bill_payment.create') }}"
                    style="position:relative; "
-                   class="sc-gPEVay eaBhby border rounded  {{ ability_class(\App\Utils\Ability::PAY_BILL_CREATE) }} @cannot('create',\App\Models\Bill::class) pro-tag @endcannot">
+                   class="sc-gPEVay eaBhby border rounded  {{ ability_class(\App\Utils\Ability::PAY_BILL_CREATE) }} @cannot('bill_payment',\App\Models\Vendor::class) pro-tag @endcannot">
                     <div class="sc-iRbamj image" style="background-image:url('images/receive.svg');">
 
                     </div>
@@ -343,7 +342,7 @@
 
                 <a href="{{ route('productions.production.index') }}"
                    style="position:relative;"
-                   class="sc-gPEVay eaBhby border rounded {{ ability_class(\App\Utils\Ability::PRODUCTION_READ) }}">
+                   class="sc-gPEVay eaBhby border rounded {{ ability_class(\App\Utils\Ability::PRODUCTION_READ) }}  @cannot('viewAny',\App\Models\Production::class) pro-tag @endcannot">
                     <div class="sc-iRbamj image" style="background-image:url('images/production.svg') ">
 
                     </div>
@@ -351,7 +350,7 @@
                 </a>
                 <a href="{{ route('stock_entries.stock_entry.create') }}"
                    style="position:relative;"
-                   class="sc-gPEVay eaBhby border rounded {{ ability_class(\App\Utils\Ability::STOCK_ENTRY_CREATE) }}">
+                   class="sc-gPEVay eaBhby border rounded {{ ability_class(\App\Utils\Ability::STOCK_ENTRY_CREATE) }}  @cannot('viewAny',\App\Models\StockEntry::class) pro-tag @endcannot">
                     <div class="sc-iRbamj image" style="background-image:url('images/plus.svg') ">
 
                     </div>
@@ -384,7 +383,7 @@
 
                 <a href="{{ route('users.user.index') }}"
                    style="position:relative;"
-                   class="sc-gPEVay eaBhby border rounded {{ ability_class(\App\Utils\Ability::USER_READ) }}">
+                   class="sc-gPEVay eaBhby border rounded {{ ability_class(\App\Utils\Ability::USER_READ) }}   @cannot('viewAny',\App\Models\User::class) pro-tag @endcannot">
                     <div class="sc-iRbamj image" style="background-image:url('images/users.svg') ">
 
                     </div>
@@ -392,7 +391,7 @@
                 </a>
                 <a href="{{ route('user_roles.user_role.index') }}"
                    style="position:relative;"
-                   class="sc-gPEVay eaBhby border rounded {{ ability_class(\App\Utils\Ability::ROLE_READ) }}">
+                   class="sc-gPEVay eaBhby border rounded {{ ability_class(\App\Utils\Ability::ROLE_READ) }}  @cannot('viewAny',\App\Models\UserRole::class) pro-tag @endcannot">
                     <div class="sc-iRbamj image" style="background-image:url('images/roles.svg') ">
 
                     </div>

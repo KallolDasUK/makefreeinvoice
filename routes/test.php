@@ -21,3 +21,11 @@ Route::get('/app_1', function (\Illuminate\Http\Request $request) {
     }
     dd('done');
 });
+
+
+
+
+
+
+
+
