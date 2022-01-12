@@ -147,7 +147,7 @@
                 <div class="clearfix"></div>
                 <a href="{{ route('products.product.create') }}"
                    style="position:relative;"
-                   class="sc-gPEVay eaBhby border rounded {{ ability_class(\App\Utils\Ability::PRODUCT_CREATE) }}  @cannot('create',\App\Models\Product::class) pro-tag @endcannot">
+                   class="sc-gPEVay eaBhby border rounded {{ ability_class(\App\Utils\Ability::PRODUCT_CREATE) }}  @cannot('viewAny',\App\Models\Product::class) pro-tag @endcannot">
                     <div class="sc-iRbamj image" style="background-image:url('images/plus.svg') ">
 
                     </div>
