@@ -478,16 +478,18 @@
                                 Invoices</a>
 
                             <a href="{{ route('receive_payments.receive_payment.create') }}"
-                               class="@cannot('create',\App\Models\Invoice::class) pro-tag @endcannot {{ ability_class(\App\Utils\Ability::RECEIVE_PAYMENT_CREATE) }}"
+                               class="@cannot('receive_payment',\App\Models\Customer::class) pro-tag @endcannot {{ ability_class(\App\Utils\Ability::RECEIVE_PAYMENT_CREATE) }}"
                                style="min-width: 100px;position:relative;">
                                 <i class="fa fa-money-bill" aria-hidden="true"></i>
                                 Receive <br> Payment</a>
 
                             <a href="{{ route('products.product.index') }}"
-                               class="@cannot('create',\App\Models\Invoice::class) pro-tag @endcannot {{ ability_class(\App\Utils\Ability::PRODUCT_CREATE) }}"
+                               class="@cannot('viewAny',\App\Models\Product::class) pro-tag @endcannot {{ ability_class(\App\Utils\Ability::PRODUCT_CREATE) }}"
                                style="min-width: 100px;position:relative;"><i class="fab fa-product-hunt"></i> Products
-                            </a> <a href="{{ route('products.product.barcode') }}"
-                                    class="@cannot('create',\App\Models\Invoice::class) pro-tag @endcannot {{ ability_class(\App\Utils\Ability::BARCODE_READ) }}"
+                            </a>
+
+                            <a href="{{ route('products.product.barcode') }}"
+                                    class="@cannot('print_barcode',\App\Models\Product::class) pro-tag @endcannot {{ ability_class(\App\Utils\Ability::BARCODE_READ) }}"
                                     style="min-width: 100px;position:relative;"><i class="fa fa-barcode"></i> Print
                                 Barcode
                             </a>
@@ -573,13 +575,13 @@
                                 Demand Order</a>
 
                             <a href="{{ route('bill_payments.bill_payment.create') }}"
-                               class="@cannot('create',\App\Models\Bill::class) pro-tag @endcannot {{ ability_class(\App\Utils\Ability::PAY_BILL_CREATE) }}"
+                               class=" @cannot('bill_payment',\App\Models\Vendor::class) pro-tag @endcannot" {{ ability_class(\App\Utils\Ability::PAY_BILL_CREATE) }}"
                                style="min-width: 100px;position: relative">
 
                                 <i class="fa fa-money-bill" aria-hidden="true"></i>
                                 Pay <br> Bill</a>
                             <a href="{{ route('products.product.index') }}"
-                               class="@cannot('viewAny',\App\Models\Bill::class) pro-tag @endcannot {{ ability_class(\App\Utils\Ability::PRODUCT_READ) }}"
+                               class="@cannot('viewAny',\App\Models\Product::class) pro-tag @endcannot {{ ability_class(\App\Utils\Ability::PRODUCT_READ) }}"
                                style="min-width: 100px;position: relative">
                                 <i class="fab fa-product-hunt"></i> Products
                             </a>
@@ -594,7 +596,7 @@
                                 Brands
                             </a>
                             <a href="{{ route('vendors.vendor.index') }}"
-                               class="@cannot('viewAny',\App\Models\Bill::class) pro-tag @endcannot {{ ability_class(\App\Utils\Ability::VENDOR_READ) }}"
+                               class="@cannot('viewAny',\App\Models\Vendor::class) pro-tag @endcannot {{ ability_class(\App\Utils\Ability::VENDOR_READ) }}"
                                style="min-width: 100px;position: relative">
                                 <i class="fa fa-users" aria-hidden="true"></i>Vendors</a>
 

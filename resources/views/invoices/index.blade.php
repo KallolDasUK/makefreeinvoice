@@ -179,7 +179,7 @@
                     <div class="mx-2">
                         <select name="payment_status" id="payment_status" class="form-control"
                                 style="min-width: 150px;max-width: 150px">
-                            <option selected  value="">-- Payment Status --</option>
+                            <option selected value="">-- Payment Status --</option>
                             <option value="Unpaid" @if($payment_status == 'Unpaid') selected @endif>Unpaid</option>
                             <option value="Partial" @if($payment_status == 'Partial') selected @endif> Partial</option>
                             <option value="Paid" @if($payment_status == 'Paid') selected @endif> Paid</option>
@@ -318,7 +318,7 @@
                                 <td class="pr-0 text-right">
                                     @if($invoice->due > 0)
                                         <button style="text-decoration: underline"
-                                                class="btn  font-weight-bolder text-success  font-size-lg underline  text-hover-danger cursor-pointer mx-4 recordPaymentBtn "
+                                                class="btn  font-weight-bolder text-success  font-size-lg underline  text-hover-danger cursor-pointer mx-4 recordPaymentBtn @cannot('receive_payment',\App\Models\Customer::class) disabled @endcannot " @cannot('receive_payment',\App\Models\Customer::class) disabled @endcannot
                                                 invoice_id="{{ $invoice->id }}"
                                                 {{  ability(\App\Utils\Ability::RECEIVE_PAYMENT_CREATE) }}
                                                 currency="{{ $invoice->currency }}"
