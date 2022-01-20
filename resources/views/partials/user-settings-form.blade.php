@@ -12,13 +12,17 @@
         <div class="form-group">
             <label for="">Choose Plan</label>
             <select class="form-control" name="plan_name" id="plan_name">
-                <option value="Trial" @if(($selected_user->settings->plan_name??'Trial') == 'Trial') selected @endif>On Trial
+                <option value="Trial" @if(($selected_user->settings->plan_name??'Trial') == 'Trial') selected @endif>On
+                    Trial
                 </option>
-                <option value="Free" @if(($selected_user->settings->plan_name??'Trial') == 'Free') selected @endif>Free Plan
+                <option value="Free" @if(($selected_user->settings->plan_name??'Trial') == 'Free') selected @endif>Free
+                    Plan
                 </option>
-                <option value="Basic" @if(($selected_user->settings->plan_name??'Trial') == 'Basic') selected @endif>Basic Plan
+                <option value="Basic" @if(($selected_user->settings->plan_name??'Trial') == 'Basic') selected @endif>
+                    Basic Plan
                 </option>
-                <option value="Premium" @if(($selected_user->settings->plan_name??'Trial') == 'Premium') selected @endif>Premium
+                <option value="Premium"
+                        @if(($selected_user->settings->plan_name??'Trial') == 'Premium') selected @endif>Premium
                     Plan
                 </option>
             </select>
@@ -27,6 +31,14 @@
 
         <input type="hidden" name="client_id" value="{{ $selected_user->client_id }}">
         <input type="submit" id="user_settings_form_btn" hidden>
+
+        <hr>
+        <label for="">Ad Settings</label>
+        <div class="col">
+            <label for="">Left Side Ads</label>
+            <input type="hidden" name="ad_left_side" value="0">
+            <input type="checkbox" name="ad_left_side" @if($selected_user->settings->ad_left_side??false) checked @endif>
+        </div>
     </div>
     <div class="mx-4">
         <p> Joined at {{ \Carbon\Carbon::parse($selected_user->created_at) }}
