@@ -392,6 +392,15 @@
 
         }
 
+        .ad-drawer-left:before {
+            content: "\f00d";
+            font-family: FontAwesome;
+            position: absolute;
+            right: -20px;
+            top: calc(50% - .3em);
+            font-size: 2rem;
+            color: red
+        }
 
     </style>
     <!-- Global site tag (gtag.js) - Google Analytics -->
@@ -410,7 +419,30 @@
 </head>
 
 <body class="">
+@if(false)
+    <div class="ad-drawer-left rounded"
+         style="width: 200px;background-color: #0d66c2;height: 100%;position: absolute;z-index: 100;margin-top: 10px">
+        <img src="https://dummyimage.com/200x800/000/fff" alt=""
+             width="100%" height="100%">
+    </div>
 
+    <div class="ad-drawer-right rounded"
+         style="width: 200px;background-color: #0d66c2;height: 100vh;position: absolute;z-index: 100;margin-top: 10px;right: 0">
+        <img src="https://dummyimage.com/200x800/000/fff" alt=""
+             width="100%" height="100%">
+    </div>
+
+    <div class="ad-drawer-bottom rounded"
+         style="background-color: red;height: 100px;position: fixed;z-index: 100;position: fixed;
+   left: 0;
+   bottom: 0;
+   width: 100%;">
+        <img src="https://dummyimage.com/800x200/000/red" alt=""
+             width="100%" height="100%">
+
+    </div>
+
+@endif
 <div class="modal fade" id="subscribeModal" tabindex="-1" role="dialog" aria-labelledby="subscribeModal"
      aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
@@ -489,8 +521,8 @@
                             </a>
 
                             <a href="{{ route('products.product.barcode') }}"
-                                    class="@cannot('print_barcode',\App\Models\Product::class) pro-tag @endcannot {{ ability_class(\App\Utils\Ability::BARCODE_READ) }}"
-                                    style="min-width: 100px;position:relative;"><i class="fa fa-barcode"></i> Print
+                               class="@cannot('print_barcode',\App\Models\Product::class) pro-tag @endcannot {{ ability_class(\App\Utils\Ability::BARCODE_READ) }}"
+                               style="min-width: 100px;position:relative;"><i class="fa fa-barcode"></i> Print
                                 Barcode
                             </a>
 
@@ -575,11 +607,12 @@
                                 Demand Order</a>
 
                             <a href="{{ route('bill_payments.bill_payment.create') }}"
-                               class=" @cannot('bill_payment',\App\Models\Vendor::class) pro-tag @endcannot" {{ ability_class(\App\Utils\Ability::PAY_BILL_CREATE) }}"
-                               style="min-width: 100px;position: relative">
+                               class=" @cannot('bill_payment',\App\Models\Vendor::class) pro-tag @endcannot" {{ ability_class(\App\Utils\Ability::PAY_BILL_CREATE) }}
+                            "
+                            style="min-width: 100px;position: relative">
 
-                                <i class="fa fa-money-bill" aria-hidden="true"></i>
-                                Pay <br> Bill</a>
+                            <i class="fa fa-money-bill" aria-hidden="true"></i>
+                            Pay <br> Bill</a>
                             <a href="{{ route('products.product.index') }}"
                                class="@cannot('viewAny',\App\Models\Product::class) pro-tag @endcannot {{ ability_class(\App\Utils\Ability::PRODUCT_READ) }}"
                                style="min-width: 100px;position: relative">
