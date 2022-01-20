@@ -35,11 +35,18 @@
         <hr>
         <label for="">Ad Settings</label>
         <div class="col">
-            <label for="">Left Side Ads</label>
+            <label for="">Disturbing Ads</label>
             <input type="hidden" name="ad_left_side" value="0">
             <input type="checkbox" name="ad_left_side" @if($selected_user->settings->ad_left_side??false) checked @endif>
         </div>
+        <div class="col">
+            <label for="">Google Ads</label>
+            <input type="hidden" name="ad_google" value="0">
+            <input type="checkbox" name="ad_google" @if($selected_user->settings->ad_google??false) checked @endif>
+        </div>
     </div>
+
+
     <div class="mx-4">
         <p> Joined at {{ \Carbon\Carbon::parse($selected_user->created_at) }}
             [<b>{{ \Carbon\Carbon::parse($selected_user->created_at)->diffForHumans() }}]</b></p>
