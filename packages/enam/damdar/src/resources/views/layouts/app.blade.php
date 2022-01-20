@@ -14,6 +14,8 @@
     @else
         <meta name="viewport" content="width=1080px">
     @endif
+
+    <meta name="propeller" content="63dc0ccb0a91019d5a3e8f5ef5e8c489">
     <link rel="shortcut icon"
           href="https://www.bootstrapdash.com/demo/connect-plus/laravel/template/demo_1/favicon.ico">
 
