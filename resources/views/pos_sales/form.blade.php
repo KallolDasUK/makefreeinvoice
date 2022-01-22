@@ -191,7 +191,7 @@
 
         {{^ hide_stock }}
         <span class="{{ stock > 0 ?'':'text-danger' }}"
-              style="position:absolute;left: 5px;bottom: 5px"><small>{{ stock }}</small></span>
+              style="position:absolute;left: 5px;bottom: 5px"><small>{{ twoDigit(stock) }}</small></span>
 {{/ hide_stock }}
 
         {{^ hide_price }}
@@ -231,7 +231,7 @@
 
         {{^ hide_stock }}
         <span class="{{ stock > 0 ?'':'text-danger' }}"
-              style="position:absolute;left: 5px;bottom: 5px"><small>{{ stock }}</small></span>
+              style="position:absolute;left: 5px;bottom: 5px"><small>{{ twoDigit(stock) }}</small></span>
 {{/ hide_stock }}
 
         {{^ hide_price }}
