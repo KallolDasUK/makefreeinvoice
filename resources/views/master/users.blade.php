@@ -82,47 +82,50 @@
         </div>
     </div>
     <div class="table-wrapper">
-        <div class="table-title">
-            <div class="row">
-                <div class="col-sm-8"><h2>Client List</h2></div>
-                <div class="col-sm-4">
-                    <button type="button" class="btn btn-info add-new"><i class="fa fa-plus"></i> Add New</button>
-                </div>
-            </div>
-        </div>
+
         <div class="row mb-4">
             <div class="col">
                 <div class="card">
                     <div class="card-body">
-                        <h5>Total Clients</h5>
-                        {{ $totalClients }}
+                        <b>Total Clients</b>
+                        <h2 style="font-weight: bolder"> {{ $totalClients??0 }} </h2>
                     </div>
                 </div>
             </div>
             <div class="col">
                 <div class="card">
                     <div class="card-body">
-                        <h5>Total Invoices</h5>
-                        {{ $totalInvoices }}
+                        Active <span class="text-success "><b>Today</b></span>
+                        <h2 style="font-weight: bolder"> {{ $activeToday??0 }} </h2>
                     </div>
                 </div>
             </div>
             <div class="col">
                 <div class="card">
                     <div class="card-body">
-                        <h5>Total POS</h5>
-                        {{ $totalPosSale }}
+                        Joined <span class="text-success "><b>Today</b></span>
+                        <h2 style="font-weight: bolder">{{ $joinedToday??0 }}  </h2>
                     </div>
                 </div>
             </div>
             <div class="col">
                 <div class="card">
                     <div class="card-body">
-                        <h5>Total Bills</h5>
-                        {{ $totalBills }}
+                        Joined  <span class="text-warning "><b>Yesterday</b></span>
+                        <h2 style="font-weight: bolder">{{ $joinedYesterday??0 }}  </h2>
                     </div>
                 </div>
             </div>
+            <div class="col">
+                <div class="card">
+                    <div class="card-body">
+                        Active <span class="text-warning "><b>Yesterday</b></span>
+                        <h2 style="font-weight: bolder"> {{ $activeYesterday??0 }} </h2>
+                    </div>
+                </div>
+            </div>
+
+
         </div>
         <div class="card">
             <div class="card-body">

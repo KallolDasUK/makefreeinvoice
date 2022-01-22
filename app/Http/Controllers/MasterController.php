@@ -83,22 +83,28 @@ class MasterController extends Controller
             })
             ->when($sort_type == null && $email == null, function ($query) {
                 return $query->orderBy('invoices_count', $sort_type ?? 'desc');
-            });
+            })->paginate(25);
 
 
-//        dd($users);
-        $totalInvoices = 0;
-        $totalBills = 0;
-        $totalClients = count($users->get());
-//        dd($users->items());
-        foreach ($users->get() as $user) {
-            $totalInvoices += count($user->invoices);
-            $totalBills += count($user->bills);
-        }
-        $users = $users->paginate(25);
-        $totalPosSale = count(\DB::table('pos_sales')->where('client_id', '!=', null)->get());
-        return view('master.users', compact('users', 'totalBills', 'totalClients',
-            'totalInvoices', 'totalPosSale', 'start_date', 'end_date', 'filter_type', 'sort_type', 'email'));
+        $totalClients = \DB::table('users')->where('client_id', '!=', null)->count();
+        $activeToday = \DB::table('users')
+            ->where('client_id', '!=', null)
+            ->whereDate('last_active_at', today()->toDateString())
+            ->count();
+        $activeYesterday = \DB::table('users')
+            ->where('client_id', '!=', null)
+            ->whereDate('last_active_at',today()->subDay()->toDateString())
+            ->count();
+        $joinedToday = \DB::table('users')
+            ->where('client_id', '!=', null)
+            ->whereDate('created_at', today()->toDateString())
+            ->count();
+        $joinedYesterday = \DB::table('users')
+            ->where('client_id', '!=', null)
+            ->whereDate('created_at', today()->subDay()->toDateString())
+            ->count();
+        return view('master.users', compact('users', 'totalClients', 'activeToday', 'joinedToday','joinedYesterday'
+            , 'start_date','activeYesterday', 'end_date', 'filter_type', 'sort_type', 'email'));
     }
 
     public function deleteUser($id)
