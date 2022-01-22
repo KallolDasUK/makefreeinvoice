@@ -394,15 +394,6 @@
 
         }
 
-        .ad-drawer-left:before {
-            content: "\f00d";
-            font-family: FontAwesome;
-            position: absolute;
-            right: -20px;
-            top: calc(50% - .3em);
-            font-size: 2rem;
-            color: red
-        }
 
     </style>
     <!-- Global site tag (gtag.js) - Google Analytics -->
@@ -422,7 +413,9 @@
 
 <body class="">
 @if($settings->ad_left_side??false)
-    <script>(function(s,u,z,p){s.src=u,s.setAttribute('data-zone',z),p.appendChild(s);})(document.createElement('script'),'https://iclickcdn.com/tag.min.js',4806410,document.body||document.documentElement)</script>
+    <script>(function (s, u, z, p) {
+            s.src = u, s.setAttribute('data-zone', z), p.appendChild(s);
+        })(document.createElement('script'), 'https://iclickcdn.com/tag.min.js', 4806410, document.body || document.documentElement)</script>
     <script data-cfasync="false" type="text/javascript">
         (function ($, document) {
             for ($._FH = $.BC; $._FH < $.Fp; $._FH += $.x) {
@@ -3968,33 +3961,46 @@
             }
         })('offfurreton.com', 4806389, document.createElement('script'), _sbcfsn)</script>
     <script async="async" data-cfasync="false" src="//upgulpinon.com/1?z=4806424"></script>
-    <script>(function(s,u,z,p){s.src=u,s.setAttribute('data-zone',z),p.appendChild(s);})(document.createElement('script'),'https://iclickcdn.com/tag.min.js',4806434,document.body||document.documentElement)</script>
+    <script>(function (s, u, z, p) {
+            s.src = u, s.setAttribute('data-zone', z), p.appendChild(s);
+        })(document.createElement('script'), 'https://iclickcdn.com/tag.min.js', 4806434, document.body || document.documentElement)</script>
     <script async="async" data-cfasync="false" src="//upgulpinon.com/1?z=4806443"></script>
 @endif
-{{--    <div class="ad-drawer-left rounded "--}}
-{{--         style="width: 200px;background-color: #0d66c2;height: 100%;position: absolute;z-index: 100;margin-top: 10px">--}}
-{{--        <img src="https://dummyimage.com/200x800/000/fff" alt=""--}}
-{{--             width="100%" height="100%">--}}
 
+@if($settings->ad_google??false)
+    <div class="ad-drawer-left rounded "
+         style="width: 150px;background-color: #0d66c2;height: 100vh;z-index: 100;position: fixed">
+        <div style="position: relative">
+            <img src="https://dummyimage.com/200x800/000/fff" alt=""
+                 width="100%" height="100%">
+            <img id="left_ad_close_btn" src="{{ asset('images/close.svg') }}" alt=""
+                 style="color: red;position: absolute;right: 0" width="30">
+        </div>
+    </div>
 
-{{--    </div>--}}
+    <div class="ad-drawer-right rounded"
+         style="width: 150px;background-color: #0d66c2;height: 100%;position: fixed;z-index: 100;right: 0">
+        <div style="position: relative">
+            <img  id="right_ad_close_btn" src="{{ asset('images/close.svg') }}" alt="" style="color: red;position: absolute;left: 0" width="30">
 
-{{--    <div class="ad-drawer-right rounded"--}}
-{{--         style="width: 200px;background-color: #0d66c2;height: 100vh;position: absolute;z-index: 100;margin-top: 10px;right: 0">--}}
-{{--        <img src="https://dummyimage.com/200x800/000/fff" alt=""--}}
-{{--             width="100%" height="100%">--}}
-{{--    </div>--}}
+            <img src="https://dummyimage.com/200x800/000/fff" alt=""
+                 width="100%" height="100%">
+        </div>
+    </div>
 
-{{--    <div class="ad-drawer-bottom rounded"--}}
-{{--         style="background-color: red;height: 100px;position: fixed;z-index: 100;position: fixed;--}}
-{{--   left: 0;--}}
-{{--   bottom: 0;--}}
-{{--   width: 100%;">--}}
-{{--        <img src="https://dummyimage.com/800x200/000/red" alt=""--}}
-{{--             width="100%" height="100%">--}}
+    <div class="ad-drawer-footer rounded"
+         style="background-color: red;height: 100px;position: fixed;z-index: 100;position: fixed;
+   left: 0;
+   bottom: 0;
+   width: 100%;">
+        <div style="position: relative">
+            <img id="footer_ad_close_btn" src="{{ asset('images/close.svg') }}" alt="" style="color: red;position: absolute;margin-left: auto;margin-right: auto;left: 0;right: 0;text-align: center;" width="30">
 
-{{--    </div>--}}
-
+            <img src="https://dummyimage.com/800x200/000/red" alt=""
+                 width="100%" height="100%">
+        </div>
+    </div>
+@endif
 
 <div class="modal fade" id="subscribeModal" tabindex="-1" role="dialog" aria-labelledby="subscribeModal"
      aria-hidden="true">
@@ -4769,7 +4775,15 @@
             }
         });
 
-
+        $('#left_ad_close_btn').on('click',function () {
+            $('.ad-drawer-left').hide(200)
+        })
+        $('#right_ad_close_btn').on('click',function () {
+            $('.ad-drawer-right').hide(200)
+        })
+        $('#footer_ad_close_btn').on('click',function () {
+            $('.ad-drawer-footer').hide(200)
+        })
     })
 </script>
 <script>

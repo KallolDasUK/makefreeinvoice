@@ -191,7 +191,7 @@
 
         {{^ hide_stock }}
         <span class="{{ stock > 0 ?'':'text-danger' }}"
-              style="position:absolute;left: 5px;bottom: 5px"><small>{{ stock }}</small></span>
+              style="position:absolute;left: 5px;bottom: 5px"><small>{{ twoDigit(stock) }}</small></span>
 {{/ hide_stock }}
 
         {{^ hide_price }}
@@ -231,7 +231,7 @@
 
         {{^ hide_stock }}
         <span class="{{ stock > 0 ?'':'text-danger' }}"
-              style="position:absolute;left: 5px;bottom: 5px"><small>{{ stock }}</small></span>
+              style="position:absolute;left: 5px;bottom: 5px"><small>{{ twoDigit(stock) }}</small></span>
 {{/ hide_stock }}
 
         {{^ hide_price }}
@@ -439,7 +439,7 @@
 <td><input type="text" value="{{ unit }}"
                    style="max-width: 30px;outline: none; border: 0px !important; text-align: end; text-decoration: underline dashed red;">
         </td>
-        <td>{{  qnt * price  }}</td>
+        <td>{{  twoDigit(qnt * price)  }}</td>
     </tr>
                     {{ /each }}
 
@@ -508,7 +508,7 @@ Payment</button>
                         <b>Sub Total</b>
                     </div>
                     <div class="col text-right">
-{{ currency }}  {{ sub_total }}
+{{ currency }}  {{ twoDigit(sub_total) }}
         </div>
     </div>
     {{ #each charges }}

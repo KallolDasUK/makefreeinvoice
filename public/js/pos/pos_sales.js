@@ -56,7 +56,7 @@ var posRactive = new Ractive({
             pos_number: '',
             exp_based_product,
             twoDigit : function(value){
-                return parseFloat(value||'0').toFixed(2)
+                return parseFloat(value||'0').toFixed(2).replace('.00','')
             }
         },
         observe: {
