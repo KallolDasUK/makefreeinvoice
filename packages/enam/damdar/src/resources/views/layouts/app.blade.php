@@ -3969,37 +3969,46 @@
 
 @if($settings->ad_google??false)
     <div class="ad-drawer-left rounded "
-         style="width: 150px;background-color: #0d66c2;height: 100vh;z-index: 100;position: fixed">
-        <div style="position: relative">
-            <img src="https://dummyimage.com/200x800/000/fff" alt=""
-                 width="100%" height="100%">
+         style="width: 150px;height: 100vh;z-index: 100;position: fixed">
+        <div style="position: relative;height: 100vh" >
+
+            @if($ad = random_ad('Vertical'))
+                <a href="{{ $ad->link }}" target="_blank">
+                    <img src="{{ asset('storage/'.$ad->photo) }}" alt=""
+                         width="100%" height="100%">
+                </a>
+            @else
+
+                <img src="https://dummyimage.com/200x800/000/fff" alt=""
+                     width="100%" height="100" style="height: 100px!important;">
+
+            @endif
             <img id="left_ad_close_btn" src="{{ asset('images/close.svg') }}" alt=""
                  style="color: red;position: absolute;right: 0" width="30">
         </div>
     </div>
 
     <div class="ad-drawer-right rounded"
-         style="width: 150px;background-color: #0d66c2;height: 100%;position: fixed;z-index: 100;right: 0">
-        <div style="position: relative">
-            <img  id="right_ad_close_btn" src="{{ asset('images/close.svg') }}" alt="" style="color: red;position: absolute;left: 0" width="30">
+         style="width: 150px;height: 100%;position: fixed;z-index: 100;right: 0">
+        <div style="position: relative;height: 100vh">
+            <img id="right_ad_close_btn" src="{{ asset('images/close.svg') }}" alt=""
+                 style="color: red;position: absolute;left: 0" width="30">
 
-            <img src="https://dummyimage.com/200x800/000/fff" alt=""
-                 width="100%" height="100%">
+            @if($ad = random_ad('Vertical'))
+                <a href="{{ $ad->link }}" target="_blank">
+                    <img src="{{ asset('storage/'.$ad->photo) }}" alt=""
+                         width="100%" height="100%">
+                </a>
+            @else
+
+                <img src="https://dummyimage.com/200x800/000/fff" alt=""
+                     width="100%" height="100%">
+
+            @endif
         </div>
     </div>
 
-    <div class="ad-drawer-footer rounded"
-         style="background-color: red;height: 100px;position: fixed;z-index: 100;position: fixed;
-   left: 0;
-   bottom: 0;
-   width: 100%;">
-        <div style="position: relative">
-            <img id="footer_ad_close_btn" src="{{ asset('images/close.svg') }}" alt="" style="color: red;position: absolute;margin-left: auto;margin-right: auto;left: 0;right: 0;text-align: center;" width="30">
 
-            <img src="https://dummyimage.com/800x200/000/red" alt=""
-                 width="100%" height="100%">
-        </div>
-    </div>
 @endif
 
 <div class="modal fade" id="subscribeModal" tabindex="-1" role="dialog" aria-labelledby="subscribeModal"
@@ -4775,13 +4784,13 @@
             }
         });
 
-        $('#left_ad_close_btn').on('click',function () {
+        $('#left_ad_close_btn').on('click', function () {
             $('.ad-drawer-left').hide(200)
         })
-        $('#right_ad_close_btn').on('click',function () {
+        $('#right_ad_close_btn').on('click', function () {
             $('.ad-drawer-right').hide(200)
         })
-        $('#footer_ad_close_btn').on('click',function () {
+        $('#footer_ad_close_btn').on('click', function () {
             $('.ad-drawer-footer').hide(200)
         })
     })

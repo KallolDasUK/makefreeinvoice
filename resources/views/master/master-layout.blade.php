@@ -80,6 +80,11 @@
                             <span data-feather="users"></span>
                             Send Notification
                         </a>
+                    </li>  <li class="nav-item">
+                        <a class="nav-link" href="{{ route('banner_ads.banner_ad.index') }}">
+                            <span data-feather="users"></span>
+                            Banner Settings
+                        </a>
                     </li>
 
 
