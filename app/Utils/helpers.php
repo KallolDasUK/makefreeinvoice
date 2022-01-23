@@ -15,9 +15,14 @@ if (!function_exists('decent_format')) {
     }
 }
 if (!function_exists('random_ad')) {
-    function random_ad($ad_type): BannerAd
+    function random_ad($ad_type)
     {
-        return optional(BannerAd::query()->where('banner_type', $ad_type)->get()->random(1))->first();
+        try {
+            return optional(BannerAd::query()->where('banner_type', $ad_type)->get()->random(1))->first();
+
+        } catch (\Exception $exception) {
+            return  null;
+        }
     }
 }
 
