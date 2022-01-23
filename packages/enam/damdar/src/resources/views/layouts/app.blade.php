@@ -4481,7 +4481,7 @@
     </nav>
     @if($settings->ad_google??false)
         <div class="ad-under-menu rounded "
-             style="width: 100%;z-index: 100;">
+             style="width: 100%;z-index: 100;height: 150px">
             <div style="position: relative;width: 100%" >
 
                 @if($ad = random_ad('Horizontal'))
