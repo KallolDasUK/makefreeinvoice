@@ -409,6 +409,9 @@
 
         gtag('config', 'G-J35PC4G2SJ');
     </script>
+
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3062157998836253"
+            crossorigin="anonymous"></script>
 </head>
 
 <body class="">
