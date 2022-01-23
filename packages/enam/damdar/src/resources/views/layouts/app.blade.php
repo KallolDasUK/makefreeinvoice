@@ -4499,25 +4499,6 @@
             </div>
         </div>
 
-        <div class="ad-drawer-right rounded"
-             style="width: 150px;height: 100%;position: fixed;z-index: 100;right: 0">
-            <div style="position: relative;height: 100vh">
-                <img id="right_ad_close_btn" src="{{ asset('images/close.svg') }}" alt=""
-                     style="color: red;position: absolute;left: 0" width="30">
-
-                @if($ad = random_ad('Vertical'))
-                    <a href="{{ $ad->link }}" target="_blank">
-                        <img src="{{ asset('storage/'.$ad->photo) }}" alt=""
-                             width="100%" height="100%">
-                    </a>
-                @else
-
-                    <img src="https://dummyimage.com/200x800/000/fff" alt=""
-                         width="100%" height="100%">
-
-                @endif
-            </div>
-        </div>
 
 
     @endif
