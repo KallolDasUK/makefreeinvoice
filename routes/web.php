@@ -68,6 +68,7 @@ use Enam\Acc\Utils\EntryType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\BannerAdsController;
 
 
 /*
@@ -677,6 +678,26 @@ Route::group(['prefix' => 'master', 'middleware' => ['auth:web', 'isMaster']], f
     Route::get('/users', [MasterController::class, 'users'])->name('master.users');
     Route::get('/users/{user}', [MasterController::class, 'deleteUser'])->name('master.users.delete');
 
+
+    /*
+     *  php artisan resource-file:create BannerAd --fields=id,title,image,link,banner_type
+     *  php artisan create:scaffold BannerAd  --layout-name="master.master-layout" --with-migration
+     *
+     * */
+
+
+    Route::group(['prefix' => 'banner_ads'], function () {
+        Route::get('/', [BannerAdsController::class, 'index'])->name('banner_ads.banner_ad.index');
+        Route::get('/create', [BannerAdsController::class, 'create'])->name('banner_ads.banner_ad.create');
+        Route::get('/show/{bannerAd}',[BannerAdsController::class, 'show'])->name('banner_ads.banner_ad.show')->where('id', '[0-9]+');
+        Route::get('/{bannerAd}/edit',[BannerAdsController::class, 'edit'])->name('banner_ads.banner_ad.edit')->where('id', '[0-9]+');
+        Route::post('/', [BannerAdsController::class, 'store'])->name('banner_ads.banner_ad.store');
+        Route::put('banner_ad/{bannerAd}', [BannerAdsController::class, 'update'])->name('banner_ads.banner_ad.update')->where('id', '[0-9]+');
+        Route::delete('/banner_ad/{bannerAd}',[BannerAdsController::class, 'destroy'])->name('banner_ads.banner_ad.destroy')->where('id', '[0-9]+');
+
+    });
+
+
     Route::group(['prefix' => 'blogs'], function () {
 
 
@@ -829,5 +850,6 @@ Route::get('/app/pos_sales/receipt/{id}', [PosSalesController::class, 'pos_recei
 
 // php artisan resource-file:create UserNotification --fields=id,type,title,body,user_id,seen
 //  php artisan create:scaffold UserNotification  --layout-name="master.master-layout" --with-migration
+
 
 

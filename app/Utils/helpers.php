@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\BannerAd;
 use App\Models\MetaSetting;
 use Enam\Acc\Models\Ledger;
 use Enam\Acc\Models\TransactionDetail;
@@ -13,6 +14,14 @@ if (!function_exists('decent_format')) {
         return $number;
     }
 }
+if (!function_exists('random_ad')) {
+    function random_ad($ad_type): BannerAd
+    {
+        return optional(BannerAd::query()->where('banner_type', $ad_type)->get()->random(1))->first();
+    }
+}
+
+
 if (!function_exists('decent_format_dash_if_zero')) {
     function decent_format_dash_if_zero($number): string
     {

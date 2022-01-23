@@ -93,7 +93,7 @@ class MasterController extends Controller
             ->count();
         $activeYesterday = \DB::table('users')
             ->where('client_id', '!=', null)
-            ->whereDate('last_active_at',today()->subDay()->toDateString())
+            ->whereDate('last_active_at', today()->subDay()->toDateString())
             ->count();
         $joinedToday = \DB::table('users')
             ->where('client_id', '!=', null)
@@ -103,8 +103,8 @@ class MasterController extends Controller
             ->where('client_id', '!=', null)
             ->whereDate('created_at', today()->subDay()->toDateString())
             ->count();
-        return view('master.users', compact('users', 'totalClients', 'activeToday', 'joinedToday','joinedYesterday'
-            , 'start_date','activeYesterday', 'end_date', 'filter_type', 'sort_type', 'email'));
+        return view('master.users', compact('users', 'totalClients', 'activeToday', 'joinedToday', 'joinedYesterday'
+            , 'start_date', 'activeYesterday', 'end_date', 'filter_type', 'sort_type', 'email'));
     }
 
     public function deleteUser($id)
@@ -243,4 +243,17 @@ class MasterController extends Controller
 
         return back();
     }
+
+    public function adSettings(Request $request)
+    {
+        dd($request->all());
+
+    }
+
+    public function adSettingsStore(Request $request)
+    {
+        dd($request->all());
+    }
+
+
 }

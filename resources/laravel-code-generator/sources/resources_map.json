@@ -113,5 +113,9 @@
     {
         "model-name": "UserNotification",
         "resource-file": "user_notifications.json"
+    },
+    {
+        "model-name": "BannerAd",
+        "resource-file": "banner_ads.json"
     }
 ]

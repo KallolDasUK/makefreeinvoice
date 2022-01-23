@@ -1,5 +1,23 @@
 @extends('master.master-layout')
 
+
 @section('content')
-    <h2>Welcome to Master Dashboard</h2>
+    <div class="container">
+        <form action="{{ route('master.send_email_store') }}" method="post">
+            @csrf
+
+            <button class="btn btn-primary">Send Email</button>
+        </form>
+    </div>
+@endsection
+
+@section('js')
+
+    <script>
+
+        $(document).ready(function () {
+
+        })
+        // CKEDITOR.replace( 'body' );
+    </script>
 @endsection
