@@ -229,7 +229,7 @@
                                     <th class="text-left">Customer</th>
                                     <th style="text-align: center">Amount</th>
                                     <th style="text-align: center">Discount</th>
-                                    <th style="text-align: center">Charges(+)</th>
+                                    <th style="text-align: center">Charges/VAT(+)</th>
                                     <th style="text-align: center">Total</th>
                                     <th style="text-align: center">Paid</th>
                                     <th style="text-align: center">Due</th>
