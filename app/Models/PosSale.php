@@ -139,7 +139,11 @@ class PosSale extends Model
 
     public function getChargesAttribute()
     {
-        return $this->pos_charges()->sum('amount');
+        return $this->pos_charges()->where('key','not like','%discount%')->sum('amount');
+    }
+    public function getDiscountAttribute()
+    {
+        return $this->pos_charges()->where('key','like','%discount%')->sum('amount');
     }
 
     public function getTaxAttribute()

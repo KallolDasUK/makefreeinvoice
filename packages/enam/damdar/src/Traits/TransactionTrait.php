@@ -740,7 +740,7 @@ trait TransactionTrait
             })->get();
         foreach ($pos_sales as $pos_sale) {
             $record = ['date' => $pos_sale->date, 'invoice' => $pos_sale->pos_number, 'customer' => optional($pos_sale->customer)->name
-                , 'sub_total' => $pos_sale->sub_total, 'discount' => 0, 'charges' => $pos_sale->charges, 'total' => $pos_sale->total,
+                , 'sub_total' => $pos_sale->sub_total, 'discount' => $pos_sale->discount, 'charges' => $pos_sale->charges, 'total' => $pos_sale->total,
                 'payment' => $pos_sale->payment, 'due' => $pos_sale->due];
             $records[] = (object)$record;
         }
