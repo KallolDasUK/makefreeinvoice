@@ -886,8 +886,8 @@ trait TransactionTrait
             $record['vendor'] = optional(optional($bill_item->bill)->vendor)->name;
             $record['product'] = optional($bill_item->product)->name;
             $record['qnt'] = floatval($bill_item->qnt);
-            $record['amount'] = $bill_item->amount;
-            $record['total'] = $bill_item->qnt * $bill_item->amount;
+            $record['amount'] = $bill_item->price;
+            $record['total'] = $bill_item->qnt * $bill_item->price;
             $records[] = (object)$record;
         }
         return collect($records)->sortBy('date', null, true);
