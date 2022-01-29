@@ -115,17 +115,20 @@
                 <td>{{ $item->monthly_cost }}</td>
                 <td>{{ $item->daily_cost }}</td>
                 <td>{{ $item->working_days }}</td>
-                <td>{{ $item->amount }}</td>
+                <td>{{ $item->amount + $item->invoice->charges }}</td>
                 <td>{{ decent_format($item->tax_amount) }}</td>
                 <td>{{ decent_format($item->total)   }}</td>
             </tr>
+            @php($totalAfterCharge = $item->amount + $item->invoice->charges)
+            @php($totalAfterChargeAndTax = $item->total)
+            @php($taxAmount = $item->tax_amount)
         @endforeach
 
         <tr class="text-center">
             <td colspan="3">Total Amount Before Tax</td>
             <th colspan="3" style="direction: rtl">المبلغ الإجمالي قبل الضريبة
             </th>
-            <td colspan="3">{{ $contact_invoice->sub_total }}</td>
+            <td colspan="3">{{ decent_format($contact_invoice->sub_total )}}</td>
         </tr>
         <tr class="text-center">
             <td colspan="3">Cash</td>
@@ -151,18 +154,18 @@
             <td colspan="3">Total Before Tax @ 15%</td>
             <td colspan="3" style="direction: rtl"> الإجمالي قبل ضريبة 15%
             </td>
-            <td colspan="3">{{ $contact_invoice->sub_total }}</td>
+            <td colspan="3">{{ decent_format($totalAfterCharge) }}</td>
         </tr>
         <tr class="text-center">
             <td colspan="3">Value Added Tax @ 15%</td>
             <td colspan="3" style="direction: rtl"> ضريبة القيمة المضافة 15%</td>
-            <td colspan="3">{{ $contact_invoice->taxable_amount }}</td>
+            <td colspan="3">{{ decent_format($taxAmount) }}</td>
         </tr>
         <tr class="text-center" style="background-color: #ddebf7">
             <td colspan="3">Total</td>
             <td colspan="3" style="direction: rtl">إجمالي
             </td>
-            <td colspan="3">{{ $contact_invoice->total }}</td>
+            <td colspan="3">{{ decent_format($totalAfterChargeAndTax) }}</td>
         </tr>
         <tr class="text-center">
             <td colspan="9">

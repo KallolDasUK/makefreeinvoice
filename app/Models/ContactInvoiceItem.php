@@ -11,6 +11,7 @@ class ContactInvoiceItem extends Model
     use HasFactory;
 
     protected $guarded = [];
+//    protected $appends = ['amount'];
 
     public function product()
     {
@@ -26,8 +27,15 @@ class ContactInvoiceItem extends Model
     {
 
 
-        return $this->amount + $this->tax_amount;
+        return ($this->amount + $this->invoice->charges) + $this->tax_amount;
     }
+//
+//    public function getAmountAttribute($amount)
+//    {
+//
+//
+//        return $amount + $this->tax_amount;
+//    }
 
     public function getTaxAmountAttribute()
     {
@@ -36,7 +44,7 @@ class ContactInvoiceItem extends Model
             return $tax_amount;
         }
         $tax = Tax::find($this->tax_id);
-        $tax_amount = ($tax->value / 100) * $this->amount;
+        $tax_amount = ($tax->value / 100) * ($this->amount + $this->invoice->charges);
         return $tax_amount;
     }
 
