@@ -28,12 +28,12 @@ class ContactInvoiceItem extends Model
     public function getTotalAttribute()
     {
 
-        $period = \Carbon\CarbonPeriod::create('2022-01-01', '2025-01-01');
-        foreach ($period as $date) {
-            if (!TimeTable::query()->where('date', $date->toDateString())->exists()) {
-                TimeTable::create(['date' => $date->toDateString()]);
-            }
-        }
+//        $period = \Carbon\CarbonPeriod::create('2022-01-01', '2025-01-01');
+//        foreach ($period as $date) {
+//            if (!TimeTable::query()->where('date', $date->toDateString())->exists()) {
+//                TimeTable::create(['date' => $date->toDateString()]);
+//            }
+//        }
 
         return ($this->amount + $this->invoice->charges) + $this->tax_amount;
     }

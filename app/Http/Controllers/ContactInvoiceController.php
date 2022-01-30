@@ -196,8 +196,9 @@ class ContactInvoiceController extends Controller
             $vat_number = $settings->vat_reg ?? '123456789';
             $creating_time = Carbon::parse($invoice->created_at);
             $invoice_date = Carbon::parse($invoice->invoice_date)->toDateString() . ' ' . $creating_time->toTimeString();
-            $taxable = number_format($invoice->total, 2, '.', '');
-            $tax = number_format($invoice->taxable_amount, 2, '.', '');
+
+            $taxable = number_format($invoice->invoice_items[0]->total, 2, '.', '');
+            $tax = number_format($invoice->invoice_items[0]->tax_amount, 2, '.', '');
 
             $dataToEncode = [
                 [1, $seller_name],
