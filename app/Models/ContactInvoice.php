@@ -60,7 +60,7 @@ class ContactInvoice extends Model
     {
         $due = 0;
         $payment = $this->payment;
-        $due = $this->total - $payment;
+        $due = ($this->total + $this->charges) - $payment;
 
         return number_format((float)$due, 2, '.', '');
 
@@ -75,7 +75,7 @@ class ContactInvoice extends Model
     public function getPaymentStatusTextAttribute()
     {
         $paymentAmount = $this->payment;
-        $this->total = floatval($this->total);
+        $this->total = floatval($this->total + $this->charges);
 //        dump($paymentAmount,$this->total);
         if ($this->total <= $paymentAmount) {
             return self::Paid;
