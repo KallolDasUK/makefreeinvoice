@@ -125,7 +125,7 @@ class CustomersController extends Controller
         $settings = json_decode(MetaSetting::query()->pluck('value', 'key')->toJson());
 
         return ['name' => $customer->name, 'advance' => $customer->advance, 'customer' => $customer,
-            'customer_id_feature' => $settings->customer_id_feature];
+            'customer_id_feature' => $settings->customer_id_feature??0];
     }
 
 
