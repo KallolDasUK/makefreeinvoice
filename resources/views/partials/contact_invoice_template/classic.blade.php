@@ -144,8 +144,8 @@
                 <td colspan="3" style="direction: rtl">
                     {{ $ie->last }}
                 </td>
-                <td colspan="3"
-                    @if(floatval($ie->value)<0) - @endif{{ $contact_invoice->currency }}>{{ decent_format(floatval(abs($ie->value))) }}</td>
+                <td colspan="3">
+                    @if(floatval($ie->value) < 0) - @endif  {{ decent_format(floatval(abs($ie->value))) }}</td>
             </tr>
 
         @endforeach
