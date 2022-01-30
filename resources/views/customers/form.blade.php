@@ -20,7 +20,7 @@
                     {!! $errors->first('customer_ID', '<p class="form-text text-danger">:message</p>') !!}
                 </div>
             @endif
-            @if($settings->customer_id_feature??'0')
+            @if($settings->customer_id_feature ?? '0')
                 <div class="col-12"></div>
                 <div class="col">
                     <label for="name">Credit Limit</label>
