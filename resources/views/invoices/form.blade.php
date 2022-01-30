@@ -142,8 +142,8 @@
             </div>
 
 
-            Ref. By <br>&nbsp;<span id="reference_by" class="font-weight-bolder"></span> <br>
-            Phone: <br>&nbsp; <span id="phone_number" class="font-weight-bolder"></span>
+            Ref. By <br> &nbsp;<span id="reference_by" class="font-weight-bolder"></span> <br>
+            Phone:  <br> &nbsp; <span id="phone_number" class="font-weight-bolder"></span>
         </div>
     </div>
     <div class="col">

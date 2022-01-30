@@ -76,26 +76,28 @@
                         {{ $ef->value }}</p>
                 @endforeach
             </div>
-            <div class="col text-sm-right "><strong> From:</strong>
-                <address>
-                    {{ $settings->business_name??'n/a' }}
-                    @if($settings->street_1??'')
-                        <br> {{ $settings->street_1??'' }}
-                    @endif
-                    @if($settings->street_2??'')
-                        <br> {{ $settings->street_2??'' }}
-                    @endif
-                    @if(($settings->state??'') || ($settings->zip_post??'') )
-                        <br> {{ $settings->state??'' }} {{ $settings->zip_post??'' }}
-                    @endif
-                    @if($settings->email??'')
-                        <br> {{ $settings->email??'' }}
-                    @endif
-                    @if($settings->phone??'')
-                        <br> {{ $settings->phone??'' }}
-                    @endif
-                </address>
-            </div>
+            @if(!($settings->customer_id_feature ?? '0'))
+                <div class="col text-sm-right "><strong> From:</strong>
+                    <address>
+                        {{ $settings->business_name??'n/a' }}
+                        @if($settings->street_1??'')
+                            <br> {{ $settings->street_1??'' }}
+                        @endif
+                        @if($settings->street_2??'')
+                            <br> {{ $settings->street_2??'' }}
+                        @endif
+                        @if(($settings->state??'') || ($settings->zip_post??'') )
+                            <br> {{ $settings->state??'' }} {{ $settings->zip_post??'' }}
+                        @endif
+                        @if($settings->email??'')
+                            <br> {{ $settings->email??'' }}
+                        @endif
+                        @if($settings->phone??'')
+                            <br> {{ $settings->phone??'' }}
+                        @endif
+                    </address>
+                </div>
+            @endif
         </div>
 
         <div class="card">
@@ -246,6 +248,7 @@
         </div>
 
     </div>
+
     <div class=" " style="margin-top: 50px;position:relative;">
         <div class="row ">
             <div class="col">
