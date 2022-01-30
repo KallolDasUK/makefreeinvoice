@@ -174,7 +174,7 @@
                                 </td>
                                 <td class="pl-0">
                                     <a href="{{ route('contact_invoices.contact_invoice.show',$contact_invoice->id) }}"
-                                       class="text-dark-75 font-weight-bolder text-hover-primary mb-1 font-size-lg invoice_number  {{ ability(\App\Utils\Ability::BILL_READ)=='disabled'?'no-link':'' }}">{{ \Carbon\Carbon::parse($contact_invoice->bill_date)->toDateString() }}</a>
+                                       class="text-dark-75 font-weight-bolder text-hover-primary mb-1 font-size-lg invoice_number  {{ ability(\App\Utils\Ability::BILL_READ)=='disabled'?'no-link':'' }}">{{ \Carbon\Carbon::parse($contact_invoice->invoice_date)->toDateString() }}</a>
 
                                     @if($contact_invoice->due_date)
                                         <span
@@ -202,7 +202,7 @@
                                 <td class="text-right">
                                     <div class="font-weight-bolder  ">
                                     <span
-                                        style="font-size: 20px"><small>{{ $contact_invoice->currency }}</small>{{ decent_format($contact_invoice->total) }} </span>
+                                        style="font-size: 20px"><small>{{ $contact_invoice->currency }}</small>{{ decent_format($contact_invoice->total + $contact_invoice->charges) }} </span>
 
                                     </div>
                                     @if($contact_invoice->due>0)
