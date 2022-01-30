@@ -12,11 +12,50 @@
             @if($settings->customer_id_feature??'0')
                 <div class="col">
                     <label for="name">Customer ID</label>
-                    <input class="form-control  {{ $errors->has('customer_ID') ? 'is-invalid' : '' }}" name="customer_ID" type="text"
+                    <input class="form-control  {{ $errors->has('customer_ID') ? 'is-invalid' : '' }}"
+                           name="customer_ID" type="text"
                            id="customer_ID"
-                           value="{{ old('customer_ID', optional($customer)->customer_ID) }}" minlength="1" maxlength="255">
+                           value="{{ old('customer_ID', optional($customer)->customer_ID) }}" minlength="1"
+                           maxlength="255">
                     {!! $errors->first('customer_ID', '<p class="form-text text-danger">:message</p>') !!}
                 </div>
+            @endif
+            @if($settings->customer_id_feature??'0')
+                <div class="col-12"></div>
+                <div class="col">
+                    <label for="name">Credit Limit</label>
+                    <input class="form-control  {{ $errors->has('credit_limit') ? 'is-invalid' : '' }}"
+                           name="credit_limit" type="number" step="any"
+                           id="credit_limit"
+                           value="{{ old('credit_limit', optional($customer)->credit_limit) }}" minlength="1"
+                           maxlength="255">
+                    {!! $errors->first('credit_limit', '<p class="form-text text-danger">:message</p>') !!}
+                </div>
+
+                <div class="col">
+                    <label for="customer_type">Customer Type</label>
+                    <select name="customer_type" id="customer_type" class="form-control searchable">
+                        <option value="Distributor"
+                                @if(optional($customer)->customer_type == 'Distributor') selected @endif>Distributor
+                        </option>
+                        <option value="Retail" @if(optional($customer)->customer_type == 'Retail') selected @endif>
+                            Retail
+                        </option>
+
+                    </select>
+                </div>
+
+                <div class="col">
+                    <label for="name">Reference By</label>
+                    <input class="form-control  {{ $errors->has('reference_by') ? 'is-invalid' : '' }}"
+                           name="reference_by" type="text"
+                           id="reference_by"
+                           value="{{ old('reference_by', optional($customer)->reference_by) }}" minlength="1"
+                           maxlength="255">
+                    {!! $errors->first('reference_by', '<p class="form-text text-danger">:message</p>') !!}
+                </div>
+                <div class="col-12"></div>
+
             @endif
             <div class="col">
                 <label for="sr_id">Sales Representative</label>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Customer;
+use App\Models\MetaSetting;
 use Enam\Acc\AccountingFacade;
 use Enam\Acc\Models\Ledger;
 use Enam\Acc\Models\LedgerGroup;
@@ -121,7 +122,10 @@ class CustomersController extends Controller
     public function advanceInfo($id)
     {
         $customer = Customer::findOrFail($id);
-        return ['name' => $customer->name, 'advance' => $customer->advance];
+        $settings = json_decode(MetaSetting::query()->pluck('value', 'key')->toJson());
+
+        return ['name' => $customer->name, 'advance' => $customer->advance, 'customer' => $customer,
+            'customer_id_feature' => $settings->customer_id_feature];
     }
 
 
@@ -172,6 +176,9 @@ class CustomersController extends Controller
             'company_name' => 'string|min:1|nullable',
             'phone' => 'string|min:1|nullable',
             'email' => 'nullable',
+            'reference_by' => 'nullable',
+            'customer_type' => 'nullable',
+            'credit_limit' => 'nullable',
             'country' => 'nullable',
             'address' => 'nullable',
             'street_1' => 'nullable',

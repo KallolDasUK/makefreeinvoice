@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\CarbonPeriod;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -11,6 +12,7 @@ class ContactInvoiceItem extends Model
     use HasFactory;
 
     protected $guarded = [];
+
 //    protected $appends = ['amount'];
 
     public function product()
@@ -26,6 +28,12 @@ class ContactInvoiceItem extends Model
     public function getTotalAttribute()
     {
 
+        $period = \Carbon\CarbonPeriod::create('2022-01-01', '2025-01-01');
+        foreach ($period as $date) {
+            if (!TimeTable::query()->where('date', $date->toDateString())->exists()) {
+                TimeTable::create(['date' => $date->toDateString()]);
+            }
+        }
 
         return ($this->amount + $this->invoice->charges) + $this->tax_amount;
     }
