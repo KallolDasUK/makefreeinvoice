@@ -135,6 +135,16 @@
             {!! $errors->first('customer_id', '<p class="form-text text-danger">:message</p>') !!}
 
         </div>
+        <div id="info" style="display: none">
+            <div class="row">
+                <div class="col">Credit Limit <br>&nbsp;<span id="credit_limit" class="font-weight-bolder"></span></div>
+                <div class="col"> C. Type <br>&nbsp;<span id="customer_type" class="font-weight-bolder"></span></div>
+            </div>
+
+
+            Ref. By <br>&nbsp;<span id="reference_by" class="font-weight-bolder"></span> <br>
+            Phone: <br>&nbsp; <span id="phone_number" class="font-weight-bolder"></span>
+        </div>
     </div>
     <div class="col">
 
@@ -520,7 +530,8 @@
 
             <td>{{ stock }}</td>
              {{# exp_based_product }}
-        <td style="width: 13%" scope="col" class="font-weight-bold">  <select class="form-control form-control-sm" id="batch{{i}}" value="{{ batch }}"> <option value=""  selected>-</option></select> </td>
+        <td style="width: 13%" scope="col" class="font-weight-bold">  <select class="form-control form-control-sm" id="batch{{i}}
+        " value="{{ batch }}"> <option value=""  selected>-</option></select> </td>
              {{/ exp_based_product }}
         <td> <input type="number" step="any" style="text-align: end"  class="form-control  input-sm rate" value="{{ price }}" required></td>
             <td> <input type="number" step="any" style="text-align: end"  class="form-control   input-sm qnt" index="{{i}}
@@ -551,6 +562,9 @@
             <span role="button" on-click="@this.addInvoiceItem()" class="btn btn-sm btn-primary"
                   style="cursor: pointer"><i class="fa fa-plus-circle"></i> Add Line</span>
         </div>
+
+
+
 
 
 
@@ -735,6 +749,9 @@
 
 
 
+
+
+
     </script>
 @endverbatim
 @verbatim
@@ -759,6 +776,9 @@
               <td><span class="text-primary " on-click="@this.addAdditionalField()" style="cursor:pointer;">+ Add More</span></td>
               <td></td>
           </tr>
+
+
+
 
 
 

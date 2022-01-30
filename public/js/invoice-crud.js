@@ -453,6 +453,18 @@ $('#customer_id').on('change', function () {
 
         },
         success: function (response) {
+
+            if (response.customer_id_feature === '1') {
+                $('#info').show()
+                let customer = response.customer;
+                $('#phone_number').text(customer.phone)
+                $('#credit_limit').text(customer.credit_limit)
+                $('#customer_type').text(customer.customer_type)
+                $('#reference_by').text(customer.reference_by)
+                console.log(customer)
+            }
+
+
             if (response.advance <= 0) return;
             $('.advanceContainer').removeClass('d-none')
             $('#advance').val(response.advance).trigger('change')
@@ -460,6 +472,7 @@ $('#customer_id').on('change', function () {
             $('#customer_name').text(response.name)
 
             calculateOthers()
+
 
         }
     });
