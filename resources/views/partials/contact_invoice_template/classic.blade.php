@@ -133,7 +133,7 @@
         <tr class="text-center">
             <td colspan="3">Cash</td>
             <td colspan="3" style="direction: rtl"> نقد</td>
-            <td colspan="3">{{ $contact_invoice->payment }}</td>
+            <td colspan="3">-{{ $contact_invoice->payment }}</td>
         </tr>
         @foreach($contact_invoice->invoice_extra as $ie )
             @if(!$ie->value)

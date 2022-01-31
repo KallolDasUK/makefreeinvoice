@@ -155,7 +155,7 @@ class ContactInvoice extends Model
 
     public function getChargesAttribute()
     {
-        return $this->invoice_extra()->sum('value');
+        return $this->invoice_extra()->sum('value') - $this->payment;
     }
 
     public function getDiscountAttribute()
