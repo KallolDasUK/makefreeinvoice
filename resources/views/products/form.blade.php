@@ -255,6 +255,17 @@
             {!! $errors->first('opening_stock_price', '<p class="form-text text-danger">:message</p>') !!}
         </div>
     </div>
+    <div class="col">
+        <div class="form-group">
+            <label for="opening_stock_price">Minimum Stock</label>
+            <input class="form-control form-control-sm  {{ $errors->has('minimum_stock') ? 'is-invalid' : '' }}"
+                   name="minimum_stock" type="number" id="minimum_stock"
+                   step="any"
+
+                   value="{{ old('minimum_stock', optional($product)->minimum_stock) }}">
+            {!! $errors->first('minimum_stock', '<p class="form-text text-danger">:message</p>') !!}
+        </div>
+    </div>
 </div>
 
 

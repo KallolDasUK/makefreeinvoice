@@ -4744,7 +4744,9 @@
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
     $(document).ready(function () {
-
+        $('form').submit (function() {
+            $("button[type='submit']").attr("disabled", true);
+        });
         let has_notification = "{{ count($user->user_unseen_notifications) }}"
 
         if (has_notification > 0) {
