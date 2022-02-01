@@ -175,7 +175,7 @@
                     <div class="shortcuts-title sc-jlyJG gSoaLO title">Product Report</div>
                 </a>
                 <a class="sc-gPEVay eaBhby  @cannot('customer_report') pro-tag @endcannot "
-                        href="{{ route('reports.report.customer_report') }}">
+                   href="{{ route('reports.report.customer_report') }}">
                     <div class="sc-iRbamj image" style="background-image:url('{{ asset('images/estimate.svg') }}') ">
 
                     </div>
@@ -199,6 +199,14 @@
                         <div class="shortcuts-title sc-jlyJG gSoaLO title">Product Expiry</div>
                     </a>
                 @endif
+                <a class="sc-gPEVay eaBhby  "
+                   href="{{ route('reports.report.stock_alert') }}">
+                    <div class="sc-iRbamj image"
+                         style="background-image:url('{{ asset('images/estimate.svg') }}') ">
+
+                    </div>
+                    <div class="shortcuts-title sc-jlyJG gSoaLO title">Stock Alert</div>
+                </a>
 
                 <div class="clearfix"></div>
                 <br>
