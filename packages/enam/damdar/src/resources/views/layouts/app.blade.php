@@ -3973,7 +3973,7 @@
 @if($settings->ad_google??false)
     <div class="ad-drawer-left rounded "
          style="width: 150px;height: 100vh;z-index: 100;position: fixed">
-        <div style="position: relative;height: 100vh" >
+        <div style="position: relative;height: 100vh">
 
             @if($ad = random_ad('Vertical'))
                 <a href="{{ $ad->link }}" target="_blank">
@@ -4482,7 +4482,7 @@
     @if($settings->ad_google??false)
         <div class="ad-under-menu rounded "
              style="width: 100%;z-index: 100;height: 150px">
-            <div style="position: relative;width: 100%;height: 150px" >
+            <div style="position: relative;width: 100%;height: 150px">
 
                 @if($ad = random_ad('Horizontal'))
                     <a href="{{ $ad->link }}" target="_blank">
@@ -4640,6 +4640,30 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" data-backdrop="static" data-keyboard="false" id="stockAlertModal" tabindex="-1"
+         role="dialog" aria-labelledby="stockAlertModal"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-danger" id="notificationModalLabel"><i class="fa fa-bullhorn mr-4"
+                                                                                       aria-hidden="true"></i>Stock
+                        Alert</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="stockAlertModalContent">
+
+                </div>
+                <div class="modal-footer">
+                    <button id="closeStockAlertButton" data-dismiss="modal" aria-label="Close" type="button"
+                            class="btn btn-primary">Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
 </div>
@@ -4742,11 +4766,36 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.full.min.js"
         integrity="sha512-RtZU3AyMVArmHLiW0suEZ9McadTdegwbgtiQl5Qqo9kunkVg1ofwueXD8/8wv3Af8jkME3DDe3yLfR8HSJfT2g=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+
 <script>
+
     $(document).ready(function () {
-        $('form').submit (function() {
+        $('form').submit(function () {
             $("button[type='submit']").attr("disabled", true);
         });
+        let yourDate = new Date()
+        yourDate = yourDate.toISOString().split('T')[0]
+        let  show_stock_alert = {!! $settings->show_stock_alert??0 !!};
+
+        // alert(localStorage.getItem(yourDate) == null && show_stock_alert == '1')
+        if(localStorage.getItem(yourDate) == null && show_stock_alert == '1'){
+            $.ajax({
+                url: route('reports.report.stock_alert_modal'),
+                type: 'get',
+                success: (response) => {
+                    $('#stockAlertModal').modal('show')
+                    $('#stockAlertModalContent').html(response)
+                }
+            });
+        }
+
+        $('#closeStockAlertButton').on('click', function () {
+            let yourDate = new Date()
+            yourDate = yourDate.toISOString().split('T')[0]
+            localStorage.setItem(yourDate, '1')
+        })
+
         let has_notification = "{{ count($user->user_unseen_notifications) }}"
 
         if (has_notification > 0) {

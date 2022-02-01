@@ -501,8 +501,41 @@ class ReportController extends AccountingReportsController
                 $records[] = (object)$record;
             }
         }
-
-        return view('reports.product-expiry-report', compact('records', 'start_date', 'end_date'));
     }
+
+    public function stockAlert(Request $request)
+    {
+
+        $records = [];
+        $products = Product::all();
+        foreach ($products as $product) {
+            if ($product->stock <= $product->minimum_stock) {
+                $record = ['product' => $product,
+                    'stock' => $product->stock,
+                    'minimum_stock' => $product->minimum_stock];
+                $records[] = (object)$record;
+            }
+        }
+
+        return view('reports.stock-alert-report', compact('records'));
+    }
+
+    public function stockAlertModal(Request $request)
+    {
+
+        $records = [];
+        $products = Product::all();
+        foreach ($products as $product) {
+            if ($product->stock <= $product->minimum_stock) {
+                $record = ['product' => $product,
+                    'stock' => $product->stock,
+                    'minimum_stock' => $product->minimum_stock];
+                $records[] = (object)$record;
+            }
+        }
+
+        return view('reports.partials.stock-alert-partial', compact('records'));
+    }
+
 
 }
