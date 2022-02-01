@@ -214,6 +214,7 @@ class ProductsController extends Controller
             'is_track' => 'boolean|nullable',
             'opening_stock' => 'string|min:1|nullable|numeric',
             'opening_stock_price' => 'nullable|numeric',
+            'minimum_stock' => 'nullable|numeric',
         ];
 
 

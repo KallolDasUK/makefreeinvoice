@@ -483,3 +483,6 @@ $('#customer_id').on('change', function () {
 $('#from_advance').on('change', function () {
     $('#using_advance_amount').text($(this).val())
 })
+
+
+
