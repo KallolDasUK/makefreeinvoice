@@ -66,6 +66,16 @@
                        class="form-control check-mark checkbox form-check-input"
                        value="1" {{ ($settings->customer_id_feature??'0')?'checked':'' }}>
             </div>
+        </div>  <div class="form-group row align-items-center">
+            <div class="col-form-label col-lg-2 ">
+                <label for="show_stock_alert" class="font-weight-bolder ">Show Stock Alert</label>
+            </div>
+            <div class="col-lg-4 bg-secondary">
+                <input type="hidden" name="show_stock_alert" value="0">
+                <input id="show_stock_alert" type="checkbox" name="show_stock_alert"
+                       class="form-control check-mark checkbox form-check-input"
+                       value="1" {{ ($settings->show_stock_alert??'0')?'checked':'' }}>
+            </div>
         </div>
         <div class="form-group row align-items-center">
             <div class="col-form-label col-lg-2 ">

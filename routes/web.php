@@ -450,6 +450,8 @@ Route::group(['middleware' => 'auth:web', 'prefix' => 'app'], function () {
         Route::get('/customer-report', [ReportController::class, 'customerReport'])->name('reports.report.customer_report');
         Route::get('/vendor-report', [ReportController::class, 'vendorReport'])->name('reports.report.vendor_report');
         Route::get('/product-expiry-report', [ReportController::class, 'productExpiryReport'])->name('reports.report.product_expiry_report');
+        Route::get('/stock-alert-report', [ReportController::class, 'stockAlert'])->name('reports.report.stock_alert');
+        Route::get('/stock-alert-report-modal', [ReportController::class, 'stockAlertModal'])->name('reports.report.stock_alert_modal');
 
     });
 
@@ -689,11 +691,11 @@ Route::group(['prefix' => 'master', 'middleware' => ['auth:web', 'isMaster']], f
     Route::group(['prefix' => 'banner_ads'], function () {
         Route::get('/', [BannerAdsController::class, 'index'])->name('banner_ads.banner_ad.index');
         Route::get('/create', [BannerAdsController::class, 'create'])->name('banner_ads.banner_ad.create');
-        Route::get('/show/{bannerAd}',[BannerAdsController::class, 'show'])->name('banner_ads.banner_ad.show')->where('id', '[0-9]+');
-        Route::get('/{bannerAd}/edit',[BannerAdsController::class, 'edit'])->name('banner_ads.banner_ad.edit')->where('id', '[0-9]+');
+        Route::get('/show/{bannerAd}', [BannerAdsController::class, 'show'])->name('banner_ads.banner_ad.show')->where('id', '[0-9]+');
+        Route::get('/{bannerAd}/edit', [BannerAdsController::class, 'edit'])->name('banner_ads.banner_ad.edit')->where('id', '[0-9]+');
         Route::post('/', [BannerAdsController::class, 'store'])->name('banner_ads.banner_ad.store');
         Route::put('banner_ad/{bannerAd}', [BannerAdsController::class, 'update'])->name('banner_ads.banner_ad.update')->where('id', '[0-9]+');
-        Route::delete('/banner_ad/{bannerAd}',[BannerAdsController::class, 'destroy'])->name('banner_ads.banner_ad.destroy')->where('id', '[0-9]+');
+        Route::delete('/banner_ad/{bannerAd}', [BannerAdsController::class, 'destroy'])->name('banner_ads.banner_ad.destroy')->where('id', '[0-9]+');
 
     });
 
