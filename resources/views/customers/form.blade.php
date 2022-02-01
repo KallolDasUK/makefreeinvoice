@@ -36,7 +36,7 @@
                     <label for="customer_type">Customer Type</label>
                     <select name="customer_type" id="customer_type" class="form-control searchable">
                         <option value="Distributor"
-                                @if(optional($customer)->customer_type == 'Distributor') selected @endif>Distributor
+                                @if(optional($customer)->customer_type == 'Distributor') selected @endif>Mango
                         </option>
                         <option value="Retail" @if(optional($customer)->customer_type == 'Retail') selected @endif>
                             Retail
