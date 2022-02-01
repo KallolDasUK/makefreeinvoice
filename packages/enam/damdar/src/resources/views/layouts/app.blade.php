@@ -4776,7 +4776,7 @@
         });
         let yourDate = new Date()
         yourDate = yourDate.toISOString().split('T')[0]
-        let  show_stock_alert = {!! $settings->show_stock_alert??0 !!};
+        let  show_stock_alert = {!! $settings->show_stock_alert??1 !!};
 
         // alert(localStorage.getItem(yourDate) == null && show_stock_alert == '1')
         if(localStorage.getItem(yourDate) == null && show_stock_alert == '1'){
