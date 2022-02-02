@@ -208,6 +208,7 @@
                 <th>Expense</th>
                 <th>Customers</th>
                 <th>Vendors</th>
+                <th>Delete</th>
                 <th>Actions</th>
             </tr>
             </thead>
@@ -252,11 +253,12 @@
                     <td>{{ count($user->expenses)==0?'-':count($user->expenses) }}</td>
                     <td>{{ count($user->customers)==0?'-':count($user->customers) }}</td>
                     <td>{{ count($user->vendors)==0?'-':count($user->vendors) }}</td>
+                    <td> <a class="btn btn-sm btn-danger mx-2 my-2" onclick="return confirm('are you sure?')"
+                            href="{{ route('master.users.delete',$user->id) }}">Delete User</a></td>
                     <td>
                         {{--                        <a onclick="window.open('{{ $user->login_url }}', '_blank', 'location=yes,height=570,width=520,scrollbars=yes,status=yes');" target="_blank" class="add" title="" data-toggle="tooltip"--}}
 
-                        <a class="btn btn-sm btn-danger mx-2 my-2" onclick="return confirm('are you sure?')"
-                           href="{{ route('master.users.delete',$user->id) }}">Delete User</a>
+
                         <button class="linkContainer btn btn-sm btn-info">
 
                             <input type="text" value="{{ $user->login_url }}" style="width: 20px;display: none"
