@@ -4779,19 +4779,7 @@
         });
         let yourDate = new Date()
         yourDate = yourDate.toISOString().split('T')[0]
-        let  show_stock_alert = {!! $settings->show_stock_alert??1 !!};
 
-        // alert(localStorage.getItem(yourDate) == null && show_stock_alert == '1')
-        if(localStorage.getItem(yourDate) == null && show_stock_alert == '1'){
-            $.ajax({
-                url: route('reports.report.stock_alert_modal'),
-                type: 'get',
-                success: (response) => {
-                    $('#stockAlertModal').modal('show')
-                    $('#stockAlertModalContent').html(response)
-                }
-            });
-        }
 
         $('#closeStockAlertButton').on('click', function () {
             let yourDate = new Date()
@@ -4820,7 +4808,20 @@
         console.log(settings)
         if (!settings.phone) {
             $('#phoneModal').modal({backdrop: 'static', keyboard: false})
+        }else{
+            let  show_stock_alert = {!! $settings->show_stock_alert??1 !!};
 
+            // alert(localStorage.getItem(yourDate) == null && show_stock_alert == '1')
+            if(localStorage.getItem(yourDate) == null && show_stock_alert == '1'){
+                $.ajax({
+                    url: route('reports.report.stock_alert_modal'),
+                    type: 'get',
+                    success: (response) => {
+                        $('#stockAlertModal').modal('show')
+                        $('#stockAlertModalContent').html(response)
+                    }
+                });
+            }
         }
         /* Creating Tax Via Ajax With Validation */
         $('#phoneForm').validate({
