@@ -55,8 +55,8 @@ var posRactive = new Ractive({
             prevent_sale_on_stock_out,
             pos_number: '',
             exp_based_product,
-            twoDigit : function(value){
-                return parseFloat(value||'0').toFixed(2).replace('.00','')
+            twoDigit: function (value) {
+                return parseFloat(value || '0').toFixed(2).replace('.00', '')
             }
         },
         observe: {
@@ -318,6 +318,9 @@ var posRactive = new Ractive({
 
         }
         ,
+        onOrderEdit(id) {
+            return route('pos_sales.pos_sale.edit',id);
+        }
 
     })
 ;

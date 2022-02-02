@@ -327,6 +327,9 @@
         <button class="btn btn-secondary btn-sm mx-2" on-click="@this.onOrderView(id)"  type="button">
         <i class="fa fa-eye"></i>
         View Items</button>
+        <a href="{{ @this.onOrderEdit(id) }}" target="_blank" class="btn btn-secondary btn-sm mx-2"   type="button">
+            <i class="fa fa-edit"></i>
+        Edit </a>
 
         <button type="button" on-click="@this.onOrderPrint(id)"   class="btn btn-outline-secondary btn-lg " style="min-width: 100px;height: 100%">
         <i class="fa fa-print"></i>

@@ -4773,6 +4773,9 @@
     $(document).ready(function () {
         $('form').submit(function () {
             $("button[type='submit']").attr("disabled", true);
+            setTimeout(()=>{
+                $("button[type='submit']").attr("disabled", false);
+            },2000)
         });
         let yourDate = new Date()
         yourDate = yourDate.toISOString().split('T')[0]
