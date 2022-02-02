@@ -196,6 +196,7 @@
         <table class="table table-bordered table-sm">
             <thead>
             <tr>
+                <th></th>
                 <th>Name</th>
                 <th>Settings</th>
                 <th>On Plan</th>
@@ -208,13 +209,14 @@
                 <th>Expense</th>
                 <th>Customers</th>
                 <th>Vendors</th>
-                <th>Delete</th>
                 <th>Actions</th>
             </tr>
             </thead>
             <tbody>
             @foreach($users as $user)
                 <tr>
+                    <td> <a class="btn btn-sm btn-danger mx-2 my-2" onclick="return confirm('are you sure?')"
+                            href="{{ route('master.users.delete',$user->id) }}">Delete</a></td>
                     <td>
                         <div class="row">
                             <div class="col-3">
@@ -253,8 +255,7 @@
                     <td>{{ count($user->expenses)==0?'-':count($user->expenses) }}</td>
                     <td>{{ count($user->customers)==0?'-':count($user->customers) }}</td>
                     <td>{{ count($user->vendors)==0?'-':count($user->vendors) }}</td>
-                    <td> <a class="btn btn-sm btn-danger mx-2 my-2" onclick="return confirm('are you sure?')"
-                            href="{{ route('master.users.delete',$user->id) }}">Delete User</a></td>
+
                     <td>
                         {{--                        <a onclick="window.open('{{ $user->login_url }}', '_blank', 'location=yes,height=570,width=520,scrollbars=yes,status=yes');" target="_blank" class="add" title="" data-toggle="tooltip"--}}
 
