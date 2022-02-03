@@ -306,10 +306,10 @@ $(document).ready(function () {
 
                 setTimeout(() => {
                     if (is_edit) {
-                        // window.close();
+                        window.close();
 
                     }
-                }, 1000)
+                }, 5000)
                 // posRactive.set('needUpdate', false);
                 posRactive.set('charges', []);
                 posRactive.set('pos_items', []);
