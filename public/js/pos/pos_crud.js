@@ -251,8 +251,11 @@ $(document).ready(function () {
 
 
     function placeOrder() {
-
         let form = $('#create_pos_sale_form');
+
+        if (is_edit) {
+             form = $('#edit_pos_sale_form');
+        }
         form.action = form.attr('action')
         form.method = form.attr('method')
         let pos_items = posRactive.get('pos_items');
@@ -264,7 +267,7 @@ $(document).ready(function () {
             product.stock = product.stock - item.qnt;
         }
 
-        posRactive.set('products',products)
+        posRactive.set('products', products)
         $.ajax({
             accepts: {
                 text: "application/json"
@@ -302,7 +305,10 @@ $(document).ready(function () {
                 }
 
                 setTimeout(() => {
-                    // posRactive.set('charges', pos_charges);
+                    if (is_edit) {
+                        // window.close();
+
+                    }
                 }, 1000)
                 // posRactive.set('needUpdate', false);
                 posRactive.set('charges', []);

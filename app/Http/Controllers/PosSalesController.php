@@ -406,10 +406,78 @@ class PosSalesController extends Controller
     {
 
 
-        $data = $this->getData($request);
 
-        $posSale = PosSale::findOrFail($id);
-        $posSale->update($data);
+        $pos_sales  = PosSale::findOrFail($id);
+        $pos_sales->pos_items()->delete();
+        $pos_sales->pos_charges()->delete();
+        $pos_sales->payments()->delete();
+//dd('bal');
+
+
+
+
+        $data = $this->getData($request);
+        $pos_items = $data['pos_items'];
+        $pos_payments = $data['payments'];
+        $pos_charges = $data['charges'];
+
+        unset($data['pos_items']);
+        unset($data['payments']);
+        unset($data['charges']);
+        $pos_sales->update($data);
+
+//        $pos_sales = PosSale::create($data);
+        foreach ($pos_items as $pos_item) {
+
+            $pos_item->tax_id = $pos_item->tax_id == '' ? null : $pos_item->tax_id;
+            $pos_item->attribute_id = ($pos_item->attribute_id ?? null) == '' ? null : $pos_item->attribute_id ?? null;
+            PosItem::create(['pos_sales_id' => $pos_sales->id, 'product_id' => $pos_item->product_id,
+                'price' => $pos_item->price, 'qnt' => $pos_item->qnt, 'amount' => $pos_item->amount,
+                'tax_id' => $pos_item->tax_id, 'attribute_id' => $pos_item->attribute_id,
+                'batch' => $pos_item->batch ?? null,
+                'date' => $pos_sales->date]);
+        }
+        foreach ($pos_charges as $pos_charge) {
+            PosCharge::create(['pos_sales_id' => $pos_sales->id, 'key' => $pos_charge->key,
+                'value' => $pos_charge->value, 'amount' => $pos_charge->amount ?? 0]);
+        }
+
+
+        $given = collect($pos_payments)->sum('amount');
+        $change = $pos_sales->total - $given;
+        $pos_sales->change = 0;
+//        dd($given, $change, $pos_payments,$change > 0);
+        if ($change < 0) {
+            $distributed = 0;
+            $pos_sales->change = abs($change);
+            $pos_sales->saveQuietly();
+            foreach ($pos_payments as $index => $pos_payment) {
+                if ($distributed == $pos_sales->total) {
+                    unset($pos_payments[$index]);
+                    continue;
+                }
+
+                if ($pos_payment->amount > $pos_sales->total) {
+                    $pos_payments[$index]->amount = ($pos_sales->total - $distributed);
+
+                }
+                $distributed += $pos_payments[$index]->amount;
+            }
+        }
+
+        foreach ($pos_payments as $pos_payment) {
+            PosPayment::create([
+                'pos_sales_id' => $pos_sales->id,
+                'ledger_id' => $pos_payment->ledger_id ?? null,
+                'amount' => $pos_payment->amount,
+                'date' => $pos_sales->date ?? today()->toDateString(),
+            ]);
+        }
+        if ($request->ajax()) {
+//            dd($pos_items);
+            return $pos_sales->load('pos_charges');
+        }
+
 
         return redirect()->route('pos_sales.pos_sale.index')
             ->with('success_message', 'Pos Sale was successfully updated.');

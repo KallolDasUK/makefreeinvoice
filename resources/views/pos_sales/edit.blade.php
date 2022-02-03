@@ -13,6 +13,7 @@
     <form method="POST" action="{{ route('pos_sales.pos_sale.update',$posSale->id) }}" accept-charset="UTF-8"
           id="edit_pos_sale_form" name="edit_pos_sale_form" class="form-horizontal">
         @csrf
+        @method('put')
         @include ('pos_sales.form', ['posSale' => null])
 
 
