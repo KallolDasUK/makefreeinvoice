@@ -98,9 +98,6 @@ class PosSalesController extends Controller
     public function create()
     {
 
-//        $p = PosSale::find(817);
-//        dd($p->tax);
-//        $time_start = microtime(true);
         if (!Customer::query()->where('name', Customer::WALK_IN_CUSTOMER)->exists()) {
             Customer::create(['name' => Customer::WALK_IN_CUSTOMER]);
         }
@@ -109,9 +106,6 @@ class PosSalesController extends Controller
         $ledgers = Ledger::find($this->getAssetLedgers())->toArray();
         $categories = Category::all();
         $products = Product::all()->makeHidden(['stock_value'])->all();
-//        $products = $products->toArray();
-//        dd(json_encode($products),json_last_error_msg());
-
         $paymentMethods = PaymentMethod::all();
         $title = "POS - Point Of Sale";
         $ledger_id = Ledger::CASH_AC();
@@ -131,16 +125,11 @@ class PosSalesController extends Controller
                 }
             }
             $charges = $pos_charges;
-//            dd($pos_charges);
         } else {
 
         }
-//        dd($ledgers);
-
         $can_delete = ability(Ability::POS_DELETE);
-//        dd('Execution Seconds');
         $p = [];
-//        dd($p);
         return view('pos_sales.create', compact('customers', 'branches', 'ledgers', 'ledger_id', 'products', 'categories', 'title', 'orders',
             'paymentMethods', 'bookmarks', 'start_date', 'end_date', 'charges', 'can_delete', 'p', 'pos_numbers'));
     }
@@ -373,12 +362,43 @@ class PosSalesController extends Controller
     public function edit($id)
     {
         $posSale = PosSale::findOrFail($id);
-        $customers = Customer::pluck('name', 'id')->all();
+        if (!Customer::query()->where('name', Customer::WALK_IN_CUSTOMER)->exists()) {
+            Customer::create(['name' => Customer::WALK_IN_CUSTOMER]);
+        }
+        $customers = Customer::all()->makeHidden(['advance', 'receivables'])->toArray();
         $branches = Branch::pluck('id', 'id')->all();
-        $ledgers = Ledger::pluck('id', 'id')->all();
-        $ledgers = PaymentMethod::pluck('id', 'id')->all();
+        $ledgers = Ledger::find($this->getAssetLedgers())->toArray();
+        $categories = Category::all();
+        $products = Product::all()->makeHidden(['stock_value'])->all();
+        $paymentMethods = PaymentMethod::all();
+        $title = "Edit POS - " . $posSale->pos_number;
+        $ledger_id = Ledger::CASH_AC();
+        $bookmarks = Product::query()->where('is_bookmarked', true)->get();
+        $start_date = today()->toDateString();
+        $end_date = today()->toDateString();
+        $orders = PosSale::query()->with('customer')->whereBetween('date', [$start_date, $end_date])->latest()->get();
+        $pos_numbers = PosSale::query()->select('pos_number')->get()->toArray();
+//        dd($pos_numbers);
+        $charges = $posSale->pos_charges;
+        if (count(PosSale::query()->get()) > 0) {
+            $last_order = PosSale::query()->get()->last();
+            $pos_charges = $last_order->pos_charges()->select('key', 'value')->get()->toArray();
+            foreach ($pos_charges as $index => $pos_charge) {
+                if (Str::contains(strtolower($pos_charge['key']), 'discount')) {
+                    $pos_charges[$index]['value'] = '';
+                }
+            }
+            $charges = $pos_charges;
+        } else {
 
-        return view('pos_sales.edit', compact('posSale', 'customers', 'branches', 'ledgers', 'ledgers'));
+        }
+        $can_delete = ability(Ability::POS_DELETE);
+        $p = [];
+        $pos_items = $posSale->pos_items()->with('product')->get()->toArray();
+//        dd();
+        return view('pos_sales.edit', compact('posSale', 'customers', 'branches', 'ledgers', 'ledgers', 'customers', 'branches', 'ledgers', 'ledger_id', 'products', 'categories', 'title', 'orders',
+            'paymentMethods', 'bookmarks', 'start_date',
+            'end_date', 'charges', 'can_delete', 'p', 'pos_numbers', 'pos_items'));
     }
 
 
