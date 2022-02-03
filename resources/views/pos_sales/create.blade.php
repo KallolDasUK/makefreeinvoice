@@ -38,6 +38,7 @@
         var pos_numbers = @json($pos_numbers);
         var paymentMethods = @json($paymentMethods);
 
+        var is_edit = false;
 
         var no_image = "{{ asset('images/no_image.png') }}";
         var token = $("meta[name='csrf-token']").attr("content");
