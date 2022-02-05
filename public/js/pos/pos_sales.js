@@ -322,9 +322,12 @@ var posRactive = new Ractive({
             return route('pos_sales.pos_sale.edit',id);
         }
 
-    })
-;
+    });
 
+if (is_edit){
+    posRactive.set('pos_items',[])
+    posRactive.set('pos_items',pos_items)
+}
 function onReceiptPrint() {
     $('#blankModal').modal('hide')
 
