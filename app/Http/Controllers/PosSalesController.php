@@ -378,20 +378,20 @@ class PosSalesController extends Controller
         $end_date = today()->toDateString();
         $orders = PosSale::query()->with('customer')->whereBetween('date', [$start_date, $end_date])->latest()->get();
         $pos_numbers = PosSale::query()->select('pos_number')->get()->toArray();
-//        dd($pos_numbers);
         $charges = $posSale->pos_charges;
-        if (count(PosSale::query()->get()) > 0) {
-            $last_order = PosSale::query()->get()->last();
-            $pos_charges = $last_order->pos_charges()->select('key', 'value')->get()->toArray();
-            foreach ($pos_charges as $index => $pos_charge) {
-                if (Str::contains(strtolower($pos_charge['key']), 'discount')) {
-                    $pos_charges[$index]['value'] = '';
-                }
-            }
-            $charges = $pos_charges;
-        } else {
-
-        }
+//        dd($charges);
+//        if (count(PosSale::query()->get()) > 0) {
+//            $last_order = PosSale::query()->get()->last();
+//            $pos_charges = $last_order->pos_charges()->select('key', 'value')->get()->toArray();
+//            foreach ($pos_charges as $index => $pos_charge) {
+//                if (Str::contains(strtolower($pos_charge['key']), 'discount')) {
+//                    $pos_charges[$index]['value'] = '';
+//                }
+//            }
+//            $charges = $pos_charges;
+//        } else {
+//
+//        }
         $can_delete = ability(Ability::POS_DELETE);
         $p = [];
         $pos_items = $posSale->pos_items()->with('product')->get()->toArray();

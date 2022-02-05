@@ -1,11 +1,10 @@
 $(document).ready(function () {
 
     /* Register Events */
-    $(document).ready(function () {
-        $('#customer_id').select2({placeholder: "Select or Create Customer", allowClear: true})
-        $('#ledger_id').select2({placeholder: "Select or Create Account"})
 
-    });
+    $('#customer_id').select2({placeholder: "Select or Create Customer", allowClear: true})
+    $('#ledger_id').select2({placeholder: "Select or Create Account"})
+
     window.addEventListener("beforeunload", function (e) {
         var confirmationMessage = 'It looks like you have been editing something. '
             + 'If you leave before saving, your changes will be lost.';
@@ -245,6 +244,7 @@ $(document).ready(function () {
             return false;
         }
     })
+
     $('#storePosPaymentBtn').on('click', function () {
         placeOrder()
     })
@@ -254,7 +254,7 @@ $(document).ready(function () {
         let form = $('#create_pos_sale_form');
 
         if (is_edit) {
-             form = $('#edit_pos_sale_form');
+            form = $('#edit_pos_sale_form');
         }
         form.action = form.attr('action')
         form.method = form.attr('method')
@@ -307,7 +307,6 @@ $(document).ready(function () {
                 setTimeout(() => {
                     if (is_edit) {
                         window.close();
-
                     }
                 }, 5000)
                 // posRactive.set('needUpdate', false);
@@ -333,6 +332,7 @@ $(document).ready(function () {
                 });
         }
     })
+
     $('#posPaymentModal').on('shown.bs.modal', function (e) {
 
         posRactive.set('payments', [{amount: posRactive.get('total'), ledger_id: cash_ledger_id}])
@@ -344,6 +344,7 @@ $(document).ready(function () {
 
         }, 200)
     })
+
     $('#posPaymentModal').on('hidden.bs.modal', function (e) {
         posRactive.set('payments', [])
         $('#product_search').focus()
