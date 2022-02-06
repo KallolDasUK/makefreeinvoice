@@ -140,11 +140,18 @@ trait ReportService
         foreach (SalesReturn::query()->where('customer_id', $customer_id)->get() as $sales_return) {
 
             if ($sales_return->is_payment)
-                $record = ['date' => $sales_return->date, 'invoice' => $sales_return->sales_return_number, 'description' => 'Sales Return By Cash - From ' . $sales_return->invoice_number, 'amount' => -$sales_return->total, 'payment' => 0];
+                $record = ['date' => $sales_return->date, 'invoice' => $sales_return->sales_return_number, 'description' => 'Sales Return- From ' . $sales_return->invoice_number, 'amount' => $sales_return->total, 'payment' => 0];
+
             else
-                $record = ['date' => $sales_return->date, 'invoice' => $sales_return->sales_return_number, 'description' => 'Sales Return - From ' . $sales_return->invoice_number, 'amount' => $sales_return->total, 'payment' => 0];
+                $record = ['date' => $sales_return->date, 'invoice' => $sales_return->sales_return_number, 'description' => 'Sales Return - From ' . $sales_return->invoice_number, 'amount' => -$sales_return->total, 'payment' => 0];
 
             $records[] = (object)$record;
+            if ($sales_return->is_payment){
+                $record = ['date' => $sales_return->date, 'invoice' => $sales_return->sales_return_number, 'description' => optional(Ledger::find($sales_return->deposit_to))->ledger_name.' Received - From ' . $sales_return->sales_return_number, 'amount' => 0, 'payment' => $sales_return->total];
+                $records[] = (object)$record;
+            }
+
+
         }
         return $records;
     }
