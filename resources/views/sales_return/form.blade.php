@@ -38,7 +38,8 @@
             <select name="invoice_number" id="invoice_number" class="form-control searchable" required>
                 <option></option>
                 @foreach($invoices as $invoice_number)
-                    <option value="{{ $invoice_number }}" @if($sales_return !=null) {{ $sales_return->invoice_number == $invoice_number?'selected':'' }} @endif>{{ $invoice_number }}</option>
+                    <option
+                        value="{{ $invoice_number }}" @if($sales_return !=null) {{ $sales_return->invoice_number == $invoice_number?'selected':'' }} @endif>{{ $invoice_number }}</option>
                 @endforeach
             </select>
 
@@ -173,14 +174,15 @@
             </table>
         </div>
         <div><label class=" form-check form-check-inline form-control-plaintext">
+                <input name="is_payment" type="hidden" value="0">
                 <input id="paymentCheckBox" class="form-check-input" name="is_payment"
-                       type="checkbox" checked disabled>
+                       type="checkbox" value="1" @if(optional($sales_return)->is_payment) checked @endif>
                 &nbsp;
                 <label for="paymentCheckBox" class="form-check-label"><span class="text-bold"> I have returned the payment </span></label>
             </label>
 
 
-            <div class="paymentContainer mt-4" >
+            <div class="paymentContainer mt-4" @if(optional($sales_return)->is_payment) style="display: block" @else   style="display: none" @endif>
                 <div class="form-group row">
                     <div class="col-form-label col-lg-4 text-right required">
                         <label class="font-weight-bolder " style="font-size: 14px"> Amount <span
@@ -189,6 +191,7 @@
                     <div class="col-lg-6">
                         <input type="number" step="any" id="paymentAmount" class="form-control" name="payment_amount"
                                value="{{ optional($sales_return)->payment_amount??'' }}" min="0"
+                               readonly
                                max="{{ optional($sales_return)->total??'' }}"/>
                     </div>
                 </div>
@@ -491,6 +494,9 @@
 
 
 
+
+
+
     </script>
 @endverbatim
 @verbatim
@@ -628,6 +634,9 @@
 
 
 
+
+
+
     </script>
 @endverbatim
 @verbatim
@@ -652,6 +661,9 @@
               <td><span class="text-primary " on-click="@this.addAdditionalField()" style="cursor:pointer;">+ Add More</span></td>
               <td></td>
           </tr>
+
+
+
 
 
 

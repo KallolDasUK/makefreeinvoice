@@ -197,11 +197,14 @@ class SalesReturnsController extends Controller
         $products = Product::query()->latest()->get();
 //        dd($invoice_items);
         $ledgerGroups = LedgerGroup::all();
+        $posInvoice = PosSale::query()->latest()->pluck('pos_number')->toArray();
+        $invoices = Invoice::query()->latest()->pluck('invoice_number')->toArray();
+        $invoices = array_merge($posInvoice, $invoices);
         $next_invoice = '';
 //        dd($invoice);
         return view('sales_return.edit', compact('invoice', 'ledgerGroups', 'customers', 'taxes',
             'invoice_items', 'invoiceExtraField', 'products', 'extraFields', 'categories', 'cashAcId',
-            'depositAccounts', 'paymentMethods', 'next_invoice'));
+            'depositAccounts', 'paymentMethods', 'next_invoice', 'invoices'));
     }
 
     public function update($id, Request $request)
@@ -285,7 +288,7 @@ class SalesReturnsController extends Controller
         $data['invoice_items'] = json_decode($data['invoice_items'] ?? '{}');
         $data['additional'] = json_decode($data['additional'] ?? '{}');
         $data['additional_fields'] = json_decode($data['additional_fields'] ?? '{}');
-        $data['is_payment'] = $request->has('is_payment');
+        $data['is_payment'] = $request->is_payment == 1;
         if ($request->has('custom_delete_attachment')) {
             $data['attachment'] = null;
         }

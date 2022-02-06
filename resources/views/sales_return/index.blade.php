@@ -139,7 +139,8 @@
                         <thead>
                         <tr class="text-left">
                             <th></th>
-                            <th class="text-center">Invoice Number</th>
+                            <th class="">Return Number</th>
+                            <th class="">From Invoice</th>
                             <th class="pr-0">Client</th>
                             <th>Return Date</th>
 
@@ -162,6 +163,16 @@
                                         <i class="fa fa-external-link-alt font-normal text-secondary"
                                            style="font-size: 10px"></i>
                                         {{ $invoice->sales_return_number }}
+
+                                    </a>
+
+                                </td>
+                                <td class="text-center ">
+                                    <a class="font-weight-bolder d-block font-size-lg underline text-left invoice_number"
+                                       href="{{ route('invoices.invoice.show',optional(\App\Models\Invoice::query()->firstWhere('invoice_number',$invoice->invoice_number))->id??-1) }}">
+                                        <i class="fa fa-external-link-alt font-normal text-secondary"
+                                           style="font-size: 10px"></i>
+                                        {{ $invoice->invoice_number }}
 
                                     </a>
 
