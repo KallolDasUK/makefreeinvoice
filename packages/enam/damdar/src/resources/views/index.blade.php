@@ -541,6 +541,23 @@
                     <div class="shortcuts-title sc-jlyJG gSoaLO title">Due Payment</div>
                 </a>
 
+                <a class="sc-gPEVay eaBhby  "
+                   href="{{ route('reports.report.stock_alert') }}">
+                    <div class="sc-iRbamj image"
+                         style="background-image:url('{{ asset('images/estimate.svg') }}') ">
+
+                    </div>
+                    <div class="shortcuts-title sc-jlyJG gSoaLO title">Stock Alert</div>
+                </a>
+                <a class="sc-gPEVay eaBhby  "
+                   href="{{ route('reports.report.popular_products_report') }}">
+                    <div class="sc-iRbamj image"
+                         style="background-image:url('{{ asset('images/estimate.svg') }}') ">
+
+                    </div>
+                    <div class="shortcuts-title sc-jlyJG gSoaLO title">Most Popular Products</div>
+                </a>
+
 
                 <a class="sc-gPEVay eaBhby @cannot('trial_balance') pro-tag @endcannot "
                    href="{{ route('reports.report.trial_balance') }}">

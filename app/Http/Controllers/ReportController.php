@@ -537,5 +537,27 @@ class ReportController extends AccountingReportsController
         return view('reports.partials.stock-alert-partial', compact('records'));
     }
 
+    public function popularProductReport(Request $request)
+    {
+        $start_date = $request->start_date ?? today()->startOfMonth()->toDateString();
+        $end_date = $request->end_date ?? today()->toDateString();
+        $records = [];
+        $products = Product::all();
+        foreach ($products as $product) {
+            $invoice_items = InvoiceItem::query()
+                ->where('product_id', $product->id)
+                ->whereBetween('date', [$start_date, $end_date])
+                ->get();
+            $sold = $invoice_items->sum('qnt');
+            if ($sold == 0) continue;
+            $record = ['product_name' => $product->name, 'stock' => $product->stock, 'sold' => $sold];
+            $records[] = (object)$record;
+
+        }
+        $records = collect($records)->sortBy('sold', SORT_DESC, SORT_DESC);
+
+        return view('reports.popular-products-report', compact('records', 'start_date', 'end_date'));
+    }
+
 
 }

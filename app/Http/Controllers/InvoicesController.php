@@ -94,6 +94,9 @@ class InvoicesController extends Controller
         $depositAccounts = Ledger::find($this->getAssetLedgers())->sortBy('ledger_name');
         $paymentMethods = PaymentMethod::query()->get();
         $customers = Customer::all();
+
+
+
         $products = Product::all();
         $categories = Category::all();
         $taxes = Tax::query()->latest()->get()->toArray();
