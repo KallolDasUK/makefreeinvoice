@@ -29,7 +29,9 @@
                     <strong> Due Date:</strong> {{ \Carbon\Carbon::parse($invoice->due_date)->format('d/m/y') }}
                 @endif
             </div>
-            <div class="col-sm-4 text-sm-right"><strong>Invoice No:</strong> {{ $invoice->sales_return_number }}
+            <div class="col-sm-4 text-sm-right">
+                <strong>Return No:</strong> {{ $invoice->sales_return_number }} <br>
+                <strong>From Invoice :</strong> {{ $invoice->invoice_number }}
             </div>
 
         </div>

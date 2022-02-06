@@ -395,11 +395,11 @@ class AccountingFacade extends Facade
         if ($invoice == null) {
             $invoice = $pos;
         }
-        if ($invoice->due >= $salesReturn->total) {
+        if (!$salesReturn->is_payment) {
             $sales_opposite_ledger = optional($invoice->customer->ledger)->id;
         }
-//        dd($invoice->customer->ledger->id,$sales_opposite_ledger,$salesReturn->toArray());
-        self::addTransaction(Ledger::SALES_AC(), $sales_opposite_ledger, $salesReturn->payment_amount, $salesReturn->notes,
+//         dd($invoice->customer->ledger->id,$sales_opposite_ledger,$salesReturn->toArray());
+        self::addTransaction(Ledger::SALES_AC(), $sales_opposite_ledger, $salesReturn->total, $salesReturn->notes,
             $salesReturn->date, 'Sales Return', SalesReturn::class, $salesReturn->id,
             $salesReturn->sales_return_number, optional($salesReturn->customer)->name);
 
