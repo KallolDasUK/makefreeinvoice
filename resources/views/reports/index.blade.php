@@ -207,6 +207,14 @@
                     </div>
                     <div class="shortcuts-title sc-jlyJG gSoaLO title">Stock Alert</div>
                 </a>
+                <a class="sc-gPEVay eaBhby  "
+                   href="{{ route('reports.report.popular_products_report') }}">
+                    <div class="sc-iRbamj image"
+                         style="background-image:url('{{ asset('images/estimate.svg') }}') ">
+
+                    </div>
+                    <div class="shortcuts-title sc-jlyJG gSoaLO title">Most Popular Products</div>
+                </a>
 
                 <div class="clearfix"></div>
                 <br>
