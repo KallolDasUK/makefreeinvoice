@@ -17,6 +17,7 @@ use App\Models\PosItem;
 use App\Models\Product;
 use App\Models\ProductionItem;
 use App\Models\PurchaseReturnItem;
+use App\Models\SalesReturn;
 use App\Models\SalesReturnItem;
 use App\Models\StockEntryItem;
 use App\Models\Tax;
@@ -136,7 +137,15 @@ trait ReportService
             }
         }
 
+        foreach (SalesReturn::query()->where('customer_id', $customer_id)->get() as $sales_return) {
 
+            if ($sales_return->is_payment)
+                $record = ['date' => $sales_return->date, 'invoice' => $sales_return->sales_return_number, 'description' => 'Sales Return By Cash - From ' . $sales_return->invoice_number, 'amount' => -$sales_return->total, 'payment' => 0];
+            else
+                $record = ['date' => $sales_return->date, 'invoice' => $sales_return->sales_return_number, 'description' => 'Sales Return - From ' . $sales_return->invoice_number, 'amount' => $sales_return->total, 'payment' => 0];
+
+            $records[] = (object)$record;
+        }
         return $records;
     }
 
@@ -534,7 +543,7 @@ trait ReportService
                 ->sum('qnt');
 
 //            dd($sold);
-            if ($sold == 0 && $sales_return== 0 && $purchase== 0 && $purchase_return== 0 && $added== 0 && $removed == 0&& $stock_entry== 0 && $used_in_production== 0 && $produced_in_production== 0) {
+            if ($sold == 0 && $sales_return == 0 && $purchase == 0 && $purchase_return == 0 && $added == 0 && $removed == 0 && $stock_entry == 0 && $used_in_production == 0 && $produced_in_production == 0) {
                 continue;
             }
 
