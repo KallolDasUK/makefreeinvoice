@@ -14,6 +14,7 @@ use App\Models\InventoryAdjustmentItem;
 use App\Models\Invoice;
 use App\Models\InvoiceItem;
 use App\Models\PosItem;
+use App\Models\PosSale;
 use App\Models\Product;
 use App\Models\ProductionItem;
 use App\Models\PurchaseReturnItem;
@@ -101,6 +102,13 @@ trait ReportService
             ->where('customer_id', $customer_id)
             ->whereBetween('invoice_date', [$start_date, $end_date])
             ->get();
+
+        $posInvoice = PosSale::query()
+            ->where('customer_id', $customer_id)
+            ->whereBetween('date', [$start_date, $end_date])
+            ->get();
+
+
         $customer = Customer::find($customer_id);
 
         $opening_payments = TransactionDetail::query()
@@ -136,6 +144,19 @@ trait ReportService
                 }
             }
         }
+        foreach ($posInvoice as $pos) {
+            $record = ['date' => $pos->date, 'invoice' => $pos->pos_number, 'description' => 'New Pos Sale Created', 'payment' => 0, 'amount' => $pos->total];
+            $records[] = (object)$record;
+            if ($pos->payments()->sum('amount') > 0) {
+                foreach ($pos->payments as $payment) {
+//                    if ($payment->receive_payment->payment_date > $start_date && $payment->receive_payment->payment_date <= $end_date) {
+                        $record = ['date' => $payment->date, 'invoice' => $pos->pos_number, 'description' => 'Payment By ' . optional(optional($payment)->ledger)->ledger_name . '<br>' . optional($payment)->note, 'payment' => $payment->amount, 'amount' => 0];
+                        $records[] = (object)$record;
+//                    }
+
+                }
+            }
+        }
 
         foreach (SalesReturn::query()->where('customer_id', $customer_id)->get() as $sales_return) {
 
@@ -146,8 +167,8 @@ trait ReportService
                 $record = ['date' => $sales_return->date, 'invoice' => $sales_return->sales_return_number, 'description' => 'Sales Return - From ' . $sales_return->invoice_number, 'amount' => -$sales_return->total, 'payment' => 0];
 
             $records[] = (object)$record;
-            if ($sales_return->is_payment){
-                $record = ['date' => $sales_return->date, 'invoice' => $sales_return->sales_return_number, 'description' => optional(Ledger::find($sales_return->deposit_to))->ledger_name.' Received - From ' . $sales_return->sales_return_number, 'amount' => 0, 'payment' => $sales_return->total];
+            if ($sales_return->is_payment) {
+                $record = ['date' => $sales_return->date, 'invoice' => $sales_return->sales_return_number, 'description' => optional(Ledger::find($sales_return->deposit_to))->ledger_name . ' Received - From ' . $sales_return->sales_return_number, 'amount' => 0, 'payment' => $sales_return->total];
                 $records[] = (object)$record;
             }
 
