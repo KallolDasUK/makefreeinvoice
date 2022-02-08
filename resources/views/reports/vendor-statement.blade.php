@@ -142,20 +142,9 @@
                 </form>
             </div>
         </div>
-        <div class="float-right {{ $vendor_id == null?'d-none':'' }}">
-            <div class="btn-group btn-group-lg float-right bg-white" role="group" aria-label="Large button group">
-                <button id="printBtn" type="button" class="btn btn-outline-secondary">
-                    <i class="fa fa-print text-danger"></i>
-                    <b>Print Receipt</b>
-                </button>
-                <button id="downloadBtn" type="button" class="btn btn-outline-secondary">
-                    <i class="fa fa-download text-primary"></i>
 
-                    <b>Download</b>
-                </button>
-            </div>
+        @include('reports.partials.print-download-export')
 
-        </div>
 
         <p class="clearfix"></p>
         @if($vendor_id)

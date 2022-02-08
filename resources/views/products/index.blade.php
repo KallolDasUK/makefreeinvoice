@@ -21,6 +21,14 @@
             <h5 class="my-1 float-left">Products</h5>
 
             <div class="btn-group btn-group-sm float-right" role="group">
+
+                <a
+                    href="{{ route('products.product.export') }}"
+                    style="color: #007337" id="exportButton" type="button" class="btn btn-outline-secondary">
+                    <i class="fas fa-file-excel"></i>
+                    <b>Export to Excel</b>
+                </a>
+
                 <a href="{{ route('products.product.barcode') }}"
                    class="btn btn-success btn-lg font-weight-bolder font-size-sm mx-4 {{ ability(\App\Utils\Ability::BARCODE_READ) }}"
                    style="font-size: 16px"
@@ -77,8 +85,10 @@
                                 <td>{{ $loop->iteration }}</td>
 
                                 <td>
-                                    <img class="rounded" src="{{ asset('storage/'.$product->photo) }}" alt="" width="50">
-                                </td>   <td>{{ $product->product_type }}</td>
+                                    <img class="rounded" src="{{ asset('storage/'.$product->photo) }}" alt=""
+                                         width="50">
+                                </td>
+                                <td>{{ $product->product_type }}</td>
                                 <td>{{ $product->name }}</td>
                                 <td>{{ $product->code }}</td>
                                 <td>{{ $product->stock }}</td>

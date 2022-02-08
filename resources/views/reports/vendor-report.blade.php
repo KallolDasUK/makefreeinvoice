@@ -77,20 +77,8 @@
         </div>
 
 
-        <div class="float-right">
-            <div class="btn-group btn-group-lg float-right bg-white" role="group" aria-label="Large button group">
-                <button id="printBtn" type="button" class="btn btn-outline-secondary">
-                    <i class="fa fa-print text-danger"></i>
-                    <b>Print Receipt</b>
-                </button>
-                <button id="downloadBtn" type="button" class="btn btn-outline-secondary">
-                    <i class="fa fa-download text-primary"></i>
+        @include('reports.partials.print-download-export')
 
-                    <b>Download</b>
-                </button>
-            </div>
-
-        </div>
 
         <p class="clearfix"></p>
         <div id="invoice-container" class="container-fluid invoice-container">
