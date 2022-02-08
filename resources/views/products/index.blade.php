@@ -13,6 +13,54 @@
 
         </div>
     @endif
+    @if(Session::has('error_message'))
+        <div class="alert alert-danger">
+            <i class=" fas fa-fw fa-check" aria-hidden="true"></i>
+            {!! session('error_message') !!}
+
+            <button type="button" class="close" data-dismiss="alert" aria-label="close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+
+        </div>
+    @endif
+
+    <!-- Button trigger modal -->
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="importModal" tabindex="-1" role="dialog" aria-labelledby="importModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <form method="post" action="{{ route('products.product.import') }}" enctype="multipart/form-data">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="importModalLabel">Upload From Excel File</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        @csrf
+                        <input name="file" required type="file" class="form-control-file">
+
+
+                        <hr>
+                        Please <a target="_blank"
+                                  href="https://docs.google.com/spreadsheets/d/1k_f8DDOa39AIrahz4_kqkvkjCV4hZ1kma0pD5Qhs_iI/edit?usp=sharing"><b>download</b></a>
+                        sample file to check the column name and column order. Column order and name are equally
+                        important.
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Upload File</button>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+    </div>
 
     <div class="card">
 
@@ -20,18 +68,28 @@
 
             <h5 class="my-1 float-left">Products</h5>
 
-            <div class="btn-group btn-group-sm float-right" role="group">
+            <div class="float-right" role="group">
 
+                <button
+                    style="color: #17205f;font-size: 16px" id="importBtn" type="button"
+                    class="btn btn-outline-secondary btn-lg font-weight-bolder font-size-sm mr-2"
+                    data-toggle="modal" data-target="#importModal"
+                >
+                    <i class="fas fa-file-upload"></i>
+                    <b>Import Product</b>
+                </button>
                 <a
                     href="{{ route('products.product.export') }}"
-                    style="color: #007337" id="exportButton" type="button" class="btn btn-outline-secondary">
+                    style="color: #007337;font-size: 16px"
+                    id="exportButton" type="button"
+                    class="btn btn-outline-secondary btn-lg font-weight-bolder font-size-sm ">
                     <i class="fas fa-file-excel"></i>
                     <b>Export to Excel</b>
                 </a>
 
                 <a href="{{ route('products.product.barcode') }}"
-                   class="btn btn-success btn-lg font-weight-bolder font-size-sm mx-4 {{ ability(\App\Utils\Ability::BARCODE_READ) }}"
-                   style="font-size: 16px"
+                   class="btn btn btn-outline-secondary btn-lg font-weight-bolder font-size-sm mx-4 {{ ability(\App\Utils\Ability::BARCODE_READ) }}"
+                   style="color: #0a0a0a;font-size: 16px"
                    title="Create New Product">
                     <i class="fa fa-barcode" aria-hidden="true"></i>
                     Print Barcode

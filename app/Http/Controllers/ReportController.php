@@ -501,6 +501,7 @@ class ReportController extends AccountingReportsController
                 $records[] = (object)$record;
             }
         }
+        return view('reports.product-expiry-report', compact('start_date', 'end_date', 'records'));
     }
 
     public function stockAlert(Request $request)

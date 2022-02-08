@@ -24,6 +24,7 @@
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.0",
         "laraveldaily/laravel-invoices": "^2.0",
+        "maatwebsite/excel": "^3.1",
         "pusher/pusher-php-server": "^7.0",
         "salla/zatca": "^1.0",
         "spatie/laravel-honeypot": "^3.0",
