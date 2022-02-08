@@ -302,6 +302,8 @@ Route::group(['middleware' => 'auth:web', 'prefix' => 'app'], function () {
         Route::get('/{product}/edit', [ProductsController::class, 'edit'])->name('products.product.edit')->where('id', '[0-9]+');
         Route::get('/bookmark', [ProductsController::class, 'bookmark'])->name('products.product.bookmark');
         Route::get('/barcode', [ProductsController::class, 'barcode'])->name('products.product.barcode');
+        Route::get('/export', [ProductsController::class, 'export'])->name('products.product.export');
+        Route::post('/import', [ProductsController::class, 'import'])->name('products.product.import');
         Route::post('/', [ProductsController::class, 'store'])->name('products.product.store');
         Route::put('product/{product}', [ProductsController::class, 'update'])->name('products.product.update')->where('id', '[0-9]+');
         Route::post('product/{product}/updateBarcode', [ProductsController::class, 'updateBarcode'])->name('products.product.updateBarcode')->where('id', '[0-9]+');

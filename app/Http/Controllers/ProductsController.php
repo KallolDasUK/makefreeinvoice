@@ -136,6 +136,16 @@ class ProductsController extends Controller
         return view('products.barcode', compact('products'));
     }
 
+    public function export()
+    {
+
+    }
+
+    public function import()
+    {
+
+    }
+
     public function bookmark(Request $request)
     {
 
@@ -223,8 +233,7 @@ class ProductsController extends Controller
         }
 //        dd($request->all());
 
-        $data = $request->validate($rules,['code.unique_saas'=>'Product Code Already In Use']);
-
+        $data = $request->validate($rules, ['code.unique_saas' => 'Product Code Already In Use']);
 
 
         if ($request->has('custom_delete_photo')) {
