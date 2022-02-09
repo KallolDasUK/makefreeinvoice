@@ -24,6 +24,7 @@ use App\Models\PosSale;
 use App\Models\Product;
 use App\Models\ReceivePayment;
 use App\Models\ReceivePaymentItem;
+use App\Models\SalesReturn;
 use App\Models\User;
 use App\Models\Vendor;
 use App\Utils\Ability;
@@ -47,6 +48,7 @@ class AjaxController extends Controller
             ->where('customer_id', $customer->id)
             ->where('payment_status', '!=', Invoice::Paid)
             ->get();
+
         $pos_sales = PosSale::query()
             ->where('customer_id', $customer->id)
             ->get()->filter(function ($sale) {

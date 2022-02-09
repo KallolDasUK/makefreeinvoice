@@ -145,7 +145,8 @@ class Invoice extends Model
     {
         $due = 0;
         $payment = $this->payment;
-        $due = $this->total - $payment;
+        $sales_return = SalesReturn::query()->where('invoice_number', $this->invoice_number)->sum('total');
+        $due = $this->total - $payment - $sales_return;
 
         return number_format((float)$due, 2, '.', '');
 
