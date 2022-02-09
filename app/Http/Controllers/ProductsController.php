@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\ProductsExport;
+use App\Imports\ProductsImport;
 use App\Models\Brand;
 use App\Models\Category;
 use App\Models\MetaSetting;
@@ -14,6 +16,7 @@ use Enam\Acc\Traits\TransactionTrait;
 use Enam\Acc\Utils\EntryType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ProductsController extends Controller
 {
@@ -138,12 +141,21 @@ class ProductsController extends Controller
 
     public function export()
     {
+        return Excel::download(new ProductsExport(), 'products_' . today()->toDateString() . '.xlsx');
 
     }
 
-    public function import()
+    public function import(Request $request)
     {
-
+        try {
+            Excel::import(new ProductsImport(), $request->file('file'));
+        } catch (\Exception $exception) {
+//            dd($exception);
+            return redirect()->route('products.product.index')
+                ->with('error_message', "Invalid file format. Please select xls or xlsx or csv file.");
+        }
+        return redirect()->route('products.product.index')
+            ->with('success_message', 'Products was imported. All good.');
     }
 
     public function bookmark(Request $request)
@@ -290,3 +302,4 @@ class ProductsController extends Controller
     }
 
 }
+// php artisan make:export ProductsExport --model=Product

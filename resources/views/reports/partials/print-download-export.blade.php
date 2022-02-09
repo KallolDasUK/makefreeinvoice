@@ -6,12 +6,12 @@
         </button>
         <button id="printBtn" type="button" class="btn btn-outline-secondary">
             <i class="fa fa-print text-danger"></i>
-            <b>Print Receipt</b>
+            <b>Print Report</b>
         </button>
         <button id="downloadBtn" type="button" class="btn btn-outline-secondary">
             <i class="fa fa-download text-primary"></i>
 
-            <b>Download</b>
+            <b>Download PDF</b>
         </button>
 
     </div>
