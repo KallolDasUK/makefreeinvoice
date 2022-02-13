@@ -1,6 +1,6 @@
 @if($customer->previous_due>0)
     <tr>
-        <td colspan="3" style="padding-top: 0px;"></td>
+        <td colspan="4" style="padding-top: 0px;"></td>
         <td colspan="1" class="text-right">Previous Due</td>
         <td colspan="1" class="text-right">{{ $customer->previous_due }}</td>
         <td class="text-right">
@@ -25,6 +25,7 @@
 
 
         <td class="text-right"> {{ $invoice->total }} </td>
+        <td class="text-right  text-danger"> {{ $invoice->sales_return_amount }} </td>
         <td class="text-right"> {{ $invoice->due }} </td>
         <td class="text-right" style="width:16%; position: relative;">
             <input name="payment[]"
@@ -49,6 +50,8 @@
 
 
         <td class="text-right"> {{ $sale->total }} </td>
+        <td class="text-right text-danger"> {{ $sale->sales_return_amount }} </td>
+
         <td class="text-right"> {{ $sale->due }} </td>
         <td class="text-right" style="width:16%; position: relative;">
             <input name="payment[]"
@@ -63,7 +66,7 @@
 @endforeach
 
 <tr>
-    <td colspan="3" style="padding-top: 0px;"></td>
+    <td colspan="4" style="padding-top: 0px;"></td>
     <td colspan="2" class="text-right">Total Due</td>
     <td class="text-right">
         <input type="number" step="any" name="totalPayable" class="form-control text-right" readonly
@@ -71,8 +74,9 @@
                value="{{ $customer->previous_due + $invoices->sum('due') + $pos_sales->sum('due') }}"
                id="totalPayable"/></td>
 
-</tr><tr>
-    <td colspan="3" style="padding-top: 0px;"></td>
+</tr>
+<tr>
+    <td colspan="4" style="padding-top: 0px;"></td>
     <td colspan="2" class="text-right">Total Amount</td>
 
     <td class="text-right">

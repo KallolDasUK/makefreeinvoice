@@ -47,7 +47,9 @@ class AjaxController extends Controller
         $invoices = Invoice::query()
             ->where('customer_id', $customer->id)
             ->where('payment_status', '!=', Invoice::Paid)
-            ->get();
+            ->get()->filter(function ($sale) {
+                return $sale->due > 0;
+            });
 
         $pos_sales = PosSale::query()
             ->where('customer_id', $customer->id)
@@ -66,7 +68,9 @@ class AjaxController extends Controller
         $bills = Bill::query()
             ->where('vendor_id', $vendor->id)
             ->where('payment_status', '!=', Bill::Paid)
-            ->get();
+            ->get()->filter(function ($sale) {
+                return $sale->due > 0;
+            });
 
 
         return view('partials.vendor_unpaid_bills', compact('bills', 'vendor'));

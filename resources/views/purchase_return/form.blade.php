@@ -40,7 +40,7 @@
                 @foreach(\App\Models\Bill::query()->latest()->get() as $bill)
 
                     <option
-                        value="{{ $bill->id }}" @if($purchase_return !=null) {{ $purchase_return->bill_number == $bill->id?'selected':'' }} @endif>{{ $bill->bill_number }}</option>
+                        value="{{ $bill->bill_number }}" @if($purchase_return !=null) {{ $purchase_return->bill_number == $bill->bill_number?'selected':'' }} @endif>{{ $bill->bill_number }}</option>
                 @endforeach
             </select>
 
@@ -160,14 +160,14 @@
             </table>
         </div>
         <div><label class=" form-check form-check-inline form-control-plaintext">
-                <input id="paymentCheckBox" class="form-check-input" name="is_payment"
-                       type="checkbox" checked disabled>
+                <input name="is_payment" type="hidden" value="0">
+                <input id="paymentCheckBox" class="form-check-input" name="is_payment" type="checkbox" @if(optional($purchase_return)->is_payment) checked @endif  >
                 &nbsp;
                 <label for="paymentCheckBox" class="form-check-label"><span class="text-bold"> I have returned the payment </span></label>
             </label>
 
 
-            <div class="paymentContainer mt-4">
+            <div class="paymentContainer mt-4"  @if(optional($purchase_return)->is_payment) style="display: block" @else   style="display: none" @endif>
                 <div class="form-group row">
                     <div class="col-form-label col-lg-4 text-right required">
                         <label class="font-weight-bolder " style="font-size: 14px"> Amount <span
@@ -176,6 +176,7 @@
                     <div class="col-lg-6">
                         <input type="number" step="any" id="paymentAmount" class="form-control" name="payment_amount"
                                value="{{ optional($purchase_return)->payment_amount??'' }}" min="0"
+                               readonly
                                max="{{ optional($purchase_return)->total??'' }}"/>
                     </div>
                 </div>

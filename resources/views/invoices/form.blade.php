@@ -230,11 +230,11 @@
                 <input id="paymentCheckBox" class="form-check-input" name="is_payment"
                        type="checkbox" {{ optional($invoice)->is_payment?'checked':'' }}>
                 &nbsp;
-                <label for="paymentCheckBox" class="form-check-label"><span class="text-bold"> I have received the payment </span></label>
+                <label for="paymentCheckBox" class="form-check-label "><span class="text-bold"> I have received the payment </span></label>
             </label>
 
             <div class="advanceContainer d-none">
-                <label>→ <span id="using_advance_amount"></span> is being used from advance payment (<span
+                <label class="text-danger">→ <span id="using_advance_amount"></span> is being used from advance payment (<span
                         id="advance_amount" class="font-weight-bolder text-primary"></span>).
 
                 </label>

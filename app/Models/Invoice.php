@@ -100,7 +100,7 @@ class Invoice extends Model
     const UnPaid = "Unpaid";
 
     protected $guarded = [];
-    protected $appends = ['due'];
+    protected $appends = ['due', 'sales_return_amount'];
 
 
     public function getCreatedAtAttribute($value)
@@ -133,6 +133,13 @@ class Invoice extends Model
     public function getExtraFieldsAttribute()
     {
         return ExtraField::query()->where('type', Invoice::class)->where('type_id', $this->id)->get();
+    }
+
+    public function getSalesReturnAmountAttribute()
+    {
+
+        $sales_return = SalesReturn::query()->where('invoice_number', $this->invoice_number)->sum('total');
+        return $sales_return == 0 ? '' : $sales_return;
     }
 
 

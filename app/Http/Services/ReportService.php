@@ -17,6 +17,7 @@ use App\Models\PosItem;
 use App\Models\PosSale;
 use App\Models\Product;
 use App\Models\ProductionItem;
+use App\Models\PurchaseReturn;
 use App\Models\PurchaseReturnItem;
 use App\Models\SalesReturn;
 use App\Models\SalesReturnItem;
@@ -94,9 +95,9 @@ trait ReportService
     {
         $records = [];
         $previous = $this->getCustomerOpeningBalance($start_date, $end_date, $customer_id);
-        $record = ['date' => 'As on ' . $start_date, 'invoice' => '', 'description' => 'Balance Forward', 'payment' => 0, 'amount' => 0];
+        $record = ['date' => 'As on ' . $start_date, 'invoice' => '', 'description' => 'Balance Forward', 'payment' => 0, 'amount' => 0, 'created_at' => today()];
         $records[] = (object)$record;
-
+//        dd($records);
 
         $invoices = Invoice::query()
             ->where('customer_id', $customer_id)
@@ -121,23 +122,26 @@ trait ReportService
             $record = ['date' => $opening_payment->date,
                 'invoice' => "-",
                 'description' => 'Previous Due Payment',
-                'amount' => 0, 'payment' => $opening_payment->amount];
+                'amount' => 0, 'payment' => $opening_payment->amount,
+                'created_at' => $opening_payment->created_at];
             $records[] = (object)$record;
         }
 
         foreach (CustomerAdvancePayment::query()->where('customer_id', $customer_id)->get() as $customerAdvancePayment) {
-            $record = ['date' => $customerAdvancePayment->date, 'invoice' => "-", 'description' => 'Advance Payment', 'amount' => 0, 'payment' => $customerAdvancePayment->amount];
+            $record = ['date' => $customerAdvancePayment->date, 'invoice' => "-", 'description' => 'Advance Payment', 'amount' => 0, 'payment' => $customerAdvancePayment->amount,
+                'created_at' => $customerAdvancePayment->created_at];
             $records[] = (object)$record;
         }
 
 
         foreach ($invoices as $invoice) {
-            $record = ['date' => $invoice->invoice_date, 'invoice' => $invoice->invoice_number, 'description' => 'New Invoice Created', 'payment' => 0, 'amount' => $invoice->total];
+            $record = ['date' => $invoice->invoice_date, 'invoice' => $invoice->invoice_number, 'description' => 'New Invoice Created', 'payment' => 0, 'amount' => $invoice->total, 'created_at' => $invoice->created_at];
             $records[] = (object)$record;
             if ($invoice->payments()->sum('amount') > 0) {
                 foreach ($invoice->payments as $payment) {
                     if ($payment->receive_payment->payment_date > $start_date && $payment->receive_payment->payment_date <= $end_date) {
-                        $record = ['date' => $payment->receive_payment->payment_date, 'invoice' => $invoice->invoice_number, 'description' => 'Payment By ' . optional(optional($payment->receive_payment)->ledger)->ledger_name . '<br>' . optional($payment->receive_payment)->note, 'payment' => $payment->amount, 'amount' => 0];
+                        $record = ['date' => $payment->receive_payment->payment_date, 'invoice' => $invoice->invoice_number, 'description' => 'Payment By ' . optional(optional($payment->receive_payment)->ledger)->ledger_name . '<br>' . optional($payment->receive_payment)->note, 'payment' => $payment->amount,
+                            'amount' => 0, 'created_at' => $payment->created_at];
                         $records[] = (object)$record;
                     }
 
@@ -145,13 +149,14 @@ trait ReportService
             }
         }
         foreach ($posInvoice as $pos) {
-            $record = ['date' => $pos->date, 'invoice' => $pos->pos_number, 'description' => 'New Pos Sale Created', 'payment' => 0, 'amount' => $pos->total];
+            $record = ['date' => $pos->date, 'invoice' => $pos->pos_number, 'description' => 'New Pos Sale Created', 'payment' => 0, 'amount' => $pos->total, 'created_at' => $pos->created_at];
             $records[] = (object)$record;
             if ($pos->payments()->sum('amount') > 0) {
                 foreach ($pos->payments as $payment) {
 //                    if ($payment->receive_payment->payment_date > $start_date && $payment->receive_payment->payment_date <= $end_date) {
-                        $record = ['date' => $payment->date, 'invoice' => $pos->pos_number, 'description' => 'Payment By ' . optional(optional($payment)->ledger)->ledger_name . '<br>' . optional($payment)->note, 'payment' => $payment->amount, 'amount' => 0];
-                        $records[] = (object)$record;
+                    $record = ['date' => $payment->date, 'invoice' => $pos->pos_number, 'description' => 'Payment By ' . optional(optional($payment)->ledger)->ledger_name . '<br>' . optional($payment)->note,
+                        'payment' => $payment->amount, 'amount' => 0, 'created_at' => $payment->created_at];
+                    $records[] = (object)$record;
 //                    }
 
                 }
@@ -161,27 +166,27 @@ trait ReportService
         foreach (SalesReturn::query()->where('customer_id', $customer_id)->get() as $sales_return) {
 
             if ($sales_return->is_payment)
-                $record = ['date' => $sales_return->date, 'invoice' => $sales_return->sales_return_number, 'description' => 'Sales Return- From ' . $sales_return->invoice_number, 'amount' => $sales_return->total, 'payment' => 0];
+                $record = ['date' => $sales_return->date, 'invoice' => $sales_return->sales_return_number, 'description' => 'Sales Return- From ' . $sales_return->invoice_number, 'amount' => $sales_return->total, 'payment' => 0, 'created_at' => $sales_return->created_at];
 
             else
-                $record = ['date' => $sales_return->date, 'invoice' => $sales_return->sales_return_number, 'description' => 'Sales Return - From ' . $sales_return->invoice_number, 'amount' => -$sales_return->total, 'payment' => 0];
+                $record = ['date' => $sales_return->date, 'invoice' => $sales_return->sales_return_number, 'description' => 'Sales Return - From ' . $sales_return->invoice_number, 'amount' => -$sales_return->total, 'payment' => 0, 'created_at' => $sales_return->created_at];
 
             $records[] = (object)$record;
             if ($sales_return->is_payment) {
-                $record = ['date' => $sales_return->date, 'invoice' => $sales_return->sales_return_number, 'description' => optional(Ledger::find($sales_return->deposit_to))->ledger_name . ' Received - From ' . $sales_return->sales_return_number, 'amount' => 0, 'payment' => $sales_return->total];
+                $record = ['date' => $sales_return->date, 'invoice' => $sales_return->sales_return_number, 'description' => optional(Ledger::find($sales_return->deposit_to))->ledger_name . ' Received - From ' . $sales_return->sales_return_number, 'amount' => 0, 'payment' => $sales_return->total, 'created_at' => $sales_return->created_at];
                 $records[] = (object)$record;
             }
 
 
         }
-        return $records;
+        return collect($records)->sortBy('created_at')->toArray();
     }
 
     public function getVendorStatement($start_date, $end_date, $vendor_id)
     {
         $records = [];
         $previous = $this->getVendorOpeningBalance($start_date, $end_date, $vendor_id);
-        $record = ['date' => 'As on ' . $start_date, 'bill' => '', 'description' => 'Balance Forward', 'payment' => 0, 'amount' => 0];
+        $record = ['date' => 'As on ' . $start_date, 'bill' => '', 'description' => 'Balance Forward', 'payment' => 0, 'amount' => 0, 'created_at' => today()];
         $records[] = (object)$record;
 
 
@@ -199,21 +204,22 @@ trait ReportService
         foreach ($opening_payments as $opening_payment) {
             $record = ['date' => $opening_payment->date, 'bill' => "-",
                 'description' => 'Previous Due Payment', 'amount' => 0,
-                'payment' => $opening_payment->amount];
+                'payment' => $opening_payment->amount, 'created_at' => $opening_payment->created_at];
             $records[] = (object)$record;
         }
         foreach (VendorAdvancePayment::query()->where('vendor_id', $vendor_id)->get() as $customerAdvancePayment) {
-            $record = ['date' => $customerAdvancePayment->date, 'bill' => "-", 'description' => 'Advance Payment', 'amount' => 0, 'payment' => $customerAdvancePayment->amount];
+            $record = ['date' => $customerAdvancePayment->date, 'bill' => "-", 'description' => 'Advance Payment', 'amount' => 0, 'payment' => $customerAdvancePayment->amount, 'created_at' => $customerAdvancePayment->created_at];
             $records[] = (object)$record;
         }
 
         foreach ($bills as $bill) {
-            $record = ['date' => $bill->bill_date, 'bill' => $bill->bill_number, 'description' => 'New Bill Created', 'payment' => 0, 'amount' => $bill->total];
+            $record = ['date' => $bill->bill_date, 'bill' => $bill->bill_number, 'description' => 'New Bill Created', 'payment' => 0, 'amount' => $bill->total, 'created_at' => $bill->created_at];
             $records[] = (object)$record;
             if ($bill->payments()->sum('amount') > 0) {
                 foreach ($bill->payments as $payment) {
                     if ((optional($payment->bill_payment)->payment_date > $start_date && optional($payment->bill_payment)->payment_date <= $end_date)) {
-                        $record = ['date' => optional($payment->bill_payment)->payment_date, 'bill' => $bill->bill_number, 'description' => 'Payment by ' . optional(optional($payment->bill_payment)->ledger)->ledger_name . '<br>' . optional($payment->bill_payment)->note, 'payment' => $payment->amount, 'amount' => 0];
+                        $record = ['date' => optional($payment->bill_payment)->payment_date, 'bill' => $bill->bill_number, 'description' => 'Payment by ' . optional(optional($payment->bill_payment)->ledger)->ledger_name . '<br>' . optional($payment->bill_payment)->note,
+                            'payment' => $payment->amount, 'amount' => 0 , 'created_at' => $payment->created_at];
                         $records[] = (object)$record;
                     }
 
@@ -221,8 +227,25 @@ trait ReportService
             }
         }
 
+        $purchase_returns = PurchaseReturn::query()->where('vendor_id', $vendor_id)->get();
+        foreach ($purchase_returns as $purchase_return) {
 
-        return $records;
+            if ($purchase_return->is_payment)
+                $record = ['date' => $purchase_return->date, 'bill' => $purchase_return->purchase_return_number, 'description' => 'Purchase Return- From ' . $purchase_return->bill_number, 'amount' => $purchase_return->total, 'payment' => 0, 'created_at' => $purchase_return->created_at];
+
+            else
+                $record = ['date' => $purchase_return->date, 'bill' => $purchase_return->purchase_return_number, 'description' => 'Purchase Return - From ' . $purchase_return->bill_number, 'amount' => -$purchase_return->total, 'payment' => 0, 'created_at' => $purchase_return->created_at];
+
+            $records[] = (object)$record;
+            if ($purchase_return->is_payment) {
+                $record = ['date' => $purchase_return->date, 'bill' => $purchase_return->purchase_return_number, 'description' => optional(Ledger::find($purchase_return->deposit_to))->ledger_name . ' Received - From ' . $purchase_return->purchase_return_number, 'amount' => 0, 'payment' => $purchase_return->total, 'created_at' => $purchase_return->created_at];
+                $records[] = (object)$record;
+            }
+
+
+        }
+
+        return collect($records)->sortBy('created_at')->toArray();
     }
 
     function getTaxReport($start_date, $end_date, $report_type)

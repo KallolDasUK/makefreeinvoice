@@ -118,6 +118,7 @@
             <th>Due Date</th>
 
             <th class="text-right">Invoice Amount</th>
+            <th class="text-right">Sales Return Amount</th>
             <th class="text-right">Amount Due</th>
             <th class="text-right" style="width:16%;">Payment</th>
         </tr>
@@ -148,6 +149,7 @@
                     <td> {{ $item->invoice->invoice_number }} </td>
                     <td>{{ $item->invoice->due_date }}</td>
                     <td class="text-right"> {{ $item->invoice->total }} </td>
+                    <td class="text-right  text-danger"> {{ $item->invoice->sales_return_amount }} </td>
                     <td class="text-right"> {{ number_format($item->invoice->due  + $item->amount) }} </td>
                     <td class="text-right" style="width:16%; position: relative;">
                         <input name="payment[]"
@@ -171,6 +173,9 @@
 
 
                     <td class="text-right"> {{ optional($pos_payment->pos_sale)->total }} </td>
+
+                    <td class="text-right text-danger"> {{ optional($pos_payment->pos_sale)->sales_return_amount }} </td>
+
                     <td class="text-right"> {{ optional($pos_payment->pos_sale)->due + $pos_payment->amount }} </td>
                     <td class="text-right" style="width:16%; position: relative;">
                         <input name="payment[]"
