@@ -111,6 +111,7 @@
             <th>Due Date</th>
 
             <th class="text-right">Bill Amount</th>
+            <th class="text-right">Purchase Return Amount</th>
             <th class="text-right"> Amount Due</th> <!----><!---->
             <th class="text-right" style="width:16%;">Payment</th>
         </tr>
@@ -120,7 +121,7 @@
 
             @if($billPayment->previous_due)
                 <tr>
-                    <td colspan="3" style="padding-top: 0px;"></td>
+                    <td colspan="4" style="padding-top: 0px;"></td>
                     <td colspan="1" class="text-right">Previous Due</td>
                     <td colspan="1"
                         class="text-right">{{ $billPayment->vendor->previous_due + $billPayment->previous_due }}</td>
@@ -146,6 +147,7 @@
                     <td> {{ $item->bill->bill_number }} </td>
                     <td> {{ $item->bill->due_date }}</td>
                     <td class="text-right"> {{ $item->bill->total }} </td>
+                    <td class="text-right text-danger"> {{ $item->bill->purchase_return_amount }} </td>
                     <td class="text-right"> {{ number_format($item->bill->due) }} </td>
                     <td class="text-right" style="width:16%; position: relative;">
                         <input name="payment[]"
@@ -158,7 +160,7 @@
                 </tr>
             @endforeach
             <tr>
-                <td colspan="3" style="padding-top: 0px;"></td>
+                <td colspan="4" style="padding-top: 0px;"></td>
                 <td colspan="2" class="text-right">Total</td>
                 <td class="text-right"><input type="text" name="totalAmount" class="form-control"
                                               value="{{ $billPayment->items->sum('amount')??0 }}"

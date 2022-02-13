@@ -281,7 +281,8 @@ class PurchaseReturnsController extends Controller
         $data['invoice_items'] = json_decode($data['invoice_items'] ?? '{}');
         $data['additional'] = json_decode($data['additional'] ?? '{}');
         $data['additional_fields'] = json_decode($data['additional_fields'] ?? '{}');
-        $data['is_payment'] = $request->has('is_payment');
+        $data['is_payment'] = $request->is_payment == 1;
+
         if ($request->has('custom_delete_attachment')) {
             $data['attachment'] = null;
         }

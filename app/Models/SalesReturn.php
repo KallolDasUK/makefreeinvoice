@@ -12,6 +12,10 @@ class SalesReturn extends Model
     use HasFactory;
 
 
+    const Partial = "Partial";
+    const Paid = "Paid";
+    const UnPaid = "Unpaid";
+
     protected $guarded = [];
     protected $appends = ['due'];
 

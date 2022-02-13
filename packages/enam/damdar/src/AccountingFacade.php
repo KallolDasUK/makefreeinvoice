@@ -444,9 +444,9 @@ class AccountingFacade extends Facade
     {
 
         $sales_opposite_ledger = $purchaseReturn->deposit_to;
-        $invoice = Bill::find($purchaseReturn->bill_number);
+        $invoice = Bill::firstWhere('bill_number', $purchaseReturn->bill_number);
 
-        if ($invoice->due >= $purchaseReturn->total) {
+        if (!$purchaseReturn->is_payment) {
             $sales_opposite_ledger = optional($invoice->vendor->ledger)->id;
         }
         self::addTransaction($sales_opposite_ledger, Ledger::PURCHASE_AC(), $purchaseReturn->payment_amount, $purchaseReturn->notes,

@@ -1,6 +1,6 @@
 @if($vendor->previous_due>0)
     <tr>
-        <td colspan="3" style="padding-top: 0px;"></td>
+        <td colspan="4" style="padding-top: 0px;"></td>
         <td colspan="1" class="text-right">Previous Due</td>
         <td colspan="1" class="text-right">{{ $vendor->previous_due }}</td>
         <td class="text-right">
@@ -25,6 +25,8 @@
 
 
         <td class="text-right"> {{ $bill->total }} </td>
+        <td class="text-right text-danger"> {{ $bill->purchase_return_amount }} </td>
+
         <td class="text-right"> {{ $bill->due }} </td>
         <td class="text-right" style="width:16%; position: relative;">
             <input name="payment[]"
@@ -38,9 +40,10 @@
     </tr>
 @endforeach
 <tr>
-    <td colspan="3" style="padding-top: 0px;"></td>
+    <td colspan="4" style="padding-top: 0px;"></td>
     <td colspan="2" class="text-right">Total</td>
-    <td class="text-right"><input type="number" step="any" name="totalAmount" class="form-control text-right" readonly
+    <td class="text-right">
+        <input type="number" step="any" name="totalAmount" class="form-control text-right" readonly
                                   style="cursor: no-drop"
                                   id="totalAmount"/></td>
 </tr>

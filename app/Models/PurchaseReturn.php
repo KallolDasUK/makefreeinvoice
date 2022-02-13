@@ -15,7 +15,7 @@ class PurchaseReturn extends Model
     const Paid = "Paid";
     const UnPaid = "Unpaid";
 
-    protected $appends = ['paid', 'due'];
+    protected $appends = ['paid', 'due','purchase_return_amount'];
 
     protected $guarded = [];
 

@@ -79,7 +79,7 @@ class PosSale extends Model
 
 
     protected $guarded = [];
-    protected $appends = ['due', 'payment', 'charges'];
+    protected $appends = ['due', 'payment', 'charges', 'sales_return_amount'];
 
     public function customer()
     {
@@ -126,11 +126,21 @@ class PosSale extends Model
         return $next_order;
     }
 
+    public function getSalesReturnAmountAttribute()
+    {
+        $sales_return = SalesReturn::query()->where('invoice_number', $this->pos_number)->sum('total');
+        return $sales_return == 0 ? '' : $sales_return;
+    }
+
+
     public function getDueAttribute()
     {
         $due = 0;
         $payment = $this->payments->sum('amount');
-        $due = $this->total - $payment;
+//        $due = $this->total - $payment;
+
+        $sales_return = SalesReturn::query()->where('invoice_number', $this->pos_number)->sum('total');
+        $due = $this->total - $payment - $sales_return;
 
         return number_format((float)$due, 2, '.', '');
 
@@ -139,11 +149,12 @@ class PosSale extends Model
 
     public function getChargesAttribute()
     {
-        return $this->pos_charges()->where('key','not like','%discount%')->sum('amount');
+        return $this->pos_charges()->where('key', 'not like', '%discount%')->sum('amount');
     }
+
     public function getDiscountAttribute()
     {
-        return $this->pos_charges()->where('key','like','%discount%')->sum('amount');
+        return $this->pos_charges()->where('key', 'like', '%discount%')->sum('amount');
     }
 
     public function getTaxAttribute()
