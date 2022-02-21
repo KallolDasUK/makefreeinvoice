@@ -121,7 +121,7 @@
                         {{ old('customer_id', optional($invoice)->customer_id) == $customer->id ? 'selected' : '' }}
                         @if($invoice == null && $customer->name == 'Walk In Customer') selected @endif>
                         @if($settings->customer_id_feature??'0')
-                            @if($customer->customer_ID)
+                            @if($customer->customer_ID??false)
                                 [{{ $customer->customer_ID }}]
                             @endif
                         @endif
