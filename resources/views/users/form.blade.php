@@ -8,7 +8,7 @@
             <span class="text-danger font-bolder">*</span>
             <input class="form-control  {{ $errors->has('name') ? 'is-invalid' : '' }}" name="name" type="text"
                    id="name"
-                   value="{{ old('name', optional($user)->name) }}" minlength="1" maxlength="255">
+                   value="{{ old('name', optional($edit_user)->name) }}" minlength="1" maxlength="255">
 
             {!! $errors->first('name', '<p class="form-text text-danger">:message</p>') !!}
 
@@ -20,7 +20,7 @@
             <label for="email">Email</label>
             <span class="text-danger font-bolder">*</span>
             <input class="form-control  {{ $errors->has('email') ? 'is-invalid' : '' }}" name="email" type="email"
-                   id="email" value="{{ old('email', optional($user)->email) }}">
+                   id="email" value="{{ old('email', optional($edit_user)->email) }}">
 
             {!! $errors->first('email', '<p class="form-text text-danger">:message</p>') !!}
 
@@ -53,7 +53,7 @@
             <option value="" disabled selected></option>
             @foreach ($roles as $role)
                 <option
-                    value="{{ $role->id }}" {{ old('role_id', optional($user)->role_id) == $role->id ? 'selected' : '' }}>
+                    value="{{ $role->id }}" {{ old('role_id', optional($edit_user)->role_id) == $role->id ? 'selected' : '' }}>
                     {{ $role->name }} [{{ $role->description }}]
                 </option>
             @endforeach
