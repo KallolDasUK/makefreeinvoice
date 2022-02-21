@@ -319,7 +319,7 @@ class InvoicesController extends Controller
 
         $products = \DB::table('products')
         ->where('client_id', auth()->user()->client_id)
-        ->select('name', 'id', 'purchase_price', 'sell_price', 'sell_unit', 'purchase_unit', 'photo as image','code')
+        ->select('name', 'id', 'purchase_price', 'sell_price', 'sell_unit', 'purchase_unit', 'photo as image', 'code', 'category_id')
         ->get();
         $taxes = Tax::query()->latest()->get()->toArray();
         $invoice_items = InvoiceItem::query()->where('invoice_id', $invoice->id)->get();

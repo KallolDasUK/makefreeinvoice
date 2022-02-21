@@ -99,17 +99,17 @@ class PosSalesController extends Controller
         if (!Customer::query()->where('name', Customer::WALK_IN_CUSTOMER)->exists()) {
             Customer::create(['name' => Customer::WALK_IN_CUSTOMER]);
         }
-        //        $customers = Customer::all()->makeHidden(['advance', 'receivables'])->toArray();
         $customers = \DB::table('customers')
             ->where('client_id', auth()->user()->client_id)
             ->select('name', 'id', 'email')
             ->get()->toArray();
+
         $branches = Branch::pluck('id', 'id')->all();
         $ledgers = Ledger::find($this->getAssetLedgers())->toArray();
         $categories = Category::all();
         $products = \DB::table('products')
             ->where('client_id', auth()->user()->client_id)
-            ->select('name', 'id', 'purchase_price', 'sell_price', 'sell_unit', 'purchase_unit', 'photo as image','code')
+            ->select('name', 'id', 'purchase_price', 'sell_price', 'sell_unit', 'purchase_unit', 'photo as image','code','category_id')
             ->get();
         //        dd($products);
         $paymentMethods = PaymentMethod::all();
@@ -398,7 +398,7 @@ class PosSalesController extends Controller
         $categories = Category::all();
         $products = \DB::table('products')
         ->where('client_id', auth()->user()->client_id)
-        ->select('name', 'id', 'purchase_price', 'sell_price', 'sell_unit', 'purchase_unit', 'photo as image','code')
+        ->select('name', 'id', 'purchase_price', 'sell_price', 'sell_unit', 'purchase_unit', 'photo as image','code','category_id')
         ->get();
         $paymentMethods = PaymentMethod::all();
         $title = "Edit POS - " . $posSale->pos_number;
