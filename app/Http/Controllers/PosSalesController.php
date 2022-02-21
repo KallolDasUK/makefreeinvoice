@@ -109,7 +109,7 @@ class PosSalesController extends Controller
         $categories = Category::all();
         $products = \DB::table('products')
             ->where('client_id', auth()->user()->client_id)
-            ->select('name', 'id', 'purchase_price', 'sell_price', 'sell_unit', 'purchase_unit', 'photo as image')
+            ->select('name', 'id', 'purchase_price', 'sell_price', 'sell_unit', 'purchase_unit', 'photo as image','code')
             ->get();
         //        dd($products);
         $paymentMethods = PaymentMethod::all();
@@ -398,7 +398,7 @@ class PosSalesController extends Controller
         $categories = Category::all();
         $products = \DB::table('products')
         ->where('client_id', auth()->user()->client_id)
-        ->select('name', 'id', 'purchase_price', 'sell_price', 'sell_unit', 'purchase_unit', 'photo as image')
+        ->select('name', 'id', 'purchase_price', 'sell_price', 'sell_unit', 'purchase_unit', 'photo as image','code')
         ->get();
         $paymentMethods = PaymentMethod::all();
         $title = "Edit POS - " . $posSale->pos_number;
