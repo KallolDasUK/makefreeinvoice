@@ -114,7 +114,7 @@ class MasterController extends Controller
         $tables = DB::select('SHOW TABLES');
         foreach ($tables as $table) {
 
-            $table_name = $table->Tables_in_kinetixb_accounting;
+            $table_name = $table->Tables_in_u100349385_invoicepedia;
             if ($table_name == 'users') {
                 continue;
             }
