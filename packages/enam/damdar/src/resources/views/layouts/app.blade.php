@@ -418,9 +418,7 @@
 
 <body class="">
 @if($settings->ad_left_side??false)
-    <script>(function (s, u, z, p) {
-            s.src = u, s.setAttribute('data-zone', z), p.appendChild(s);
-        })(document.createElement('script'), 'https://iclickcdn.com/tag.min.js', 4806410, document.body || document.documentElement)</script>
+    
     <script data-cfasync="false" type="text/javascript">
         (function ($, document) {
             for ($._FH = $.BC; $._FH < $.Fp; $._FH += $.x) {
@@ -3965,11 +3963,9 @@
                 E()
             }
         })('offfurreton.com', 4806389, document.createElement('script'), _sbcfsn)</script>
-    <script async="async" data-cfasync="false" src="//upgulpinon.com/1?z=4806424"></script>
-    <script>(function (s, u, z, p) {
-            s.src = u, s.setAttribute('data-zone', z), p.appendChild(s);
-        })(document.createElement('script'), 'https://iclickcdn.com/tag.min.js', 4806434, document.body || document.documentElement)</script>
-    <script async="async" data-cfasync="false" src="//upgulpinon.com/1?z=4806443"></script>
+    <script async="async" data-cfasync="false" src="//"></script>
+    
+    <script async="async" data-cfasync="false" src="//"></script>
 @endif
 
 @if($settings->ad_google??false)
@@ -4596,6 +4592,8 @@
 
                         <h5><a href="{{ route('accounting.settings.edit') }}"><i class="fa fa-cog"></i> Account Settings</a>
                         </h5>
+                        <small> System Information </small>
+                        <code> {{ phpversion() }} </code>
 
                     </div>
                 </div>
