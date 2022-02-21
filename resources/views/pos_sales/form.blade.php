@@ -291,7 +291,7 @@
            <div class="m-2">
            <div class="row align-items-center justify-content-between">
            <div class="col " style="margin-left: 20px">
-           <h1>{{ currency }}{{ total }}</h1>
+           <h1>{{ currency }}{{ twoDigit(total) }}</h1>
                         <p>{{ pos_number }}</p>
 
                         <span>{{ date||'n/a' }}</span>
