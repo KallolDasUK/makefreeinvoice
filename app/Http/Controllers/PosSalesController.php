@@ -101,15 +101,27 @@ class PosSalesController extends Controller
         if (!Customer::query()->where('name', Customer::WALK_IN_CUSTOMER)->exists()) {
             Customer::create(['name' => Customer::WALK_IN_CUSTOMER]);
         }
-        $customers = Customer::all()->makeHidden(['advance', 'receivables'])->toArray();
+//        $customers = Customer::all()->makeHidden(['advance', 'receivables'])->toArray();
+        $customers = \DB::table('customers')
+            ->where('client_id', auth()->user()->client_id)
+            ->select('name', 'id', 'email')
+            ->get()->toArray();
         $branches = Branch::pluck('id', 'id')->all();
         $ledgers = Ledger::find($this->getAssetLedgers())->toArray();
         $categories = Category::all();
-        $products = Product::all()->makeHidden(['stock_value'])->all();
+        $products = \DB::table('products')
+            ->where('client_id', auth()->user()->client_id)
+            ->select('name', 'id', 'purchase_price', 'sell_price','sell_unit','purchase_unit','photo as image')
+            ->get();
+//        dd($products);
         $paymentMethods = PaymentMethod::all();
         $title = "POS - Point Of Sale";
         $ledger_id = Ledger::CASH_AC();
-        $bookmarks = Product::query()->where('is_bookmarked', true)->get();
+        $bookmarks = \DB::table('products')
+            ->where('is_bookmarked', true)
+            ->where('client_id', auth()->user()->client_id)
+            ->select('name', 'id', 'purchase_price', 'sell_price','sell_unit','purchase_unit','photo as image')
+            ->get();
         $start_date = today()->toDateString();
         $end_date = today()->toDateString();
         $orders = PosSale::query()->with('customer')->whereBetween('date', [$start_date, $end_date])->latest()->get();
@@ -130,6 +142,8 @@ class PosSalesController extends Controller
         }
         $can_delete = ability(Ability::POS_DELETE);
         $p = [];
+//                dd($customers);
+
         return view('pos_sales.create', compact('customers', 'branches', 'ledgers', 'ledger_id', 'products', 'categories', 'title', 'orders',
             'paymentMethods', 'bookmarks', 'start_date', 'end_date', 'charges', 'can_delete', 'p', 'pos_numbers'));
     }
@@ -406,14 +420,11 @@ class PosSalesController extends Controller
     {
 
 
-
-        $pos_sales  = PosSale::findOrFail($id);
+        $pos_sales = PosSale::findOrFail($id);
         $pos_sales->pos_items()->delete();
         $pos_sales->pos_charges()->delete();
         $pos_sales->payments()->delete();
 //dd('bal');
-
-
 
 
         $data = $this->getData($request);

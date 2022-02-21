@@ -6,8 +6,8 @@
     <div class="card">
 
         <div class="card-header">
-
-            <h5  class="my-1 float-left">{{ !empty($user->name) ? $user->name : 'User' }}</h5>
+{{--            {{ dd($edit_user) }}--}}
+            <h5  class="my-1 float-left">{{ !empty($edit_user->name) ? $edit_user->name : 'User' }}</h5>
 
             <div class=" float-right" role="group">
 
@@ -34,12 +34,10 @@
                 </ul>
             @endif
 
-            <form method="POST" action="{{ route('users.user.update', $user->id) }}" id="edit_user_form" name="edit_user_form" accept-charset="UTF-8" class="form-horizontal">
+            <form method="POST" action="{{ route('users.user.update', $edit_user->id) }}" id="edit_user_form" name="edit_user_form" accept-charset="UTF-8" class="form-horizontal">
             {{ csrf_field() }}
             <input name="_method" type="hidden" value="PUT">
-            @include ('users.form', [
-                                        'user' => $user,
-                                      ])
+            @include ('users.form', ['edit_user' => $edit_user])
 
                 <div class="form-group">
                     <button class="btn btn-primary" type="submit" style="width: 20%">

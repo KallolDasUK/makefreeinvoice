@@ -226,7 +226,7 @@
             </table>
         </div>
         <div>
-            <label class=" form-check form-check-inline form-control-plaintext" id="paymentSection">
+            <label class="form-check form-check-inline form-control-plaintext" id="paymentSection">
                 <input id="paymentCheckBox" class="form-check-input" name="is_payment"
                        type="checkbox" {{ optional($invoice)->is_payment?'checked':'' }}>
                 &nbsp;

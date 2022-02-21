@@ -71,9 +71,10 @@ class UsersController extends Controller
     {
         view()->share('title', 'Edit User');
 
-        $user = User::findOrFail($id);
+        $edit_user = User::findOrFail($id);
+//        dd($user);
         $roles = UserRole::all();;
-        return view('users.edit', compact('user', 'roles'));
+        return view('users.edit', compact('edit_user', 'roles'));
     }
 
 
