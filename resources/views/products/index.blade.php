@@ -194,7 +194,7 @@
 
                 </div>
                 <div class="float-right">
-                    {!! $products->links() !!}
+                    {!! $products->withQueryString()->links() !!}
                 </div>
             </div>
 

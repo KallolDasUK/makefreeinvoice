@@ -44,11 +44,11 @@ class ProductsController extends Controller
         view()->share('title', 'Product List');
         $q = $request->q;
         $products = Product::with(['category', 'brand'])
-        ->when($q != null,function($query) use($q){
-          return $query->where('name','like','%'.$q.'%');          
-        })
-        ->paginate(10, ['id', 'name', 'sell_price', 'brand_id', 'category_id', 'purchase_price', 'product_type', 'photo', 'code']);
-        return view('products.index', compact('products','q'));
+            ->when($q != null, function ($query) use ($q) {
+                return $query->where('name', 'like', '%' . $q . '%');
+            })
+            ->paginate(10, ['id', 'name', 'sell_price', 'brand_id', 'category_id', 'purchase_price', 'product_type', 'photo', 'code']);
+        return view('products.index', compact('products', 'q'));
     }
 
 
