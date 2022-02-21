@@ -48,7 +48,7 @@ class BillingsController extends Controller
 
 
         return view('subscriptions.index', ['intent' => auth()->user()->createSetupIntent(), 'invoices' => $invoices,
-            'upcoming_invoice' => $upcoming_invoice, 'currentPlan' => $currentPlan, 'trial' => $trial
+            'upcoming_invoice' => $upcoming_invoice, 'currentPlan' => $currentPlan, 'trial' => $trial??null
         ]);
     }
 
