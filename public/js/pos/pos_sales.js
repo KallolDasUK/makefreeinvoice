@@ -383,6 +383,8 @@ function setUpProductSearch() {
         var icon = product.image;
         if (!icon) {
             icon = no_image;
+        }else{
+            icon = storageUrl + '/' + icon
         }
         return { label: name, value: product.id, icon: icon };
     });
