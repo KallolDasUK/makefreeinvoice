@@ -95,14 +95,14 @@ class InvoicesController extends Controller
         $paymentMethods = PaymentMethod::query()->get();
 
         $customers = \DB::table('customers')
-        ->where('client_id', auth()->user()->client_id)
-        ->select('name', 'id', 'email','phone')
-        ->get()->toArray();
+            ->where('client_id', auth()->user()->client_id)
+            ->select('name', 'id', 'email', 'phone')
+            ->get()->toArray();
 
         $products = \DB::table('products')
-        ->where('client_id', auth()->user()->client_id)
-        ->select('name', 'id', 'purchase_price', 'sell_price', 'sell_unit', 'purchase_unit', 'photo as image','code')
-        ->get();
+            ->where('client_id', auth()->user()->client_id)
+            ->select('name', 'id','description', 'purchase_price', 'sell_price', 'sell_unit', 'purchase_unit', 'photo as image', 'code')
+            ->get();
 
         $categories = Category::all();
         $taxes = Tax::query()->latest()->get()->toArray();
@@ -313,14 +313,14 @@ class InvoicesController extends Controller
         $this->authorize('update', $invoice);
 
         $customers = \DB::table('customers')
-        ->where('client_id', auth()->user()->client_id)
-        ->select('name', 'id', 'email','phone')
-        ->get()->toArray();
+            ->where('client_id', auth()->user()->client_id)
+            ->select('name', 'id', 'email', 'phone')
+            ->get()->toArray();
 
         $products = \DB::table('products')
-        ->where('client_id', auth()->user()->client_id)
-        ->select('name', 'id', 'purchase_price', 'sell_price', 'sell_unit', 'purchase_unit', 'photo as image', 'code', 'category_id')
-        ->get();
+            ->where('client_id', auth()->user()->client_id)
+            ->select('name', 'id', 'purchase_price', 'description', 'sell_price', 'sell_unit', 'purchase_unit', 'photo as image', 'code', 'category_id')
+            ->get();
         $taxes = Tax::query()->latest()->get()->toArray();
         $invoice_items = InvoiceItem::query()->where('invoice_id', $invoice->id)->get();
         $categories = Category::query()->latest()->get();
