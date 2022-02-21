@@ -35,25 +35,31 @@ trait TransactionTrait
     {
         $txn = Transaction::where('txn_type', 'OpeningBalance')->where('type', Ledger::class)->where('type_id', $ledger->id)->first();
         if ($txn) {
-            $txn->update(['amount' => $amount, 'type' => Ledger::class,
-                'type_id' => $ledger->id]);
+            $txn->update([
+                'amount' => $amount, 'type' => Ledger::class,
+                'type_id' => $ledger->id
+            ]);
 
             TransactionDetail::where('transaction_id', $txn->id)
-                ->update(['entry_type' => $entry_type, 'amount' => $amount, 'type' => Ledger::class,
-                    'type_id' => $ledger->id]);
-//            dd($txn);
+                ->update([
+                    'entry_type' => $entry_type, 'amount' => $amount, 'type' => Ledger::class,
+                    'type_id' => $ledger->id
+                ]);
+            //            dd($txn);
         } else {
             $voucher_no = $this->getVoucherID();
-            $txn = Transaction::create(['ledger_name' => $ledger->ledger_name, 'voucher_no' => $voucher_no,
+            $txn = Transaction::create([
+                'ledger_name' => $ledger->ledger_name, 'voucher_no' => $voucher_no,
                 'amount' => $amount, 'note' => 'OpeningBalance', 'txn_type' => 'OpeningBalance', 'type' => Ledger::class,
-                'type_id' => $ledger->id, 'date' => today()->toDateString()]);
+                'type_id' => $ledger->id, 'date' => today()->toDateString()
+            ]);
 
-            TransactionDetail::create(['transaction_id' => $txn->id, 'ledger_id' => $ledger->id, 'entry_type' => $entry_type, 'amount' => $amount,
+            TransactionDetail::create([
+                'transaction_id' => $txn->id, 'ledger_id' => $ledger->id, 'entry_type' => $entry_type, 'amount' => $amount,
                 'voucher_no' => $voucher_no, 'date' => today()->toDateString(), 'note' => 'OpeningBalance', 'type' => Ledger::class,
-                'type_id' => $ledger->id]);
-
+                'type_id' => $ledger->id
+            ]);
         }
-
     }
 
     public function getChildLedgerGroup($id)
@@ -69,7 +75,6 @@ trait TransactionTrait
         foreach ($groups as $group) {
             $this->getChildLedgerGroup($group->id);
         }
-
     }
 
     public function getBankLedgers()
@@ -80,13 +85,10 @@ trait TransactionTrait
             $this->getChildLedgerGroup($parentBankLedger->id);
 
             return $this->arr;
-
         } catch (\Exception $exception) {
             dd($exception);
             return [];
         }
-
-
     }
 
     public function getIncomeLedgers()
@@ -99,14 +101,12 @@ trait TransactionTrait
             try {
                 $parentBankLedger = LedgerGroup::query()->where('id', $group->id)->first();
                 $this->getChildLedgerGroup($parentBankLedger->id);
-
             } catch (\Exception $exception) {
                 dd($exception);
                 return [];
             }
         }
         return $this->arr;
-
     }
 
     public function getExpenseLedgers()
@@ -119,14 +119,12 @@ trait TransactionTrait
             try {
                 $parentBankLedger = LedgerGroup::query()->where('id', $group->id)->first();
                 $this->getChildLedgerGroup($parentBankLedger->id);
-
             } catch (\Exception $exception) {
                 dd($exception);
                 return [];
             }
         }
         return $this->arr;
-
     }
 
     public function getAssetLedgers()
@@ -139,14 +137,12 @@ trait TransactionTrait
             try {
                 $parentBankLedger = LedgerGroup::query()->where('id', $group->id)->first();
                 $this->getChildLedgerGroup($parentBankLedger->id);
-
             } catch (\Exception $exception) {
                 dd($exception);
                 return [];
             }
         }
         return $this->arr;
-
     }
 
     public function getLiabilitiesLedgers()
@@ -159,14 +155,12 @@ trait TransactionTrait
             try {
                 $parentBankLedger = LedgerGroup::query()->where('id', $group->id)->first();
                 $this->getChildLedgerGroup($parentBankLedger->id);
-
             } catch (\Exception $exception) {
                 dd($exception);
                 return [];
             }
         }
         return $this->arr;
-
     }
 
 
@@ -192,7 +186,7 @@ trait TransactionTrait
             $prefix = "CV";
         }
         $voucher = $prefix . '-' . $voucher_id;
-//        dd($voucher_id);
+        //        dd($voucher_id);
         if (Transaction::withoutTrashed()->where('voucher_no', $voucher_id)->exists()) {
             return $this->getVoucherID($type, $increment + 1);
         }
@@ -216,14 +210,11 @@ trait TransactionTrait
                 $income += $ledger->total_debit;
             } else {
                 $expense += $ledger->total_debit;
-
             }
             $ledgersWithFirstParent[$group][] = $ledger;
         }
 
         return array($ledgersWithFirstParent);
-
-
     }
 
 
@@ -282,18 +273,18 @@ trait TransactionTrait
             $amount = $dr_amount - $cr_amount;
 
             if ($amount == 0) continue;
-//            dd($ledger, $amount, $dr_amount, $cr_amount);
+            //            dd($ledger, $amount, $dr_amount, $cr_amount);
             $expenseLedgers[$ledger->ledgerGroup->group_name][] = ['ledger_name' => $ledger->ledger_name, 'amount' => $amount, 'id' => $ledger->id];
             $totalExpense += $amount;
-
         }
 
 
-        $data = ['expenseLedgers' => $expenseLedgers, 'incomeLedgers' => $incomeLedgers,
-            'totalIncome' => $totalIncome, 'totalExpense' => $totalExpense];
+        $data = [
+            'expenseLedgers' => $expenseLedgers, 'incomeLedgers' => $incomeLedgers,
+            'totalIncome' => $totalIncome, 'totalExpense' => $totalExpense
+        ];
 
         return $data;
-
     }
 
     public function getBalanceSheetReport(Request $request)
@@ -311,9 +302,9 @@ trait TransactionTrait
             if (is_null($ledger)) continue;
             $data = $this->getLedgerReport($branch_id, $ledger_id, $start_date, $end_date);
             $amount = $data['closing_debit'] == 0 ? -$data['closing_credit'] : $data['closing_debit'];
-//            dump($data['ledger_name']);
+            //            dump($data['ledger_name']);
             if ($data['ledger_name'] == 'Cash A/C') {
-//                dd($data,$amount);
+                //                dd($data,$amount);
 
             }
             if ($amount == 0) {
@@ -344,19 +335,18 @@ trait TransactionTrait
             $group = $this->getSecondRootParent($ledger);
             $liabilitiesLedger[$group->group_name][] = ['ledger_name' => $ledger->ledger_name, 'amount' => $amount];
             $totalLiability += $amount;
-
         }
 
         $profitLoss = $this->getProfitLossReport($request);
         $profit = $profitLoss['totalIncome'] - $profitLoss['totalExpense'];
 
         $branch_name = optional(Branch::find($request->branch_id))->name ?? 'All';
-        $data = ['assetLedgers' => $assetLedgers, 'liabilitiesLedgers' => $liabilitiesLedger, 'start_date' => $request->start_date, 'end_date' => $request->end_date,
-            'branch_name' => $branch_name, 'totalAsset' => $totalAsset, 'totalLiability' => $totalLiability, 'profit' => $profit];
+        $data = [
+            'assetLedgers' => $assetLedgers, 'liabilitiesLedgers' => $liabilitiesLedger, 'start_date' => $request->start_date, 'end_date' => $request->end_date,
+            'branch_name' => $branch_name, 'totalAsset' => $totalAsset, 'totalLiability' => $totalLiability, 'profit' => $profit
+        ];
 
         return $data;
-
-
     }
 
 
@@ -364,7 +354,8 @@ trait TransactionTrait
 
     {
 
-        $data = ['start_date' => $start_date, 'end_date' => $end_date,
+        $data = [
+            'start_date' => $start_date, 'end_date' => $end_date,
             'ledger_name' => '', 'ledger' => '', 'records' => [],
             'opening_credit' => 0, 'opening_debit' => 0,
             'closing_credit' => 0, 'closing_debit' => 0
@@ -386,14 +377,14 @@ trait TransactionTrait
         });
 
 
-//      $testOpen =   DB::table('transaction_details')
-//            ->where('ledger_id', $ledger->id)
-//            ->where('entry_type', EntryType::$DR)
-////            ->where('note', '!=', EntryType::$OPENING_BALANCE)
-//            ->where('date', '<', $start_date)
-//            ->sum('amount');
+        //      $testOpen =   DB::table('transaction_details')
+        //            ->where('ledger_id', $ledger->id)
+        //            ->where('entry_type', EntryType::$DR)
+        ////            ->where('note', '!=', EntryType::$OPENING_BALANCE)
+        //            ->where('date', '<', $start_date)
+        //            ->sum('amount');
 
-//      dd($testOpen);
+        //      dd($testOpen);
         $openingDebitTxn = TransactionDetail::query()
             ->where('ledger_id', $ledger->id)
             ->where('entry_type', EntryType::$DR)
@@ -417,14 +408,14 @@ trait TransactionTrait
         $openingCredit = $openingCreditTxn->sum('amount');
 
 
-//        dd($openingDebit, $openingCredit);
+        //        dd($openingDebit, $openingCredit);
         if ($prevent_opening) {
             $openingDebit = 0;
             $openingCredit = 0;
         }
-//        if ($ledger->id == 189) {
-//            dd($transaction_details, $openingDebit, $openingCredit);
-//        }
+        //        if ($ledger->id == 189) {
+        //            dd($transaction_details, $openingDebit, $openingCredit);
+        //        }
 
 
         if ($ledger->opening) {
@@ -459,14 +450,14 @@ trait TransactionTrait
         }
 
         $ledgerTransactions = $transaction_details;
-//        dd($ledgerTransactions->toArray());
-        $data = ['records' => $ledgerTransactions,
+        //        dd($ledgerTransactions->toArray());
+        $data = [
+            'records' => $ledgerTransactions,
             'opening_credit' => $openingCredit, 'opening_debit' => $openingDebit,
             'closing_credit' => $closingCredit, 'closing_debit' => $closingDebit
         ];
-//        dd($data);
+        //        dd($data);
         return (object)$data;
-
     }
 
 
@@ -482,7 +473,6 @@ trait TransactionTrait
             ->get();
 
         return $txns;
-
     }
 
 
@@ -507,20 +497,19 @@ trait TransactionTrait
                     ->where('transaction_id', $txn_detail->transaction->id)
                     ->where('entry_type', $nextFindableEntryType)
                     ->first();
-//                dump($t);
+                //                dump($t);
                 return $t;
-
             })->reject(function ($item) {
                 return $item == null;
             });
-//        dd($txn_details);
+        //        dd($txn_details);
 
-        $data = ['start_date' => $start_date, 'end_date' => $end_date, 'branch_name' => $branch_name,
+        $data = [
+            'start_date' => $start_date, 'end_date' => $end_date, 'branch_name' => $branch_name,
             'voucher_type' => $request->voucher_type,
             'txn_details' => $txn_details
         ];
         return $data;
-
     }
 
     /**
@@ -543,9 +532,10 @@ trait TransactionTrait
             ->get()->reject(function ($item) {
                 return $item == null || $item->note == "OpeningBalance";
             });
-//        dd($txn_details);
+        //        dd($txn_details);
 
-        $data = ['start_date' => $start_date, 'end_date' => $end_date, 'branch_name' => $branch_name,
+        $data = [
+            'start_date' => $start_date, 'end_date' => $end_date, 'branch_name' => $branch_name,
             'voucher_type' => $request->voucher_type,
             'txn_details' => $txn_details
         ];
@@ -563,17 +553,14 @@ trait TransactionTrait
                 if ($group->parent != -1) {
                     $nextId = $group->parent;
                     $secondRootGroup = $group;
-
                 } else {
                     break;
                 }
             }
-
         } catch (\Exception $exception) {
             // return $secondRootGroup;
         }
         return $secondRootGroup;
-
     }
 
     public function getRootParent($ledger)
@@ -586,24 +573,21 @@ trait TransactionTrait
                 $group = LedgerGroup::find($nextId);
                 if ($group->parent != -1) {
                     $nextId = $group->parent;
-
                 } else {
                     $secondRootGroup = $group;
 
                     break;
                 }
             }
-
         } catch (\Exception $exception) {
             // return $secondRootGroup;
         }
         return $secondRootGroup;
-
     }
 
     public function getRPBReport(Request $request)
     {
-//        dd($request->all());
+        //        dd($request->all());
         $branches = Branch::all();
         $month = Carbon::parse($request->month)->month;
         $year = Carbon::parse($request->month)->year;
@@ -642,7 +626,6 @@ trait TransactionTrait
                     $ledgerName = $txn['ledger_name'];
                     if (array_key_exists($ledgerName, $record)) {
                         $record[$ledgerName] += $txn['amount'];
-
                     } else {
                         $record[$ledgerName] = $txn['amount'];
                     }
@@ -650,7 +633,6 @@ trait TransactionTrait
                         $ledgers[] = $ledgerName;
                     }
                 }
-
             }
 
             array_push($records, $record);
@@ -659,7 +641,6 @@ trait TransactionTrait
             $netRevenue = $record['revenue'] - $record['payment'];
 
             $records[$index]['net_revenue'] = $netRevenue;
-
         }
         $records = array_filter($records, function ($record) {
             if ($record['net_revenue'] == 0 && $record['revenue'] == 0) {
@@ -668,24 +649,22 @@ trait TransactionTrait
         });
 
         return array($records, $ledgers);
-
-
     }
 
 
     public function getPaymentReport($branch_id, $start_date, $end_date)
     {
-//        dd($start_date, $end_date,Carbon::parse($end_date)->addDay()->toDateString());
+        //        dd($start_date, $end_date,Carbon::parse($end_date)->addDay()->toDateString());
         $records = Transaction::query()
-//            ->where('date', '<', $start_date)
-//            ->where('date', '>', $end_date)
+            //            ->where('date', '<', $start_date)
+            //            ->where('date', '>', $end_date)
 
             ->when($branch_id != 'All', function ($query) use ($branch_id) {
                 return $query->where('branch_id', $branch_id);
             })
             ->whereBetween('date', [$start_date, $end_date])
             ->whereIn('txn_type', [VoucherType::$VENDOR_PAYMENT, VoucherType::$PAYMENT])->get();
-//        dd($records);
+        //        dd($records);
         return $records;
     }
 
@@ -697,7 +676,7 @@ trait TransactionTrait
                 return $query->where('branch_id', $branch_id);
             })
             ->whereIn('txn_type', [VoucherType::$CUSTOMER_PAYMENT, VoucherType::$RECEIVE])->get();
-//        dd($records);
+        //        dd($records);
         return $records;
     }
 
@@ -719,9 +698,10 @@ trait TransactionTrait
             })->get();
 
         foreach ($invoices as $invoice) {
-            $record = ['date' => $invoice->invoice_date, 'invoice' => $invoice->invoice_number, 'customer' => optional($invoice->customer)->name
-                , 'sub_total' => $invoice->sub_total, 'discount' => $invoice->discount, 'charges' => $invoice->charges, 'total' => $invoice->total,
-                'payment' => $invoice->payment, 'due' => $invoice->due];
+            $record = [
+                'date' => $invoice->invoice_date, 'invoice' => $invoice->invoice_number, 'customer' => optional($invoice->customer)->name, 'sub_total' => $invoice->sub_total, 'discount' => $invoice->discount, 'charges' => $invoice->charges, 'total' => $invoice->total,
+                'payment' => $invoice->payment, 'due' => $invoice->due
+            ];
             $records[] = (object)$record;
         }
 
@@ -739,9 +719,10 @@ trait TransactionTrait
                 return $query->where('pos_status', $payment_status);
             })->get();
         foreach ($pos_sales as $pos_sale) {
-            $record = ['date' => $pos_sale->date, 'invoice' => $pos_sale->pos_number, 'customer' => optional($pos_sale->customer)->name
-                , 'sub_total' => $pos_sale->sub_total, 'discount' => $pos_sale->discount, 'charges' => $pos_sale->charges, 'total' => $pos_sale->total,
-                'payment' => $pos_sale->payment, 'due' => $pos_sale->due];
+            $record = [
+                'date' => $pos_sale->date, 'invoice' => $pos_sale->pos_number, 'customer' => optional($pos_sale->customer)->name, 'sub_total' => $pos_sale->sub_total, 'discount' => $pos_sale->discount, 'charges' => $pos_sale->charges, 'total' => $pos_sale->total,
+                'payment' => $pos_sale->payment, 'due' => $pos_sale->due
+            ];
             $records[] = (object)$record;
         }
 
@@ -749,7 +730,7 @@ trait TransactionTrait
         return collect($records)->sortBy('date', null, true);
     }
 
-    public function getSalesReportDetails($start_date, $end_date, $customer_id, $invoice_id, $product_id, $brand_id, $category_id)
+    public function getSalesReportDetails($start_date, $end_date, $customer_id, $invoice_id, $product_id, $brand_id, $category_id,$user_id)
     {
         $records = [];
         $invoice_items = InvoiceItem::query()->with(['product', 'invoice'])
@@ -774,6 +755,9 @@ trait TransactionTrait
                 return $query->when($customer_id != null, function ($query) use ($customer_id) {
                     return $query->where('customer_id', $customer_id);
                 });
+            })
+            ->when($user_id != null, function ($query) use ($user_id) {
+                return $query->where('user_id', $user_id);
             })
             ->get();
         foreach ($invoice_items as $invoice_item) {
@@ -814,6 +798,9 @@ trait TransactionTrait
                     return $query->where('customer_id', $customer_id);
                 });
             })
+            ->when($user_id != null, function ($query) use ($user_id) {
+                return $query->where('user_id', $user_id);
+            })
             ->get();
         foreach ($pos_items as $pos_item) {
             $record = ['date' => '', 'invoice' => '', 'brand' => '', 'category' => '', 'customer' => '', 'product' => '', 'qnt' => '', 'amount' => '', 'total' => ''];
@@ -831,7 +818,7 @@ trait TransactionTrait
         }
 
 
-//        dd($records);
+        //        dd($records);
         return collect($records)->sortBy('date', null, true);
     }
 
@@ -849,7 +836,7 @@ trait TransactionTrait
         return $records;
     }
 
-    public function getPurchaseReportDetails($start_date, $end_date, $vendor_id, $bill_id, $product_id, $brand_id, $category_id)
+    public function getPurchaseReportDetails($start_date, $end_date, $vendor_id, $bill_id, $product_id, $brand_id, $category_id, $user_id)
     {
         $records = [];
         $bill_items = BillItem::query()->with(['product', 'bill'])
@@ -874,6 +861,8 @@ trait TransactionTrait
                 return $query->when($vendor_id != null, function ($query) use ($vendor_id) {
                     return $query->where('vendor_id', $vendor_id);
                 });
+            })->when($user_id != null, function ($query) use ($user_id) {
+                return $query->where('user_id', $user_id);
             })
             ->get();
         foreach ($bill_items as $bill_item) {
@@ -891,10 +880,9 @@ trait TransactionTrait
             $records[] = (object)$record;
         }
         return collect($records)->sortBy('date', null, true);
-
     }
 
-    public function getDueCollectionReport($start_date, $end_date, $customer_id)
+    public function getDueCollectionReport($start_date, $end_date, $customer_id,$user_id)
     {
         $records = [];
         $rp_items = ReceivePaymentItem::query()->with('receive_payment')
@@ -905,6 +893,9 @@ trait TransactionTrait
                 return $query->when($customer_id != null, function ($query) use ($customer_id) {
                     return $query->where('customer_id', $customer_id);
                 });
+            })
+            ->when($user_id != null, function ($query) use ($user_id) {
+                return $query->where('user_id', $user_id);
             })->get();
         foreach ($rp_items as $item) {
             $record = ['customer' => '', 'amount' => '', 'date' => '', 'payment_sl' => '', 'method' => ''];
@@ -921,6 +912,8 @@ trait TransactionTrait
                 return $query->when($customer_id != null, function ($query) use ($customer_id) {
                     return $query->where('customer_id', $customer_id);
                 });
+            }) ->when($user_id != null, function ($query) use ($user_id) {
+                return $query->where('user_id', $user_id);
             })->get();
         foreach ($pos_payments as $payment) {
             $record = ['customer' => '', 'amount' => '', 'date' => '', 'payment_sl' => '', 'method' => ''];
@@ -932,12 +925,12 @@ trait TransactionTrait
             $records[] = (object)$record;
         }
 
-//        dd($pos_payments);
+        //        dd($pos_payments);
 
         return collect($records)->sortBy('date', null, true);
     }
 
-    public function getDuePaymentReport($start_date, $end_date, $vendor_id)
+    public function getDuePaymentReport($start_date, $end_date, $vendor_id,$user_id)
     {
         $records = [];
         $rp_items = BillPaymentItem::query()->with('bill_payment')
@@ -948,7 +941,11 @@ trait TransactionTrait
                 return $query->when($vendor_id != null, function ($query) use ($vendor_id) {
                     return $query->where('vendor_id', $vendor_id);
                 });
-            })->get();
+            })
+            ->when($user_id != null, function ($query) use ($user_id) {
+                return $query->where('user_id', $user_id);
+            })
+            ->get();
         foreach ($rp_items as $item) {
             $record = ['vendor' => '', 'amount' => '', 'date' => '', 'payment_sl' => '', 'method' => ''];
             $record['vendor'] = optional($item->bill_payment->vendor)->name;
@@ -960,11 +957,8 @@ trait TransactionTrait
         }
 
 
-//        dd($pos_payments);
+        //        dd($pos_payments);
 
         return collect($records)->sortBy('date', null, true);
     }
-
 }
-
-

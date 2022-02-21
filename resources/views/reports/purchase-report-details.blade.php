@@ -140,7 +140,7 @@
                                     <select id="product_id" name="product_id" class="form-control "
                                     >
                                         <option></option>
-                                        @foreach(\App\Models\Product::all() as $product)
+                                        @foreach($products as $product)
                                             <option value="{{ $product->id }}"
                                                     @if($product->id == $product_id) selected @endif>
                                                 {{ $product->name }}
@@ -148,7 +148,18 @@
                                         @endforeach
                                     </select>
                                 </div>
-                                <div class="col-6"></div>
+                                <div class="col-6">
+                                <select id="user_id" name="user_id" class="form-control "
+                                    >
+                                        <option></option>
+                                        @foreach($users as $user)
+                                            <option value="{{ $user->id }}"
+                                                    @if($user->id == $user_id) selected @endif>
+                                                {{ $user->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
                                 <div class="col row mt-4">
                                     <div class="input-daterange input-group" id="start_date">
 
