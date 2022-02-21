@@ -60,7 +60,7 @@ var posRactive = new Ractive({
         },
         trim: function (str) {
             const n = 20;
-            return (str.length > n) ? str.substr(0, n - 1) + '&hellip;' : str;
+            return (str.length > n) ? str.substr(0, n - 1) + '...' : str;
         },
         image_url: function (str) {
             if (str) {
