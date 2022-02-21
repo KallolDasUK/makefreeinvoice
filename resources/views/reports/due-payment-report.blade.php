@@ -93,6 +93,18 @@
                                         @endforeach
                                     </select>
                                 </div>
+                                <div class="col">
+                                <select id="user_id" name="user_id" class="form-control "
+                                    >
+                                        <option></option>
+                                        @foreach($users as $user)
+                                            <option value="{{ $user->id }}"
+                                                    @if($user->id == $user_id) selected @endif>
+                                                {{ $user->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>  
 
                                 <div class="col-3 row">
                                     <div class="input-daterange input-group" id="start_date">

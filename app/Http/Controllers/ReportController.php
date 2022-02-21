@@ -72,7 +72,7 @@ class ReportController extends AccountingReportsController
             $opening = 0;
             $customer = null;
         }
-//        dd($customer,$customer_id,$customer->name);
+        //        dd($customer,$customer_id,$customer->name);
         return view('reports.customer-statement', compact('title', 'start_date', 'end_date', 'customers', 'records', 'customer_id', 'customer', 'previous', 'opening'));
     }
 
@@ -130,7 +130,7 @@ class ReportController extends AccountingReportsController
         $title = "Stock Report Details";
         $selected_product = Product::find($product_id);
         list($records, $opening_stock) = $this->getStockReportDetails($start_date, $end_date, $product_id);
-//        dd($product->sell_unit);
+        //        dd($product->sell_unit);
 
         return view('reports.stock-report-details', compact('title', 'selected_product', 'start_date', 'end_date', 'report_type', 'product_id', 'records', 'brand_id', 'category_id', 'opening_stock'));
     }
@@ -178,7 +178,7 @@ class ReportController extends AccountingReportsController
         $branches = Branch::pluck('name', 'id')->all();
 
         $data = $this->getProfitLossReport($start_date, $end_date, $branch_id);
-//        dd($data);
+        //        dd($data);
         $branch_name = optional(Branch::find($request->branch_id))->name ?? "All";
 
         return view('reports.loss-profit', compact('title', 'start_date', 'end_date', 'branch_name', 'branches', 'branch_id') + $data);
@@ -197,9 +197,17 @@ class ReportController extends AccountingReportsController
         $data = $this->getLedgerReport($branch_id, $ledger_id, $start_date, $end_date);
         $branch_name = optional(Branch::find($request->branch_id))->name ?? "All";
 
-        return view('reports.ledger-report', compact('title', 'start_date',
-            'end_date', 'ledgers', 'ledger_id', 'data', 'branches', 'branch_name',
-            'branch_id'));
+        return view('reports.ledger-report', compact(
+            'title',
+            'start_date',
+            'end_date',
+            'ledgers',
+            'ledger_id',
+            'data',
+            'branches',
+            'branch_name',
+            'branch_id'
+        ));
     }
 
     public function receiptPaymentReport(Request $request)
@@ -213,9 +221,16 @@ class ReportController extends AccountingReportsController
         $payments = $this->getPaymentReport($branch_id, $start_date, $end_date);
         $branch_name = optional(Branch::find($request->branch_id))->name ?? "All";
 
-        return view('reports.receipt-payment-report', compact('title', 'start_date',
-            'end_date', 'receipts', 'payments', 'branches', 'branch_name',
-            'branch_id'));
+        return view('reports.receipt-payment-report', compact(
+            'title',
+            'start_date',
+            'end_date',
+            'receipts',
+            'payments',
+            'branches',
+            'branch_name',
+            'branch_id'
+        ));
     }
 
     public function cashbookReport(Request $request)
@@ -230,9 +245,17 @@ class ReportController extends AccountingReportsController
         $data = $this->getLedgerReport($branch_id, $ledger_id, $start_date, $end_date);
         $branch_name = optional(Branch::find($request->branch_id))->name ?? "All";
 
-        return view('reports.cashbook-report', compact('title', 'start_date',
-            'end_date', 'ledgers', 'ledger_id', 'data', 'branches', 'branch_name',
-            'branch_id'));
+        return view('reports.cashbook-report', compact(
+            'title',
+            'start_date',
+            'end_date',
+            'ledgers',
+            'ledger_id',
+            'data',
+            'branches',
+            'branch_name',
+            'branch_id'
+        ));
     }
 
 
@@ -249,7 +272,7 @@ class ReportController extends AccountingReportsController
         $totalAssetValue = 0;
         $totalLibValue = 0;
 
-//        dd($prevent_opening);
+        //        dd($prevent_opening);
         $groups = LedgerGroup::query()->where('nature', $asset_account)->get();
         foreach ($groups as $group) {
             $record = [];
@@ -265,8 +288,10 @@ class ReportController extends AccountingReportsController
                     continue;
                 }
                 $totalAssetValue += $closing_balance;
-                $record[] = (object)['account_name' => $g->group_name,
-                    'amount' => $closing_balance, 'is_account' => false, 'id' => $g->id];
+                $record[] = (object)[
+                    'account_name' => $g->group_name,
+                    'amount' => $closing_balance, 'is_account' => false, 'id' => $g->id
+                ];
             }
             foreach ($child_accounts as $account) {
                 $closing_balance = $account->closingBalance($branch_id, $start_date, $end_date, $prevent_opening);
@@ -275,14 +300,15 @@ class ReportController extends AccountingReportsController
                 }
                 $totalAssetValue += $closing_balance;
 
-                $record[] = (object)['account_name' => $account->ledger_name,
+                $record[] = (object)[
+                    'account_name' => $account->ledger_name,
                     'amount' => $closing_balance,
-                    'is_account' => true, 'id' => $account->id];
+                    'is_account' => true, 'id' => $account->id
+                ];
             }
             if (count($record)) {
                 $assets[$group->group_name] = $record;
             }
-
         }
 
 
@@ -306,8 +332,10 @@ class ReportController extends AccountingReportsController
                 }
                 $totalLibValue += $closing_balance;
 
-                $record[] = (object)['account_name' => $g->group_name,
-                    'amount' => $closing_balance, 'is_account' => false, 'id' => $g->id];
+                $record[] = (object)[
+                    'account_name' => $g->group_name,
+                    'amount' => $closing_balance, 'is_account' => false, 'id' => $g->id
+                ];
             }
             foreach ($child_accounts as $account) {
                 $closing_balance = $account->closingBalance($branch_id, $start_date, $end_date);
@@ -316,9 +344,11 @@ class ReportController extends AccountingReportsController
                 }
                 $totalLibValue += $closing_balance;
 
-                $record[] = (object)['account_name' => $account->ledger_name,
+                $record[] = (object)[
+                    'account_name' => $account->ledger_name,
                     'amount' => $closing_balance,
-                    'is_account' => true, 'id' => $account->id];
+                    'is_account' => true, 'id' => $account->id
+                ];
             }
             if (count($record)) {
                 $libs[$group->group_name] = $record;
@@ -330,9 +360,9 @@ class ReportController extends AccountingReportsController
         $totalLibValue += $profit;
 
         $libs['Equity'][] = (object)['account_name' => 'Unearned Revenue', 'amount' => $totalAssetValue - $totalLibValue, 'is_account' => false];
-//        dd($libs);
+        //        dd($libs);
 
-//        dd($totalAssetValue,$totalLibValue, 'Working');
+        //        dd($totalAssetValue,$totalLibValue, 'Working');
 
         $title = "Balance Sheet Report";
         $branches = Branch::pluck('name', 'id')->all();
@@ -355,9 +385,16 @@ class ReportController extends AccountingReportsController
         $branch_name = optional(Branch::find($request->branch_id))->name ?? "All";
 
 
-        return view('reports.voucher-report', compact('title', 'start_date',
-            'end_date', 'voucher_type', 'branches', 'branch_name', 'records',
-            'branch_id'));
+        return view('reports.voucher-report', compact(
+            'title',
+            'start_date',
+            'end_date',
+            'voucher_type',
+            'branches',
+            'branch_name',
+            'records',
+            'branch_id'
+        ));
     }
 
     public function salesReport(Request $request)
@@ -374,9 +411,19 @@ class ReportController extends AccountingReportsController
         $invoices = Invoice::all();
         $pos_sales = PosSale::all();
         $customers = Customer::all();
-        return view('reports.sales-report', compact('title', 'pos_sales',
-            'records', 'invoices', 'customers', 'start_date', 'end_date',
-            'customer_id', 'invoice_id', 'payment_status', 'user_id'));
+        return view('reports.sales-report', compact(
+            'title',
+            'pos_sales',
+            'records',
+            'invoices',
+            'customers',
+            'start_date',
+            'end_date',
+            'customer_id',
+            'invoice_id',
+            'payment_status',
+            'user_id'
+        ));
     }
 
     public function salesReportDetails(Request $request)
@@ -388,16 +435,38 @@ class ReportController extends AccountingReportsController
         $category_id = $request->category_id;
         $brand_id = $request->brand_id;
         $product_id = $request->product_id;
-        $records = $this->getSalesReportDetails($start_date, $end_date, $customer_id, $invoice_id, $product_id, $brand_id, $category_id);
+        $user_id = $request->user_id;
+        $records = $this->getSalesReportDetails($start_date, $end_date, $customer_id, $invoice_id, $product_id, $brand_id, $category_id, $user_id);
         $title = 'Sales Report Details';
 
-        $invoices = Invoice::all();
-        $pos_sales = PosSale::all();
-        $customers = Customer::all();
-//        dd(count($records));
-        return view('reports.sales-report-details', compact('title', 'pos_sales',
-            'records', 'invoices', 'customers', 'start_date', 'end_date',
-            'customer_id', 'invoice_id', 'category_id', 'brand_id', 'product_id'));
+        $invoices = Invoice::query()->select('id', 'invoice_number')->get();
+        $pos_sales = PosSale::query()->select('id', 'pos_number')->get();
+        $customers = \DB::table('customers')
+            ->where('client_id', auth()->user()->client_id)
+            ->select('name', 'id', 'email', 'phone')
+            ->get()->toArray();
+
+        $users = \App\Models\User::query()
+            ->where('client_id', auth()->user()->client_id)
+            ->select('id', 'name')->get();
+
+        //        dd(count($records));
+        return view('reports.sales-report-details', compact(
+            'title',
+            'pos_sales',
+            'records',
+            'invoices',
+            'customers',
+            'start_date',
+            'end_date',
+            'customer_id',
+            'invoice_id',
+            'category_id',
+            'brand_id',
+            'product_id',
+            'users',
+            'user_id'
+        ));
     }
 
     public function purchaseReport(Request $request)
@@ -425,15 +494,34 @@ class ReportController extends AccountingReportsController
         $category_id = $request->category_id;
         $brand_id = $request->brand_id;
         $product_id = $request->product_id;
-        $records = $this->getPurchaseReportDetails($start_date, $end_date, $vendor_id, $bill_id, $product_id, $brand_id, $category_id);
+        $user_id = $request->user_id;
+        $records = $this->getPurchaseReportDetails($start_date, $end_date, $vendor_id, $bill_id, $product_id, $brand_id, $category_id, $user_id);
         $title = 'Purchase Report Details';
 
         $bills = Bill::all();
         $vendors = Vendor::all();
-//        dd(count($records));
-        return view('reports.purchase-report-details', compact('title',
-            'records', 'bills', 'vendors', 'start_date', 'end_date',
-            'vendor_id', 'bill_id', 'category_id', 'brand_id', 'product_id'));
+        $products = \App\Models\Product::select('id', 'name')->get();
+        $users = \App\Models\User::query()
+            ->where('client_id', auth()->user()->client_id)
+            ->select('id', 'name')->get();
+
+        //        dd(count($records));
+        return view('reports.purchase-report-details', compact(
+            'title',
+            'records',
+            'bills',
+            'vendors',
+            'start_date',
+            'end_date',
+            'vendor_id',
+            'bill_id',
+            'category_id',
+            'brand_id',
+            'product_id',
+            'user_id',
+            'products',
+            'users'
+        ));
     }
 
     public function dueCollectionReport(Request $request)
@@ -442,12 +530,15 @@ class ReportController extends AccountingReportsController
         $start_date = $request->start_date ?? today()->startOfMonth()->toDateString();
         $end_date = $request->end_date ?? today()->toDateString();
         $ref = $request->ref;
+        $user_id = $request->user_id;
+
         $customer_id = $request->customer_id;
-        $customers = Customer::all();
-        $records = $this->getDueCollectionReport($start_date, $end_date, $customer_id);
-
-        return view('reports.due-collection-report', compact('ref', 'start_date', 'end_date', 'customer_id', 'customers', 'records', 'title'));
-
+        $customers = Customer::query()->select('id','name')->get();
+        $records = $this->getDueCollectionReport($start_date, $end_date, $customer_id, $user_id);
+        $users = \App\Models\User::query()
+            ->where('client_id', auth()->user()->client_id)
+            ->select('id', 'name')->get();
+        return view('reports.due-collection-report', compact('ref', 'start_date', 'end_date', 'customer_id', 'customers', 'records', 'title', 'user_id', 'users'));
     }
 
     public function duePaymentReport(Request $request)
@@ -457,11 +548,13 @@ class ReportController extends AccountingReportsController
         $end_date = $request->end_date ?? today()->toDateString();
         $ref = $request->ref;
         $vendor_id = $request->vendor_id;
-        $vendors = Vendor::all();
-        $records = $this->getDuePaymentReport($start_date, $end_date, $vendor_id);
-
-        return view('reports.due-payment-report', compact('ref', 'start_date', 'end_date', 'vendor_id', 'vendors', 'records', 'title'));
-
+        $user_id = $request->user_id;
+        $vendors = Vendor::query()->select('id', 'name')->get();
+        $records = $this->getDuePaymentReport($start_date, $end_date, $vendor_id, $user_id);
+        $users = \App\Models\User::query()
+            ->where('client_id', auth()->user()->client_id)
+            ->select('id', 'name')->get();
+        return view('reports.due-payment-report', compact('ref', 'start_date', 'end_date', 'vendor_id', 'vendors', 'records', 'title', 'user_id', 'users'));
     }
 
     public function productReport()
@@ -495,9 +588,11 @@ class ReportController extends AccountingReportsController
 
             $remaining_qnt = $bill_item->qnt - ($sold_qnt_from_batch + $sold_qnt_from_batch_pos);
             if ($remaining_qnt > 0) {
-                $record = ['product' => Product::find($bill_item->product_id),
+                $record = [
+                    'product' => Product::find($bill_item->product_id),
                     'exp_date' => $bill_item->exp_date,
-                    'batch' => $bill_item->batch, 'qnt' => $remaining_qnt];
+                    'batch' => $bill_item->batch, 'qnt' => $remaining_qnt
+                ];
                 $records[] = (object)$record;
             }
         }
@@ -511,9 +606,11 @@ class ReportController extends AccountingReportsController
         $products = Product::all();
         foreach ($products as $product) {
             if ($product->stock <= $product->minimum_stock) {
-                $record = ['product' => $product,
+                $record = [
+                    'product' => $product,
                     'stock' => $product->stock,
-                    'minimum_stock' => $product->minimum_stock];
+                    'minimum_stock' => $product->minimum_stock
+                ];
                 $records[] = (object)$record;
             }
         }
@@ -528,9 +625,11 @@ class ReportController extends AccountingReportsController
         $products = Product::all();
         foreach ($products as $product) {
             if ($product->stock <= $product->minimum_stock) {
-                $record = ['product' => $product,
+                $record = [
+                    'product' => $product,
                     'stock' => $product->stock,
-                    'minimum_stock' => $product->minimum_stock];
+                    'minimum_stock' => $product->minimum_stock
+                ];
                 $records[] = (object)$record;
             }
         }
@@ -553,12 +652,9 @@ class ReportController extends AccountingReportsController
             if ($sold == 0) continue;
             $record = ['product_name' => $product->name, 'stock' => $product->stock, 'sold' => $sold];
             $records[] = (object)$record;
-
         }
         $records = collect($records)->sortBy('sold', SORT_DESC, SORT_DESC);
 
         return view('reports.popular-products-report', compact('records', 'start_date', 'end_date'));
     }
-
-
 }
