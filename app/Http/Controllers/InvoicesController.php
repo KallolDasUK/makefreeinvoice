@@ -93,11 +93,17 @@ class InvoicesController extends Controller
         $cashAcId = optional(GroupMap::query()->firstWhere('key', LedgerHelper::$CASH_AC))->value;
         $depositAccounts = Ledger::find($this->getAssetLedgers())->sortBy('ledger_name');
         $paymentMethods = PaymentMethod::query()->get();
-        $customers = Customer::all();
 
+        $customers = \DB::table('customers')
+        ->where('client_id', auth()->user()->client_id)
+        ->select('name', 'id', 'email','phone')
+        ->get()->toArray();
 
+        $products = \DB::table('products')
+        ->where('client_id', auth()->user()->client_id)
+        ->select('name', 'id', 'purchase_price', 'sell_price', 'sell_unit', 'purchase_unit', 'photo as image')
+        ->get();
 
-        $products = Product::all();
         $categories = Category::all();
         $taxes = Tax::query()->latest()->get()->toArray();
         $extraFields = optional(Invoice::query()->latest()->first())->extra_fields ?? [];
@@ -305,13 +311,21 @@ class InvoicesController extends Controller
         $invoice = Invoice::findOrFail($id);
 
         $this->authorize('update', $invoice);
-        $customers = Customer::all();
+
+        $customers = \DB::table('customers')
+        ->where('client_id', auth()->user()->client_id)
+        ->select('name', 'id', 'email','phone')
+        ->get()->toArray();
+
+        $products = \DB::table('products')
+        ->where('client_id', auth()->user()->client_id)
+        ->select('name', 'id', 'purchase_price', 'sell_price', 'sell_unit', 'purchase_unit', 'photo as image')
+        ->get();        
         $taxes = Tax::query()->latest()->get()->toArray();
         $invoice_items = InvoiceItem::query()->where('invoice_id', $invoice->id)->get();
         $categories = Category::query()->latest()->get();
         $invoiceExtraField = InvoiceExtraField::query()->where('invoice_id', $invoice->id)->get();
         $extraFields = ExtraField::query()->where('type', Invoice::class)->where('type_id', $invoice->id)->get();
-        $products = Product::query()->latest()->get();
 //        dd($invoice_items);
         $ledgerGroups = LedgerGroup::all();
 

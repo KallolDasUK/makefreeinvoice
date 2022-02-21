@@ -183,9 +183,9 @@
           product-id="{{id}}" style="position: absolute;right: 0;z-index: 20;display: none"></i>
 
         <div class="ml-2 item rounded btn" on-click="@this.onProductSelected(id)" style=" {{^ hide_image }}
-        background-image: url('{{ image }}'); {{/ hide_image }}" >
+        background-image: url('{{ image_url(image) }}'); {{/ hide_image }}" >
         {{^ hide_name }}
-        <span class="" style="text-shadow: 1px 1px 0 white,-1px -1px 0 white;">{{ name }}</span>
+        <span class="" style="text-shadow: 1px 1px 0 white,-1px -1px 0 white;">{{ trim(name) }}</span>
         {{/ hide_name }}
 
 
@@ -226,7 +226,7 @@
         <div class="ml-2 item rounded btn" on-click="@this.onProductSelected(id)" style=" {{^ hide_image }}
         background-image: url('{{ image }}'); {{/ hide_image }}"  >
               {{^ hide_name }}
-        <span class="">{{ short_name }}</span>
+        <span class="">{{ trim(name) }}</span>
         {{/ hide_name }}
 
         {{^ hide_stock }}
@@ -263,29 +263,27 @@
 
         <div class="row align-items-center justify-content-center">
 
-                                    <input type="text" class="form-control" style="width:160px;margin-left: 10px;" placeholder="Pos Number" id="pos_number" name="pos_number" value="{{ pos_number }}">
+                                    <input type="text" class="form-control form-control-sm  col" style="margin-left: 10px;" placeholder="Pos Number" id="pos_number" name="pos_number" value="{{ pos_number }}">
 
-                                    <div class="input-daterange input-group col" >
-                                        <input type="date" class="form-control " name="start_date"  id="start_date"  value="{{ start_date }}" placeholder="Start">
+                                    <div class="input-daterange input-group col-6" >
+                                        <input type="date" class="form-control form-control-sm " name="start_date"  id="start_date"  value="{{ start_date }}" placeholder="Start">
                                         <div class="input-group-append">
-									<span class="input-group-text">
-										...
-                                    </span>
+								
                                         </div>
-                                        <input type="date" class="form-control" name="end_date" id="end_date" value="{{ end_date }}" placeholder="End">
+                                        <input type="date" class="form-control form-control-sm" name="end_date" id="end_date" value="{{ end_date }}" placeholder="End">
                                     </div>
 
 
-                                <div class="col">
-                                    <button role="button" type="button" on-click="@this.onOrderFilter()" class="btn btn-primary px-6 mx-2  font-weight-bold">
-                                        <i class="fas fa-sliders-h"></i>
+                                <div class="col-3">
+                                    <button role="button" type="button" on-click="@this.onOrderFilter()" class="btn btn-primary btn-sm px-6 mx-2  font-weight-bold">
                                         Filter
                                     </button>
-                                    <span style="font-size: 20px" class="ml-4">{{ orders.length }} Sales</span>
                                 </div>
 
 
                             </div>
+                            <span style="font-size: 20px" class="ml-4">{{ orders.length }} Sales</span>
+
             {{#each orders:i}}
         <div class="card mt-2" index="{{id}}" >
            <div class="m-2">
@@ -361,6 +359,9 @@
         </div>
 
 {{/orders}}
+<div id="loading" class="text-center" style="display:none">
+                        <img src="https://mir-s3-cdn-cf.behance.net/project_modules/disp/35771931234507.564a1d2403b3a.gif" alt="">        
+                        </div>
 
         </div>
     </div>

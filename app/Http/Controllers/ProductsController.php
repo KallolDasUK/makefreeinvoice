@@ -31,7 +31,6 @@ class ProductsController extends Controller
                 return ['results' => $products];
             }
             return ['results' => Product::query()->latest()->select(['id', 'name as text'])->limit(5)->get()];
-
         }
         return [];
     }
@@ -41,10 +40,15 @@ class ProductsController extends Controller
         if ($request->ajax()) {
 
             return Product::query()->orderBy('name')->get();
-
         }
-        $products = Product::with('category')->latest()->get();
-        return view('products.index', compact('products'));
+        view()->share('title', 'Product List');
+        $q = $request->q;
+        $products = Product::with(['category', 'brand'])
+        ->when($q != null,function($query) use($q){
+          return $query->where('name','like','%'.$q.'%');          
+        })
+        ->paginate(10, ['id', 'name', 'sell_price', 'brand_id', 'category_id', 'purchase_price', 'product_type', 'photo', 'code']);
+        return view('products.index', compact('products','q'));
     }
 
 
@@ -80,7 +84,6 @@ class ProductsController extends Controller
 
         return redirect()->route('products.product.index')
             ->with('success_message', 'Product was successfully added.');
-
     }
 
     protected function storeOpeningStock(Product $product, $amount, $entry_type)
@@ -91,24 +94,30 @@ class ProductsController extends Controller
         $txn = Transaction::where('txn_type', EntryType::$OPENING_STOCK)->where('type', Product::class)->where('type_id', $product->id)->first();
         if ($txn) {
             $txn
-                ->update(['amount' => $amount, 'type' => Product::class,
-                    'type_id' => $product->id]);
+                ->update([
+                    'amount' => $amount, 'type' => Product::class,
+                    'type_id' => $product->id
+                ]);
 
             TransactionDetail::where('transaction_id', $txn->id)
-                ->update(['entry_type' => $entry_type, 'amount' => $amount, 'type' => Product::class,
-                    'type_id' => $product->id, 'ref' => $product->name]);
+                ->update([
+                    'entry_type' => $entry_type, 'amount' => $amount, 'type' => Product::class,
+                    'type_id' => $product->id, 'ref' => $product->name
+                ]);
         } else {
             $voucher_no = $this->getVoucherID();
-            $txn = Transaction::create(['ledger_name' => $ledger->ledger_name, 'voucher_no' => $voucher_no,
+            $txn = Transaction::create([
+                'ledger_name' => $ledger->ledger_name, 'voucher_no' => $voucher_no,
                 'amount' => $amount, 'note' => EntryType::$OPENING_STOCK, 'txn_type' => EntryType::$OPENING_STOCK, 'type' => Product::class,
-                'type_id' => $product->id, 'date' => today()->toDateString()]);
+                'type_id' => $product->id, 'date' => today()->toDateString()
+            ]);
 
-            TransactionDetail::create(['transaction_id' => $txn->id, 'ledger_id' => $ledger->id, 'entry_type' => $entry_type, 'amount' => $amount,
+            TransactionDetail::create([
+                'transaction_id' => $txn->id, 'ledger_id' => $ledger->id, 'entry_type' => $entry_type, 'amount' => $amount,
                 'voucher_no' => $voucher_no, 'date' => today()->toDateString(), 'note' => EntryType::$OPENING_STOCK, 'type' => Product::class,
-                'type_id' => $product->id, 'ref' => $product->name]);
-
+                'type_id' => $product->id, 'ref' => $product->name
+            ]);
         }
-
     }
 
 
@@ -142,7 +151,6 @@ class ProductsController extends Controller
     public function export()
     {
         return Excel::download(new ProductsExport(), 'products_' . today()->toDateString() . '.xlsx');
-
     }
 
     public function import(Request $request)
@@ -150,7 +158,7 @@ class ProductsController extends Controller
         try {
             Excel::import(new ProductsImport(), $request->file('file'));
         } catch (\Exception $exception) {
-//            dd($exception);
+            //            dd($exception);
             return redirect()->route('products.product.index')
                 ->with('error_message', "Invalid file format. Please select xls or xlsx or csv file.");
         }
@@ -164,10 +172,9 @@ class ProductsController extends Controller
         $product_id = $request->get('product_id');
         if ($product_id) {
             $product = Product::find(intval($product_id));
-//            dd($product_id,$request->all(),$product);
+            //            dd($product_id,$request->all(),$product);
             $product->is_bookmarked = !$product->is_bookmarked;
             $product->save();
-
         }
         $products = Product::query()->where('is_bookmarked', true)->get();
 
@@ -200,7 +207,6 @@ class ProductsController extends Controller
         }
         return redirect()->route('products.product.index')
             ->with('success_message', 'Product was successfully updated.');
-
     }
 
 
@@ -214,7 +220,6 @@ class ProductsController extends Controller
 
         return redirect()->route('products.product.index')
             ->with('success_message', 'Product was successfully deleted.');
-
     }
 
 
@@ -243,7 +248,7 @@ class ProductsController extends Controller
         if ($id) {
             $rules['code'] = 'nullable|string|unique_saas:products,code,' . $id;
         }
-//        dd($request->all());
+        //        dd($request->all());
 
         $data = $request->validate($rules, ['code.unique_saas' => 'Product Code Already In Use']);
 
@@ -300,6 +305,5 @@ class ProductsController extends Controller
 
         return substr($saved, 7);
     }
-
 }
 // php artisan make:export ProductsExport --model=Product

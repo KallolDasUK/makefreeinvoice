@@ -473,6 +473,14 @@ $(document).on('click', '.bookmark_icon', function (e) {
 $(document).ready(function () {
     $('#product_search').focus()
 
+    $('#pos_number').on('keyup', function(e){
+
+        if (e.key === 'Enter' || e.keyCode === 13) {
+            posRactive.onOrderFilter();
+        }
+        
+    })
+
 })
 document.onkeyup = function (e) {
     var e = e || window.event; // for IE to cover IEs window event-object
@@ -497,5 +505,7 @@ document.onkeyup = function (e) {
         return false;
     }
 }
+
+
 
 

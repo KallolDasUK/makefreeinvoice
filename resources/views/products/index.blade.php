@@ -66,7 +66,12 @@
 
         <div class="card-header">
 
-            <h5 class="my-1 float-left">Products</h5>
+            <h5 class="my-1 float-left">
+                <form action="{{ route('products.product.index') }}" style="width: 200px;" class="row">
+                    <input name="q" type="text" class="form-control col rounded-none"  placeholder="Search.." style="border-radius: 0px;" value="{{ $q }} ">
+                    <button type="submit" class="btn btn-sm btn-primary" style="border-radius: 0px;"> <i class="fa fa-search"></i></button>
+                </form>
+            </h5>
 
             <div class="float-right" role="group">
 
@@ -127,7 +132,6 @@
 
                             <th>Name</th>
                             <th>Code</th>
-                            <th>Stock</th>
                             <th>Category</th>
                             <th>Brand</th>
                             <th>Sell Price</th>
@@ -140,16 +144,15 @@
                         <tbody>
                         @foreach($products as $product)
                             <tr>
-                                <td>{{ $loop->iteration }}</td>
+                            <td>{{ (($products->currentPage() - 1) * $products->perPage()) + $loop->iteration }}</td>
 
                                 <td>
                                     <img class="rounded" src="{{ asset('storage/'.$product->photo) }}" alt=""
                                          width="50">
                                 </td>
                                 <td>{{ $product->product_type }}</td>
-                                <td>{{ $product->name }}</td>
+                                <td><b>{{ $product->name }}</b></td>
                                 <td>{{ $product->code }}</td>
-                                <td>{{ $product->stock }}</td>
                                 <td>{{ optional($product->category)->name }}</td>
                                 <td>{{ optional($product->brand)->name }}</td>
                                 <td>{{ $product->sell_price }}</td>
@@ -188,6 +191,10 @@
                         </tbody>
                     </table>
 
+
+                </div>
+                <div class="float-right">
+                    {!! $products->links() !!}
                 </div>
             </div>
 
@@ -201,15 +208,6 @@
 
     <script>
         $(document).ready(function () {
-            $('table').DataTable({
-                responsive: true,
-                "order": [],
-                dom: 'lBfrtip',
-                buttons: [
-                    'copy', 'excel', 'pdf', 'print'
-                ]
-
-            });
         });
     </script>
 

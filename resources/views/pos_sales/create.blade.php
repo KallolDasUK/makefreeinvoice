@@ -59,6 +59,7 @@
 
         var charges = @json($charges);
         var payments = [];
+        var storageUrl = "{{ asset('storage') }}";
 
         $(document).ready(function () {
 

@@ -4596,6 +4596,8 @@
 
                         <h5><a href="{{ route('accounting.settings.edit') }}"><i class="fa fa-cog"></i> Account Settings</a>
                         </h5>
+                        <small> System Information </small>
+                        <code> {{ phpversion() }} </code>
 
                     </div>
                 </div>

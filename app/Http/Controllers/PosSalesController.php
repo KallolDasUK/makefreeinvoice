@@ -28,8 +28,8 @@ class PosSalesController extends Controller
 
     public function pos_receipt_public(Request $request, $id)
     {
-//        $id = $request->id;
-//        dd($id);
+        //        $id = $request->id;
+        //        dd($id);
         $posSale = PosSale::with('customer', 'branch', 'ledger')->withoutGlobalScope('scopeClient')->findOrFail($id);
         $client_id = $posSale->client_id;
         $settings = json_decode(MetaSetting::query()
@@ -54,7 +54,7 @@ class PosSalesController extends Controller
 
             $creating_time = Carbon::parse($posSale->created_at);
             $invoice_date = Carbon::parse($posSale->date)->toDateString() . ' ' . $creating_time->toTimeString();
-//            dd($invoice_date);
+            //            dd($invoice_date);
             $time_stamp = '';
             $time_stamp .= '3';
             $time_stamp .= '' . strlen($invoice_date);
@@ -76,8 +76,6 @@ class PosSalesController extends Controller
 
             $qr_code = $seller_name . '' . $vat_registration . '' . $time_stamp . '' . $invoice_total . '' . $vat_total;
             $qr_code = base64_encode($qr_code);
-
-
         }
 
         return view('pos_sales.pos_receipt_public', compact('posSale', 'settings', 'qr_code'));
@@ -101,7 +99,7 @@ class PosSalesController extends Controller
         if (!Customer::query()->where('name', Customer::WALK_IN_CUSTOMER)->exists()) {
             Customer::create(['name' => Customer::WALK_IN_CUSTOMER]);
         }
-//        $customers = Customer::all()->makeHidden(['advance', 'receivables'])->toArray();
+        //        $customers = Customer::all()->makeHidden(['advance', 'receivables'])->toArray();
         $customers = \DB::table('customers')
             ->where('client_id', auth()->user()->client_id)
             ->select('name', 'id', 'email')
@@ -111,22 +109,22 @@ class PosSalesController extends Controller
         $categories = Category::all();
         $products = \DB::table('products')
             ->where('client_id', auth()->user()->client_id)
-            ->select('name', 'id', 'purchase_price', 'sell_price','sell_unit','purchase_unit','photo as image')
+            ->select('name', 'id', 'purchase_price', 'sell_price', 'sell_unit', 'purchase_unit', 'photo as image')
             ->get();
-//        dd($products);
+        //        dd($products);
         $paymentMethods = PaymentMethod::all();
         $title = "POS - Point Of Sale";
         $ledger_id = Ledger::CASH_AC();
         $bookmarks = \DB::table('products')
             ->where('is_bookmarked', true)
             ->where('client_id', auth()->user()->client_id)
-            ->select('name', 'id', 'purchase_price', 'sell_price','sell_unit','purchase_unit','photo as image')
+            ->select('name', 'id', 'purchase_price', 'sell_price', 'sell_unit', 'purchase_unit', 'photo as image')
             ->get();
         $start_date = today()->toDateString();
         $end_date = today()->toDateString();
         $orders = PosSale::query()->with('customer')->whereBetween('date', [$start_date, $end_date])->latest()->get();
         $pos_numbers = PosSale::query()->select('pos_number')->get()->toArray();
-//        dd($pos_numbers);
+        //        dd($pos_numbers);
         $charges = [['key' => 'Discount', 'Value' => ''], ['key' => '', 'Value' => '']];
         if (count(PosSale::query()->get()) > 0) {
             $last_order = PosSale::query()->get()->last();
@@ -138,14 +136,29 @@ class PosSalesController extends Controller
             }
             $charges = $pos_charges;
         } else {
-
         }
         $can_delete = ability(Ability::POS_DELETE);
         $p = [];
-//                dd($customers);
+        //                dd($customers);
 
-        return view('pos_sales.create', compact('customers', 'branches', 'ledgers', 'ledger_id', 'products', 'categories', 'title', 'orders',
-            'paymentMethods', 'bookmarks', 'start_date', 'end_date', 'charges', 'can_delete', 'p', 'pos_numbers'));
+        return view('pos_sales.create', compact(
+            'customers',
+            'branches',
+            'ledgers',
+            'ledger_id',
+            'products',
+            'categories',
+            'title',
+            'orders',
+            'paymentMethods',
+            'bookmarks',
+            'start_date',
+            'end_date',
+            'charges',
+            'can_delete',
+            'p',
+            'pos_numbers'
+        ));
     }
 
     public function getAssetLedgers()
@@ -158,14 +171,12 @@ class PosSalesController extends Controller
             try {
                 $parentBankLedger = LedgerGroup::query()->where('id', $group->id)->first();
                 $this->getChildLedgerGroup($parentBankLedger->id);
-
             } catch (\Exception $exception) {
                 dd($exception);
                 return [];
             }
         }
         return $this->arr;
-
     }
 
     public function store(Request $request)
@@ -186,22 +197,26 @@ class PosSalesController extends Controller
 
             $pos_item->tax_id = $pos_item->tax_id == '' ? null : $pos_item->tax_id;
             $pos_item->attribute_id = ($pos_item->attribute_id ?? null) == '' ? null : $pos_item->attribute_id ?? null;
-            PosItem::create(['pos_sales_id' => $pos_sales->id, 'product_id' => $pos_item->product_id,
+            PosItem::create([
+                'pos_sales_id' => $pos_sales->id, 'product_id' => $pos_item->product_id,
                 'price' => $pos_item->price, 'qnt' => $pos_item->qnt, 'amount' => $pos_item->amount,
                 'tax_id' => $pos_item->tax_id, 'attribute_id' => $pos_item->attribute_id,
                 'batch' => $pos_item->batch ?? null,
-                'date' => $pos_sales->date]);
+                'date' => $pos_sales->date
+            ]);
         }
         foreach ($pos_charges as $pos_charge) {
-            PosCharge::create(['pos_sales_id' => $pos_sales->id, 'key' => $pos_charge->key,
-                'value' => $pos_charge->value, 'amount' => $pos_charge->amount ?? 0]);
+            PosCharge::create([
+                'pos_sales_id' => $pos_sales->id, 'key' => $pos_charge->key,
+                'value' => $pos_charge->value, 'amount' => $pos_charge->amount ?? 0
+            ]);
         }
 
 
         $given = collect($pos_payments)->sum('amount');
         $change = $pos_sales->total - $given;
         $pos_sales->change = 0;
-//        dd($given, $change, $pos_payments,$change > 0);
+        //        dd($given, $change, $pos_payments,$change > 0);
         if ($change < 0) {
             $distributed = 0;
             $pos_sales->change = abs($change);
@@ -214,7 +229,6 @@ class PosSalesController extends Controller
 
                 if ($pos_payment->amount > $pos_sales->total) {
                     $pos_payments[$index]->amount = ($pos_sales->total - $distributed);
-
                 }
                 $distributed += $pos_payments[$index]->amount;
             }
@@ -229,14 +243,13 @@ class PosSalesController extends Controller
             ]);
         }
         if ($request->ajax()) {
-//            dd($pos_items);
+            //            dd($pos_items);
             return $pos_sales->load('pos_charges');
         }
 
 
         return redirect()->route('pos_sales.pos_sale.index')
             ->with('success_message', 'Pos Sale was successfully added.');
-
     }
 
 
@@ -273,8 +286,10 @@ class PosSalesController extends Controller
         PosCharge::query()->where('pos_sales_id', $pos_sales->id)->delete();
 
         foreach ($pos_charges as $pos_charge) {
-            PosCharge::create(['pos_sales_id' => $pos_sales->id, 'key' => $pos_charge->key,
-                'value' => $pos_charge->value, 'amount' => $pos_charge->amount ?? 0]);
+            PosCharge::create([
+                'pos_sales_id' => $pos_sales->id, 'key' => $pos_charge->key,
+                'value' => $pos_charge->value, 'amount' => $pos_charge->amount ?? 0
+            ]);
         }
 
         $pos_sales->total = collect($pos_charges)->sum('amount') + $pos_sales->sub_total;
@@ -282,7 +297,7 @@ class PosSalesController extends Controller
         $given = collect($pos_payments)->sum('amount');
         $change = $pos_sales->due - $given;
         $pos_sales->change = 0;
-//        dd($given, $change, $pos_payments,$change > 0);
+        //        dd($given, $change, $pos_payments,$change > 0);
         if ($change < 0) {
             $distributed = 0;
             $pos_sales->change = abs($change);
@@ -295,13 +310,12 @@ class PosSalesController extends Controller
 
                 if ($pos_payment->amount > $pos_sales->due) {
                     $pos_payments[$index]->amount = ($pos_sales->due - $distributed);
-
                 }
                 $distributed += $pos_payments[$index]->amount;
             }
         }
 
-//        dd($pos_payments);
+        //        dd($pos_payments);
         foreach ($pos_payments as $pos_payment) {
 
             PosPayment::create([
@@ -347,8 +361,6 @@ class PosSalesController extends Controller
             $__TLV = __getTLV($dataToEncode);
             $__QR = base64_encode($__TLV);
             $qr_code = $__QR;
-
-
         } elseif ($qr_code_style == 'text') {
             $business_name = $settings->business_name ?? auth()->user()->name ?? 'Unknown Seller';
             $vat_number = $settings->vat_reg ?? '123456789';
@@ -358,8 +370,6 @@ class PosSalesController extends Controller
             $tax = number_format($posSale->tax, 2, '.', '');
 
             $qr_code = "Seller Name: $business_name Vat Reg: $vat_number Total: $taxable Tax: $tax Date and Time: $invoice_date";
-
-
         }
         return view('partials.order-details', compact('posSale', 'qr_code', 'qr_code_style'));
     }
@@ -379,40 +389,71 @@ class PosSalesController extends Controller
         if (!Customer::query()->where('name', Customer::WALK_IN_CUSTOMER)->exists()) {
             Customer::create(['name' => Customer::WALK_IN_CUSTOMER]);
         }
-        $customers = Customer::all()->makeHidden(['advance', 'receivables'])->toArray();
+        $customers = \DB::table('customers')
+            ->where('client_id', auth()->user()->client_id)
+            ->select('name', 'id', 'email')
+            ->get()->toArray();
         $branches = Branch::pluck('id', 'id')->all();
         $ledgers = Ledger::find($this->getAssetLedgers())->toArray();
         $categories = Category::all();
-        $products = Product::all()->makeHidden(['stock_value'])->all();
+        $products = \DB::table('products')
+        ->where('client_id', auth()->user()->client_id)
+        ->select('name', 'id', 'purchase_price', 'sell_price', 'sell_unit', 'purchase_unit', 'photo as image')
+        ->get();
         $paymentMethods = PaymentMethod::all();
         $title = "Edit POS - " . $posSale->pos_number;
         $ledger_id = Ledger::CASH_AC();
-        $bookmarks = Product::query()->where('is_bookmarked', true)->get();
+        $bookmarks = \DB::table('products')
+        ->where('is_bookmarked', true)
+        ->where('client_id', auth()->user()->client_id)
+        ->select('name', 'id', 'purchase_price', 'sell_price', 'sell_unit', 'purchase_unit', 'photo as image')
+        ->get();
         $start_date = today()->toDateString();
         $end_date = today()->toDateString();
         $orders = PosSale::query()->with('customer')->whereBetween('date', [$start_date, $end_date])->latest()->get();
         $pos_numbers = PosSale::query()->select('pos_number')->get()->toArray();
         $charges = $posSale->pos_charges;
-//        dd($charges);
-//        if (count(PosSale::query()->get()) > 0) {
-//            $last_order = PosSale::query()->get()->last();
-//            $pos_charges = $last_order->pos_charges()->select('key', 'value')->get()->toArray();
-//            foreach ($pos_charges as $index => $pos_charge) {
-//                if (Str::contains(strtolower($pos_charge['key']), 'discount')) {
-//                    $pos_charges[$index]['value'] = '';
-//                }
-//            }
-//            $charges = $pos_charges;
-//        } else {
-//
-//        }
+        //        dd($charges);
+        //        if (count(PosSale::query()->get()) > 0) {
+        //            $last_order = PosSale::query()->get()->last();
+        //            $pos_charges = $last_order->pos_charges()->select('key', 'value')->get()->toArray();
+        //            foreach ($pos_charges as $index => $pos_charge) {
+        //                if (Str::contains(strtolower($pos_charge['key']), 'discount')) {
+        //                    $pos_charges[$index]['value'] = '';
+        //                }
+        //            }
+        //            $charges = $pos_charges;
+        //        } else {
+        //
+        //        }
         $can_delete = ability(Ability::POS_DELETE);
         $p = [];
         $pos_items = $posSale->pos_items()->with('product')->get()->toArray();
-//        dd();
-        return view('pos_sales.edit', compact('posSale', 'customers', 'branches', 'ledgers', 'ledgers', 'customers', 'branches', 'ledgers', 'ledger_id', 'products', 'categories', 'title', 'orders',
-            'paymentMethods', 'bookmarks', 'start_date',
-            'end_date', 'charges', 'can_delete', 'p', 'pos_numbers', 'pos_items'));
+        //        dd();
+        return view('pos_sales.edit', compact(
+            'posSale',
+            'customers',
+            'branches',
+            'ledgers',
+            'ledgers',
+            'customers',
+            'branches',
+            'ledgers',
+            'ledger_id',
+            'products',
+            'categories',
+            'title',
+            'orders',
+            'paymentMethods',
+            'bookmarks',
+            'start_date',
+            'end_date',
+            'charges',
+            'can_delete',
+            'p',
+            'pos_numbers',
+            'pos_items'
+        ));
     }
 
 
@@ -424,7 +465,7 @@ class PosSalesController extends Controller
         $pos_sales->pos_items()->delete();
         $pos_sales->pos_charges()->delete();
         $pos_sales->payments()->delete();
-//dd('bal');
+        //dd('bal');
 
 
         $data = $this->getData($request);
@@ -437,27 +478,31 @@ class PosSalesController extends Controller
         unset($data['charges']);
         $pos_sales->update($data);
 
-//        $pos_sales = PosSale::create($data);
+        //        $pos_sales = PosSale::create($data);
         foreach ($pos_items as $pos_item) {
 
             $pos_item->tax_id = $pos_item->tax_id == '' ? null : $pos_item->tax_id;
             $pos_item->attribute_id = ($pos_item->attribute_id ?? null) == '' ? null : $pos_item->attribute_id ?? null;
-            PosItem::create(['pos_sales_id' => $pos_sales->id, 'product_id' => $pos_item->product_id,
+            PosItem::create([
+                'pos_sales_id' => $pos_sales->id, 'product_id' => $pos_item->product_id,
                 'price' => $pos_item->price, 'qnt' => $pos_item->qnt, 'amount' => $pos_item->amount,
                 'tax_id' => $pos_item->tax_id, 'attribute_id' => $pos_item->attribute_id,
                 'batch' => $pos_item->batch ?? null,
-                'date' => $pos_sales->date]);
+                'date' => $pos_sales->date
+            ]);
         }
         foreach ($pos_charges as $pos_charge) {
-            PosCharge::create(['pos_sales_id' => $pos_sales->id, 'key' => $pos_charge->key,
-                'value' => $pos_charge->value, 'amount' => $pos_charge->amount ?? 0]);
+            PosCharge::create([
+                'pos_sales_id' => $pos_sales->id, 'key' => $pos_charge->key,
+                'value' => $pos_charge->value, 'amount' => $pos_charge->amount ?? 0
+            ]);
         }
 
 
         $given = collect($pos_payments)->sum('amount');
         $change = $pos_sales->total - $given;
         $pos_sales->change = 0;
-//        dd($given, $change, $pos_payments,$change > 0);
+        //        dd($given, $change, $pos_payments,$change > 0);
         if ($change < 0) {
             $distributed = 0;
             $pos_sales->change = abs($change);
@@ -470,7 +515,6 @@ class PosSalesController extends Controller
 
                 if ($pos_payment->amount > $pos_sales->total) {
                     $pos_payments[$index]->amount = ($pos_sales->total - $distributed);
-
                 }
                 $distributed += $pos_payments[$index]->amount;
             }
@@ -485,14 +529,13 @@ class PosSalesController extends Controller
             ]);
         }
         if ($request->ajax()) {
-//            dd($pos_items);
+            //            dd($pos_items);
             return $pos_sales->load('pos_charges');
         }
 
 
         return redirect()->route('pos_sales.pos_sale.index')
             ->with('success_message', 'Pos Sale was successfully updated.');
-
     }
 
 
@@ -513,7 +556,6 @@ class PosSalesController extends Controller
 
         return redirect()->route('pos_sales.pos_sale.index')
             ->with('success_message', 'Pos Sale was successfully deleted.');
-
     }
 
 
@@ -543,5 +585,4 @@ class PosSalesController extends Controller
 
         return $data;
     }
-
 }
