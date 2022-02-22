@@ -4593,9 +4593,10 @@
                         <strong class="mb-2">{{ optional(auth()->user())->email }}</strong>
                         <strong
                             class="d-inline-block">{{ \Carbon\Carbon::now()->format('h:i a Y-m-d ') }}{{ \Carbon\Carbon::now()->timezoneName }}  </strong>
-
-                        <h5><a href="{{ route('accounting.settings.edit') }}"><i class="fa fa-cog"></i> Account Settings</a>
+                        @if(ability_class(\App\Utils\Ability::GENERAL_SETTINGS_READ) != 'protected'))
+                        <h5><a class="" href="{{ route('accounting.settings.edit') }}"><i class="fa fa-cog"></i> Account Settings</a>
                         </h5>
+                        @endif
                         <small> System Information </small>
                         <code> {{ phpversion() }} </code>
 
