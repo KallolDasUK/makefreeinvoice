@@ -134,6 +134,6 @@
 
         });
     </script>
-    <script src="{{ asset('js/invoices.js') }}"></script>
-    <script src="{{ asset('js/invoice-crud.js') }}?v=1.1"></script>
+    <script src="{{ asset('js/invoices.js') }}?v=1.2"></script>
+    <script src="{{ asset('js/invoice-crud.js') }}?v=1.2"></script>
 @endsection

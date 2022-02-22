@@ -2,9 +2,7 @@
 
 @section('css')
     <style>
-        .barcode {
-            border: 1px dotted #ccc;
-        }
+
     </style>
 @endsection
 @section('content')
@@ -19,7 +17,23 @@
                     <thead>
                     <tr>
                         <th scope="col">Product</th>
-                        <th scope="col">Product Code</th>
+                        <th scope="col">
+                            Product Code
+                        </th>
+                        <th scope="col">
+                            <input type="checkbox" id="is_product_name" checked>
+                            Product Name
+                        </th>
+                        <th scope="col">
+                            <input type="checkbox" id="is_price" checked>
+
+                            Price
+                        </th>
+                        <th scope="col">
+                            <input type="checkbox" id="is_description" checked>
+
+                            Description
+                        </th>
                         <th scope="col">Quantity</th>
                     </tr>
                     </thead>
@@ -37,12 +51,30 @@
                         </td>
                         <td>
                             <div class="form-group">
-                                <input id="code" type="text" name="code" class="form-control w-50 h-25">
+                                <input id="code" type="text" name="code" class="form-control ">
                             </div>
                         </td>
                         <td>
                             <div class="form-group">
-                                <input id="qnt" type="number" name="qnt" class="form-control w-50 h-25" value="10">
+                                <input id="product_name" type="text" name="product_name" class="form-control "
+                                       value="">
+                            </div>
+                        </td>
+                        <td>
+                            <div class="form-group">
+                                <input id="price" type="text" name="price" class="form-control "
+                                       value="">
+                            </div>
+                        </td>
+                        <td>
+                            <div class="form-group">
+                                <input id="description" type="text" name="description" class="form-control "
+                                       value="">
+                            </div>
+                        </td>
+                        <td>
+                            <div class="form-group">
+                                <input id="qnt" type="number" name="qnt" class="form-control" value="10">
                             </div>
                         </td>
                     </tr>
@@ -79,7 +111,7 @@
         </div>
 
         <div class="printable  border mx-auto mt-4">
-            <div id="barcodeList" class="d-flex flex-wrap">
+            <div id="barcodeList" style="display: flex;flex-wrap: wrap">
 
             </div>
         </div>
@@ -94,7 +126,32 @@
         let barcode_width = "{{ $settings->barcode_width??244 }}"
 
         $(document).ready(function () {
+            $("#is_product_name").change(function () {
+                if (this.checked) {
+                    $('#product_name').prop('disabled', false)
+                } else {
+                    $('#product_name').prop('disabled', true)
+                }
+                $('#barcodeForm').submit()
 
+            });
+            $("#is_price").change(function () {
+                if (this.checked) {
+                    $('#price').prop('disabled', false)
+                } else {
+                    $('#price').prop('disabled', true)
+                }
+                $('#barcodeForm').submit()
+
+            });
+            $("#is_description").change(function () {
+                if (this.checked) {
+                    $('#description').prop('disabled', false)
+                } else {
+                    $('#description').prop('disabled', true)
+                }
+                $('#barcodeForm').submit()
+            });
 
             $('.barcode').css('width', barcode_width)
             $('#width').val(barcode_width)
@@ -105,6 +162,9 @@
                     url: route('products.product.show', $(this).val()), success: function (product) {
                         console.log(product);
                         $('#code').val(product.code)
+                        $('#product_name').val(product.name)
+                        $('#description').val(product.description)
+                        $('#price').val(product.sell_price)
                     }
                 });
             })
@@ -114,12 +174,16 @@
                     let qnt = $('#qnt').val();
                     $('#barcodeList').empty();
                     for (let i = 0; i <= qnt; i++) {
-                        $('#barcodeList').append('<svg class="barcode"/>')
+
+                        let product_name = $('#is_product_name').is(':checked') ? $('#product_name').val() : '';
+                        let price = $('#is_price').is(':checked') ? $('#price').val() : '';
+                        let description = $('#is_description').is(':checked') ? $('#description').val() : '';
+                        $('#barcodeList').append(`<span style="font: 18px monospace;margin-top: 5px;display: flex;flex-direction: column;color: black" class="barcode-container  text-center"><span><br> ${product_name}</span> <span>${price}</span><span>${description}</span><svg class="barcode"></svg></span>`)
                     }
                     JsBarcode(".barcode", $('#code').val());
                     calculateSize()
 
-                    $('.barcode').css('border', '1px dotted #ccc')
+                    $('.barcode-container').css('border', '1px dotted #ccc')
                     $.ajax({
                         url: route('products.product.updateBarcode', $('#product_id').val()),
                         type: form.method,
