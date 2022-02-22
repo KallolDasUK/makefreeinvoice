@@ -28,8 +28,8 @@ var posRactive = new Ractive({
         customers: customers,
         tab: TABS.PRODUCT_CONTAINER,
         pos_items: pos_items,
-        empty_boxes: Array.from({ length: 23 - products.length }, (x, i) => i),
-        bookmark_empty_boxes: Array.from({ length: 24 - bookmarks.length }, (x, i) => i),
+        empty_boxes: Array.from({length: 23 - products.length}, (x, i) => i),
+        bookmark_empty_boxes: Array.from({length: 24 - bookmarks.length}, (x, i) => i),
         sub_total: 0,
         total: 0,
         currency: currency,
@@ -64,17 +64,22 @@ var posRactive = new Ractive({
         },
         image_url: function (str) {
             if (str) {
-                return storageUrl + '/' + str;
+                if (str.includes('storage')) {
+                    return str;
+                } else {
+                    return storageUrl + '/' + str;
+
+                }
             }
             return '';
         }
     },
     observe: {
         'products': (newProducts) => {
-            posRactive.set('empty_boxes', Array.from({ length: 23 - newProducts.length }, (x, i) => i))
+            posRactive.set('empty_boxes', Array.from({length: 23 - newProducts.length}, (x, i) => i))
         },
         'bookmarks': (bookmarks) => {
-            posRactive.set('bookmark_empty_boxes', Array.from({ length: 24 - bookmarks.length }, (x, i) => i))
+            posRactive.set('bookmark_empty_boxes', Array.from({length: 24 - bookmarks.length}, (x, i) => i))
         },
         'pos_items': (newPosItems) => {
             let sub_total = newPosItems.reduce((s, item) => s + (item.qnt * item.price), 0);
@@ -227,7 +232,7 @@ var posRactive = new Ractive({
         if (change < 0) {
             nextAmount = Math.abs(change)
         }
-        posRactive.push('payments', { amount: nextAmount, ledger_id: cash_ledger_id });
+        posRactive.push('payments', {amount: nextAmount, ledger_id: cash_ledger_id});
         initPaymentMethod()
 
     }
@@ -272,7 +277,7 @@ var posRactive = new Ractive({
             success: function (response) {
                 // $('#blankModal').modal('show')
                 $('#content').html(response)
-                $('#printable').printThis({ canvas: true })
+                $('#printable').printThis({canvas: true})
                 $('#product_search').focus()
 
             }
@@ -345,7 +350,7 @@ if (is_edit) {
 function onReceiptPrint() {
     $('#blankModal').modal('hide')
 
-    $('#printable').printThis({ canvas: true })
+    $('#printable').printThis({canvas: true})
 }
 
 function initPaymentMethod() {
@@ -383,10 +388,10 @@ function setUpProductSearch() {
         var icon = product.image;
         if (!icon) {
             icon = no_image;
-        }else{
+        } else {
             icon = storageUrl + '/' + icon
         }
-        return { label: name, value: product.id, icon: icon };
+        return {label: name, value: product.id, icon: icon};
     });
     $("#product_search").autocomplete({
         source: product_names,
@@ -409,8 +414,8 @@ function setUpProductSearch() {
     if (!hide_image) {
         $("#product_search").data("ui-autocomplete")._renderItem = function (ul, item) {
             console.log(item)
-            return $('<li/>', { 'data-value': item.label }).append($('<a/>', { href: "#" })
-                .append($('<img/>', { src: item.icon, style: 'width:50px' })).append(item.label))
+            return $('<li/>', {'data-value': item.label}).append($('<a/>', {href: "#"})
+                .append($('<img/>', {src: item.icon, style: 'width:50px'})).append(item.label))
                 .appendTo(ul);
         };
     }
@@ -469,7 +474,7 @@ function addToCart(id) {
     $.ajax({
         url: route('ajax.productBatch'),
         type: 'post',
-        data: { product_id: id, _token: csrf },
+        data: {product_id: id, _token: csrf},
 
         success: function (response) {
 

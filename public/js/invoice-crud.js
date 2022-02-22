@@ -484,5 +484,15 @@ $('#from_advance').on('change', function () {
     $('#using_advance_amount').text($(this).val())
 })
 
+$.ajax({
+    url: route('products.product.index'),
+    processData: false,
+    contentType: false,
 
+    success: function (response) {
+        ractive.set('products', response)
+        products = response;
+
+    }
+});
 

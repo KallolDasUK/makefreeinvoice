@@ -39,7 +39,7 @@ class ProductsController extends Controller
     {
         if ($request->ajax()) {
 
-            return Product::query()->orderBy('name')->get();
+            return Product::query()->get();
         }
         view()->share('title', 'Product List');
         $q = $request->q;

@@ -423,6 +423,17 @@ $(document).ready(function () {
             $(element).removeClass('is-invalid');
         }
     });
+    $.ajax({
+        url: route('products.product.index'),
+        processData: false,
+        contentType: false,
+
+        success: function (response) {
+            posRactive.set('products', response)
+            products = response;
+
+        }
+    });
 
 
 })
@@ -478,7 +489,7 @@ $(document).ready(function () {
         if (e.key === 'Enter' || e.keyCode === 13) {
             posRactive.onOrderFilter();
         }
-        
+
     })
 
 })
