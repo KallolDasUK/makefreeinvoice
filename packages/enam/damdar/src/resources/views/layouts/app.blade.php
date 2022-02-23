@@ -4651,21 +4651,17 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title text-danger" id="notificationModalLabel"><i class="fa fa-bullhorn mr-4"
+                    <h5 class="modal-title text-warning" id="notificationModalLabel"><i class="fa fa-bullhorn mr-4"
                                                                                        aria-hidden="true"></i>Stock
                         Alert</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
+                    <button id="closeStockAlertButton" data-dismiss="modal" aria-label="Close" type="button"
+                            class="btn btn-danger">Close
                     </button>
                 </div>
                 <div class="modal-body" id="stockAlertModalContent">
 
                 </div>
-                <div class="modal-footer">
-                    <button id="closeStockAlertButton" data-dismiss="modal" aria-label="Close" type="button"
-                            class="btn btn-primary">Close
-                    </button>
-                </div>
+
             </div>
         </div>
     </div>
