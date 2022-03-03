@@ -770,8 +770,8 @@ trait TransactionTrait
             $record['customer'] = optional(optional($invoice_item->invoice)->customer)->name;
             $record['product'] = optional($invoice_item->product)->name;
             $record['qnt'] = floatval($invoice_item->qnt);
-            $record['amount'] = $invoice_item->amount;
-            $record['total'] = $invoice_item->qnt * $invoice_item->amount;
+            $record['amount'] = $invoice_item->price;
+            $record['total'] = $invoice_item->qnt * $invoice_item->price;
             $records[] = (object)$record;
         }
 
