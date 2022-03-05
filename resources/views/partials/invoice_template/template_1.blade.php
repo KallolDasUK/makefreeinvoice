@@ -50,7 +50,7 @@
                     <h3 class="mt-2"> {{ $settings->business_name ?? '' }}</h3>
                 @endif
             </div>
-            @if(!($settings->customer_id_feature ?? '0'))
+            @if(!($settings->customer_id_feature ?? false))
                 <div class="col text-sm-right "><strong> From:</strong>
                     <address>
                         <b>{{ $settings->business_name??'n/a' }}</b>
