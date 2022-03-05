@@ -1,4 +1,13 @@
 <div class="text-center">
+    @if($settings->business_logo??false)
+        <img
+            class="rounded"
+            src="{{ asset('storage/'.$settings->business_logo) }}"
+            width="100"
+            height="100"
+            alt="">
+        <br>
+    @endif
 
     <span style="font-size: 20px">{{ $settings->business_name??'n/a' }}</span>
     @if($settings->street_1??'')
