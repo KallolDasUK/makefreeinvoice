@@ -185,7 +185,10 @@
                         @endforeach
 
                         <tr>
-                            <td colspan="5" class="text-right"><strong>Total:</strong></td>
+                            <td colspan="4">In
+                                word: {{ \Illuminate\Support\Str::title((new NumberFormatter("en", NumberFormatter::SPELLOUT))->format($invoice->total)) }}</td>
+
+                            <td class="text-right"><strong>Total:</strong></td>
                             <td class="text-right">
                                 <strong>{{ $invoice->currency }}{{ decent_format($invoice->total) }}</strong>
                             </td>
