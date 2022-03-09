@@ -90,8 +90,20 @@ class BillsController extends Controller
         $cashAcId = optional(GroupMap::query()->firstWhere('key', LedgerHelper::$CASH_AC))->value;
         $depositAccounts = Ledger::find($this->getAssetLedgers())->sortBy('ledger_name');
         $paymentMethods = PaymentMethod::query()->get();
-        $vendors = Vendor::pluck('name', 'id')->all();
-        $products = Product::query()->latest()->get();
+
+        $vendors = \DB::table('vendors')
+            ->where('client_id', auth()->user()->client_id)
+            ->select('name', 'id', 'email', 'phone')
+            ->get()->toArray();
+
+        $products = \DB::table('products')
+            ->where('client_id', auth()->user()->client_id)
+            ->select('name', 'id','description', 'purchase_price', 'sell_price', 'sell_unit', 'purchase_unit', 'photo as image', 'code')
+            ->get();
+
+
+//        dd($vendors,$products);
+
         $categories = Category::query()->latest()->get();
         $taxes = Tax::query()->latest()->get()->toArray();
         $extraFields = optional(Bill::query()->latest()->first())->extra_fields ?? [];
@@ -200,7 +212,18 @@ class BillsController extends Controller
         $paymentMethods = PaymentMethod::query()->get();
         $bill = Bill::findOrFail($id);
         $this->authorize('update', $bill);
-        $vendors = Vendor::pluck('name', 'id')->all();
+
+        $vendors = \DB::table('vendors')
+            ->where('client_id', auth()->user()->client_id)
+            ->select('name', 'id', 'email', 'phone')
+            ->get()->toArray();
+
+        $products = \DB::table('products')
+            ->where('client_id', auth()->user()->client_id)
+            ->select('name', 'id','description', 'purchase_price', 'sell_price', 'sell_unit', 'purchase_unit', 'photo as image', 'code')
+            ->get();
+
+
         $taxes = Tax::query()->latest()->get()->toArray();
         $bill_items = BillItem::query()->where('bill_id', $bill->id)->get()->map(function ($item) {
             $item->stock = optional(Product::find($item->product_id))->stock ?? 0;
@@ -209,7 +232,6 @@ class BillsController extends Controller
         $categories = Category::query()->latest()->get();
         $billExtraField = BillExtraField::query()->where('bill_id', $bill->id)->get();
         $extraFields = ExtraField::query()->where('type', Bill::class)->where('type_id', $bill->id)->get();
-        $products = Product::query()->latest()->get();
 
         return view('bills.edit', compact('bill', 'vendors', 'taxes', 'bill_items', 'billExtraField', 'products', 'extraFields', 'categories', 'cashAcId', 'depositAccounts', 'paymentMethods'));
     }

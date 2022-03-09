@@ -41,11 +41,12 @@ class ContrasController extends Controller
     public function create()
     {
         $branches = Branch::pluck('name', 'id')->all();
-        $ledgers = Ledger::allWithCrDr();
+        $ledgers = Ledger::query()->select('ledger_name','id')->get()->toArray();
         $bank_ledger = $this->getBankLedgers();
         $txns = $this->getTxns();
         $voucher_no = $this->getVoucherID(VoucherType::$CONTRA);
         View::share('title', 'Create New Contra');
+//        dd($ledgers);
 
         return view('acc::contras.create', compact('branches', 'ledgers', 'voucher_no', 'bank_ledger', 'txns'));
     }
@@ -72,7 +73,7 @@ class ContrasController extends Controller
 
     public function edit($id)
     {
-        $ledgers = Ledger::allWithCrDr();
+        $ledgers = Ledger::query()->select('ledger_name','id')->get()->toArray();
         $bank_ledger = $this->getBankLedgers();
 
         View::share('title', 'Edit Contra');

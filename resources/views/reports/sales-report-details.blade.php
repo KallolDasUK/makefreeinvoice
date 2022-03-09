@@ -146,7 +146,8 @@
                                     <select id="product_id" name="product_id" class="form-control "
                                     >
                                         <option></option>
-                                        @foreach(\App\Models\Product::query()->select('id','name') as $product)
+                                        @php($products = \App\Models\Product::query()->select('id','name')->get())
+                                        @foreach($products as $product)
                                             <option value="{{ $product->id }}"
                                                     @if($product->id == $product_id) selected @endif>
                                                 {{ $product->name }}

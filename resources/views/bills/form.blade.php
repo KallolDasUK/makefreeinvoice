@@ -75,10 +75,10 @@
             <select class="vendor form-control select2" id="vendor_id" name="vendor_id" required>
                 <option value="" disabled
                         selected></option>
-                @foreach ($vendors as $key => $vendor)
+                @foreach ($vendors as  $vendor)
                     <option
-                        value="{{ $key }}" {{ old('vendor_id', optional($bill)->vendor_id) == $key ? 'selected' : '' }}>
-                        {{ $vendor }}
+                        value="{{ $vendor->id }}" {{ old('vendor_id', optional($bill)->vendor_id) == $vendor->id ? 'selected' : '' }}>
+                        {{ $vendor->name }} {{ $vendor->email }}
                     </option>
                 @endforeach
             </select>

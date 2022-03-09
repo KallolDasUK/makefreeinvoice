@@ -232,8 +232,8 @@
 @push('js')
     <script type="text/javascript">
         // alert('sdlfkj')
-        var ledgers = {!! json_encode($ledgers)!!}
-        var bankLedgerId = {!! json_encode($bank_ledger)!!}
+        var ledgers = {!! json_encode($ledgers)!!};
+        var bankLedgerId = {!! json_encode($bank_ledger)!!};
         console.log(bankLedgerId)
         var transactions = {!! json_encode($txns) !!};
         $(document).ready(function () {

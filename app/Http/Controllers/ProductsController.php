@@ -47,10 +47,27 @@ class ProductsController extends Controller
             ->when($q != null, function ($query) use ($q) {
                 return $query->where('name', 'like', '%' . $q . '%');
             })
+            ->orderBy('created_at','desc')
             ->paginate(10, ['id', 'name', 'sell_price', 'brand_id', 'category_id', 'purchase_price', 'product_type', 'photo', 'code']);
-        return view('products.index', compact('products', 'q'));
+        $product_ids = $products->pluck('id')->toArray();
+//        dd($product_ids);
+        return view('products.index', compact('products', 'q', 'product_ids'));
     }
 
+    public function productStock(Request $request)
+    {
+//        dd($request->product_ids,$request->all());
+        $products = Product::find($request->product_ids);
+
+
+        $products = $products->pluck('stock', 'id')->toArray();
+        $data = [];
+        foreach ($products as $product_id => $product_stock) {
+            $data[] = ['product_id' => $product_id, 'product_stock' => $product_stock];
+        }
+        return $data;
+
+    }
 
     public function create()
     {
