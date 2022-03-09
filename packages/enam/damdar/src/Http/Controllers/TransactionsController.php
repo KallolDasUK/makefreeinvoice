@@ -40,7 +40,7 @@ class   TransactionsController extends Controller
     public function create()
     {
         $branches = Branch::pluck('name', 'id')->all();
-        $ledgers = Ledger::allWithCrDr();
+        $ledgers = Ledger::query()->select('ledger_name','id')->get()->toArray();
         $bank_ledger = $this->getBankLedgers();
         $txns = $this->getTxns();
         $voucher_no = $this->getVoucherID(VoucherType::$RECEIVE);
@@ -71,7 +71,7 @@ class   TransactionsController extends Controller
 
     public function edit($id)
     {
-        $ledgers = Ledger::allWithCrDr();
+        $ledgers = Ledger::query()->select('ledger_name','id')->get()->toArray();
         $bank_ledger = $this->getBankLedgers();
         View::share('title', 'Edit Receive');
         $transaction = Transaction::findOrFail($id);

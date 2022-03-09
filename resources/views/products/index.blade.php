@@ -1,5 +1,47 @@
 @extends('acc::layouts.app')
 
+@section('css')
+    <style>
+
+        .lds-ripple {
+            display: inline-block;
+            position: relative;
+            width: 20px;
+            height: 20px;
+        }
+
+        .lds-ripple div {
+            position: absolute;
+            border: 2px solid #065a92;
+            opacity: 1;
+            border-radius: 50%;
+            animation: lds-ripple 1s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+        }
+
+        .lds-ripple div:nth-child(2) {
+            animation-delay: -0.5s;
+        }
+
+        @keyframes lds-ripple {
+            0% {
+                top: 36px;
+                left: 36px;
+                width: 0;
+                height: 0;
+                opacity: 1;
+            }
+            100% {
+                top: 0px;
+                left: 0px;
+                width: 72px;
+                height: 72px;
+                opacity: 0;
+            }
+        }
+
+    </style>
+
+@endsection
 @section('content')
 
     @if(Session::has('success_message'))
@@ -68,8 +110,10 @@
 
             <h5 class="my-1 float-left">
                 <form action="{{ route('products.product.index') }}" style="width: 200px;" class="row">
-                    <input name="q" type="text" class="form-control col rounded-none"  placeholder="Search.." style="border-radius: 0px;" value="{{ $q }} ">
-                    <button type="submit" class="btn btn-sm btn-primary" style="border-radius: 0px;"> <i class="fa fa-search"></i></button>
+                    <input name="q" type="text" class="form-control col rounded-none" placeholder="Search.."
+                           style="border-radius: 0px;" value="{{ $q }} ">
+                    <button type="submit" class="btn btn-sm btn-primary" style="border-radius: 0px;"><i
+                            class="fa fa-search"></i></button>
                 </form>
             </h5>
 
@@ -132,6 +176,7 @@
 
                             <th>Name</th>
                             <th>Code</th>
+                            <th>Stock Now</th>
                             <th>Category</th>
                             <th>Brand</th>
                             <th>Sell Price</th>
@@ -142,9 +187,9 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach($products as $product)
+                        @foreach($products as $i => $product)
                             <tr>
-                            <td>{{ (($products->currentPage() - 1) * $products->perPage()) + $loop->iteration }}</td>
+                                <td>{{ (($products->currentPage() - 1) * $products->perPage()) + $loop->iteration }}</td>
 
                                 <td>
                                     <img class="rounded" src="{{ asset('storage/'.$product->photo) }}" alt=""
@@ -153,6 +198,7 @@
                                 <td>{{ $product->product_type }}</td>
                                 <td><b>{{ $product->name }}</b></td>
                                 <td>{{ $product->code }}</td>
+                                <td class="text-center lds-ripple" id="stock_{{$product->id}}"> <div></div> <div></div></td>
                                 <td>{{ optional($product->category)->name }}</td>
                                 <td>{{ optional($product->brand)->name }}</td>
                                 <td>{{ $product->sell_price }}</td>
@@ -208,19 +254,28 @@
 
     <script>
         $(document).ready(function () {
+            var products = @json($product_ids);
+            // alert(product_ids)
+            $.ajax({
+                url: route('products.product.product_stock'),
+                data: {product_ids: products},
+                type: 'post',
+                success: function (response) {
+                    console.log(response);
+                    let product_stocks = response;
+                    for (let i = 0; i < product_stocks.length; i++) {
+                        let product_id = product_stocks[i].product_id;
+                        let product_stock = product_stocks[i].product_stock;
+                        $('#stock_' + product_id).text(product_stock);
+                        $('#stock_' + product_id).removeClass('lds-ripple');
+
+                    }
+
+                }
+            });
         });
     </script>
 
-    <style>
-        .dataTables_filter {
-            float: right;
-        }
-
-        i:hover {
-            color: #0248fa !important;
-        }
-
-    </style>
 
 
 @endsection

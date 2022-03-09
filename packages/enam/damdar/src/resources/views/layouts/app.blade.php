@@ -4872,6 +4872,11 @@
     Ractive.DEBUG = true;
     $.fn.select2.defaults.set("theme", "bootstrap");
     var csrf = $('meta[name=csrf-token]').attr('content');
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
     $(document).ready(function () {
 
         $('.nav-item').mouseenter(function () {

@@ -304,6 +304,7 @@ Route::group(['middleware' => 'auth:web', 'prefix' => 'app'], function () {
         Route::get('/barcode', [ProductsController::class, 'barcode'])->name('products.product.barcode');
         Route::get('/export', [ProductsController::class, 'export'])->name('products.product.export');
         Route::post('/import', [ProductsController::class, 'import'])->name('products.product.import');
+        Route::post('/stocks', [ProductsController::class, 'productStock'])->name('products.product.product_stock');
         Route::post('/', [ProductsController::class, 'store'])->name('products.product.store');
         Route::put('product/{product}', [ProductsController::class, 'update'])->name('products.product.update')->where('id', '[0-9]+');
         Route::post('product/{product}/updateBarcode', [ProductsController::class, 'updateBarcode'])->name('products.product.updateBarcode')->where('id', '[0-9]+');
