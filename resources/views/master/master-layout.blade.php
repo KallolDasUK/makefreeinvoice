@@ -91,13 +91,18 @@
                 </ul>
 
                 <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-                    <span> Reports</span>
+                    <span> Advance Ops</span>
                     <a class="d-flex align-items-center text-muted" href="#">
                         <span data-feather="plus-circle"></span>
                     </a>
                 </h6>
                 <ul id="log" class="nav flex-column mx-4">
-
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('clear_cache') }}">
+                            <span data-feather="users"></span>
+                            Clear Cache
+                        </a>
+                    </li>
                 </ul>
             </div>
         </nav>

@@ -29,6 +29,39 @@
 
         </div>
 
+
+        <table class="table table-bordered text-center font-weight-bold">
+            <tr>
+                <td>Invoice</td>
+                <td>{{ count($selected_user->invoices) }}</td>
+            </tr>
+            <tr>
+                <td>Bill</td>
+                <td>{{ count($selected_user->bills) }}</td>
+            </tr>
+            <tr>
+                <td>POS Sale</td>
+                <td>{{ count($selected_user->pos_sales) }}</td>
+            </tr>
+            <tr>
+                <td>Customer</td>
+                <td>{{ count($selected_user->customers) }}</td>
+            </tr>
+            <tr>
+                <td>Supplier</td>
+                <td>{{ count($selected_user->vendors) }}</td>
+            </tr>
+            <tr>
+                <td>Estimate</td>
+                <td>{{ count($selected_user->estimates) }}</td>
+            </tr>
+            <tr>
+                <td>Expense</td>
+                <td>{{ count($selected_user->expenses) }}</td>
+            </tr>
+        </table>
+
+
         <input type="hidden" name="client_id" value="{{ $selected_user->client_id }}">
         <input type="submit" id="user_settings_form_btn" hidden>
 
@@ -37,7 +70,8 @@
         <div class="col">
             <label for="">Disturbing Ads</label>
             <input type="hidden" name="ad_left_side" value="0">
-            <input type="checkbox" name="ad_left_side" @if($selected_user->settings->ad_left_side??false) checked @endif>
+            <input type="checkbox" name="ad_left_side"
+                   @if($selected_user->settings->ad_left_side??false) checked @endif>
         </div>
         <div class="col">
             <label for="">Google Ads</label>

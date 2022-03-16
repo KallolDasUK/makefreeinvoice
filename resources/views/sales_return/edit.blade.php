@@ -11,7 +11,6 @@
 
         <div class="card-header">
 
-            <h5 class="my-1 float-left">{{ !empty($title) ? $title : 'Sales Return' }}</h5>
 
             <div class="btn-group btn-group-sm float-right" role="group">
 

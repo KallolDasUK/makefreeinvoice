@@ -853,6 +853,19 @@ Route::get('/task', function () {
 
 Route::get('/app/pos_sales/receipt/{id}', [PosSalesController::class, 'pos_receipt_public'])->name('pos_sales.pos_sale.receipt');
 
+Route::get('/clear-cache', function () {
+
+    DB::transaction(function () {
+        foreach (User::all() as $user) {
+            $user->plan_type = strtolower($user->settings->plan_name);
+            $user->save();
+        }
+    });
+
+
+    return back();
+
+})->name('clear_cache');
 
 // php artisan resource-file:create UserNotification --fields=id,type,title,body,user_id,seen
 //  php artisan create:scaffold UserNotification  --layout-name="master.master-layout" --with-migration

@@ -84,7 +84,7 @@ class User extends Authenticatable
 {
     use HasFactory, Notifiable, Billable, HasRoles;
 
-    protected $appends = ['invoice_count'];
+    protected $appends = ['invoice_count', 'plan'];
     /**
      * The attributes that are mass assignable.
      *
@@ -192,11 +192,39 @@ class User extends Authenticatable
         $settings = json_decode(MetaSetting::query()->withoutGlobalScope('scopeClient')->where('client_id', $this->client_id)->pluck('value', 'key')->toJson());
         $plan = $settings->plan_name ?? null;
         if ($plan != null) {
-            if (Str::contains(strtolower($plan), 'basic')) $plan = 'basic';
-            elseif (Str::contains(strtolower($plan), 'premium')) $plan = 'premium';
-            elseif (Str::contains(strtolower($plan), 'trial')) $plan = 'premium';
-        } else $plan = 'trial';
-//        dump($plan);
+            if (Str::contains(strtolower($plan), 'basic')) {
+                $plan = 'basic';
+                $plan = strtolower($plan);
+                if ($this->plan_type != $plan) {
+                    $this->plan_type = $plan;
+                    $this->save();
+                }
+            } elseif (Str::contains(strtolower($plan), 'premium')) {
+                $plan = 'premium';
+                $plan = strtolower($plan);
+                if ($this->plan_type != $plan) {
+                    $this->plan_type = $plan;
+                    $this->save();
+                }
+            } elseif (Str::contains(strtolower($plan), 'trial')) {
+
+                $plan = 'premium';
+                $plan = strtolower($plan);
+                $this->plan_type = 'trial';
+                $this->save();
+
+            }
+        } else {
+            $plan = 'trial';
+            $plan = strtolower($plan);
+            if ($this->plan_type != $plan) {
+                $this->plan_type = $plan;
+                $this->save();
+            }
+        }
+        dump($plan);
+        $plan = strtolower($plan);
+
         return $plan;
     }
 
