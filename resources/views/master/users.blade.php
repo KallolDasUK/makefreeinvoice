@@ -111,7 +111,7 @@
             <div class="col">
                 <div class="card">
                     <div class="card-body">
-                        Joined  <span class="text-warning "><b>Yesterday</b></span>
+                        Joined <span class="text-warning "><b>Yesterday</b></span>
                         <h2 style="font-weight: bolder">{{ $joinedYesterday??0 }}  </h2>
                     </div>
                 </div>
@@ -157,12 +157,29 @@
                                 </select>
                             </div>
                         </div>
+
                         <div class="col">
+
+
                             <div class="form-group">
                                 <label for="">Sort Type</label>
                                 <select name="sort_type" id="sort_type" class="form-control" required>
-                                    <option value="asc" @if($sort_type == "asc") selected @endif>Ascending</option>
                                     <option value="desc" @if($sort_type == "desc") selected @endif>Descending</option>
+                                    <option value="asc" @if($sort_type == "asc") selected @endif>Ascending</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="">Plan Type</label>
+                                <select name="plan_type" id="plan_type" class="form-control" >
+                                    <option value="" disabled selected> Any Type</option>
+                                    <option value="trial" @if($plan_type == "trial") selected @endif>Trial</option>
+
+                                    <option value="premium" @if($plan_type == "premium") selected @endif>Premium
+                                    </option>
+                                    <option value="basic" @if($plan_type == "basic") selected @endif>Basic</option>
+                                    <option value="free" @if($plan_type == "free") selected @endif>Free</option>
                                 </select>
                             </div>
                         </div>
@@ -202,21 +219,23 @@
                 <th>On Plan</th>
                 <th>Joined</th>
                 <th>Last Active</th>
-                <th>Invoices</th>
-                <th>POS</th>
-                <th>Bills</th>
-                <th>Estimate</th>
-                <th>Expense</th>
-                <th>Customers</th>
-                <th>Vendors</th>
+                {{--                <th>Invoices</th>--}}
+                {{--                <th>POS</th>--}}
+                {{--                <th>Bills</th>--}}
+                {{--                <th>Estimate</th>--}}
+                {{--                <th>Expense</th>--}}
+                {{--                <th>Customers</th>--}}
+                {{--                <th>Vendors</th>--}}
                 <th>Actions</th>
             </tr>
             </thead>
             <tbody>
             @foreach($users as $user)
+
+                <?php $user->settings = \App\Models\User::find($user->id)->settings; ?>
                 <tr>
-                    <td> <a class="btn btn-sm btn-danger mx-2 my-2" onclick="return confirm('are you sure?')"
-                            href="{{ route('master.users.delete',$user->id) }}">Delete</a></td>
+                    <td><a class="btn btn-sm btn-danger mx-2 my-2" onclick="return confirm('are you sure?')"
+                           href="{{ route('master.users.delete',$user->id) }}">Delete</a></td>
                     <td>
                         <div class="row">
                             <div class="col-3">
@@ -248,13 +267,13 @@
                     @else
                         <td>-</td>
                     @endif
-                    <td>{{ count($user->invoices)==0?'-':count($user->invoices) }}</td>
-                    <td>{{ $user->pos_sales_count==0?'-': $user->pos_sales_count }}</td>
-                    <td>{{ count($user->bills)==0?'-':count($user->bills) }}</td>
-                    <td>{{ count($user->estimates)==0?'-':count($user->estimates) }}</td>
-                    <td>{{ count($user->expenses)==0?'-':count($user->expenses) }}</td>
-                    <td>{{ count($user->customers)==0?'-':count($user->customers) }}</td>
-                    <td>{{ count($user->vendors)==0?'-':count($user->vendors) }}</td>
+                    {{--                    <td>{{ count($user->invoices)==0?'-':count($user->invoices) }}</td>--}}
+                    {{--                    <td>{{ $user->pos_sales_count==0?'-': $user->pos_sales_count }}</td>--}}
+                    {{--                    <td>{{ count($user->bills)==0?'-':count($user->bills) }}</td>--}}
+                    {{--                    <td>{{ count($user->estimates)==0?'-':count($user->estimates) }}</td>--}}
+                    {{--                    <td>{{ count($user->expenses)==0?'-':count($user->expenses) }}</td>--}}
+                    {{--                    <td>{{ count($user->customers)==0?'-':count($user->customers) }}</td>--}}
+                    {{--                    <td>{{ count($user->vendors)==0?'-':count($user->vendors) }}</td>--}}
 
                     <td>
                         {{--                        <a onclick="window.open('{{ $user->login_url }}', '_blank', 'location=yes,height=570,width=520,scrollbars=yes,status=yes');" target="_blank" class="add" title="" data-toggle="tooltip"--}}
@@ -262,7 +281,7 @@
 
                         <button class="linkContainer btn btn-sm btn-info">
 
-                            <input type="text" value="{{ $user->login_url }}" style="width: 20px;display: none"
+                            <input type="text" value="{{ $user->login_url??'' }}" style="width: 20px;display: none"
                                    readonly>
                             Copy Login URL
                         </button>

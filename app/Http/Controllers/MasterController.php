@@ -43,8 +43,11 @@ class MasterController extends Controller
             MetaSetting::query()
                 ->withoutGlobalScope('scopeClient')
                 ->updateOrCreate(['key' => $key, 'client_id' => $request->client_id], ['value' => $value, 'client_id' => $request->client_id]);
-        }
 
+
+        }
+        User::query()->where('client_id', $request->client_id)->update(['plan_type' => strtolower($request->plan_name)]);
+//        dd($request->all());
         return back()->with('success_message', 'Settings was successfully updated.');
     }
 
@@ -52,15 +55,18 @@ class MasterController extends Controller
     {
         $filter_type = $request->filter_type;
         $sort_type = $request->sort_type;
+        $plan_type = $request->plan_type;
         $start_date = $request->start_date;
         $end_date = $request->end_date;
         $email = $request->email;
 
-
-        $users = User::query()
-            ->withCount(['invoices', 'pos_sales'])
+        $users = DB::table('users')
             ->where('role_id', null)
             ->where('id', '!=', auth()->id())
+            ->when($plan_type != null, function ($query) use ($plan_type) {
+//                dd($plan_type);
+                return $query->where('plan_type', $plan_type);
+            })
             ->when($email != null, function ($query) use ($email) {
                 return $query->where('email', $email);
             })
@@ -81,30 +87,37 @@ class MasterController extends Controller
                 }
                 return $query;
             })
-            ->when($sort_type == null && $email == null, function ($query) {
-                return $query->orderBy('invoices_count', $sort_type ?? 'desc');
-            })->paginate(25);
+            ->when(count($request->all()) == 0, function ($query) {
+                return $query->orderBy('last_active_at', 'desc');
 
+            })
+            ->paginate(10);
 
-        $totalClients = \DB::table('users')->where('client_id', '!=', null)->count();
-        $activeToday = \DB::table('users')
-            ->where('client_id', '!=', null)
-            ->whereDate('last_active_at', today()->toDateString())
-            ->count();
-        $activeYesterday = \DB::table('users')
-            ->where('client_id', '!=', null)
-            ->whereDate('last_active_at', today()->subDay()->toDateString())
-            ->count();
-        $joinedToday = \DB::table('users')
-            ->where('client_id', '!=', null)
-            ->whereDate('created_at', today()->toDateString())
-            ->count();
-        $joinedYesterday = \DB::table('users')
-            ->where('client_id', '!=', null)
-            ->whereDate('created_at', today()->subDay()->toDateString())
-            ->count();
+//        dd($users);
+        $totalClients =
+            \DB::table('users')->where('client_id', '!=', null)->count();
+        $activeToday =
+            \DB::table('users')
+                ->where('client_id', '!=', null)
+                ->whereDate('last_active_at', today()->toDateString())
+                ->count();
+        $activeYesterday = 0;
+//        \DB::table('users')
+//            ->where('client_id', '!=', null)
+//            ->whereDate('last_active_at', today()->subDay()->toDateString())
+//            ->count();
+        $joinedToday = 0;
+//        \DB::table('users')
+//            ->where('client_id', '!=', null)
+//            ->whereDate('created_at', today()->toDateString())
+//            ->count();
+        $joinedYesterday = 0;
+//        \DB::table('users')
+//            ->where('client_id', '!=', null)
+//            ->whereDate('created_at', today()->subDay()->toDateString())
+//            ->count();
         return view('master.users', compact('users', 'totalClients', 'activeToday', 'joinedToday', 'joinedYesterday'
-            , 'start_date', 'activeYesterday', 'end_date', 'filter_type', 'sort_type', 'email'));
+            , 'start_date', 'activeYesterday', 'end_date', 'filter_type', 'sort_type', 'email', 'plan_type'));
     }
 
     public function deleteUser($id)

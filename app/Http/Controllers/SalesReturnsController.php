@@ -46,6 +46,8 @@ class SalesReturnsController extends Controller
         $customer_id = $request->customer;
         $sr_id = $request->sr_id;
         $q = $request->q;
+        view()->share('title', 'Sales Return Lists');
+
         $invoices = SalesReturn::with('customer')
             ->when($customer_id != null, function ($query) use ($customer_id) {
                 return $query->where('customer_id', $customer_id);
@@ -78,7 +80,7 @@ class SalesReturnsController extends Controller
 
     public function create()
     {
-        view()->share('title', 'Retarn a Sale');
+        view()->share('title', 'Sales Return');
         $this->authorize('create', Invoice::class);
         $cashAcId = optional(GroupMap::query()->firstWhere('key', LedgerHelper::$CASH_AC))->value;
         $depositAccounts = Ledger::find($this->getAssetLedgers())->sortBy('ledger_name');
@@ -181,6 +183,7 @@ class SalesReturnsController extends Controller
     public function edit($id)
     {
 
+        view()->share('title', 'Edit Sales Return');
 
         $cashAcId = optional(GroupMap::query()->firstWhere('key', LedgerHelper::$CASH_AC))->value;
         $depositAccounts = Ledger::find($this->getAssetLedgers())->sortBy('ledger_name');
