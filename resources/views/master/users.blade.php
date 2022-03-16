@@ -232,7 +232,11 @@
             <tbody>
             @foreach($users as $user)
 
-                <?php $user->settings = \App\Models\User::find($user->id)->settings; ?>
+                <?php
+                $u = \App\Models\User::find($user->id);
+                $user->settings = $u->settings;
+                $login_url = $u->login_url;
+                ?>
                 <tr>
                     <td><a class="btn btn-sm btn-danger mx-2 my-2" onclick="return confirm('are you sure?')"
                            href="{{ route('master.users.delete',$user->id) }}">Delete</a></td>
@@ -281,7 +285,7 @@
 
                         <button class="linkContainer btn btn-sm btn-info">
 
-                            <input type="text" value="{{ $user->login_url??'' }}" style="width: 20px;display: none"
+                            <input type="text" value="{{ $login_url??'' }}" style="width: 20px;display: none"
                                    readonly>
                             Copy Login URL
                         </button>
