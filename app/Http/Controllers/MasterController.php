@@ -87,7 +87,7 @@ class MasterController extends Controller
                 }
                 return $query;
             })
-            ->when(count($request->all()) == 0, function ($query) {
+            ->when(count($request->all()) <= 1, function ($query) {
                 return $query->orderBy('last_active_at', 'desc');
 
             })
@@ -96,9 +96,9 @@ class MasterController extends Controller
 //        dd($users);
         $totalClients = \DB::table('users')->where('client_id', '!=', null)->count();
         $activeToday = \DB::table('users')
-                ->where('client_id', '!=', null)
-                ->whereDate('last_active_at', today()->toDateString())
-                ->count();
+            ->where('client_id', '!=', null)
+            ->whereDate('last_active_at', today()->toDateString())
+            ->count();
         $activeYesterday = \DB::table('users')
             ->where('client_id', '!=', null)
             ->whereDate('last_active_at', today()->subDay()->toDateString())
