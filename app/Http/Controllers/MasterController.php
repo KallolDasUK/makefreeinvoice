@@ -94,28 +94,23 @@ class MasterController extends Controller
             ->paginate(10);
 
 //        dd($users);
-        $totalClients =
-            \DB::table('users')->where('client_id', '!=', null)->count();
-        $activeToday =
-            \DB::table('users')
+        $totalClients = \DB::table('users')->where('client_id', '!=', null)->count();
+        $activeToday = \DB::table('users')
                 ->where('client_id', '!=', null)
                 ->whereDate('last_active_at', today()->toDateString())
                 ->count();
-        $activeYesterday = 0;
-//        \DB::table('users')
-//            ->where('client_id', '!=', null)
-//            ->whereDate('last_active_at', today()->subDay()->toDateString())
-//            ->count();
-        $joinedToday = 0;
-//        \DB::table('users')
-//            ->where('client_id', '!=', null)
-//            ->whereDate('created_at', today()->toDateString())
-//            ->count();
-        $joinedYesterday = 0;
-//        \DB::table('users')
-//            ->where('client_id', '!=', null)
-//            ->whereDate('created_at', today()->subDay()->toDateString())
-//            ->count();
+        $activeYesterday = \DB::table('users')
+            ->where('client_id', '!=', null)
+            ->whereDate('last_active_at', today()->subDay()->toDateString())
+            ->count();
+        $joinedToday = \DB::table('users')
+            ->where('client_id', '!=', null)
+            ->whereDate('created_at', today()->toDateString())
+            ->count();
+        $joinedYesterday = \DB::table('users')
+            ->where('client_id', '!=', null)
+            ->whereDate('created_at', today()->subDay()->toDateString())
+            ->count();
         return view('master.users', compact('users', 'totalClients', 'activeToday', 'joinedToday', 'joinedYesterday'
             , 'start_date', 'activeYesterday', 'end_date', 'filter_type', 'sort_type', 'email', 'plan_type'));
     }
