@@ -142,7 +142,6 @@ Route::group(['middleware' => 'auth:web', 'prefix' => 'app'], function () {
         Route::get('/show/{vendor}', [VendorsController::class, 'show'])->name('vendors.vendor.show')->where('id', '[0-9]+');
         Route::get('/{vendor}/edit', [VendorsController::class, 'edit'])->name('vendors.vendor.edit')->where('id', '[0-9]+');
         Route::get('/{vendor}/advance-info', [VendorsController::class, 'advanceInfo'])->name('vendors.vendor.advance_info')->where('id', '[0-9]+');
-
         Route::post('/', [VendorsController::class, 'store'])->name('vendors.vendor.store');
         Route::put('vendor/{vendor}', [VendorsController::class, 'update'])->name('vendors.vendor.update')->where('id', '[0-9]+');
         Route::delete('/vendor/{vendor}', [VendorsController::class, 'destroy'])->name('vendors.vendor.destroy')->where('id', '[0-9]+');

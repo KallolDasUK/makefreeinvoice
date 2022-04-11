@@ -47,7 +47,7 @@ class ProductsController extends Controller
             ->when($q != null, function ($query) use ($q) {
                 return $query->where('name', 'like', '%' . $q . '%');
             })
-            ->orderBy('created_at','desc')
+            ->orderBy('created_at', 'desc')
             ->paginate(10, ['id', 'name', 'sell_price', 'brand_id', 'category_id', 'purchase_price', 'product_type', 'photo', 'code']);
         $product_ids = $products->pluck('id')->toArray();
 //        dd($product_ids);
@@ -177,7 +177,7 @@ class ProductsController extends Controller
         } catch (\Exception $exception) {
             //            dd($exception);
             return redirect()->route('products.product.index')
-                ->with('error_message', "Invalid file format. Please select xls or xlsx or csv file.");
+                ->with('error_message', "Invalid file format. Please select xls or xlsx or csv file." . $exception->getMessage());
         }
         return redirect()->route('products.product.index')
             ->with('success_message', 'Products was imported. All good.');
