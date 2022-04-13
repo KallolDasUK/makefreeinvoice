@@ -41,7 +41,7 @@ class ProductsImport extends ProductsController implements ToCollection
                 'code' => $row[12],
             ]);
             if ($product->opening_stock) {
-                $this->storeOpeningStock($product, $product->opening_stock_price, EntryType::$DR);
+              //  $this->storeOpeningStock($product, $product->opening_stock_price, EntryType::$DR);
             }
         }
     }
