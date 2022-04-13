@@ -4597,9 +4597,11 @@
                         <h5><a class="" href="{{ route('accounting.settings.edit') }}"><i class="fa fa-cog"></i> Account Settings</a>
                         </h5>
                         @endif
-                        <small> System Information </small>
-                        <code> {{ phpversion() }} </code>
 
+                        @if($remainingDay > 0)
+                        <small> Software license expires in </small>
+                        <code> {{ $remainingDay }} days</code>
+                        @endif
                     </div>
                 </div>
 

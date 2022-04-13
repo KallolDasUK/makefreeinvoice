@@ -6,6 +6,7 @@ use App\Models\Bill;
 use App\Models\BillPayment;
 use App\Models\BillPaymentItem;
 use App\Models\ContactInvoice;
+use App\Models\CollectPayment;
 use App\Models\ContactInvoicePaymentItem;
 use App\Models\Customer;
 use App\Models\Estimate;
@@ -98,19 +99,33 @@ class AppServiceProvider extends ServiceProvider
         view()->composer('*', function ($view) use ($country) {
             $is_desktop = true;
             if (optional(auth()->user())->client_id) {
+
+                $payment_history = CollectPayment::query()->where('user_id', auth()->user()->id)->latest('date')->get();
+
+                $remainingDay = 0;
+
+                if(count($payment_history)){
+                    $today = today();
+                    $paymentDate = \Carbon\Carbon::parse($payment_history[0]->date);
+                    
+                    $futurePayDate = $paymentDate->addDays(365);
+                    $remainingDay = $futurePayDate->diffInDays($today);
+                   
+                }
+
                 $settings = json_decode(MetaSetting::query()->pluck('value', 'key')->toJson());
-//                dd(settings());
+               
                 $agent = new Agent();
                 $is_desktop = $agent->isDesktop();
-//                dd($is_desktop);
+              
                 if ($settings->timezone ?? false) {
                     config(['app.timezone' => $settings->timezone]);
                     date_default_timezone_set($settings->timezone);
                 }
-                $view->with('settings', $settings);
+                $view->with('settings', $settings); $view->with('remainingDay', $remainingDay);
             }
 
-//            dd(auth()->user()->user_unseen_notifications);
+
             $view->with('is_desktop', $is_desktop);
             $view->with('country', $country);
             $view->with('user', auth()->user());

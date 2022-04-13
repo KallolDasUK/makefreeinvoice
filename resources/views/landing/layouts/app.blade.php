@@ -12,8 +12,8 @@
 {!! JsonLd::generate() !!}
 {!! JsonLdMulti::generate() !!}
 <!-- Bootstrap -->
-    {{--    <link href="https://shreethemes.in/landrick/layouts/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>--}}
-    <link href="https://shreethemes.in/landrick/landing/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+    {{--    <link href="https://shreethemes.in/landrick/layouts/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>--}}
+    <link href="https://shreethemes.in/landrick/landing/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
 
     @php($hide_messenger=$hide_messenger??false)
 <!-- Icons -->
@@ -21,15 +21,15 @@
           type="text/css"/>
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v3.0.6/css/line.css">
     <!-- Slider -->
-    <link rel="stylesheet" href="https://shreethemes.in/landrick/landing/css/tiny-slider.css"/>
+    <link rel="stylesheet" href="https://shreethemes.in/landrick/landing/assets/css/tiny-slider.css"/>
     <!-- Date picker -->
-    <link rel="stylesheet" href="https://shreethemes.in/landrick/landing/css/datepicker.min.css">
+    <link rel="stylesheet" href="https://shreethemes.in/landrick/landing/assets/css/datepicker.min.css">
     <!-- Main Css -->
 
-    <link href="https://shreethemes.in/landrick/landing/css/style.min.css" rel="stylesheet" type="text/css"
+    <link href="https://shreethemes.in/landrick/landing/assets/css/style.min.css" rel="stylesheet" type="text/css"
           id="theme-opt"/>
-    <link href="https://shreethemes.in/landrick/landing/css/colors/default.css" rel="stylesheet" id="color-opt">
-    <link href="https://shreethemes.in/landrick/landing/css/materialdesignicons.min.css" rel="stylesheet"
+    <link href="https://shreethemes.in/landrick/landing/assets/css/colors/default.css" rel="stylesheet" id="color-opt">
+    <link href="https://shreethemes.in/landrick/landing/assets/css/materialdesignicons.min.css" rel="stylesheet"
           id="color-opt">
     <script src="https://use.fontawesome.com/715fc6bd34.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
@@ -188,19 +188,19 @@
 
 
 <!-- javascript -->
-<script src="https://shreethemes.in/landrick/landing/js/bootstrap.bundle.min.js"></script>
+<script src="https://shreethemes.in/landrick/landing/assets/js/bootstrap.bundle.min.js"></script>
 <!-- SLIDER -->
-<script src="https://shreethemes.in/landrick/landing/js/tiny-slider.js "></script>
+<script src="https://shreethemes.in/landrick/landing/assets/js/tiny-slider.js "></script>
 <!-- Datepicker -->
-<script src="https://shreethemes.in/landrick/landing/js/datepicker.min.js"></script>
+<script src="https://shreethemes.in/landrick/landing/assets/js/datepicker.min.js"></script>
 <!-- Icons -->
-<script src="https://shreethemes.in/landrick/landing/js/feather.min.js"></script>
+<script src="https://shreethemes.in/landrick/landing/assets/js/feather.min.js"></script>
 <!-- Switcher -->
-<script src="https://shreethemes.in/landrick/landing/js/switcher.js"></script>
+<script src="https://shreethemes.in/landrick/landing/assets/js/switcher.js"></script>
 <!-- Main Js -->
-<script src="https://shreethemes.in/landrick/landing/js/plugins.init.js"></script>
+<script src="https://shreethemes.in/landrick/landing/assets/js/plugins.init.js"></script>
 <!--Note: All init js like tiny slider, counter, countdown, maintenance, lightbox, gallery, swiper slider, aos animation etc.-->
-<script src="https://shreethemes.in/landrick/landing/js/app.js"></script>
+<script src="https://shreethemes.in/landrick/landing/assets/js/app.js"></script>
 @yield('js')
 <!-- Global Settings -->
 <script>
