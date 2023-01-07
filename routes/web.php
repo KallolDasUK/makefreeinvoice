@@ -82,6 +82,8 @@ use App\Http\Controllers\BannerAdsController;
 |
 */
 
+
+
 Route::get('/', function (Request $request) {
 
 
