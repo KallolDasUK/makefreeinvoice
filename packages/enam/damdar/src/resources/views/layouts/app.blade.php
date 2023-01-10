@@ -925,7 +925,7 @@
                     </div>
 
                     <div class="text-center">WhatsApp at <h2>
-                            <a href="tel:+44 7498 374749"><i class="fa fa-phone"></i>+44 7498 374749</a>
+                            <a href="tel:+44 0751 1436352"><i class="fa fa-phone"></i>+44 0751 1436352</a>
                         </h2>
                     </div>
 
