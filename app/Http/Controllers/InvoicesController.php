@@ -102,19 +102,10 @@ class InvoicesController extends Controller
             ->select('name', 'id', 'email', 'phone')
             ->get()->toArray();
 
-        $products = Product::query()->with([
-            'category',
-            'brand',
-            'invoice_items',
-            'bill_items',
-            'pos_items',
-            'sales_return_items',
-            'purchase_return_items',
-            'inventory_adjustment_items',
-            'ingredient_items',
-            'production_items',
-            'stock_entry_items',
-        ])->get();
+        $products = \DB::table('products')
+            ->where('client_id', auth()->user()->client_id)
+            ->select('name', 'id', 'description', 'purchase_price', 'sell_price', 'sell_unit', 'purchase_unit', 'photo as image', 'code')
+            ->get();
 
         $categories = Category::all();
         $taxes = Tax::query()->latest()->get()->toArray();
