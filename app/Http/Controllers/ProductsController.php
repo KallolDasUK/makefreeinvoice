@@ -38,7 +38,6 @@ class ProductsController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-
             return Product::query()->get();
         }
         view()->share('title', 'Product List');
