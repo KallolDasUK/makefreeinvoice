@@ -78,6 +78,51 @@ class Product extends Model
         return $this->belongsTo(Brand::class, 'brand_id');
     }
 
+    public function invoice_items()
+    {
+        return $this->hasMany(InvoiceItem::class, 'product_id');
+    }
+
+    public function bill_items()
+    {
+        return $this->hasMany(BillItem::class, 'product_id');
+    }
+
+    public function pos_Items()
+    {
+        return $this->hasMany(PosItem::class, 'product_id');
+    }
+
+    public function purchase_return_items()
+    {
+        return $this->hasMany(PurchaseReturnItem::class, 'product_id');
+    }
+
+    public function sales_return_items()
+    {
+        return $this->hasMany(SalesReturnItem::class, 'product_id');
+    }
+
+    public function inventory_adjustment_items()
+    {
+        return $this->hasMany(InventoryAdjustmentItem::class, 'product_id');
+    }
+
+    public function ingredient_items()
+    {
+        return $this->hasMany(IngredientItem::class, 'product_id');
+    }
+
+    public function production_items()
+    {
+        return $this->hasMany(ProductionItem::class, 'product_id');
+    }
+
+    public function stock_entry_items()
+    {
+        return $this->hasMany(StockEntryItem::class, 'product_id');
+    }
+
     protected static function boot()
     {
         parent::boot();
@@ -186,52 +231,46 @@ class Product extends Model
     public function currentStock($product, $start_date)
     {
         $enteredOpening = $product->opening_stock ?? 0;
-        $sold = InvoiceItem::query()
-            ->where('product_id', $product->id)
-            ->whereDate('date', '<=', $start_date)
+        $sold = $this->invoice_items
+            ->where('date', '<=', $start_date)
             ->sum('qnt');
 
-        $sold += PosItem::query()
-            ->where('product_id', $product->id)
-            ->whereDate('date', '<=', $start_date)
+
+        $sold += $this->pos_Items
+            ->where('date', '<=', $start_date)
             ->sum('qnt');
 
-        $purchase = BillItem::query()
-            ->where('product_id', $product->id)
+        $purchase = $this->bill_items
             ->where('date', '<=', $start_date)
             ->sum('qnt');
-        $purchase_return = PurchaseReturnItem::query()
-            ->where('product_id', $product->id)
+
+        $purchase_return = $this->purchase_return_items
             ->where('date', '<=', $start_date)
             ->sum('qnt');
-        $sales_return = SalesReturnItem::query()
-            ->where('product_id', $product->id)
+        $sales_return = $this->sales_return_items
             ->where('date', '<=', $start_date)
             ->sum('qnt');
-        $added = InventoryAdjustmentItem::query()
-            ->where('product_id', $product->id)
+        $added = $this->inventory_adjustment_items
             ->where('date', '<=', $start_date)
             ->sum('add_qnt');
 
-        $removed = InventoryAdjustmentItem::query()
-            ->where('product_id', $product->id)
+        $removed = $this->inventory_adjustment_items
             ->where('date', '<=', $start_date)
             ->sum('sub_qnt');
 
-        $used_in_production = IngredientItem::query()
+        $used_in_production = $this->ingredient_items
+            ->where('date', '<=', $start_date)
+            ->sum('qnt');
+
+        $produced_in_production = $this->production_items
+            ->where('date', '<=', $start_date)
+            ->sum('qnt');
+        $stock_entry = $this->stock_entry_items
             ->where('product_id', $product->id)
             ->where('date', '<=', $start_date)
             ->sum('qnt');
 
-        $produced_in_production = ProductionItem::query()
-            ->where('product_id', $product->id)
-            ->where('date', '<=', $start_date)
-            ->sum('qnt');
-        $stock_entry = StockEntryItem::query()
-            ->where('product_id', $product->id)
-            ->where('date', '<=', $start_date)
-            ->sum('qnt');
-        $stock = ($enteredOpening + $purchase + $added + $sales_return + $produced_in_production+$stock_entry) - ($sold + $removed + $purchase_return + $used_in_production);
+        $stock = ($enteredOpening + $purchase + $added + $sales_return + $produced_in_production + $stock_entry) - ($sold + $removed + $purchase_return + $used_in_production);
         return $stock;
     }
 

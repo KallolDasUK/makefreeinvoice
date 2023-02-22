@@ -42,7 +42,7 @@ class ProductsController extends Controller
         }
         view()->share('title', 'Product List');
         $q = $request->q;
-        $products = Product::with(['category', 'brand'])
+        $products = Product::with(['category', 'brand', 'invoice_items'])
             ->when($q != null, function ($query) use ($q) {
                 return $query->where('name', 'like', '%' . $q . '%');
             })
@@ -56,7 +56,19 @@ class ProductsController extends Controller
     public function productStock(Request $request)
     {
 //        dd($request->product_ids,$request->all());
-        $products = Product::find($request->product_ids);
+        $products = Product::query()->with([
+            'category',
+            'brand',
+            'invoice_items',
+            'bill_items',
+            'pos_items',
+            'sales_return_items',
+            'purchase_return_items',
+            'inventory_adjustment_items',
+            'ingredient_items',
+            'production_items',
+            'stock_entry_items',
+        ])->find($request->product_ids);
 
 
         $products = $products->pluck('stock', 'id')->toArray();
