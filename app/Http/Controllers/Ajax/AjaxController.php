@@ -208,11 +208,13 @@ class AjaxController extends Controller
     {
         $start_date = $request->start_date;
         $end_date = $request->end_date;
-        return ['overdue' => decent_format_dash_if_zero(Invoice::overdue($start_date, $end_date)),
-            'draft' => decent_format_dash_if_zero(Invoice::draft($start_date, $end_date)),
-            'paid' => decent_format_dash_if_zero(Invoice::paid($start_date, $end_date)),
-            'due' => decent_format_dash_if_zero(Invoice::due($start_date, $end_date)),
-            'total' => decent_format_dash_if_zero(Invoice::total($start_date, $end_date))];
+
+        $summary = Invoice::summary($start_date, $end_date);
+        return ['overdue' => decent_format_dash_if_zero($summary->overdue),
+            'draft' => decent_format_dash_if_zero($summary->draft),
+            'paid' => decent_format_dash_if_zero($summary->paid),
+            'due' => decent_format_dash_if_zero($summary->due),
+            'total' => decent_format_dash_if_zero($summary->total)];
 
     }
 

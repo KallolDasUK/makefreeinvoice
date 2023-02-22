@@ -148,11 +148,16 @@ class Invoice extends Model
         return $this->hasMany(ReceivePaymentItem::class, 'invoice_id');
     }
 
+    public function sales_return()
+    {
+        return $this->hasMany(SalesReturn::class, 'invoice_number', 'invoice_number');
+    }
+
     public function getDueAttribute()
     {
         $due = 0;
         $payment = $this->payment;
-        $sales_return = SalesReturn::query()->where('invoice_number', $this->invoice_number)->sum('total');
+        $sales_return = $this->sales_return->sum('total');
         $due = $this->total - $payment - $sales_return;
 
         return number_format((float)$due, 2, '.', '');
@@ -262,10 +267,49 @@ class Invoice extends Model
         return $discount;
     }
 
+
+    public static function summary($start_date, $end_date)
+    {
+        $overdue = 0;
+        $draft = 0;
+        $paid = 0;
+        $due = 0;
+        $total = 0;
+
+        Invoice::query()
+            ->with(['payments', 'sales_return'])
+            ->when($start_date != null, function ($query) use ($start_date, $end_date) {
+                return $query->whereBetween('invoice_date', [$start_date, $end_date]);
+            })
+            ->get()
+            ->map(function ($invoice) use (&$overdue, &$draft, &$paid, &$due, &$total) {
+                if ($invoice->due_date <= today()->toDateString() && $invoice->due > 0) {
+                    $overdue += $invoice->due;
+                }
+                if ($invoice->invoice_status == 'draft' && $invoice->due > 0) {
+                    $draft += $invoice->due;
+                }
+                $paid += $invoice->payment;
+                $due += $invoice->due;
+                $total += $invoice->total;
+
+
+            });
+
+        return (object)[
+            'overdue' => $overdue,
+            'draft' => $draft,
+            'paid' => $paid,
+            'due' => $due,
+            'total' => $total,
+        ];
+    }
+
     public static function overdue($start_date, $end_date)
     {
         $overdue = 0;
         Invoice::query()
+            ->with(['payments'])
             ->when($start_date != null, function ($query) use ($start_date, $end_date) {
                 return $query->whereBetween('invoice_date', [$start_date, $end_date]);
             })
@@ -284,9 +328,12 @@ class Invoice extends Model
     {
         $draft = 0;
         Invoice::query()
+            ->with(['payments'])
             ->when($start_date != null, function ($query) use ($start_date, $end_date) {
                 return $query->whereBetween('invoice_date', [$start_date, $end_date]);
-            })->where('invoice_status', 'draft')->get()->map(function ($invoice) use (&$draft) {
+            })->where('invoice_status', 'draft')
+            ->get()
+            ->map(function ($invoice) use (&$draft) {
                 if ($invoice->due > 0) $draft += $invoice->due;
             });
         return $draft;
@@ -297,6 +344,7 @@ class Invoice extends Model
     {
         $amount = 0;
         Invoice::query()
+            ->with(['payments'])
             ->when($start_date != null, function ($query) use ($start_date, $end_date) {
                 return $query->whereBetween('invoice_date', [$start_date, $end_date]);
             })->get()->map(function ($invoice) use (&$amount) {
@@ -309,6 +357,7 @@ class Invoice extends Model
     {
         $amount = 0;
         Invoice::query()
+            ->with(['payments'])
             ->when($start_date != null, function ($query) use ($start_date, $end_date) {
                 return $query->whereBetween('invoice_date', [$start_date, $end_date]);
             })->get()->map(function ($invoice) use (&$amount) {
@@ -321,6 +370,7 @@ class Invoice extends Model
     {
         $amount = 0;
         Invoice::query()
+            ->with(['payments'])
             ->when($start_date != null, function ($query) use ($start_date, $end_date) {
                 return $query->whereBetween('invoice_date', [$start_date, $end_date]);
             })->get()->map(function ($invoice) use (&$amount) {
