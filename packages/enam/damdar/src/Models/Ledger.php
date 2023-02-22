@@ -2,6 +2,8 @@
 
 namespace Enam\Acc\Models;
 
+use App\Models\ExtraField;
+use App\Models\Invoice;
 use Enam\Acc\Traits\TransactionTrait;
 use Enam\Acc\Utils\EntryType;
 use Enam\Acc\Utils\LedgerHelper;
@@ -242,9 +244,22 @@ class Ledger extends Model
         });
     }
 
+
+    public static function getExtraFields()
+    {
+
+    }
+
+
+    private static $cash_ac;
+
     public static function CASH_AC()
     {
-        return GroupMap::query()->where('key', LedgerHelper::$CASH_AC)->first()->value ?? null;
+        if (!isset(self::$cash_ac)) {
+            self::$cash_ac = GroupMap::query()->where('key', LedgerHelper::$CASH_AC)->first()->value ?? null;
+        }
+
+        return self::$cash_ac;
     }
 
 

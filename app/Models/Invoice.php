@@ -132,13 +132,24 @@ class Invoice extends Model
 
     public function getExtraFieldsAttribute()
     {
-        return ExtraField::query()->where('type', Invoice::class)->where('type_id', $this->id)->get();
+        return self::getExtraFields($this->id);
+    }
+
+    private static $ef;
+
+    public static function getExtraFields($id)
+    {
+        if (!isset(self::$ef)) {
+            self::$ef = ExtraField::query()->where('type', Invoice::class)->where('type_id', $id)->get();
+        }
+
+        return self::$ef;
     }
 
     public function getSalesReturnAmountAttribute()
     {
 
-        $sales_return = SalesReturn::query()->where('invoice_number', $this->invoice_number)->sum('total');
+        $sales_return = $this->sales_return->sum('total');
         return $sales_return == 0 ? '' : $sales_return;
     }
 

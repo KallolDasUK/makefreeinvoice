@@ -30,6 +30,7 @@ use App\Observers\PosPaymentObserver;
 use App\Observers\PosSaleItemObserver;
 use App\Observers\PosSaleObserver;
 use App\Observers\ReceivePaymentItemObserver;
+use App\Policies\BasePolicy;
 use App\Policies\CustomerPolicy;
 use App\Policies\ProductPolicy;
 use App\Policies\ReportPolicy;
@@ -99,30 +100,35 @@ class AppServiceProvider extends ServiceProvider
         view()->composer('*', function ($view) use ($country) {
             $is_desktop = true;
             if (optional(auth()->user())->client_id) {
+                $payment_history = session('payment_history');
+                $settings = BasePolicy::getSettings();
+                if (!$payment_history) {
+                    $payment_history = CollectPayment::query()->where('user_id', auth()->user()->id)->latest('date')->get();
+                    session()->put('payment_history', $payment_history);
+                }
 
-                $payment_history = CollectPayment::query()->where('user_id', auth()->user()->id)->latest('date')->get();
 
                 $remainingDay = 0;
 
-                if(count($payment_history)){
+                if (count($payment_history)) {
                     $today = today();
                     $paymentDate = \Carbon\Carbon::parse($payment_history[0]->date);
-                    
+
                     $futurePayDate = $paymentDate->addDays(365);
                     $remainingDay = $futurePayDate->diffInDays($today);
-                   
+
                 }
 
-                $settings = json_decode(MetaSetting::query()->pluck('value', 'key')->toJson());
-               
+
                 $agent = new Agent();
                 $is_desktop = $agent->isDesktop();
-              
+
                 if ($settings->timezone ?? false) {
                     config(['app.timezone' => $settings->timezone]);
                     date_default_timezone_set($settings->timezone);
                 }
-                $view->with('settings', $settings); $view->with('remainingDay', $remainingDay);
+                $view->with('settings', $settings);
+                $view->with('remainingDay', $remainingDay);
             }
 
 
