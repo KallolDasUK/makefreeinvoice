@@ -56,7 +56,7 @@ class InvoicesController extends Controller
         $payment_status = $request->payment_status;
 
         $q = $request->q;
-        $invoices = Invoice::with('customer')
+        $invoices = Invoice::with(['customer', 'sr', 'payments'])
             ->when($customer_id != null, function ($query) use ($customer_id) {
                 return $query->where('customer_id', $customer_id);
             })->when($user_id != null, function ($query) use ($user_id) {
@@ -78,8 +78,11 @@ class InvoicesController extends Controller
         $cashAcId = optional(GroupMap::query()->firstWhere('key', LedgerHelper::$CASH_AC))->value;
         $depositAccounts = Ledger::find($this->getAssetLedgers())->sortBy('ledger_name');
         $paymentMethods = PaymentMethod::query()->get();
+
         $customers = Customer::all();
         $ledgerGroups = LedgerGroup::all();
+
+
         view()->share('title', 'All Invoices');
 
         return view('invoices.index', compact('invoices', 'q', 'cashAcId', 'depositAccounts', 'paymentMethods',
@@ -101,7 +104,7 @@ class InvoicesController extends Controller
 
         $products = \DB::table('products')
             ->where('client_id', auth()->user()->client_id)
-            ->select('name', 'id','description', 'purchase_price', 'sell_price', 'sell_unit', 'purchase_unit', 'photo as image', 'code')
+            ->select('name', 'id', 'description', 'purchase_price', 'sell_price', 'sell_unit', 'purchase_unit', 'photo as image', 'code')
             ->get();
 
         $categories = Category::all();

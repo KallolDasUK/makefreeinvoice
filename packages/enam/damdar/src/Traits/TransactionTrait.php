@@ -31,6 +31,29 @@ trait TransactionTrait
 {
     public $arr = [];
 
+    private static $instance_ledger_group;
+
+    public static function getLedgerGroup()
+    {
+        if (!isset(self::$instance_ledger_group)) {
+            self::$instance_ledger_group = LedgerGroup::query()->get();
+        }
+
+        return self::$instance_ledger_group;
+    }
+
+    private static $instance_ledger;
+
+    public static function getLedger()
+    {
+        if (!isset(self::$instance_ledger)) {
+            self::$instance_ledger = Ledger::query()->get();
+        }
+
+        return self::$instance_ledger;
+    }
+
+
     protected function storeOpeningBalance(Ledger $ledger, $amount, $entry_type)
     {
         $txn = Transaction::where('txn_type', 'OpeningBalance')->where('type', Ledger::class)->where('type_id', $ledger->id)->first();
@@ -62,10 +85,11 @@ trait TransactionTrait
         }
     }
 
+
     public function getChildLedgerGroup($id)
     {
-        $groups = LedgerGroup::query()->where('parent', $id)->get();
-        $ledger = Ledger::query()->where('ledger_group_id', $id);
+        $groups = self::getLedgerGroup()->where('parent', $id);
+        $ledger = self::getLedger()->where('ledger_group_id', $id);
         $ledger_id = $ledger->pluck('id')->toArray();
         foreach ($ledger_id as $id) {
             array_push($this->arr, $id);
@@ -131,11 +155,11 @@ trait TransactionTrait
     {
         $this->arr = [];
 
-        $incomeLedgerGroups = LedgerGroup::query()->where('nature', Nature::$ASSET)->get();
+        $incomeLedgerGroups = self::getLedgerGroup()->where('nature', Nature::$ASSET);
 
         foreach ($incomeLedgerGroups as $group) {
             try {
-                $parentBankLedger = LedgerGroup::query()->where('id', $group->id)->first();
+                $parentBankLedger = self::getLedgerGroup()->where('id', $group->id)->first();
                 $this->getChildLedgerGroup($parentBankLedger->id);
             } catch (\Exception $exception) {
                 dd($exception);
@@ -730,7 +754,7 @@ trait TransactionTrait
         return collect($records)->sortBy('date', null, true);
     }
 
-    public function getSalesReportDetails($start_date, $end_date, $customer_id, $invoice_id, $product_id, $brand_id, $category_id,$user_id)
+    public function getSalesReportDetails($start_date, $end_date, $customer_id, $invoice_id, $product_id, $brand_id, $category_id, $user_id)
     {
         $records = [];
         $invoice_items = InvoiceItem::query()->with(['product', 'invoice'])
@@ -882,7 +906,7 @@ trait TransactionTrait
         return collect($records)->sortBy('date', null, true);
     }
 
-    public function getDueCollectionReport($start_date, $end_date, $customer_id,$user_id)
+    public function getDueCollectionReport($start_date, $end_date, $customer_id, $user_id)
     {
         $records = [];
         $rp_items = ReceivePaymentItem::query()->with('receive_payment')
@@ -912,7 +936,7 @@ trait TransactionTrait
                 return $query->when($customer_id != null, function ($query) use ($customer_id) {
                     return $query->where('customer_id', $customer_id);
                 });
-            }) ->when($user_id != null, function ($query) use ($user_id) {
+            })->when($user_id != null, function ($query) use ($user_id) {
                 return $query->where('user_id', $user_id);
             })->get();
         foreach ($pos_payments as $payment) {
@@ -930,7 +954,7 @@ trait TransactionTrait
         return collect($records)->sortBy('date', null, true);
     }
 
-    public function getDuePaymentReport($start_date, $end_date, $vendor_id,$user_id)
+    public function getDuePaymentReport($start_date, $end_date, $vendor_id, $user_id)
     {
         $records = [];
         $rp_items = BillPaymentItem::query()->with('bill_payment')
