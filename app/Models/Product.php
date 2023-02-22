@@ -164,7 +164,7 @@ class Product extends Model
     {
         $price = $this->purchase_price;
         if ($price == null) {
-            $lastPurchase = BillItem::query()->where('product_id', $this->id)->latest()->first();
+            $lastPurchase = $this->bill_items->latest()->first();
             if ($lastPurchase) {
                 $price = $lastPurchase->price;
             }

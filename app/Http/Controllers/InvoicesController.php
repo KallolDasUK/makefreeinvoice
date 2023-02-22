@@ -102,10 +102,19 @@ class InvoicesController extends Controller
             ->select('name', 'id', 'email', 'phone')
             ->get()->toArray();
 
-        $products = \DB::table('products')
-            ->where('client_id', auth()->user()->client_id)
-            ->select('name', 'id', 'description', 'purchase_price', 'sell_price', 'sell_unit', 'purchase_unit', 'photo as image', 'code')
-            ->get();
+        $products = Product::query()->with([
+            'category',
+            'brand',
+            'invoice_items',
+            'bill_items',
+            'pos_items',
+            'sales_return_items',
+            'purchase_return_items',
+            'inventory_adjustment_items',
+            'ingredient_items',
+            'production_items',
+            'stock_entry_items',
+        ])->get();
 
         $categories = Category::all();
         $taxes = Tax::query()->latest()->get()->toArray();
@@ -208,9 +217,7 @@ class InvoicesController extends Controller
             'payment_method_id' => $invoice->payment_method_id,
             'deposit_to' => $invoice->deposit_to,
             'payment_sl' => $paymentSerial,
-            'payment_sl' => $invoice->invoice_date,
             'note' => $invoice->notes,
-            'payment_date' => $invoice->invoice_date
         ]);
 
         ReceivePaymentItem::create(['receive_payment_id' => $receivePayment->id, 'invoice_id' => $invoice->id, 'amount' => $invoice->payment_amount]);
