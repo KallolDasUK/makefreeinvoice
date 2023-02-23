@@ -54,7 +54,7 @@
 @section('content')
 
     <div>
-        @if(!\App\Models\Invoice::query()->exists())
+        @if(!$has_invoice)
 
             <div class="d-flex align-items-center justify-content-between " style="min-height: 200px;">
                 <div style="max-width: 320px;min-width: 320px;">
@@ -171,8 +171,9 @@
                     <div class="shortcuts-title  text-black  mt-4">Print Barcode</div>
                 </a>
 
-                @foreach(\App\Models\Shortcut::all() as $shortcut)
+                @foreach($shortcuts as $shortcut)
                     <a href="{{ $shortcut->link }}"
+                       target="_blank"
                        style="position:relative;"
                        class="sc-gPEVay eaBhby border rounded ">
 

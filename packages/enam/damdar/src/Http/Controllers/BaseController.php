@@ -4,6 +4,7 @@ namespace Enam\Acc\Http\Controllers;
 
 
 use App\AccTransaction;
+use App\Models\Invoice;
 use Carbon\Carbon;
 use Enam\Acc\Models\Ledger;
 use Enam\Acc\Models\LedgerGroup;
@@ -28,8 +29,10 @@ class BaseController extends Controller
         $journal = Transaction::query()->where('txn_type', VoucherType::$JOURNAL)->whereMonth('date', $date->month)->whereYear('date', $date->year)->sum('amount');
         $contra = Transaction::query()->where('txn_type', VoucherType::$CONTRA)->whereMonth('date', $date->month)->whereYear('date', $date->year)->sum('amount');
         $date = $date->format('Y-m');
+        $has_invoice = \App\Models\Invoice::query()->exists();
+        $shortcuts = \App\Models\Shortcut::all();
 
-        return \view('acc::index', compact('date', 'payment', 'receive', 'journal', 'contra'));
+        return \view('acc::index', compact('date', 'payment', 'receive', 'journal', 'contra', 'has_invoice', 'shortcuts'));
     }
 
     public $data = [];
@@ -54,8 +57,6 @@ class BaseController extends Controller
 
         return view('acc::others.coa', compact('data'));
     }
-
-
 
 
 }
