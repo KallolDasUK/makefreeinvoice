@@ -16,7 +16,10 @@
             -o-border-radius: 6px;
             border-radius: 6px;
         }
-
+        .table-sm th, .table-sm td {
+            padding: 0.3rem;
+            max-width: 200px;
+        }
         b, strong {
             font-weight: bolder;
         }
