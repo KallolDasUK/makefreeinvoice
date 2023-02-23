@@ -61,7 +61,7 @@ class ProductsController extends Controller
             'brand',
             'invoice_items',
             'bill_items',
-            'pos_items',
+            'pos_Items',
             'sales_return_items',
             'purchase_return_items',
             'inventory_adjustment_items',
