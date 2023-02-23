@@ -219,7 +219,7 @@ trait ReportService
                 foreach ($bill->payments as $payment) {
                     if ((optional($payment->bill_payment)->payment_date > $start_date && optional($payment->bill_payment)->payment_date <= $end_date)) {
                         $record = ['date' => optional($payment->bill_payment)->payment_date, 'bill' => $bill->bill_number, 'description' => 'Payment by ' . optional(optional($payment->bill_payment)->ledger)->ledger_name . '<br>' . optional($payment->bill_payment)->note,
-                            'payment' => $payment->amount, 'amount' => 0 , 'created_at' => $payment->created_at];
+                            'payment' => $payment->amount, 'amount' => 0, 'created_at' => $payment->created_at];
                         $records[] = (object)$record;
                     }
 
@@ -329,50 +329,52 @@ trait ReportService
         return $records;
     }
 
-    public function openingStock($product, $start_date, $end_date)
+    public function openingStock(Product $product, $start_date, $end_date)
     {
         $enteredOpening = $product->opening_stock ?? 0;
-        $sold = InvoiceItem::query()
-            ->where('product_id', $product->id)
-            ->whereDate('date', '<', $start_date)
-            ->sum('qnt');
-        $sold += PosItem::query()
-            ->where('product_id', $product->id)
-            ->whereDate('date', '<', $start_date)
-            ->sum('qnt');
-
-        $purchase = BillItem::query()
+        $sold = $product->invoice_items
             ->where('product_id', $product->id)
             ->where('date', '<', $start_date)
             ->sum('qnt');
 
-        $added = InventoryAdjustmentItem::query()
+        $sold += $product->pos_Items
+            ->where('product_id', $product->id)
+            ->where('date', '<', $start_date)
+            ->sum('qnt');
+
+        $purchase = $product->bill_items
+            ->where('product_id', $product->id)
+            ->where('date', '<', $start_date)
+            ->sum('qnt');
+
+        $added = $product->inventory_adjustment_items
             ->where('product_id', $product->id)
             ->where('date', '<', $start_date)
             ->sum('add_qnt');
 
-        $removed = InventoryAdjustmentItem::query()
+        $removed = $product->inventory_adjustment_items
             ->where('product_id', $product->id)
             ->where('date', '<', $start_date)
             ->sum('sub_qnt');
-        $purchase_return = PurchaseReturnItem::query()
+
+        $purchase_return = $product->purchase_return_items
             ->where('product_id', $product->id)
             ->where('date', '<', $start_date)
             ->sum('qnt');
 
-        $sales_return = SalesReturnItem::query()
+        $sales_return = $product->sales_return_items
             ->where('product_id', $product->id)
             ->where('date', '<', $start_date)
             ->sum('qnt');
-        $stock_entry = StockEntryItem::query()
+        $stock_entry = $product->stock_entry_items
             ->where('product_id', $product->id)
             ->where('date', '<', $start_date)
             ->sum('qnt');
-        $used_in_production = IngredientItem::query()
+        $used_in_production = $product->ingredient_items
             ->where('product_id', $product->id)
             ->where('date', '<', $start_date)
             ->sum('qnt');
-        $produced_in_production = ProductionItem::query()
+        $produced_in_production = $product->production_items
             ->where('product_id', $product->id)
             ->where('date', '<', $start_date)
             ->sum('qnt');
@@ -386,6 +388,19 @@ trait ReportService
         $records = [];
 
         $products = Product::query()
+            ->with([
+                'category',
+                'brand',
+                'invoice_items',
+                'bill_items',
+                'pos_Items',
+                'sales_return_items',
+                'purchase_return_items',
+                'inventory_adjustment_items',
+                'ingredient_items',
+                'production_items',
+                'stock_entry_items',
+            ])
             ->when($brand_id != null, function ($query) use ($brand_id) {
                 return $query->where('brand_id', $brand_id);
             })
@@ -396,57 +411,62 @@ trait ReportService
                 return $query->where('id', $product_id);
             })
             ->get();
+
+
         foreach ($products as $product) {
             $record = ['name' => $product->name, 'price' => $product->price, 'opening_stock' => 0, 'purchase' => 0, 'sold' => 0, 'added' => 0, 'removed' => 0, 'stock' => 0, 'stockValue' => 0];
 
             $opening_stock = $this->openingStock($product, $start_date, $end_date);
             $record['opening_stock'] = $opening_stock;
 
-            $sold = InvoiceItem::query()
+            $sold = $product->invoice_items
                 ->where('product_id', $product->id)
                 ->whereBetween('date', [$start_date, $end_date])
                 ->sum('qnt');
-            $sold += PosItem::query()
+//            dd($sold);
+
+            $sold += $product->pos_Items
                 ->where('product_id', $product->id)
                 ->whereBetween('date', [$start_date, $end_date])
                 ->sum('qnt');
 
-            $purchase = BillItem::query()
+            $purchase = $product->bill_items
                 ->where('product_id', $product->id)
                 ->whereBetween('date', [$start_date, $end_date])
                 ->sum('qnt');
 
-            $purchase_return = PurchaseReturnItem::query()
+            $purchase_return = $product->purchase_return_items
                 ->where('product_id', $product->id)
                 ->whereBetween('date', [$start_date, $end_date])
                 ->sum('qnt');
-            $sales_return = SalesReturnItem::query()
+            $sales_return = $product->sales_return_items
                 ->where('product_id', $product->id)
                 ->whereBetween('date', [$start_date, $end_date])
                 ->sum('qnt');
-            $added = InventoryAdjustmentItem::query()
+            $added = $product->inventory_adjustment_items
                 ->where('product_id', $product->id)
                 ->whereBetween('date', [$start_date, $end_date])
                 ->sum('add_qnt');
 
-            $stock_entry = StockEntryItem::query()
+            $stock_entry = $product->stock_entry_items
                 ->where('product_id', $product->id)
                 ->whereBetween('date', [$start_date, $end_date])
                 ->sum('qnt');
 
-            $removed = InventoryAdjustmentItem::query()
+            $removed = $product->inventory_adjustment_items
                 ->where('product_id', $product->id)
                 ->whereBetween('date', [$start_date, $end_date])
                 ->sum('sub_qnt');
 
-            $used_in_production = IngredientItem::query()
+            $used_in_production = $product->ingredient_items
                 ->where('product_id', $product->id)
                 ->whereBetween('date', [$start_date, $end_date])
                 ->sum('qnt');
-            $produced_in_production = ProductionItem::query()
+            $produced_in_production = $product->production_items
                 ->where('product_id', $product->id)
                 ->whereBetween('date', [$start_date, $end_date])
                 ->sum('qnt');
+
             $record['sold'] = $sold;
             $record['sales_return'] = $sales_return;
             $record['purchase'] = $purchase;

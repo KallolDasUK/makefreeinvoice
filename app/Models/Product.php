@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Policies\BasePolicy;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
@@ -178,10 +179,10 @@ class Product extends Model
     public function getPurchasePriceAttribute($value)
     {
         $purchase_price = $value;
-        $settings = json_decode(MetaSetting::query()->pluck('value', 'key')->toJson());
+        $settings = BasePolicy::getSettings();
         $generate_report_from = $settings->generate_report_from ?? 'purchase_price';
         if ($generate_report_from == 'purchase_price_average') {
-            $bill_items = BillItem::query()->where('product_id', $this->id)->get();
+            $bill_items = $this->bill_items;
             try {
                 $averagePrice = $bill_items->sum('amount') / $bill_items->sum('qnt');
 
@@ -195,7 +196,7 @@ class Product extends Model
                 $purchase_price = $last_bill_item->price;
             }
         } elseif ($generate_report_from == 'purchase_price_cost_average') {
-            $bill_items = BillItem::query()->where('product_id', $this->id)->get();
+            $bill_items = $this->bill_items;
 
             $prices = [];
             foreach ($bill_items as $bill_item) {
