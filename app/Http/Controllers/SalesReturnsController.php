@@ -48,7 +48,7 @@ class SalesReturnsController extends Controller
         $q = $request->q;
         view()->share('title', 'Sales Return Lists');
 
-        $invoices = SalesReturn::with('customer')
+        $invoices = SalesReturn::with(['customer','payments'])
             ->when($customer_id != null, function ($query) use ($customer_id) {
                 return $query->where('customer_id', $customer_id);
             })->when($sr_id != null, function ($query) use ($sr_id) {
@@ -70,7 +70,7 @@ class SalesReturnsController extends Controller
         $ledgerGroups = LedgerGroup::all();
 //        dd($invoices);
         return view('sales_return.index', compact('invoices', 'q', 'cashAcId', 'depositAccounts', 'paymentMethods',
-                'start_date', 'end_date', 'customer_id', 'customers', 'ledgerGroups', 'sr_id') + $this->summaryReport($start_date, $end_date));
+                'start_date', 'end_date', 'customer_id', 'customers', 'ledgerGroups', 'sr_id') );
     }
 
     public function summaryReport($start_date, $end_date)

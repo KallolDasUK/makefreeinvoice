@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use App\Models\MetaSetting;
+use App\Policies\BasePolicy;
 use Closure;
 use Illuminate\Http\Request;
 use Jenssegers\Agent\Agent;
@@ -21,7 +22,7 @@ class SetTimezoneMiddleware
 
 
         if (auth()->id()) {
-            $settings = json_decode(MetaSetting::query()->pluck('value', 'key')->toJson());
+            $settings = BasePolicy::getSettings();
             if ($settings->timezone ?? false) {
                 config(['app.timezone' => $settings->timezone]);
                 date_default_timezone_set($settings->timezone);
