@@ -21,7 +21,7 @@ if (!function_exists('random_ad')) {
             return optional(BannerAd::query()->where('banner_type', $ad_type)->get()->random(1))->first();
 
         } catch (\Exception $exception) {
-            return  null;
+            return null;
         }
     }
 }
@@ -52,7 +52,7 @@ if (!function_exists('decent_format_dash')) {
 if (!function_exists('settings')) {
     function settings()
     {
-        $settings = json_decode(MetaSetting::query()->pluck('value', 'key')->toJson());
+        $settings = \App\Policies\BasePolicy::getSettings();
         return $settings;
     }
 }

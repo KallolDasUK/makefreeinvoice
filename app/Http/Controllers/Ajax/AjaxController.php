@@ -223,15 +223,17 @@ class AjaxController extends Controller
         $start_date = $request->start_date;
         $end_date = $request->end_date;
         $bills = Bill::query()
+            ->with(['payments', 'bill_items', 'bill_extra', 'purchase_return'])
             ->when($start_date != null && $end_date != null, function ($query) use ($start_date, $end_date) {
                 $start_date = Carbon::parse($start_date)->toDateString();
                 $end_date = Carbon::parse($end_date)->toDateString();
                 return $query->whereBetween('bill_date', [$start_date, $end_date]);
             })
             ->latest();
-        $totalAmount = $bills->get()->sum('total');
-        $totalDue = $bills->get()->sum('due');
-        $totalPaid = $bills->get()->sum('paid');
+        $t = $bills->get();
+        $totalAmount = $t->sum('total');
+        $totalDue = $t->sum('due');
+        $totalPaid = $t->sum('paid');
         return ['total_amount' => decent_format_dash_if_zero($totalAmount),
             'total_due' => decent_format_dash_if_zero($totalDue),
             'total_paid' => decent_format_dash_if_zero($totalPaid)];

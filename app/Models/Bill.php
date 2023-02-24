@@ -115,10 +115,15 @@ class Bill extends Model
         return ExtraField::query()->where('type', Bill::class)->where('type_id', $this->id)->get();
     }
 
+
+    public function purchase_return()
+    {
+        return $this->hasMany(PurchaseReturn::class, 'bill_number', 'bill_number');
+    }
     public function getPurchaseReturnAmountAttribute()
     {
 
-        $purchase_return = PurchaseReturn::query()->where('bill_number', $this->bill_number)->sum('total');
+        $purchase_return =  $this->purchase_return->sum('total');
         return $purchase_return == 0 ? '' : $purchase_return;
     }
     public function getDueAttribute()
@@ -130,7 +135,7 @@ class Bill extends Model
             $payment = 0;
         }
 //        dd(optional($this->payments));
-        $purchase_return = PurchaseReturn::query()->where('bill_number', $this->bill_number)->sum('total');
+        $purchase_return = $this->purchase_return->sum('total');
 
         $due = $this->total - $payment - $purchase_return;
 

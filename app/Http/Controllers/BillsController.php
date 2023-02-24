@@ -52,7 +52,7 @@ class BillsController extends Controller
         $vendor_id = $request->vendor;
         $q = $request->q;
         $user_id = $request->user_id;
-        $bills = Bill::with('vendor')
+        $bills = Bill::with(['payments', 'vendor', 'purchase_return'])
             ->when($vendor_id != null, function ($query) use ($vendor_id) {
                 return $query->where('vendor_id', $vendor_id);
             })
@@ -68,18 +68,13 @@ class BillsController extends Controller
                 return $query->whereBetween('bill_date', [$start_date, $end_date]);
             })
             ->latest();
-//        dd($bills->get()->toArray());
-        $totalAmount = $bills->get()->sum('total');
-        $totalDue = $bills->get()->sum('due');
-        $totalPaid = $bills->get()->sum('paid');
-//        dd($totalAmount);
         $bills = $bills->paginate(10);
         $cashAcId = optional(GroupMap::query()->firstWhere('key', LedgerHelper::$CASH_AC))->value;
         $depositAccounts = Ledger::find($this->getAssetLedgers())->sortBy('ledger_name');
         $paymentMethods = PaymentMethod::query()->get();
         $vendors = Vendor::all();
         return view('bills.index', compact('bills', 'cashAcId', 'depositAccounts', 'paymentMethods',
-            'start_date', 'end_date', 'vendor_id', 'vendors', 'q', 'totalAmount', 'totalDue', 'totalPaid', 'user_id'));
+            'start_date', 'end_date', 'vendor_id', 'vendors', 'q', 'user_id'));
     }
 
 
@@ -98,7 +93,7 @@ class BillsController extends Controller
 
         $products = \DB::table('products')
             ->where('client_id', auth()->user()->client_id)
-            ->select('name', 'id','description', 'purchase_price', 'sell_price', 'sell_unit', 'purchase_unit', 'photo as image', 'code')
+            ->select('name', 'id', 'description', 'purchase_price', 'sell_price', 'sell_unit', 'purchase_unit', 'photo as image', 'code')
             ->get();
 
 
@@ -220,7 +215,7 @@ class BillsController extends Controller
 
         $products = \DB::table('products')
             ->where('client_id', auth()->user()->client_id)
-            ->select('name', 'id','description', 'purchase_price', 'sell_price', 'sell_unit', 'purchase_unit', 'photo as image', 'code')
+            ->select('name', 'id', 'description', 'purchase_price', 'sell_price', 'sell_unit', 'purchase_unit', 'photo as image', 'code')
             ->get();
 
 
@@ -256,7 +251,7 @@ class BillsController extends Controller
         BillExtraField::query()->where('bill_id', $bill->id)->delete();
         BillItem::query()->where('bill_id', $bill->id)->delete();
         ExtraField::query()->where('type', get_class($bill))->where('type_id', $bill->id)->delete();
-        BillPayment::query()->where('bill_id',$bill->id)->delete();
+        BillPayment::query()->where('bill_id', $bill->id)->delete();
         BillPaymentItem::query()->where('bill_id', $bill->id)->get()->each(function ($model) {
             $model->delete();
         });
@@ -296,7 +291,7 @@ class BillsController extends Controller
 
     public function items($id)
     {
-        $invoice = Bill::with('vendor')->firstWhere('bill_number',$id);
+        $invoice = Bill::with('vendor')->firstWhere('bill_number', $id);
         return ['vendor_id' => $invoice->vendor_id, 'items' => $invoice->bill_items];
     }
 
