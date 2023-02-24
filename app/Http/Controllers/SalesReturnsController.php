@@ -86,13 +86,13 @@ class SalesReturnsController extends Controller
         $depositAccounts = Ledger::find($this->getAssetLedgers())->sortBy('ledger_name');
         $paymentMethods = PaymentMethod::query()->get();
 
-//        $customers = Customer::pluck('name', 'id')->all();
+        $customers = Customer::pluck('name', 'id')->all();
 //        $products = Product::query()->latest()->get();
 
-        $customers = \DB::table('customers')
-            ->where('client_id', auth()->user()->client_id)
-            ->select('name', 'id', 'email', 'phone')
-            ->get()->toArray();
+//        $customers = \DB::table('customers')
+//            ->where('client_id', auth()->user()->client_id)
+//            ->select('name', 'id', 'email', 'phone')
+//            ->get()->toArray();
 
         $products = \DB::table('products')
             ->where('client_id', auth()->user()->client_id)
