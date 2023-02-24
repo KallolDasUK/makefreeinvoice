@@ -85,8 +85,20 @@ class SalesReturnsController extends Controller
         $cashAcId = optional(GroupMap::query()->firstWhere('key', LedgerHelper::$CASH_AC))->value;
         $depositAccounts = Ledger::find($this->getAssetLedgers())->sortBy('ledger_name');
         $paymentMethods = PaymentMethod::query()->get();
-        $customers = Customer::pluck('name', 'id')->all();
-        $products = Product::query()->latest()->get();
+
+//        $customers = Customer::pluck('name', 'id')->all();
+//        $products = Product::query()->latest()->get();
+
+        $customers = \DB::table('customers')
+            ->where('client_id', auth()->user()->client_id)
+            ->select('name', 'id', 'email', 'phone')
+            ->get()->toArray();
+
+        $products = \DB::table('products')
+            ->where('client_id', auth()->user()->client_id)
+            ->select('name', 'id', 'description', 'purchase_price', 'sell_price', 'sell_unit', 'purchase_unit', 'photo as image', 'code')
+            ->get();
+
         $categories = Category::query()->latest()->get();
         $taxes = Tax::query()->latest()->get()->toArray();
         $extraFields = optional(Invoice::query()->latest()->first())->extra_fields ?? [];

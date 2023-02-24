@@ -66,6 +66,7 @@ class Product extends Model
 {
 
     protected $guarded = [];
+
     protected $appends = ['stock', 'short_name', 'stock_value', 'image'];
 
     public function category()
