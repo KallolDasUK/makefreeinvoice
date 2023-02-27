@@ -77,7 +77,73 @@
 
         </div>
 
-        @if(count($expenses) == 0)
+        <form class="ml-4" action="{{ route('expenses.expense.index') }}">
+            <div class="row align-items-center mb-4">
+                <div class="col-2">
+                    <input name="q" type="text" class="form-control" placeholder="Search Ref#"
+                           value="{{ $q }}"
+                    >
+                </div>
+
+                <div class="col-2">
+                    <select name="customer" id="customer" class="form-control"
+                    >
+                        <option></option>
+                        @foreach($customers as $customer)
+                            <option value="{{ $customer->id }}"
+                                    @if($customer->id == $customer_id) selected @endif>
+
+                                {{ $customer->name }} {{ $customer->phone }} </option>
+                        @endforeach
+                    </select>
+
+                </div>
+                <div class="col-2">
+                    <select name="vendor" id="vendor" class="form-control"
+                    >
+                        <option></option>
+                        @foreach($vendors as $vendor)
+                            <option value="{{ $vendor->id }}"
+                                    @if($vendor->id == $vendor_id) selected @endif>{{ $vendor->name }} {{ $vendor->phone }}</option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div class="col">
+                    <div class="row align-items-center">
+                        <div class="input-daterange input-group" id="start_date">
+                            <input type="text" class="form-control col-2" name="start_date"
+                                   value="{{ $start_date }}"
+                                   placeholder="Start">
+                            <div class="input-group-append">
+									<span class="input-group-text">
+										<i class="la la-ellipsis-h"></i>
+                                        To
+                                    </span>
+                            </div>
+                            <input type="text" class="form-control col-2" name="end_date" id="end_date"
+                                   value="{{ $end_date }}"
+
+                                   placeholder="End">
+                            <button role="button" type="submit"
+                                    class="btn btn-primary px-6 mx-2 col-3 font-weight-bold">
+                                <i class="fas fa-sliders-h"></i>
+                                Filter
+                            </button>
+
+                            @if($start_date != null || $end_date != null || $q !=null)
+                                <a href="{{ route('expenses.expense.index') }}" title="Clear Filter"
+                                   class="btn btn-icon btn-light-danger"> X</a>
+                            @endif
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </form>
+
+    @if(count($expenses) == 0)
             <div class="card-body text-center">
                 <h4>No Expenses Available.
 
@@ -90,46 +156,6 @@
             </div>
         @else
             <div class="card-body">
-                <form action="{{ route('expenses.expense.index') }}">
-                    <div class="row align-items-center mb-4">
-                        <div class="col-lg-3 col-xl-2">
-                            <input name="q" type="text" class="form-control" placeholder="Search Ref#"
-                                   value="{{ $q }}"
-                            >
-                        </div>
-                        <div class="col">
-                            <div class="row align-items-center">
-                                <div class="input-daterange input-group" id="start_date">
-                                    <input type="text" class="form-control col-2" name="start_date"
-                                           value="{{ $start_date }}"
-                                           placeholder="Start">
-                                    <div class="input-group-append">
-									<span class="input-group-text">
-										<i class="la la-ellipsis-h"></i>
-                                        To
-                                    </span>
-                                    </div>
-                                    <input type="text" class="form-control col-2" name="end_date" id="end_date"
-                                           value="{{ $end_date }}"
-
-                                           placeholder="End">
-                                    <button role="button" type="submit"
-                                            class="btn btn-primary px-6 mx-2 col-3 font-weight-bold">
-                                        <i class="fas fa-sliders-h"></i>
-                                        Filter
-                                    </button>
-
-                                    @if($start_date != null || $end_date != null || $q !=null)
-                                        <a href="{{ route('expenses.expense.index') }}" title="Clear Filter"
-                                           class="btn btn-icon btn-light-danger"> X</a>
-                                    @endif
-                                </div>
-
-                            </div>
-                        </div>
-
-                    </div>
-                </form>
 
                 <div>
                     <table class="table table-head-custom table-vertical-center" id="kt_advance_table_widget_1">
@@ -155,7 +181,8 @@
                                         href="{{ route('expenses.expense.show',$expense->id) }}"
                                         class=" {{ ability(\App\Utils\Ability::EXPENSE_READ)=='disabled'?'no-link':'' }}">{{ $expense->date }}</a>
                                 </td>
-                                <td><a href="{{ route('expenses.expense.show',$expense->id) }}" class=" {{ ability(\App\Utils\Ability::EXPENSE_READ)=='disabled'?'no-link':'' }}">{{ $expense->ref }}</a>
+                                <td><a href="{{ route('expenses.expense.show',$expense->id) }}"
+                                       class=" {{ ability(\App\Utils\Ability::EXPENSE_READ)=='disabled'?'no-link':'' }}">{{ $expense->ref }}</a>
                                 </td>
 
                                 <td>{{ optional($expense->ledger)->ledger_name }}</td>
@@ -242,6 +269,8 @@
     <script>
         $(function () {
 
+            $('#customer').select2({placeholder: 'Customer', allowClear: true})
+            $('#vendor').select2({placeholder: 'Vendor', allowClear: true})
 
             var datepicker = $.fn.datepicker.noConflict();
             $.fn.bootstrapDP = datepicker;

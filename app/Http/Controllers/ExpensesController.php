@@ -21,9 +21,16 @@ class ExpensesController extends Controller
     {
         $start_date = $request->start_date;
         $end_date = $request->end_date;
+        $customer_id = $request->customer;
+        $vendor_id = $request->vendor;
 
         $q = $request->q;
         $expenses = Expense::with('ledger', 'vendor', 'customer')
+            ->when($vendor_id != null, function ($query) use ($vendor_id) {
+                return $query->where('vendor_id', $vendor_id);
+            })->when($customer_id != null, function ($query) use ($customer_id) {
+                return $query->where('customer_id', $customer_id);
+            })
             ->when($q != null, function ($query) use ($q) {
                 return $query->where('ref', 'like', '%' . $q . '%');
             })->when($start_date != null && $end_date != null, function ($query) use ($start_date, $end_date) {
@@ -33,9 +40,21 @@ class ExpensesController extends Controller
             })
             ->latest();
 //        dd($expenses->get()->sum('amount'));
+
+        $customers = \DB::table('customers')
+            ->where('client_id', auth()->user()->client_id)
+            ->select('name', 'id', 'email', 'phone')
+            ->get();
+
+        $vendors = \DB::table('vendors')
+            ->where('client_id', auth()->user()->client_id)
+            ->select('name', 'id', 'email', 'phone')
+            ->get();
+
+
         $totalExpense = $expenses->get()->sum('amount');
         $expenses = $expenses->paginate(10);
-        return view('expenses.index', compact('expenses', 'start_date', 'end_date', 'q', 'totalExpense'));
+        return view('expenses.index', compact('expenses', 'start_date', 'end_date', 'q', 'totalExpense', 'customer_id', 'customers', 'vendor_id', 'vendors'));
     }
 
 
