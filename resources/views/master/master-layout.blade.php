@@ -275,11 +275,11 @@
                         </a>
                         <ul class="dropdown-menu">
                             <li class="active">
-                                <a href=" {{route('add-blog-category')}}">Add Blog</a>
+                                <a href=" {{route('blog.category.index')}}">Manage Blog Categories</a>
                             </li>
-                            <li>
-                                <a href="  {{route('blog.category.index')}}">Manage Blog</a>
-                            </li>
+{{--                            <li>--}}
+{{--                                <a href="  {{route('blog.category.index')}}">Manage Blog</a>--}}
+{{--                            </li>--}}
                         </ul>
                     </li>
 

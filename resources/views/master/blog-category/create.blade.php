@@ -10,7 +10,7 @@
                             <h3>Add Blog Category</h3>
                         </div>
                         <div class="card-body">
-                            <form action="{{ route('new-blog-category') }}" method="post">
+                            <form action="{{ route('blog.category.store') }}" method="post">
                                  @csrf
                                 <div class="row mt-2">
                                     <label for="" class="col-md-4">Category Name</label>

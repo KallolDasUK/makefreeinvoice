@@ -10,19 +10,26 @@
                             <h3>Edit Blog Category</h3>
                         </div>
                         <div class="card-body">
-                            <form action="{{ route('update-blog-category', ['id' => $blogCategory->id]) }}" method="post">
+                            <form action="{{ route('blog.category.update', ['id' => $blogCategory->id]) }}"
+                                  method="post">
                                 @csrf
+                                @method('PUT')
                                 <div class="row mt-2">
                                     <label for="" class="col-md-4">Category Name</label>
                                     <div class="col-md-8">
-                                        <input type="text" name="category_name" value="{{ $blogCategory->category_name }}" class="form-control">
+                                        <input type="text" name="category_name"
+                                               value="{{ $blogCategory->category_name }}" class="form-control">
                                     </div>
                                 </div>
                                 <div class="row mt-2">
                                     <label for="" class="col-md-4">Status</label>
                                     <div class="col-md-8">
-                                        <label for=""><input type="radio" name="status" {{ $blogCategory->status == 1 ? 'checked' : '' }} value="1" checked> Published </label>
-                                        <label for=""><input type="radio" name="status" {{ $blogCategory->status == 1 ? 'checked' : '' }} value="0"> Unpublished </label>
+                                        <label for=""><input type="radio" name="status"
+                                                             {{ $blogCategory->status == 1 ? 'checked' : '' }} value="1"
+                                                             > Published </label>
+                                        <label for=""><input type="radio" name="status"
+                                                             {{ $blogCategory->status == 0 ? 'checked' : '' }} value="0">
+                                            Unpublished </label>
                                     </div>
                                 </div>
                                 <div class="row mt-2">
