@@ -4,6 +4,7 @@ use App\Http\Controllers\Ajax\AjaxController;
 use App\Http\Controllers\BillingsController;
 use App\Http\Controllers\BillPaymentsController;
 use App\Http\Controllers\BillsController;
+use App\Http\Controllers\BlogCategoriesController;
 use App\Http\Controllers\CollectPaymentsController;
 use App\Http\Controllers\ContactInvoiceController;
 use App\Http\Controllers\CustomerAdvancePaymentsController;
@@ -102,6 +103,11 @@ Route::group(['middleware' => 'auth:web', 'prefix' => 'app'], function () {
 
 
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+
+
+
+
 
 
     Route::group(['prefix' => 'accounting/settings'], function () {
@@ -675,6 +681,7 @@ Route::get('p/{slug}', [BlogsController::class, 'show'])->name('blogs.blog.show'
 
 
 Route::group(['prefix' => 'master', 'middleware' => ['auth:web', 'isMaster']], function () {
+
     Route::get('/', [MasterController::class, 'index'])->name('master.index');
     Route::get('/user_settings_view', [MasterController::class, 'user_settings_view'])->name('master.user_settings');
     Route::post('/user_settings', [MasterController::class, 'user_settings'])->name('master.user_settings_store');
@@ -684,6 +691,26 @@ Route::group(['prefix' => 'master', 'middleware' => ['auth:web', 'isMaster']], f
     Route::post('/subscriptions/premium-plan', [MasterController::class, 'premiumPlanSettings'])->name('master.subscriptions.premium_plan');
     Route::get('/users', [MasterController::class, 'users'])->name('master.users');
     Route::get('/users/{user}', [MasterController::class, 'deleteUser'])->name('master.users.delete');
+
+    Route::get('/add-blog-category',[MasterController::class,'addCategory'])->name('add-blog-category');
+    Route::post('/new-blog-category',[MasterController::class,'newCategory'])->name('new-blog-category');
+    Route::get('/manage-blog-category',[MasterController::class,'manageCategory'])->name('manage-blog-category');
+    Route::get('/edit-blog-category/{id}',[MasterController::class,'editCategory'])->name('edit-blog-category');
+    Route::post('/update-blog-category/{id}',[MasterController::class,'updateCategory'])->name('update-blog-category');
+    Route::get('/delete-blog-category/{id}',[MasterController::class,'deleteCategory'])->name('delete-blog-category');
+
+    Route::group(['prefix' => 'blog_categories'], function () {
+
+        Route::get('/', [BlogCategoriesController::class, 'index'])->name('blog.category.index');
+        Route::get('/create', [BlogCategoriesController::class, 'create'])->name('blog.category.create');
+        Route::get('/show/{category}', [BlogCategoriesController::class, 'show'])->name('blog.category.show')->where('id', '[0-9]+');
+        Route::get('/{category}/edit', [BlogCategoriesController::class, 'edit'])->name('blog.category.edit')->where('id', '[0-9]+');
+        Route::post('/', [BlogCategoriesController::class, 'store'])->name('blog.category.store');
+        Route::put('category/{category}', [BlogCategoriesController::class, 'update'])->name('blog.category.update')->where('id', '[0-9]+');
+        Route::delete('/category/{category}', [BlogCategoriesController::class, 'destroy'])->name('blog.category.destroy')->where('id', '[0-9]+');
+
+    });
+
 
 
     /*
