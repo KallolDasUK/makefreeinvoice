@@ -1,0 +1,21 @@
+<div class="form-group">
+    <div class="col-md-10">
+        <label for="categoryName">Category Name</label>
+        <span class="text-danger font-bolder">*</span>
+        <input class="form-control" name="category_name" type="text" id="categoryName">
+
+        {!! $errors->first('categoryName', '<p class="form-text text-danger">:message</p>') !!}
+
+    </div>
+</div>
+
+<div class="form-group">
+   <div class="col-md-10">
+       <label for="" class="col-md-4">Status</label>
+       <div class="col-md-8">
+           <label for=""><input type="radio" name="status" value="1" checked> Published </label>
+           <label for=""><input type="radio" name="status" value="0"> Unpublished </label>
+       </div>
+   </div>
+</div>
+

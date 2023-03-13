@@ -14,9 +14,8 @@
 
     <!-- Core css -->
     <link href="{{ asset('assets/css/app.min.css') }}" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" integrity="sha512-vKMx8UnXk60zUwyUnUPM3HbQo8QfmNx7+ltw8Pm5zLusl1XIfwcxo8DbWCqMGKaWeNxWA8yrx5v3SaVpMvR3CA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-{{--    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.3/css/jquery.dataTables.min.css">--}}
-</head>
+    <script src="https://cdn.ckeditor.com/ckeditor5/35.1.0/classic/ckeditor.js"></script>
+
 
 <body>
 <div class="app">
@@ -57,14 +56,23 @@
 {{--                    </li>--}}
                     <nav class="navbar navbar-dark sticky-top flex-md-nowrap p-0">
                         <input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">
-                        <ul class="navbar-nav px-6">
-                            <li class="nav-item text-nowrap">
-                                <a class="nav-link" href="#">Sign out</a>
-                            </li>
-                        </ul>
+{{--                        <ul class="navbar-nav px-6">--}}
+{{--                            <li class="nav-item text-nowrap">--}}
+{{--                                <a class="nav-link float-right" href="#">Sign out</a>--}}
+{{--                            </li>--}}
+{{--                        </ul>--}}
                     </nav>
 
+
+
                 </ul>
+                <div class="mt-3">
+                    <ul class="navbar-nav float-right">
+                        <li class="nav-item text-nowrap">
+                            <a class="nav-link float-right" href="#"></a>Sign out
+                        </li>
+                    </ul>
+                </div>
 
 
 {{--                <ul class="nav-right">--}}
@@ -274,8 +282,11 @@
                                 </span>
                         </a>
                         <ul class="dropdown-menu">
-                            <li class="active">
-                                <a href=" {{route('blog.category.index')}}">Manage Blog Categories</a>
+                            <li class="">
+                                <a href=" {{route('blog.category.index')}}">Categories</a>
+                            </li>
+                            <li class="">
+                                <a href=" {{route('post.index')}}">Posts</a>
                             </li>
 {{--                            <li>--}}
 {{--                                <a href="  {{route('blog.category.index')}}">Manage Blog</a>--}}
@@ -811,15 +822,13 @@
 <!-- Core JS -->
 <script src="{{ asset('assets/js/app.min.js') }}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-{{--<script src="https://cdn.datatables.net/1.13.3/css/jquery.dataTables.min.css"></script>--}}
-
-{{--<script>--}}
-{{--    $(document).ready( function () {--}}
-{{--        $('myTable').DataTable();--}}
-{{--    });--}}
-
-{{--</script>--}}
-
+<script>
+    ClassicEditor
+    .create(document.querySelector('#content'))
+    .catch( error =>{
+        console.error(error);
+    });
+</script>
 @if( Session::has('success'))
     <script>
         toastr.success( "{{ Session::get('success') }}");

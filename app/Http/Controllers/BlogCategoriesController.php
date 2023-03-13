@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\BlogCategory;
+use App\Models\AffiliatePayable;
 use Illuminate\Http\Request;
 
 class BlogCategoriesController extends Controller
@@ -11,10 +12,11 @@ class BlogCategoriesController extends Controller
 
     public function index()
     {
-        $blogCategories = BlogCategory::latest()->get();
+        $blogCategories = BlogCategory::query()->orderBy('category_name')->get();
 
 
         return view('master.blog-category.index', compact('blogCategories'));
+
     }
 
 
@@ -26,8 +28,13 @@ class BlogCategoriesController extends Controller
 
     public function store(Request $request)
     {
+
         BlogCategory::saveBlogCategory($request);
-        return redirect()->back()->with('success', 'Blog category created successfully');
+        return redirect()->route('blog.category.index')
+            ->with('success_message', 'Blog Category was successfully added.');
+
+
+
     }
 
 
@@ -48,14 +55,20 @@ class BlogCategoriesController extends Controller
     public function update(Request $request, $id)
     {
         BlogCategory::updateCategory($request, $id);
-        return redirect(route('blog.category.index'))->with('success', 'Blog category updated successfully');
+        return redirect()->route('blog.category.index')
+            ->with('success_message', 'Blog Category was successfully updated.');
     }
 
 
     public function destroy($id)
     {
-        BlogCategory::find($id)->delete();
-        return redirect()->back()->with('success', 'Blog category deleted successfully');
+        $blogCategory = BlogCategory::findOrFail($id);
+        AffiliatePayable::query()->where('type', get_class($blogCategory))->where('type_id', $blogCategory->id)->delete();
+        $blogCategory->delete();
+        return redirect()->route('blog.category.index')
+            ->with('success_message', 'Blog Category was successfully deleted.');
+//        BlogCategory::find($id)->delete();
+//        return redirect()->back()->with('success', 'Blog category deleted successfully');
     }
 
 }

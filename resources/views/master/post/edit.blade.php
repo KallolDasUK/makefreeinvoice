@@ -6,18 +6,18 @@
 
         <div class="card-header">
 
-            <h5  class="my-1 float-left">{{ !empty($title) ? $title : 'Blog Category' }}</h5>
+            <h5  class="my-1 float-left">{{ !empty($title) ? $title : 'Post' }}</h5>
 
             <div class="btn-group btn-group-sm float-right" role="group">
 
-                <a href="{{ route('blog.category.index') }}" class="btn btn-primary mr-2" title="Show All Blog Category">
+                <a href="{{ route('post.index') }}" class="btn btn-primary mr-2" title="Show All Post">
                     <i class=" fas fa-fw fa-th-list" aria-hidden="true"></i>
-                    Show All Blog Category
+                    Show All Post
                 </a>
 
                 <a href="{{ route('blog.category.create') }}" class="btn btn-success" title="Create New Collect Payment">
                     <i class=" fas fa-fw fa-plus" aria-hidden="true"></i>
-                    Create New Blog Category
+                    Create New Post
                 </a>
 
             </div>
@@ -33,11 +33,11 @@
                 </ul>
             @endif
 
-            <form method="POST" action="{{ route('blog.category.update', $blogCategory->id) }}" id="edit_blog_category_form" name="edit_blog_category_form" accept-charset="UTF-8" class="form-horizontal">
+            <form method="POST" action="{{ route('post.update', $post->id) }}" id="edit_post_form" name="edit_post_form" accept-charset="UTF-8" class="form-horizontal">
                 {{ csrf_field() }}
                 <input name="_method" type="hidden" value="PUT">
-                @include ('master.blog-category.form', [
-                                            'blogCategory' => $blogCategory,
+                @include ('master.post.form', [
+                                            'post' => $post,
                                           ])
 
                 <div class="form-group">
@@ -53,3 +53,4 @@
 
 
 @endsection
+

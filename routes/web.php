@@ -22,6 +22,7 @@ use App\Http\Controllers\ExpensesController;
 use App\Http\Controllers\InventoryAdjustmentsController;
 use App\Http\Controllers\InvoicesController;
 use App\Http\Controllers\MasterController;
+use App\Http\Controllers\PostController;
 use App\Http\Controllers\PosSalesController;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\PurchaseReturnsController;
@@ -697,13 +698,27 @@ Route::group(['prefix' => 'master', 'middleware' => ['auth:web', 'isMaster']], f
 
         Route::get('/', [BlogCategoriesController::class, 'index'])->name('blog.category.index');
         Route::get('/create', [BlogCategoriesController::class, 'create'])->name('blog.category.create');
-        Route::get('/show/{id}', [BlogCategoriesController::class, 'show'])->name('blog.category.show')->where('id', '[0-9]+');
-        Route::get('/{id}/edit', [BlogCategoriesController::class, 'edit'])->name('blog.category.edit')->where('id', '[0-9]+');
+        Route::get('/show/{category}', [BlogCategoriesController::class, 'show'])->name('blog.category.show')->where('id', '[0-9]+');
+        Route::get('/{category}/edit', [BlogCategoriesController::class, 'edit'])->name('blog.category.edit')->where('id', '[0-9]+');
         Route::post('/', [BlogCategoriesController::class, 'store'])->name('blog.category.store');
-        Route::put('category/{id}', [BlogCategoriesController::class, 'update'])->name('blog.category.update')->where('id', '[0-9]+');
-        Route::delete('/category/{id}', [BlogCategoriesController::class, 'destroy'])->name('blog.category.destroy')->where('id', '[0-9]+');
+        Route::put('category/{category}', [BlogCategoriesController::class, 'update'])->name('blog.category.update')->where('id', '[0-9]+');
+        Route::delete('/category/{category}', [BlogCategoriesController::class, 'destroy'])->name('blog.category.destroy')->where('id', '[0-9]+');
 
     });
+
+
+    Route::group(['prefix' => 'post'], function () {
+
+        Route::get('/', [PostController::class, 'index'])->name('post.index');
+        Route::get('/create', [PostController::class, 'create'])->name('post.create');
+        Route::get('/show/{category}', [PostController::class, 'show'])->name('post.show')->where('id', '[0-9]+');
+        Route::get('/{category}/edit', [PostController::class, 'edit'])->name('post.edit')->where('id', '[0-9]+');
+        Route::post('/', [PostController::class, 'store'])->name('post.store');
+        Route::put('post/{id}', [PostController::class, 'update'])->name('post.update')->where('id', '[0-9]+');
+        Route::delete('/category/{category}', [PostController::class, 'destroy'])->name('post.destroy')->where('id', '[0-9]+');
+
+    });
+
 
 
 

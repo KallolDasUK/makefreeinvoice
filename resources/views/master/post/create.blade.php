@@ -10,12 +10,12 @@
 
         <div class="card-header">
 
-            <h5  class="my-1 float-left">Create New Blog Category</h5>
+            <h5  class="my-1 float-left">Create New Post</h5>
 
             <div class="btn-group btn-group-sm float-right" role="group">
-                <a href="{{ route('blog.category.index') }}" class="btn btn-primary" title="Show All Blog Category">
+                <a href="{{ route('post.index') }}" class="btn btn-primary" title="Show Post">
                     <i class=" fas fa-fw fa-th-list" aria-hidden="true"></i>
-                    Show All Blog Category
+                    Show All Post
                 </a>
             </div>
 
@@ -25,9 +25,9 @@
 
 
 
-            <form method="POST" action="{{ route('blog.category.store') }}" accept-charset="UTF-8" id="create_blog_category_form" name="create_blog_category_form" class="form-horizontal">
+            <form method="POST" action="{{ route('post.store') }}" accept-charset="UTF-8" id="create_post_form" name="create_post_form" class="form-horizontal">
                 {{ csrf_field() }}
-                @include ('master.blog-category.form', ['blogCategory' => null ])
+                @include ('master.post.form', ['post' => null ])
 
                 <div class="form-group">
                     <div class="col-md-offset-2 col-md-10">
@@ -42,3 +42,4 @@
 
 
 @endsection
+
