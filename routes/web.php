@@ -42,6 +42,7 @@ use App\Http\Controllers\UserRolesController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\VendorAdvancePaymentsController;
 use App\Http\Controllers\VendorsController;
+use App\Http\Controllers\FrontendController;
 use App\Models\Bill;
 use App\Models\BillItem;
 use App\Models\BillPaymentItem;
@@ -97,6 +98,10 @@ Route::get('/', function (Request $request) {
     }
     return view('landing.welcome', compact('posts'));
 })->name('landing.index');
+
+Route::get('/articles',[FrontendController::class,'article_page']);
+
+
 
 Auth::routes();
 Route::get('/auth/redirect/{provider}', [SocialLoginController::class, 'redirect'])->name('social.redirect');
