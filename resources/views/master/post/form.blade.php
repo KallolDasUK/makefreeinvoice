@@ -3,7 +3,8 @@
         <label for="title">Title</label>
         <span class="text-danger font-bolder">*</span>
         <input class="form-control" name="title" type="text" id="title"
-               value="{{ old('title', optional($post)->title) }}" >
+
+               value="{{ old('title', optional($post)->title) }}">
 
         {!! $errors->first('title', '<p class="form-text text-danger">:message</p>') !!}
 
@@ -27,7 +28,7 @@
         <label for="category_id">Category</label>
 
 
-            <select class="form-control searchable" id="category_id" name="category_id">
+        <select class="form-control searchable" id="category_id" name="category_id">
             <option value=""
                     {{ old('category_id', optional($post)->category_id ?: '') == '' ? 'selected' : '' }}
                     selected>Select category id
@@ -61,8 +62,10 @@
     <div class="col-md-10">
         <label for="title">Meta Description</label>
         <span class="text-danger font-bolder">*</span>
+
         <textarea name="meta_description" id="metaDescription" cols="30" rows="10" class="form-control"
                   minlength="1" maxlength="1000" >{{ old('meta_description', optional($post)->meta_description) }}</textarea>
+
 
         {!! $errors->first('metaDescription', '<p class="form-text text-danger">:message</p>') !!}
 
@@ -73,8 +76,10 @@
     <div class="col-md-10">
         <label for="title">Short Summery</label>
         <span class="text-danger font-bolder">*</span>
+
         <textarea name="short_summery" id="shortSummery" cols="30" rows="10" class="form-control"
                   minlength="1" maxlength="1000" >{{ old('short_summery', optional($post)->short_summery) }}</textarea>
+
 
         {!! $errors->first('shortSummery', '<p class="form-text text-danger">:message</p>') !!}
 
@@ -85,8 +90,10 @@
     <div class="col-md-10">
         <label for="title">Content</label>
         <span class="text-danger font-bolder">*</span>
+
         <textarea name="content" id="content" cols="30" rows="10" class="form-control content"
                   minlength="1" maxlength="1000" >{{ old('content', optional($post)->content) }}</textarea>
+
 
         {!! $errors->first('content', '<p class="form-text text-danger">:message</p>') !!}
 

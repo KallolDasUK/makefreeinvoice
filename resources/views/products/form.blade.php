@@ -24,6 +24,9 @@
 
 
 <div class="row">
+
+
+
     <div class="col">
         <div class="form-group">
             <label class="text-danger" for="name">Name *</label>
@@ -35,6 +38,9 @@
 
         </div>
     </div>
+
+
+
     <div class="col">
         <div class="form-group">
             <label for="sku">Product Code [Scan Barcode]</label>
