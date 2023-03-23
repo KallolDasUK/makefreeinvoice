@@ -155,6 +155,7 @@
         <div class="col-md-8">
             <label for=""><input type="radio" name="published" value="1" {{ old('published', optional($post)->published) == 1? 'checked':'' }}> Yes</label>
             <label for=""><input type="radio" name="published" value="0" {{ old('published', optional($post)->published) == 0? 'checked':'' }}> No</label>
+
         </div>
     </div>
 </div>
