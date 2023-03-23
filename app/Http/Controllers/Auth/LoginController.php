@@ -4,10 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
-use Artisan;
-use Enam\Acc\Models\Ledger;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
-use Illuminate\Http\Request;
 
 class LoginController extends Controller
 {
@@ -21,9 +18,8 @@ class LoginController extends Controller
     | to conveniently provide its functionality to your applications.
     |
     */
-    use AuthenticatesUsers {
-        logout as performLogout;
-    }
+
+    use AuthenticatesUsers;
 
     /**
      * Where to redirect users after login.
@@ -41,14 +37,4 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
-    public function logout(Request $request)
-    {
-        $this->performLogout($request);
-
-        if (str_contains($request->url(),'rda')){
-            return redirect()->to("https://rda.invoicepedia.com");
-        }
-        return redirect()->to("https://invoicepedia.com");
-    }
-
 }

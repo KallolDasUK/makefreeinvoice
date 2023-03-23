@@ -83,7 +83,9 @@ use App\Http\Controllers\BannerAdsController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
+    \UniSharp\LaravelFilemanager\Lfm::routes();
+});
 
 
 Route::get('/', function (Request $request) {
@@ -707,6 +709,8 @@ Route::group(['prefix' => 'master', 'middleware' => ['auth:web', 'isMaster']], f
     });
 
 
+
+
     Route::group(['prefix' => 'post'], function () {
 
         Route::get('/', [PostController::class, 'index'])->name('post.index');
@@ -909,3 +913,7 @@ Route::get('/clear-cache', function () {
 
 
 
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

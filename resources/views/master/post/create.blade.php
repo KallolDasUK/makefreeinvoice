@@ -25,7 +25,8 @@
 
 
 
-            <form method="POST" action="{{ route('post.store') }}" accept-charset="UTF-8" id="create_post_form" name="create_post_form" class="form-horizontal">
+            <form method="POST" action="{{ route('post.store') }}" accept-charset="UTF-8" id="create_post_form"
+                  name="create_post_form" class="form-horizontal" enctype="multipart/form-data">
                 {{ csrf_field() }}
                 @include ('master.post.form', ['post' => null ])
 

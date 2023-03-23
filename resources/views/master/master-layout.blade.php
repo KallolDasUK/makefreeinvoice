@@ -14,7 +14,7 @@
 
     <!-- Core css -->
     <link href="{{ asset('assets/css/app.min.css') }}" rel="stylesheet">
-    <script src="https://cdn.ckeditor.com/ckeditor5/35.1.0/classic/ckeditor.js"></script>
+    <script src="https://cdn.ckeditor.com/4.16.0/standard/ckeditor.js"></script>
 
 
 <body>
@@ -822,19 +822,21 @@
 <!-- Core JS -->
 <script src="{{ asset('assets/js/app.min.js') }}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script>
-    ClassicEditor
-    .create(document.querySelector('#content'))
-    .catch( error =>{
-        console.error(error);
-    });
-</script>
+{{--<script>--}}
+{{--    ClassicEditor--}}
+{{--    .create(document.querySelector('#content'))--}}
+{{--    .catch( error =>{--}}
+{{--        console.error(error);--}}
+{{--    });--}}
+{{--</script>--}}
 @if( Session::has('success'))
     <script>
         toastr.success( "{{ Session::get('success') }}");
     </script>
     {{ Session:: forget('success') }}
 @endif
+
+@stack('scripts')
 </body>
 
 </html>

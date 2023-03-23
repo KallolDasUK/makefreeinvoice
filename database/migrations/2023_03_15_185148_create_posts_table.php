@@ -15,7 +15,9 @@ class CreatePostsTable extends Migration
     {
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('category_id')->nullable();
             $table->string('title')->nullable();
+            $table->string('slug')->nullable();
             $table->string('meta_title')->nullable();
             $table->string('meta_description')->nullable();
             $table->string('short_summery')->nullable();
@@ -24,7 +26,7 @@ class CreatePostsTable extends Migration
             $table->date('date')->nullable();
             $table->string('banner')->nullable();
             $table->string('featured_image')->nullable();
-            $table->tinyInteger('published')->default(1);
+            $table->tinyInteger('publish')->default(1);
             $table->timestamps();
         });
     }

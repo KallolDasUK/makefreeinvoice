@@ -43,6 +43,7 @@
                         <tr>
                             <th>#</th>
                             <th>Banner</th>
+                            <th>Slug</th>
                             <th>Title</th>
                             <th>Category Name</th>
 {{--                            <th>Meta Title</th>--}}
@@ -52,7 +53,7 @@
 {{--                            <th>Author Name</th>--}}
                             <th>Date</th>
 
-{{--                            <th>Featured Image</th>--}}
+                            <th>Featured Image</th>
                             <th>Publish</th>
                             <th>Action</th>
                         </tr>
@@ -61,7 +62,9 @@
                         @foreach($posts as $post)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
-                                <td>{{ $post->banner }}</td>
+                                <td>
+                                    <img src="{{ asset('storage/'.$post->banner) }}" alt="" width="100" class="rounded"></td>
+                                <td>{{$post-> slug}}</td>
                                 <td>{{ $post->title }}</td>
                                 <td>{{ optional($post->category)->category_name }}</td>
 {{--                                <td>{{ $post->meta_title }}</td>--}}
@@ -71,9 +74,16 @@
 {{--                                <td>{{ $post->author_name }}</td>--}}
                                 <td>{{ $post->date }}</td>
 
-{{--                                <td>{{ $post->featured_image }}</td>--}}
-                                <td>{{ $post->status == 1? 'Published' : 'Unpublished' }}</td>
-
+                                <td>
+                                    <img src="{{asset('storage'.$post->featured_image)}}" alt="" width="100" class="rounded"></td>
+                                <td class="text-center">
+                                    @if($post->publish == 1)
+                                        <i class="fas fa-check text-primary" aria-hidden="true"></i>
+                                    @else
+                                        <i class="fas fa-times text-danger" aria-hidden="true"></i>
+                                    @endif
+                                </td>
+{{----}}
                                 <td>
 
                                     <form method="POST"
@@ -89,7 +99,7 @@
                                             </a>
 
                                             <button type="submit" style="border: none;background: transparent"
-                                                    title="Delete Blog Category"
+                                                    title="Delete Post Category"
                                                     onclick="return confirm(&quot;Click Ok to delete Post.&quot;)"
                                             >
                                                 <i class=" fas  fa-trash text-danger" aria-hidden="true"></i>
@@ -143,4 +153,5 @@
 
 
 @endsection
+
 

@@ -188,6 +188,8 @@
       <excludeFolder url="file://$MODULE_DIR$/storage/app" />
       <excludeFolder url="file://$MODULE_DIR$/storage/debugbar" />
       <excludeFolder url="file://$MODULE_DIR$/storage/framework" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/intervention/image" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/unisharp/laravel-filemanager" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

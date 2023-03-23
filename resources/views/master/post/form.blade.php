@@ -2,9 +2,22 @@
     <div class="col-md-10">
         <label for="title">Title</label>
         <span class="text-danger font-bolder">*</span>
-        <input class="form-control" name="title" type="text" id="title">
+        <input class="form-control" name="title" type="text" id="title"
+               value="{{ old('title', optional($post)->title) }}" >
 
         {!! $errors->first('title', '<p class="form-text text-danger">:message</p>') !!}
+
+    </div>
+</div>
+
+<div class="form-group">
+    <div class="col-md-10">
+        <label for="slug">Slug</label>
+        <span class="text-danger font-bolder">*</span>
+        <input class="form-control" name="slug" type="text" id="slug"
+               value="{{ old('slug', optional($post)->slug) }}" >
+
+        {!! $errors->first('slug', '<p class="form-text text-danger">:message</p>') !!}
 
     </div>
 </div>
@@ -27,7 +40,7 @@
             @endforeach
         </select>
 
-        {!! $errors->first('referred_by', '<p class="form-text text-danger">:message</p>') !!}
+        {!! $errors->first('category_id', '<p class="form-text text-danger">:message</p>') !!}
 
     </div>
 </div>
@@ -36,7 +49,8 @@
     <div class="col-md-10">
         <label for="title">Meta Title</label>
         <span class="text-danger font-bolder">*</span>
-        <input class="form-control" name="meta_title" type="text" id="metaTitle">
+        <input class="form-control" name="meta_title" type="text" id="metaTitle"
+               value="{{ old('meta_title', optional($post)->meta_title) }}" >
 
         {!! $errors->first('metaTitle', '<p class="form-text text-danger">:message</p>') !!}
 
@@ -47,7 +61,8 @@
     <div class="col-md-10">
         <label for="title">Meta Description</label>
         <span class="text-danger font-bolder">*</span>
-        <textarea name="meta_description" id="metaDescription" cols="30" rows="10" class="form-control" minlength="1" maxlength="1000"></textarea>
+        <textarea name="meta_description" id="metaDescription" cols="30" rows="10" class="form-control"
+                  minlength="1" maxlength="1000" >{{ old('meta_description', optional($post)->meta_description) }}</textarea>
 
         {!! $errors->first('metaDescription', '<p class="form-text text-danger">:message</p>') !!}
 
@@ -58,7 +73,8 @@
     <div class="col-md-10">
         <label for="title">Short Summery</label>
         <span class="text-danger font-bolder">*</span>
-        <textarea name="short_summery" id="shortSummery" cols="30" rows="10" class="form-control" minlength="1" maxlength="1000"></textarea>
+        <textarea name="short_summery" id="shortSummery" cols="30" rows="10" class="form-control"
+                  minlength="1" maxlength="1000" >{{ old('short_summery', optional($post)->short_summery) }}</textarea>
 
         {!! $errors->first('shortSummery', '<p class="form-text text-danger">:message</p>') !!}
 
@@ -69,7 +85,8 @@
     <div class="col-md-10">
         <label for="title">Content</label>
         <span class="text-danger font-bolder">*</span>
-        <textarea name="content" id="content" cols="30" rows="10" class="form-control ckeditor" minlength="1" maxlength="1000"></textarea>
+        <textarea name="content" id="content" cols="30" rows="10" class="form-control content"
+                  minlength="1" maxlength="1000" >{{ old('content', optional($post)->content) }}</textarea>
 
         {!! $errors->first('content', '<p class="form-text text-danger">:message</p>') !!}
 
@@ -80,7 +97,8 @@
     <div class="col-md-10">
         <label for="title">Author Name</label>
         <span class="text-danger font-bolder">*</span>
-        <input class="form-control" name="author_name" type="text" id="authorName">
+        <input class="form-control" name="author_name" type="text" id="authorName"
+               value="{{ old('author_name', optional($post)->author_name) }}">
 
         {!! $errors->first('authorName', '<p class="form-text text-danger">:message</p>') !!}
 
@@ -104,9 +122,10 @@
     <div class="col-md-10">
         <label for="title">Banner</label>
         <span class="text-danger font-bolder">*</span>
-        <input class="form-control" name="banner" type="file" id="banner">
+        <input class="form-control" name="banner" type="file" id="banner"
+               value="{{ old('banner', optional($post)->banner) }}">
 
-        {!! $errors->first('title', '<p class="form-text text-danger">:message</p>') !!}
+        {!! $errors->first('banner', '<p class="form-text text-danger">:message</p>') !!}
 
     </div>
 </div>
@@ -115,9 +134,10 @@
     <div class="col-md-10">
         <label for="title">Featured Image</label>
         <span class="text-danger font-bolder">*</span>
-        <input class="form-control" name="image" type="file" id="image" accept="image/*">
+        <input class="form-control" name="featured_image" type="file" id="image"
+               value="{{ old('featured_image', optional($post)->featured_image) }}">
 
-        {!! $errors->first('title', '<p class="form-text text-danger">:message</p>') !!}
+        {!! $errors->first('bannerS', '<p class="form-text text-danger">:message</p>') !!}
 
     </div>
 </div>
@@ -126,10 +146,23 @@
     <div class="col-md-10">
         <label for="" class="col-md-4">Publish</label>
         <div class="col-md-8">
-            <label for=""><input type="radio" name="status" value="1"> Yes </label>
-            <label for=""><input type="radio" name="status" value="0"> No </label>
+            <label for=""><input type="radio" name="published" value="1" {{ old('published', optional($post)->published) == 1? 'checked':'' }}> Yes</label>
+            <label for=""><input type="radio" name="published" value="0" {{ old('published', optional($post)->published) == 0? 'checked':'' }}> No</label>
         </div>
     </div>
 </div>
 
-
+@push('scripts')
+    <script src="//cdn.ckeditor.com/4.6.2/standard/ckeditor.js"></script>
+    <script>
+        var options = {
+            filebrowserImageBrowseUrl: '/laravel-filemanager?type=Images',
+            filebrowserImageUploadUrl: '/laravel-filemanager/upload?type=Images&_token=',
+            filebrowserBrowseUrl: '/laravel-filemanager?type=Files',
+            filebrowserUploadUrl: '/laravel-filemanager/upload?type=Files&_token='
+        };
+    </script>
+    <script>
+        CKEDITOR.replace('content',options);
+    </script>
+@endpush

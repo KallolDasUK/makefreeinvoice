@@ -7,6 +7,7 @@ use App\Models\Category;
 use App\Models\Post;
 use Illuminate\Http\Request;
 
+
 class PostController extends Controller
 {
     /**
@@ -31,7 +32,10 @@ class PostController extends Controller
 
     public function store(Request $request)
     {
-        Post::savePost($request);
+        $data = $this->getData($request);
+
+        Post::create($data);
+//        Post::savePost($request);
         return redirect()->route('post.index')
             ->with('success_message', 'Post was successfully added.');
     }
@@ -50,20 +54,37 @@ class PostController extends Controller
     }
 
 
-    public function update(Request $request, Post $post)
+    public function update(Request $request, $post)
     {
-        Post::updatePost($request, $post);
+        $data = $this->getData($request);
+
+        $posts = Post::updatePost($request, $post);
+        $posts->update($data);
         return redirect()->route('post.index')
             ->with('success_message', 'Post was successfully updated.');
     }
 
 
-    public function destroy(Post $post)
+    public function destroy( $post)
     {
         $post = Post::findOrFail($post);
-        AffiliatePayable::query()->where('type', get_class($post))->where('type_id', $post->id)->delete();
         $post->delete();
         return redirect()->route('post.index')
             ->with('success_message', 'post was successfully deleted.');
+    }
+
+    protected function getData(Request $request)
+    {
+        $rules = [
+            'title' => 'required',
+            'slug' => 'required',
+            'category_id' => 'required',
+            'banner' => 'required',
+        ];
+
+        $data = $request->validate($rules);
+
+
+        return $data;
     }
 }

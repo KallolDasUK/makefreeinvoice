@@ -33,7 +33,8 @@
                 </ul>
             @endif
 
-            <form method="POST" action="{{ route('post.update', $post->id) }}" id="edit_post_form" name="edit_post_form" accept-charset="UTF-8" class="form-horizontal">
+            <form method="POST" action="{{ route('post.update', $post->id) }}" id="edit_post_form" name="edit_post_form"
+                  accept-charset="UTF-8" class="form-horizontal" enctype="multipart/form-data">
                 {{ csrf_field() }}
                 <input name="_method" type="hidden" value="PUT">
                 @include ('master.post.form', [
