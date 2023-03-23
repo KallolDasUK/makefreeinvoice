@@ -133,9 +133,28 @@
                value="{{ old('banner', optional($post)->banner) }}">
 
         {!! $errors->first('banner', '<p class="form-text text-danger">:message</p>') !!}
+        @if (isset($post->banner) && !empty($post->banner))
+            <div class="">
+                <span class="input-group-addon">
+                    <input type="checkbox" name="custom_delete_banner" class="custom-delete-file" value="1" {{ old('custom_delete_banner', '0') == '1' ? 'checked' : '' }}> Delete
+                </span>
+
+                <span class="input-group-addon custom-delete-file-name">
+                   <img class="card" src="{{ asset('storage/'.$post->banner) }}" width="200">
+
+                </span>
+            </div>
+        @endif
 
     </div>
+
+
+
+
 </div>
+
+
+
 
 <div class="form-group">
     <div class="col-md-10">
@@ -145,16 +164,29 @@
                value="{{ old('featured_image', optional($post)->featured_image) }}">
 
         {!! $errors->first('bannerS', '<p class="form-text text-danger">:message</p>') !!}
+        @if (isset($post->featured_image) && !empty($post->featured_image))
+            <div class="">
+                <span class="input-group-addon">
+                    <input type="checkbox" name="custom_delete_featured_image" class="custom-delete-file" value="1" {{ old('custom_delete_featured_image', '0') == '1' ? 'checked' : '' }}> Delete
+                </span>
 
+                <span class="input-group-addon custom-delete-file-name">
+                   <img class="card" src="{{ asset('storage/'.$post->featured_image) }}" width="200">
+
+                </span>
+            </div>
+        @endif
     </div>
+
+
 </div>
 
 <div class="form-group">
     <div class="col-md-10">
         <label for="" class="col-md-4">Publish</label>
         <div class="col-md-8">
-            <label for=""><input type="radio" name="published" value="1" {{ old('published', optional($post)->published) == 1? 'checked':'' }}> Yes</label>
-            <label for=""><input type="radio" name="published" value="0" {{ old('published', optional($post)->published) == 0? 'checked':'' }}> No</label>
+            <label for=""><input type="radio" name="publish" value="1" {{ old('publish', optional($post)->publish) == 1? 'checked':'' }}> Yes</label>
+            <label for=""><input type="radio" name="publish" value="0" {{ old('publish', optional($post)->publish) == 0? 'checked':'' }}> No</label>
 
         </div>
     </div>

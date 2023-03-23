@@ -34,8 +34,8 @@ class PostController extends Controller
     {
         $data = $this->getData($request);
 
-        Post::create($data);
-//        Post::savePost($request);
+//        Post::create($data);
+        Post::savePost($request);
         return redirect()->route('post.index')
             ->with('success_message', 'Post was successfully added.');
     }
@@ -48,7 +48,7 @@ class PostController extends Controller
 
     public function edit($id)
     {
-        $post=Post::find($id);
+        $post = Post::find($id);
         $categories = BlogCategory::pluck('category_name', 'id')->all();
         return view('master.post.edit', compact('categories', 'post'));
     }
@@ -56,16 +56,17 @@ class PostController extends Controller
 
     public function update(Request $request, $post)
     {
-        $data = $this->getData($request);
+        $data = $this->getData($request, $post);
 
-        $posts = Post::updatePost($request, $post);
-        $posts->update($data);
+        Post::updatePost($request, $post);
+
+//        $posts->update($data);
         return redirect()->route('post.index')
             ->with('success_message', 'Post was successfully updated.');
     }
 
 
-    public function destroy( $post)
+    public function destroy($post)
     {
         $post = Post::findOrFail($post);
         $post->delete();
@@ -73,14 +74,19 @@ class PostController extends Controller
             ->with('success_message', 'post was successfully deleted.');
     }
 
-    protected function getData(Request $request)
+    protected function getData(Request $request, $id = null)
     {
         $rules = [
             'title' => 'required',
             'slug' => 'required',
             'category_id' => 'required',
-            'banner' => 'required',
         ];
+
+        if ($id == null) {
+            $rules['banner'] = 'required';
+        } else {
+            $rules['banner'] = 'nullable';
+        }
 
         $data = $request->validate($rules);
 
