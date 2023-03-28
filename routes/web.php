@@ -100,6 +100,7 @@ Route::get('/', function (Request $request) {
 })->name('landing.index');
 
 Route::get('/articles',[FrontendController::class,'article_page']);
+Route::get('/article/{slug}',[FrontendController::class,'article_details'])->name('article_details');
 
 
 
