@@ -107,11 +107,6 @@ class InvoicesController extends Controller
             ->where('client_id', auth()->user()->client_id)
             ->select('name', 'id', 'description', 'purchase_price', 'sell_price', 'sell_unit', 'purchase_unit', 'photo as image', 'code', )
             ->get();
-        foreach($products as $product){
-            $product->stock=1;
-
-        }
-
 
         $categories = Category::all();
         $taxes = Tax::query()->latest()->get()->toArray();

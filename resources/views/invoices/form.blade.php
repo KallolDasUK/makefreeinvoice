@@ -108,7 +108,7 @@
     </div>
     <div class="col">
         <div class="form-group mini">
-            <label class="font-weight-bolder">To Customer</label>
+            <label id="to_customer" class="font-weight-bolder">To Customer</label>
 
             <br>
 
