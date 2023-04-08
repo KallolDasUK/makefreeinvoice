@@ -17,7 +17,8 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::latest()->get();
+        $posts = Post::orderBy('date', 'desc')->get();
+
 
         return view('master.post.index', compact('posts'));
     }
@@ -41,9 +42,13 @@ class PostController extends Controller
     }
 
 
-    public function show(Post $post)
+    public function show( $id)
     {
+//        dd('the value of variable jannat is',$jannat);
+        $post = Post::find($id);
+//        dd($post->updated_at->format('h:i A'));
 
+        return view('master.post.show', compact('post'));
     }
 
     public function edit($id)
@@ -92,5 +97,9 @@ class PostController extends Controller
 
 
         return $data;
+    }
+    public function user()
+    {
+        return $this->belongsTo('App\Models\User','user_id');
     }
 }

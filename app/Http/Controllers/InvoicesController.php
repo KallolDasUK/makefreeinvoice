@@ -48,6 +48,7 @@ class InvoicesController extends Controller
         $this->authorize('viewAny', Invoice::class);
 
 
+
         $start_date = $request->start_date;
         $end_date = $request->end_date;
         $customer_id = $request->customer;
@@ -82,11 +83,11 @@ class InvoicesController extends Controller
         $customers = Customer::all();
         $ledgerGroups = LedgerGroup::all();
 
-
         view()->share('title', 'All Invoices');
 
         return view('invoices.index', compact('invoices', 'q', 'cashAcId', 'depositAccounts', 'paymentMethods',
             'start_date', 'user_id', 'end_date', 'customer_id', 'customers', 'ledgerGroups', 'sr_id', 'payment_status'));
+
     }
 
 
@@ -104,8 +105,13 @@ class InvoicesController extends Controller
 
         $products = \DB::table('products')
             ->where('client_id', auth()->user()->client_id)
-            ->select('name', 'id', 'description', 'purchase_price', 'sell_price', 'sell_unit', 'purchase_unit', 'photo as image', 'code')
+            ->select('name', 'id', 'description', 'purchase_price', 'sell_price', 'sell_unit', 'purchase_unit', 'photo as image', 'code', )
             ->get();
+        foreach($products as $product){
+            $product->stock=1;
+
+        }
+
 
         $categories = Category::all();
         $taxes = Tax::query()->latest()->get()->toArray();

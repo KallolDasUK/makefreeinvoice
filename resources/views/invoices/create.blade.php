@@ -50,6 +50,7 @@
 @section('js')
 
     <script>
+
         var sample_item = {
             product_id: '', description: '', price: '', qnt: 1, tax_id: '', unit: 'unit', batch: ''
         };

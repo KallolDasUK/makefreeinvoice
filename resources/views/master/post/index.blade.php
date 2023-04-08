@@ -42,7 +42,7 @@
                         <thead>
                         <tr>
                             <th>#</th>
-                            <th>Banner</th>
+                            <th>Featured Image</th>
                             <th>Slug</th>
                             <th>Title</th>
                             <th>Category Name</th>
@@ -52,8 +52,7 @@
 {{--                            <th>Content</th>--}}
 {{--                            <th>Author Name</th>--}}
                             <th>Date</th>
-
-                            <th>Featured Image</th>
+                            <th>Banner</th>
                             <th>Publish</th>
                             <th>Action</th>
                         </tr>
@@ -63,7 +62,8 @@
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
                                 <td>
-                                    <img src="{{ asset('storage/'.$post->banner) }}" alt="" width="100" class="rounded"></td>
+                                    <img src="{{asset('storage/'.$post->featured_image)}}" alt="" width="100" class="rounded">
+                                </td>
                                 <td>{{$post-> slug}}</td>
                                 <td>{{ $post->title }}</td>
                                 <td>{{ optional($post->category)->category_name }}</td>
@@ -73,9 +73,10 @@
 {{--                                <td>{{ $post->content }}</td>--}}
 {{--                                <td>{{ $post->author_name }}</td>--}}
                                 <td>{{ $post->date }}</td>
-
                                 <td>
-                                    <img src="{{asset('storage'.$post->featured_image)}}" alt="" width="100" class="rounded"></td>
+                                    <img src="{{ asset('storage/'.$post->banner) }}" alt="" width="100" class="rounded">
+                                </td>
+
                                 <td class="text-center">
                                     @if($post->publish == 1)
                                         <i class="fas fa-check text-primary" aria-hidden="true"></i>
@@ -93,11 +94,13 @@
                                         {{ csrf_field() }}
 
                                         <div class="btn-group btn-group-sm float-right " role="group">
+                                            <a href="{{ route('post.show', $post->id ) }}"title="Show Post">
+                                                <i class="fa fa-eye text-info" aria-hidden="true"></i>
+                                            </a>
                                             <a href="{{ route('post.edit', $post->id ) }}"
                                                class="mx-4" title="Edit Collect Payment">
                                                 <i class="fas fa-edit text-primary" aria-hidden="true"></i>
                                             </a>
-
                                             <button type="submit" style="border: none;background: transparent"
                                                     title="Delete Post Category"
                                                     onclick="return confirm(&quot;Click Ok to delete Post.&quot;)"

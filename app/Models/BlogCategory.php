@@ -21,4 +21,9 @@ class BlogCategory extends Model
     {
         BlogCategory::find($id)->update($request->except('_token'));
     }
+
+    public function user()
+    {
+        return $this->belongsTo('App\Models\User','user_id');
+    }
 }

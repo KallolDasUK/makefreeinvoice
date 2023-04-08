@@ -66,6 +66,9 @@
                                                             {{ csrf_field() }}
 
                                                             <div class="btn-group btn-group-sm float-right " role="group">
+                                                                <a href="{{ route('blog.category.show', $blogCategory->id ) }}"title="Show Payment Request">
+                                                                    <i class="fa fa-eye text-info" aria-hidden="true"></i>
+                                                                </a>
                                                                 <a href="{{ route('blog.category.edit', $blogCategory->id ) }}"
                                                                    class="mx-4" title="Edit Collect Payment">
                                                                     <i class="fas fa-edit text-primary" aria-hidden="true"></i>

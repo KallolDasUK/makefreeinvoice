@@ -40,7 +40,9 @@ class BlogCategoriesController extends Controller
 
     public function show($id)
     {
-        //
+        $blogCategory = BlogCategory::with('user')->findOrFail($id);
+
+        return view('master.blog-category.show', compact('blogCategory'));
     }
 
 
