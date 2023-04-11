@@ -512,3 +512,7 @@ $(document).on('blur', '.col-5 input, textarea', function () {
     // alert('lsd')
 })
 console.log(posRactive.get())
+
+let product_id = products.map((product)=>product.id)
+
+
