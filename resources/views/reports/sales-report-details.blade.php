@@ -75,9 +75,31 @@
             </div>
 
         </div>
+        @include('reports.partials.print-download-export')
+
+        <p class="clearfix"></p>
+        <div id="invoice-container" class="container-fluid invoice-container">
+
+            <!-- Header -->
+            <header>
+                <div class="text-center">
+
+                    @if($settings->business_name??false)
+                        <h3>{{ $settings->business_name }}</h3>
+                        <p>{{ $settings->street_1 }} {{ $settings->street_2 }}, {{ $settings->city }}, {{ $settings->zip_post }}</p>
+                        <p>{{ $settings->email }}, {{ $settings->phone }}</p>
+                        {{--                        <h1>Accounts Payable Aging</h1>--}}
+                        {{--                        <span>Date {{ today()->format('d M Y') }}</span>--}}
+                        <a href="{{ $settings->website }}">{{ $settings->website }}</a>
+                    @endif
+                </div>
+
+                <hr>
+            </header>
 
 
-        <div class="card mb-2">
+
+            <div class="card mb-2">
             <div class="card-body">
                 <form action="{{ route('reports.report.sales_report_details') }}">
                     <div class="row align-items-end mb-4 mx-auto justify-content-center">

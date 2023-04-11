@@ -75,6 +75,14 @@
             <div class="text-center">
 
 
+                @if($settings->business_name??false)
+                    <h3>{{ $settings->business_name }}</h3>
+                    <p>{{ $settings->street_1 }} {{ $settings->street_2 }}, {{ $settings->city }}, {{ $settings->zip_post }}</p>
+                    <p>{{ $settings->email }}, {{ $settings->phone }}</p>
+                    {{--                        <h1>Accounts Payable Aging</h1>--}}
+                    {{--                        <span>Date {{ today()->format('d M Y') }}</span>--}}
+                    <a href="{{ $settings->website }}">{{ $settings->website }}</a>
+                @endif
             </div>
 
         </div>
