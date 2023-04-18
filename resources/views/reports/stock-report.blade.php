@@ -75,14 +75,6 @@
             <div class="text-center">
 
 
-                @if($settings->business_name??false)
-                    <h3>{{ $settings->business_name }}</h3>
-                    <p>{{ $settings->street_1 }} {{ $settings->street_2 }}, {{ $settings->city }}, {{ $settings->zip_post }}</p>
-                    <p>{{ $settings->email }}, {{ $settings->phone }}</p>
-                    {{--                        <h1>Accounts Payable Aging</h1>--}}
-                    {{--                        <span>Date {{ today()->format('d M Y') }}</span>--}}
-                    <a href="{{ $settings->website }}">{{ $settings->website }}</a>
-                @endif
             </div>
 
         </div>
@@ -165,20 +157,10 @@
         <div id="invoice-container" class="container-fluid invoice-container">
 
             <!-- Header -->
-            <header>
-                <div class="text-center">
+        @include('reports.partials.report-header')
 
-                    @if($settings->business_name??false)
-                        <h3>{{ $settings->business_name }}</h3>
-                        <h1>Stock Report</h1>
-                        <span>From {{ $start_date??'-' }} to {{ $end_date??'-' }}</span>
-                    @endif
-                </div>
 
-                <hr>
-            </header>
-
-            <!-- Main Content -->
+        <!-- Main Content -->
             <main>
 
                 <hr>
@@ -268,7 +250,8 @@
                     </div>
                 </div>
             </main>
-            <!-- Footer -->
+        @include('reports.partials.powered-by')
+        <!-- Footer -->
 
 
         </div>

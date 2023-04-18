@@ -49,6 +49,7 @@
             .tippy-tooltip.wv-popover-theme .wv-popover__content-wrapper {
                 padding: 24px;
             }
+
         }
     </style>
 @endsection
@@ -134,46 +135,30 @@
 {{--        <p class="clearfix"></p>--}}
 {{--        <div id="invoice-container" class="container-fluid invoice-container">--}}
 
-{{--            <!-- Header -->--}}
-{{--            <header>--}}
-{{--                <div class="text-center">--}}
-
-{{--                    @if($settings->business_name??false)--}}
-{{--                        <h3>{{ $settings->business_name }}</h3>--}}
-{{--                        <h1>Tax Summary</h1>--}}
-{{--                        <span>Basis: {{ $report_type??'' }}</span> <br>--}}
-{{--                        <span>From {{ $start_date??'-' }} to {{ $end_date??'-' }}</span>--}}
-{{--                    @endif--}}
-{{--                </div>--}}
-
-{{--                <hr>--}}
-{{--            </header>--}}
+            <!-- Header -->
         @include('reports.partials.print-download-export')
 
         <p class="clearfix"></p>
         <div id="invoice-container" class="container-fluid invoice-container">
 
             <!-- Header -->
-            <header>
-                <div class="text-center">
-
-                    @if($settings->business_name??false)
-                        <h3>{{ $settings->business_name }}</h3>
-                        <p>{{ $settings->street_1 }} {{ $settings->street_2 }}, {{ $settings->city }}, {{ $settings->zip_post }}</p>
-                        <p>{{ $settings->email }}, {{ $settings->phone }}</p>
-                        {{--                        <h1>Accounts Payable Aging</h1>--}}
-                        {{--                        <span>Date {{ today()->format('d M Y') }}</span>--}}
-                        <a href="{{ $settings->website }}">{{ $settings->website }}</a>
-                    @endif
-                </div>
-
-                <hr>
-            </header>
 
 
             <!-- Main Content -->
             <main>
 
+                <header>
+                    <div class="text-center">
+
+                        @if($settings->business_name??false)
+
+                            <h1>Tax Summary</h1>
+                            <span>Basis: {{ $report_type??'' }}</span> <br>
+                            <span>From {{ $start_date??'-' }} to {{ $end_date??'-' }}</span><br>
+                            @include('reports.partials.report-header')
+                        @endif
+                    </div>
+                </header>
                 <hr>
 
                 <div class="card">
@@ -231,11 +216,13 @@
 
                                 </tr>
                                 </tfoot>
+
                             </table>
                         </div>
                     </div>
                 </div>
             </main>
+        @include('reports.partials.powered-by')
             <!-- Footer -->
 
 
