@@ -423,6 +423,9 @@ $(document).ready(function () {
             $(element).removeClass('is-invalid');
         }
     });
+
+
+
     $.ajax({
         url: route('products.product.index'),
         processData: false,
@@ -431,6 +434,32 @@ $(document).ready(function () {
         success: function (response) {
             posRactive.set('products', response)
             products = response;
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+            $.ajax({
+                url: route('products.product.product_stock'),
+                data: {product_ids: product_id},
+                type: 'post',
+                success: function (response) {
+                    console.log(response);
+                    let product_stocks = response;
+                    for (let i = 0; i < products.length; i++) {
+                        let product_id = product_stocks[i].product_id;
+                        let product_stock = product_stocks[i].product_stock;
+
+
+                        posRactive.set(`products.${i}.stock`, product_stock)
+                        // alert('fuckedup')
+
+
+                    }
+
+                }
+            });
 
         }
     });

@@ -4,7 +4,7 @@
     <style>
         .eaBhby {
             width: 140px;
-            height: 132px;
+            min-height: 136px;
             margin: 18px 10px 5px;
             padding: 8px;
             text-align: center;
@@ -406,14 +406,14 @@
                     REPORT SHORTCUTS
                 </div>
 
-                <a class="sc-gPEVay eaBhby {{ ability_class(\App\Utils\Ability::REPORT_READ) }}  @cannot('stock_report') pro-tag @endcannot"
+                <a class="sc-gPEVay eaBhby border rounded {{ ability_class(\App\Utils\Ability::REPORT_READ) }}  @cannot('stock_report') pro-tag @endcannot"
                    href="{{ route('reports.report.stock-report') }}">
                     <div class="sc-iRbamj image" style="background-image:url('images/estimate.svg') ">
 
                     </div>
                     <div class="shortcuts-title sc-jlyJG gSoaLO title">Stock Report</div>
                 </a>
-                <a class="sc-gPEVay eaBhby   @cannot('stock_report') pro-tag @endcannot"
+                <a class="sc-gPEVay eaBhby border rounded   @cannot('stock_report') pro-tag @endcannot"
                    href="{{ route('reports.report.stock-report-details') }}">
                     <div class="sc-iRbamj image" style="background-image:url('{{ asset('images/estimate.svg') }}') ">
 
@@ -421,56 +421,56 @@
                     <div class="shortcuts-title sc-jlyJG gSoaLO title">Stock Details</div>
                 </a>
 
-                <a class="sc-gPEVay eaBhby {{ ability_class(\App\Utils\Ability::REPORT_READ) }}  @cannot('tax_summary') pro-tag @endcannot"
+                <a class="sc-gPEVay eaBhby border rounded {{ ability_class(\App\Utils\Ability::REPORT_READ) }}  @cannot('tax_summary') pro-tag @endcannot"
                    href="{{ route('reports.report.tax_report') }}">
                     <div class="sc-iRbamj image" style="background-image:url('images/estimate.svg') ">
 
                     </div>
                     <div class="shortcuts-title sc-jlyJG gSoaLO title">Tax Summary</div>
                 </a>
-                <a class="sc-gPEVay eaBhby {{ ability_class(\App\Utils\Ability::REPORT_READ) }}   @cannot('ar_aging') pro-tag @endcannot"
+                <a class="sc-gPEVay eaBhby border rounded {{ ability_class(\App\Utils\Ability::REPORT_READ) }}   @cannot('ar_aging') pro-tag @endcannot"
                    href="{{ route('reports.report.ar_aging_report') }}">
                     <div class="sc-iRbamj image" style="background-image:url('images/estimate.svg') ">
 
                     </div>
                     <div class="shortcuts-title sc-jlyJG gSoaLO title">Receivable Aging</div>
                 </a>
-                <a class="sc-gPEVay eaBhby {{ ability_class(\App\Utils\Ability::REPORT_READ) }}  @cannot('ap_aging') pro-tag @endcannot"
+                <a class="sc-gPEVay eaBhby border rounded {{ ability_class(\App\Utils\Ability::REPORT_READ) }}  @cannot('ap_aging') pro-tag @endcannot"
                    href="{{ route('reports.report.ap_aging_report') }}">
                     <div class="sc-iRbamj image" style="background-image:url('images/estimate.svg') ">
 
                     </div>
                     <div class="shortcuts-title sc-jlyJG gSoaLO title">Payable Aging</div>
                 </a>
-                <a class="sc-gPEVay eaBhby {{ ability_class(\App\Utils\Ability::REPORT_READ) }}   @cannot('profit_loss') pro-tag @endcannot"
+                <a class="sc-gPEVay eaBhby border rounded {{ ability_class(\App\Utils\Ability::REPORT_READ) }}   @cannot('profit_loss') pro-tag @endcannot"
                    href="{{ route('reports.report.loss_profit_report') }}">
                     <div class="sc-iRbamj image" style="background-image:url('images/estimate.svg') ">
 
                     </div>
                     <div class="shortcuts-title sc-jlyJG gSoaLO title">Profit & Loss</div>
                 </a>
-                <a class="sc-gPEVay eaBhby {{ ability_class(\App\Utils\Ability::REPORT_READ) }}   @cannot('cash_book') pro-tag @endcannot"
+                <a class="sc-gPEVay eaBhby border rounded {{ ability_class(\App\Utils\Ability::REPORT_READ) }}   @cannot('cash_book') pro-tag @endcannot"
                    href="{{ route('reports.report.ledger_report',['ledger_id'=>\Enam\Acc\Models\Ledger::CASH_AC()]) }}">
                     <div class="sc-iRbamj image" style="background-image:url('images/estimate.svg') ">
 
                     </div>
                     <div class="shortcuts-title sc-jlyJG gSoaLO title">Cashbook</div>
                 </a>
-                <a class="sc-gPEVay eaBhby  {{ ability_class(\App\Utils\Ability::REPORT_READ) }}  @cannot('product_report') pro-tag @endcannot"
+                <a class="sc-gPEVay eaBhby border rounded {{ ability_class(\App\Utils\Ability::REPORT_READ) }}  @cannot('product_report') pro-tag @endcannot"
                    href="{{ route('reports.report.product_report') }}">
                     <div class="sc-iRbamj image" style="background-image:url('{{ asset('images/estimate.svg') }}') ">
 
                     </div>
                     <div class="shortcuts-title sc-jlyJG gSoaLO title">Product Report</div>
                 </a> <a
-                    class="sc-gPEVay eaBhby  {{ ability_class(\App\Utils\Ability::REPORT_READ) }} @cannot('customer_report') pro-tag @endcannot"
+                    class="sc-gPEVay eaBhby border rounded {{ ability_class(\App\Utils\Ability::REPORT_READ) }} @cannot('customer_report') pro-tag @endcannot"
                     href="{{ route('reports.report.customer_report') }}">
                     <div class="sc-iRbamj image" style="background-image:url('{{ asset('images/estimate.svg') }}') ">
 
                     </div>
                     <div class="shortcuts-title sc-jlyJG gSoaLO title">Customer Report</div>
                 </a>
-                <a class="sc-gPEVay eaBhby  {{ ability_class(\App\Utils\Ability::REPORT_READ) }} @cannot('vendor_report') pro-tag @endcannot"
+                <a class="sc-gPEVay eaBhby border rounded {{ ability_class(\App\Utils\Ability::REPORT_READ) }} @cannot('vendor_report') pro-tag @endcannot"
                    href="{{ route('reports.report.vendor_report') }}">
                     <div class="sc-iRbamj image" style="background-image:url('{{ asset('images/estimate.svg') }}') ">
 
@@ -478,24 +478,24 @@
                     <div class="shortcuts-title sc-jlyJG gSoaLO title">Vendor Report</div>
                 </a>
 
-                <a class="sc-gPEVay eaBhby {{ ability_class(\App\Utils\Ability::REPORT_READ) }} @cannot('customer_statement') pro-tag @endcannot"
+                <a class="sc-gPEVay eaBhby border rounded justify-content-center {{ ability_class(\App\Utils\Ability::REPORT_READ) }} @cannot('customer_statement') pro-tag @endcannot"
                    style="position: relative"
                    href="{{ route('reports.report.customer_statement') }}">
                     <div class="sc-iRbamj image" style="background-image:url('images/customer 1.svg') ">
 
                     </div>
-                    <div class="shortcuts-title sc-jlyJG gSoaLO title">Customer Statement</div>
+                    <div class="shortcuts-title sc-jlyJG gSoaLO title">C Statement</div>
                 </a>
-                <a class="sc-gPEVay eaBhby {{ ability_class(\App\Utils\Ability::REPORT_READ) }}  @cannot('vendor_statement') pro-tag @endcannot"
+                <a class="sc-gPEVay eaBhby border rounded {{ ability_class(\App\Utils\Ability::REPORT_READ) }}  @cannot('vendor_statement') pro-tag @endcannot"
                    style="position:relative;"
                    href="{{ route('reports.report.vendor_statement') }}">
                     <div class="sc-iRbamj image" style="background-image:url('images/customer 1.svg') ">
 
                     </div>
-                    <div class="shortcuts-title sc-jlyJG gSoaLO title">Vendor <br> Statement</div>
+                    <div class="shortcuts-title sc-jlyJG gSoaLO title">V Statement</div>
                 </a>
 
-                <a class="sc-gPEVay eaBhby {{ ability_class(\App\Utils\Ability::REPORT_READ) }}   @cannot('sales_report') pro-tag @endcannot"
+                <a class="sc-gPEVay eaBhby border rounded {{ ability_class(\App\Utils\Ability::REPORT_READ) }}   @cannot('sales_report') pro-tag @endcannot"
                    style="position:relative;"
                    href="{{ route('reports.report.sales_report') }}">
                     <div class="sc-iRbamj image" style="background-image:url('images/estimate.svg') ">
@@ -503,7 +503,7 @@
                     </div>
                     <div class="shortcuts-title sc-jlyJG gSoaLO title">Sales <br> Report</div>
                 </a> <a
-                    class="sc-gPEVay eaBhby {{ ability_class(\App\Utils\Ability::REPORT_READ) }}  @cannot('sales_report_details') pro-tag @endcannot"
+                    class="sc-gPEVay eaBhby border rounded {{ ability_class(\App\Utils\Ability::REPORT_READ) }}  @cannot('sales_report_details') pro-tag @endcannot"
                     style="position:relative;"
                     href="{{ route('reports.report.sales_report_details') }}">
                     <div class="sc-iRbamj image" style="background-image:url('images/estimate.svg') ">
@@ -511,7 +511,7 @@
                     </div>
                     <div class="shortcuts-title sc-jlyJG gSoaLO title">Sales <br> Report Details</div>
                 </a>
-                <a class="sc-gPEVay eaBhby {{ ability_class(\App\Utils\Ability::REPORT_READ) }}  @cannot('purchase_report') pro-tag @endcannot"
+                <a class="sc-gPEVay eaBhby border rounded {{ ability_class(\App\Utils\Ability::REPORT_READ) }}  @cannot('purchase_report') pro-tag @endcannot"
                    style="position:relative;"
                    href="{{ route('reports.report.purchase_report') }}">
                     <div class="sc-iRbamj image" style="background-image:url('images/estimate.svg') ">
@@ -519,7 +519,7 @@
                     </div>
                     <div class="shortcuts-title sc-jlyJG gSoaLO title">Purchase <br> Report</div>
                 </a>
-                <a class="sc-gPEVay eaBhby {{ ability_class(\App\Utils\Ability::REPORT_READ) }}  @cannot('purchase_report_details') pro-tag @endcannot"
+                <a class="sc-gPEVay eaBhby border rounded {{ ability_class(\App\Utils\Ability::REPORT_READ) }}  @cannot('purchase_report_details') pro-tag @endcannot"
                    style="position:relative;"
                    href="{{ route('reports.report.purchase_report_details') }}">
                     <div class="sc-iRbamj image" style="background-image:url('{{ asset('images/estimate.svg') }}') ">
@@ -527,14 +527,14 @@
                     </div>
                     <div class="shortcuts-title sc-jlyJG gSoaLO title">Purchase <br> Report Details</div>
                 </a>
-                <a class="sc-gPEVay eaBhby  {{ ability_class(\App\Utils\Ability::REPORT_READ) }}  @cannot('due_collection') pro-tag @endcannot"
+                <a class="sc-gPEVay eaBhby border rounded {{ ability_class(\App\Utils\Ability::REPORT_READ) }}  @cannot('due_collection') pro-tag @endcannot"
                    href="{{ route('reports.report.due_collection_report') }}">
                     <div class="sc-iRbamj image" style="background-image:url('{{ asset('images/estimate.svg') }}') ">
 
                     </div>
                     <div class="shortcuts-title sc-jlyJG gSoaLO title">Due Collection</div>
                 </a>
-                <a class="sc-gPEVay eaBhby {{ ability_class(\App\Utils\Ability::REPORT_READ) }}    @cannot('due_payment') pro-tag @endcannot"
+                <a class="sc-gPEVay eaBhby border rounded {{ ability_class(\App\Utils\Ability::REPORT_READ) }}    @cannot('due_payment') pro-tag @endcannot"
                    href="{{ route('reports.report.due_payment_report') }}">
                     <div class="sc-iRbamj image" style="background-image:url('{{ asset('images/estimate.svg') }}') ">
 
@@ -542,7 +542,7 @@
                     <div class="shortcuts-title sc-jlyJG gSoaLO title">Due Payment</div>
                 </a>
 
-                <a class="sc-gPEVay eaBhby  "
+                <a class="sc-gPEVay eaBhby border rounded "
                    href="{{ route('reports.report.stock_alert') }}">
                     <div class="sc-iRbamj image"
                          style="background-image:url('{{ asset('images/estimate.svg') }}') ">
@@ -550,7 +550,7 @@
                     </div>
                     <div class="shortcuts-title sc-jlyJG gSoaLO title">Stock Alert</div>
                 </a>
-                <a class="sc-gPEVay eaBhby  "
+                <a class="sc-gPEVay eaBhby border rounded "
                    href="{{ route('reports.report.popular_products_report') }}">
                     <div class="sc-iRbamj image"
                          style="background-image:url('{{ asset('images/estimate.svg') }}') ">
@@ -560,13 +560,13 @@
                 </a>
 
 
-                <a class="sc-gPEVay eaBhby @cannot('trial_balance') pro-tag @endcannot "
+                <a class="sc-gPEVay eaBhby border rounded @cannot('trial_balance') pro-tag @endcannot "
                    href="{{ route('reports.report.trial_balance') }}">
                     <div class="sc-iRbamj image" style="background-image:url('{{ asset('images/estimate.svg') }}') ">
                     </div>
                     <div class="shortcuts-title sc-jlyJG gSoaLO title">Trial Balance</div>
                 </a>
-                <a class="sc-gPEVay eaBhby  @cannot('receipt_payment') pro-tag @endcannot"
+                <a class="sc-gPEVay eaBhby border rounded @cannot('receipt_payment') pro-tag @endcannot"
                    href="{{ route('reports.report.receipt_payment_report') }}">
                     <div class="sc-iRbamj image" style="background-image:url('{{ asset('images/estimate.svg') }}') ">
 
@@ -574,7 +574,7 @@
                     <div class="shortcuts-title sc-jlyJG gSoaLO title">Receipt Payment</div>
                 </a>
 
-                <a class="sc-gPEVay eaBhby  @cannot('ledger') pro-tag @endcannot"
+                <a class="sc-gPEVay eaBhby border rounded @cannot('ledger') pro-tag @endcannot"
                    href="{{ route('reports.report.ledger_report') }}">
                     <div class="sc-iRbamj image" style="background-image:url('{{ asset('images/estimate.svg') }}') ">
 
@@ -582,7 +582,7 @@
                     <div class="shortcuts-title sc-jlyJG gSoaLO title">Ledger Report</div>
                 </a>
 
-                <a class="sc-gPEVay eaBhby @cannot('voucher') pro-tag @endcannot"
+                <a class="sc-gPEVay eaBhby border rounded @cannot('voucher') pro-tag @endcannot"
                    href="{{ route('reports.report.voucher_report') }}">
                     <div class="sc-iRbamj image" style="background-image:url('{{ asset('images/estimate.svg') }}') ">
 
@@ -590,7 +590,7 @@
                     <div class="shortcuts-title sc-jlyJG gSoaLO title">Voucher Report</div>
                 </a>
 
-                <a class="sc-gPEVay eaBhby  @cannot('balance_sheet') pro-tag @endcannot"
+                <a class="sc-gPEVay eaBhby border rounded @cannot('balance_sheet') pro-tag @endcannot"
                    href="{{ route('reports.report.balance_sheet_report') }}">
                     <div class="sc-iRbamj image" style="background-image:url('{{ asset('images/estimate.svg') }}') ">
 

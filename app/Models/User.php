@@ -13,6 +13,7 @@ use Illuminate\Support\Str;
 use Laravel\Cashier\Billable;
 use Spatie\Permission\Traits\HasRoles;
 
+
 /**
  * App\Models\User
  *

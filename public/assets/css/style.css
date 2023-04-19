@@ -1,0 +1,86 @@
+
+
+.file-manager-nav .nav-tabs.flex-column>li>a.active.nav-link {
+    border-right: 0px solid #3f87f5;
+}
+
+.file-manager-nav .nav-tabs.flex-column>li>a {
+    padding: 6px 20px !important;
+}
+
+.file-manager-nav .nav-tabs.flex-column .nav-link {
+    text-align: left;
+}
+
+
+.form-group-block {
+    display: flex;
+    justify-content: space-between;
+}
+
+.form-group-block  a {
+   color: #72849a;
+}
+
+.company-logo {
+    margin-top: 90px;
+    text-align: center;
+}
+
+.company-logo img {
+  max-height: 140px;
+  max-width: 100%;
+}
+
+.side-nav .side-nav-inner .side-nav-menu>li.active:after{
+    content:"";
+    position:absolute;
+    top:0;
+    right:0;
+    bottom:0;
+    transform:scaleY(0.0001);
+    -webkit-transform:scaleY(0.0001);
+    -moz-transform:scaleY(0.0001);
+    -o-transform:scaleY(0.0001);
+    -ms-transform:scaleY(0.0001);
+    transition:opacity 0.15s cubic-bezier(0.215, 0.61, 0.355, 1);
+    -webkit-transition:opacity 0.15s cubic-bezier(0.215, 0.61, 0.355, 1);
+    -moz-transition:opacity 0.15s cubic-bezier(0.215, 0.61, 0.355, 1);
+    -o-transition:opacity 0.15s cubic-bezier(0.215, 0.61, 0.355, 1);
+    -ms-transition:opacity 0.15s cubic-bezier(0.215, 0.61, 0.355, 1);
+    opacity:0;
+    border-right:2px solid;
+    border-color:#3f87f5
+}
+.side-nav .side-nav-inner .side-nav-menu>li.dropdown ul.dropdown-menu>li.active{
+    background-color:rgba(63,135,245,0.15)
+}
+.side-nav .side-nav-inner .side-nav-menu>li.dropdown ul.dropdown-menu>li.active a{
+    color:#3f87f5
+}
+.side-nav .side-nav-inner .side-nav-menu>li.dropdown ul.dropdown-menu>li.active:after{
+    transform:scaleY(1);
+    -webkit-transform:scaleY(1);
+    -moz-transform:scaleY(1);
+    -o-transform:scaleY(1);
+    -ms-transform:scaleY(1);
+    opacity:1
+}
+.side-nav .side-nav-inner .side-nav-menu>li.active{
+    background-color:rgba(63,135,245,0.15)
+}
+.side-nav .side-nav-inner .side-nav-menu>li.active a{
+    color:#3f87f5
+}
+.side-nav .side-nav-inner .side-nav-menu>li.active:after{
+    transform:scaleY(1);
+    -webkit-transform:scaleY(1);
+    -moz-transform:scaleY(1);
+    -o-transform:scaleY(1);
+    -ms-transform:scaleY(1);
+    opacity:1
+}
+
+.file-manager-wrapper .file-manager-content .file-manager-content-body .file-manager-content-files {
+    width: 100%;
+}

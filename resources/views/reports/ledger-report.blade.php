@@ -138,21 +138,22 @@
         <div id="invoice-container" class="container-fluid invoice-container">
 
             <!-- Header -->
-            <header>
-                <div class="text-center">
+{{--            <header>--}}
+{{--                <div class="text-center">--}}
 
-                    @if($settings->business_name??false)
-                        <h3>{{ $settings->business_name }}</h3>
-                        <h1>Account/Ledger Transactions </h1>
-                        <h3> {{ $branch_id == 'All'?'All':optional(\Enam\Acc\Models\Branch::find($branch_id))->name }}
-                            Branch </h3>
-                        <h3>{{ optional(\Enam\Acc\Models\Ledger::find($ledger_id))->ledger_name }}</h3>
-                        <span>From {{ $start_date??'-' }} to {{ $end_date??'-' }}</span>
-                    @endif
-                </div>
+{{--                    @if($settings->business_name??false)--}}
+{{--                        <h3>{{ $settings->business_name }}</h3>--}}
+{{--                        <h1>Account/Ledger Transactions </h1>--}}
+{{--                        <h3> {{ $branch_id == 'All'?'All':optional(\Enam\Acc\Models\Branch::find($branch_id))->name }}--}}
+{{--                            Branch </h3>--}}
+{{--                        <h3>{{ optional(\Enam\Acc\Models\Ledger::find($ledger_id))->ledger_name }}</h3>--}}
+{{--                        <span>From {{ $start_date??'-' }} to {{ $end_date??'-' }}</span>--}}
+{{--                    @endif--}}
+{{--                </div>--}}
 
-                <hr>
-            </header>
+{{--                <hr>--}}
+{{--            </header>--}}
+        @include('reports.partials.report-header')
 
             <!-- Main Content -->
             <main>
@@ -239,7 +240,8 @@
 
                 </div>
             </main>
-            <!-- Footer -->
+        @include('reports.partials.powered-by')
+        <!-- Footer -->
 
 
         </div>

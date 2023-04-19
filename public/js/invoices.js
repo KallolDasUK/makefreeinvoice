@@ -307,6 +307,22 @@ function calculate(product_id, lineIndex) {
         ractive.set(`invoice_items.${lineIndex}.unit`, product.sell_unit || 'unit')
         ractive.set(`invoice_items.${lineIndex}.description`, product.description || '')
         ractive.set(`invoice_items.${lineIndex}.stock`, product.stock || '')
+
+        $.ajax({
+            url: route('products.product.product_stock'),
+            data: {product_ids: [product.id]},
+            type: 'post',
+            success: function (response) {
+                console.log(response);
+                let product_stocks = response;
+                for (let i = 0; i < product_stocks.length; i++) {
+                    let product_stock = product_stocks[i].product_stock;
+                    ractive.set(`invoice_items.${lineIndex}.stock`, product_stock)
+
+                }
+
+            }
+        });
     }
 
     calculateOthers()

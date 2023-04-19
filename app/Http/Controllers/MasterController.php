@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Mail\InvoiceSendMail;
 use App\Mail\PromoEmail;
 use App\Models\Bill;
+use App\Models\BlogCategory;
 use App\Models\Customer;
 use App\Models\GlobalSetting;
 use App\Models\Invoice;
@@ -23,6 +24,8 @@ use Illuminate\Support\Facades\URL;
 
 class MasterController extends Controller
 {
+
+    private $blogCategories;
     public function index()
     {
         return view('master.index');
@@ -263,5 +266,37 @@ class MasterController extends Controller
         dd($request->all());
     }
 
+//    public function addCategory()
+//    {
+//        return view('master.blog-category.create');
+//    }
+//    public function newCategory(Request $request)
+//    {
+//        BlogCategory::saveBlogCategory($request);
+//        return redirect()->back()->with('success','Blog category created successfully');
+//    }
+//    public function manageCategory()
+//    {
+//        $this->blogCategories = BlogCategory:: orderBy('id', 'DESC')->get();
+//        return view('master.blog-category.manage',[
+//            'blogCategories'  =>$this->blogCategories
+//        ]);
+//    }
+//    public function editCategory($id)
+//    {
+//        return view('master.blog-category.edit',[
+//            'blogCategory' => BlogCategory::find($id),
+//        ]);
+//    }
+//    public function updateCategory(Request $request, $id)
+//    {
+//        BlogCategory::updateCategory($request,$id);
+//        return redirect('/manage-blog-category')->with('success','Blog category updated successfully');
+//    }
+//    public function deleteCategory($id)
+//    {
+//        BlogCategory::find($id)->delete();
+//        return redirect()->back()->with('success','Blog category deleted successfully');
+//    }
 
 }

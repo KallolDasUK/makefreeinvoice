@@ -22,15 +22,26 @@ class BillPaymentsController extends Controller
     use TransactionTrait;
 
 
-    public function index()
+    public function index( Request $request)
     {
         $title = "Bill Payments";
+        $vendor_id = $request->vendor_id;
+        $start_date = $request->start_date ?? today()->startOfMonth()->toDateString();
+        $end_date = $request->end_date ?? today()->toDateString();
+        $vendors = Vendor::all();
+        $billPayments = BillPayment::with('vendor', 'ledger')
+            ->when($vendor_id != null, function ($query) use ($vendor_id) {
+                return $query->where('vendor_id', $vendor_id);
+            })
+            ->whereBetween('payment_date', [$start_date, $end_date])
+            ->latest()->paginate(25);
 
-        $billPayments = BillPayment::with('vendor', 'bill', 'paymentmethod', 'ledger')
-            ->latest()
-            ->paginate(25);
+//        $billPayments = BillPayment::with('vendor',  'bill', 'paymentmethod', 'ledger')
+//            ->latest()
+//            ->paginate(25);
+        return view('bill_payments.index', compact('billPayments', 'vendors', 'vendor_id', 'start_date', 'end_date', 'title'));
 
-        return view('bill_payments.index', compact('billPayments', 'title'));
+//        return view('bill_payments.index', compact('billPayments', 'title'));
     }
 
 

@@ -4,6 +4,7 @@ use App\Http\Controllers\Ajax\AjaxController;
 use App\Http\Controllers\BillingsController;
 use App\Http\Controllers\BillPaymentsController;
 use App\Http\Controllers\BillsController;
+use App\Http\Controllers\BlogCategoriesController;
 use App\Http\Controllers\CollectPaymentsController;
 use App\Http\Controllers\ContactInvoiceController;
 use App\Http\Controllers\CustomerAdvancePaymentsController;
@@ -21,6 +22,7 @@ use App\Http\Controllers\ExpensesController;
 use App\Http\Controllers\InventoryAdjustmentsController;
 use App\Http\Controllers\InvoicesController;
 use App\Http\Controllers\MasterController;
+use App\Http\Controllers\PostController;
 use App\Http\Controllers\PosSalesController;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\PurchaseReturnsController;
@@ -40,6 +42,7 @@ use App\Http\Controllers\UserRolesController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\VendorAdvancePaymentsController;
 use App\Http\Controllers\VendorsController;
+use App\Http\Controllers\FrontendController;
 use App\Models\Bill;
 use App\Models\BillItem;
 use App\Models\BillPaymentItem;
@@ -81,7 +84,9 @@ use App\Http\Controllers\BannerAdsController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
+    \UniSharp\LaravelFilemanager\Lfm::routes();
+});
 
 
 Route::get('/', function (Request $request) {
@@ -94,6 +99,11 @@ Route::get('/', function (Request $request) {
     return view('landing.welcome', compact('posts'));
 })->name('landing.index');
 
+Route::get('/articles',[FrontendController::class,'article_page']);
+Route::get('/article/{slug}',[FrontendController::class,'article_details'])->name('article_details');
+
+
+
 Auth::routes();
 Route::get('/auth/redirect/{provider}', [SocialLoginController::class, 'redirect'])->name('social.redirect');
 Route::get('/auth/callback/{provider}', [SocialLoginController::class, 'callback'])->name('social.callback');
@@ -102,6 +112,11 @@ Route::group(['middleware' => 'auth:web', 'prefix' => 'app'], function () {
 
 
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+
+
+
+
 
 
     Route::group(['prefix' => 'accounting/settings'], function () {
@@ -675,6 +690,7 @@ Route::get('p/{slug}', [BlogsController::class, 'show'])->name('blogs.blog.show'
 
 
 Route::group(['prefix' => 'master', 'middleware' => ['auth:web', 'isMaster']], function () {
+
     Route::get('/', [MasterController::class, 'index'])->name('master.index');
     Route::get('/user_settings_view', [MasterController::class, 'user_settings_view'])->name('master.user_settings');
     Route::post('/user_settings', [MasterController::class, 'user_settings'])->name('master.user_settings_store');
@@ -684,6 +700,36 @@ Route::group(['prefix' => 'master', 'middleware' => ['auth:web', 'isMaster']], f
     Route::post('/subscriptions/premium-plan', [MasterController::class, 'premiumPlanSettings'])->name('master.subscriptions.premium_plan');
     Route::get('/users', [MasterController::class, 'users'])->name('master.users');
     Route::get('/users/{user}', [MasterController::class, 'deleteUser'])->name('master.users.delete');
+
+
+    Route::group(['prefix' => 'blog_categories'], function () {
+
+        Route::get('/', [BlogCategoriesController::class, 'index'])->name('blog.category.index');
+        Route::get('/create', [BlogCategoriesController::class, 'create'])->name('blog.category.create');
+        Route::get('/show/{category}', [BlogCategoriesController::class, 'show'])->name('blog.category.show')->where('id', '[0-9]+');
+        Route::get('/{category}/edit', [BlogCategoriesController::class, 'edit'])->name('blog.category.edit')->where('id', '[0-9]+');
+        Route::post('/', [BlogCategoriesController::class, 'store'])->name('blog.category.store');
+        Route::put('category/{category}', [BlogCategoriesController::class, 'update'])->name('blog.category.update')->where('id', '[0-9]+');
+        Route::delete('/category/{category}', [BlogCategoriesController::class, 'destroy'])->name('blog.category.destroy')->where('id', '[0-9]+');
+
+    });
+
+
+
+
+    Route::group(['prefix' => 'post'], function () {
+
+        Route::get('/', [PostController::class, 'index'])->name('post.index');
+        Route::get('/create', [PostController::class, 'create'])->name('post.create');
+        Route::get('/show/{category}', [PostController::class, 'show'])->name('post.show')->where('id', '[0-9]+');
+        Route::get('/{category}/edit', [PostController::class, 'edit'])->name('post.edit')->where('id', '[0-9]+');
+        Route::post('/', [PostController::class, 'store'])->name('post.store');
+        Route::put('post/{id}', [PostController::class, 'update'])->name('post.update')->where('id', '[0-9]+');
+        Route::delete('/category/{category}', [PostController::class, 'destroy'])->name('post.destroy')->where('id', '[0-9]+');
+
+    });
+
+
 
 
     /*
@@ -873,3 +919,7 @@ Route::get('/clear-cache', function () {
 
 
 
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

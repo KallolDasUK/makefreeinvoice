@@ -32,6 +32,7 @@ class ReportController extends AccountingReportsController
 
     public function index()
     {
+        view()->share('title', 'Reports');
         return view('reports.index');
     }
 
@@ -138,6 +139,7 @@ class ReportController extends AccountingReportsController
 
     public function arAgingReport(Request $request)
     {
+        view()->share('title', 'Account Receivable Aging');
         $this->authorize('ar_aging');
         $q = $request->q;
 
@@ -147,6 +149,7 @@ class ReportController extends AccountingReportsController
 
     public function apAgingReport(Request $request)
     {
+        view()->share('title', 'Account payable Aging');
         $this->authorize('ap_aging', Report::class);
         $q = $request->q;
         $records = $this->getApAgingReport($q);
@@ -543,6 +546,7 @@ class ReportController extends AccountingReportsController
 
     public function duePaymentReport(Request $request)
     {
+
         $title = "Due Payment Report";
         $start_date = $request->start_date ?? today()->startOfMonth()->toDateString();
         $end_date = $request->end_date ?? today()->toDateString();
@@ -559,18 +563,21 @@ class ReportController extends AccountingReportsController
 
     public function productReport()
     {
+        view()->share('title', 'Product Report');
         $products = Product::all();
         return view('reports.product-report', compact('products'));
     }
 
     public function customerReport()
     {
+        view()->share('title', 'Customer Report');
         $customers = Customer::all();
         return view('reports.customer-report', compact('customers'));
     }
 
     public function vendorReport()
     {
+        view()->share('title', 'Vendor Report');
         $vendors = Vendor::all();
         return view('reports.vendor-report', compact('vendors'));
     }
@@ -620,7 +627,7 @@ class ReportController extends AccountingReportsController
 
     public function stockAlertModal(Request $request)
     {
-
+        view()->share('title', 'Stock Alert');
         $records = [];
         $products = Product::all();
         foreach ($products as $product) {
@@ -639,6 +646,7 @@ class ReportController extends AccountingReportsController
 
     public function popularProductReport(Request $request)
     {
+        view()->share('title', 'Popular Products');
         $start_date = $request->start_date ?? today()->startOfMonth()->toDateString();
         $end_date = $request->end_date ?? today()->toDateString();
         $records = [];

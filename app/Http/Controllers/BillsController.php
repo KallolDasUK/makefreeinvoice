@@ -80,6 +80,7 @@ class BillsController extends Controller
 
     public function create()
     {
+        view()->share('title', 'New Bills');
         $this->authorize('create', Bill::class);
 
         $cashAcId = optional(GroupMap::query()->firstWhere('key', LedgerHelper::$CASH_AC))->value;

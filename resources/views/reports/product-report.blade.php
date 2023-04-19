@@ -83,20 +83,7 @@
         <div id="invoice-container" class="container-fluid invoice-container">
 
             <!-- Header -->
-            <header>
-                <div class="text-center">
-
-                    @if($settings->business_name??false)
-                        <h3>{{ $settings->business_name }}</h3>
-                        <h5>{{ $settings->street_1 }} {{ $settings->street_2 }}</h5>
-                        <h5>{{ $settings->email }}, {{ $settings->phone }}</h5>
-                        <h1>Products Report</h1>
-                        <span>Date {{ today()->format('d M Y') }}</span>
-                    @endif
-                </div>
-
-                <hr>
-            </header>
+        @include('reports.partials.report-header')
 
             <!-- Main Content -->
             <main>
@@ -153,7 +140,8 @@
                     </div>
                 </div>
             </main>
-            <!-- Footer -->
+        @include('reports.partials.powered-by')
+        <!-- Footer -->
 
 
         </div>

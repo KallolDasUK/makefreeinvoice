@@ -69,11 +69,6 @@
                 </div>
             @endif
 
-            <div class="text-center">
-
-
-            </div>
-
         </div>
         <div class="row">
             <div class="col">
@@ -104,24 +99,32 @@
             </div>
         </div>
 
+{{--        @include('reports.partials.print-download-export')--}}
+
+{{--        <p class="clearfix"></p>--}}
+{{--        <div id="invoice-container" class="container-fluid invoice-container">--}}
+
+{{--            <!-- Header -->--}}
+{{--            <header>--}}
+{{--                <div class="text-center">--}}
+
+{{--                    @if($settings->business_name??false)--}}
+{{--                        <h3>{{ $settings->business_name }}</h3>--}}
+{{--                        <h1>Accounts Receivable Aging</h1>--}}
+{{--                        <span>As of {{ today()->format('M d, Y') }}</span>--}}
+{{--                    @endif--}}
+{{--                </div>--}}
+
+{{--                <hr>--}}
+{{--            </header>--}}
+
         @include('reports.partials.print-download-export')
 
         <p class="clearfix"></p>
         <div id="invoice-container" class="container-fluid invoice-container">
 
             <!-- Header -->
-            <header>
-                <div class="text-center">
-
-                    @if($settings->business_name??false)
-                        <h3>{{ $settings->business_name }}</h3>
-                        <h1>Accounts Receivable Aging</h1>
-                        <span>As of {{ today()->format('M d, Y') }}</span>
-                    @endif
-                </div>
-
-                <hr>
-            </header>
+        @include('reports.partials.report-header')
 
             <!-- Main Content -->
             <main>
@@ -174,7 +177,9 @@
                     </div>
                 </div>
             </main>
-            <!-- Footer -->
+        @include('reports.partials.powered-by')
+
+        <!-- Footer -->
 
 
         </div>

@@ -3,22 +3,11 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Models\Customer;
-use App\Models\MetaSetting;
-use App\Models\PaymentMethod;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
-use Artisan;
-use Enam\Acc\Models\Ledger;
-use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Auth\RegistersUsers;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Str;
-use Spatie\Honeypot\ProtectAgainstSpam;
 
 class RegisterController extends Controller
 {
@@ -35,101 +24,50 @@ class RegisterController extends Controller
 
     use RegistersUsers;
 
-
+    /**
+     * Where to redirect users after registration.
+     *
+     * @var string
+     */
     protected $redirectTo = RouteServiceProvider::HOME;
 
-
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
     public function __construct()
     {
-        $this->middleware(['guest', ProtectAgainstSpam::class]);
+        $this->middleware('guest');
     }
 
-
+    /**
+     * Get a validator for an incoming registration request.
+     *
+     * @param  array  $data
+     * @return \Illuminate\Contracts\Validation\Validator
+     */
     protected function validator(array $data)
     {
-        if (Str::contains(($data['name'] ?? ''), 'http')) {
-            dd('spam');
-            return Validator::make($data, [
-                'spam' => ['required'],
-                'name' => ['required', 'string', 'max:255'],
-                'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-                'password' => ['required', 'string', 'min:4'],
-            ]);
-        }
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:4'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
     }
 
-    public function register(Request $request)
-    {
-        $this->validator($request->all())->validate();
-
-        event(new Registered($user = $this->create($request->all())));
-
-        $this->guard()->login($user);
-
-        if (!Ledger::query()->exists()) {
-
-            Artisan::call('db:seed --class=AccountingSeeder');
-            PaymentMethod::create(['name' => 'Cash']);
-            PaymentMethod::create(['name' => 'Bank Transfer']);
-            PaymentMethod::create(['name' => 'Credit Card']);
-            PaymentMethod::create(['name' => 'Visa Card']);
-            PaymentMethod::create(['name' => 'Cheque']);
-
-            MetaSetting::query()->updateOrCreate(['key' => 'email'], ['value' => $user->email]);
-            MetaSetting::query()->updateOrCreate(['key' => 'plan_name'], ['value' => 'Trial']);
-            Customer::create(['name' => Customer::WALK_IN_CUSTOMER]);
-
-        }
-        if ($response = $this->registered($request, $user)) {
-            return $response;
-        }
-
-        return $request->wantsJson()
-            ? new JsonResponse([], 201)
-            : redirect($this->redirectPath());
-    }
-
-
+    /**
+     * Create a new user instance after a valid registration.
+     *
+     * @param  array  $data
+     * @return \App\Models\User
+     */
     protected function create(array $data)
     {
-
-        $user = User::create([
+        return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
-            'client_id' => User::getNextUserID()]);
-        // email data
-        $email_data = array(
-            'name' => $data['name'],
-            'email' => $data['email'],
-        );
-        $affiliate_tag = strtolower(preg_replace("/\s+/", "", $user->name)) . '' . $user->id;
-        $user->affiliate_tag = $affiliate_tag;
-        $user->save();
-        Mail::send('mail.welcome_email', $email_data, function ($message) use ($email_data) {
-            $message->to($email_data['email'], $email_data['name'])
-                ->subject('Welcome to InvoicePedia')
-                ->from('invoicepedia@gmail.com', 'InvoicePedia.com');
-        });
-
-
-        return $user;
-
+        ]);
     }
-
-    protected function registered(Request $request, $user)
-    {
-        if (array_key_exists('invoicepedia_affiliate', $_COOKIE)) {
-            $affiliate_tag = $_COOKIE['invoicepedia_affiliate'];
-            if (User::query()->where('affiliate_tag', $affiliate_tag)->exists()) {
-                $user->update(['referred_by' => $affiliate_tag]);
-            }
-        }
-    }
-
 }

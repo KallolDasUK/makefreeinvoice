@@ -75,9 +75,16 @@
             </div>
 
         </div>
+        @include('reports.partials.print-download-export')
+
+        <p class="clearfix"></p>
+        <div id="invoice-container" class="container-fluid invoice-container">
+
+            <!-- Header -->
+            @include('reports.partials.report-header')
 
 
-        <div class="card mb-2">
+            <div class="card mb-2">
             <div class="card-body">
                 <form action="{{ route('reports.report.sales_report_details') }}">
                     <div class="row align-items-end mb-4 mx-auto justify-content-center">
@@ -279,7 +286,8 @@
 
                     </div>
                 </main>
-                <!-- Footer -->
+            @include('reports.partials.powered-by')
+            <!-- Footer -->
 
 
             </div>

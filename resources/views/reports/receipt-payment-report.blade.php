@@ -130,23 +130,10 @@
         <div id="invoice-container" class="container-fluid invoice-container">
 
             <!-- Header -->
-            <header>
-                <div class="text-center">
+        @include('reports.partials.report-header')
 
-                    @if($settings->business_name??false)
-                        <h3>{{ $settings->business_name }}</h3>
-                        <h1>Receipt & Payment Reports </h1>
 
-                        <h3> {{ $branch_id == 'All'?'All':optional(\Enam\Acc\Models\Branch::find($branch_id))->name }}
-                            Branch </h3>
-                        <span>From {{ $start_date??'-' }} to {{ $end_date??'-' }}</span>
-                    @endif
-                </div>
-
-                <hr>
-            </header>
-
-            <!-- Main Content -->
+        <!-- Main Content -->
             <main>
 
                 <hr>
@@ -220,7 +207,8 @@
 
                 </div>
             </main>
-            <!-- Footer -->
+        @include('reports.partials.powered-by')
+        <!-- Footer -->
 
 
         </div>

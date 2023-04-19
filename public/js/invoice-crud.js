@@ -340,6 +340,7 @@ $('.qnt').tooltip({'trigger': 'focus', 'title': 'Hit Enter to add new Line'});
 $(document).on('focus', '.select2', function () {
     $(this).siblings('select').select2('open');
 });
+
 $(document).on('keypress', '.qnt', function (e) {
     var keyCode = e.keyCode || e.which;
     if (keyCode === 13) {
@@ -484,15 +485,15 @@ $('#from_advance').on('change', function () {
     $('#using_advance_amount').text($(this).val())
 })
 
-$.ajax({
-    url: route('products.product.index'),
-    processData: false,
-    contentType: false,
-
-    success: function (response) {
-        ractive.set('products', response)
-        products = response;
-
-    }
-});
+// $.ajax({
+//     url: route('products.product.index'),
+//     processData: false,
+//     contentType: false,
+//
+//     success: function (response) {
+//         ractive.set('products', response)
+//         products = response;
+//
+//     }
+// });
 

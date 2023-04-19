@@ -49,6 +49,7 @@
             .tippy-tooltip.wv-popover-theme .wv-popover__content-wrapper {
                 padding: 24px;
             }
+
         }
     </style>
 @endsection
@@ -128,30 +129,36 @@
                 </form>
             </div>
         </div>
-        @include('reports.partials.print-download-export')
+{{--        @include('reports.partials.print-download-export')--}}
 
+
+{{--        <p class="clearfix"></p>--}}
+{{--        <div id="invoice-container" class="container-fluid invoice-container">--}}
+
+            <!-- Header -->
+        @include('reports.partials.print-download-export')
 
         <p class="clearfix"></p>
         <div id="invoice-container" class="container-fluid invoice-container">
 
             <!-- Header -->
-            <header>
-                <div class="text-center">
 
-                    @if($settings->business_name??false)
-                        <h3>{{ $settings->business_name }}</h3>
-                        <h1>Tax Summary</h1>
-                        <span>Basis: {{ $report_type??'' }}</span> <br>
-                        <span>From {{ $start_date??'-' }} to {{ $end_date??'-' }}</span>
-                    @endif
-                </div>
-
-                <hr>
-            </header>
 
             <!-- Main Content -->
             <main>
 
+                <header>
+                    <div class="text-center">
+
+                        @if($settings->business_name??false)
+
+                            <h1>Tax Summary</h1>
+                            <span>Basis: {{ $report_type??'' }}</span> <br>
+                            <span>From {{ $start_date??'-' }} to {{ $end_date??'-' }}</span><br>
+                            @include('reports.partials.report-header')
+                        @endif
+                    </div>
+                </header>
                 <hr>
 
                 <div class="card">
@@ -209,11 +216,13 @@
 
                                 </tr>
                                 </tfoot>
+
                             </table>
                         </div>
                     </div>
                 </div>
             </main>
+        @include('reports.partials.powered-by')
             <!-- Footer -->
 
 
