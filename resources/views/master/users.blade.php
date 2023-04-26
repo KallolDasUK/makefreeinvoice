@@ -147,7 +147,7 @@
                         <div class="col">
                             <div class="form-group">
                                 <label for="">Email</label>
-                                <select name="email" id="email" class="form-control searchable select2">
+                                <select name="email" id="email" class="form-control searchable select2" style="min-width: 300px">
 
                                     <option value="0" disabled selected>-- Choose --</option>
 {{--                                    <select id="mySelect" name="mySelect">--}}
@@ -208,7 +208,7 @@
                             <div class="form-group">
                                 <label for="">&nbsp</label>
                                 <input type="submit" value="Filter" class="btn btn-primary">
-                                <a href="{{ route('master.users') }}" class="btn btn-danger">Clear Filter</a>
+                                <a href="{{ route('master.users') }}" class="btn btn-danger mt-2">Clear </a>
                             </div>
                         </div>
                     </div>

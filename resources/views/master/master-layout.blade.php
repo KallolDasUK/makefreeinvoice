@@ -14,7 +14,7 @@
     <!-- Core css -->
     <link href="{{ asset('assets/css/app.min.css') }}" rel="stylesheet">
     <script src="https://cdn.ckeditor.com/4.16.0/standard/ckeditor.js"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0/css/select2.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/2.1.0/select2.css" integrity="sha512-CeTclULLWLJj+H3XVCR+ZLGX2qK0f9SoPyjspqIg4s7ZnD5mWZ5oaTcuHr3lOXWk/FIUXD2JsvEj/ITqq8TAHQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/3.5.4/select2-bootstrap.min.css" integrity="sha512-eNfdYTp1nlHTSXvQD4vfpGnJdEibiBbCmaXHQyizI93wUnbCZTlrs1bUhD7pVnFtKRChncH5lpodpXrLpEdPfQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
@@ -261,9 +261,8 @@
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/2.1.0/select2.js" integrity="sha512-m0AH4GQVgqi3hR6REkdh/p4FJK7xRlRKwS2FI/YES4NkseOD8Q1fyhY9TUKDozfQFhI4ewglFVwTsdGBoaR69Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 
 @if( Session::has('success'))
