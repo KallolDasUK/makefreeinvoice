@@ -83,8 +83,18 @@
         <div id="invoice-container" class="container-fluid invoice-container">
 
             <!-- Header -->
-        @include('reports.partials.report-header')
-            <!-- Main Content -->
+            <header>
+                <div class="text-center">
+
+                    @if($settings->business_name??false)
+                        @include('reports.partials.report-header')
+                        <h1>Stock Alert </h1>
+                        <span>From {{ $start_date??'-' }} to {{ $end_date??'-' }}</span>
+                    @endif
+                </div>
+
+                <hr>
+            </header>            <!-- Main Content -->
         @include('reports.partials.stock-alert-partial')
         @include('reports.partials.powered-by')
         <!-- Footer -->

@@ -81,7 +81,7 @@
         <div id="invoice-container" class="container-fluid invoice-container">
 
             <!-- Header -->
-            @include('reports.partials.report-header')
+
 
 
 
@@ -130,7 +130,6 @@
                 </form>
             </div>
         </div>
-        @include('reports.partials.print-download-export')
 
         <p class="clearfix"></p>
         @if(count($records)>0)
@@ -141,7 +140,7 @@
                     <div class="text-center">
 
                         @if($settings->business_name??false)
-                            <h3>{{ $settings->business_name }}</h3>
+                            @include('reports.partials.report-header')
                             <h1>Most Popular Products </h1>
                             <span>From {{ $start_date??'-' }} to {{ $end_date??'-' }}</span>
                         @endif

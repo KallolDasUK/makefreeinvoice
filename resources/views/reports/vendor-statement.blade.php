@@ -91,8 +91,18 @@
         <div id="invoice-container" class="container-fluid invoice-container">
 
             <!-- Header -->
-            @include('reports.partials.report-header')
+            <header>
+                <div class="text-center">
 
+                    @if($settings->business_name??false)
+                        @include('reports.partials.report-header')
+                        <h1>Customer Statement </h1>
+                        <span>From {{ $start_date??'-' }} to {{ $end_date??'-' }}</span>
+                    @endif
+                </div>
+
+                <hr>
+            </header>
 
             <div class="card mb-2">
             <div class="card-body">
@@ -150,7 +160,6 @@
             </div>
         </div>
 
-        @include('reports.partials.print-download-export')
 
 
         <p class="clearfix"></p>
