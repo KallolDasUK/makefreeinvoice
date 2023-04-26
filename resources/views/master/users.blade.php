@@ -147,10 +147,17 @@
                         <div class="col">
                             <div class="form-group">
                                 <label for="">Email</label>
-                                <select name="email" id="email" class="form-control searchable">
+                                <select name="email" id="email" class="form-control searchable select2">
 
-                                    <option value="" disabled selected>-- Choose --</option>
-                                    @foreach(\App\Models\User::query()->get() as $user)
+                                    <option value="0" disabled selected>-- Choose --</option>
+{{--                                    <select id="mySelect" name="mySelect">--}}
+{{--                                        <option value="1">Option 1</option>--}}
+{{--                                        <option value="2">Option 2</option>--}}
+{{--                                        <option value="3">Option 3</option>--}}
+{{--                                        <option value="4">Option 4</option>--}}
+{{--                                    </select>--}}
+
+                                @foreach(\App\Models\User::query()->get() as $user)
                                         <option value="{{ $user->email }}"
                                                 @if($email == $user->email) selected @endif> {{ $user->email }}</option>
                                     @endforeach
@@ -299,7 +306,22 @@
     </div>
 @endsection
 
-@section('js')
+@section('scripts')
+    <script>
+        $(document).ready(function() {
+            $('#email').select2({
+                placeholder: 'Select an option',
+                allowClear: true,
+                minimumResultsForSearch: 2,
+                maximumSelectionLength: 2
+            });
+        });
+    </script>
+
+
+
+
+
     <script>
 
         $('.ads_checkbox').on('change', function () {
