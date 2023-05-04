@@ -41,6 +41,20 @@
 
 @section('js')
     <script src="{{ asset('js/product.js') }}"></script>
+    <script>
+        $(document).ready(function () {
+            $('#business_location').select2({placeholder: " -- Country --"})
+            $('#currency').select2({placeholder: " ----"})
+            $('#ledger_group_id').select2();
+            var avatar1 = new KTImageInput('kt_image_1');
+            var timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+            // alert(timezone)
+            if (!$('#timezone').val()){
+
+                $('#timezone').val(timezone);
+            }
+        })
+    </script>
 
 @endsection
 

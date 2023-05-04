@@ -156,6 +156,7 @@ class PurchaseReturnsController extends Controller
 
     public function show($id)
     {
+        view()->share('title', "Purchase Return Invoice");
 
         $purchaseReturn = PurchaseReturn::with('vendor')->findOrFail($id);
 

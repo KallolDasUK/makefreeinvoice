@@ -178,7 +178,7 @@
                                 <td class="text-right">
                                     <div class="font-weight-bolder  ">
                                     <span
-                                        style="font-size: 20px"><small>{{ $invoice->currency }}</small>{{ decent_format($invoice->total) }} </span>
+                                        style="font-size: 20px"><small>{{ $settings->currency }}</small>{{ decent_format($invoice->total) }} </span>
                                     </div>
 
                                 </td>

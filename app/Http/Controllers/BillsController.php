@@ -45,7 +45,7 @@ class BillsController extends Controller
 
         $this->authorize('viewAny', Bill::class);
 
-        view()->share('title', 'All Bills');
+        view()->share('title', 'All Purchase');
 
         $start_date = $request->start_date;
         $end_date = $request->end_date;
@@ -80,9 +80,9 @@ class BillsController extends Controller
 
     public function create()
     {
-        view()->share('title', 'New Bills');
-        $this->authorize('create', Bill::class);
 
+        $this->authorize('create', Bill::class);
+        view()->share('title', 'Add New Purchase');
         $cashAcId = optional(GroupMap::query()->firstWhere('key', LedgerHelper::$CASH_AC))->value;
         $depositAccounts = Ledger::find($this->getAssetLedgers())->sortBy('ledger_name');
         $paymentMethods = PaymentMethod::query()->get();

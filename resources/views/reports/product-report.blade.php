@@ -127,8 +127,8 @@
                                             <b>{{ $product->name }}</b></td>
                                         <td class="text-start border-0">{{ optional($product->category)->name??'-' }}</td>
                                         <td class="text-start border-0">{{ optional($product->brand)->name??'-' }}</td>
-                                        <td class="text-right border-0">{{ decent_format_dash($product->purchase_price) }}</td>
-                                        <td class="text-right border-0">{{ decent_format_dash($product->sell_price) }}</td>
+                                        <td class="text-right border-0">{{  $settings->currency??'$' }}{{ decent_format_dash($product->purchase_price) }}</td>
+                                        <td class="text-right border-0">{{  $settings->currency??'$' }}{{ decent_format_dash($product->sell_price) }}</td>
                                         <td class="text-right border-0 bg-secondary">{{ decent_format($product->stock) }}</td>
                                         <td class="text-right border-0 bg-secondary">{{ decent_format_dash_if_zero($product->stock_value) }}</td>
 

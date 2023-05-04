@@ -201,10 +201,8 @@
                                 <td class="text-center lds-ripple" id="stock_{{$product->id}}"> <div></div> <div></div></td>
                                 <td>{{ optional($product->category)->name }}</td>
                                 <td>{{ optional($product->brand)->name }}</td>
-                                <td>{{ $product->sell_price }}</td>
-                                <td>{{ $product->purchase_price }}</td>
-
-
+                                <td> {{ optional( $settings)->currency }}{{ number_format($product->sell_price, 2) }}</td>
+                                <td> {{ optional( $settings)->currency }} {{ number_format($product->purchase_price, 2) }}</td>
                                 <td>
 
                                     <form method="POST" action="{!! route('products.product.destroy', $product->id) !!}"
@@ -274,6 +272,22 @@
                 }
             });
         });
+    </script>
+
+
+    <script>
+        $(document).ready(function () {
+            $('#business_location').select2({placeholder: " -- Country --"})
+            $('#currency').select2({placeholder: " ----"})
+            $('#ledger_group_id').select2();
+            var avatar1 = new KTImageInput('kt_image_1');
+            var timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+            // alert(timezone)
+            if (!$('#timezone').val()){
+
+                $('#timezone').val(timezone);
+            }
+        })
     </script>
 
 

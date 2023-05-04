@@ -114,9 +114,9 @@
                                 </td>
                                 <td class="text-center ">{{ $item->unit }}</td>
 
-                                <td class="text-center">{{ $invoice->currency }}{{ decent_format($item->price) }}</td>
+                                <td class="text-center">{{ $settings->currency }}{{ decent_format($item->price) }}</td>
                                 <td class="text-center ">X{{ decent_format($item->qnt) }}</td>
-                                <td class="text-right">{{ $invoice->currency }}{{ decent_format($item->amount) }}</td>
+                                <td class="text-right">{{ $settings->currency }}{{ decent_format($item->amount) }}</td>
                             </tr>
                         @endforeach
 

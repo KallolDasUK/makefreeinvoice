@@ -7,15 +7,13 @@
     @include('partials.ajax-payment-method-create-form')
     @include('partials.ajax-ledger-create-form')
 
-    <div class="float-left">
-        <h2>Add a Bill</h2>
-    </div>
+
 
     <div class="text-right">
         <a href="{{ route('bills.bill.index') }}" class="btn btn-primary {{ ability(\App\Utils\Ability::BILL_READ) }}"
            title="Show All Bills">
             <i class=" fas fa-fw fa-th-list" aria-hidden="true"></i>
-            Show All Bills
+            Show All Purchases
         </a>
     </div>
     <p class="clearfix"></p>
