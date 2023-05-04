@@ -57,7 +57,7 @@
 
                                 <td>{{ optional($vendorAdvancePayment->vendor)->name }}</td>
                                 <td>{{ optional($vendorAdvancePayment->ledger)->ledger_name }}</td>
-                                <td>{{ $vendorAdvancePayment->amount }}</td>
+                                <td>{{  $settings->currency??'$' }}{{ $vendorAdvancePayment->amount }}</td>
                                 <td>{{ $vendorAdvancePayment->date }}</td>
 
                                 <td>

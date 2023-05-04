@@ -37,6 +37,7 @@ class ProductsController extends Controller
 
     public function index(Request $request)
     {
+
         if ($request->ajax()) {
             return Product::query()->get();
         }
@@ -82,6 +83,7 @@ class ProductsController extends Controller
 
     public function create()
     {
+        view()->share('title', 'Create Product');
         $categories = Category::pluck('name', 'id')->all();
         $brands = Brand::pluck('name', 'id')->all();
         $units = ProductUnit::all();

@@ -454,7 +454,7 @@
         <!--begin::Item-->
         <li class="nav-item">
             <a href="#" class="nav-link dropdown-toggle rounded" data-toggle="dropdown">
-                <span class="nav-title text-uppercase">Invoices</span>
+                <span class="nav-title text-uppercase">Sales</span>
                 <span class="nav-desc">Sales &amp; Payments</span>
                 <i class="fas fa-sort-down"></i>
 
@@ -464,25 +464,25 @@
 
                     <div class="col" style="min-width: 500px">
                         <p class="text-info text--cap border-bottom d-inline-block">
-                            Invoice Module</p>
+                            Sales Module</p>
                         <div class="menu-icon-grid font-weight-bolder p-0 ">
                             <a href="{{ route('invoices.invoice.create') }}"
                                class="@cannot('create',\App\Models\Invoice::class) pro-tag @endcannot  {{ ability_class(\App\Utils\Ability::INVOICE_CREATE) }} "
                                style="min-width: 100px;position:relative;">
                                 <i class="fa fa-plus" aria-hidden="true"></i>
-                                New <br> Invoice</a>
+                                Add <br> Sale</a>
 
 
                             <a href="{{ route('invoices.invoice.index') }}"
                                class="@cannot('viewAny',\App\Models\Invoice::class) pro-tag @endcannot  {{ ability_class(\App\Utils\Ability::INVOICE_READ) }} "
                                style="min-width: 100px;position:relative;"><i
                                     class="fa fa-list-alt" aria-hidden="true"></i>Manage <br>
-                                Invoices</a>
+                                Sales</a>
                             <a class="@cannot('viewAny',\App\Models\Invoice::class) pro-tag @endcannot"
                                href="{{ route('contact_invoices.contact_invoice.index') }}"
                                style="min-width: 100px;position:relative;"><i
                                     class="fa fa-list-alt" aria-hidden="true"></i>Worker <br>
-                                Invoices</a>
+                                Sales</a>
 
                             <a href="{{ route('receive_payments.receive_payment.create') }}"
                                class="@cannot('receive_payment',\App\Models\Customer::class) pro-tag @endcannot {{ ability_class(\App\Utils\Ability::RECEIVE_PAYMENT_CREATE) }}"
@@ -546,7 +546,7 @@
             <a href="#" class="nav-link rounded dropdown-toggle" data-toggle="dropdown" data-target="#kt_header_tab_2"
                role="tab"
                aria-selected="false">
-                <span class="nav-title text-uppercase">Bill</span>
+                <span class="nav-title text-uppercase">Purchase</span>
                 <span class="nav-desc">Purchase &amp; Pay</span>
                 <i class="fas fa-sort-down"></i>
             </a>
@@ -567,7 +567,7 @@
                                class="@cannot('viewAny',\App\Models\Bill::class) pro-tag @endcannot {{ ability_class(\App\Utils\Ability::BILL_READ) }}"
                                style="min-width: 100px;position: relative">
                                 <i class="fa fa-list-alt ribbon" aria-hidden="true"></i>Manage <br>
-                                Bills</a>
+                                Purchases</a>
 
                             <a href="{{ route('purchase_orders.purchase_order.create') }}"
                                class="@cannot('create',\App\Models\Bill::class) pro-tag @endcannot {{ ability_class(\App\Utils\Ability::PURCHASE_ORDER_CREATE) }}"
@@ -755,7 +755,7 @@
                                         style="color: purple">Dashboard</span> </a></li>
                             <li class="dropdown subnavbar-open-center"><a href="javascript:;" class="dropdown-toggle"
                                                                           data-toggle="dropdown"><i
-                                        class="fas fa-file-invoice-dollar text-primary"></i><span class="text-primary">My Invoices</span>
+                                        class="fas fa-file-invoice-dollar text-primary"></i><span class="text-primary">My Sales</span>
                                 </a>
 
                                 <ul class="dropdown-menu">
@@ -763,16 +763,16 @@
 
                                         <div class="col" style="min-width: 500px">
                                             <p class="text-info text--cap border-bottom d-inline-block">
-                                                Invoice Module</p>
+                                                Sale Module</p>
                                             <div class="menu-icon-grid font-weight-bolder p-0">
                                                 <a href="{{ route('invoices.invoice.create') }}"
                                                    style="min-width: 100px">
                                                     <i class="fa fa-plus" aria-hidden="true"></i>
-                                                    New <br> Invoice</a>
+                                                    New <br> Sales</a>
                                                 <a href="{{ route('invoices.invoice.index') }}"
                                                    style="min-width: 100px"><i
                                                         class="fa fa-list-alt" aria-hidden="true"></i>Manage <br>
-                                                    Invoices</a>
+                                                    Sales</a>
 
                                                 <a href="{{ route('products.product.index') }}"
                                                    style="min-width: 100px"><i class="fab fa-product-hunt"></i> Products

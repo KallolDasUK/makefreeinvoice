@@ -304,14 +304,14 @@
                                 <td class="text-right">
                                     <div class="font-weight-bolder  ">
                                     <span
-                                        style="font-size: 20px"><small>{{ $invoice->currency }}</small>{{ decent_format($invoice->total) }} </span>
+                                        style="font-size: 20px"><small>{{  $settings->currency??'$' }}</small>{{ decent_format($invoice->total) }} </span>
                                     </div>
 
                                     @if($invoice->due>0)
 
 
                                         <span
-                                            class=" font-weight-bold text-info d-block">Due :  {{ decent_format($invoice->due) }}</span>
+                                            class=" font-weight-bold text-info d-block">Due :  {{  $settings->currency??'$' }}{{ decent_format($invoice->due) }}</span>
 
                                     @endif
                                 </td>

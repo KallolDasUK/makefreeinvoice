@@ -182,7 +182,7 @@
                                                 <span> {{ $record->account_name }}</span>
                                             @endif
                                         </td>
-                                        <td style="text-align: center"> {{ decent_format_dash($record->amount) }}</td>
+                                        <td style="text-align: center"> {{  $settings->currency??'$' }} {{ decent_format_dash($record->amount) }}</td>
                                     </tr>
                                     @php($amount = $amount + floatval($record->amount))
 
@@ -190,14 +190,14 @@
                                 @if($amount!=0)
                                     <tr>
                                         <td style="font-weight: bolder">TOTAL {{ strtoupper($group_name) }}</td>
-                                        <td style="text-align: center"><b>{{ decent_format_dash($amount) }} </b></td>
+                                        <td style="text-align: center"><b>{{  $settings->currency??'$' }}{{ decent_format_dash($amount) }} </b></td>
                                     </tr>
                                 @endif
                                 @php($asset += $amount)
                             @endforeach
                             <tr>
                                 <td><b>TOTAL ASSET</b></td>
-                                <td style="text-align: center"><b>{{ decent_format_dash($asset) }}</b></td>
+                                <td style="text-align: center"><b>{{  $settings->currency??'$' }}{{ decent_format_dash($asset) }}</b></td>
                             </tr>
                         </table>
                     </div>
@@ -228,7 +228,7 @@
                                                 <span> {!! $record->account_name !!}</span>
                                             @endif
                                         </td>
-                                        <td style="text-align: center"> {{ decent_format_dash($record->amount) }}</td>
+                                        <td style="text-align: center"> {{  $settings->currency??'$' }}{{ decent_format_dash($record->amount) }}</td>
                                     </tr>
                                     @php($amount = $amount + floatval($record->amount))
 
@@ -236,14 +236,14 @@
                                 @if($amount!=0)
                                     <tr>
                                         <td style="font-weight: bolder">TOTAL {{ strtoupper($group_name) }}</td>
-                                        <td style="text-align: center"><b>{{ decent_format_dash($amount) }} </b></td>
+                                        <td style="text-align: center"><b>{{  $settings->currency??'$' }}{{ decent_format_dash($amount) }} </b></td>
                                     </tr>
                                 @endif
                                 @php($lib += $amount)
                             @endforeach
                             <tr>
                                 <td><b>TOTAL LIABILITIES</b></td>
-                                <td style="text-align: center"><b>{{ decent_format_dash($lib) }}</b></td>
+                                <td style="text-align: center"><b>{{  $settings->currency??'$' }}{{ decent_format_dash($lib) }}</b></td>
                             </tr>
                         </table>
                     </div>
