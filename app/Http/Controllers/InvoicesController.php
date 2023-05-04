@@ -83,7 +83,7 @@ class InvoicesController extends Controller
         $customers = Customer::all();
         $ledgerGroups = LedgerGroup::all();
 
-        view()->share('title', 'All Invoices');
+        view()->share('title', 'All Sales');
 
         return view('invoices.index', compact('invoices', 'q', 'cashAcId', 'depositAccounts', 'paymentMethods',
             'start_date', 'user_id', 'end_date', 'customer_id', 'customers', 'ledgerGroups', 'sr_id', 'payment_status'));
@@ -93,6 +93,7 @@ class InvoicesController extends Controller
 
     public function create()
     {
+
         $this->authorize('create', Invoice::class);
         $cashAcId = optional(GroupMap::query()->firstWhere('key', LedgerHelper::$CASH_AC))->value;
         $depositAccounts = Ledger::find($this->getAssetLedgers())->sortBy('ledger_name');
@@ -114,7 +115,7 @@ class InvoicesController extends Controller
         $invoice_fields = optional(Invoice::query()->latest()->first())->invoice_extra ?? [];
         $next_invoice = Invoice::nextInvoiceNumber();
         $ledgerGroups = LedgerGroup::all();
-        view()->share('title', 'Create an Invoice');
+        view()->share('title', 'Add Sale');
         return view('invoices.create', compact('customers',
             'ledgerGroups', 'products', 'taxes', 'next_invoice', 'categories', 'extraFields',
             'invoice_fields', 'cashAcId', 'depositAccounts', 'paymentMethods'));

@@ -37,10 +37,10 @@
 <div id="invoice-container" class="container-fluid invoice-container">
 
 
-    <table class="border-none" style="margin-top: 250px;font-size: 16px;margin-left: 20px;margin-right: 20px">
+    <table class="border-none" style="margin-top: 50px;font-size: 16px;margin-left: 20px;margin-right: 20px">
         <tr class="text-center">
             <td colspan="5"><h1 class="font-weight-bolder">Tax Invoice</h1></td>
-            <td colspan="5"><h1 class="font-weight-bolder" style="font-size: 35px">فاتورة ضريبية
+            <td colspan="5"><h1 class="font-weight-bolder" style="font-size: 35px">
                 </h1></td>
         </tr>
         <tr>
@@ -86,9 +86,9 @@
             </td>
         </tr>
         <tr class="text-center">
-            <th colspan="5"><span>Invoice No (رقم الفاتورة): <span
+            <th colspan="5"><span>Invoice No: <span
                         class="ml-4">{{ $contact_invoice->invoice_number }}</span></span></th>
-            <th colspan="5"><span>Date (تاريخ): <span class="ml-4">{{ $contact_invoice->invoice_date }}</span></span>
+            <th colspan="5"><span>Date : <span class="ml-4">{{ $contact_invoice->invoice_date }}</span></span>
             </th>
         </tr>
         <tr>
@@ -96,15 +96,15 @@
             <td colspan="5"></td>
         </tr>
         <tr class="text-black font-weight-bold text-center" style="background-color: #ffe699">
-            <td>SL No م</td>
-            <td>Category <br> الفئة</td>
-            <td>Total Workers <br>العدد العمال</td>
-            <td>Monthly Cost <br> التكلفة الشهرية</td>
-            <td>Daily Cost <br> لتكلفة اليومية</td>
-            <td>Working Days <br>عدد أيام العمل</td>
-            <td>Total <br>ل االج</td>
-            <td>Vat <br>ضريبة</td>
-            <td>Total <br>ل االجما يل ا</td>
+            <td>SL No</td>
+            <td>Category </td>
+            <td>Total Workers </td>
+            <td>Monthly Cost </td>
+            <td>Daily Cost </td>
+            <td>Working Days</td>
+            <td>Total</td>
+            <td>Vat</td>
+            <td>Total </td>
         </tr>
 
         @foreach($contact_invoice->invoice_items as $item)
@@ -126,13 +126,13 @@
 
         <tr class="text-center">
             <td colspan="3">Total Amount Before Tax</td>
-            <th colspan="3" style="direction: rtl">المبلغ الإجمالي قبل الضريبة
+            <th colspan="3" style="direction: rtl">
             </th>
             <td colspan="3">{{ decent_format($contact_invoice->sub_total )}}</td>
         </tr>
         <tr class="text-center">
             <td colspan="3">Cash</td>
-            <td colspan="3" style="direction: rtl"> نقد</td>
+            <td colspan="3" style="direction: rtl"</td>
             <td colspan="3">-{{ $contact_invoice->payment }}</td>
         </tr>
         @foreach($contact_invoice->invoice_extra as $ie )
@@ -152,18 +152,18 @@
 
         <tr class="text-center">
             <td colspan="3">Total Before Tax @ 15%</td>
-            <td colspan="3" style="direction: rtl"> الإجمالي قبل ضريبة 15%
+            <td colspan="3" style="direction: rtl">  15%
             </td>
             <td colspan="3">{{ decent_format($totalAfterCharge) }}</td>
         </tr>
         <tr class="text-center">
             <td colspan="3">Value Added Tax @ 15%</td>
-            <td colspan="3" style="direction: rtl"> ضريبة القيمة المضافة 15%</td>
+            <td colspan="3" style="direction: rtl">  15%</td>
             <td colspan="3">{{ decent_format($taxAmount) }}</td>
         </tr>
         <tr class="text-center" style="background-color: #ddebf7">
             <td colspan="3">Total</td>
-            <td colspan="3" style="direction: rtl">إجمالي
+            <td colspan="3" style="direction: rtl">
             </td>
             <td colspan="3">{{ decent_format($totalAfterChargeAndTax) }}</td>
         </tr>
@@ -178,11 +178,11 @@
     </table>
     <div class="row p-4 m-4 align-items-center justify-content-between text-center">
         <div class="col">Regards</div>
-        <div class="col font-weight-bolder">شاكرين و مقررين</div>
+        <div class="col font-weight-bolder"></div>
     </div>
     <div class="row p-4 m-4 align-items-center justify-content-between text-center">
         <div class="col">
-            <p><b>Chief Executive Officer المدير لتنفيذي </b></p>
+            <p><b>Chief Executive Officer</b></p>
             <p class=" font-weight-bolder">Majed Al Otaibi
                 ماجد العتيبي</p></div>
         <div class="col">

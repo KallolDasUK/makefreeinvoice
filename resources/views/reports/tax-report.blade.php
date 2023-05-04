@@ -129,7 +129,7 @@
                 </form>
             </div>
         </div>
-{{--        @include('reports.partials.print-download-export')--}}
+
 
 
 {{--        <p class="clearfix"></p>--}}
@@ -151,11 +151,11 @@
                     <div class="text-center">
 
                         @if($settings->business_name??false)
-
+                            @include('reports.partials.report-header')
                             <h1>Tax Summary</h1>
                             <span>Basis: {{ $report_type??'' }}</span> <br>
                             <span>From {{ $start_date??'-' }} to {{ $end_date??'-' }}</span><br>
-                            @include('reports.partials.report-header')
+
                         @endif
                     </div>
                 </header>

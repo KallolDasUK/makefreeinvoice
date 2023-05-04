@@ -106,32 +106,34 @@
 
         </div>
 
-{{--        @include('reports.partials.print-download-export')--}}
-
-{{--        <p class="clearfix"></p>--}}
-{{--        <div id="invoice-container" class="container-fluid invoice-container">--}}
-
-{{--            <!-- Header -->--}}
-{{--            <header>--}}
-{{--                <div class="text-center">--}}
-
-{{--                    @if($settings->business_name??false)--}}
-{{--                        <h3>{{ $settings->business_name }}</h3>--}}
-{{--                        <h1>Accounts Payable Aging</h1>--}}
-{{--                        <span>As of {{ today()->format('M d, Y') }}</span>--}}
-{{--                    @endif--}}
-{{--                </div>--}}
-
-{{--                <hr>--}}
-{{--            </header>--}}
-
         @include('reports.partials.print-download-export')
 
         <p class="clearfix"></p>
         <div id="invoice-container" class="container-fluid invoice-container">
 
             <!-- Header -->
-        @include('reports.partials.report-header')
+
+            <header>
+                <div class="text-center">
+
+                    @if($settings->business_name??false)
+                        @include('reports.partials.report-header')
+                        <h1>Accounts Payable Aging</h1>
+                        <span>From {{ $start_date??'-' }} to {{ $end_date??'-' }}</span>
+{{--                        As of {{ today()->format('M d, Y') }}--}}
+                    @endif
+                </div>
+
+
+            </header>
+
+
+
+        <p class="clearfix"></p>
+        <div id="invoice-container" class="container-fluid invoice-container">
+
+            <!-- Header -->
+
 
 
             <!-- Main Content -->

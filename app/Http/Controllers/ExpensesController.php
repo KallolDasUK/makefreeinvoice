@@ -19,6 +19,8 @@ class ExpensesController extends Controller
 
     public function index(Request $request)
     {
+        view()->share('title', 'All Expenses');
+
         $start_date = $request->start_date;
         $end_date = $request->end_date;
         $customer_id = $request->customer;
@@ -60,6 +62,8 @@ class ExpensesController extends Controller
 
     public function create()
     {
+        view()->share('title', 'New Expense');
+
         $ledgers = Ledger::query()->get();
         $ledgerGroups = LedgerGroup::query()->get();
 
@@ -89,6 +93,8 @@ class ExpensesController extends Controller
 
     public function show($id)
     {
+        view()->share('title', 'Expense Receipt');
+
         $expense = Expense::with('ledger', 'vendor', 'customer')->findOrFail($id);
         $is_print = intval(request('print', 0));
         $is_download = intval(request('download', 0));
@@ -99,6 +105,8 @@ class ExpensesController extends Controller
 
     public function edit($id)
     {
+        view()->share('title', 'Edit Expense');
+
         $expense = Expense::findOrFail($id);
         $ledgers = Ledger::query()->get();
         $vendors = Vendor::pluck('name', 'id')->all();

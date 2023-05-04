@@ -135,8 +135,18 @@
         <div id="invoice-container" class="container-fluid invoice-container">
 
             <!-- Header -->
-        @include('reports.partials.report-header')
+            <header>
+                <div class="text-center">
 
+                    @if($settings->business_name??false)
+                        @include('reports.partials.report-header')
+                        <h1>Balance Sheet Report  </h1>
+                        <span>From {{ $start_date??'-' }} to {{ $end_date??'-' }}</span>
+                    @endif
+                </div>
+
+                <hr>
+            </header>
 
         <!-- Main Content -->
             <main>
@@ -172,7 +182,7 @@
                                                 <span> {{ $record->account_name }}</span>
                                             @endif
                                         </td>
-                                        <td style="text-align: center"> {{ decent_format_dash($record->amount) }}</td>
+                                        <td style="text-align: center"> {{  $settings->currency??'$' }} {{ decent_format_dash($record->amount) }}</td>
                                     </tr>
                                     @php($amount = $amount + floatval($record->amount))
 
@@ -180,14 +190,14 @@
                                 @if($amount!=0)
                                     <tr>
                                         <td style="font-weight: bolder">TOTAL {{ strtoupper($group_name) }}</td>
-                                        <td style="text-align: center"><b>{{ decent_format_dash($amount) }} </b></td>
+                                        <td style="text-align: center"><b>{{  $settings->currency??'$' }}{{ decent_format_dash($amount) }} </b></td>
                                     </tr>
                                 @endif
                                 @php($asset += $amount)
                             @endforeach
                             <tr>
                                 <td><b>TOTAL ASSET</b></td>
-                                <td style="text-align: center"><b>{{ decent_format_dash($asset) }}</b></td>
+                                <td style="text-align: center"><b>{{  $settings->currency??'$' }}{{ decent_format_dash($asset) }}</b></td>
                             </tr>
                         </table>
                     </div>
@@ -218,7 +228,7 @@
                                                 <span> {!! $record->account_name !!}</span>
                                             @endif
                                         </td>
-                                        <td style="text-align: center"> {{ decent_format_dash($record->amount) }}</td>
+                                        <td style="text-align: center"> {{  $settings->currency??'$' }}{{ decent_format_dash($record->amount) }}</td>
                                     </tr>
                                     @php($amount = $amount + floatval($record->amount))
 
@@ -226,14 +236,14 @@
                                 @if($amount!=0)
                                     <tr>
                                         <td style="font-weight: bolder">TOTAL {{ strtoupper($group_name) }}</td>
-                                        <td style="text-align: center"><b>{{ decent_format_dash($amount) }} </b></td>
+                                        <td style="text-align: center"><b>{{  $settings->currency??'$' }}{{ decent_format_dash($amount) }} </b></td>
                                     </tr>
                                 @endif
                                 @php($lib += $amount)
                             @endforeach
                             <tr>
                                 <td><b>TOTAL LIABILITIES</b></td>
-                                <td style="text-align: center"><b>{{ decent_format_dash($lib) }}</b></td>
+                                <td style="text-align: center"><b>{{  $settings->currency??'$' }}{{ decent_format_dash($lib) }}</b></td>
                             </tr>
                         </table>
                     </div>

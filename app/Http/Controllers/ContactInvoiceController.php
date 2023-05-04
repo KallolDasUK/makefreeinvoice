@@ -90,7 +90,7 @@ class ContactInvoiceController extends Controller
     public function create()
     {
 //        $this->authorize('create', Bill::class);
-
+        view()->share('title', 'Add Contact Invoice');
         $cashAcId = optional(GroupMap::query()->firstWhere('key', LedgerHelper::$CASH_AC))->value;
         $depositAccounts = Ledger::find($this->getAssetLedgers())->sortBy('ledger_name');
         $paymentMethods = PaymentMethod::query()->get();
@@ -177,7 +177,7 @@ class ContactInvoiceController extends Controller
 
     public function show($id)
     {
-
+        view()->share('title', 'Contact Invoice');
         $invoice = ContactInvoice::with('customer')->findOrFail($id);
         $settings = json_decode(MetaSetting::query()->pluck('value', 'key')->toJson());
 //        dd($settings);

@@ -295,7 +295,7 @@
                 <h2>{{ env('APP_NAME') }}</h2>
             </a>
             <a class="navbar-brand brand-logo-mini text-success" href="{{ url('/')  }}"><span
-                    class="mdi mdi-arrow-left mr-2"></a>
+                    class="mdi mdi-arrow-left mr-2"></span></a>
         </div>
         <div class="navbar-menu-wrapper d-flex align-items-stretch">
             <div class="subnavbar">
@@ -306,7 +306,7 @@
                                     href="{{ route('acc.home') }}"><i
                                         class="fa fa-tachometer-alt"></i><span>Dashboard</span> </a></li>
                             <li><a href="reports.html"><i
-                                        class="fas fa-file-invoice-dollar"></i><span>My Invoices</span> </a></li>
+                                        class="fas fa-file-invoice-dollar"></i><span>My Sales</span> </a></li>
 
                             <li class="dropdown subnavbar-open-center"><a href="javascript:;" class="dropdown-toggle"
                                                                           data-toggle="dropdown"> <i

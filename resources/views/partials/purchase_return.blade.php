@@ -88,9 +88,9 @@
                                 </td>
                                 <td class="text-center ">{{ $item->unit }}</td>
 
-                                <td class="text-center">{{ $purchaseReturn->currency }}{{ decent_format($item->price) }}</td>
+                                <td class="text-center">{{  $settings->currency??'$' }}{{ decent_format($item->price) }}</td>
                                 <td class="text-center ">X{{ decent_format($item->qnt) }}</td>
-                                <td class="text-right">{{ $purchaseReturn->currency }}{{ decent_format($item->amount) }}</td>
+                                <td class="text-right">{{  $settings->currency??'$' }}{{ decent_format($item->amount) }}</td>
                             </tr>
                         @endforeach
 
@@ -99,7 +99,7 @@
                         <tfoot class="card-footer">
                         <tr>
                             <td colspan="5" class="text-right"><strong>Sub Total:</strong></td>
-                            <td class="text-right">{{ $purchaseReturn->currency }}{{ decent_format($purchaseReturn->sub_total) }}</td>
+                            <td class="text-right">{{  $settings->currency??'$' }}{{ decent_format($purchaseReturn->sub_total) }}</td>
                         </tr>
                         @if($purchaseReturn->discount && $purchaseReturn->discount != 0)
                             <tr>
@@ -108,7 +108,7 @@
                                         :
                                     </strong></td>
                                 <td class="text-right">
-                                    - {{ $purchaseReturn->currency }}{{ decent_format($purchaseReturn->discount) }}</td>
+                                    - {{  $settings->currency??'$' }}{{ decent_format($purchaseReturn->discount) }}</td>
                             </tr>
                         @endif
                         @if($purchaseReturn->shipping_charge && $purchaseReturn->shipping_charge!=0)
@@ -116,7 +116,7 @@
                                 <td colspan="5" class="text-right"><strong>Shipping Charge :</strong></td>
                                 <td class="text-right">
                                     @if(floatval($purchaseReturn->shipping_charge)<0)
-                                        - @endif {{ $purchaseReturn->currency }}{{ decent_format($purchaseReturn->shipping_charge) }}</td>
+                                        - @endif {{  $settings->currency??'$' }}{{ decent_format($purchaseReturn->shipping_charge) }}</td>
                             </tr>
                         @endif
                         @foreach($purchaseReturn->bill_extra as $ie)
@@ -126,33 +126,33 @@
                             <tr>
                                 <td colspan="5" class="text-right"><strong>{{ $ie->name }}:</strong></td>
                                 <td class="text-right"> @if(floatval($ie->value)<0)
-                                        - @endif{{ $purchaseReturn->currency }} {{ decent_format(floatval(abs($ie->value))) }}</td>
+                                        - @endif{{  $settings->currency??'$' }} {{ decent_format(floatval(abs($ie->value))) }}</td>
                             </tr>
                         @endforeach
                         @foreach($purchaseReturn->taxes as $tax)
                             <tr>
                                 <td colspan="5" class="text-right"><strong>{{ $tax['tax_name'] }}:</strong></td>
-                                <td class="text-right"> {{ $purchaseReturn->currency }}{{ decent_format(floatval($tax['tax_amount'])) }}</td>
+                                <td class="text-right">{{  $settings->currency??'$' }}{{ decent_format(floatval($tax['tax_amount'])) }}</td>
                             </tr>
                         @endforeach
 
                         <tr>
                             <td colspan="5" class="text-right"><strong>Total:</strong></td>
                             <td class="text-right">
-                                <strong>{{ $purchaseReturn->currency }}{{ decent_format($purchaseReturn->total) }}</strong>
+                                <strong>{{  $settings->currency??'$' }}{{ decent_format($purchaseReturn->total) }}</strong>
                             </td>
                         </tr>
                         <tr>
                             <td colspan="5" class="text-right"><strong>Paid:</strong></td>
                             <td class="text-right">
-                                <strong>{{ $purchaseReturn->currency }}{{ decent_format($purchaseReturn->payment) }}</strong>
+                                <strong>{{  $settings->currency??'$' }}{{ decent_format($purchaseReturn->payment) }}</strong>
                             </td>
                         </tr>
                         @if($purchaseReturn->due>0)
                             <tr>
                                 <td colspan="5" class="text-right"><strong>Due:</strong></td>
                                 <td class="text-right">
-                                    <strong>{{ $purchaseReturn->currency }}{{ decent_format($purchaseReturn->due) }}</strong>
+                                    <strong>{{  $settings->currency??'$' }}{{ decent_format($purchaseReturn->due) }}</strong>
                                 </td>
                             </tr>
                         @endif
