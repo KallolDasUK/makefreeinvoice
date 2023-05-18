@@ -23,6 +23,7 @@ use Enam\Acc\Models\Branch;
 use Enam\Acc\Models\Ledger;
 use Enam\Acc\Models\LedgerGroup;
 use Illuminate\Http\Request;
+use function GuzzleHttp\Promise\all;
 
 class ReportController extends AccountingReportsController
 {
@@ -536,7 +537,7 @@ class ReportController extends AccountingReportsController
         $user_id = $request->user_id;
 
         $customer_id = $request->customer_id;
-        $customers = Customer::query()->select('id','name')->get();
+        $customers = Customer::query()->select('id', 'name')->get();
         $records = $this->getDueCollectionReport($start_date, $end_date, $customer_id, $user_id);
         $users = \App\Models\User::query()
             ->where('client_id', auth()->user()->client_id)
@@ -574,6 +575,7 @@ class ReportController extends AccountingReportsController
         $customers = Customer::all();
         return view('reports.customer-report', compact('customers'));
     }
+
 
     public function vendorReport()
     {
@@ -664,5 +666,22 @@ class ReportController extends AccountingReportsController
         $records = collect($records)->sortBy('sold', SORT_DESC, SORT_DESC);
 
         return view('reports.popular-products-report', compact('records', 'start_date', 'end_date'));
+    }
+
+    public function dueReport(Request $request)
+    {
+        $start_date = $request->start_date ;
+        $end_date = $request->end_date ;
+        $customer_id = $request->customer_id;
+        view()->share('title', 'Due Report');
+        $invoices = Invoice::query()
+            ->when($start_date != null, function ($query) use ($start_date, $end_date) {
+                return $query->whereBetween('invoice_date', [$start_date, $end_date]);
+            })->when($customer_id != null, function ($query) use ($customer_id) {
+                return $query->where('customer_id', $customer_id);
+            })->
+            where('payment_status', '!=', 'Paid')->get();
+        $customers = Customer::all();
+        return view('reports.due-report', compact('invoices', 'customers', 'start_date', 'end_date', 'customer_id'));
     }
 }
