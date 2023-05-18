@@ -472,6 +472,7 @@ Route::group(['middleware' => 'auth:web', 'prefix' => 'app'], function () {
         Route::get('/stock-alert-report', [ReportController::class, 'stockAlert'])->name('reports.report.stock_alert');
         Route::get('/stock-alert-report-modal', [ReportController::class, 'stockAlertModal'])->name('reports.report.stock_alert_modal');
         Route::get('/popular-products-report', [ReportController::class, 'popularProductReport'])->name('reports.report.popular_products_report');
+        Route::get('/due-report', [ReportController::class, 'dueReport'])->name('reports.report.due_report');
 
     });
 

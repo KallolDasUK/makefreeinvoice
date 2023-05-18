@@ -18,6 +18,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string|null $photo
  * @property string|null $company_name
  * @property string|null $phone
+ * @property string|null $date
  * @property string|null $email
  * @property string|null $address
  * @property string|null $website

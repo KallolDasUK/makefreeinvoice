@@ -215,6 +215,14 @@
                     </div>
                     <div class="shortcuts-title sc-jlyJG gSoaLO title">Most Popular Products</div>
                 </a>
+                <a class="sc-gPEVay eaBhby  "
+                   href="{{ route('reports.report.due_report') }}">
+                    <div class="sc-iRbamj image"
+                         style="background-image:url('{{ asset('images/estimate.svg') }}') ">
+
+                    </div>
+                    <div class="shortcuts-title sc-jlyJG gSoaLO title">Due Report</div>
+                </a>
 
                 <div class="clearfix"></div>
                 <br>
