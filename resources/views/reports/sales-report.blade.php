@@ -86,106 +86,106 @@
 
 
             <div class="card mb-2">
-            <div class="card-body">
-                <form action="{{ route('reports.report.sales_report') }}">
-                    <div class="row align-items-end mb-4 mx-auto justify-content-center">
+                <div class="card-body">
+                    <form action="{{ route('reports.report.sales_report') }}">
+                        <div class="row align-items-end mb-4 mx-auto justify-content-center">
 
-                        <div class="col">
-                            <div class="row align-items-center">
-                                <div class="mx-2">
-                                    <select id="customer_id" name="customer_id" class=" form-control m-2"
-
-                                            style="max-width: 130px"
-                                    >
-                                        <option></option>
-                                        @foreach($customers as $customer)
-                                            <option value="{{ $customer->id }}"
-                                                    @if($customer->id == $customer_id) selected @endif>{{ $customer->name }}{{ $customer->phone }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="mx-2">
-                                    <select id="invoice_id" name="invoice_id" class=" form-control "
-                                            style="max-width: 130px"
-                                    >
-                                        <option></option>
-                                        @foreach($invoices as $invoice)
-                                            <option value="{{ $invoice->invoice_number }}"
-                                                    @if($invoice->invoice_number == $invoice_id) selected @endif>
-                                                {{ $invoice->invoice_number }}
-                                            </option>
-                                        @endforeach
-                                        @foreach($pos_sales as $pos_sale)
-                                            <option value="{{ $pos_sale->pos_number }}"
-                                                    @if($pos_sale->pos_number == $invoice_id) selected @endif>
-                                                {{ $pos_sale->pos_number }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="mx-2">
-                                    <select id="payment_status" name="payment_status" class="form-control "
-                                            style="max-width: 130px"
-
-                                    >
-                                        <option></option>
-                                        @foreach([\App\Models\Invoice::Paid,\App\Models\Invoice::UnPaid,\App\Models\Invoice::Partial] as $status)
-                                            <option value="{{ $status }}"
-                                                    @if($status == $payment_status) selected @endif>
-                                                {{ $status }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                @if(auth()->user()->is_admin)
+                            <div class="col">
+                                <div class="row align-items-center">
                                     <div class="mx-2">
-                                        <select name="user_id" id="user_id" class="form-control"
-                                                style="max-width: 130px">
+                                        <select id="customer_id" name="customer_id" class=" form-control m-2"
+
+                                                style="max-width: 130px"
+                                        >
                                             <option></option>
-                                            @foreach(\App\Models\User::query()->where('client_id',auth()->user()->client_id)->get() as $user)
-                                                <option value="{{ $user->id }}"
-                                                        @if($user->id == $user_id) selected @endif>{{ $user->name }} {{ $user->email }} </option>
+                                            @foreach($customers as $customer)
+                                                <option value="{{ $customer->id }}"
+                                                        @if($customer->id == $customer_id) selected @endif>{{ $customer->name }}{{ $customer->phone }}</option>
                                             @endforeach
                                         </select>
                                     </div>
-                                @endif
-                                <div class="col-3 row">
-                                    <div class="input-daterange input-group" id="start_date">
+                                    <div class="mx-2">
+                                        <select id="invoice_id" name="invoice_id" class=" form-control "
+                                                style="max-width: 130px"
+                                        >
+                                            <option></option>
+                                            @foreach($invoices as $invoice)
+                                                <option value="{{ $invoice->invoice_number }}"
+                                                        @if($invoice->invoice_number == $invoice_id) selected @endif>
+                                                    {{ $invoice->invoice_number }}
+                                                </option>
+                                            @endforeach
+                                            @foreach($pos_sales as $pos_sale)
+                                                <option value="{{ $pos_sale->pos_number }}"
+                                                        @if($pos_sale->pos_number == $invoice_id) selected @endif>
+                                                    {{ $pos_sale->pos_number }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="mx-2">
+                                        <select id="payment_status" name="payment_status" class="form-control "
+                                                style="max-width: 130px"
+
+                                        >
+                                            <option></option>
+                                            @foreach([\App\Models\Invoice::Paid,\App\Models\Invoice::UnPaid,\App\Models\Invoice::Partial] as $status)
+                                                <option value="{{ $status }}"
+                                                        @if($status == $payment_status) selected @endif>
+                                                    {{ $status }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    @if(auth()->user()->is_admin)
+                                        <div class="mx-2">
+                                            <select name="user_id" id="user_id" class="form-control"
+                                                    style="max-width: 130px">
+                                                <option></option>
+                                                @foreach(\App\Models\User::query()->where('client_id',auth()->user()->client_id)->get() as $user)
+                                                    <option value="{{ $user->id }}"
+                                                            @if($user->id == $user_id) selected @endif>{{ $user->name }} {{ $user->email }} </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    @endif
+                                    <div class="col-3 row">
+                                        <div class="input-daterange input-group" id="start_date">
 
 
-                                        <input type="text" class="form-control " name="start_date"
-                                               value="{{ $start_date ?? '' }}"
-                                               placeholder="Start">
-                                        <div class="input-group-append">
+                                            <input type="text" class="form-control " name="start_date"
+                                                   value="{{ $start_date ?? '' }}"
+                                                   placeholder="Start">
+                                            <div class="input-group-append">
 									<span class="input-group-text">
 										...
                                     </span>
+                                            </div>
+                                            <input type="text" class="form-control" name="end_date" id="end_date"
+                                                   value="{{ $end_date??'' }}"
+
+                                                   placeholder="End">
+
+
                                         </div>
-                                        <input type="text" class="form-control" name="end_date" id="end_date"
-                                               value="{{ $end_date??'' }}"
-
-                                               placeholder="End">
-
 
                                     </div>
+                                    <div class="col">
+                                        <button role="button" type="submit"
+                                                class="btn btn-primary px-6 mx-2  font-weight-bold">
+                                            <i class="fas fa-sliders-h"></i>
+                                            Update Report
+                                        </button>
+                                    </div>
+
 
                                 </div>
-                                <div class="col">
-                                    <button role="button" type="submit"
-                                            class="btn btn-primary px-6 mx-2  font-weight-bold">
-                                        <i class="fas fa-sliders-h"></i>
-                                        Update Report
-                                    </button>
-                                </div>
-
-
                             </div>
-                        </div>
 
-                    </div>
-                </form>
+                        </div>
+                    </form>
+                </div>
             </div>
-        </div>
 
 
         <p class="clearfix"></p>

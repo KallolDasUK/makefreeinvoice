@@ -23,7 +23,7 @@
         <!-- Header START -->
         <div class="header">
             <div class="logo logo-dark">
-                <a href="index.html">
+                <a href="{{ route('master.index') }}">
                     <img height="50px" width="100" src="{{ asset('assets/images/logo/invoicepedia.png') }}" alt="Logo">
 
                 </a>
