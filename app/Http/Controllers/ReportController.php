@@ -673,7 +673,7 @@ class ReportController extends AccountingReportsController
         $start_date = $request->start_date ;
         $end_date = $request->end_date ;
         $customer_id = $request->customer_id;
-        view()->share('title', 'Due Report');
+        view()->share('title', 'Sales Due ');
         $invoices = Invoice::query()
             ->when($start_date != null, function ($query) use ($start_date, $end_date) {
                 return $query->whereBetween('invoice_date', [$start_date, $end_date]);
@@ -683,5 +683,21 @@ class ReportController extends AccountingReportsController
             where('payment_status', '!=', 'Paid')->get();
         $customers = Customer::all();
         return view('reports.due-report', compact('invoices', 'customers', 'start_date', 'end_date', 'customer_id'));
+    }
+    public function purchaseDueReport(Request $request)
+    {
+        $start_date = $request->start_date ;
+        $end_date = $request->end_date ;
+        $customer_id = $request->customer_id;
+        view()->share('title', 'Purchase Due');
+        $invoices = Bill::query()
+            ->when($start_date != null, function ($query) use ($start_date, $end_date) {
+                return $query->whereBetween('bill_date', [$start_date, $end_date]);
+            })->when($customer_id != null, function ($query) use ($customer_id) {
+                return $query->where('customer_id', $customer_id);
+            })->
+            where('payment_status', '!=', 'Paid')->get();
+        $customers = Customer::all();
+        return view('reports.purchase-due', compact('invoices', 'customers', 'start_date', 'end_date', 'customer_id'));
     }
 }

@@ -221,7 +221,15 @@
                          style="background-image:url('{{ asset('images/estimate.svg') }}') ">
 
                     </div>
-                    <div class="shortcuts-title sc-jlyJG gSoaLO title">Due Report</div>
+                    <div class="shortcuts-title sc-jlyJG gSoaLO title">Sales Due</div>
+                </a>
+                <a class="sc-gPEVay eaBhby  "
+                   href="{{ route('reports.report.purchase_due_report') }}">
+                    <div class="sc-iRbamj image"
+                         style="background-image:url('{{ asset('images/estimate.svg') }}') ">
+
+                    </div>
+                    <div class="shortcuts-title sc-jlyJG gSoaLO title">Purchase Due </div>
                 </a>
 
                 <div class="clearfix"></div>
