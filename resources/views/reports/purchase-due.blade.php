@@ -164,30 +164,30 @@
                             <table class="table mb-0 table-bordered">
                                 <thead class="card-header">
                                 <tr>
-                                    <td class=" border-0"><strong>Invoice Number</strong></td>
+                                    <td class=" border-0"><strong>Bill Number</strong></td>
                                     {{--                                    @if($settings->customer_id_feature??'0')--}}
                                     {{--                                        <td class="text-center"><strong>Customer ID</strong></td>--}}
                                     {{--                                    @endif--}}
                                     <td class=" border-0"><strong>Customer Name</strong></td>
 
-                                    <td class=" border-0"><strong>Invoice Date</strong></td>
+                                    <td class=" border-0"><strong>Bill Date</strong></td>
 
                                     <td class="text-right border-0 bg-secondary">Due Amount</td>
 
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @foreach($invoices as $invoice)
+                                @foreach($bills as $bill)
                                     <tr>
-                                        <td class=" border-0">{{ $invoice->invoice_number }}</td>
+                                        <td class=" border-0">{{ $bill->bill_number }}</td>
                                         {{--                                        @if($settings->customer_id_feature??'0')--}}
                                         {{--                                            <td class="text-center">{{ $customer->customer_ID??'-' }}</td>--}}
                                         {{--                                        @endif--}}
                                         <td class="text-start border-0" style="max-width: 300px">
-                                            <b>{{ optional($invoice->customer)->name }}</b></td>
+                                            <b>{{ optional($bill->vendor)->name }}</b></td>
                                         <td class="text-start border-0">{{ $invoice->invoice_date??'-' }}</td>
 
-                                        <td class="text-right border-0 bg-secondary">{{ decent_format_dash_if_zero($invoice->due) }}</td>
+                                        <td class="text-right border-0 bg-secondary">{{ decent_format_dash_if_zero($bill->due) }}</td>
 
                                     </tr>
                                 @endforeach
@@ -197,7 +197,7 @@
 
                                 <tr>
                                     <td colspan="3" class="text-right border-0"><strong>Total Due</strong></td>
-                                    <td class="text-right border-0 font-weight-bolder bg-secondary">{{ decent_format_dash_if_zero(collect($invoices)->sum('due')) }}</td>
+                                    <td class="text-right border-0 font-weight-bolder bg-secondary">{{ decent_format_dash_if_zero(collect($bills)->sum('due')) }}</td>
 
                                 </tr>
                                 </tfoot>
