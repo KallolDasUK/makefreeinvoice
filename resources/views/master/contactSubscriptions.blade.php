@@ -56,7 +56,7 @@
         </div>
         <div class="mx-auto text-right">
             <button type="submit"
-                    class="btn btn-primary btn-lg" {{ ability(\App\Utils\Ability::GENERAL_SETTINGS_EDIT) }}>Save
+                    class="btn btn-primary btn-lg" >Save
                 Settings
             </button>
 
