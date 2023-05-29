@@ -88,6 +88,17 @@ Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']
     \UniSharp\LaravelFilemanager\Lfm::routes();
 });
 
+Route::get('/enam', function () {
+
+
+    $users = cache()->remember('user', 10, function () {
+        $users = User::query()->withoutGlobalScopes(['scopeClient'])->get();
+        return $users;
+    });
+
+    return view('test', ['users' => $users]);
+});
+
 
 Route::get('/', function (Request $request) {
 
@@ -697,6 +708,7 @@ Route::group(['prefix' => 'master', 'middleware' => ['auth:web', 'isMaster']], f
     Route::get('/user_settings_view', [MasterController::class, 'user_settings_view'])->name('master.user_settings');
     Route::post('/user_settings', [MasterController::class, 'user_settings'])->name('master.user_settings_store');
     Route::get('/subscriptions', [MasterController::class, 'subscriptions'])->name('master.subscriptions');
+    Route::get('/contact-subscriptions', [MasterController::class, 'contactSubscriptions'])->name('master.contact.subscriptions');
     Route::post('/subscriptions/free-plan', [MasterController::class, 'freePlanSettings'])->name('master.subscriptions.free_plan');
     Route::post('/subscriptions/basic-plan', [MasterController::class, 'basicPlanSettings'])->name('master.subscriptions.basic_plan');
     Route::post('/subscriptions/premium-plan', [MasterController::class, 'premiumPlanSettings'])->name('master.subscriptions.premium_plan');

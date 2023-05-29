@@ -148,6 +148,13 @@ class MasterController extends Controller
         return view('master.subscriptions', compact('global_settings'));
     }
 
+    public function contactSubscriptions()
+    {
+        $global_settings = json_decode(GlobalSetting::query()->pluck('value', 'key')->toJson());
+        return view('master.contactSubscriptions', compact('global_settings'));
+
+    }
+
 
     public function freePlanSettings(Request $request)
     {
