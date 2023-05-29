@@ -29,25 +29,29 @@
             {{ session('message') }}
         </div>
     @endif
-{{--    <form method="post" action="{{ route('accounting.settings.update') }}" style="margin-bottom: 50px"--}}
-{{--          enctype="multipart/form-data">--}}
-{{--        @csrf--}}
-{{--        <div class="mx-auto text-right">--}}
-{{--            <button type="submit"--}}
-{{--                    class="btn btn-primary btn-lg" {{ ability(\App\Utils\Ability::GENERAL_SETTINGS_EDIT) }}>Save--}}
-{{--                Settings--}}
-{{--            </button>--}}
+    {{--    <form method="post" action="{{ route('accounting.settings.update') }}" style="margin-bottom: 50px"--}}
+    {{--          enctype="multipart/form-data">--}}
+    {{--        @csrf--}}
+    {{--        <div class="mx-auto text-right">--}}
+    {{--            <button type="submit"--}}
+    {{--                    class="btn btn-primary btn-lg" {{ ability(\App\Utils\Ability::GENERAL_SETTINGS_EDIT) }}>Save--}}
+    {{--                Settings--}}
+    {{--            </button>--}}
 
-{{--        </div>--}}
-{{--        </div>--}}
+    {{--        </div>--}}
+    {{--        </div>--}}
 
+
+    <form action="{{ route('master.contact.subscriptions.store') }}" method="POST">
+
+        @csrf
 
         <div class="form-group row">
             <div class="col-form-label col-lg-2 required">
                 <label class="font-weight-bolder text-danger"> Phone Number *</label>
             </div>
             <div class="col-lg-8">
-                <input type="phone" class="form-control" name="phone" value="{{ $settings->phone??'' }}">
+                <input type="text" class="form-control" name="phone" value="{{ $global_settings->phone??'' }}">
             </div>
         </div>
         <div class="mx-auto text-right">
@@ -58,7 +62,6 @@
 
         </div>
     </form>
-
 @endsection
 
 @section('js')

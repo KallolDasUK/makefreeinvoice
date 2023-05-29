@@ -26,6 +26,7 @@ class MasterController extends Controller
 {
 
     private $blogCategories;
+
     public function index()
     {
         return view('master.index');
@@ -151,7 +152,25 @@ class MasterController extends Controller
     public function contactSubscriptions()
     {
         $global_settings = json_decode(GlobalSetting::query()->pluck('value', 'key')->toJson());
+
         return view('master.contactSubscriptions', compact('global_settings'));
+
+    }
+
+    public function contactSubscriptionsStore(Request $request)
+    {
+
+        $phone = $request->phone;
+//
+        GlobalSetting::query()->updateOrCreate(['key' => 'phone'], ['value' => $phone]);
+//        $s = new GlobalSetting();
+//        $s->key = 'phone';
+//        $s->value = $phone;
+//        $s->save();
+//        dd($phone);
+
+
+        return back()->with('message', 'Setting Saved');
 
     }
 

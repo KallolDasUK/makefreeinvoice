@@ -709,6 +709,7 @@ Route::group(['prefix' => 'master', 'middleware' => ['auth:web', 'isMaster']], f
     Route::post('/user_settings', [MasterController::class, 'user_settings'])->name('master.user_settings_store');
     Route::get('/subscriptions', [MasterController::class, 'subscriptions'])->name('master.subscriptions');
     Route::get('/contact-subscriptions', [MasterController::class, 'contactSubscriptions'])->name('master.contact.subscriptions');
+    Route::post('/contact-subscriptions-store', [MasterController::class, 'contactSubscriptionsStore'])->name('master.contact.subscriptions.store');
     Route::post('/subscriptions/free-plan', [MasterController::class, 'freePlanSettings'])->name('master.subscriptions.free_plan');
     Route::post('/subscriptions/basic-plan', [MasterController::class, 'basicPlanSettings'])->name('master.subscriptions.basic_plan');
     Route::post('/subscriptions/premium-plan', [MasterController::class, 'premiumPlanSettings'])->name('master.subscriptions.premium_plan');
