@@ -84,6 +84,7 @@ use App\Http\Controllers\BannerAdsController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
 //Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
 //    \UniSharp\LaravelFilemanager\Lfm::routes();
 //});
