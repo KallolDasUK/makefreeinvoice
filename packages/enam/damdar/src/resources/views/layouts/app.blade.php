@@ -926,7 +926,7 @@
 
                     <div class="text-center text-danger">WhatsApp at <h2>
 
-                            <a href="tel:{{$global_settings->phone??' _ '}}"><i class="fa fa-phone"></i>{{$global_settings->phone??' _ '}}</a>
+                            <a class="text-danger" href="tel:{{$global_settings->phone??' _ '}}"><i class="fa fa-phone text-danger"></i>{{$global_settings->phone??' _ '}}</a>
                         </h2>
                     </div>
 
