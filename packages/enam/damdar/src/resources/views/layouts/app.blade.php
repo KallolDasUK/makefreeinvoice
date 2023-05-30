@@ -1371,7 +1371,7 @@
 <!-- Your Chat plugin code -->
 <div id="fb-customer-chat" class="fb-customerchat">
 </div>
-@if($settings->show_messenger_chat_box??true)
+{{--@if($settings->show_messenger_chat_box??true)--}}
     <script>
         var chatbox = document.getElementById('fb-customer-chat');
         chatbox.setAttribute("page_id", "108404041579131");
@@ -1394,7 +1394,7 @@
         }(document, 'script', 'facebook-jssdk'));
         $('#ledger_group_id').select2({dropdownParent: $("#ledgerModal")})
     </script>
-@endif
+{{--@endif--}}
 </body>
 
 </html>
