@@ -925,7 +925,8 @@
                     </div>
 
                     <div class="text-center">WhatsApp at <h2>
-                            <a href="tel:+44 7511 436352"><i class="fa fa-phone"></i>+44 7511 436352</a>
+
+                            <a href="tel:{{$global_settings->phone??' _ '}}"><i class="fa fa-phone"></i>{{$global_settings->phone??' _ '}}</a>
                         </h2>
                     </div>
 

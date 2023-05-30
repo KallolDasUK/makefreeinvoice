@@ -80,6 +80,14 @@
                         </a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" href="{{ route('master.contact.subscriptions') }}">
+                            <span class="icon-holder">
+                                    <i class="anticon anticon-setting"></i>
+                            </span>
+                            <span class="title"> Contact Settings </span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="{{ route('master.users') }}">
                             <span class="icon-holder">
                                     <i class="anticon anticon-user"></i>
