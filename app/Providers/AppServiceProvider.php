@@ -102,6 +102,7 @@ class AppServiceProvider extends ServiceProvider
             if (optional(auth()->user())->client_id) {
                 $payment_history = session('payment_history');
                 $settings = BasePolicy::getSettings();
+                $global_settings = BasePolicy::getGlobalSettings();
                 if (!$payment_history) {
                     $payment_history = CollectPayment::query()->where('user_id', auth()->user()->id)->latest('date')->get();
                     session()->put('payment_history', $payment_history);
@@ -128,6 +129,7 @@ class AppServiceProvider extends ServiceProvider
                     date_default_timezone_set($settings->timezone);
                 }
                 $view->with('settings', $settings);
+                $view->with('global_settings', (object)$global_settings);
                 $view->with('remainingDay', $remainingDay);
             }
 

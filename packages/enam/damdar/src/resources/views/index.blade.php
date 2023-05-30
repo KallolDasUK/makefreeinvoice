@@ -598,6 +598,22 @@
                     <div class="shortcuts-title sc-jlyJG gSoaLO title">Balance Sheet</div>
                 </a>
 
+                <a class="sc-gPEVay eaBhby border rounded "
+                   href="{{ route('reports.report.due_report') }}">
+                    <div class="sc-iRbamj image"
+                         style="background-image:url('{{ asset('images/estimate.svg') }}') ">
+
+                    </div>
+                    <div class="shortcuts-title sc-jlyJG gSoaLO title">Sales Due</div>
+                </a>
+                <a class="sc-gPEVay eaBhby border rounded "
+                   href="{{ route('reports.report.purchase_due_report') }}">
+                    <div class="sc-iRbamj image"
+                         style="background-image:url('{{ asset('images/estimate.svg') }}') ">
+
+                    </div>
+                    <div class="shortcuts-title sc-jlyJG gSoaLO title">Purchase Due</div>
+                </a>
             </div>
         </div>
     </div>
