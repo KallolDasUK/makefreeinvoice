@@ -924,7 +924,7 @@
                             How to Use? Check Tutorial</a>
                     </div>
 
-                    <div class="text-center">WhatsApp at <h2>
+                    <div class="text-center text-danger">WhatsApp at <h2>
 
                             <a href="tel:{{$global_settings->phone??' _ '}}"><i class="fa fa-phone"></i>{{$global_settings->phone??' _ '}}</a>
                         </h2>
