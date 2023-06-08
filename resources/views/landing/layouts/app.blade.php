@@ -143,7 +143,7 @@
                 <ul class="buy-button list-inline mb-0">
                     <li class="list-inline-item mb-0">
 
-                        <a href="{{ route('acc.home') }}">
+                        <a href="{{ route('acc.PO02222Q1Jhome') }}">
 
                             <div class="login-btn-light">
                         <span class="btn btn-pills btn-light">

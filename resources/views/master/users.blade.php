@@ -305,23 +305,7 @@
         {!! $users->withQueryString()->links() !!}
     </div>
 @endsection
-
-@section('scripts')
-    <script>
-        $(document).ready(function() {
-            $('#email').select2({
-                placeholder: 'Select an option',
-                allowClear: true,
-                minimumResultsForSearch: 2,
-                maximumSelectionLength: 2
-            });
-        });
-    </script>
-
-
-
-
-
+@section('js')
     <script>
 
         $('.ads_checkbox').on('change', function () {
