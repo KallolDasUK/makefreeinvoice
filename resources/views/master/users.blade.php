@@ -72,7 +72,7 @@
             <div class="modal-content">
 
                 <div class="modal-body">
-                    <div id="content"></div>
+                    <div style="text-align: center" id="content"></div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Hide</button>
@@ -324,6 +324,7 @@
 
 
         $(document).ready(function () {
+
             $('.linkContainer').on('click', function () {
                 setTimeout(() => {
                     $(this).find('input').toggle()
@@ -340,9 +341,11 @@
             })
 
             $('#settingsModal').on('shown.bs.modal', function (e) {
-                // alert('test')
+
                 //get data-id attribute of the clicked element
                 $('#content').html("<img width='200' style='text-align: center' src='https://c.tenor.com/tEBoZu1ISJ8AAAAC/spinning-loading.gif'/>")
+
+                // return false;
                 var user_id = $(e.relatedTarget).data('user-id');
                 $.ajax({
                     url: route('master.user_settings'),
