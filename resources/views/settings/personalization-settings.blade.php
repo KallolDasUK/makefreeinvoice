@@ -47,17 +47,6 @@
         </div>
         <div class="form-group row align-items-center">
             <div class="col-form-label col-lg-2 ">
-                <label for="pos_hide_name" class="font-weight-bolder ">Show Messenger Chat Box</label>
-            </div>
-            <div class="col-lg-4 bg-secondary">
-                <input type="hidden" name="show_messenger_chat_box" value="0">
-                <input id="show_messenger_chat_box" type="checkbox" name="show_messenger_chat_box"
-                       class="form-control check-mark checkbox form-check-input"
-                       value="1" {{ ($settings->show_messenger_chat_box??'1')?'checked':'' }}>
-            </div>
-        </div>
-        <div class="form-group row align-items-center">
-            <div class="col-form-label col-lg-2 ">
                 <label for="pos_hide_name" class="font-weight-bolder ">Manual Customer ID Input</label>
             </div>
             <div class="col-lg-4 bg-secondary">
