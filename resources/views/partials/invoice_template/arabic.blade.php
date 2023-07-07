@@ -207,7 +207,23 @@
                                 </td>
                             </tr>
                         @endif
-
+                        @if($invoice->previous_due>0)
+                            <tr>
+                                <td colspan="5" class="text-right"><strong>Previous Due (تاريخ الاستحقاق السابق):</strong></td>
+                                <td class="text-right">
+                                    <strong>{{ $invoice->currency }}{{ decent_format($invoice->previous_due) }}</strong>
+                                </td>
+                            </tr>
+                        @endif
+                        @php($totalDue= $invoice->due + $invoice->previous_due )
+                        @if($totalDue>0)
+                            <tr>
+                                <td colspan="5" class="text-right"><strong>Total Due (الاجمالي المستحق):</strong></td>
+                                <td class="text-right">
+                                    <strong>{{ $invoice->currency }}{{ decent_format($totalDue) }}</strong>
+                                </td>
+                            </tr>
+                        @endif
                         </tfoot>
                     </table>
                 </div>
