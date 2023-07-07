@@ -11,7 +11,7 @@
     <div class="mx-4">
         <div class="form-group">
             <label for="">Choose Plan</label>
-            <select class="form-control" name="plan_name" id="plan_name">
+            <select class="form-control font-weight-bold" name="plan_name" id="plan_name">
                 <option value="Trial" @if(($selected_user->settings->plan_name??'Trial') == 'Trial') selected @endif>On
                     Trial
                 </option>
