@@ -225,6 +225,7 @@
                 <th>Settings</th>
                 <th>On Plan</th>
                 <th>Joined</th>
+                <th>Join Date</th>
                 <th>Last Active</th>
                 {{--                <th>Invoices</th>--}}
                 {{--                <th>POS</th>--}}
@@ -246,7 +247,8 @@
                 ?>
                 <tr>
                     <td><a class="btn btn-sm btn-danger mx-2 my-2" onclick="return confirm('are you sure?')"
-                           href="{{ route('master.users.delete',$user->id) }}">Delete</a></td>
+                           href="{{ route('master.users.delete',$user->id) }}">Delete</a>
+                    </td>
                     <td>
                         <div class="row">
                             <div class="col-3">
@@ -271,9 +273,21 @@
                             </button>
                         </label>
                     </td>
-                    <td>{{ Str::title($user->settings->plan_name??'n/a') }}</td>
+                    <td>
+                        @if ($user->settings->plan_name === 'Premium' && \Carbon\Carbon::parse($user->created_at)->diffInYears() >= 1)
+                            Basic
+                        @else
+                            {{ Str::title($user->settings->plan_name ?? 'n/a') }}
+                        @endif
+                    </td>
+
+{{--                    <td>{{ Str::title($user->settings->plan_name??'n/a') }}</td>--}}
                     <td> {{ \Carbon\Carbon::parse($user->created_at)->diffForHumans() }}</td>
-                    @if($user->last_active_at)
+
+                    <td>{{ \Carbon\Carbon::parse($user->created_at)->format('y-m-d') }}</td>
+
+
+                @if($user->last_active_at)
                         <td> {{ \Carbon\Carbon::parse($user->last_active_at)->diffForHumans() }}</td>
                     @else
                         <td>-</td>
@@ -307,6 +321,9 @@
 @endsection
 @section('js')
     <script>
+        $(document).ready(function (){
+            $('#email').select2();
+        })
 
         $('.ads_checkbox').on('change', function () {
             let is_checked = this.checked;

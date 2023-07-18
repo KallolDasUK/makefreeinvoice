@@ -50,11 +50,11 @@
 
             <select class="form-control" id="user_id" name="user_id">
         	    <option value="" style="display: none;" {{ old('user_id', optional($userNotification)->user_id ?: '') == '' ? 'selected' : '' }} disabled selected>Select user</option>
-        	@foreach ($users as $user)
+{{--        	@foreach ($users as $user)--}}
 			    <option value="{{ $user->id }}" {{ old('user_id', optional($userNotification)->user_id) == $user->id ? 'selected' : '' }}>
 			    	{{ $user->name }} {{ $user->email }} ({{ optional($user->settings)->phone }})
 			    </option>
-			@endforeach
+{{--			@endforeach--}}
         </select>
 
             {!! $errors->first('user_id', '<p class="form-text text-danger">:message</p>') !!}

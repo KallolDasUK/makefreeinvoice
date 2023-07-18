@@ -37,20 +37,21 @@
 
             </div>
             <div class="nav-wrap">
-                <ul class="nav-left">
+{{--                <ul class="nav-left">--}}
 
-                    <nav class="navbar navbar-dark sticky-top flex-md-nowrap p-0">
-                        <input class="form-control form-control-dark w-100" type="text" placeholder="Search"
-                               aria-label="Search">
+{{--                    <nav class="navbar navbar-dark sticky-top flex-md-nowrap p-0">--}}
+{{--                        <input class="form-control form-control-dark w-100" type="text" placeholder="Search"--}}
+{{--                               aria-label="Search">--}}
 
-                    </nav>
+{{--                    </nav>--}}
 
 
-                </ul>
-                <div class="mt-3">
+{{--                </ul>--}}
+                <div class="mt-3 ml-auto">
                     <ul class="navbar-nav float-right">
                         <li class="nav-item text-nowrap">
-                            <a class="nav-link float-right" href="#"></a>Sign out
+                            <a class="btn btn-outline" href=" {{ route('acc.home') }}" onclick="return confirm('Confirm Sign Out??')">Sign Out</a>
+
                         </li>
                     </ul>
                 </div>
