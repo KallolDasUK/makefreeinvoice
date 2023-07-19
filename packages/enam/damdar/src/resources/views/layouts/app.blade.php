@@ -917,18 +917,19 @@
                 {{ $title??'' }} </b>
 
 
-                    <div>
-                        <a href="https://www.youtube.com/watch?v=UPXeH8r9Jhc&list=PL5FPulw8-MaotxlscrDUAmT-l3a_J8bxs"
-                           class=" btn  btn-outline-danger " target="_blank">
-                            <i class="fab fa-youtube"></i>
-                            How to Use? Check Tutorial</a>
-                    </div>
+            <div>
+                <a href="https://www.youtube.com/watch?v=UPXeH8r9Jhc&list=PL5FPulw8-MaotxlscrDUAmT-l3a_J8bxs"
+                   class=" btn  btn-outline-danger " target="_blank">
+                    <i class="fab fa-youtube"></i>
+                    How to Use? Check Tutorial</a>
+            </div>
 
-                    <div class="text-center text-danger">WhatsApp at <h2>
+            <div class="text-center text-danger">WhatsApp at <h2>
 
-                            <a class="text-danger shimmer" href="tel:{{$global_settings->phone??' _ '}}"><i class="fa fa-phone text-danger"></i>{{$global_settings->phone??' _ '}}</a>
-                        </h2>
-                    </div>
+                    <a class="text-danger shimmer" href="tel:{{$global_settings->phone??' _ '}}"><i
+                            class="fa fa-phone text-danger"></i>{{$global_settings->phone??' _ '}}</a>
+                </h2>
+            </div>
 
             <div>
                 @if(auth()->user()->role == 'master')
@@ -975,11 +976,17 @@
                             <br>
                         @else
 
-                            <strong class="d-none"> Free Plan <a class="font-weight-bolder subscribeModal"
-                                                                 href="javascript:;">Upgrade Now</a>
+
+                            <strong>
+                                @if($plan == 'premium' && $remaining_trial_days)
+                                    Trial
+                                @else
+                                    {{ Str::title($plan) }}
+                                @endif
+                                Plan <a class="font-weight-bolder subscribeModal"
+                                        href="javascript:;">Upgrade Now</a>
 
                             </strong>
-                            <strong>Premium Plan </strong>
                             <br>
 
 
@@ -988,14 +995,16 @@
                         <strong
                             class="d-inline-block">{{ \Carbon\Carbon::now()->format('h:i a Y-m-d ') }}{{ \Carbon\Carbon::now()->timezoneName }}  </strong>
                         @if(ability_class(\App\Utils\Ability::GENERAL_SETTINGS_READ) != 'protected'))
-                        <h5><a class="" href="{{ route('accounting.settings.edit') }}"><i class="fa fa-cog"></i> Account Settings</a>
+                        <h5><a class="" href="{{ route('accounting.settings.edit') }}"><i class="fa fa-cog"></i> Account
+                                Settings</a>
                         </h5>
                         @endif
 
-                        @if($remainingDay > 0)
-                        <small> Software license expires in </small>
-                        <code> {{ $remainingDay }} days</code>
+
+                        @if($plan == 'premium' && $remaining_trial_days)
+                            <h4><code> Trial period ends in {{ $remaining_trial_days }} days.</code></h4>
                         @endif
+
                     </div>
                 </div>
 
@@ -1048,7 +1057,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title text-warning" id="notificationModalLabel"><i class="fa fa-bullhorn mr-4"
-                                                                                       aria-hidden="true"></i>Stock
+                                                                                        aria-hidden="true"></i>Stock
                         Alert</h5>
                     <button id="closeStockAlertButton" data-dismiss="modal" aria-label="Close" type="button"
                             class="btn btn-danger">Close
@@ -1170,9 +1179,9 @@
     $(document).ready(function () {
         $('form').submit(function () {
             $("button[type='submit']").attr("disabled", true);
-            setTimeout(()=>{
+            setTimeout(() => {
                 $("button[type='submit']").attr("disabled", false);
-            },2000)
+            }, 2000)
         });
         let yourDate = new Date()
         yourDate = yourDate.toISOString().split('T')[0]
@@ -1205,11 +1214,11 @@
         console.log(settings)
         if (!settings.phone) {
             $('#phoneModal').modal({backdrop: 'static', keyboard: false})
-        }else{
-            let  show_stock_alert = {!! $settings->show_stock_alert??1 !!};
+        } else {
+            let show_stock_alert = {!! $settings->show_stock_alert??1 !!};
 
             // alert(localStorage.getItem(yourDate) == null && show_stock_alert == '1')
-            if(localStorage.getItem(yourDate) == null && show_stock_alert == '1'){
+            if (localStorage.getItem(yourDate) == null && show_stock_alert == '1') {
                 $.ajax({
                     url: route('reports.report.stock_alert_modal'),
                     type: 'get',
@@ -1372,28 +1381,28 @@
 <div id="fb-customer-chat" class="fb-customerchat">
 </div>
 {{--@if($settings->show_messenger_chat_box??true)--}}
-    <script>
-        var chatbox = document.getElementById('fb-customer-chat');
-        chatbox.setAttribute("page_id", "108404041579131");
-        chatbox.setAttribute("attribution", "biz_inbox");
+<script>
+    var chatbox = document.getElementById('fb-customer-chat');
+    chatbox.setAttribute("page_id", "108404041579131");
+    chatbox.setAttribute("attribution", "biz_inbox");
 
-        window.fbAsyncInit = function () {
-            FB.init({
-                xfbml: true,
-                version: 'v11.0'
-            });
-        };
+    window.fbAsyncInit = function () {
+        FB.init({
+            xfbml: true,
+            version: 'v11.0'
+        });
+    };
 
-        (function (d, s, id) {
-            var js, fjs = d.getElementsByTagName(s)[0];
-            if (d.getElementById(id)) return;
-            js = d.createElement(s);
-            js.id = id;
-            js.src = 'https://connect.facebook.net/en_US/sdk/xfbml.customerchat.js';
-            fjs.parentNode.insertBefore(js, fjs);
-        }(document, 'script', 'facebook-jssdk'));
-        $('#ledger_group_id').select2({dropdownParent: $("#ledgerModal")})
-    </script>
+    (function (d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s);
+        js.id = id;
+        js.src = 'https://connect.facebook.net/en_US/sdk/xfbml.customerchat.js';
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+    $('#ledger_group_id').select2({dropdownParent: $("#ledgerModal")})
+</script>
 {{--@endif--}}
 </body>
 
