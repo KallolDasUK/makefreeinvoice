@@ -1043,7 +1043,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    This is a pro feature. Upgrade to unlock the feature.
+                    This is a pro feature. Upgrade to unlock the feature. Please contact {{ optional($gloabl_settings)->phone }} support for manual upgrade.
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">Close
