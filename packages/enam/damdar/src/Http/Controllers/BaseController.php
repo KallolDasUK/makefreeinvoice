@@ -19,6 +19,7 @@ class BaseController extends Controller
     public function index(Request $request)
     {
 
+//        dd(\auth()->user(), 'bal');
 
         $date = $request->date ?? today()->toDateString();
         $date = Carbon::parse($date);
