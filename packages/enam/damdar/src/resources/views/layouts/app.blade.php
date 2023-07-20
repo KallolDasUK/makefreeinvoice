@@ -992,17 +992,15 @@
                         </h5>
                         @endif
 
-                        @if($remainingDay > 0)
-                        <small> Software license expires in </small>
-                        <code> {{ $remainingDay }} days</code>
-                        @endif
+{{--                        @if(optional($remainingDay ?? 0)> 0)--}}
+{{--                        <small> Software license expires in </small>--}}
+{{--                        <code> {{ $remainingDay }} days</code>--}}
+{{--                        @endif--}}
                     </div>
                 </div>
 
             </div>
             <div class="col">
-
-            </div>
 
             <div class="col text-right">
                 <form action="{{ route('logout') }}" method="post">
