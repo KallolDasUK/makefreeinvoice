@@ -1,5 +1,11 @@
 @extends('master.master-layout')
 
+
+
+{{--@section('content')--}}
+{{--    <h1><b>Hello</b></h1>--}}
+{{--@endsection--}}
+
 @section('content')
 
     <div class="card">

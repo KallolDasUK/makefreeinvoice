@@ -28,7 +28,7 @@
                 <div class="col-lg-5 col-md-6 mt-4 pt-2 mt-sm-0 pt-sm-0">
                     <div class="card shadow rounded border-0 ms-lg-5">
                         <div class="card-body">
-                            <h5 class="card-title">Join Now</h5>
+                            <h5 class="card-title">Join Now NOW ENAM</h5>
 
                             <div>
                                 <form class="login-form mt-4" action="{{ route('login') }}" method="post">

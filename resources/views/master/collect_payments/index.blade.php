@@ -38,7 +38,7 @@
             <div class="card-body">
 
                 <div class="table-responsive">
-                  <table class="table  table-sm">      <!--Take out from the table Class:  "table-striped"  because of color combinaiton-->
+                    <table class="table  table-sm" id="myTable" >
                         <thead>
                         <tr>
                             <th>Date</th>
