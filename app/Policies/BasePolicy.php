@@ -56,7 +56,7 @@ class BasePolicy
                 // Calculate the difference between the current date and the user's creation date
                 $interval = $currentDateTime->diffInDays(auth()->user()->created_at);
 
-                if ($interval <= 30) {
+                if (false) {
                     // User creation is more than 30 days old
                     $this->is_trial = true;
                     $this->remaining_trial_days = 30 - $interval;
@@ -64,7 +64,7 @@ class BasePolicy
 
                 } else {
                     // User creation is within 30 days
-                    $this->plan = 'trial';
+                    $this->plan = 'premium';
 
                 }
 
