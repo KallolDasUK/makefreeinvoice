@@ -410,6 +410,7 @@ class InvoicesController extends Controller
             'discount_value' => 'nullable',
             'discount' => 'nullable',
             'sub_total' => 'numeric',
+            'previous_due' => 'numeric',
             'shipping_charge' => 'numeric',
             'total' => 'numeric',
             'terms_condition' => 'nullable|string|min:0',

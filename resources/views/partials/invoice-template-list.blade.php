@@ -22,6 +22,9 @@
                 <div class="text-center m-0 p-0 "><b>Elegant</b></div>
             </a>
         </div>
+        
+
+        
         <div class=" mt-4 card border border-dark template @if($template=='arabic') template-active @endif"
         >
             <a href="{{ route('invoices.invoice.show',[$invoice->id,'template'=>'arabic']) }}">
@@ -40,4 +43,8 @@
             </a>
         </div>
     </div>
+    
+    
+    
+    
 </div>

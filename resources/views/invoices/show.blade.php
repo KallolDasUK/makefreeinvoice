@@ -206,6 +206,7 @@
                         @include('partials.invoice_template.template_1')
                     @elseif($template == "arabic")
                         @include('partials.invoice_template.arabic')
+
                     @else
                         @include('partials.invoice_template.classic')
                     @endif
@@ -219,7 +220,7 @@
 @endsection
 
 @push('js')
-    <script>
+    <script> 
 
         $('#printBtn').on('click', function () {
             window.print()
