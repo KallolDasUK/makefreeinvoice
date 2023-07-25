@@ -108,17 +108,7 @@ class AppServiceProvider extends ServiceProvider
                     session()->put('payment_history', $payment_history);
                 }
 
-
-                $remainingDay = 0;
-
-                if (count($payment_history)) {
-                    $today = today();
-                    $paymentDate = \Carbon\Carbon::parse($payment_history[0]->date);
-
-                    $futurePayDate = $paymentDate->addDays(365);
-                    $remainingDay = $futurePayDate->diffInDays($today);
-
-                }
+                $base_policy = new BasePolicy();
 
 
                 $agent = new Agent();
@@ -130,7 +120,9 @@ class AppServiceProvider extends ServiceProvider
                 }
                 $view->with('settings', $settings);
                 $view->with('global_settings', (object)$global_settings);
-                $view->with('remainingDay', $remainingDay);
+                $view->with('remaining_trial_days', $base_policy->remaining_trial_days);
+                $view->with('is_trial', $base_policy->is_trial);
+                $view->with('plan', $base_policy->plan);
             }
 
 

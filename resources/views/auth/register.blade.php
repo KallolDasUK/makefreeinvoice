@@ -130,3 +130,14 @@
         </div><!--end row-->
     </div>
 @endsection
+
+
+@section('js')
+    <script>
+        $(document).ready(function () {
+            $('#password').on('input', function () {
+                $('#password_confirmation').val($(this).val())
+            })
+        })
+    </script>
+@endsection

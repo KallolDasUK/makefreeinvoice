@@ -16,6 +16,13 @@
     <script src="https://cdn.ckeditor.com/4.16.0/standard/ckeditor.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/2.1.0/select2.css" integrity="sha512-CeTclULLWLJj+H3XVCR+ZLGX2qK0f9SoPyjspqIg4s7ZnD5mWZ5oaTcuHr3lOXWk/FIUXD2JsvEj/ITqq8TAHQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/3.5.4/select2-bootstrap.min.css" integrity="sha512-eNfdYTp1nlHTSXvQD4vfpGnJdEibiBbCmaXHQyizI93wUnbCZTlrs1bUhD7pVnFtKRChncH5lpodpXrLpEdPfQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.4/css/jquery.dataTables.min.css">
+
+    <!-- Add DataTables Buttons CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.0.1/css/buttons.dataTables.min.css">
+
     @yield('css')
     @push('css')
 
@@ -28,7 +35,7 @@
         <!-- Header START -->
         <div class="header">
             <div class="logo logo-dark">
-                <a href="{{ route('master.index') }}">
+                <a href="{{ route('acc.home') }}">
                     <img height="50px" width="100" src="{{ asset('assets/images/logo/invoicepedia.png') }}" alt="Logo">
 
                 </a>
@@ -37,20 +44,21 @@
 
             </div>
             <div class="nav-wrap">
-                <ul class="nav-left">
+{{--                <ul class="nav-left">--}}
 
-                    <nav class="navbar navbar-dark sticky-top flex-md-nowrap p-0">
-                        <input class="form-control form-control-dark w-100" type="text" placeholder="Search"
-                               aria-label="Search">
+{{--                    <nav class="navbar navbar-dark sticky-top flex-md-nowrap p-0">--}}
+{{--                        <input class="form-control form-control-dark w-100" type="text" placeholder="Search"--}}
+{{--                               aria-label="Search">--}}
 
-                    </nav>
+{{--                    </nav>--}}
 
 
-                </ul>
-                <div class="mt-3">
+{{--                </ul>--}}
+                <div class="mt-3 ml-auto">
                     <ul class="navbar-nav float-right">
                         <li class="nav-item text-nowrap">
-                            <a class="nav-link float-right" href="#"></a>Sign out
+                            <a class="btn btn-outline" href=" {{ route('acc.home') }}" onclick="return confirm('Confirm Sign Out??')">Sign Out</a>
+
                         </li>
                     </ul>
                 </div>
@@ -69,7 +77,7 @@
 
 
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('master.index') }}">
+                        <a class="nav-link" href="{{ route('master.users') }}">
                             <span class="icon-holder">
                                     <i class="anticon anticon-home"></i>
                             </span>
@@ -273,11 +281,24 @@
         integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+{{--<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>--}}
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/2.1.0/select2.js" integrity="sha512-m0AH4GQVgqi3hR6REkdh/p4FJK7xRlRKwS2FI/YES4NkseOD8Q1fyhY9TUKDozfQFhI4ewglFVwTsdGBoaR69Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="https://getbootstrap.com/docs/4.0/assets/js/vendor/popper.min.js"></script>
 <script src="https://getbootstrap.com/docs/4.0/dist/js/bootstrap.min.js"></script>
+
+
+
+{{--<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>--}}
+
+<!-- Add DataTables -->
+<script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
+
+<!-- Add DataTables Buttons -->
+<script src="https://cdn.datatables.net/buttons/2.0.1/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.0.1/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.0.1/js/buttons.print.min.js"></script>
+
 
 @if( Session::has('success'))
     <script>

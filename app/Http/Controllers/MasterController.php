@@ -22,6 +22,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\URL;
 
+
 class MasterController extends Controller
 {
 
@@ -126,7 +127,7 @@ class MasterController extends Controller
         $tables = DB::select('SHOW TABLES');
         foreach ($tables as $table) {
 
-            $table_name = $table->Tables_in_u100349385_invoicepedia;
+            $table_name = $user->Tables_in_u100349385_invoicepedia;
             if ($table_name == 'users') {
                 continue;
             }
