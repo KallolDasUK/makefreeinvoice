@@ -44,7 +44,7 @@
     <link media="all" type="text/css" rel="stylesheet" href="{{ asset('css/materialicon.css') }}">
     <link media="all" type="text/css" rel="stylesheet" href="{{ asset('css/style.css') }}?v=2">
     <link media="all" type="text/css" rel="stylesheet"
-          href="https://preview.keenthemes.com/metronic/theme/html/demo2/dist/assets/css/style.bundle.css?v=7.2.8">
+          href="{{ asset( 'css/style.bundle.css') }}">
     <link media="all" type="text/css" rel="stylesheet"
           href="https://preview.keenthemes.com/metronic/theme/html/demo2/dist/assets/plugins/global/plugins.bundle.css?v=7.2.8">
 
@@ -924,10 +924,15 @@
                     How to Use? Check Tutorial</a>
             </div>
 
+<<<<<<< HEAD
             <div class="text-center text-danger">WhatsApp at <h2>
 
                     <a class="text-danger shimmer" href="tel:{{$global_settings->phone??' _ '}}"><i
                             class="fa fa-phone text-danger"></i>{{$global_settings->phone??' _ '}}</a>
+=======
+            <div class="text-center">WhatsApp at <h2>
+                    <a href="tel:+44 7511 436352"><i class="fa fa-phone"></i>+44 7511 436352</a>
+>>>>>>> 86af130 (fixed design)
                 </h2>
             </div>
 
@@ -1000,18 +1005,13 @@
                         </h5>
                         @endif
 
-<<<<<<< HEAD
-{{--                        @if(optional($remainingDay ?? 0)> 0)--}}
-{{--                        <small> Software license expires in </small>--}}
-{{--                        <code> {{ $remainingDay }} days</code>--}}
-{{--                        @endif--}}
-=======
 
-                        @if($plan == 'premium' && $remaining_trial_days)
-                            <h4><code> Trial period ends in {{ $remaining_trial_days }} days.</code></h4>
+
+                        @if($remainingDay > 0)
+                            <small> Software license expires in </small>
+                            <code> {{ $remainingDay }} days</code>
                         @endif
 
->>>>>>> 6b5559e48fcc98b6cad23867108e8639db02d0c3
                     </div>
                 </div>
 
