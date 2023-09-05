@@ -29,7 +29,7 @@
     <link media="all" type="text/css" rel="stylesheet" href="{{ asset('css/materialicon.css') }}">
     <link media="all" type="text/css" rel="stylesheet" href="{{ asset('css/style.css') }}">
     <link media="all" type="text/css" rel="stylesheet"
-          href="https://preview.keenthemes.com/metronic/theme/html/demo2/dist/assets/css/style.bundle.css?v=7.2.8">
+          href="{{ asset( 'css/style.bundle.css') }}">
     <link media="all" type="text/css" rel="stylesheet"
           href="https://preview.keenthemes.com/metronic/theme/html/demo2/dist/assets/plugins/global/plugins.bundle.css?v=7.2.8">
 
