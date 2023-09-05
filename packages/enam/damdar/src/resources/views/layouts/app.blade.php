@@ -1007,10 +1007,7 @@
 
 
 
-                        @if($remainingDay > 0)
-                            <small> Software license expires in </small>
-                            <code> {{ $remainingDay }} days</code>
-                        @endif
+
 
                     </div>
                 </div>
