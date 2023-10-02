@@ -18,7 +18,7 @@
                         <p class="para-desc text-white-50">Free online invoicing and billing software for small and
                             large
                             business. Accounting, Invoice, Billing, Sales, Purchase, Inventory Management, Send & Print
-                            Invoice Online is so simple in invoicepedia. InvoicePedia makes creating professional
+                            Invoice Online is so simple in makefreeinvoice. MakeFreeInvoice makes creating professional
                             looking
                             invoices for your business ridiculously easy</p>
 
@@ -126,11 +126,11 @@
                     <div class="section-title mb-4 pb-2">
                         <h4 class="title mb-4 text-center">Benefit for users using <strong class="font-weight-bolder"
                                                                                            style="font-weight: 900;font-family: system-ui"><span
-                                    style="color: #0d71bb">Invoice</span><span style="color: red">Pedia</span></strong>
+                                    style="color: #0d71bb">Make Free</span><span style="color: red">Invoice</span></strong>
                         </h4>
                         <span class="text-muted para-desc mb-0 mx-auto">Start working with <span
-                                class="text-primary fw-bold"><span style="color: #0d71bb">Invoice</span><span
-                                    style="color: red">Pedia</span></span>
+                                class="text-primary fw-bold"><span style="color: #0d71bb">Make Free</span><span
+                                    style="color: red">Invoice</span></span>
                         that can provide easy solution to <h1 class="d-inline"
                                                               style="font-size: 16px !important;display: inline"> <strong>create invoices online</strong></h1> and send it to your
                         business client.
@@ -262,7 +262,7 @@
                             </span>
                         <div class="card-body p-0 content">
                             <h5>24/7 Support</h5>
-                            <p class="para text-muted mb-0">Invoicepedia team is always on to help you at anytime.</p>
+                            <p class="para text-muted mb-0">MakeFreeInvoice team is always on to help you at anytime.</p>
                         </div>
                         <span class="big-icon text-center">
                                 <i class="uil uil-clock"></i>

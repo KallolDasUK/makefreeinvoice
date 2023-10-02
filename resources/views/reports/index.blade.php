@@ -253,11 +253,12 @@
                 </a>
 
                 <a class="sc-gPEVay eaBhby  @cannot('ledger') pro-tag @endcannot"
+                   style="display: none"
                    href="{{ route('reports.report.ledger_report') }}">
                     <div class="sc-iRbamj image" style="background-image:url('{{ asset('images/estimate.svg') }}') ">
 
                     </div>
-                    <div class="shortcuts-title sc-jlyJG gSoaLO title">Ledger Report</div>
+                    <div class="shortcuts-title sc-jlyJG gSoaLO title" >Ledger Report</div>
                 </a>
                 <a class="sc-gPEVay eaBhby  @cannot('profit_loss') pro-tag @endcannot"
                    href="{{ route('reports.report.loss_profit_report') }}">
@@ -267,6 +268,7 @@
                     <div class="shortcuts-title sc-jlyJG gSoaLO title">Profit Loss</div>
                 </a>
                 <a class="sc-gPEVay eaBhby @cannot('voucher') pro-tag @endcannot"
+                   style="display: none"
                    href="{{ route('reports.report.voucher_report') }}">
                     <div class="sc-iRbamj image" style="background-image:url('{{ asset('images/estimate.svg') }}') ">
 
@@ -283,6 +285,7 @@
                 </a>
 
                 <a class="sc-gPEVay eaBhby  @cannot('balance_sheet') pro-tag @endcannot"
+                   style="display: none"
                    href="{{ route('reports.report.balance_sheet_report') }}">
                     <div class="sc-iRbamj image" style="background-image:url('{{ asset('images/estimate.svg') }}') ">
 

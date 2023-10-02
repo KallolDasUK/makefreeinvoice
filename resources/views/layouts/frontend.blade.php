@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8"/>
-    <title>InvoicePedia - Free Online Invoice Generator, Billing & Accounting Online</title>
+    <title>MakeFreeInvoice - Free Online Invoice Generator, Billing & Accounting Online</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description"
           content="Create Free Online Invoice Generator, Billing, QuickBooks, Freshbooks, Zoho Books, Xero, Sage 50c, Wave, Invoice2go, OneUp, SliQ Invoicing, BillQuick Online, FinancialForce Billing, Chargebee, WORKetc, Harvest, PaySimple, Zervant, KashFlow, Bill.com "/>
@@ -147,11 +147,11 @@
                             <a href="#" class="logo-footer">
                                 <img src="{{ asset('images/invoicepedia-white.png') }}" height="24" alt="">
                             </a>
-                            <p class="mt-4">InvoicePedia makes small and large business invoicing and billing so simple.
-                                Its the best invoicing software online for free. Invoicepedia is inspired by Scoro,
+                            <p class="mt-4">MakeFreeInvoice makes small and large business invoicing and billing so simple.
+                                Its the best invoicing software online for free. MakeFreeInvoice is inspired by Scoro,
                                 QuickBooks, Freshbooks, Zoho Books, Xero, Sage 50c, Wave, Invoice2go, OneUp, SliQ
                                 Invoicing, BillQuick Online, FinancialForce Billing, Chargebee, WORKetc, Harvest,
-                                PaySimple, Zervant, KashFlow, Bill.com. Invoicepedia extends all features from existing
+                                PaySimple, Zervant, KashFlow, Bill.com. MakeFreeInvoice extends all features from existing
                                 online software in the market and added some exciting features to make your business
                                 running smothly.</p>
                         </div><!--end col-->
@@ -169,8 +169,8 @@
                     <div class="text-sm-start">
                         <p class="mb-0">©
                             <script>document.write(new Date().getFullYear())</script>
-                            InvoicePedia.com . Design with <i class="mdi mdi-heart text-danger"></i> by <a
-                                href="{{ url('/') }}" target="_blank" class="text-reset">Invoice Pedia</a>.
+                            MakeFreeInvoice.com . Design with <i class="mdi mdi-heart text-danger"></i> by <a
+                                href="{{ url('/') }}" target="_blank" class="text-reset">Make free Invoice</a>.
                         </p>
                     </div>
                 </div><!--end col-->

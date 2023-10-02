@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8"/>
-    <title> {{ $title??'InvoicePedia - Free Online Invoice Generator, Billing & Accounting Online' }}</title>
+    <title> {{ $title??'MakeFreeInvoice - Free Online Invoice Generator, Billing & Accounting Online' }}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 {!! SEOMeta::generate() !!}
@@ -49,7 +49,7 @@
     <link rel="icon" type="image/png" href="{{ asset('favicon-16x16.png') }}"/>
     <style>
         .bg-overlay {
-            background-color: #065a92;
+            background-color: #10ADAD ;
         }
 
         .btn.btn-outline-primary {
@@ -82,7 +82,7 @@
         }
 
         .sticky {
-            background-color: #065a92 !important;
+            background-color: #10ADAD !important;
         }
 
         .nav-sticky {

@@ -88,7 +88,7 @@
     <link href="https://unpkg.com/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css"/>
     <link href="https://ckeditor.com/docs/ckeditor5/latest/assets/snippet-styles.css" rel="stylesheet" type="text/css"/>
     <link href="https://cdn.quilljs.com/1.0.0/quill.snow.css" rel="stylesheet">
-    <link rel="icon" type="image/png" href="{{ asset('favicon.ico') }}"/>
+    <link rel="icon" type="image/png" href="{{ asset('assets/images/logo/logo-white.png') }}"/>
     <link rel="icon" type="image/png" href="{{ asset('favicon-32x32.png') }}"/>
     <link rel="icon" type="image/png" href="{{ asset('favicon-16x16.png') }}"/>
     @yield('css')
@@ -396,7 +396,27 @@
 
         }
 
-
+        .cookie-disclaimer {
+            background: #000000;
+            color: #FFF;
+            opacity: 0.8;
+            width: 100%;
+            bottom: 0;
+            left: 0;
+            z-index: 1;
+            height: 150px;
+            position: fixed;
+        }
+        .cookie-disclaimer .container {
+            text-align: center;
+            padding-top: 20px;
+            padding-bottom: 20px;
+        }
+        .cookie-disclaimer .cookie-close{
+            float: right;
+            padding: 10px;
+            cursor: pointer;
+        }
     </style>
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-J35PC4G2SJ"></script>
@@ -417,6 +437,20 @@
 </head>
 
 <body class="">
+
+
+
+<div id="cookie-consent" class="fixed bottom-0 bg-white p-2">
+    <div class="cookie-disclaimer">
+        <div class="cookie-close accept-cookie"><i class="fa fa-times"></i></div>
+        <div class="container">
+            <p>We use cookies to enhance your experience. By continuing to visit this site, you agree to our use of cookies.</p>
+            <button type="button" id="accept-cookies" class="btn btn-success accept-cookie">Accept Cookies</button>
+        </div>
+    </div>
+</div>
+
+
 
 <div class="modal fade" id="subscribeModal" tabindex="-1" role="dialog" aria-labelledby="subscribeModal"
      aria-hidden="true">
@@ -633,7 +667,7 @@
         </li>
         <!--end::Item-->
         <!--begin::Item-->
-        <li class="nav-item " style="position:relative;">
+        <li class="nav-item " style="position:relative; display: none">
             <a href="#"
                class="nav-link dropdown-toggle rounded  {{ ability_class(\App\Utils\Ability::ACCOUNTING_CREATE)=='protected'?'disabled':'' }}"
                data-toggle="dropdown" data-target="#kt_header_tab_2"
@@ -1126,6 +1160,29 @@
         },
         "font-family": "Poppins"
     };</script>
+
+    <script>
+        const cookieConsent = document.getElementById('cookie-consent');
+        const acceptCookiesButton = document.getElementById('accept-cookies');
+
+        function setCookie(name, value, days) {
+            const expires = new Date(Date.now() + days * 24 * 60 * 60 * 1000).toUTCString();
+            document.cookie = `${name}=${value}; expires=${expires}; path=/`;
+        }
+
+        function hasConsent() {
+            return document.cookie.split('; ').some((cookie) => cookie.startsWith('cookie-consent=accepted'));
+        }
+
+        if (!hasConsent()) {
+            cookieConsent.style.display = 'block';
+        }
+
+        acceptCookiesButton.addEventListener('click', () => {
+            setCookie('cookie-consent', 'accepted', 365);
+            cookieConsent.style.display = 'none';
+        });
+    </script>
 
 
 <!-- base js -->

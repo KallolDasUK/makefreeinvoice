@@ -1,4 +1,4 @@
-@php($title="Login - InvoicePedia")
+@php($title="Login - MakeFreeInvoice")
 @extends('landing.layouts.app')
 @section('content')
     <div class=" my-auto" style="min-height: 100vh;padding-top: 100px;background-color: #065a92">

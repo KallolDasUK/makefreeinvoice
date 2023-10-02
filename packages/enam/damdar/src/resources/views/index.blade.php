@@ -74,10 +74,10 @@
                         <div class="d-block mr-4">
                             <span class="d-block " style="text-align: center;font-size: 20px;">Settings</span>
 
-                            <img height="30px"
-                                 style="transform: rotate(180deg); "
-                                 src="https://my.freshbooks.com/assets/images/onboarding/arrow-left-8a0848d364cd87602821c18e77cea9ce.png"
-                                 alt="Arrow">
+{{--                            <img height="30px"--}}
+{{--                                 style="transform: rotate(180deg); "--}}
+{{--                                 src="https://my.freshbooks.com/assets/images/onboarding/arrow-left-8a0848d364cd87602821c18e77cea9ce.png"--}}
+{{--                                 alt="Arrow">--}}
                         </div>
                         <div style="max-width: 100%;vertical-align: middle">
                             <a href="{{ route('accounting.settings.edit') }}">
@@ -121,9 +121,9 @@
 
                     <div class="text-start ml-4">
 
-                        <img height="30px"
-                             src="https://my.freshbooks.com/assets/images/onboarding/arrow-left-8a0848d364cd87602821c18e77cea9ce.png"
-                             alt="Arrow">
+{{--                        <img height="30px"--}}
+{{--                             src="https://my.freshbooks.com/assets/images/onboarding/arrow-left-8a0848d364cd87602821c18e77cea9ce.png"--}}
+{{--                             alt="Arrow">--}}
                         <span class="d-block "
                               style="text-align: center;font-size: 20px;">Create your first invoice !</span>
 
@@ -581,7 +581,8 @@
                         <div class="shortcuts-title sc-jlyJG gSoaLO title">Receipt Payment</div>
                     </a>
 
-                    <a class="sc-gPEVay eaBhby border rounded @cannot('ledger') pro-tag @endcannot"
+                    <a class="sc-gPEVay eaBhby border rounded @cannot('ledger') pro-tag @endcannot "
+                       style="display: none"
                        href="{{ route('reports.report.ledger_report') }}">
                         <div class="sc-iRbamj image" style="background-image:url('{{ asset('images/estimate.svg') }}') ">
 
@@ -590,6 +591,7 @@
                     </a>
 
                     <a class="sc-gPEVay eaBhby border rounded @cannot('voucher') pro-tag @endcannot"
+                       style="display: none"
                        href="{{ route('reports.report.voucher_report') }}">
                         <div class="sc-iRbamj image" style="background-image:url('{{ asset('images/estimate.svg') }}') ">
 
@@ -598,6 +600,7 @@
                     </a>
 
                     <a class="sc-gPEVay eaBhby border rounded @cannot('balance_sheet') pro-tag @endcannot"
+                       style="display: none"
                        href="{{ route('reports.report.balance_sheet_report') }}">
                         <div class="sc-iRbamj image" style="background-image:url('{{ asset('images/estimate.svg') }}') ">
 
