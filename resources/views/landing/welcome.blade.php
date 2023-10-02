@@ -1,6 +1,7 @@
-@extends('landing.layouts.app')
+@extends('landing.layouts.landing')
 
 @section('content')
+
     <!-- Hero Start -->
     <section class="bg-half-170 d-table w-100"
              style="background: url('{{ asset('images/invoicess.PNG') }}') center center;padding-top: 100px">
@@ -545,11 +546,4 @@
 
 @endsection
 @section('js')
-    <script>
-        $(document).ready(function () {
-            $('#password').on('input', function () {
-                $('#password_confirmation').val($(this).val())
-            })
-        })
-    </script>
 @endsection

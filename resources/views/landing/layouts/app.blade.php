@@ -6,11 +6,6 @@
     <title> {{ $title??'MakeFreeInvoice - Free Online Invoice Generator, Billing & Accounting Online' }}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-{!! SEOMeta::generate() !!}
-{!! OpenGraph::generate() !!}
-{!! Twitter::generate() !!}
-{!! JsonLd::generate() !!}
-{!! JsonLdMulti::generate() !!}
 <!-- Bootstrap -->
     {{--    <link href="https://shreethemes.in/landrick/layouts/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>--}}
     <link href="https://shreethemes.in/landrick/landing/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
@@ -19,12 +14,6 @@
 <!-- Icons -->
     <link href="{{ asset('css/materialicons.css') }}" rel="stylesheet"
           type="text/css"/>
-    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v3.0.6/css/line.css">
-    <!-- Slider -->
-    <link rel="stylesheet" href="https://shreethemes.in/landrick/landing/assets/css/tiny-slider.css"/>
-    <!-- Date picker -->
-    <link rel="stylesheet" href="https://shreethemes.in/landrick/landing/assets/css/datepicker.min.css">
-    <!-- Main Css -->
 
     <link href="https://shreethemes.in/landrick/landing/assets/css/style.min.css" rel="stylesheet" type="text/css"
           id="theme-opt"/>
@@ -125,8 +114,6 @@
             </div>
         </div>
 
-        <!--Login button Start-->
-        <!--Login button End-->
 
         <div id="navigation">
             <!-- Navigation Menu-->
@@ -178,33 +165,18 @@
 
             </ul><!--end navigation menu-->
         </div><!--end navigation-->
-    </div><!--end container-->
-</header><!--end header-->
-<!-- Navbar End -->
+    </div>
+</header>
+
 <div>
+    <div id="overlay"></div>
     @yield('content')
 </div>
 
 <!-- Back to top -->
 <a href="#" onclick="topFunction()" id="back-to-top" class="back-to-top fs-5"><i data-feather="arrow-up"
                                                                                  class="fea icon-sm icons align-middle"></i></a>
-<!-- Back to top -->
 
-
-<!-- javascript -->
-<script src="https://shreethemes.in/landrick/landing/assets/js/bootstrap.bundle.min.js"></script>
-<!-- SLIDER -->
-<script src="https://shreethemes.in/landrick/landing/assets/js/tiny-slider.js "></script>
-<!-- Datepicker -->
-<script src="https://shreethemes.in/landrick/landing/assets/js/datepicker.min.js"></script>
-<!-- Icons -->
-<script src="https://shreethemes.in/landrick/landing/assets/js/feather.min.js"></script>
-<!-- Switcher -->
-<script src="https://shreethemes.in/landrick/landing/assets/js/switcher.js"></script>
-<!-- Main Js -->
-<script src="https://shreethemes.in/landrick/landing/assets/js/plugins.init.js"></script>
-<!--Note: All init js like tiny slider, counter, countdown, maintenance, lightbox, gallery, swiper slider, aos animation etc.-->
-<script src="https://shreethemes.in/landrick/landing/assets/js/app.js"></script>
 @yield('js')
 <!-- Global Settings -->
 <script>
@@ -240,31 +212,5 @@
 <div id="fb-customer-chat" class="fb-customerchat">
 </div>
 
-@if(str_contains(Request::url(),'rda'))
-    @php($hide_messenger = true)
-@endif
-@if(!$hide_messenger)
-    <script>
-        var chatbox = document.getElementById('fb-customer-chat');
-        chatbox.setAttribute("page_id", "108404041579131");
-        chatbox.setAttribute("attribution", "biz_inbox");
-
-        window.fbAsyncInit = function () {
-            FB.init({
-                xfbml: true,
-                version: 'v11.0'
-            });
-        };
-
-        (function (d, s, id) {
-            var js, fjs = d.getElementsByTagName(s)[0];
-            if (d.getElementById(id)) return;
-            js = d.createElement(s);
-            js.id = id;
-            js.src = 'https://connect.facebook.net/en_US/sdk/xfbml.customerchat.js';
-            fjs.parentNode.insertBefore(js, fjs);
-        }(document, 'script', 'facebook-jssdk'));
-    </script>
-@endif
 </body>
 </html>

@@ -3,7 +3,6 @@
 
 @section('content')
 
-
     <!-- Hero Start -->
     <section class="bg-half-170 d-table w-100"
              style="background: url('{{ asset('images/invoicess.PNG') }}') center center;padding-top: 100px">
@@ -293,6 +292,5 @@
 
 
     </section><!--end section-->
-
 
 @endsection
