@@ -115,7 +115,7 @@ class InvoicesController extends Controller
         $invoice_fields = optional(Invoice::query()->latest()->first())->invoice_extra ?? [];
         $next_invoice = Invoice::nextInvoiceNumber();
         $ledgerGroups = LedgerGroup::all();
-        view()->share('title', 'Add Sale');
+        view()->share('title', 'Create Invoice');
         return view('invoices.create', compact('customers',
             'ledgerGroups', 'products', 'taxes', 'next_invoice', 'categories', 'extraFields',
             'invoice_fields', 'cashAcId', 'depositAccounts', 'paymentMethods'));

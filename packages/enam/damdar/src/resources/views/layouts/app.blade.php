@@ -504,7 +504,7 @@
                                class="@cannot('create',\App\Models\Invoice::class) pro-tag @endcannot  {{ ability_class(\App\Utils\Ability::INVOICE_CREATE) }} "
                                style="min-width: 100px;position:relative;">
                                 <i class="fa fa-plus" aria-hidden="true"></i>
-                                Add <br> Sale</a>
+                                Create <br> Invoice</a>
 
 
                             <a href="{{ route('invoices.invoice.index') }}"
@@ -951,20 +951,20 @@
                 {{ $title??'' }} </b>
 
 
-            <div>
-                <a href="https://www.youtube.com/watch?v=UPXeH8r9Jhc&list=PL5FPulw8-MaotxlscrDUAmT-l3a_J8bxs"
-                   class=" btn  btn-outline-danger " target="_blank">
-                    <i class="fab fa-youtube"></i>
-                    How to Use? Check Tutorial</a>
-            </div>
+{{--            <div>--}}
+{{--                <a href="https://www.youtube.com/watch?v=UPXeH8r9Jhc&list=PL5FPulw8-MaotxlscrDUAmT-l3a_J8bxs"--}}
+{{--                   class=" btn  btn-outline-danger " target="_blank">--}}
+{{--                    <i class="fab fa-youtube"></i>--}}
+{{--                    How to Use? Check Tutorial</a>--}}
+{{--            </div>--}}
 
-            <div class="text-center text-danger">WhatsApp at <h2>
+{{--            <div class="text-center text-danger">WhatsApp at <h2>--}}
 
-                    <a class="text-danger shimmer" href="tel:{{$global_settings->phone??' _ '}}"><i
-                            class="fa fa-phone text-danger"></i>{{$global_settings->phone??' _ '}}</a>
+{{--                    <a class="text-danger shimmer" href="tel:{{$global_settings->phone??' _ '}}"><i--}}
+{{--                            class="fa fa-phone text-danger"></i>{{$global_settings->phone??' _ '}}</a>--}}
 
-                </h2>
-            </div>
+{{--                </h2>--}}
+{{--            </div>--}}
 
             <div>
                 @if(auth()->user()->role == 'master')
@@ -1029,6 +1029,7 @@
                         <strong class="mb-2">{{ optional(auth()->user())->email }}</strong>
                         <strong
                             class="d-inline-block">{{ \Carbon\Carbon::now()->format('h:i a Y-m-d ') }}{{ \Carbon\Carbon::now()->timezoneName }}  </strong>
+                        <a href="{{ route('accounting.settings.edit') }}" class="btn btn-primary" style="height: 35px; width: 160px"><div>Change Timezone</div></a>
                         @if(ability_class(\App\Utils\Ability::GENERAL_SETTINGS_READ) != 'protected'))
                         <h5><a class="" href="{{ route('accounting.settings.edit') }}"><i class="fa fa-cog"></i> Account
                                 Settings</a>
