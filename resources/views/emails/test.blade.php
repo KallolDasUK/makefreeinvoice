@@ -1,4 +1,4 @@
 <h3>
-    Hello From Invoicepedia test email notification
+    Hello From MakeFreeInvoice test email notification
     Time : {{ $time }}
 </h3>

@@ -15,7 +15,7 @@
                         <p class="para-desc text-white-50">Free online invoicing and billing software for small and
                             large
                             business. Accounting, Invoice, Billing, Sales, Purchase, Inventory Management, Send & Print
-                            Invoice Online is so simple in invoicepedia. InvoicePedia makes creating professional
+                            Invoice Online is so simple in makefreeinvoice. MakeFreeInvoice makes creating professional
                             looking
                             invoices for your business ridiculously easy</p>
 
@@ -297,7 +297,7 @@
                             </span>
                         <div class="card-body p-0 content">
                             <h5>24/7 Support</h5>
-                            <p class="para text-muted mb-0">Invoicepedia team is always on to help you at anytime.</p>
+                            <p class="para text-muted mb-0">MakeFreeInvoice team is always on to help you at anytime.</p>
                         </div>
                         <span class="big-icon text-center">
                                 <i class="uil uil-clock"></i>
@@ -375,12 +375,12 @@
                                 <a href="#" class="logo-footer">
                                     <img src="{{ asset('images/invoicepedia-white.png') }}" height="24" alt="">
                                 </a>
-                                <p class="mt-4">InvoicePedia makes small and large business invoicing and billing so
+                                <p class="mt-4">MakeFreeInvoice makes small and large business invoicing and billing so
                                     simple.
-                                    Its the best invoicing software online for free. Invoicepedia is inspired by Scoro,
+                                    Its the best invoicing software online for free. MakeFreeInvoice is inspired by Scoro,
                                     QuickBooks, Freshbooks, Zoho Books, Xero, Sage 50c, Wave, Invoice2go, OneUp, SliQ
                                     Invoicing, BillQuick Online, FinancialForce Billing, Chargebee, WORKetc, Harvest,
-                                    PaySimple, Zervant, KashFlow, Bill.com. Invoicepedia extends all features from
+                                    PaySimple, Zervant, KashFlow, Bill.com. MakeFreeInvoice extends all features from
                                     existing
                                     online software in the market and added some exciting features to make your business
                                     running smothly.</p>
@@ -399,7 +399,7 @@
                         <div class="text-sm-start">
                             <p class="mb-0">©
                                 <script>document.write(new Date().getFullYear())</script>
-                                InvoicePedia.com . Design with <i class="mdi mdi-heart text-danger"></i> by <a
+                                MakeFreeInvoice.com . Design with <i class="mdi mdi-heart text-danger"></i> by <a
                                     href="{{ url('/') }}" target="_blank" class="text-reset">Invoice Pedia</a>.
                             </p>
                         </div>

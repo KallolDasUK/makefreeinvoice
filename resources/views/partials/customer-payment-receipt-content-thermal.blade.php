@@ -76,7 +76,7 @@ Total in word :
 <br>
 @if(!optional(auth()->user())->subscribed('default'))
     <p class="float-right mt-4">Generated on {{ \Carbon\Carbon::parse($rp->payment_date)->format('d M Y') }} by
-        invoicepedia.com</p>
+        makefreeinvoice.com</p>
 @endif
 
 

@@ -17,7 +17,7 @@
 
     <meta name="propeller" content="170f7d5a97f369b92f4e8525dfafed25">
     <link rel="shortcut icon"
-          href="https://www.bootstrapdash.com/demo/connect-plus/laravel/template/demo_1/favicon.ico">
+          href="{{ asset('mfi_favicon.png') }}">
 
     <meta name="csrf-token" content="{{ csrf_token() }}"/>
     <!-- plugin css -->
@@ -88,9 +88,14 @@
     <link href="https://unpkg.com/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css"/>
     <link href="https://ckeditor.com/docs/ckeditor5/latest/assets/snippet-styles.css" rel="stylesheet" type="text/css"/>
     <link href="https://cdn.quilljs.com/1.0.0/quill.snow.css" rel="stylesheet">
-    <link rel="icon" type="image/png" href="{{ asset('assets/images/logo/logo-white.png') }}"/>
-    <link rel="icon" type="image/png" href="{{ asset('favicon-32x32.png') }}"/>
-    <link rel="icon" type="image/png" href="{{ asset('favicon-16x16.png') }}"/>
+    <link rel="icon" type="image/png" href="{{ asset('mfi_favicon.png') }}"/>
+    <link rel="icon" type="image/png" href="{{ asset('mfi_favicon.png') }}"/>
+    <link rel="icon" type="image/png" href="{{ asset('mfi_favicon.png') }}"/>
+
+
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.1.1/cookieconsent.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.1.1/cookieconsent.min.js"></script>
+
     @yield('css')
     @stack('css')
 
@@ -440,18 +445,6 @@
 
 
 
-<div id="cookie-consent" class="fixed bottom-0 bg-white p-2">
-    <div class="cookie-disclaimer">
-        <div class="cookie-close accept-cookie"><i class="fa fa-times"></i></div>
-        <div class="container">
-            <p>We use cookies to enhance your experience. By continuing to visit this site, you agree to our use of cookies.</p>
-            <button type="button" id="accept-cookies" class="btn btn-success accept-cookie">Accept Cookies</button>
-        </div>
-    </div>
-</div>
-
-
-
 <div class="modal fade" id="subscribeModal" tabindex="-1" role="dialog" aria-labelledby="subscribeModal"
      aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
@@ -488,8 +481,8 @@
         <!--begin::Item-->
         <li class="nav-item">
             <a href="#" class="nav-link dropdown-toggle rounded" data-toggle="dropdown">
-                <span class="nav-title text-uppercase">Sales</span>
-                <span class="nav-desc">Sales &amp; Payments</span>
+                <span class="nav-title text-uppercase">Invoices</span>
+                <span class="nav-desc">Invoices &amp; Payments</span>
                 <i class="fas fa-sort-down"></i>
 
             </a>
@@ -498,7 +491,7 @@
 
                     <div class="col" style="min-width: 500px">
                         <p class="text-info text--cap border-bottom d-inline-block">
-                            Sales Module</p>
+                            Invoices Module</p>
                         <div class="menu-icon-grid font-weight-bolder p-0 ">
                             <a href="{{ route('invoices.invoice.create') }}"
                                class="@cannot('create',\App\Models\Invoice::class) pro-tag @endcannot  {{ ability_class(\App\Utils\Ability::INVOICE_CREATE) }} "
@@ -511,12 +504,12 @@
                                class="@cannot('viewAny',\App\Models\Invoice::class) pro-tag @endcannot  {{ ability_class(\App\Utils\Ability::INVOICE_READ) }} "
                                style="min-width: 100px;position:relative;"><i
                                     class="fa fa-list-alt" aria-hidden="true"></i>Manage <br>
-                                Sales</a>
+                                Invoices</a>
                             <a class="@cannot('viewAny',\App\Models\Invoice::class) pro-tag @endcannot"
                                href="{{ route('contact_invoices.contact_invoice.index') }}"
                                style="min-width: 100px;position:relative;"><i
                                     class="fa fa-list-alt" aria-hidden="true"></i>Worker <br>
-                                Sales</a>
+                                Invoices</a>
 
                             <a href="{{ route('receive_payments.receive_payment.create') }}"
                                class="@cannot('receive_payment',\App\Models\Customer::class) pro-tag @endcannot {{ ability_class(\App\Utils\Ability::RECEIVE_PAYMENT_CREATE) }}"
@@ -558,7 +551,7 @@
                             <a href="{{ route('sales_returns.sales_return.index') }}"
                                class="@cannot('viewAny',\App\Models\SalesReturn::class) pro-tag @endcannot {{ ability_class(\App\Utils\Ability::SALES_RETURN_READ) }}"
                                style="min-width: 100px;position:relative;"><i
-                                    class="fa fa-list-alt" aria-hidden="true"></i>Sales <br>
+                                    class="fa fa-list-alt" aria-hidden="true"></i>Invoices <br>
                                 Return</a>
 
                             <a href="{{ route('stock_entries.stock_entry.create') }}"
@@ -1029,8 +1022,8 @@
                         <strong class="mb-2">{{ optional(auth()->user())->email }}</strong>
                         <strong
                             class="d-inline-block">{{ \Carbon\Carbon::now()->format('h:i a Y-m-d ') }}{{ \Carbon\Carbon::now()->timezoneName }}  </strong>
-                        <a href="{{ route('accounting.settings.edit') }}" class="btn btn-primary" style="height: 35px; width: 160px"><div>Change Timezone</div></a>
-                        @if(ability_class(\App\Utils\Ability::GENERAL_SETTINGS_READ) != 'protected'))
+                        <a href="{{ route('accounting.settings.edit') }}" class="d-inline-block"><div>Change Timezone</div></a>
+                        @if(ability_class(\App\Utils\Ability::GENERAL_SETTINGS_READ) != 'protected')
                         <h5><a class="" href="{{ route('accounting.settings.edit') }}"><i class="fa fa-cog"></i> Account
                                 Settings</a>
                         </h5>
@@ -1333,6 +1326,28 @@
         })
     })
 </script>
+    <script>
+        window.addEventListener("load", function() {
+            window.cookieconsent.initialise({
+                "palette": {
+                    "popup": {
+                        "background": "#000"
+                    },
+                    "button": {
+                        "background": "#f1d600"
+                    }
+                },
+                "theme": "edgeless",
+                "position": "bottom-right",
+                "content": {
+                    "message": "This website uses cookies to ensure you get the best experience on our website.",
+                    "dismiss": "Got it!",
+                    "link": "Learn more",
+                    "href": "https://yourwebsite.com/privacy-policy" // Replace with your privacy policy URL
+                }
+            });
+        });
+    </script>
 <script>
     Ractive.DEBUG = true;
     $.fn.select2.defaults.set("theme", "bootstrap");

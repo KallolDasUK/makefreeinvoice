@@ -1,4 +1,4 @@
-@php($title="Instant Invoice Generator - InvoicePedia")
+@php($title="Instant Invoice Generator - MakeFreeInvoice")
 @extends('landing.layouts.app',['hide_messenger'=>true])
 
 

@@ -44,9 +44,9 @@
     <script src="{{ asset('js/jquery.lettering-0.6.1.min.js') }}"></script>
 
     <script src="{{ asset('js/fallingtextrotator.js') }}"></script>
-    <link rel="icon" type="image/png" href="{{ asset('favicon.ico') }}"/>
-    <link rel="icon" type="image/png" href="{{ asset('favicon-32x32.png') }}"/>
-    <link rel="icon" type="image/png" href="{{ asset('favicon-16x16.png') }}"/>
+    <link rel="icon" type="image/png" href="{{ asset('mfi_favicon.png') }}"/>
+    <link rel="icon" type="image/png" href="{{ asset('mfi_favicon.png') }}"/>
+    <link rel="icon" type="image/png" href="{{ asset('mfi_favicon.png') }}"/>
     <style>
         .bg-overlay {
             background-color: #10ADAD ;
@@ -102,9 +102,11 @@
 <header id="topnav" class="defaultscroll sticky">
     <div class="container">
         <a class="logo" href="{{ url('/') }}">
-                    <span class="logo-light-mode">
-                        <img src="{{ asset('images/invoicepedia.png') }}" class="l-dark" height="80" alt="">
-                        <img src="{{ asset('images/invoicepedia-white.png') }}" class="l-light" height="80" alt="">
+                    <span class="logo-light-mode mt-2">
+                        <img src="{{ asset('mfi_logo simple.png') }}" class="l-dark" height="50" alt="">
+                        <img src="{{ asset('mfi_logo simple.png') }}" class="l-light" height="50" alt="">
+
+
                     </span>
 
         </a>

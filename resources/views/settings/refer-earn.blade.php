@@ -68,7 +68,7 @@
                     <div class="card">
                         <div class="card-header">
                             <div class="card-title" data-toggle="collapse" data-target="#collapseOne1">
-                                Can anyone join the InvoicePedia Affiliate Program?
+                                Can anyone join the MakeFreeInvoice Affiliate Program?
                             </div>
                         </div>
                         <div id="collapseOne1" class="collapse show" data-parent="#accordionExample1">

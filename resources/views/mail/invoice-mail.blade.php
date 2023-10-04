@@ -39,7 +39,7 @@
         <p> {!! $request_data->message??'' !!} </p>
         <p><a href="https://invoicepedia.com/app/invoices/share/{{ $invoice->secret }}" class="btn">View Invoice Online</a>
         </p>
-        Mail was sent from <a href="https://invoicepedia.com">invoicepedia.com</a>.
+        Mail was sent from <a href="https://invoicepedia.com">makefreeinvoice.com</a>.
 
     </div>
 

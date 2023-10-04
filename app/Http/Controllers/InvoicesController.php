@@ -83,7 +83,7 @@ class InvoicesController extends Controller
         $customers = Customer::all();
         $ledgerGroups = LedgerGroup::all();
 
-        view()->share('title', 'All Sales');
+        view()->share('title', 'All Invoices');
 
         return view('invoices.index', compact('invoices', 'q', 'cashAcId', 'depositAccounts', 'paymentMethods',
             'start_date', 'user_id', 'end_date', 'customer_id', 'customers', 'ledgerGroups', 'sr_id', 'payment_status'));

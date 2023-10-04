@@ -1,7 +1,7 @@
-@php($title="Register - InvoicePedia")
+@php($title="Register - MakeFreeInvoice")
 @extends('landing.layouts.app')
 @section('content')
-    <div class=" my-auto" style="min-height: 100vh;padding-top: 100px;background-color: #065a92">
+    <div class=" my-auto" style="min-height: 100vh;padding-top: 100px;background-color: #10ADAD">
         <div class="row justify-content-center">
             <div class="col-lg-4 col-md-6">
                 <div class="card  login-page bg-white shadow rounded border-0">

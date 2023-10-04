@@ -44,7 +44,7 @@
                 Online</a>
         </p>
 
-        Mail was sent from <a href="https://invoicepedia.com">invoicepedia.com</a>.
+        Mail was sent from <a href="https://invoicepedia.com">makefreeinvoice.com</a>.
 
     </div>
 

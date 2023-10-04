@@ -79,7 +79,7 @@
         <div class="clearfix"></div>
     </div>
 
- 
+
     <table class="table text-center table-sm table-bordered" style="color: black; font-size: 20px">
         <tr>
             <th class="text-left">Item</th>
@@ -151,7 +151,7 @@
     <div id="qr_code" class="text-center mt-4">
     </div>
     <p class="float-right mt-4">Generated on {{ \Carbon\Carbon::parse($posSale->date)->format('d M Y') }} by
-        <b>invoicepedia.com</b></p>
+        <b>makefreeinvoice.com</b></p>
 
 
 </div>
