@@ -755,22 +755,21 @@
         </div>
     </nav>
 
-    <div id="main" class="mt-4" style="min-height: 70vh">
+    <div id="main" class="mt-4" style="min-height: 70vh;position: relative">
         <div id="g_id_onload"
              data-client_id="960185911859-ff990352115sqkapp7o3ai7aatprdr7o.apps.googleusercontent.com"
-             data-login_uri="https://makefreeinvoice.com"
+             data-login_uri="https://127.0.0.1:8000"
+             data-cancel_on_tap_outside=false
+
         >
         </div>
         <div class="d-flex justify-content-between mb-2">
-            <b class="text-black font-weight-bolder mb-2 mt-2 ml-2" style="font-size: 20px">
-                @if($title??'')
-
-                @endif
-                {{ $title??'' }} </b>
+            <b id="pageTitle" class="text-black font-weight-bolder mb-2 mt-2 ml-2" style="font-size: 20px">
+                    {{ $title??'Create New Invoice' }}
+                 </b>
 
 
             <div>
-
                 <a href="{{ route('pos_sales.pos_sale.create') }}"
                    class="btn btn-info btn-lg font-weight-bolder font-size-sm "
                    style="font-size: 16px;position: relative">
