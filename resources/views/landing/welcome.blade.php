@@ -10,7 +10,6 @@
             z-index: 10;
 
         }
-
     </style>
 @endsection
 
@@ -175,7 +174,5 @@
 @section('js')
 
 @endsection
-
-
 
 

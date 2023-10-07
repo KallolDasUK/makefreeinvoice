@@ -24,10 +24,32 @@ class SocialLoginController extends Controller
 
     }
 
-    public function callback($provider)
+    public function callback($provider, Request $request)
     {
+//        dd($provider, $request->all());
         try {
-            $user = Socialite::driver($provider)->user();
+            if ($request->has('g_csrf_token')) {
+
+
+                $idToken = $request->input('credential');
+
+                $client = new \Google_Client([
+                    'client_id' => env('GOOGLE_CLIENT_ID')
+                ]);
+
+                $payload = $client->verifyIdToken($idToken);
+
+                if (!$payload) {
+                    // Invalid ID token
+                    return back();
+                }
+
+                $user = (object)$payload;
+//                dd($payload);
+            } else {
+                $user = Socialite::driver($provider)->user();
+            }
+
         } catch (InvalidStateException $e) {
             $user = Socialite::driver($provider)->stateless()->user();
         }

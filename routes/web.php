@@ -47,6 +47,7 @@ use App\Models\Bill;
 use App\Models\BillItem;
 use App\Models\BillPaymentItem;
 use App\Models\Blog;
+use App\Models\Category;
 use App\Models\Customer;
 use App\Models\EstimateItem;
 use App\Models\Expense;
@@ -54,6 +55,7 @@ use App\Models\ExpenseItem;
 use App\Models\Invoice;
 use App\Models\InvoiceItem;
 use App\Models\MetaSetting;
+use App\Models\PaymentMethod;
 use App\Models\PosPayment;
 use App\Models\PosSale;
 use App\Models\ProductUnit;
@@ -64,10 +66,13 @@ use App\Models\User;
 use App\Models\Vendor;
 use Carbon\Carbon;
 use Enam\Acc\Http\Controllers\SettingsController;
+use Enam\Acc\Models\GroupMap;
 use Enam\Acc\Models\Ledger;
+use Enam\Acc\Models\LedgerGroup;
 use Enam\Acc\Models\Transaction;
 use Enam\Acc\Models\TransactionDetail;
 use Enam\Acc\Utils\EntryType;
+use Enam\Acc\Utils\LedgerHelper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -109,28 +114,47 @@ Route::get('/', function (Request $request) {
         return redirect()->route('acc.home');
     }
 
+    $cashAcId = optional(GroupMap::query()->firstWhere('key', LedgerHelper::$CASH_AC))->value;
+    $depositAccounts = [];
+    $paymentMethods = PaymentMethod::query()->get();
 
-    return view('landing.welcome', compact('posts'));
+    $customers = \DB::table('customers')
+        ->where('client_id', 1)
+        ->select('name', 'id', 'email', 'phone')
+        ->get()->toArray();
+
+    $products = \DB::table('products')
+        ->where('client_id', 1)
+        ->select('name', 'id', 'description', 'purchase_price', 'sell_price', 'sell_unit', 'purchase_unit', 'photo as image', 'code', )
+        ->get();
+
+    $categories = Category::all();
+    $taxes = Tax::query()->latest()->get()->toArray();
+    $extraFields = optional(Invoice::query()->latest()->first())->extra_fields ?? [];
+    $invoice_fields = optional(Invoice::query()->latest()->first())->invoice_extra ?? [];
+    $next_invoice = Invoice::nextInvoiceNumber();
+    $ledgerGroups = LedgerGroup::all();
+    view()->share('title', 'Create Invoice');
+
+    return view('landing.welcome', compact('customers',
+        'ledgerGroups', 'products', 'taxes', 'next_invoice', 'categories', 'extraFields',
+        'invoice_fields', 'cashAcId', 'depositAccounts', 'paymentMethods'));
 })->name('landing.index');
 
-Route::get('/articles',[FrontendController::class,'article_page']);
-Route::get('/article/{slug}',[FrontendController::class,'article_details'])->name('article_details');
-
+Route::get('/articles', [FrontendController::class, 'article_page']);
+Route::get('/article/{slug}', [FrontendController::class, 'article_details'])->name('article_details');
 
 
 Auth::routes();
 Route::get('/auth/redirect/{provider}', [SocialLoginController::class, 'redirect'])->name('social.redirect');
+Route::post('/auth/redirect/{provider}', [SocialLoginController::class, 'redirect'])->name('social.redirect');
 Route::get('/auth/callback/{provider}', [SocialLoginController::class, 'callback'])->name('social.callback');
+Route::post('/auth/callback/{provider}', [SocialLoginController::class, 'callback'])->name('social.callback');
 
 Route::group(['middleware' => 'auth:web', 'prefix' => 'app'], function () {
 
 
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
-
-
-
-
 
 
     Route::group(['prefix' => 'accounting/settings'], function () {
@@ -733,8 +757,6 @@ Route::group(['prefix' => 'master', 'middleware' => ['auth:web', 'isMaster']], f
     });
 
 
-
-
     Route::group(['prefix' => 'post'], function () {
 
         Route::get('/', [PostController::class, 'index'])->name('post.index');
@@ -746,8 +768,6 @@ Route::group(['prefix' => 'master', 'middleware' => ['auth:web', 'isMaster']], f
         Route::delete('/category/{category}', [PostController::class, 'destroy'])->name('post.destroy')->where('id', '[0-9]+');
 
     });
-
-
 
 
     /*
@@ -934,8 +954,6 @@ Route::get('/clear-cache', function () {
 
 // php artisan resource-file:create UserNotification --fields=id,type,title,body,user_id,seen
 //  php artisan create:scaffold UserNotification  --layout-name="master.master-layout" --with-migration
-
-
 
 
 Auth::routes();

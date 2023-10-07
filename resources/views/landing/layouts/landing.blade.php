@@ -409,6 +409,15 @@
         gtag('js', new Date());
 
         gtag('config', 'G-J35PC4G2SJ');
+
+        function onPromtCallback(params) {
+            if (!params.h) {
+                $('.ifnotshowed').show()
+            } else {
+                $('.ifnotshowed').hide()
+
+            }
+        }
     </script>
 
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3062157998836253"
@@ -417,8 +426,10 @@
 
 </head>
 
-<body class="">
+<body class="" style="position:relative;">
+<div class="overlay">
 
+</div>
 
 <div class="container">
 
@@ -756,17 +767,52 @@
     </nav>
 
     <div id="main" class="mt-4" style="min-height: 70vh;position: relative">
+
         <div id="g_id_onload"
              data-client_id="960185911859-ff990352115sqkapp7o3ai7aatprdr7o.apps.googleusercontent.com"
-             data-login_uri="https://127.0.0.1:8000"
+             data-login_uri="https://makefreeinvoice.com/auth/callback/google"
              data-cancel_on_tap_outside=false
+             data-_token="{{csrf_token()}}"
+             data-moment_callback="onPromtCallback"
 
         >
+
+        </div>
+
+
+        <div class="ifnotshowed" style="position: absolute;display: none;z-index: 99999999">
+
+            <div class=" card border border-primary " style="width: 400px">
+                <div class="card-body">
+                    <h6>Login With</h6>
+                    <div class="row">
+                        <div class="col-6 mt-3">
+                            <div class="d-grid w-full">
+                                <a href="{{ route('social.redirect','facebook') }}"
+                                   class="btn btn-primary w-full" style="width: 100%"><i
+                                        class="fab fa-facebook-f"></i> Facebook</a>
+                            </div>
+                        </div><!--end col-->
+
+                        <div class="col-6 mt-3">
+                            <div class="d-grid w-full">
+                                <a href="{{ route('social.redirect','google') }}"
+                                   class="btn border border-secondary btn-white w-full" style="width: 100%"><i
+                                        class="fab fa-google text-danger"></i></i>
+                                    Google</a>
+                            </div>
+                        </div><!--end col-->
+                    </div>
+                </div>
+
+            </div><!--end col-->
+
+
         </div>
         <div class="d-flex justify-content-between mb-2">
             <b id="pageTitle" class="text-black font-weight-bolder mb-2 mt-2 ml-2" style="font-size: 20px">
-                    {{ $title??'Create New Invoice' }}
-                 </b>
+                {{ $title??'Create New Invoice' }}
+            </b>
 
 
             <div>
@@ -891,15 +937,45 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"
         integrity="sha512-T/tUfKSV1bihCnd+MxKD0Hm1uBBroVYBOYSk1knyvQ9VyZJpc/ALb4P0r6ubwVPSGB2GvjeoMAJJImBG12TiaQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+
 
 @yield('js')
 @stack('js')
 
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.overlay').on('click', function () {
+            $(this).css('background', 'rgba(54, 51, 51, 0.29)');
+            var element = $("#credential_picker_container");
 
-<script>
+            element.effect("bounce", {
+                times: 3,   // Number of times to bounce
+                distance: 50,  // Distance to bounce (in pixels)
+                direction: "left"  // Direction of the bounce
+            }); // Duration of the animation in milliseconds
 
+            var ifnotshowed = $(".ifnotshowed");
+
+            ifnotshowed.effect("bounce", {
+                times: 3,   // Number of times to bounce
+                distance: 50,  // Distance to bounce (in pixels)
+                direction: "left"  // Direction of the bounce
+            }, 500); // Duration of the animation in milliseconds
+
+
+            setTimeout(() => {
+                $(this).css('background', 'rgba(54, 51, 51, 0.0)');
+            }, 3000);
+
+        });
+
+
+    })
 
 </script>
+
+
 </body>
 
 </html>
