@@ -412,7 +412,7 @@
                     REPORT SHORTCUTS
                 </div>
 
-                <div class="grid-container">
+                <div class="" style="display: flex; flex-wrap: wrap;">
                     <a class="sc-gPEVay eaBhby border rounded {{ ability_class(\App\Utils\Ability::REPORT_READ) }}  @cannot('stock_report') pro-tag @endcannot"
                        href="{{ route('reports.report.stock-report') }}">
                         <div class="sc-iRbamj image" style="background-image:url('images/estimate.svg') ">
@@ -508,9 +508,9 @@
                         <div class="sc-iRbamj image" style="background-image:url('images/estimate.svg') ">
 
                         </div>
-                        <div class="shortcuts-title sc-jlyJG gSoaLO title">Sales <br> Report</div>
-                    </a> <a
-                        class="sc-gPEVay eaBhby border rounded {{ ability_class(\App\Utils\Ability::REPORT_READ) }}  @cannot('sales_report_details') pro-tag @endcannot"
+                        <div class="shortcuts-title sc-jlyJG gSoaLO title">Sales Report</div>
+                    </a>
+                    <a class="sc-gPEVay eaBhby border rounded {{ ability_class(\App\Utils\Ability::REPORT_READ) }}  @cannot('sales_report_details') pro-tag @endcannot"
                         style="position:relative;"
                         href="{{ route('reports.report.sales_report_details') }}">
                         <div class="sc-iRbamj image" style="background-image:url('images/estimate.svg') ">

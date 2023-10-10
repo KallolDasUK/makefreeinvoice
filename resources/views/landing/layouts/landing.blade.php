@@ -81,6 +81,9 @@
           href="https://cdn.datatables.net/1.10.24/css/dataTables.bootstrap4.min.css">
 
 
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.1.1/cookieconsent.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.1.1/cookieconsent.min.js"></script>
+
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.13.3/css/selectize.bootstrap4.min.css"/>
     <script src="https://unpkg.com/@yaireo/tagify"></script>
@@ -88,9 +91,9 @@
     <link href="https://unpkg.com/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css"/>
     <link href="https://ckeditor.com/docs/ckeditor5/latest/assets/snippet-styles.css" rel="stylesheet" type="text/css"/>
     <link href="https://cdn.quilljs.com/1.0.0/quill.snow.css" rel="stylesheet">
-    <link rel="icon" type="image/png" href="{{ asset('favicon.ico') }}"/>
-    <link rel="icon" type="image/png" href="{{ asset('favicon-32x32.png') }}"/>
-    <link rel="icon" type="image/png" href="{{ asset('favicon-16x16.png') }}"/>
+    <link rel="icon" type="image/png" href="{{ asset('mfi_favicon.png') }}"/>
+    <link rel="icon" type="image/png" href="{{ asset('mfi_favicon.png') }}"/>
+    <link rel="icon" type="image/png" href="{{ asset('mfi_favicon.png') }}"/>
     @yield('css')
     @stack('css')
 
@@ -973,6 +976,28 @@
 
     })
 
+</script>
+<script>
+    window.addEventListener("load", function() {
+        window.cookieconsent.initialise({
+            "palette": {
+                "popup": {
+                    "background": "#000"
+                },
+                "button": {
+                    "background": "#f1d600"
+                }
+            },
+            "theme": "edgeless",
+            "position": "bottom-right",
+            "content": {
+                "message": "This website uses cookies to ensure you get the best experience on our website.",
+                "dismiss": "Got it!",
+                "link": "Learn more",
+                "href": "https://yourwebsite.com/privacy-policy" // Replace with your privacy policy URL
+            }
+        });
+    });
 </script>
 
 

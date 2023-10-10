@@ -215,6 +215,7 @@ Route::group(['middleware' => 'auth:web', 'prefix' => 'app'], function () {
         Route::get('/show/{invoice}', [InvoicesController::class, 'show'])->name('invoices.invoice.show')->where('id', '[0-9]+');
         Route::get('/share/{invoice}', [InvoicesController::class, 'share'])->name('invoices.invoice.share')->where('id', '[0-9]+')->withoutMiddleware('auth:web');
         Route::get('/send/{invoice}', [InvoicesController::class, 'send'])->name('invoices.invoice.send')->where('id', '[0-9]+');
+        Route::get('/note/{invoice}', [InvoicesController::class, 'note'])->name('invoices.invoice.note')->where('id', '[0-9]+');
         Route::get('/{invoice}/edit', [InvoicesController::class, 'edit'])->name('invoices.invoice.edit')->where('id', '[0-9]+');
         Route::post('/', [InvoicesController::class, 'store'])->name('invoices.invoice.store');
         Route::post('/send/{invoice}', [InvoicesController::class, 'sendInvoiceMail'])->name('invoices.invoice.send_invoice_mail');

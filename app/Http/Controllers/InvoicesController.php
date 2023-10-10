@@ -566,5 +566,10 @@ class InvoicesController extends Controller
         }
         return view('invoices.share', compact('invoice', 'settings', 'template', 'qr_code', 'qr_code_style'));
     }
+    public function note($id){
+        view()->share('title', 'View Invoice');
+
+        return "hello jannat";
+    }
 
 }

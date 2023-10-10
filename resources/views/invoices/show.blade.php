@@ -181,9 +181,14 @@
                         <a href="{{ route('invoices.invoice.share',$invoice->secret) }}"
                            class="btn btn-outline-secondary   btn-lg " style="font-size: 20px"><i
                                 class="fa fa-share"></i> Share
-                        </a> <a href="{{ route('invoices.invoice.send',$invoice->id) }}"
+                        </a>
+                        <a href="{{ route('invoices.invoice.send',$invoice->id) }}"
                                 class="btn btn-outline-secondary   btn-lg " style="font-size: 20px"><i
                                 class="far fa-envelope-open"></i> Email Invoice
+                        </a>
+                        <a href="{{ route('invoices.invoice.note',$invoice->id) }}"
+                           class="btn btn-outline-secondary   btn-lg " style="font-size: 20px"><i
+                                class="far fa-sticky-note"></i> Delivery Note
                         </a>
                     </div>
                 </div>
@@ -220,7 +225,7 @@
 @endsection
 
 @push('js')
-    <script> 
+    <script>
 
         $('#printBtn').on('click', function () {
             window.print()
