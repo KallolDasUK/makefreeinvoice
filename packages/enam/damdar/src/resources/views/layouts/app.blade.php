@@ -1474,6 +1474,14 @@
     }(document, 'script', 'facebook-jssdk'));
     $('#ledger_group_id').select2({dropdownParent: $("#ledgerModal")})
 </script>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-1SR1RE38GN">
+    </script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date()); gtag('config', 'G-1SR1RE38GN');
+    </script>
 {{--@endif--}}
 </body>
 

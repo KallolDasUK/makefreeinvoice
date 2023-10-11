@@ -36,7 +36,7 @@
         <div class="header">
             <div class="logo logo-dark">
                 <a href="{{ route('acc.home') }}">
-                    <img height="45px" width="100" src="{{ asset('mfi_logo simple.png') }}" alt="Logo" class="mt-2">
+                    <img height="45px" width="100" src="{{ asset('mfi_logo simple.png') }}" style="border-radius: 5px"  alt="Logo" class="mt-2">
 
                 </a>
             </div>

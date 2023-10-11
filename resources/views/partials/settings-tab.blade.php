@@ -54,7 +54,7 @@
         </li>
 
 
-        <li class="nav-item cursor-pointer">
+        <li class="nav-item cursor-pointer" style="display: none">
             <a class="nav-link {{ $page === 'refer_earn'?'active':'' }} p-4"
                href="{{ route('settings.refer_earn') }}">
                 <span class="nav-icon"><i class="fa fa-link"></i></span>

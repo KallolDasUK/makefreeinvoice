@@ -787,7 +787,26 @@
 
             <div class=" card border border-primary " style="width: 400px">
                 <div class="card-body">
-                    <h6>Login With</h6>
+                    <div class="row mb-2">
+                        <div class="col-6 mt-3">
+                            <div class="d-grid w-full">
+                                <a href="{{ route('login') }}"
+                                   class="btn btn-primary w-full" style="width: 100%"><i
+                                        class=""></i> Login</a>
+                            </div>
+                        </div><!--end col-->
+
+                        <div class="col-6 mt-3">
+                            <div class="d-grid w-full" >
+                                <a  href="{{ route('register') }}"
+                                   class="btn border border-secondary btn-white w-full" style="width: 100%;color: #065A92"><i
+                                        class=" text-danger"></i></i>
+                                    Register</a>
+                            </div>
+                        </div><!--end col-->
+                    </div>
+
+                    <h6 style="text-align: center;margin-top: 20px">Or Login With</h6>
                     <div class="row">
                         <div class="col-6 mt-3">
                             <div class="d-grid w-full">
@@ -999,6 +1018,16 @@
         });
     });
 </script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-1SR1RE38GN">
+</script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date()); gtag('config', 'G-1SR1RE38GN');
+</script>
+
+
 
 
 </body>

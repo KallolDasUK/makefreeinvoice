@@ -92,8 +92,8 @@
     <div class="container">
         <a class="logo" href="{{ url('/') }}">
                     <span class="logo-light-mode mt-2">
-                        <img src="{{ asset('mfi_logo simple.png') }}" class="l-dark" height="50" alt="">
-                        <img src="{{ asset('mfi_logo simple.png') }}" class="l-light" height="50" alt="">
+                        <img src="{{ asset('mfi_logo simple.png') }}" class="l-dark" style="border-radius: 5px" height="50" alt="">
+                        <img src="{{ asset('mfi_logo simple.png') }}" class="l-light" style="border-radius: 5px"  height="50" alt="">
 
 
                     </span>
