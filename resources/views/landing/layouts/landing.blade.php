@@ -83,6 +83,12 @@
 
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.1.1/cookieconsent.min.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.1.1/cookieconsent.min.js"></script>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-21XESN3WR2">
+    </script>
+    <script> window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date()); gtag('config', 'G-21XESN3WR2');
+    </script>
 
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.13.3/css/selectize.bootstrap4.min.css"/>
@@ -1017,12 +1023,6 @@
             }
         });
     });
-</script>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-21XESN3WR2">
-</script>
-<script> window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date()); gtag('config', 'G-21XESN3WR2');
 </script>
 
 

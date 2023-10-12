@@ -95,7 +95,12 @@
 
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.1.1/cookieconsent.min.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.1.1/cookieconsent.min.js"></script>
-
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-21XESN3WR2">
+    </script>
+    <script> window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date()); gtag('config', 'G-21XESN3WR2');
+    </script>
     @yield('css')
     @stack('css')
 
@@ -1474,12 +1479,7 @@
     }(document, 'script', 'facebook-jssdk'));
     $('#ledger_group_id').select2({dropdownParent: $("#ledgerModal")})
 </script>
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-21XESN3WR2">
-    </script>
-    <script> window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date()); gtag('config', 'G-21XESN3WR2');
-    </script>
+
 
 {{--@endif--}}
 </body>
