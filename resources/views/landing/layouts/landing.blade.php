@@ -398,7 +398,14 @@
     <script src="https://accounts.google.com/gsi/client" async defer></script>
 
     <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-21XESN3WR2"></script> <script> window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'G-21XESN3WR2'); </script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-E7SLF87QRY"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+    
+      gtag('config', 'G-E7SLF87QRY');
+    </script>
 
 </head>
 
