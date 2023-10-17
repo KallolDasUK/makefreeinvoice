@@ -261,6 +261,8 @@
                 </p>
             </div>
         </div>
+
+        @include('partials.invoice_template.delivery_note')
     </footer>
 </div>
 

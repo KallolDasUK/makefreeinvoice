@@ -183,11 +183,11 @@
                                 class="fa fa-share"></i> Share
                         </a>
                         <a href="{{ route('invoices.invoice.send',$invoice->id) }}"
-                                class="btn btn-outline-secondary   btn-lg " style="font-size: 20px"><i
+                           class="btn btn-outline-secondary   btn-lg " style="font-size: 20px"><i
                                 class="far fa-envelope-open"></i> Email Invoice
                         </a>
-                        <a href="{{ route('invoices.invoice.note',$invoice->id) }}"
-                           class="btn btn-outline-secondary   btn-lg " style="font-size: 20px"><i
+                        <a href="#delivery_note"
+                           class="btn btn-outline-secondary   btn-lg delivery_button" style="font-size: 20px"><i
                                 class="far fa-sticky-note"></i> Delivery Note
                         </a>
                     </div>
@@ -241,14 +241,14 @@
             };
             html2pdf(element, opt);
         })
-        {{--var qrcode = new QRCode(document.getElementById("qr_code"), {--}}
-        {{--    text: "{{ $qr_code }}",--}}
-        {{--    width: 128,--}}
-        {{--    height: 128,--}}
-        {{--    colorDark: "#000000",--}}
-        {{--    colorLight: "#ffffff",--}}
-        {{--    correctLevel: QRCode.CorrectLevel.H--}}
-        {{--});--}}
+            {{--var qrcode = new QRCode(document.getElementById("qr_code"), {--}}
+            {{--    text: "{{ $qr_code }}",--}}
+            {{--    width: 128,--}}
+            {{--    height: 128,--}}
+            {{--    colorDark: "#000000",--}}
+            {{--    colorLight: "#ffffff",--}}
+            {{--    correctLevel: QRCode.CorrectLevel.H--}}
+            {{--});--}}
 
 
         var qr_code_style = @json($qr_code_style);
@@ -258,6 +258,11 @@
                 width: 120, height: 120,
             });
         }
+
+        $('.delivery_button').click(function () {
+            $('.delivery_note').toggle()
+        })
+
 
     </script>
 @endpush
