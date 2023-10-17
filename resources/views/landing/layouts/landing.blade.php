@@ -403,7 +403,7 @@
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-    
+
       gtag('config', 'G-E7SLF87QRY');
     </script>
 
@@ -946,6 +946,16 @@
 @stack('js')
 
 <script type="text/javascript">
+
+
+    function onPromtCallback(params) {
+        if (!params.h) {
+            $('.ifnotshowed').show()
+        } else {
+            $('.ifnotshowed').hide()
+
+        }
+    }
     $(document).ready(function () {
         $('.overlay').on('click', function () {
             $(this).css('background', 'rgba(54, 51, 51, 0.29)');
