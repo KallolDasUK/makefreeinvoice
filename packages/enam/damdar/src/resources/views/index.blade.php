@@ -193,11 +193,7 @@
 
             </div>
         </div>
-        @if(auth()->user()->ads == "true")
-            <div class="banner-full ads">
-                <img src="{{ asset('images/banner_1.webp') }}" alt="" style="width: 100%">
-            </div>
-        @endif
+
         <div class="row card mt-4" style="margin-top: 20px">
             <div class="card-body">
                 <div class="font-weight-bolder">

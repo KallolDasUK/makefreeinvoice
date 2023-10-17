@@ -413,19 +413,13 @@
         }
     </style>
 
-
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3062157998836253"
-            crossorigin="anonymous"></script>
-
-
-
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-E7SLF87QRY"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-    
+
       gtag('config', 'G-E7SLF87QRY');
     </script>
 
@@ -1305,15 +1299,6 @@
             }
         });
 
-        $('#left_ad_close_btn').on('click', function () {
-            $('.ad-drawer-left').hide(200)
-        })
-        $('#right_ad_close_btn').on('click', function () {
-            $('.ad-drawer-right').hide(200)
-        })
-        $('#footer_ad_close_btn').on('click', function () {
-            $('.ad-drawer-footer').hide(200)
-        })
     })
 </script>
     <script>
