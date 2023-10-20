@@ -237,13 +237,7 @@
                 <h4 class="font-weight-bolder text-primary ml-4 bg-secondary p-4 rounded">Accounting Report</h4>
 
                 <div class="clearfix"></div>
-                <a class="sc-gPEVay eaBhby @cannot('trial_balance') pro-tag @endcannot "
-                   href="{{ route('reports.report.trial_balance') }}">
-                    <div class="sc-iRbamj image" style="background-image:url('{{ asset('images/estimate.svg') }}') ">
 
-                    </div>
-                    <div class="shortcuts-title sc-jlyJG gSoaLO title">Trial Balance</div>
-                </a>
                 <a class="sc-gPEVay eaBhby  @cannot('receipt_payment') pro-tag @endcannot"
                    href="{{ route('reports.report.receipt_payment_report') }}">
                     <div class="sc-iRbamj image" style="background-image:url('{{ asset('images/estimate.svg') }}') ">

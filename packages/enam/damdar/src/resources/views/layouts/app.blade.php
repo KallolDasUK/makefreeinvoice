@@ -971,13 +971,11 @@
             <div class="col">
                 <div class="d-flex">
                     <div class="text-center text-sm-left  mb-sm-0 mr-4">
-                        @if($settings->business_logo??false)
                             <img
                                 class="rounded"
-                                src="{{ asset('storage/'.$settings->business_logo) }}"
+                                src="{{ asset('3.png') }}"
                                 width="50"
                                 alt="">
-                        @endif
                     </div>
                     <div>
                         <h4>{{ optional(auth()->user())->name }}</h4>
@@ -1021,7 +1019,8 @@
                 </div>
 
             </div>
-            <div class="col">
+            <div class="col"><img src="{{ asset('mfi_logo simple.png') }}" width="400px" alt="" style="margin-left: 120px;margin-top: 20px"></div>
+
 
             <div class="col text-right">
                 <form action="{{ route('logout') }}" method="post">
