@@ -5,14 +5,14 @@
             <a class="nav-link {{ $page === 'general_settings'?'active':'' }} p-4  {{ ability(\App\Utils\Ability::GENERAL_SETTINGS_READ) }}"
                href="{{ route('accounting.settings.edit') }}">
                 <span class="nav-icon"><i class="fa fa-cog"></i></span>
-                <span class="nav-text font-weight-bolder">General Settings</span>
+                <span class="nav-text font-weight-bolder">General</span>
             </a>
         </li>
         <li class="nav-item cursor-pointer">
             <a class="nav-link {{ $page === 'pos_settings'?'active':'' }} p-4  {{ ability(\App\Utils\Ability::GENERAL_SETTINGS_READ) }}"
                href="{{ route('accounting.settings.pos_settings') }}">
                 <span class="nav-icon"><i class="fa fa-cog"></i></span>
-                <span class="nav-text font-weight-bolder">POS Settings</span>
+                <span class="nav-text font-weight-bolder">POS</span>
             </a>
         </li>
         <li class="nav-item cursor-pointer">

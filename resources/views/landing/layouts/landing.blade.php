@@ -768,16 +768,16 @@
             <div class=" card border border-primary " style="width: 400px">
                 <div class="card-body">
                     <div class="row mb-2">
-                        <div class="col-6 mt-3">
-                            <div class="d-grid w-full">
+                        <div class="col-6 mt-3" >
+                            <div class="d-grid w-full" style="background-color: #10ADAD;border-radius: 5px">
                                 <a href="{{ route('login') }}"
-                                   class="btn btn-primary w-full" style="width: 100%"><i
+                                   class="btn w-full" style="width: 100%;color: white "><i
                                         class=""></i> Login</a>
                             </div>
                         </div><!--end col-->
 
                         <div class="col-6 mt-3">
-                            <div class="d-grid w-full" >
+                            <div class="d-grid w-full" style="width: 180px" >
                                 <a  href="{{ route('register') }}"
                                    class="btn border border-secondary btn-white w-full" style="width: 100%;color: #065A92"><i
                                         class=" text-danger"></i></i>
@@ -787,9 +787,9 @@
                     </div>
 
                     <h6 style="text-align: center;margin-top: 20px">Or Login With</h6>
-                    <div class="row">
-                        <div class="col-6 mt-3">
-                            <div class="d-grid w-full">
+                    <div class="row ">
+                        <div class="col-6 mt-3" >
+                            <div class="d-grid w-full" style="width: 180px">
                                 <a href="{{ route('social.redirect','facebook') }}"
                                    class="btn btn-primary w-full" style="width: 100%"><i
                                         class="fab fa-facebook-f"></i> Facebook</a>
@@ -797,11 +797,10 @@
                         </div><!--end col-->
 
                         <div class="col-6 mt-3">
-                            <div class="d-grid w-full">
+                            <div class="d-grid w-full" style="width: 180px">
                                 <a href="{{ route('social.redirect','google') }}"
-                                   class="btn border border-secondary btn-white w-full" style="width: 100%"><i
-                                        class="fab fa-google text-danger"></i></i>
-                                    Google</a>
+                                   class="btn border border-secondary btn-white w-full" style="width: 100%"><img class="d-inline-block" height="20px" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/2048px-Google_%22G%22_Logo.svg.png" alt=""style="display: block;-webkit-user-select: none;margin: auto;cursor: zoom-in;">
+                                   Sign in with Google</a>
                             </div>
                         </div><!--end col-->
                     </div>

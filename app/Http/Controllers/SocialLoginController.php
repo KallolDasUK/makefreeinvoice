@@ -73,6 +73,6 @@ class SocialLoginController extends Controller
             PaymentMethod::create(['name' => 'Visa Card']);
         }
 
-        return Redirect::route('acc.home');
+        return Redirect::route('invoices.invoice.create');
     }
 }
