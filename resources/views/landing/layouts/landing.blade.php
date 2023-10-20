@@ -117,7 +117,14 @@
         input:focus {
             background-color: yellow !important;
         }
-
+        .btn-custom{
+            background-color: #10ADAD;
+        }
+        .btn-custom:hover{
+            background-color: white;
+            color: #10ADAD !important;
+            border: 1px solid #10ADAD;
+        }
         .header-tabs {
             display: -webkit-box;
             display: -ms-flexbox;
@@ -765,13 +772,13 @@
 
         <div class="ifnotshowed" style="position: absolute;display: none;z-index: 99999999">
 
-            <div class=" card border border-primary " style="width: 400px">
+            <div class=" card border border-primary " style="width: 430px">
                 <div class="card-body">
                     <div class="row mb-2">
                         <div class="col-6 mt-3" >
-                            <div class="d-grid w-full" style="background-color: #10ADAD;border-radius: 5px">
+                            <div class="d-grid w-full" style="width: 180px;border-radius: 5px">
                                 <a href="{{ route('login') }}"
-                                   class="btn w-full" style="width: 100%;color: white "><i
+                                   class="btn btn-custom w-full" style="width: 100%;color: white "><i
                                         class=""></i> Login</a>
                             </div>
                         </div><!--end col-->

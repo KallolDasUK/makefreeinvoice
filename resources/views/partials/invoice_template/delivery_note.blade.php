@@ -108,7 +108,6 @@
                             <td class=" "><strong>Description</strong></td>
                             <td class=" text-center " width="80"><strong>Unit</strong></td>
 
-                            <td class=" text-center  " width="120"><strong>Rate</strong></td>
                             <td class=" text-center " width="120"><strong>QTY</strong></td>
                         </tr>
                         </thead>
@@ -130,7 +129,6 @@
                                 </td>
                                 <td class="text-center ">{{ $item->unit }}</td>
 
-                                <td class="text-center">{{ $invoice->currency }}{{ decent_format($item->price) }}</td>
                                 <td class="text-center ">X{{ decent_format($item->qnt) }}</td>
                             </tr>
                         @endforeach
@@ -164,8 +162,7 @@
     <div class=" " style="margin-top: 50px;position:relative;">
         <div class="row ">
             <div class="col">
-                <hr>
-                <b class="">Client Signature</b>
+
             </div>
             <div class="col">
                 <hr>
@@ -175,7 +172,7 @@
         <table id="delivery_note" class="delivery_note table table-borderless" style="width: 100%;">
             <th>
                 <tr>
-                    <td class="p-l-0">Goods Received By</td>
+                    <td class="p-l-0"><strong>Goods Received By</strong></td>
 
 
                 </tr>
@@ -183,7 +180,7 @@
                     <td class="p-l-0">
                         <div style="width: 400px" class="d-flex align-content-between justify-content-between">
                             <p>
-                                Print Name:
+                                Name:
                             </p>
                             <p>
                                 Date:
