@@ -59,7 +59,6 @@
                 visibility: hidden;
                 font-size: 1.5rem;
                 color: #181818 !important;
-
             }
 
             h1 {
@@ -74,12 +73,15 @@
                 font-size: 2rem;
             }
 
-            .invoice-container {
-                /*margin: 0px;*/
+            .invoice-container, .delivery-container {
                 max-width: 100%;
             }
 
-            #invoice-container, #invoice-container * {
+            #invoice-container * {
+                visibility: visible;
+            }
+
+            #delivery-container * {
                 visibility: visible;
             }
 
@@ -95,12 +97,22 @@
                 min-height: 297mm !important;
             }
 
+            #delivery-container {
+                position: absolute;
+                left: 0;
+                top: 0;
+                right: 0;
+                min-height: 297mm !important;
+            }
+
             footer {
                 position: absolute;
                 bottom: 0;
                 width: 100%;
             }
         }
+
+
     </style>
 @endsection
 @section('content')
@@ -186,11 +198,10 @@
                            class="btn btn-outline-secondary   btn-lg " style="font-size: 20px"><i
                                 class="far fa-envelope-open"></i> Email Invoice
                         </a>
-                        <a href="#delivery_note"
-                           class="btn btn-outline-secondary   btn-lg delivery_button" style="font-size: 20px"><i
+                        <button type="button" id="delivery_button"
+                                class="btn btn-outline-secondary   btn-lg delivery_button" style="font-size: 20px"><i
                                 class="far fa-sticky-note"></i> Delivery Note
-                        </a>
-
+                        </button>
                     </div>
                 </div>
                 <p class="clearfix"></p>
@@ -216,8 +227,13 @@
                     @else
                         @include('partials.invoice_template.classic')
                     @endif
+
+                    @include('partials.invoice_template.delivery_note')
+
                 </div>
             </div>
+
+
         </div>
 
 
@@ -228,9 +244,7 @@
 @push('js')
     <script>
 
-        $('#printBtn').on('click', function () {
-            window.print()
-        })
+
         $('#downloadButton').on('click', function () {
             var element = document.getElementById('invoice-container');
             let invoice_number = "{{ $invoice->invoice_number??'invoice_invoicepedia' }}"
@@ -242,14 +256,6 @@
             };
             html2pdf(element, opt);
         })
-            {{--var qrcode = new QRCode(document.getElementById("qr_code"), {--}}
-            {{--    text: "{{ $qr_code }}",--}}
-            {{--    width: 128,--}}
-            {{--    height: 128,--}}
-            {{--    colorDark: "#000000",--}}
-            {{--    colorLight: "#ffffff",--}}
-            {{--    correctLevel: QRCode.CorrectLevel.H--}}
-            {{--});--}}
 
 
         var qr_code_style = @json($qr_code_style);
@@ -260,9 +266,39 @@
             });
         }
 
-        $('.delivery_button').click(function () {
-            $('.delivery_note').toggle()
-        })
+
+        $('#printBtn').on('click', function () {
+            // Apply styles for the invoice container
+            $('#delivery-container').css('visibility', 'hidden');
+            $('#delivery-container').hide()
+            $('#invoice-container').css('visibility', 'visible');
+            setTimeout(function () {
+                window.print();
+                $('#delivery-container').show()
+
+            }, 100);
+
+
+        });
+
+        $('#delivery_button').on('click', function () {
+            // Apply styles for the delivery container
+            $('#invoice-container').css('visibility', 'hidden');
+            $('#invoice-container').hide();
+            $('#delivery-container').css('visibility', 'visible');
+            setTimeout(function () {
+                window.print();
+                $('#invoice-container').show();
+
+            }, 100);
+
+        });
+
+        window.onafterprint = function () {
+            // Restore visibility of both containers
+            $('#invoice-container').css('visibility', 'visible');
+            $('#delivery-container').css('visibility', 'visible');
+        };
 
 
     </script>

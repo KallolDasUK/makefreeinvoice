@@ -262,7 +262,6 @@
 
     </div>
 
-    @include('partials.invoice_template.delivery_note')
 
 
 
