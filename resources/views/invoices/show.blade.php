@@ -190,6 +190,7 @@
                            class="btn btn-outline-secondary   btn-lg delivery_button" style="font-size: 20px"><i
                                 class="far fa-sticky-note"></i> Delivery Note
                         </a>
+
                     </div>
                 </div>
                 <p class="clearfix"></p>
