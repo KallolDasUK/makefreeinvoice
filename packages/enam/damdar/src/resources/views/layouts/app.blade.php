@@ -972,7 +972,7 @@
                 <div class="d-flex">
                     <div class="text-center text-sm-left  mb-sm-0 mr-4">
                             <img
-                                class="rounded"
+                                class="rounded border border-secondary p-4 rounded shadow"
                                 src="{{ asset('3.png') }}"
                                 width="120"
                                 alt="">
