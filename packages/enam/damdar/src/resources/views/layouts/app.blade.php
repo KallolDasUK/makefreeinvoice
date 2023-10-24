@@ -974,7 +974,7 @@
                             <img
                                 class="rounded"
                                 src="{{ asset('3.png') }}"
-                                width="50"
+                                width="120"
                                 alt="">
                     </div>
                     <div>
@@ -1019,7 +1019,6 @@
                 </div>
 
             </div>
-            <div class="col"><img src="{{ asset('mfi_logo simple.png') }}" width="400px" alt="" style="margin-left: 120px;margin-top: 20px"></div>
 
 
             <div class="col text-right">
