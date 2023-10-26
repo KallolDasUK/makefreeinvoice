@@ -993,8 +993,9 @@
                                 @else
                                     {{ Str::title($plan) }}
                                 @endif
-                                Plan <a class="font-weight-bolder subscribeModal"
-                                        href="javascript:;">Upgrade Now</a>
+                                Plan
+{{--                                    <a class="font-weight-bolder subscribeModal"--}}
+{{--                                        href="javascript:;">Upgrade Now</a>--}}
 
                             </strong>
                             <br>

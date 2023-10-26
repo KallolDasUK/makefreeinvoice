@@ -61,7 +61,7 @@
                 <span class="nav-text font-weight-bolder">Refer & Earn</span>
             </a>
         </li>
-        <li class="nav-item cursor-pointer">
+        <li class="nav-item cursor-pointer d-none">
             <a class="nav-link {{ $page === 'billings'?'active':'' }} p-4" href="{{ route('subscriptions.settings') }}">
                 <span class="nav-icon">
                     <svg height="20px" viewBox="0 -20 512.00788 512" width="20px" xmlns="http://www.w3.org/2000/svg"><path
