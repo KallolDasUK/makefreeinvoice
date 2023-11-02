@@ -1015,8 +1015,10 @@
                             <div>Change Timezone</div>
                         </a>
                         @if(ability_class(\App\Utils\Ability::GENERAL_SETTINGS_READ) != 'protected')
-                            <br>
-                            <h5><a class="" href="{{ route('accounting.settings.edit') }}"><i class="fa fa-cog"></i>
+
+                            <h5>
+                                <br/>
+                                <a class="" href="{{ route('accounting.settings.edit') }}"><i class="fa fa-cog"></i>
                                     Account
                                     Settings</a>
                             </h5>
