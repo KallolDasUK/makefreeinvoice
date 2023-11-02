@@ -94,7 +94,10 @@ class InvoicesController extends Controller
     public function create()
     {
 
+//        dd('hello');
+
         $this->authorize('create', Invoice::class);
+
         $cashAcId = optional(GroupMap::query()->firstWhere('key', LedgerHelper::$CASH_AC))->value;
         $depositAccounts = Ledger::find($this->getAssetLedgers())->sortBy('ledger_name');
         $paymentMethods = PaymentMethod::query()->get();
