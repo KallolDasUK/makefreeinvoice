@@ -83,7 +83,8 @@
     <link rel="icon" type="image/png" href="{{ asset('mfi_favicon.png') }}"/>
 
 
-    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.1.1/cookieconsent.min.css" />
+    <link rel="stylesheet" type="text/css"
+          href="https://cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.1.1/cookieconsent.min.css"/>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.1.1/cookieconsent.min.js"></script>
     @yield('css')
     @stack('css')
@@ -401,12 +402,14 @@
             height: 150px;
             position: fixed;
         }
+
         .cookie-disclaimer .container {
             text-align: center;
             padding-top: 20px;
             padding-bottom: 20px;
         }
-        .cookie-disclaimer .cookie-close{
+
+        .cookie-disclaimer .cookie-close {
             float: right;
             padding: 10px;
             cursor: pointer;
@@ -416,17 +419,20 @@
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-E7SLF87QRY"></script>
     <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
+        window.dataLayer = window.dataLayer || [];
 
-      gtag('config', 'G-E7SLF87QRY');
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'G-E7SLF87QRY');
     </script>
 
 </head>
 
 <body class="">
-
 
 
 <div class="modal fade" id="subscribeModal" tabindex="-1" role="dialog" aria-labelledby="subscribeModal"
@@ -928,20 +934,20 @@
                 {{ $title??'' }} </b>
 
 
-{{--            <div>--}}
-{{--                <a href="https://www.youtube.com/watch?v=UPXeH8r9Jhc&list=PL5FPulw8-MaotxlscrDUAmT-l3a_J8bxs"--}}
-{{--                   class=" btn  btn-outline-danger " target="_blank">--}}
-{{--                    <i class="fab fa-youtube"></i>--}}
-{{--                    How to Use? Check Tutorial</a>--}}
-{{--            </div>--}}
+            {{--            <div>--}}
+            {{--                <a href="https://www.youtube.com/watch?v=UPXeH8r9Jhc&list=PL5FPulw8-MaotxlscrDUAmT-l3a_J8bxs"--}}
+            {{--                   class=" btn  btn-outline-danger " target="_blank">--}}
+            {{--                    <i class="fab fa-youtube"></i>--}}
+            {{--                    How to Use? Check Tutorial</a>--}}
+            {{--            </div>--}}
 
-{{--            <div class="text-center text-danger">WhatsApp at <h2>--}}
+            {{--            <div class="text-center text-danger">WhatsApp at <h2>--}}
 
-{{--                    <a class="text-danger shimmer" href="tel:{{$global_settings->phone??' _ '}}"><i--}}
-{{--                            class="fa fa-phone text-danger"></i>{{$global_settings->phone??' _ '}}</a>--}}
+            {{--                    <a class="text-danger shimmer" href="tel:{{$global_settings->phone??' _ '}}"><i--}}
+            {{--                            class="fa fa-phone text-danger"></i>{{$global_settings->phone??' _ '}}</a>--}}
 
-{{--                </h2>--}}
-{{--            </div>--}}
+            {{--                </h2>--}}
+            {{--            </div>--}}
 
             <div>
                 @if(auth()->user()->role == 'master')
@@ -971,11 +977,11 @@
             <div class="col">
                 <div class="d-flex">
                     <div class="text-center text-sm-left  mb-sm-0 mr-4">
-                            <img
-                                class="rounded border border-secondary p-4 rounded shadow"
-                                src="{{ asset('3.png') }}"
-                                width="120"
-                                alt="">
+                        <img
+                            class="rounded border border-secondary p-4 rounded shadow"
+                            src="{{ asset('3.png') }}"
+                            width="120"
+                            alt="">
                     </div>
                     <div>
                         <h4>{{ optional(auth()->user())->name }}</h4>
@@ -987,33 +993,34 @@
                         @else
 
 
-{{--                            <strong>--}}
-{{--                                @if($plan == 'premium' && $remaining_trial_days)--}}
-{{--                                    Trial--}}
-{{--                                @else--}}
-{{--                                    {{ Str::title($plan) }}--}}
-{{--                                @endif--}}
-{{--                                Plan--}}
-{{--                                    <a class="font-weight-bolder subscribeModal"--}}
-{{--                                        href="javascript:;">Upgrade Now</a>--}}
+                            {{--                            <strong>--}}
+                            {{--                                @if($plan == 'premium' && $remaining_trial_days)--}}
+                            {{--                                    Trial--}}
+                            {{--                                @else--}}
+                            {{--                                    {{ Str::title($plan) }}--}}
+                            {{--                                @endif--}}
+                            {{--                                Plan--}}
+                            {{--                                    <a class="font-weight-bolder subscribeModal"--}}
+                            {{--                                        href="javascript:;">Upgrade Now</a>--}}
 
-{{--                            </strong>--}}
-{{--                            <br>--}}
+                            {{--                            </strong>--}}
+                            {{--                            <br>--}}
 
 
                         @endif
                         <strong class="mb-2">{{ optional(auth()->user())->email }}</strong>
                         <strong
                             class="d-inline-block">{{ \Carbon\Carbon::now()->format('h:i a Y-m-d ') }}{{ \Carbon\Carbon::now()->timezoneName }}  </strong>
-                        <a href="{{ route('accounting.settings.edit') }}" class="d-inline-block"><div>Change Timezone</div></a>
+                        <a href="{{ route('accounting.settings.edit') }}" class="d-inline-block">
+                            <div>Change Timezone</div>
+                        </a>
                         @if(ability_class(\App\Utils\Ability::GENERAL_SETTINGS_READ) != 'protected')
-                        <h5><a class="" href="{{ route('accounting.settings.edit') }}"><i class="fa fa-cog"></i> Account
-                                Settings</a>
-                        </h5>
+                            <br>
+                            <h5><a class="" href="{{ route('accounting.settings.edit') }}"><i class="fa fa-cog"></i>
+                                    Account
+                                    Settings</a>
+                            </h5>
                         @endif
-
-
-
 
 
                     </div>
@@ -1047,7 +1054,8 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    This is a pro feature. Upgrade to unlock the feature. Please contact {{ optional($global_settings)->phone }} support for manual upgrade.
+                    This is a pro feature. Upgrade to unlock the feature. Please
+                    contact {{ optional($global_settings)->phone }} support for manual upgrade.
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">Close
@@ -1138,28 +1146,28 @@
         "font-family": "Poppins"
     };</script>
 
-    <script>
-        const cookieConsent = document.getElementById('cookie-consent');
-        const acceptCookiesButton = document.getElementById('accept-cookies');
+<script>
+    const cookieConsent = document.getElementById('cookie-consent');
+    const acceptCookiesButton = document.getElementById('accept-cookies');
 
-        function setCookie(name, value, days) {
-            const expires = new Date(Date.now() + days * 24 * 60 * 60 * 1000).toUTCString();
-            document.cookie = `${name}=${value}; expires=${expires}; path=/`;
-        }
+    function setCookie(name, value, days) {
+        const expires = new Date(Date.now() + days * 24 * 60 * 60 * 1000).toUTCString();
+        document.cookie = `${name}=${value}; expires=${expires}; path=/`;
+    }
 
-        function hasConsent() {
-            return document.cookie.split('; ').some((cookie) => cookie.startsWith('cookie-consent=accepted'));
-        }
+    function hasConsent() {
+        return document.cookie.split('; ').some((cookie) => cookie.startsWith('cookie-consent=accepted'));
+    }
 
-        if (!hasConsent()) {
-            cookieConsent.style.display = 'block';
-        }
+    if (!hasConsent()) {
+        cookieConsent.style.display = 'block';
+    }
 
-        acceptCookiesButton.addEventListener('click', () => {
-            setCookie('cookie-consent', 'accepted', 365);
-            cookieConsent.style.display = 'none';
-        });
-    </script>
+    acceptCookiesButton.addEventListener('click', () => {
+        setCookie('cookie-consent', 'accepted', 365);
+        cookieConsent.style.display = 'none';
+    });
+</script>
 
 
 <!-- base js -->
@@ -1300,28 +1308,28 @@
 
     })
 </script>
-    <script>
-        window.addEventListener("load", function() {
-            window.cookieconsent.initialise({
-                "palette": {
-                    "popup": {
-                        "background": "#000"
-                    },
-                    "button": {
-                        "background": "#f1d600"
-                    }
+<script>
+    window.addEventListener("load", function () {
+        window.cookieconsent.initialise({
+            "palette": {
+                "popup": {
+                    "background": "#000"
                 },
-                "theme": "edgeless",
-                "position": "bottom-right",
-                "content": {
-                    "message": "This website uses cookies to ensure you get the best experience on our website.",
-                    "dismiss": "Got it!",
-                    "link": "Learn more",
-                    "href": "https://yourwebsite.com/privacy-policy" // Replace with your privacy policy URL
+                "button": {
+                    "background": "#f1d600"
                 }
-            });
+            },
+            "theme": "edgeless",
+            "position": "bottom-right",
+            "content": {
+                "message": "This website uses cookies to ensure you get the best experience on our website.",
+                "dismiss": "Got it!",
+                "link": "Learn more",
+                "href": "https://yourwebsite.com/privacy-policy" // Replace with your privacy policy URL
+            }
         });
-    </script>
+    });
+</script>
 <script>
     Ractive.DEBUG = true;
     $.fn.select2.defaults.set("theme", "bootstrap");
