@@ -988,12 +988,12 @@
 
 
                             <strong>
-                                @if($plan == 'premium' && $remaining_trial_days)
-                                    Trial
-                                @else
-                                    {{ Str::title($plan) }}
-                                @endif
-                                Plan
+{{--                                @if($plan == 'premium' && $remaining_trial_days)--}}
+{{--                                    Trial--}}
+{{--                                @else--}}
+{{--                                    {{ Str::title($plan) }}--}}
+{{--                                @endif--}}
+{{--                                Plan--}}
 {{--                                    <a class="font-weight-bolder subscribeModal"--}}
 {{--                                        href="javascript:;">Upgrade Now</a>--}}
 
