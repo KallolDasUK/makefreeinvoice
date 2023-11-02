@@ -987,7 +987,7 @@
                         @else
 
 
-                            <strong>
+{{--                            <strong>--}}
 {{--                                @if($plan == 'premium' && $remaining_trial_days)--}}
 {{--                                    Trial--}}
 {{--                                @else--}}
@@ -997,8 +997,8 @@
 {{--                                    <a class="font-weight-bolder subscribeModal"--}}
 {{--                                        href="javascript:;">Upgrade Now</a>--}}
 
-                            </strong>
-                            <br>
+{{--                            </strong>--}}
+{{--                            <br>--}}
 
 
                         @endif
