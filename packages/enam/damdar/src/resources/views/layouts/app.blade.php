@@ -1008,7 +1008,8 @@
 
 
                         @endif
-                        <strong class="mb-2">{{ optional(auth()->user())->email }}</strong>
+                        <p><strong class="mb-2">{{ optional(auth()->user())->email }}</strong></p>
+
                         <strong
                             class="d-inline-block">{{ \Carbon\Carbon::now()->format('h:i a Y-m-d ') }}{{ \Carbon\Carbon::now()->timezoneName }}  </strong>
                         <a href="{{ route('accounting.settings.edit') }}" class="d-inline-block">
