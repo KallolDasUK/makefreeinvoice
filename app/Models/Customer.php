@@ -9,6 +9,7 @@ use Enam\Acc\Models\TransactionDetail;
 use Enam\Acc\Utils\EntryType;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
  * App\Models\Customer
@@ -64,6 +65,8 @@ use Illuminate\Database\Eloquent\Model;
 class Customer extends Model
 {
 
+    use HasFactory;
+    
     const WALK_IN_CUSTOMER = "Walk In Customer";
 
     protected $guarded = [];
