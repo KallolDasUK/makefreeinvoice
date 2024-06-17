@@ -318,7 +318,7 @@
         </div>
     </div>
     <div class="col"></div>
-    <div class="col align-self-center border">
+    {{-- <div class="col align-self-center border">
         <div class="form-group p-1">
             <label for="attachment">Attach File(s) to Bill</label>
             <div class="input-group uploaded-file-group">
@@ -346,7 +346,7 @@
             {!! $errors->first('attachment', '<p class="form-text text-danger">:message</p>') !!}
 
         </div>
-    </div>
+    </div> --}}
 </div>
 
 

@@ -324,7 +324,7 @@
         <div class="row card mt-4">
             <div class="card-body">
                 <div class="font-weight-bolder">
-                    ADJUSTMENT SHORTCUTS
+                    INVENTORY SHORTCUTS
                 </div>
                 <a href="{{ route('inventory_adjustments.inventory_adjustment.index') }}"
                    style="position:relative;"
@@ -358,6 +358,13 @@
 
                     </div>
                     <div class="shortcuts-title  text-black">Stock Entry</div>
+                </a>
+                <a class="sc-gPEVay eaBhby border rounded {{ ability_class(\App\Utils\Ability::REPORT_READ) }}  @cannot('product_report') pro-tag @endcannot"
+                    href="{{ route('reports.report.product_report') }}">
+                    <div class="sc-iRbamj image" style="background-image:url('{{ asset('images/estimate.svg') }}') ">
+
+                    </div>
+                    <div class="shortcuts-title sc-jlyJG gSoaLO title">Stock Report</div>
                 </a>
             </div>
         </div>
@@ -459,13 +466,7 @@
                         </div>
                         <div class="shortcuts-title sc-jlyJG gSoaLO title">Cashbook</div>
                     </a>
-                    <a class="sc-gPEVay eaBhby border rounded {{ ability_class(\App\Utils\Ability::REPORT_READ) }}  @cannot('product_report') pro-tag @endcannot"
-                       href="{{ route('reports.report.product_report') }}">
-                        <div class="sc-iRbamj image" style="background-image:url('{{ asset('images/estimate.svg') }}') ">
-
-                        </div>
-                        <div class="shortcuts-title sc-jlyJG gSoaLO title">Product Report</div>
-                    </a> <a
+                     <a
                         class="sc-gPEVay eaBhby border rounded {{ ability_class(\App\Utils\Ability::REPORT_READ) }} @cannot('customer_report') pro-tag @endcannot"
                         href="{{ route('reports.report.customer_report') }}">
                         <div class="sc-iRbamj image" style="background-image:url('{{ asset('images/estimate.svg') }}') ">
