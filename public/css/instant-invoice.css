@@ -1557,3 +1557,29 @@ input[READONLY]:focus {
     border-radius: 100%;
     background: #0077cc;
 }
+.text-right{
+    text-align: right;
+}
+.invoice-date-section{
+    display: flex;
+    flex-direction: row;
+}
+.font-weight-700{
+    font-weight: 700;
+}
+.shadow-none{
+    box-shadow: none;
+}
+.free-invoice-date-due > div {
+    flex-grow: 1;
+    width: 33%;
+}
+.invoiceDateLabelHidden{
+    position: absolute;
+    visibility: hidden;
+    height: 0;
+    white-space: nowrap;
+}
+.invoiceDateLabel {
+    width: 43px;
+}
