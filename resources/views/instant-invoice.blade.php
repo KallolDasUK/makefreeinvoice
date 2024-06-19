@@ -17,17 +17,14 @@
             <div style="width: 868px">
                 <div class="flex mx-auto" style="width: 788px">
 
-
                     <div id="app" style="margin-top: 80px;">
-
-                        <div class="row align-items-center justify-content-center">
+                        <div class="row align-items-center justify-content-center mb-3">
                             <div class="col pl-4">
-                                <button class="btn print mt-4" v-on:click="print" style="width: 150px">Print
-                                </button>
+                                <a class="btn btn-primary mt-4 print-btn" href="javascript:window.print();">Print <i class="fa fa-print" aria-hidden="true"></i></a>
                             </div>
 
-                            <div class="col" style="text-align: right" v-on:click="save">
-                                <button class="btn save mt-4">Save as PDF</button>
+                            <div class="col text-right"  onclick="save()">
+                                <button class="btn save mt-4">Save as PDF <i class="fa fa-file-pdf-o" aria-hidden="true"></i></button>
 
                             </div>
                         </div>
@@ -56,50 +53,52 @@
                                     </div>
                                 </div>
                                 <input type="text" id="company_name" class="adr bld f20 form-control shadow-none"
-                                    style="height: 30px;margin-left: 10px;" tabindex="1"
-                                    placeholder="Your Company" name="company_name" value="<?= config('app.name') ?>">
+                                    style="height: 30px;margin-left: 10px;" tabindex="1" placeholder="Your Company"
+                                    name="company_name" value="<?= config('app.name') ?>">
 
                                 <div class="row border-top border-bottom py-1 my-2 free-invoice-date-due">
                                     <div>
                                         <div class="invoice-date-section">
                                             <span id="invoiceDateLabelHidden" class="invoiceDateLabelHidden">Date:</span>
                                             <input type="text" value="Date:" id="invoiceDateLabel"
-                                                class="font-weight-700 text-left w100 form-control invoiceDateLabel" tabindex="14"
-                                                name="invoice_date_label" data-json-node="invoice_date_label"
+                                                class="font-weight-700 text-left w100 form-control invoiceDateLabel"
+                                                tabindex="14" name="invoice_date_label" data-json-node="invoice_date_label"
                                                 data-is-array="false">
                                             <input class="w100 form-control" type="text" id="invoiceDate" tabindex="15"
-                                                placeholder="Nov 14, 2021" name="invoice_date" data-json-node="invoice_date"
+                                                placeholder="May 14, 2024" name="invoice_date" data-json-node="invoice_date"
                                                 data-is-array="false">
                                         </div>
                                     </div>
                                     <div>
                                         <div class="invoice-date-section">
-                                            <input value="Due Date:" id="dueDateLabel" class="font-weight-700 text-left w100 form-control text-right"
-                                                type="text" tabindex="16" name="due_date_label"
-                                                data-json-node="due_date_label" data-is-array="false">
+                                            <input value="Due Date:" id="dueDateLabel"
+                                                class="font-weight-700 text-left w100 form-control text-right" type="text"
+                                                tabindex="16" name="due_date_label" data-json-node="due_date_label"
+                                                data-is-array="false">
 
                                             <input id="dueDate" class="w100 form-control" tabindex="17" type="text"
-                                                placeholder="Nov 14, 2021" name="due_date" data-json-node="due_date"
+                                                placeholder="June 14, 2024" name="due_date" data-json-node="due_date"
                                                 data-is-array="false">
                                         </div>
                                     </div>
                                     <div>
                                         <div class="invoice-date-section">
                                             <input type="text" value="Invoice No:" id="invNumberLabel"
-                                                class="font-weight-700 text-left w100 form-control" tabindex="12"
+                                                class="font-weight-700 text-left w100 form-control text-right" tabindex="12"
                                                 name="invoice_number_label" data-json-node="invoice_number_label"
                                                 data-is-array="false">
-                                            <input type="text" class="w100 form-control" id="invNumber" tabindex="13"
-                                                placeholder="INV-12" name="invoice_number" data-json-node="invoice_number"
-                                                data-is-array="false">
+                                            <span id="invoice_number_hidden" class="invoice_number_hidden">INV-01</span>
+                                            <input type="text" class="w100 form-control invoice_number" id="invNumber"
+                                                tabindex="13" placeholder="INV-12" name="invoice_number"
+                                                data-json-node="invoice_number" data-is-array="false" value="INV-01">
                                         </div>
                                     </div>
 
-                                    
+
                                 </div>
 
 
-                                <ul class="row justify-content-around align-items-center">
+                                <ul class="row">
                                     <li class="col-4">
                                         <input type="text" value="Bill To:" id="billToLabel"
                                             class="adr bill-to bld form-control" tabindex="6">
@@ -123,18 +122,8 @@
 
 
                                     <li class="col-4">
-                                        <table width="100%" cellpadding="0" cellspacing="0" class="bill"
-                                            style="table-layout: fixed">
-                                            <tbody>
-
-
-                                                <tr>
-                                                </tr>
-                                                <tr>
-
-                                                </tr>
-                                            </tbody>
-                                        </table>
+                                        <input type="text" value="Tax Id:" id="taxIdLabel" class="adr bld form-control text-center" tabindex="6">
+                                        <input type="text" id="taxId" class="adr form-control text-center" tabindex="6" placeholder="77GH32" name="taxid">
                                     </li>
 
 
@@ -172,40 +161,40 @@
 
                                                 <td width="40%">
                                                     <input style="text-align:left; margin-left: 10px!important;"
-                                                        type="text" id="itemDescLabel" value="Item Description"
-                                                        class="bld w100 form-control" tabindex="19" name="name"
+                                                        type="text" id="itemDescLabel" value="Description"
+                                                        class="bld w100 " tabindex="19" name="name"
                                                         data-json-node="name" data-is-array="false"
                                                         data-parent-json="line_items_header">
                                                 </td>
                                                 <td width="17%">
-                                                    <input type="text" value="Qty" id="itemQtyLabel"
-                                                        class="bld w100 input" tabindex="19"
-                                                        style="height: 20px!important;text-align: center" name="quantity"
-                                                        data-json-node="quantity" data-is-array="false"
+                                                    <input type="text" value="Unit" id="itemUnitLabel"
+                                                        class="bld w100 input" tabindex="19" style="text-align: center"
+                                                        name="unit" data-json-node="unit" data-is-array="false"
+                                                        data-parent-json="line_items_header">
+                                                </td>
+
+                                                <td width="17%">
+                                                    <input type="text" value="Rate" id="itemRateLabel"
+                                                        class="bld w100 text-left" tabindex="19" style="text-align: center"
+                                                        name="rate" data-json-node="rate" data-is-array="false"
                                                         data-parent-json="line_items_header">
                                                 </td>
                                                 <td width="17%">
-                                                    <input type="text" value="Rate" id="itemRateLabel"
-                                                        class="bld w100 text-left" tabindex="19"
-                                                        style="height: 20px!important;text-align: center" name="rate"
-                                                        data-json-node="rate" data-is-array="false"
+                                                    <input type="text" value="Qty" id="itemQtyLabel"
+                                                        class="bld w100 input" tabindex="19" style="text-align: center"
+                                                        name="quantity" data-json-node="quantity" data-is-array="false"
                                                         data-parent-json="line_items_header">
                                                 </td>
 
 
                                                 <td width="18%">
+                                                    <input type="text" value="Tax" id="itemAmtLabel"
+                                                        class="bld w100 text-right " style="text-align:center;"
+                                                        tabindex="19">
+                                                </td>
+                                                <td width="18%">
                                                     <input type="text" value="Amount" id="itemAmtLabel"
-                                                        class="bld w100 text-right form-control" style="text-align:center;"
-                                                        tabindex="19">
-                                                </td>
-                                                <td width="18%">
-                                                    <input type="text" value="VAT %" id="itemAmtLabel"
-                                                        class="bld w100 text-right form-control" style="text-align:center;"
-                                                        tabindex="19">
-                                                </td>
-                                                <td width="18%">
-                                                    <input type="text" value="TOTAL" id="itemAmtLabel"
-                                                        class="bld w100 text-right form-control" style="text-align:center;"
+                                                        class="bld w100 text-right " style="text-align:center;"
                                                         tabindex="19">
                                                 </td>
 
@@ -216,150 +205,101 @@
                                             </tr>
                                         </thead>
 
-                                        <tbody class="lineItems">
-
-
-                                            <tr v-for="(item, index) in items" class="row-item trClone " id="lineItem.0"
-                                                v-on:mouseover="showCloseIcon(index,true)"
-                                                v-on:mouseout="showCloseIcon(index,false)">
+                                        <tbody class="lineItems" id="lineItems">
+                                            <tr class="row-item trClone " id="row0" onmouseover="showCloseIcon(0,true)"
+                                                onmouseout="showCloseIcon(0,false)">
                                                 <td>
-                                                    <textarea type="text" class="w100" tabindex="20" id="itemDesc.0" rows="1" v-model="items[index].name"
-                                                        placeholder="Enter item name/description"> </textarea>
+                                                    <textarea type="text" class="w100" tabindex="20" id="itemDesc.0" rows="1"
+                                                        placeholder="Enter item name/description"></textarea>
 
                                                 </td>
                                                 <td>
-                                                    <input type="number" step="any" class=" form-control text-right"
-                                                        style="font-weight: bolder;text-align: center"
-                                                        v-model="items[index].qnt"
-                                                        @blur="items[index].qnt = items[index].qnt.toFixed(2)" tabindex="20">
+                                                    <input type="text" step="any" class=" form-control text-right"
+                                                        style="font-weight: bolder;text-align: center" tabindex="20"
+                                                        placeholder="Unit/Pcs">
                                                 </td>
                                                 <td>
                                                     <input type="number" step="any" class=" form-control "
-                                                        style="font-weight: bolder;text-align: center"
-                                                        v-model="items[index].price"
-                                                        @blur="items[index].price = items[index].price.toFixed(2)"
-                                                        tabindex="20">
-                                                </td>
-
-
-                                                <td>
-                                                    <input type="number" step="any" class=" form-control text-right"
-                                                        style="font-weight: bolder;text-align: center"
-                                                        :value="items[index].amount" readonly tabindex="20">
+                                                        style="font-weight: bolder;text-align: center" tabindex="20"
+                                                        placeholder="$100">
                                                 </td>
                                                 <td>
                                                     <input type="number" step="any" class=" form-control text-right"
-                                                        style="font-weight: bolder;text-align: center"
-                                                        v-model="items[index].vat"
-                                                        @blur="items[index].vat = items[index].vat.toFixed(2)" tabindex="20">
+                                                        style="font-weight: bolder;text-align: center" tabindex="20"
+                                                        placeholder="20">
                                                 </td>
                                                 <td>
                                                     <input type="number" step="any" class=" form-control text-right"
-                                                        style="font-weight: bolder;text-align: center" readonly
-                                                        :value="items[index].total" tabindex="20">
+                                                        style="font-weight: bolder;text-align: center" tabindex="20"
+                                                        placeholder="0">
+                                                </td>
+                                                <td>
+                                                    <input type="number" step="any" class=" form-control text-right"
+                                                        style="font-weight: bolder;" tabindex="20" placeholder="$2000">
                                                 </td>
 
                                                 <td>
-
-                                                    <span v-on:click="removeItem(index)" v-show="item.showCloseButton"
-                                                        class="close-btn" style="cursor:pointer;display: none">
+                                                    <span onclick="removeItem('row0')" class="close-btn"
+                                                        style="cursor:pointer;display: none">
                                                         ❌
                                                     </span>
-
-
                                                 </td>
-
-
                                             </tr>
-
-
                                         </tbody>
 
                                         <tbody>
                                             <tr>
-                                                <td>
-
+                                                <td colspan="4">&nbsp;</td>
+                                                <td colspan="2" class="border-bottom">&nbsp;</td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="4">
                                                     <div id="add-new-item" class="hideFromPrint">
-                                                        <a class=" btn btn-outline-primary btn-sm hideFromPrint"
-                                                            style="cursor:pointer;margin-left:0px;margin-top: -1px;"
-                                                            title="Add Row" v-on:click="addItem"><span
-                                                                class="fa fa-plus">&nbsp;</span>Add
-                                                            Line Item</a>
+                                                        <a class="btn btn-primary btn-xs hideFromPrint add-new-item"
+                                                            title="Add Row" onclick="addLineItems()"><span
+                                                                class="fa fa-plus">&nbsp;</span>Add Item</a>
                                                     </div>
                                                 </td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td style="text-align: right">Sub Total</td>
-                                                <td style="text-align: right">{{ sub_total }}
+                                                <td class="border-bottom">
+                                                    <input type="text" class=" form-control text-right"
+                                                        style="font-weight: bolder;" tabindex="20" placeholder="Sub Total:"
+                                                        value="Sub Total:">
                                                 </td>
-
+                                                <td class="border-bottom"> <input type="number"
+                                                        class="form-control  text-right" style="font-weight: bolder;"
+                                                        tabindex="20" placeholder="$2000"></td>
                                             </tr>
                                             <tr>
-                                                <td>
-
+                                                <td colspan="4"></td>
+                                                <td class="border-bottom"> <input type="text"
+                                                        class=" form-control text-right" style="font-weight: bolder;"
+                                                        tabindex="20" placeholder="Total:" value="Total:"> </td>
+                                                <td class="border-bottom"> <input type="number"
+                                                        class="form-control text-right" style="font-weight: bolder;"
+                                                        tabindex="20" placeholder="$2000"></td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="4"></td>
+                                                <td class="border-bottom">
+                                                    <input type="text" class=" form-control text-right"
+                                                        style="font-weight: bolder;" tabindex="20" placeholder="Paid:"
+                                                        value="Paid:">
                                                 </td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td style="text-align: right">Vat</td>
-                                                <td style="text-align: right">{{ vat }}</td>
-
+                                                <td class="border-bottom"> <input type="number"
+                                                        class="form-control text-right" style="font-weight: bolder;"
+                                                        tabindex="20" placeholder="$1000"></td>
                                             </tr>
                                             <tr>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td style="text-align: right">Discount
-                                                    <select class="hideFromPrint" name="" id=""
-                                                        v-model="discount_type">
-                                                        <option value="flat">Flat</option>
-                                                        <option value="%">%</option>
-                                                    </select>
+                                                <td colspan="4"></td>
+                                                <td class="border-bottom">
+                                                    <input type="text" class=" form-control text-right"
+                                                        style="font-weight: bolder;" tabindex="20" placeholder="Due:"
+                                                        value="Due:">
                                                 </td>
-                                                <td class=" ">
-
-                                                    <input type="number" v-model="discount" step="any"
-                                                        style="font-size: 16px;color:black;margin-left:15px;text-align: right"
-                                                        class="form-control text-right hideFromPrint" tabindex="20"
-                                                        @blur="discount = discount.toFixed(2)">
-                                                    <input type="number" readonly v-model="discountValue" step="any"
-                                                        style="font-size: 16px;color:black;margin-left:15px;text-align: right"
-                                                        class="form-control text-right " tabindex="20">
-
-
-                                                </td>
-
+                                                <td class="border-bottom"> <input type="number"
+                                                        class="form-control text-right" style="font-weight: bolder;"
+                                                        tabindex="20" placeholder="$1000"></td>
                                             </tr>
-                                            <tr>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td style="text-align: right">Total</td>
-                                                <td style="text-align: right">{{ total }}</td>
-
-                                            </tr>
-                                            <tr>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td style="text-align: right">Paid</td>
-                                                <td style="text-align: right">{{ total }}</td>
-
-                                            </tr>
-                                            <tr>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td style="text-align: right">Due</td>
-                                                <td style="text-align: right">0.00</td>
-
-                                            </tr>
-
                                         </tbody>
                                         <tbody>
                                         </tbody>
@@ -370,15 +310,6 @@
 
                                     <div style="width: 50%;float: left">
                                         <div>
-                                            <input class="terms form-control" value="Notes" id="notesLabel" tabindex="28"
-                                                name="notes_label" data-json-node="notes_label" data-is-array="false">
-                                        </div>
-                                        <div>
-                                            <textarea class="note form-control" id="customerNotes" tabindex="29" name="notes" data-json-node="notes"
-                                                data-is-array="false" v-model="notes"
-                                                style="overflow: hidden; overflow-wrap: break-word; resize: horizontal; height: 52px;">It was great doing business with you.</textarea>
-                                        </div>
-                                        <div>
                                             <input class="terms form-control" value="Terms &amp; Conditions" id="termsLabel"
                                                 tabindex="30" name="terms_and_conditions_label"
                                                 data-json-node="terms_and_conditions_label" data-is-array="false">
@@ -387,6 +318,15 @@
                                             <textarea class="note form-control" id="terms" tabindex="31" name="terms_and_conditions"
                                                 data-json-node="terms_and_conditions" data-is-array="false" v-model="terms"
                                                 style="overflow: hidden; overflow-wrap: break-word; resize: horizontal; height: 52px;">Please make the payment by the due date.</textarea>
+                                        </div>
+                                        <div>
+                                            <input class="terms form-control" value="Notes" id="notesLabel" tabindex="28"
+                                                name="notes_label" data-json-node="notes_label" data-is-array="false">
+                                        </div>
+                                        <div>
+                                            <textarea class="note form-control" id="customerNotes" tabindex="29" name="notes" data-json-node="notes"
+                                                data-is-array="false" v-model="notes"
+                                                style="overflow: hidden; overflow-wrap: break-word; resize: horizontal; height: 52px;">It was great doing business with you.</textarea>
                                         </div>
                                     </div>
                                     <div style="float: right;margin-top: 50px">
@@ -604,6 +544,117 @@
 
             }
         }
+
+
+        let rowIndex = 0;
+
+        function addLineItems() {
+            rowIndex++;
+            const newRowId = `row${rowIndex}`;
+
+            const data = `
+                <tr class="row-item trClone" id="${newRowId}"
+                    onmouseover="showCloseIcon(${rowIndex}, true)"
+                    onmouseout="showCloseIcon(${rowIndex}, false)">
+                    <td>
+                        <textarea type="text" class="w100" tabindex="20" id="itemDesc.${rowIndex}" rows="1" placeholder="Enter item name/description"></textarea>
+                    </td>
+                    <td>
+                        <input type="text" step="any" class="form-control text-right" style="font-weight: bolder; text-align: center" tabindex="20" placeholder="Unit/Pcs">
+                    </td>
+                    <td>
+                        <input type="number" step="any" class="form-control" style="font-weight: bolder; text-align: center" tabindex="20" placeholder="$100">
+                    </td>
+                    <td>
+                        <input type="number" step="any" class="form-control text-right" style="font-weight: bolder; text-align: center" tabindex="20" placeholder="20">
+                    </td>
+                    <td>
+                        <input type="number" step="any" class="form-control text-right" style="font-weight: bolder; text-align: center" tabindex="20" placeholder="0">
+                    </td>
+                    <td>
+                        <input type="number" step="any" class="form-control text-right" style="font-weight: bolder;" tabindex="20" placeholder="$2000">
+                    </td>
+                    <td>
+                        <span onclick="removeItem('${newRowId}')" class="close-btn" style="cursor:pointer; display:none">❌</span>
+                    </td>
+                </tr>
+            `;
+
+            $('#lineItems').append(data);
+        }
+
+        function showCloseIcon(index, show) {
+            const row = document.getElementById(`row${index}`);
+            const closeBtn = row.querySelector('.close-btn');
+            closeBtn.style.display = show ? 'inline' : 'none';
+        }
+
+        function removeItem(rowId) {
+
+            console.log('rowId: ', rowId);
+            const row = document.getElementById(rowId);
+            row.parentNode.removeChild(row);
+        }
+        function save() {
+            $('input:text').each(function () {
+                let el = $(this).val();
+                if (!el) {
+                    // console.log($(this))
+                    $(this).toggle()
+                }
+
+            })
+            $('.hideFromPrint').toggle()
+            var element = document.getElementById('section-to-print');
+            let invoice_number = $('#invNumber').val() ? $('#invNumber').val() : "Invoice"
+            var opt = {
+                filename: invoice_number + '.pdf',
+                image: {type: 'jpeg', quality: 0.98},
+                html2canvas: {scale: 2},
+                jsPDF: {unit: 'in', format: 'letter', orientation: 'portrait'}
+            };
+            html2pdf(element, opt);
+            $('.hideFromPrint').toggle()
+            $('input:text').each(function () {
+                let el = $(this).val();
+                if (!el) {
+                    // console.log($(this))
+                    $(this).toggle()
+                }
+
+            })
+
+
+        }
+        // function print() {
+
+        //     window.print();
+        //     return;
+
+
+        //     // $('input:text').each(function () {
+        //     //     let el = $(this).val();
+        //     //     if (!el) {
+        //     //         console.log($(this))
+        //     //         $(this).toggle()
+        //     //     }
+
+        //     // })
+
+        //     // window.print()
+        //     // $('input:text').each(function () {
+        //     //     let el = $(this).val();
+        //     //     if (!el) {
+        //     //         console.log($(this))
+        //     //         $(this).toggle()
+        //     //     }
+
+        //     // })
+        //     // $('input:text[value=""]').show()
+
+        // }
+
+
 
         // const App = {
         //     data() {
@@ -872,10 +923,18 @@
             elemInvoiceDateLabelHidden = document.getElementById('invoiceDateLabelHidden');
 
             elemInvoiceDateLabel.oninput = function() {
-                elemInvoiceDateLabelHidden.innerText = elemInvoiceDateLabel.value + 1;
+                elemInvoiceDateLabelHidden.innerText = elemInvoiceDateLabel.value;
                 elemInvoiceDateLabel.style.width = elemInvoiceDateLabelHidden.clientWidth + 'px';
             }
 
+
+            elem_invoice_number = document.getElementById('invNumber');
+            elem_invoice_number_hidden = document.getElementById('invoice_number_hidden');
+
+            elem_invoice_number.oninput = function() {
+                elem_invoice_number_hidden.innerText = elem_invoice_number.value;
+                elem_invoice_number.style.width = elem_invoice_number_hidden.clientWidth + 'px';
+            }
         })
     </script>
     <script>

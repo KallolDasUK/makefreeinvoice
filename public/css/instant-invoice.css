@@ -63,11 +63,14 @@ textarea:focus {
 }
 
 .save {
-    color: dodgerblue;
-    background: ghostwhite;
-    padding: 5px 10px;
-    margin-bottom: 10px;
-    border: 1px solid dodgerblue;
+    color: #B51308;
+    background: white;
+    padding: 5px 25px;
+    border: 1px solid #B51308;
+}
+.save:hover {
+    color: white;
+    background: #B51308;
 }
 
 .loading-container {
@@ -628,7 +631,7 @@ tr {
 .hd td input, .taxsummary .hd td {
     background-color: #0e566c;
     text-align: right;
-    color: #fff
+    color: #fff;
 }
 
 .hd td input:not([READONLY]):focus {
@@ -782,7 +785,8 @@ input[READONLY]:focus {
 
 .row-item td {
     border-bottom: 1px solid #e3e3e3;
-    padding-bottom: 10px
+    /* padding-bottom: 10px */
+    vertical-align: middle;
 }
 
 .f20 {
@@ -1581,5 +1585,32 @@ input[READONLY]:focus {
     white-space: nowrap;
 }
 .invoiceDateLabel {
-    width: 43px;
+    width: 39px;
+}
+.invoice_number_hidden{
+    position: absolute;
+    visibility: hidden;
+    height: 0;
+    white-space: nowrap;
+}
+.invoice_number {
+    width: 52px;
+}
+.add-new-item:hover{
+    color: white;
+}
+.btn-xs {
+    padding: 4px 16px;
+    font-size: 12px;
+}
+.print-btn {
+    color: #065a92;
+    background-color: white;
+    border-color: #065a92;
+    padding: 5px 55px;
+}
+.print-btn:hover {
+    color: white;
+    background-color: #065a92;
+    border-color: #065a92;
 }
