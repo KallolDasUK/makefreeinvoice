@@ -43,8 +43,10 @@
                                 <div class="input-group uploaded-file-group">
                                     <label class="input-group-btn">
                                         <span class="">
-                                             <input type="file" name="photo" id="photo"
-                                                    class="form-control -file">
+                                            {{-- <input type="file" name="photo" id="photo"
+                                            class="form-control -file"> --}}
+                                            <input type="text" name="image_url" id="image_url"
+                                            class="form-control -file" placeholder="Paste image url here">
                                         </span>
                                     </label>
                                     <input type="text" class="form-control  uploaded-file-name" hidden>

@@ -140,7 +140,7 @@
         <!--begin::Body-->
         <div class="card-body py-0">
             <!--begin::Filter-->
-            <form action="{{ route('invoices.invoice.index') }}">
+            {{-- <form action="{{ route('invoices.invoice.index') }}">
                 <div class="row align-items-center mb-4">
 
                     <div class="col-lg-3 col-xl-2">
@@ -229,7 +229,81 @@
                     </div>
 
                 </div>
+            </form> --}}
+            <form action="{{ route('invoices.invoice.filter') }}">
+                <div class="row align-items-center mb-4">
+                    <div class="col-lg-3 col-xl-2">
+                        <input name="q" type="text" class="form-control" placeholder="Invoice Number #" value="{{ $q }}">
+                    </div>
+                    <div class="mx-2">
+                        <select name="customer" id="customer" class="form-control" style="min-width: 150px;max-width: 150px">
+                            <option></option>
+                            @foreach($customers as $customer)
+                                <option value="{{ $customer->id }}" @if($customer->id == $customer_id) selected @endif>
+                                    @if($settings->customer_id_feature ?? '0')
+                                        @if($customer->customer_ID)
+                                            [{{ $customer->customer_ID }}]
+                                        @endif
+                                    @endif
+                                    {{ $customer->name }} {{ $customer->phone }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="mx-2">
+                        <select name="sr_id" id="sr_id" class="form-control" style="min-width: 100px;max-width: 100px">
+                            <option></option>
+                            @foreach(\App\Models\SR::all() as $sr)
+                                <option value="{{ $sr->id }}" @if($sr->id == $sr_id) selected @endif>
+                                    {{ $sr->name }} {{ $sr->phone }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="mx-2">
+                        <select name="payment_status" id="payment_status" class="form-control" style="min-width: 150px;max-width: 150px">
+                            <option selected value="">-- Payment Status --</option>
+                            <option value="Unpaid" @if($payment_status == 'Unpaid') selected @endif>Unpaid</option>
+                            <option value="Partial" @if($payment_status == 'Partial') selected @endif> Partial</option>
+                            <option value="Paid" @if($payment_status == 'Paid') selected @endif> Paid</option>
+                        </select>
+                    </div>
+                    @if(auth()->user()->is_admin)
+                        <div class="mx-2">
+                            <select name="user_id" id="user_id" class="form-control" style="max-width: 100px">
+                                <option></option>
+                                @foreach(\App\Models\User::query()->where('client_id', auth()->user()->client_id)->get() as $user)
+                                    <option value="{{ $user->id }}" @if($user->id == $user_id) selected @endif>
+                                        {{ $user->name }} {{ $user->email }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                    @endif
+                    <div class="col">
+                        <div class="row align-items-center">
+                            <div class="input-daterange input-group">
+                                <input type="text" class="form-control col-2" name="start_date" id="start_date" value="{{ $start_date }}" placeholder="From">
+                                <div class="input-group-append">
+                                    <span class="input-group-text " style="font-size: 15px">⇿</span>
+                                </div>
+                                <input type="text" class="form-control col-2" name="end_date" id="end_date" value="{{ $end_date }}" placeholder="To">
+                                <button role="button" type="submit" class="btn btn-secondary px-6 mx-2 col-3 font-weight-bold">
+                                    <i class="fas fa-sliders-h"></i> Filter
+                                </button>
+                                @if($start_date != null || $end_date != null || $customer_id != null || $q != null)
+                                    <a href="{{ route('invoices.invoice.index') }}" title="Clear Filter" class="btn btn-icon btn-light-danger">X</a>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </form>
+            
+            <div class="pagination">
+                {{ $invoices->appends(request()->query())->links() }}
+            </div>
+            
             <div>
 
                 @if(count($invoices)>0)

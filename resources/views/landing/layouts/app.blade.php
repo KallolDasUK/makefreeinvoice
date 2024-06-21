@@ -36,6 +36,8 @@
     <link rel="icon" type="image/png" href="{{ asset('mfi_favicon.png') }}"/>
     <link rel="icon" type="image/png" href="{{ asset('mfi_favicon.png') }}"/>
     <link rel="icon" type="image/png" href="{{ asset('mfi_favicon.png') }}"/>
+    <link rel="shortcut icon"
+          href="{{ asset('mfi_favicon.png') }}">
     <style>
         .bg-overlay {
             background-color: #10ADAD ;

@@ -62,8 +62,29 @@
         var storageUrl = "{{ asset('storage') }}";
 
         $(document).ready(function () {
-
+            $('#customer_id').change(function () {
+                updateButtonState();
+            });
+            updateButtonState(); // Initial check when the page loads
         });
+
+        function updateButtonState() {
+            var customerSelect = document.getElementById('customer_id');
+            var creditSaleButton = document.getElementById('credit_sale');
+            var selectedOption = customerSelect.options[customerSelect.selectedIndex];
+            var selectedValue = selectedOption.value;
+            var selectedText = selectedOption.text;
+            
+            console.log("selected value", selectedValue, selectedText);
+
+            if (!selectedValue || selectedText=='Walk In Customer') {
+                creditSaleButton.disabled = true;
+                creditSaleButton.style.cursor = 'not-allowed';
+            } else {
+                creditSaleButton.disabled = false;
+                creditSaleButton.style.cursor = 'auto';
+            }
+        }
     </script>
     <script src="{{ asset('js/product.js') }}?v=1.22"></script>
     <script src="{{ asset('js/pos/pos_sales.js') }}?v=2.22"></script>

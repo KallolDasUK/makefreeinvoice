@@ -73,9 +73,10 @@
     <link href="https://unpkg.com/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css"/>
     <link href="https://ckeditor.com/docs/ckeditor5/latest/assets/snippet-styles.css" rel="stylesheet" type="text/css"/>
     <link href="https://cdn.quilljs.com/1.0.0/quill.snow.css" rel="stylesheet">
-    <link rel="icon" type="image/png" href="{{ asset('favicon.ico') }}"/>
+    {{-- <link rel="icon" type="image/png" href="{{ asset('favicon.ico') }}"/>
     <link rel="icon" type="image/png" href="{{ asset('favicon-32x32.png') }}"/>
-    <link rel="icon" type="image/png" href="{{ asset('favicon-16x16.png') }}"/>
+    <link rel="icon" type="image/png" href="{{ asset('favicon-16x16.png') }}"/> --}}
+    <link rel="icon" type="image/png" href="{{ asset('mfi_favicon.png') }}"/>
     <script src="https://cdn.jsdelivr.net/npm/underscore@1.13.1/underscore-umd-min.js"></script>
 
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">

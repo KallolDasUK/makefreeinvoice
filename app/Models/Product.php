@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string|null $name
  * @property string|null $sku
  * @property string|null $photo
+ * @property string|null $image_url
  * @property int|null $category_id
  * @property string|null $sell_price
  * @property string|null $sell_unit

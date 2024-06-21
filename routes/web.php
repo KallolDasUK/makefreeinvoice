@@ -210,6 +210,7 @@ Route::group(['middleware' => 'auth:web', 'prefix' => 'app'], function () {
     Route::group(['prefix' => 'invoices'], function () {
 
         Route::get('/', [InvoicesController::class, 'index'])->name('invoices.invoice.index');
+        Route::get('/filter', [InvoicesController::class, 'filter'])->name('invoices.invoice.filter');
         Route::get('/create', [InvoicesController::class, 'create'])->name('invoices.invoice.create');
         Route::get('/items/{invoice}', [InvoicesController::class, 'items'])->name('invoices.invoice.items');
         Route::get('/show/{invoice}', [InvoicesController::class, 'show'])->name('invoices.invoice.show')->where('id', '[0-9]+');

@@ -103,6 +103,11 @@
         font-size: 28px !important;
         font-size: 1.75rem !important;
     }
+    img.new-logo {
+    height: 150px;
+    padding: 10px;
+    box-shadow: 1px 1px 3px #00000030;
+}
 
     @media print {
         body * {
@@ -154,7 +159,7 @@
 
     <div class="mb-4 container mx-auto text-center">
         <a href="{{ url('/') }}">
-            <img src="{{ asset('images/white_promo_sm.png') }}">
+            <img class="new-logo" src="{{ asset(config('app.logo')) }}">
         </a>
     </div>
     <div class=" text-center">
@@ -167,10 +172,36 @@
                     class="btn btn-outline-success  btn-lg" style="font-size: 20px"><i
                     class="fa fa-download"></i> Download
             </button>
+        <button type="button"
+                share_link="{{ route('invoices.invoice.share',$invoice->secret) }}"
+                {{  ability(\App\Utils\Ability::INVOICE_READ) }}
+                class="btn btn-outline-primary btn-lg shareLink" id="shareLink">
+                    <strong>Get Share Link</strong>
+        </button>
 
         </div>
     </div>
     <p class="clearfix"></p>
+    <div class="modal fade" id="shareModal" tabindex="-1" role="dialog" aria-labelledby="shareModalLabel"
+    aria-hidden="true">
+   <div class="modal-dialog" role="document">
+       <div class="modal-content">
+           <div class="modal-header">
+               <h5 class="modal-title" id="shareModalLabel">Get a shareable link</h5>
+               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                   <span aria-hidden="true">&times;</span>
+               </button>
+           </div>
+           <div class="modal-body">
+               <h4><input type="text" id="shareLinkInput" class="form-control"></h4>
+           </div>
+           <div class="modal-footer">
+               <button type="button" class="btn btn-secondary" id="closeShareModal" data-dismiss="modal">Close</button>
+               <button type="button" id="copyLink" class="btn btn-primary">Copy</button>
+           </div>
+       </div>
+   </div>
+</div>
     @if($template == "template_1")
         @include('partials.invoice_template.template_1')
     @elseif($template == "arabic")
@@ -197,6 +228,27 @@
                 width: 120, height: 120,
             });
         }
+        
+        $('.shareLink').on('click', function () {
+                let link = $(this).attr('share_link');
+                $('#shareModal').show('modal')
+                $('#shareModal').addClass('show')
+                $('#shareLinkInput').val(link)
+                setTimeout(() => {
+                    $('#shareLinkInput').select()
+
+                }, 500)
+            })
+            $('#copyLink').on('click', function () {
+                console.log('copied');
+                document.execCommand("copy");
+                $('#shareModal').hide('modal')
+                // $.notify('I have a progress bar', {showProgressbar: true});
+
+            })
+            $('#closeShareModal').on('click', function () {
+                $('#shareModal').hide('modal')
+            })
     })
 </script>
 </body>

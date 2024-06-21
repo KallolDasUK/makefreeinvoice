@@ -89,6 +89,57 @@ class InvoicesController extends Controller
             'start_date', 'user_id', 'end_date', 'customer_id', 'customers', 'ledgerGroups', 'sr_id', 'payment_status'));
 
     }
+    public function filter(Request $request)
+{
+    $query = Invoice::query();
+    
+    // Capture filter parameters
+    $q = $request->input('q');
+    $customer_id = $request->input('customer');
+    $sr_id = $request->input('sr_id');
+    $payment_status = $request->input('payment_status');
+    $start_date = $request->input('start_date');
+    $end_date = $request->input('end_date');
+    $user_id = $request->input('user_id');
+
+    // Apply filters to query
+    if ($q) {
+        $query->where('invoice_number', 'LIKE', "%{$q}%");
+    }
+    if ($customer_id) {
+        $query->where('customer_id', $customer_id);
+    }
+    if ($sr_id) {
+        $query->where('sr_id', $sr_id);
+    }
+    if ($payment_status) {
+        $query->where('payment_status', $payment_status);
+    }
+    if ($start_date && $end_date) {
+        $query->whereBetween('invoice_date', [$start_date, $end_date]);
+    }
+    if ($user_id) {
+        $query->where('user_id', $user_id);
+    }
+
+    // Get paginated results
+    $invoices = $query->paginate(10)->appends($request->all());
+
+    // Pass filter parameters and results to view
+    return view('invoices.index', [
+        'invoices' => $invoices,
+        'q' => $q,
+        'customer_id' => $customer_id,
+        'sr_id' => $sr_id,
+        'payment_status' => $payment_status,
+        'start_date' => $start_date,
+        'end_date' => $end_date,
+        'user_id' => $user_id,
+        'customers' => Customer::all(),
+        // 'settings' => Settings::first(),
+    ]);
+}
+
 
 
     public function create()
@@ -492,6 +543,7 @@ class InvoicesController extends Controller
 
     public function sendInvoiceMail(Request $request, Invoice $invoice)
     {
+        
         $data = $request->all();
         $data['send_to_business'] = $request->has('send_to_business');
 
@@ -510,7 +562,7 @@ class InvoicesController extends Controller
             $to[] = settings()->email;
         }
         $data['to'] = $to;
-
+     
         $invoice->invoice_status = "sent";
         $invoice->save();
 

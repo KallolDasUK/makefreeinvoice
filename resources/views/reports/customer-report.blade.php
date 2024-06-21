@@ -122,14 +122,22 @@
                                 </tr>
                                 </thead>
                                 <tbody>
+                                    @php
+                                        // Get the first date of the current month
+                                        $start_date = \Carbon\Carbon::now()->startOfMonth()->toDateString();
+                                        
+                                        // Get the current date
+                                        $end_date = \Carbon\Carbon::now()->toDateString();
+                                    @endphp
                                 @foreach($customers as $customer)
+                              
                                     <tr>
                                         <td class=" border-0">{{ $loop->iteration }}</td>
                                         @if($settings->customer_id_feature??'0')
                                             <td class="text-center">{{ $customer->customer_ID??'-' }}</td>
                                         @endif
                                         <td class="text-start border-0" style="max-width: 300px">
-                                            <b>{{ $customer->name }}</b></td>
+                                            <a href="{{ env('APP_URL') . '/app/reports/customer-statement?customer_id=' . $customer->id. '&start_date=' . $start_date. '&end_date=' . $end_date }}"><b>{{ $customer->name }}</b></a></td>
                                         <td class="text-start border-0">{{ $customer->phone??'-' }}</td>
                                         <td class="text-start border-0"
                                             style="max-width: 300px">{{ $customer->street_1 . ' '.$customer->street_2 }} @if($customer->street_1 == null && $customer->street_2 == null)

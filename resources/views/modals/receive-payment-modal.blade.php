@@ -51,12 +51,12 @@
                             </div>
                             <div class="col-lg-6">
                                 <select id="payment_method_id" class="form-control" name="payment_method_id">
-                                    @foreach ($paymentMethods as $paymentMethod )
+                                    {{-- @foreach ($paymentMethods as $paymentMethod )
                                         <option
                                             value="{{ $paymentMethod->id }}" {{ $paymentMethod->is_default ? 'selected' : '' }}>
                                             {{ $paymentMethod->name }}
                                         </option>
-                                    @endforeach
+                                    @endforeach --}}
 
                                 </select>
                             </div>

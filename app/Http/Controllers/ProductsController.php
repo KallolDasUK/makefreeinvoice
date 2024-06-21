@@ -261,6 +261,7 @@ class ProductsController extends Controller
             'code' => 'nullable|string|unique_saas:products,code',
             'sku' => 'nullable|string|min:0|max:255',
             'photo' => ['file', 'nullable'],
+            'image_url'=> 'nullable|url:http,https',
             'category_id' => 'nullable',
             'brand_id' => 'nullable',
             'sell_price' => 'required|nullable|numeric',
@@ -315,9 +316,12 @@ class ProductsController extends Controller
         if (array_key_exists('purchase_unit', $data)) {
             ProductUnit::query()->firstOrCreate(['name' => $data['purchase_unit']], ['name' => $data['purchase_unit']]);
         }
-
+        if ($request->has('image_url')) {
+            $data['image_url'] = $request->get('image_url');
+        }
 
         $data['is_track'] = $request->has('is_track');
+
 
         return $data;
     }

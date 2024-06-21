@@ -37,7 +37,7 @@
 
         <h4>Invoice : {{ $invoice->invoice_number }} </h4>
         <p> {!! $request_data->message??'' !!} </p>
-        <p><a href="https://invoicepedia.com/app/invoices/share/{{ $invoice->secret }}" class="btn">View Invoice Online</a>
+        <p><a href="{{ env('APP_URL') }}/app/invoices/share/{{ $invoice->secret }}" class="btn">View Invoice Online</a>
         </p>
         Mail was sent from <a href="https://invoicepedia.com">makefreeinvoice.com</a>.
 

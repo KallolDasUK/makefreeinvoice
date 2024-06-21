@@ -135,11 +135,10 @@
       </div>
       <div class="col">
       <div class="d-flex">
-      <select name="customer_id" id="customer_id" class="form-control form-control-lg input-lg"
-      style="font-size: 18px;padding-left: 50px">
-{{#each customers:i}}
-        <option value="{{ id }}" {{ name == 'Walk In Customer'?'selected':'' }}>{{ name }} {{ phone }}</option>
-                            {{ /each }}
+        <select name="customer_id" id="customer_id" class="form-control form-control-lg input-lg" style="font-size: 18px;padding-left: 50px">
+            {{#each customers:i}}
+                <option value="{{ id }}" {{ name == 'Walk In Customer'?'selected':'' }}>{{ name }} {{ phone }}</option>
+            {{ /each }}
         </select>
         <button type="button" class="btn" style="color: #065a92" data-toggle="modal" data-target="#customerModal"><i class="fa fa-user-plus"></i></button>
     </div>
@@ -463,10 +462,11 @@
 </div>
 <div class="action_buttons row mr-4" style="position: fixed;right: 0;bottom: 0;margin-bottom: 20px;width: 40%;z-index: 222">
     <button id="suspend" onClick="window.location.reload();" type="button" class="col btn btn-danger btn-lg" style="font-size: 17px;"> Suspend</button>
-    <button id="credit_sale" type="button"  class="col btn btn-lg btn-info mx-4 credit_sale" style="font-size: 17px;position:relative;">
-                              <code style="position:absolute;right: 0;top: -30px"> Alt + Enter</code>
-                          <span class="spinner-grow spinner-grow-sm spinner d-none" role="status" aria-hidden="true"></span>
- Credit Sale</button>
+    <button id="credit_sale" type="button" class="col btn btn-lg btn-info mx-4 credit_sale" style="font-size: 17px;position:relative;">
+        <code style="position:absolute;right: 0;top: -30px">Alt + Enter</code>
+        <span class="spinner-grow spinner-grow-sm spinner d-none" role="status" aria-hidden="true"></span>
+        Credit Sale
+    </button>
     <button id="payment" type="button" data-toggle="modal" data-target="#posPaymentModal"  class="col btn btn-primary btn-lg" style="font-size: 17px;position:relative;">
                              <code style="position:absolute;right: 0;top: -30px"> Ctrl + Enter</code>
                              <span class="spinner-grow spinner-grow-sm spinner d-none" role="status" aria-hidden="true"></span>
@@ -546,8 +546,6 @@ Payment</button>
 </div>
 
 </div>
-
-
 
 
 
