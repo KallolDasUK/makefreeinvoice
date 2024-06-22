@@ -90,6 +90,17 @@
         </div>
         <div class="form-group row align-items-center">
             <div class="col-form-label col-lg-2 ">
+                <label for="exp_based_product" class="font-weight-bolder ">Show Profit</label>
+            </div>
+            <div class="col-lg-4 bg-secondary">
+                <input type="hidden" name="paid_watermark" value="0">
+                <input id="show_profit" type="checkbox" name="show_profit"
+                       class="form-control check-mark checkbox form-check-input"
+                       value="1" {{ ($settings->paid_watermark??'0')?'checked':'' }}>
+            </div>
+        </div>
+        <div class="form-group row align-items-center">
+            <div class="col-form-label col-lg-2 ">
                 <label for="generate_report_from" class="font-weight-bolder ">Generate Report From</label>
             </div>
             <div class="col-lg-4 bg-secondary">

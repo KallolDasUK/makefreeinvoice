@@ -230,7 +230,9 @@
                 <input id="paymentCheckBox" class="form-check-input" name="is_payment"
                        type="checkbox" {{ optional($invoice)->is_payment?'checked':'' }}>
                 &nbsp;
-                <label for="paymentCheckBox" class="form-check-label "><span class="text-bold"> I have received the payment </span></label>
+                
+                <label for="paymentCheckBox" class="form-check-label "><span class="text-bold"> I have received the payment  <code style="margin-left: 30px">Shift + P</code> </span>
+                </label>
             </label>
 
             <div class="advanceContainer d-none">
@@ -244,8 +246,8 @@
             <div class="paymentContainer mt-4" @if(optional($invoice)->is_payment) style="display: block"
                  @else style="display: none" @endif>
                 <div class="form-group row">
-                    <div class="col-form-label col-lg-4 text-right required">
-                        <label class="font-weight-bolder " style="font-size: 14px">Payable Amount <span
+                    <div class="col-form-label col-lg-4 required">
+                        <label class="font-weight-bolder " style="font-size: 14px">Payable Amount<span
                                 class="text-danger">*</span></label>
                     </div>
                     <div class="col-lg-6">
@@ -255,8 +257,8 @@
                     </div>
                 </div>
                 <div class="form-group row d-none">
-                    <div class="col-form-label col-lg-4 text-right required">
-                        <label class="font-weight-bolder " style="font-size: 14px"> Payment Method <span
+                    <div class="col-form-label col-lg-4 required">
+                        <label class="font-weight-bolder " style="font-size: 14px">Payment Method<span
                                 class="text-danger">*</span></label>
                     </div>
                     <div class="col-lg-6">
@@ -274,7 +276,7 @@
                 </div>
                 <div class="form-group row">
                     <div class="col-form-label col-lg-4 text-right required">
-                        <label class="font-weight-bolder " style="font-size: 14px">Payment Method <span
+                        <label class="font-weight-bolder " style="font-size: 14px">Payment Method<span
                                 class="text-danger">*</span></label>
                     </div>
                     <div class="col-lg-6">
@@ -318,12 +320,12 @@
                     <input type="number" step="any" class="input-sm form-control d-inline-block"
                            style="max-width: 50px; text-align: end;min-width: 100px" id="discountValue"
                            name="discount_value"
-                           value="{{ old('discount_value', optional($invoice)->discount_value) }}">
+                           value="{{ old('discount_value', optional($invoice)->discount_value) }}" placeholder="Shift + D">
                     <select class="input-sm small-input d-inline" id="discount_type" name="discount_type">
 
                         @foreach ([ '%', 'Flat'] as $key => $text)
                             <option
-                                value="{{ $text }}" {{ old('discount_type', optional($invoice)->discount_type) == $text ? 'selected' : '' }}>
+                                value="{{ $text }}" {{ old('discount_type', optional($invoice)->discount_type??'Flat') == $text ? 'selected' : '' }}>
                                 {{ $text }}
                             </option>
                         @endforeach
@@ -343,7 +345,7 @@
                 </td>
             </tr>
             <tr>
-                <td class="d-flex align-items-center"><b class="font-weight-bolder text-black mr-2"
+                {{-- <td class="d-flex align-items-center"><b class="font-weight-bolder text-black mr-2"
                                                          style="font-size: 14px">Shipping Charges</b>
 
                     <input type="number" step="any" class="input-sm form-control d-inline-block"
@@ -351,14 +353,14 @@
                            name="shipping_input"
                            id="shipping_input"
                            value="{{ old('shipping_charge', optional($invoice)->shipping_charge) }}">
-                </td>
-                <td style="text-align: end">
+                </td> --}}
+                {{-- <td style="text-align: end">
                     <input type="number" id="shipping_charge" name="shipping_charge"
                            value="{{ old('shipping_charge', optional($invoice)->shipping_charge) }}" readonly
                            style="border: 1px solid transparent; outline: none;text-align: end">
                     <span class="currency"></span>
 
-                </td>
+                </td> --}}
             </tr>
 
             <tbody id="extra">

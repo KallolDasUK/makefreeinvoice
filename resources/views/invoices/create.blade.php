@@ -27,11 +27,12 @@
                   enctype="multipart/form-data">
                 {{ csrf_field() }}
                 @include ('invoices.form', ['invoice' => null])
-
+                <code style="margin-left: 88%">Shift + Enter</code> </span>
+                
                 <div class="form-group">
-                    <div class="float-right">
 
-                        <button class="btn btn-primary btn-lg btn-fw" type="submit">
+                    <div class="float-right">
+                        <button class="btn btn-primary btn-lg btn-fw" id="create_invoice_button" type="submit" style="margin-top: 10px">
 
                             <i class="far fa-save"></i> Save Invoice
                         </button>
@@ -69,6 +70,13 @@
 
         console.log(products)
         $(document).ready(function () {
+            let customerSelect = $('#customer_id');
+            setTimeout(() => {
+                customerSelect.focus();
+            }, 500);
+            $('#select2-selection__arrow').click();
+            // $('#select2-customer_id-container').click();
+
             $('#country').select2({placeholder: 'Select Country'})
             $('.customer').select2({
                 placeholder: "Choose or New Customer"
@@ -85,9 +93,18 @@
                 if (additional_fields.length > 0) {
                     $('#additionalCollapse').collapse('show')
                 }
+        //    var selectedCustomer = $('#customer_id').val();
+            $('#customer_id').on('change', function() {
+                let i = ractive.get('invoice_items').length - 1;
+
+                let currentSelectItem = `#itemSelect${i}`;
+                $(currentSelectItem).focus();
+            })
+        //    console.log('selectedCustomer: ', selectedCustomer);
+       
+       
 
             })
-
 
         });
     </script>

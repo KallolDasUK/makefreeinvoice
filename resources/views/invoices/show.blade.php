@@ -49,6 +49,10 @@
             font-size: 1.75rem !important;
         }
 
+        #delivery-container{
+            display: none;
+        }
+
         @page {
             margin: 0 !important;
             padding: 0 !important;
@@ -299,6 +303,14 @@
             $('#invoice-container').css('visibility', 'visible');
             $('#delivery-container').css('visibility', 'visible');
         };
+
+        $('#delivery_button').click(function () {
+            $('#delivery-container').css('display', 'block');
+        })
+
+        
+           
+        
 
 
     </script>

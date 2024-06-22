@@ -335,6 +335,28 @@ $(document).ready(function () {
 //         return false;
 //     }
 // });
+document.onkeyup = function (e) {
+    var e = e || window.event;
+    if(e.shiftKey && e.which == 80) {
+        if($('#paymentCheckBox').is(':checked')) {
+            $('#paymentCheckBox').prop('checked', false).click()
+            $('#paymentCheckBox').prop('checked', false)
+            
+        }
+        else{
+            $('#paymentCheckBox').prop('checked', true).click()
+            $('#paymentCheckBox').prop('checked', true)
+            $('#paymentAmount').focus()
+        }
+    }
+    if(e.shiftKey && e.which == 68) {
+            $('#discountValue').focus()
+        }
+    if(e.shiftKey && e.which == 13) {
+        $('#create_invoice_button').click();
+    }
+}
+
 
 $('.qnt').tooltip({'trigger': 'focus', 'title': 'Hit Enter to add new Line'});
 $(document).on('focus', '.select2', function () {
