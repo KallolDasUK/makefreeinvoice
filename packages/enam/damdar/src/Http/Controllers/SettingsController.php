@@ -61,6 +61,7 @@ class SettingsController extends Controller
     public function posSettingsStore(Request $request)
     {
 
+        // dd($request->all());
         $params = $request->all();
 
         foreach ($params as $key => $value) {

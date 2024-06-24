@@ -90,13 +90,13 @@
         </div>
         <div class="form-group row align-items-center">
             <div class="col-form-label col-lg-2 ">
-                <label for="exp_based_product" class="font-weight-bolder ">Show Profit</label>
+                <label for="show_profit" class="font-weight-bolder ">Show Profit</label>
             </div>
             <div class="col-lg-4 bg-secondary">
-                <input type="hidden" name="paid_watermark" value="0">
+                {{-- <input type="hidden" name="show_profit" value="0"> --}}
                 <input id="show_profit" type="checkbox" name="show_profit"
                        class="form-control check-mark checkbox form-check-input"
-                       value="1" {{ ($settings->paid_watermark??'0')?'checked':'' }}>
+                       value="1" {{ ($settings->show_profit??'0')?'checked':'' }}>
             </div>
         </div>
         <div class="form-group row align-items-center">
@@ -163,6 +163,9 @@
                 if ($(this).val() == 'purchase_price_cost_average') $('.message').show();
                 else $('.message').hide();
 
+            })
+            $('#show_profit').checked(function () {
+                $('.profitClass').css('display', 'block')
             })
         })
     </script>

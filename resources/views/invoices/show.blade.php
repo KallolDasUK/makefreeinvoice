@@ -289,7 +289,7 @@
             // Apply styles for the delivery container
             $('#invoice-container').css('visibility', 'hidden');
             $('#invoice-container').hide();
-            $('#delivery-container').css('visibility', 'visible');
+            // $('#delivery-container').css('visibility', 'visible');
             setTimeout(function () {
                 window.print();
                 $('#invoice-container').show();
@@ -301,12 +301,21 @@
         window.onafterprint = function () {
             // Restore visibility of both containers
             $('#invoice-container').css('visibility', 'visible');
-            $('#delivery-container').css('visibility', 'visible');
+            $('#delivery-container').css('display', 'none');
         };
 
         $('#delivery_button').click(function () {
             $('#delivery-container').css('display', 'block');
-        })
+
+            // setTimeout(function () {
+            // $('#delivery-container').css('display', 'none');  
+            // }, 1000);
+        });
+
+      
+       
+
+        
 
         
            
