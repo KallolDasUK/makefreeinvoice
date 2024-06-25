@@ -175,8 +175,9 @@
         <button type="button"
                 share_link="{{ route('invoices.invoice.share',$invoice->secret) }}"
                 {{  ability(\App\Utils\Ability::INVOICE_READ) }}
-                class="btn btn-outline-primary btn-lg shareLink" id="shareLink">
-                    <strong>Get Share Link</strong>
+                class="btn btn-outline-primary btn-lg shareLink" style="font-size: 20px" id="shareLink">
+                <i class="fa fa-copy"></i>
+                    Copy Link
         </button>
 
         </div>

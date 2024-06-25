@@ -11,20 +11,12 @@ class LedgerGroup extends Model
 {
     use SoftDeletes;
 
-
     /**
      * The database table used by the model.
      *
      * @var string
      */
     protected $table = 'ledger_groups';
-
-    /**
-     * The database primary key value.
-     *
-     * @var string
-     */
-
 
     /**
      * Attributes that should be mass-assignable.
@@ -53,19 +45,6 @@ class LedgerGroup extends Model
      */
     protected $casts = [];
 
-    public function under()
-    {
-//        dump(parent::find($this->parent),$this->parent);
-        return parent::find($this->parent)->group_name ?? 'Primary';
-
-    }
-
-    public function ledgers()
-    {
-        return $this->hasMany(Ledger::class);
-
-    }
-
     protected static function boot()
     {
         parent::boot();
@@ -75,6 +54,28 @@ class LedgerGroup extends Model
                 $builder->where('client_id', auth()->user()->client_id ?? -1);
             }
         });
+
+        static::creating(function ($ledgerGroup) {
+            if (!$ledgerGroup->group_name) {
+                $ledgerGroup->group_name = 'Bank Accounts';
+            }
+        });
+
+        static::updating(function ($ledgerGroup) {
+            if (!$ledgerGroup->group_name) {
+                $ledgerGroup->group_name = 'Bank Accounts';
+            }
+        });
+    }
+
+    public function under()
+    {
+        return parent::find($this->parent)->group_name ?? 'Primary';
+    }
+
+    public function ledgers()
+    {
+        return $this->hasMany(Ledger::class);
     }
 
     public static function ASSETS()

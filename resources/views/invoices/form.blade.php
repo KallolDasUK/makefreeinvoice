@@ -508,7 +508,7 @@
        <th style="width: 13%"  scope="col" class="font-weight-bold">Quantity</th>
        <th  style="width: 20%"  scope="col" class="font-weight-bold">Tax <sup><a target="_blank" href="/app/taxes">view taxes</a></sup></th>
        <th  style="width: 13%" scope="col" class="font-weight-bold">Amount</th>
-       <th  style="width: 13%;display: none" scope="col" class="font-weight-bold profitClass">+Profit</th>
+       <th  style="width: 13%;" scope="col" class="font-weight-bold profitClass">+Profit</th>
         <th   ></th>
    </tr>
    </thead>
@@ -556,8 +556,9 @@
         <span class="currency d-inline font-weight-bolder" style="font-size: 16px">{{ currency }}</span>
     </td>
     <td>
-        <span class="font-weight-bolder profitClass" style="font-size: 16px;display: none"> {{ (parseFloat((price||0) * (qnt||0))).toFixed(2) }}</span>
-        <span class="currency d-inline font-weight-bolder profitClass" style="font-size: 16px;display: none !important">{{ currency }}</span>
+        <span class="font-weight-bolder profitClass" style="font-size: 16px;display: block"> 
+            {{ (parseFloat((purchase_price||0) * (qnt||0))).toFixed(2) }}</span>
+        <span class="currency d-inline font-weight-bolder profitClass" style="font-size: 16px;display: block !important">{{ currency }}</span>
     </td>
             <td on-click="@this.delete(i)" style="cursor: pointer"> <i class="fa fa-trash text-danger" ></i></td>
          </tr>

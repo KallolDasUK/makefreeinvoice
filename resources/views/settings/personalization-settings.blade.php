@@ -93,7 +93,7 @@
                 <label for="show_profit" class="font-weight-bolder ">Show Profit</label>
             </div>
             <div class="col-lg-4 bg-secondary">
-                {{-- <input type="hidden" name="show_profit" value="0"> --}}
+                <input type="hidden" name="show_profit" value="0">
                 <input id="show_profit" type="checkbox" name="show_profit"
                        class="form-control check-mark checkbox form-check-input"
                        value="1" {{ ($settings->show_profit??'0')?'checked':'' }}>

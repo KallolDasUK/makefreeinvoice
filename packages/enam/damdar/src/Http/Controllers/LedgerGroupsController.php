@@ -6,6 +6,7 @@ use Enam\Acc\Http\Controllers\Controller;
 use Enam\Acc\Models\Ledger;
 use Enam\Acc\Models\LedgerGroup;
 use Illuminate\Http\Request;
+use Enam\Acc\Utils\LedgerHelper;
 use Exception;
 use Illuminate\Support\Facades\View;
 
@@ -31,7 +32,8 @@ class LedgerGroupsController extends Controller
     public function create()
     {
         View::share('title', 'Create New Ledger Group');
-        return view('acc::ledger_groups.create');
+        $bankAccounts = LedgerHelper::$BANK_ACCOUNTS;
+        return view('acc::ledger_groups.create',compact('bankAccounts'));
     }
 
     public function store(Request $request)

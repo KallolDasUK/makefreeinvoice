@@ -299,7 +299,7 @@
                 </a>
 
 
-                <a href="{{ route('expenses.expense.create') }}"
+                {{-- <a href="{{ route('expenses.expense.create') }}"
                    style="position:relative;"
 
                    class="sc-gPEVay eaBhby border rounded {{ ability_class(\App\Utils\Ability::EXPENSE_CREATE) }} @cannot('create',\App\Models\Expense::class) pro-tag @endcannot">
@@ -307,8 +307,8 @@
 
                     </div>
                     <div class="shortcuts-title  text-black">Add Expense</div>
-                </a>
-                <a href="{{ route('expenses.expense.index') }}"
+                </a> --}}
+                {{-- <a href="{{ route('expenses.expense.index') }}"
                    style="position:relative;"
 
                    class="sc-gPEVay eaBhby border rounded {{ ability_class(\App\Utils\Ability::EXPENSE_READ) }} @cannot('viewAny',\App\Models\Expense::class) pro-tag @endcannot">
@@ -316,7 +316,7 @@
 
                     </div>
                     <div class="shortcuts-title  text-black">My Expenses</div>
-                </a>
+                </a> --}}
 
             </div>
         </div>
@@ -324,7 +324,63 @@
         <div class="row card mt-4">
             <div class="card-body">
                 <div class="font-weight-bolder">
-                    INVENTORY SHORTCUTS
+                    BANKING & EXPENDITURE SHORTCUTS
+                </div>
+                <a href="{{ route('accounting.settings.edit') }}"
+                   style="position:relative;"
+                   class="sc-gPEVay eaBhby border rounded {{ ability_class(\App\Utils\Ability::GENERAL_SETTINGS_READ) }}">
+                    <div class="sc-iRbamj image" style="background-image:url('images/bank_account.svg'); background-size: unset !important">
+
+                    </div>
+                    <div class="shortcuts-title  text-black">Bank Accounts</div>
+                </a>
+                <a href="{{ route('accounting.settings.edit') }}"
+                   style="position:relative;"
+                   class="sc-gPEVay eaBhby border rounded {{ ability_class(\App\Utils\Ability::GENERAL_SETTINGS_READ) }}">
+                    <div class="sc-iRbamj image" style="background-image:url('images/deposit.svg'); background-size: unset !important">
+
+                    </div>
+                    <div class="shortcuts-title  text-black">Bank Deposit</div>
+                </a>
+                <a href="{{ route('accounting.settings.edit') }}"
+                   style="position:relative;"
+                   class="sc-gPEVay eaBhby border rounded {{ ability_class(\App\Utils\Ability::GENERAL_SETTINGS_READ) }}">
+                    <div class="sc-iRbamj image" style="background-image:url('images/transfer.svg'); background-size: unset !important">
+
+                    </div>
+                    <div class="shortcuts-title  text-black">Bank Withdraw</div>
+                </a>
+                <a href="{{ route('accounting.settings.edit') }}"
+                   style="position:relative;"
+                   class="sc-gPEVay eaBhby border rounded {{ ability_class(\App\Utils\Ability::GENERAL_SETTINGS_READ) }}">
+                    <div class="sc-iRbamj image" style="background-image:url('images/withdraw.svg'); background-size: unset !important">
+
+                    </div>
+                    <div class="shortcuts-title  text-black">Bank Transfer</div>
+                </a>
+                <a href="{{ route('accounting.settings.edit') }}"
+                   style="position:relative;"
+                   class="sc-gPEVay eaBhby border rounded {{ ability_class(\App\Utils\Ability::GENERAL_SETTINGS_READ) }}">
+                    <div class="sc-iRbamj image" style="background-image:url('images/my_expense.svg'); background-size: unset !important">
+
+                    </div>
+                    <div class="shortcuts-title  text-black">Add Expense</div>
+                </a>
+                <a href="{{ route('accounting.settings.edit') }}"
+                   style="position:relative;"
+                   class="sc-gPEVay eaBhby border rounded {{ ability_class(\App\Utils\Ability::GENERAL_SETTINGS_READ) }}">
+                    <div class="sc-iRbamj image" style="background-image:url('images/expense3.svg'); background-size: unset !important">
+
+                    </div>
+                    <div class="shortcuts-title  text-black">My Expense</div>
+                </a>
+            </div>
+        </div>
+
+        <div class="row card mt-4">
+            <div class="card-body">
+                <div class="font-weight-bolder">
+                    ADJUSTMENT SHORTCUTS
                 </div>
                 <a href="{{ route('inventory_adjustments.inventory_adjustment.index') }}"
                    style="position:relative;"
@@ -545,6 +601,14 @@
                         </div>
                         <div class="shortcuts-title sc-jlyJG gSoaLO title">Due Payment</div>
                     </a>
+                     
+                     <a class="sc-gPEVay eaBhby border rounded {{ ability_class(\App\Utils\Ability::REPORT_READ) }}  @cannot('ledger') pro-tag @endcannot"
+                        href="{{ route('reports.report.ledger_report') }}">
+                        <div class="sc-iRbamj image" style="background-image:url('{{ asset('images/estimate.svg') }}') ">
+
+                        </div>
+                        <div class="shortcuts-title sc-jlyJG gSoaLO title" >Ledger Report</div>
+                    </a>
 
                     <a class="sc-gPEVay eaBhby border rounded "
                        href="{{ route('reports.report.stock_alert') }}">
@@ -619,6 +683,7 @@
                 </div>
             </div>
         </div>
+        
 
     </div>
 

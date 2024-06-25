@@ -82,10 +82,12 @@ class InvoicesController extends Controller
 
         $customers = Customer::all();
         $ledgerGroups = LedgerGroup::all();
+        $bankAccounts = LedgerHelper::$BANK_ACCOUNTS;
+        
 
         view()->share('title', 'All Invoices');
 
-        return view('invoices.index', compact('invoices', 'q', 'cashAcId', 'depositAccounts', 'paymentMethods',
+        return view('invoices.index', compact('bankAccounts','invoices', 'q', 'cashAcId', 'depositAccounts', 'paymentMethods',
             'start_date', 'user_id', 'end_date', 'customer_id', 'customers', 'ledgerGroups', 'sr_id', 'payment_status'));
 
     }
@@ -169,8 +171,9 @@ class InvoicesController extends Controller
         $invoice_fields = optional(Invoice::query()->latest()->first())->invoice_extra ?? [];
         $next_invoice = Invoice::nextInvoiceNumber();
         $ledgerGroups = LedgerGroup::all();
+        $bankAccounts = LedgerHelper::$BANK_ACCOUNTS;
         view()->share('title', 'Create Invoice');
-        return view('invoices.create', compact('customers',
+        return view('invoices.create', compact('bankAccounts','customers',
             'ledgerGroups', 'products', 'taxes', 'next_invoice', 'categories', 'extraFields',
             'invoice_fields', 'cashAcId', 'depositAccounts', 'paymentMethods'));
     }

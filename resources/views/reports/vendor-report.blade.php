@@ -118,11 +118,19 @@
                                 </tr>
                                 </thead>
                                 <tbody>
+                                    @php
+                                        // Get the first date of the current month
+                                        $start_date = \Carbon\Carbon::now()->startOfMonth()->toDateString();
+                                        
+                                        // Get the current date
+                                        $end_date = \Carbon\Carbon::now()->toDateString();
+                                    @endphp
                                 @foreach($vendors as $vendor)
                                     <tr>
                                         <td class=" border-0">{{ $loop->iteration }}</td>
                                         <td class="text-start border-0" style="max-width: 300px">
-                                            <b>{{ $vendor->name }}</b></td>
+                                            <a href="{{ env('APP_URL') . '/app/reports/vendor-statement?vendor_id=' . $vendor->id. '&start_date=' . $start_date. '&end_date=' . $end_date }}"><b>
+                                            <b>{{ $vendor->name }}</b></a></td>
                                         <td class="text-start border-0">{{ $vendor->phone??'-' }}</td>
                                         <td class="text-start border-0"
                                             style="max-width: 300px">{{ $vendor->street_1 . ' '.$vendor->street_2 }} @if($vendor->street_1 == null && $vendor->street_2 == null) - @endif</td>

@@ -15,23 +15,29 @@
                                        minlength="1">
                             </div>
                         </div>
-                        <div class="col">
+                        <div class="col" style="display: none" >
                             <div class="form-group">
                                 <label for="value" class="text-danger font-bolder">Account Group *</label>
 
                                 <select class="form-control" id="ledger_group_id" name="ledger_group_id">
                                     <option></option>
                                     @foreach (\Enam\Acc\Models\LedgerGroup::all() as $ledgerGroup)
-                                        @if($ledgerGroup->group_name =='')
+                                        @if($ledgerGroup->group_name == '')
                                             @continue
                                         @endif
-                                        <option
-                                            value="{{ $ledgerGroup->id }}"> {{ $ledgerGroup->group_name??'-' }} </option>
+                                        <option value="{{ $ledgerGroup->id }}" {{ $ledgerGroup->group_name == $bankAccounts ? 'selected' : '' }}>
+                                            {{ $bankAccounts }}
+                                        </option>
                                     @endforeach
                                 </select>
+                                {{-- @php(Enam\Acc\Utils $bankAccounts = LedgerHelper::$BANK_ACCOUNTS)
+                                <input class="form-control" name="ledger_group_id" type="text" name="is_default" hidden value="{{ $bankAccounts }}">
+                                @endphp --}}
                             </div>
                         </div>
-                        <input type="text" name="is_default" hidden value="0">
+                       <!-- /var/www/html/makefreeinvoice/makefreeinvoice/resources/views/partials/ajax-ledger-create-form.blade.php -->
+      {{-- <input class="form-control" id="ledger_group_id" name="ledger_group_id" type="text" name="is_default" hidden value="{{ $bankAccounts }}"> --}}
+
 
 
                     </div>
@@ -43,7 +49,7 @@
                                 <input class="form-control" name="opening" type="number" step="any" id="opening">
                             </div>
                         </div>
-                        <div class="col">
+                        {{-- <div class="col">
                             <div class="form-group">
                                 <label for="value" class=" font-bolder">Opening Type</label>
 
@@ -55,7 +61,8 @@
                                     @endforeach
                                 </select>
                             </div>
-                        </div>
+                        </div> --}}
+                        <input class="form-control" id="opening_type" name="opening_type" type="text" name="is_default" hidden value="Dr">
 
 
                     </div>

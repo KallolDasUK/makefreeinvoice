@@ -1436,7 +1436,7 @@
 <!-- Your Chat plugin code -->
 <div id="fb-customer-chat" class="fb-customerchat">
 </div>
-{{--@if($settings->show_messenger_chat_box??true)--}}
+{{-- @if($settings->show_messenger_chat_box??true) --}}
 <script>
     var chatbox = document.getElementById('fb-customer-chat');
     chatbox.setAttribute("page_id", "108404041579131");
@@ -1459,9 +1459,22 @@
     }(document, 'script', 'facebook-jssdk'));
     $('#ledger_group_id').select2({dropdownParent: $("#ledgerModal")})
 </script>
-
-
 {{--@endif--}}
+
+<!--Start of Tawk.to Script-->
+<script type="text/javascript">
+    var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+    (function(){
+        var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+        s1.async=true;
+        s1.src='https://embed.tawk.to/667a4ad0eaf3bd8d4d140e06/1i16r8g1t';
+        s1.charset='UTF-8';
+        s1.setAttribute('crossorigin','*');
+        s0.parentNode.insertBefore(s1,s0);
+        })();
+</script>
+<!--End of Tawk.to Script-->
+
 </body>
 
 </html>
