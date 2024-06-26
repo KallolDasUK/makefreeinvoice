@@ -17,19 +17,15 @@
                         </div>
                         <div class="col" style="display: none" >
                             <div class="form-group">
-                                <label for="value" class="text-danger font-bolder">Account Group *</label>
+                                <label for="value" class="text-danger font-bolder">Account Group * </label>
 
-                                <select class="form-control" id="ledger_group_id" name="ledger_group_id">
-                                    <option></option>
+                      
                                     @foreach (\Enam\Acc\Models\LedgerGroup::all() as $ledgerGroup)
-                                        @if($ledgerGroup->group_name == '')
-                                            @continue
+                                        @if($ledgerGroup->group_name == Enam\Acc\Utils\LedgerHelper::$BANK_ACCOUNTS)
+                                        <input class="form-control" id="ledger_group_id" name="ledger_group_id" type="hidden" value="{{ $ledgerGroup->id }}" />
                                         @endif
-                                        <option value="{{ $ledgerGroup->id }}" {{ $ledgerGroup->group_name == $bankAccounts ? 'selected' : '' }}>
-                                            {{ $bankAccounts }}
-                                        </option>
                                     @endforeach
-                                </select>
+        
                                 {{-- @php(Enam\Acc\Utils $bankAccounts = LedgerHelper::$BANK_ACCOUNTS)
                                 <input class="form-control" name="ledger_group_id" type="text" name="is_default" hidden value="{{ $bankAccounts }}">
                                 @endphp --}}

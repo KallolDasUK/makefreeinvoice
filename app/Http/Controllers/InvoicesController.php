@@ -148,7 +148,7 @@ class InvoicesController extends Controller
     {
 
 //        dd('hello');
-
+        $showProfit = MetaSetting::where('key', 'show_profit')->first();
         $this->authorize('create', Invoice::class);
 
         $cashAcId = optional(GroupMap::query()->firstWhere('key', LedgerHelper::$CASH_AC))->value;
@@ -173,7 +173,7 @@ class InvoicesController extends Controller
         $ledgerGroups = LedgerGroup::all();
         $bankAccounts = LedgerHelper::$BANK_ACCOUNTS;
         view()->share('title', 'Create Invoice');
-        return view('invoices.create', compact('bankAccounts','customers',
+        return view('invoices.create', compact('showProfit','bankAccounts','customers',
             'ledgerGroups', 'products', 'taxes', 'next_invoice', 'categories', 'extraFields',
             'invoice_fields', 'cashAcId', 'depositAccounts', 'paymentMethods'));
     }

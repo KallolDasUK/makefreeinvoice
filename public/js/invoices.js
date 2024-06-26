@@ -13,7 +13,6 @@ var ractive = new Ractive({
         exp_based_product: exp_based_product
     },
     addInvoiceItem() {
-
         var copiedObject = jQuery.extend(true, {}, sample_item)
 
         ractive.push('invoice_items', copiedObject)
@@ -23,7 +22,6 @@ var ractive = new Ractive({
         $(currentSelectItem).select2({
             placeholder: "Select or Add Item",
             allowClear: true,
-
             "language": {
                 "noResults": function () {
                     return "Press <code>Enter</code> to add";
@@ -49,10 +47,8 @@ var ractive = new Ractive({
             setTimeout(() => {
                 $(`#row${i}`).find('.rate').focus()
             }, 10)
+        });
 
-        })
-
-        // Test
         $(`#itemTax${i}`).select2({
             placeholder: "--Select or Add Item--",
             allowClear: true
@@ -66,15 +62,12 @@ var ractive = new Ractive({
                     .on('click', function (b) {
                         $(event.target).select2("close");
                         $('#createTaxForm').attr('index', i)
-
                     });
             }
         }).on('change', function (event) {
             let i = $(this).attr('index');
             ractive.set(`invoice_items.${i}.tax_id`, $(this).val())
-
-        })
-
+        });
 
         $(`#itemSelect${i}`).on('change', function (e) {
             onProductChangeEvent(e)
@@ -83,11 +76,9 @@ var ractive = new Ractive({
         $("#invoice_item_table tbody").sortable();
 
         $('.qnt').tooltip({'trigger': 'focus', 'title': 'Hit Enter to add new Line'});
-
     },
     delete(index) {
         if (ractive.get('invoice_items').length > 1) {
-
             ractive.splice('invoice_items', index, 1);
         }
     },
@@ -96,7 +87,6 @@ var ractive = new Ractive({
             let invoice_items = newValue;
             let sub = 0;
             ractiveExtra.set(`appliedTax`, [])
-            // alert('sdlfk')
             for (let i = 0; i < invoice_items.length; i++) {
                 let item = invoice_items[i];
                 sub += (parseFloat(item.qnt) || 0) * (parseFloat(item.price) || 0);
@@ -110,9 +100,10 @@ var ractive = new Ractive({
                         minifiedName: `${tax.name} ${tax.value} ${tax.tax_type}`,
                         amount: taxAmount
                     })
-
                 }
-
+                // Calculate profit
+                let profit = (parseFloat(item.price || 0) - parseFloat(item.purchase_price || 0)) * (parseFloat(item.qnt) || 0);
+                ractive.set(`invoice_items.${i}.profit`, profit.toFixed(2));
             }
             let appliedTax = ractiveExtra.get('appliedTax') || [];
             let tempArray = [];
@@ -128,7 +119,6 @@ var ractive = new Ractive({
                 });
                 if (existing) continue;
                 tempArray.push(tax)
-
             }
             ractiveExtra.set('appliedTax', tempArray)
             subTotal = sub;
@@ -142,6 +132,7 @@ var ractive = new Ractive({
         }
     }
 });
+
 var ractiveExtra = new Ractive({
     target: '#extra',
     template: '#extraTemplate',
@@ -149,12 +140,35 @@ var ractiveExtra = new Ractive({
         pairs: pair,
     },
     addExtraField: function () {
-        ractiveExtra.push('pairs', {name: '', value: ''})
+        ractiveExtra.push('pairs', {name: '', value: '', type: ''});
         $(document).ready(function () {
             $('[data-toggle="tooltip"]').tooltip();
         });
-    },
+    }
+    ,
     removeExtraField: (index) => ractiveExtra.splice('pairs', index, 1),
+    calculateTotal: function () {
+        let subTotalElement = $('#subTotal');
+        let discountType = $('#discount_type').val();
+        let discountValue = parseFloat($('#discountValue').val());
+        let discount = 0;
+    
+        // Calculate discount based on type
+        if (discountType === '%') {
+            discount = parseFloat(subTotalElement.val()) * (discountValue / 100);
+        } else if (discountType === 'Flat') {
+            discount = discountValue;
+        }
+    
+        // Update discount input (if you have one)
+        $('#discount').val(discount.toFixed(2));
+    
+        // Calculate total
+        let total = parseFloat(subTotalElement.val()) - discount;
+    
+        // Update total element
+        $('#total').val(total.toFixed(2));
+    }, 
     observe: {
         'pairs': (pairs) => {
             for (let i = 0; i < pairs.length; i++) {
@@ -307,6 +321,7 @@ function calculate(product_id, lineIndex) {
         ractive.set(`invoice_items.${lineIndex}.unit`, product.sell_unit || 'unit')
         ractive.set(`invoice_items.${lineIndex}.description`, product.description || '')
         ractive.set(`invoice_items.${lineIndex}.stock`, product.stock || '')
+        ractive.set(`invoice_items.${lineIndex}.purchase_price`, product.purchase_price || 0) // Ensure purchase price is set
 
         $.ajax({
             url: route('products.product.product_stock'),
@@ -318,39 +333,38 @@ function calculate(product_id, lineIndex) {
                 for (let i = 0; i < product_stocks.length; i++) {
                     let product_stock = product_stocks[i].product_stock;
                     ractive.set(`invoice_items.${lineIndex}.stock`, product_stock)
-
                 }
-
             }
         });
     }
-
     calculateOthers()
 }
 
+
 function calculateOthers() {
+    let subTotal = parseFloat($('#subTotal').val()) || 0;
     let discountType = $('#discount_type').val();
     let discountValue = $('#discountValue').val();
     let shippingInput = $('#shipping_input').val();
     let discount = 0;
 
-
     if (discountType === '%') {
-        discount = (discountValue / 100) * subTotal;
+        discount = (parseFloat(discountValue) / 100) * subTotal;
     } else {
         discount = parseFloat(discountValue) || 0;
     }
-    $('#discount').val(discount.toFixed(2))
-    if (discount > 0) {
-        $('#discountShown').addClass('text-danger')
-        $('#discountShown').val('-' + discount.toFixed(2))
+    $('#discount').val(discount.toFixed(2));
 
+    if (discount > 0) {
+        $('#discountShown').addClass('text-danger');
+        $('#discountShown').val('-' + discount.toFixed(2));
     } else {
-        $('#discountShown').removeClass('text-danger')
-        $('#discountShown').val(discount.toFixed(2))
+        $('#discountShown').removeClass('text-danger');
+        $('#discountShown').val(discount.toFixed(2));
     }
-    let shippingCharge = parseFloat(shippingInput || 0) || 0
-    $('#shipping_charge').val(shippingCharge.toFixed(2))
+
+    let shippingCharge = parseFloat(shippingInput || 0) || 0;
+    $('#shipping_charge').val(shippingCharge.toFixed(2));
 
     let pairs = ractiveExtra.get('pairs');
     let appliedTax = ractiveExtra.get('appliedTax') || [];
@@ -358,53 +372,41 @@ function calculateOthers() {
     for (let i = 0; i < appliedTax.length; i++) {
         tax += parseFloat(appliedTax[i].amount);
     }
-    tax = tax ?? 0;
 
     let additionalCost = 0;
-    for (let i = 0; i < pairs.length; i++) {
-        let pair = pairs[i];
-        additionalCost += parseFloat(pair.value) || 0
-
-    }
+    pairs.forEach(pair => {
+        let value = parseFloat(pair.value) || 0;
+        if (pair.type === 'Percentage') {
+            additionalCost += (subTotal * value / 100);
+        } else {
+            additionalCost += value;
+        }
+    });
 
     let total = ((subTotal - discount) + shippingCharge) + additionalCost + tax;
-    // alert(tax)
-
-    $('#total').val(total.toFixed(2))
-
-    $('#paymentAmount').val(total.toFixed(2))
-
-
-    $('#paymentAmount').prop('max', total.toFixed(2))
-
-    $('#invoice_items').val(JSON.stringify(ractive.get('invoice_items')))
-    $('#additional').val(JSON.stringify(ractiveExtra.get('pairs').filter((pair) => pair.value !== '' && pair.value !== 0)))
+    $('#total').val(total.toFixed(2));
+    $('#paymentAmount').val(total.toFixed(2)).prop('max', total.toFixed(2));
+    $('#invoice_items').val(JSON.stringify(ractive.get('invoice_items')));
+    $('#additional').val(JSON.stringify(pairs.filter(pair => pair.value !== '' && pair.value !== 0)));
     let advancePayment = $('#advance').val() || 0;
-    ractive.set('payable', total)
+    ractive.set('payable', total);
 
     if (advancePayment > 0) {
         if (advancePayment >= total) {
-            $('#paymentSection').hide()
-            $('#from_advance').val(total).trigger('change')
-            ractive.set('payable', 0)
-
+            $('#paymentSection').hide();
+            $('#from_advance').val(total).trigger('change');
+            ractive.set('payable', 0);
         } else if (advancePayment < total) {
-            $('#paymentSection').show()
+            $('#paymentSection').show();
             let remaining = total - advancePayment;
-            $('#from_advance').val(advancePayment).trigger('change')
-            $('#paymentAmount').prop('max', remaining.toFixed(2))
-            $('#paymentAmount').val(remaining.toFixed(2)).trigger('change')
-            ractive.set('payable', remaining)
-
-
+            $('#from_advance').val(advancePayment).trigger('change');
+            $('#paymentAmount').prop('max', remaining.toFixed(2)).val(remaining.toFixed(2)).trigger('change');
+            ractive.set('payable', remaining);
         }
-
     }
-
-
-    // console.log(ractiveExtra.get('pairs').filter((pair) => pair.value !== '' && pair.value !== 0))
-
 }
+
+
 
 $('#discountValue').on('input', () => calculateOthers());
 $('#shipping_input').on('input', () => calculateOthers());

@@ -551,15 +551,20 @@
         <br>
         &nbsp;
      </td>
-    <td >
-        <span class="font-weight-bolder" style="font-size: 16px"> {{ (parseFloat((price||0) * (qnt||0))).toFixed(2) }}</span>
+     <td>
+        <span class="font-weight-bolder" style="font-size: 16px">
+            {{ (parseFloat((price||0) * (qnt||0))).toFixed(2) }}
+        </span>
         <span class="currency d-inline font-weight-bolder" style="font-size: 16px">{{ currency }}</span>
     </td>
     <td>
-        <span class="font-weight-bolder profitClass" style="font-size: 16px;display: block"> 
-            {{ (parseFloat((purchase_price||0) * (qnt||0))).toFixed(2) }}</span>
+        <span class="font-weight-bolder profitClass" style="font-size: 16px;display: block">
+            {{ (parseFloat((price||0) - (purchase_price||0)) * (qnt||0)).toFixed(2) }}
+        </span>
         <span class="currency d-inline font-weight-bolder profitClass" style="font-size: 16px;display: block !important">{{ currency }}</span>
     </td>
+    
+    
             <td on-click="@this.delete(i)" style="cursor: pointer"> <i class="fa fa-trash text-danger" ></i></td>
          </tr>
 {{ /each}}
@@ -572,196 +577,46 @@
                   style="cursor: pointer"><i class="fa fa-plus-circle"></i> Add Line</span>
         </div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     </script>
 @endverbatim
 @verbatim
-    <script id="extraTemplate" type="text/ractive">
-            {{#each appliedTax:i}}
+<script id="extraTemplate" type="text/ractive">
+    {{#each appliedTax:i}}
         <tr>
             <td>
                 <span class="font-weight-bolder">{{ name }}</span>
-
-                    </td>
-                    <td style="text-align: end">
-                        <input type="number" value="{{ amount.toFixed(2) }}" readonly
-                        style="border: 1px solid transparent; outline: none;text-align: end">
-                        <span class="currency d-inline" style="font-size: 16px">{{ currency }}</span>
-                    </td>
-                </tr>
-
-             {{/each}}
-        {{#each pairs:i}}
+            </td>
+            <td style="text-align: end">
+                <input type="number" value="{{ amount.toFixed(2) }}" readonly style="border: 1px solid transparent; outline: none;text-align: end">
+                <span class="currency d-inline" style="font-size: 16px">{{ currency }}</span>
+            </td>
+        </tr>
+    {{/each}}
+    {{#each pairs:i}}
         <tr>
-            <td class="d-flex">
-                <input type="text" class="input-sm form-control d-inline-block" style="" placeholder="Additional.." value="{{ name }}">
-                        <input type="number" step="any" class="input-sm form-control d-inline-block" style="text-align: end" value="{{ value }}">
-                        <i class="fa fa-minus text-danger mx-2" on-click="@this.removeExtraField(i)" style="cursor:pointer;"></i>
-                        <b class="far fa-question-circle" data-toggle="tooltip" title="Add any other +ve or -ve charges that need to be applied to adjust the total amount of the transaction Eg. +10 or -10.">
+            <td class="d-flex align-items-center">
+                <input type="text" class="input-sm form-control d-inline-block" placeholder="Additional.." value="{{ name }}" >
+                <input type="number" step="any" class="input-sm form-control d-inline-block" style="text-align: end; max-width: 100px;" value="{{ value }}" id="discountValue" name="discountValue" >
+                <select class="input-sm small-input d-inline" style="max-width: 80px;" value="{{ type }}" id="discount_type" name="discount_type">
+                    <option value="Flat" {{ type == 'Flat' ? 'selected' : '' }}>Flat</option>
+                    <option value="Percentage" {{ type == 'Percentage' ? 'selected' : '' }}>Percentage</option>
+                </select>
+                <i class="fa fa-minus text-danger mx-2" on-click="@this.removeExtraField(i)" style="cursor:pointer;"></i>
+                <b class="far fa-question-circle" data-toggle="tooltip" title="Add any other +ve or -ve charges that need to be applied to adjust the total amount of the transaction Eg. +10 or -10."></b>
+            </td>
+            <td style="text-align: end">
+                <input type="number" value="{{ value }}" readonly class="{{ className }}" style="border: 1px solid transparent; outline: none;text-align: end">
+                <span class="currency d-inline {{ className }}" style="font-size: 16px">{{ currency }}</span>
+            </td>
+        </tr>
+    {{/each}}
+    <tr>
+        <td><span class="text-primary " on-click="@this.addExtraField()" style="cursor:pointer;font-weight: bolder">+ Add More</span></td>
+        <td></td>
+    </tr>
+</script>
 
-                    </td>
-                    <td style="text-align: end">
 
-                        <input type="number"  value="{{ value }}" readonly
-                        class="{{ className }}" style="border: 1px solid transparent; outline: none;text-align: end">
-                                                <span class="currency d-inline {{ className }}
-        " style="font-size: 16px">{{ currency }}</span>
-
-                    </td>
-                </tr>
-
-             {{/each}}
-        <tr>
-                          <td><span class="text-primary " on-click="@this.addExtraField()" style="cursor:pointer;">+ Add More</span></td>
-                          <td></td>
-                      </tr>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    </script>
 @endverbatim
 @verbatim
     <script id="additionalFieldTemplate" type="text/ractive">
@@ -782,107 +637,9 @@
 
              {{/each}}
         <tr>
-              <td><span class="text-primary " on-click="@this.addAdditionalField()" style="cursor:pointer;">+ Add More</span></td>
+              <td><span class="text-primary " on-click="@this.addAdditionalField()" style="cursor:pointer; font-weight:bolder">+ Add More</span></td>
               <td></td>
           </tr>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     </script>
 @endverbatim
