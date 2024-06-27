@@ -303,7 +303,12 @@
         <table class="table table-borderless">
             <tr>
                 <td>
-                    <b class=" font-weight-bolder text-black mr-2" style="font-size: 14px">Sub Total</b>
+                    <b class=" font-weight-bolder text-black mr-2" style="font-size: 14px">Sub Total</b><span style="    font-size: 16px;
+                    background-color: gray;
+                    color: white;
+                    padding: 5px;
+                    border-radius: 18px;
+                    font-weight: 500;" class="profitClass">+<span id="total_profit" ></span></span>
 
                 </td>
                 <td style="text-align: end">
@@ -317,11 +322,11 @@
             <tr>
                 <td class="d-flex align-items-center">
                     <b class=" font-weight-bolder text-black mr-2" style="font-size: 14px">Discount</b>
-                    <input type="number" step="any" class="input-sm form-control d-inline-block"
+                    <input type="number" step="any" class="input-sm form-control d-inline-block discountValue"
                            style="max-width: 50px; text-align: end;min-width: 100px" id="discountValue"
                            name="discount_value"
                            value="{{ old('discount_value', optional($invoice)->discount_value) }}" placeholder="Shift + D">
-                    <select class="input-sm small-input d-inline" id="discount_type" name="discount_type">
+                    <select class="input-sm small-input d-inline discount_type" id="discount_type" name="discount_type">
 
                         @foreach ([ '%', 'Flat'] as $key => $text)
                             <option
@@ -337,7 +342,7 @@
                            value="{{ old('discount', optional($invoice)->discount) }}>" readonly
                            style="border: 1px solid transparent; outline: none;text-align: end;" hidden>
 
-                    <input type="number" step="any" id="discountShown"
+                    <input type="number" step="any" id="discountShown" class="discountShown"
                            value="{{ old('discount', optional($invoice)->discount) }}" readonly
                            style="border: 1px solid transparent; outline: none;text-align: end">
                     <span class="currency"></span>
@@ -348,7 +353,7 @@
                 {{-- <td class="d-flex align-items-center"><b class="font-weight-bolder text-black mr-2"
                                                          style="font-size: 14px">Shipping Charges</b>
 
-                    <input type="number" step="any" class="input-sm form-control d-inline-block"
+                    <input type="number" step="any" class="input-sm form-control d-inline-block "
                            style="max-width: 100px;text-align: end"
                            name="shipping_input"
                            id="shipping_input"
@@ -508,7 +513,7 @@
        <th style="width: 13%"  scope="col" class="font-weight-bold">Quantity</th>
        <th  style="width: 20%"  scope="col" class="font-weight-bold">Tax <sup><a target="_blank" href="/app/taxes">view taxes</a></sup></th>
        <th  style="width: 13%" scope="col" class="font-weight-bold">Amount</th>
-       <th  style="width: 13%;" scope="col" class="font-weight-bold profitClass">+Profit</th>
+       <th  style="width: 13%;display:none;" scope="col" class="font-weight-bold ">+Profit</th>
         <th   ></th>
    </tr>
    </thead>
@@ -558,10 +563,14 @@
         <span class="currency d-inline font-weight-bolder" style="font-size: 16px">{{ currency }}</span>
     </td>
     <td>
-        <span class="font-weight-bolder profitClass" style="font-size: 16px;display: block">
-            {{ (parseFloat((price||0) - (purchase_price||0)) * (qnt||0)).toFixed(2) }}
+        <span class="font-weight-bolder profitClass" style="    font-size: 16px;
+        display: block;
+        background-color: gray;
+        color: white;
+        padding: 5px;
+        border-radius: 18px;">
+            +{{ (parseFloat((price||0) - (purchase_price||0)) * (qnt||0)).toFixed(2) }}
         </span>
-        <span class="currency d-inline font-weight-bolder profitClass" style="font-size: 16px;display: block !important">{{ currency }}</span>
     </td>
     
     
@@ -580,41 +589,46 @@
     </script>
 @endverbatim
 @verbatim
-<script id="extraTemplate" type="text/ractive">
-    {{#each appliedTax:i}}
+<div id="extra">
+    <script id="extraTemplate" type="text/ractive">
+        {{#each appliedTax:i}}
+            <tr>
+                <td>
+                    <span class="font-weight-bolder">{{ name }}</span>
+                </td>
+                <td style="text-align: end">
+                    <input type="number" value="{{ amount.toFixed(2) }}" readonly style="border: 1px solid transparent; outline: none;text-align: end">
+                    <span class="currency d-inline" style="font-size: 16px">{{ currency }}</span>
+                </td>
+            </tr>
+        {{/each}}
+        {{#each pairs:i}}
+            <tr>
+                <td class="d-flex align-items-center">
+                    <input type="text" class="input-sm form-control d-inline-block" placeholder="Additional.." value="{{ name }}" >
+                    <input type="number" step="any" class="input-sm form-control d-inline-block discountValue" style="text-align: end; max-width: 100px;" value="{{ value }}" id="extrafieldValue" name="discountValue" >
+                    <select class="input-sm small-input d-inline discount_type" style="max-width: 80px;" value="{{ extrafield_type }}" id="extrafield_type" name="discount_type">
+                        <option value="Flat" {{ type == 'Flat' ? 'selected' : '' }}>Flat</option>
+                        <option value="Percentage" {{ type == 'Percentage' ? 'selected' : '' }}>Percentage</option>
+                    </select>
+                    <i class="fa fa-minus text-danger mx-2" on-click="@this.removeExtraField(i)" style="cursor:pointer;"></i>
+                    <b class="far fa-question-circle" data-toggle="tooltip" title="Add any other +ve or -ve charges that need to be applied to adjust the total amount of the transaction Eg. +10 or -10."></b>
+                </td>
+                <td style="text-align: end">
+                    <input id="extrafieldShown" type="number" 
+                    value="{{ extrafield_type == 'Percentage' ? value/100 : value }}" readonly class="{{ className }}" style="border: 1px solid transparent; outline: none;text-align: end">
+                    
+                    <span class="currency d-inline {{ className }}" style="font-size: 16px">{{ currency }}</span>
+                </td>
+            </tr>
+        {{/each}}
         <tr>
-            <td>
-                <span class="font-weight-bolder">{{ name }}</span>
-            </td>
-            <td style="text-align: end">
-                <input type="number" value="{{ amount.toFixed(2) }}" readonly style="border: 1px solid transparent; outline: none;text-align: end">
-                <span class="currency d-inline" style="font-size: 16px">{{ currency }}</span>
-            </td>
+            <td><span class="text-primary " on-click="@this.addExtraField()" style="cursor:pointer;font-weight: bolder">+ Add More</span></td>
+            <td></td>
         </tr>
-    {{/each}}
-    {{#each pairs:i}}
-        <tr>
-            <td class="d-flex align-items-center">
-                <input type="text" class="input-sm form-control d-inline-block" placeholder="Additional.." value="{{ name }}" >
-                <input type="number" step="any" class="input-sm form-control d-inline-block" style="text-align: end; max-width: 100px;" value="{{ value }}" id="discountValue" name="discountValue" >
-                <select class="input-sm small-input d-inline" style="max-width: 80px;" value="{{ type }}" id="discount_type" name="discount_type">
-                    <option value="Flat" {{ type == 'Flat' ? 'selected' : '' }}>Flat</option>
-                    <option value="Percentage" {{ type == 'Percentage' ? 'selected' : '' }}>Percentage</option>
-                </select>
-                <i class="fa fa-minus text-danger mx-2" on-click="@this.removeExtraField(i)" style="cursor:pointer;"></i>
-                <b class="far fa-question-circle" data-toggle="tooltip" title="Add any other +ve or -ve charges that need to be applied to adjust the total amount of the transaction Eg. +10 or -10."></b>
-            </td>
-            <td style="text-align: end">
-                <input type="number" value="{{ value }}" readonly class="{{ className }}" style="border: 1px solid transparent; outline: none;text-align: end">
-                <span class="currency d-inline {{ className }}" style="font-size: 16px">{{ currency }}</span>
-            </td>
-        </tr>
-    {{/each}}
-    <tr>
-        <td><span class="text-primary " on-click="@this.addExtraField()" style="cursor:pointer;font-weight: bolder">+ Add More</span></td>
-        <td></td>
-    </tr>
-</script>
+    </script>
+</div>
+
 
 
 @endverbatim

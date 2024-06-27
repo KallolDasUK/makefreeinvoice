@@ -242,7 +242,7 @@ class InvoicesController extends Controller
                 'price' => $invoice_item->price, 'amount' => $invoice_item->price * $invoice_item->qnt, 'tax_id' => $invoice_item->tax_id == '' ? 0 : $invoice_item->tax_id, 'date' => $invoice->invoice_date]);
         }
         foreach ($extraFields as $additional) {
-            InvoiceExtraField::create(['name' => $additional->name, 'value' => $additional->value, 'invoice_id' => $invoice->id]);
+            InvoiceExtraField::create(['name' => $additional->name, 'value' => $additional->value, 'invoice_id' => $invoice->id,'extrafield_type'=> $additional->extrafield_type]);
         }
 
         foreach ($additionalFields as $additional) {
