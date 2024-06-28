@@ -144,11 +144,13 @@ class InvoicesController extends Controller
 
 
 
-    public function create()
+    public function create(Product $product)
     {
 
-//        dd('hello');
         $showProfit = MetaSetting::where('key', 'show_profit')->first();
+        // $generateReportFrom = MetaSetting::where('key', 'generate_report_from')->first();
+        // dd($generateReportFrom);
+
         $this->authorize('create', Invoice::class);
 
         $cashAcId = optional(GroupMap::query()->firstWhere('key', LedgerHelper::$CASH_AC))->value;
@@ -160,10 +162,19 @@ class InvoicesController extends Controller
             ->select('name', 'id', 'email', 'phone')
             ->get()->toArray();
 
-        $products = \DB::table('products')
-            ->where('client_id', auth()->user()->client_id)
-            ->select('name', 'id', 'description', 'purchase_price', 'sell_price', 'sell_unit', 'purchase_unit', 'photo as image', 'code', )
-            ->get();
+        // $products = \DB::table('products')
+        //     ->where('client_id', auth()->user()->client_id)
+        //     ->select('name', 'id', 'description', 'purchase_price', 'sell_price', 'sell_unit', 'purchase_unit', 'photo as image', 'code', )
+        //     ->get();
+
+        $products = Product::where('client_id', auth()->user()->client_id)
+                            ->select('name', 'id', 'description', 'purchase_price', 'sell_price', 'sell_unit', 'purchase_unit', 'photo as image', 'code', )
+                                ->get();
+        // dd($products);
+
+        $test = $products->first()->purchase_price;
+        // $test = $product->getPurchasePriceAttribute($products[2]->purchase_price);
+        // dd($test);
 
         $categories = Category::all();
         $taxes = Tax::query()->latest()->get()->toArray();
@@ -242,7 +253,7 @@ class InvoicesController extends Controller
                 'price' => $invoice_item->price, 'amount' => $invoice_item->price * $invoice_item->qnt, 'tax_id' => $invoice_item->tax_id == '' ? 0 : $invoice_item->tax_id, 'date' => $invoice->invoice_date]);
         }
         foreach ($extraFields as $additional) {
-            InvoiceExtraField::create(['name' => $additional->name, 'value' => $additional->value, 'invoice_id' => $invoice->id,'extrafield_type'=> $additional->extrafield_type]);
+            InvoiceExtraField::create(['name' => $additional->name, 'value' => $additional->value, 'invoice_id' => $invoice->id]);
         }
 
         foreach ($additionalFields as $additional) {

@@ -303,13 +303,7 @@
         <table class="table table-borderless">
             <tr>
                 <td>
-                    <b class=" font-weight-bolder text-black mr-2" style="font-size: 14px">Sub Total</b><span style="    font-size: 16px;
-                    background-color: gray;
-                    color: white;
-                    padding: 5px;
-                    border-radius: 18px;
-                    font-weight: 500;" class="profitClass">+<span id="total_profit" ></span></span>
-
+                    <b class="font-weight-bolder text-black mr-2" style="font-size: 14px">Sub Total</b><span style="font-size: 16px; background-color: gray; color: white; padding: 5px; border-radius: 18px; font-weight: 500;" class="profitClass"><span id="total_profit"></span></span>
                 </td>
                 <td style="text-align: end">
                     <input type="number" step="any" id="subTotal" name="sub_total"
@@ -563,13 +557,8 @@
         <span class="currency d-inline font-weight-bolder" style="font-size: 16px">{{ currency }}</span>
     </td>
     <td>
-        <span class="font-weight-bolder profitClass" style="    font-size: 16px;
-        display: block;
-        background-color: gray;
-        color: white;
-        padding: 5px;
-        border-radius: 18px;">
-            +{{ (parseFloat((price||0) - (purchase_price||0)) * (qnt||0)).toFixed(2) }}
+        <span class="font-weight-bolder profitClass" style="font-size: 16px; display: block; background-color: gray; color: white; padding: 5px; border-radius: 18px;">
+            {{ (parseFloat((price||0) - (purchase_price||0)) * (qnt||0)).toFixed(2) }}
         </span>
     </td>
     
@@ -605,33 +594,26 @@
         {{#each pairs:i}}
             <tr>
                 <td class="d-flex align-items-center">
-                    <input type="text" class="input-sm form-control d-inline-block" placeholder="Additional.." value="{{ name }}" >
-                    <input type="number" step="any" class="input-sm form-control d-inline-block discountValue" style="text-align: end; max-width: 100px;" value="{{ value }}" id="extrafieldValue" name="discountValue" >
-                    <select class="input-sm small-input d-inline discount_type" style="max-width: 80px;" value="{{ extrafield_type }}" id="extrafield_type" name="discount_type">
-                        <option value="Flat" {{ type == 'Flat' ? 'selected' : '' }}>Flat</option>
-                        <option value="Percentage" {{ type == 'Percentage' ? 'selected' : '' }}>Percentage</option>
-                    </select>
+                    <input type="text" class="input-sm form-control d-inline-block" placeholder="Additional.." value="{{ name }}">
+                    <input type="text" class="input-sm form-control d-inline-block discountValue" style="text-align: end; max-width: 100px;" value="{{ value }}" id="extrafieldValue" name="discountValue">
                     <i class="fa fa-minus text-danger mx-2" on-click="@this.removeExtraField(i)" style="cursor:pointer;"></i>
                     <b class="far fa-question-circle" data-toggle="tooltip" title="Add any other +ve or -ve charges that need to be applied to adjust the total amount of the transaction Eg. +10 or -10."></b>
                 </td>
                 <td style="text-align: end">
-                    <input id="extrafieldShown" type="number" 
-                    value="{{ extrafield_type == 'Percentage' ? value/100 : value }}" readonly class="{{ className }}" style="border: 1px solid transparent; outline: none;text-align: end">
-                    
+                    <input id="extrafieldShown" type="number" value="{{ calculatedValue }}" readonly class="{{ className }}" style="border: 1px solid transparent; outline: none;text-align: end">
                     <span class="currency d-inline {{ className }}" style="font-size: 16px">{{ currency }}</span>
                 </td>
             </tr>
         {{/each}}
         <tr>
-            <td><span class="text-primary " on-click="@this.addExtraField()" style="cursor:pointer;font-weight: bolder">+ Add More</span></td>
+            <td><span class="text-primary" on-click="@this.addExtraField()" style="cursor:pointer;font-weight: bolder">+ Add More</span></td>
             <td></td>
         </tr>
     </script>
 </div>
-
-
-
 @endverbatim
+
+
 @verbatim
     <script id="additionalFieldTemplate" type="text/ractive">
 

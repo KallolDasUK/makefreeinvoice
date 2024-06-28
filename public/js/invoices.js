@@ -86,7 +86,7 @@ var ractive = new Ractive({
         'invoice_items': (newValue) => {
             let invoice_items = newValue;
             let sub = 0;
-            let totalProfit = 0; // Initialize total profit
+            let totalProfit = 0;
             ractiveExtra.set(`appliedTax`, []);
             
             for (let i = 0; i < invoice_items.length; i++) {
@@ -152,35 +152,13 @@ var ractiveExtra = new Ractive({
         pairs: pair,
     },
     addExtraField: function () {
-        ractiveExtra.push('pairs', {name: '', value: '', extrafield_type: 'Flat'});
+        ractiveExtra.push('pairs', {name: '', value: '', calculatedValue: ''});
         bindDynamicFields(); // Bind new fields to calculateOthers
         $(document).ready(function () {
             $('[data-toggle="tooltip"]').tooltip();
         });
     },
     removeExtraField: (index) => ractiveExtra.splice('pairs', index, 1),
-    calculateTotal: function () {
-        let subTotalElement = $('#subTotal');
-        let discountType = $('#discount_type').val();
-        let discountValue = parseFloat($('#discountValue').val());
-        let discount = 0;
-
-        // Calculate discount based on type
-        if (discountType === '%') {
-            discount = parseFloat(subTotalElement.val()) * (discountValue / 100);
-        } else if (discountType === 'Flat') {
-            discount = discountValue;
-        }
-
-        // Update discount input (if you have one)
-        $('#discount').val(discount.toFixed(2));
-
-        // Calculate total
-        let total = parseFloat(subTotalElement.val()) - discount;
-
-        // Update total element
-        $('#total').val(total.toFixed(2));
-    },
     observe: {
         'pairs': (pairs) => {
             for (let i = 0; i < pairs.length; i++) {
@@ -324,44 +302,40 @@ function onProductChangeEvent(e) {
 }
 
 function calculate(product_id, lineIndex) {
-    let products = ractive.get('products')
+    let products = ractive.get('products');
     let product = products.filter((item) => item.id === parseInt(product_id));
     if (product.length)
         product = product[0];
     if (product) {
-        ractive.set(`invoice_items.${lineIndex}.price`, product.sell_price)
-        ractive.set(`invoice_items.${lineIndex}.unit`, product.sell_unit || 'unit')
-        ractive.set(`invoice_items.${lineIndex}.description`, product.description || '')
-        ractive.set(`invoice_items.${lineIndex}.stock`, product.stock || '')
-        ractive.set(`invoice_items.${lineIndex}.purchase_price`, product.purchase_price || 0) // Ensure purchase price is set
+        ractive.set(`invoice_items.${lineIndex}.price`, product.sell_price);
+        ractive.set(`invoice_items.${lineIndex}.unit`, product.sell_unit || 'unit');
+        ractive.set(`invoice_items.${lineIndex}.description`, product.description || '');
+        ractive.set(`invoice_items.${lineIndex}.stock`, product.stock || '');
+        ractive.set(`invoice_items.${lineIndex}.purchase_price`, product.purchase_price || 0);
 
         $.ajax({
             url: route('products.product.product_stock'),
             data: {product_ids: [product.id]},
             type: 'post',
             success: function (response) {
-                console.log(response);
                 let product_stocks = response;
                 for (let i = 0; i < product_stocks.length; i++) {
                     let product_stock = product_stocks[i].product_stock;
-                    ractive.set(`invoice_items.${lineIndex}.stock`, product_stock)
+                    ractive.set(`invoice_items.${lineIndex}.stock`, product_stock);
                 }
             }
         });
     }
-    calculateOthers()
+    calculateOthers();
 }
 
 
 function calculateOthers() {
     let subTotal = parseFloat($('#subTotal').val()) || 0;
     let discountType = $('#discount_type').val();
-    let extrafieldType = $('#extrafield_type').val();
     let discountValue = $('#discountValue').val();
-    let extrafieldValue = $('#extrafieldValue').val();
     let shippingInput = $('#shipping_input').val();
     let discount = 0;
-    let extrafield = 0;
 
     if (discountType === '%') {
         discount = (parseFloat(discountValue) / 100) * subTotal;
@@ -378,25 +352,6 @@ function calculateOthers() {
         $('#discountShown').val(discount.toFixed(2));
     }
 
-    // if (extrafieldType === 'Percentage') {
-    //     extrafield = (parseFloat(extrafieldValue) / 100) * subTotal;
-    //     $('#extrafieldShown').removeClass('text-danger');
-    //     $('#extrafieldShown').val(extrafield.toFixed(2));
-    // } else {
-    //     extrafield = parseFloat(extrafieldValue) || 0;
-    //     $('#extrafieldShown').addClass('text-danger');
-    //     $('#extrafieldShown').val(extrafield.toFixed(2));
-    // }
-    // $('#extrafield').val(extrafield.toFixed(2));
-
-    // if (extrafield > 0) {
-    //     $('#extrafieldShown').removeClass('text-danger');
-    //     $('#extrafieldShown').val(extrafield.toFixed(2));
-    // } else {
-    //     $('#extrafieldShown').addClass('text-danger');
-    //     $('#extrafieldShown').val(extrafield.toFixed(2));
-    // }
-
     let shippingCharge = parseFloat(shippingInput || 0) || 0;
     $('#shipping_charge').val(shippingCharge.toFixed(2));
 
@@ -408,13 +363,25 @@ function calculateOthers() {
     }
 
     let additionalCost = 0;
-    pairs.forEach(pair => {
-        let value = parseFloat(pair.value) || 0;
-        if (pair.extrafield_type === 'Percentage') {
-            additionalCost += (subTotal * value / 100);
+    pairs.forEach((pair, index) => {
+        let value = pair.value.trim();
+        let calculatedValue = 0;
+        let className = '';
+
+        if (value.includes('%')) {
+            let percentageValue = parseFloat(value.replace('%', '')) || 0;
+            calculatedValue = (subTotal * percentageValue / 100);
         } else {
-            additionalCost += value;
+            calculatedValue = parseFloat(value) || 0;
         }
+
+        if (value.includes('-')) {
+            className = 'text-danger';
+        }
+
+        additionalCost += calculatedValue;
+        ractiveExtra.set(`pairs.${index}.calculatedValue`, calculatedValue.toFixed(2));
+        ractiveExtra.set(`pairs.${index}.className`, className);
     });
 
     let total = ((subTotal - discount) + shippingCharge) + additionalCost + tax;
@@ -442,13 +409,15 @@ function calculateOthers() {
 
 
 
+
+
 $('#discountValue').on('input', () => calculateOthers());
 $('#shipping_input').on('input', () => calculateOthers());
 $('#discount_type').on('change', () => calculateOthers());
 
 
 $('#extrafieldValue').on('input', () => calculateOthers());
-$('#extrafield_type').on('change', () => calculateOthers());
+// $('#extrafield_type').on('change', () => calculateOthers());
 
 function bindDynamicFields() {
     $('#extra').on('input', '.discountValue', () => calculateOthers());

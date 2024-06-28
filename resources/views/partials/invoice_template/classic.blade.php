@@ -162,16 +162,30 @@
                                         - @endif {{ $invoice->currency }}{{ decent_format($invoice->shipping_charge) }}</td>
                             </tr>
                         @endif
-                        @foreach($invoice->invoice_extra as $ie )
+                        @foreach($invoice->invoice_extra as $ie)
                             @if(!$ie->value)
                                 @continue
                             @endif
+                            @php
+                                // Check if the value is a percentage
+                                if (strpos($ie->value, '%') !== false) {
+                                    $percentageValue = floatval(str_replace('%', '', $ie->value));
+                                    $calculatedValue = ($invoice->sub_total * $percentageValue / 100);
+                                } else {
+                                    $calculatedValue = floatval($ie->value);
+                                }
+                            @endphp
                             <tr>
                                 <td colspan="5" class="text-right"><strong>{{ $ie->name }}:</strong></td>
-                                <td class="text-right"> @if(floatval($ie->value)<0)
-                                        - @endif{{ $invoice->currency }} {{ decent_format(floatval(abs($ie->value))) }}</td>
+                                <td class="text-right">
+                                    @if($calculatedValue < 0)
+                                        - 
+                                    @endif
+                                    {{ $invoice->currency }} {{ decent_format(abs($calculatedValue)) }}
+                                </td>
                             </tr>
                         @endforeach
+
                         @foreach($invoice->taxes as $tax)
                             <tr>
                                 <td colspan="5" class="text-right"><strong>{{ $tax['tax_name'] }}:</strong></td>
