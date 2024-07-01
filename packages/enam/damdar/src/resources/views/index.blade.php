@@ -334,9 +334,9 @@
                     </div>
                     <div class="shortcuts-title  text-black">Bank Accounts</div>
                 </a>
-                <a href="{{ route('accounting.settings.edit') }}"
-                   style="position:relative;"
-                   class="sc-gPEVay eaBhby border rounded {{ ability_class(\App\Utils\Ability::GENERAL_SETTINGS_READ) }}">
+                <a href="javascript:void(0)" data-toggle="modal" data-target="#bankDepositModal"
+                    style="position:relative;"
+                    class="sc-gPEVay eaBhby border rounded {{ ability_class(\App\Utils\Ability::GENERAL_SETTINGS_READ) }}">
                     <div class="sc-iRbamj image" style="background-image:url('images/deposit.svg'); background-size: unset !important">
 
                     </div>
@@ -701,7 +701,7 @@
         </div>
     </div>
 
-
+    @include('modals.bank-deposit-modal')
 @endsection
 
 @section('js')

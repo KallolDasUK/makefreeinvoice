@@ -9,11 +9,13 @@ use App\Models\BillPaymentItem;
 use App\Models\PaymentMethod;
 use App\Models\Vendor;
 use Enam\Acc\AccountingFacade;
+use Enam\Acc\Models\GroupMap;
 use Enam\Acc\Models\Ledger;
 use Enam\Acc\Models\LedgerGroup;
 use Enam\Acc\Models\TransactionDetail;
 use Enam\Acc\Traits\TransactionTrait;
 use Enam\Acc\Utils\EntryType;
+use Enam\Acc\Utils\LedgerHelper;
 use Illuminate\Http\Request;
 use Exception;
 
@@ -52,7 +54,11 @@ class BillPaymentsController extends Controller
         $vendors = Vendor::pluck('name', 'id')->all();
         $bills = Bill::pluck('bill_number', 'id')->all();
         $paymentMethods = PaymentMethod::query()->get();
-        $depositAccounts = Ledger::find($this->getAssetLedgers())->sortBy('ledger_name');
+        $cashAcId = optional(GroupMap::query()->firstWhere('key', LedgerHelper::$CASH_AC))->value;
+        $depositAccounts = Ledger::whereIn('ledger_group_id', LedgerGroup::where('group_name', 'Bank Accounts')->pluck('id'))
+                             ->orWhere('id', $cashAcId)
+                             ->get()
+                             ->sortBy('ledger_name');
         $vendor_id = \request()->get('vendor_id');
         $ledgers = Ledger::pluck('id', 'id')->all();
         $ledgerGroups = LedgerGroup::all();

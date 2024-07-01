@@ -80,8 +80,11 @@ class PurchaseReturnsController extends Controller
     public function create()
     {
         $this->authorize('create', Bill::class);
-        $cashAcId = Ledger::CASH_AC();
-        $depositAccounts = Ledger::find($this->getAssetLedgers())->sortBy('ledger_name');
+        $cashAcId = optional(GroupMap::query()->firstWhere('key', LedgerHelper::$CASH_AC))->value;
+        $depositAccounts = Ledger::whereIn('ledger_group_id', LedgerGroup::where('group_name', 'Bank Accounts')->pluck('id'))
+                             ->orWhere('id', $cashAcId)
+                             ->get()
+                             ->sortBy('ledger_name');
         $paymentMethods = PaymentMethod::query()->get();
         $vendors = Vendor::pluck('name', 'id')->all();
         $products = Product::query()->latest()->get();

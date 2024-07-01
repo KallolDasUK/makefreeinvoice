@@ -26,6 +26,7 @@ use Carbon\Carbon;
 use Enam\Acc\AccountingFacade;
 use Enam\Acc\Models\GroupMap;
 use Enam\Acc\Models\Ledger;
+use Enam\Acc\Models\LedgerGroup;
 use Enam\Acc\Traits\TransactionTrait;
 use Enam\Acc\Utils\LedgerHelper;
 use Illuminate\Http\Request;
@@ -84,8 +85,11 @@ class PurchaseOrdersController extends Controller
     {
         $this->authorize('create', Bill::class);
 
-        $cashAcId = Ledger::CASH_AC();
-        $depositAccounts = Ledger::find($this->getAssetLedgers())->sortBy('ledger_name');
+        $cashAcId = optional(GroupMap::query()->firstWhere('key', LedgerHelper::$CASH_AC))->value;
+        $depositAccounts = Ledger::whereIn('ledger_group_id', LedgerGroup::where('group_name', 'Bank Accounts')->pluck('id'))
+                             ->orWhere('id', $cashAcId)
+                             ->get()
+                             ->sortBy('ledger_name');
         $paymentMethods = PaymentMethod::query()->get();
         $vendors = Vendor::pluck('name', 'id')->all();
         $products = Product::query()->latest()->get();

@@ -21,6 +21,18 @@ class LedgerGroupsController extends Controller
         return view('acc::ledger_groups.index', compact('ledgerGroups'));
     }
 
+    public function createForm()
+    {
+        // Fetch $BANK_ACCOUNTS from LedgerHelper
+        $bankAccounts = LedgerHelper::$BANK_ACCOUNTS;
+
+        // Fetch all LedgerGroups
+        $ledgerGroups = LedgerGroup::all();
+
+        // Pass variables to the view
+        return view('partials.ajax-ledger-create-form', compact('bankAccounts', 'ledgerGroups'));
+    }
+
     public function trash()
     {
         $ledgerGroups = LedgerGroup::onlyTrashed()->latest()->get();

@@ -83,7 +83,10 @@ class SalesReturnsController extends Controller
         view()->share('title', 'Sales Return');
         $this->authorize('create', Invoice::class);
         $cashAcId = optional(GroupMap::query()->firstWhere('key', LedgerHelper::$CASH_AC))->value;
-        $depositAccounts = Ledger::find($this->getAssetLedgers())->sortBy('ledger_name');
+        $depositAccounts = Ledger::whereIn('ledger_group_id', LedgerGroup::where('group_name', 'Bank Accounts')->pluck('id'))
+                             ->orWhere('id', $cashAcId)
+                             ->get()
+                             ->sortBy('ledger_name');
         $paymentMethods = PaymentMethod::query()->get();
 
         $customers = Customer::pluck('name', 'id')->all();

@@ -69,10 +69,12 @@
                             <div class="col-lg-6">
                                 <select id="ledger_id" class="form-control" name="ledger_id">
                                     @foreach (\Enam\Acc\Models\Ledger::ASSET_LEDGERS() as $account)
-                                        <option
-                                            value="{{ $account->id }}" {{ $account->id == ($cashAcId??null)?'selected':'' }} >
-                                            {{ $account->ledger_name }}
-                                        </option>
+                                        @if ($account->ledger_name == 'Cash A/C' || $account->ledgerGroup->group_name == 'Bank Accounts')
+                                            <option
+                                                value="{{ $account->id }}" {{ $account->id == ($cashAcId ?? null) ? 'selected' : '' }}>
+                                                {{ $account->ledger_name }}
+                                            </option>
+                                        @endif
                                     @endforeach
 
                                 </select>

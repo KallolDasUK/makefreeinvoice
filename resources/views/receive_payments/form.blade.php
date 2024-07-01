@@ -81,15 +81,13 @@
 
 
             <select class="form-control col" id="deposit_to" name="deposit_to" required="true">
-
-
-                @foreach (\Enam\Acc\Models\Ledger::ASSET_LEDGERS() as $account)
-                    <option
-                        value="{{ $account->id }}" {{ old('deposit_to', optional($receivePayment)->deposit_to) == $account->id ? 'selected' : '' }} @if($receivePayment == null) {{ $account->id == \Enam\Acc\Models\Ledger::CASH_AC()?'selected':'' }} @endif>
+                @foreach ($depositAccounts as $account)
+                    <option value="{{ $account->id }}" {{ old('deposit_to', optional($receivePayment)->deposit_to) == $account->id ? 'selected' : '' }} @if($receivePayment == null) {{ $account->id == $cashAcId ? 'selected' : '' }} @endif>
                         {{ $account->ledger_name }}
                     </option>
                 @endforeach
             </select>
+            
 
             {!! $errors->first('deposit_to', '<p class="form-text text-danger">:message</p>') !!}
 

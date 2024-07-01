@@ -292,13 +292,16 @@
                         <select id="deposit_to" class="form-control" name="deposit_to">
                             @foreach ($depositAccounts as $account)
                                 <option
-                                    value="{{ $account->id }}" {{ $account->id == optional($invoice)->deposit_to?'selected':'' }} @if($invoice == null) {{ $account->id == \Enam\Acc\Models\Ledger::CASH_AC()?'selected':'' }} @endif>
+                                    value="{{ $account->id }}" {{ $account->id == optional($invoice)->deposit_to ? 'selected' : '' }} 
+                                    @if($invoice == null) 
+                                        {{ $account->id == \Enam\Acc\Models\Ledger::CASH_AC() ? 'selected' : '' }} 
+                                    @endif>
                                     {{ $account->ledger_name }}
                                 </option>
                             @endforeach
-
                         </select>
                     </div>
+                    
                 </div>
             </div>
 

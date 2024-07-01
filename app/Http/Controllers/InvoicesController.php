@@ -153,40 +153,37 @@ class InvoicesController extends Controller
 
         $this->authorize('create', Invoice::class);
 
-        $cashAcId = optional(GroupMap::query()->firstWhere('key', LedgerHelper::$CASH_AC))->value;
-        $depositAccounts = Ledger::find($this->getAssetLedgers())->sortBy('ledger_name');
-        $paymentMethods = PaymentMethod::query()->get();
+         $cashAcId = optional(GroupMap::query()->firstWhere('key', LedgerHelper::$CASH_AC))->value;
+    
+    // Fetch the ledger accounts whose group is "Bank Accounts" or whose ID is the Cash A/C
+    $depositAccounts = Ledger::whereIn('ledger_group_id', LedgerGroup::where('group_name', 'Bank Accounts')->pluck('id'))
+                             ->orWhere('id', $cashAcId)
+                             ->get()
+                             ->sortBy('ledger_name');
+    
+    $paymentMethods = PaymentMethod::query()->get();
 
-        $customers = \DB::table('customers')
-            ->where('client_id', auth()->user()->client_id)
-            ->select('name', 'id', 'email', 'phone')
-            ->get()->toArray();
+    $customers = \DB::table('customers')
+                    ->where('client_id', auth()->user()->client_id)
+                    ->select('name', 'id', 'email', 'phone')
+                    ->get()
+                    ->toArray();
 
-        // $products = \DB::table('products')
-        //     ->where('client_id', auth()->user()->client_id)
-        //     ->select('name', 'id', 'description', 'purchase_price', 'sell_price', 'sell_unit', 'purchase_unit', 'photo as image', 'code', )
-        //     ->get();
+    $products = Product::where('client_id', auth()->user()->client_id)
+                       ->select('name', 'id', 'description', 'purchase_price', 'sell_price', 'sell_unit', 'purchase_unit', 'photo as image', 'code')
+                       ->get();
 
-        $products = Product::where('client_id', auth()->user()->client_id)
-                            ->select('name', 'id', 'description', 'purchase_price', 'sell_price', 'sell_unit', 'purchase_unit', 'photo as image', 'code', )
-                                ->get();
-        // dd($products);
-
-        $test = $products->first()->purchase_price;
-        // $test = $product->getPurchasePriceAttribute($products[2]->purchase_price);
-        // dd($test);
-
-        $categories = Category::all();
-        $taxes = Tax::query()->latest()->get()->toArray();
-        $extraFields = optional(Invoice::query()->latest()->first())->extra_fields ?? [];
-        $invoice_fields = optional(Invoice::query()->latest()->first())->invoice_extra ?? [];
-        $next_invoice = Invoice::nextInvoiceNumber();
-        $ledgerGroups = LedgerGroup::all();
-        $bankAccounts = LedgerHelper::$BANK_ACCOUNTS;
-        view()->share('title', 'Create Invoice');
-        return view('invoices.create', compact('showProfit','bankAccounts','customers',
-            'ledgerGroups', 'products', 'taxes', 'next_invoice', 'categories', 'extraFields',
-            'invoice_fields', 'cashAcId', 'depositAccounts', 'paymentMethods'));
+    $categories = Category::all();
+    $taxes = Tax::query()->latest()->get()->toArray();
+    $extraFields = optional(Invoice::query()->latest()->first())->extra_fields ?? [];
+    $invoice_fields = optional(Invoice::query()->latest()->first())->invoice_extra ?? [];
+    $next_invoice = Invoice::nextInvoiceNumber();
+    $ledgerGroups = LedgerGroup::all();
+    $bankAccounts = LedgerHelper::$BANK_ACCOUNTS;
+    view()->share('title', 'Create Invoice');
+    return view('invoices.create', compact('showProfit','bankAccounts','customers',
+        'ledgerGroups', 'products', 'taxes', 'next_invoice', 'categories', 'extraFields',
+        'invoice_fields', 'cashAcId', 'depositAccounts', 'paymentMethods'));
     }
     // public function create(Product $product)
     // {

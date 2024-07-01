@@ -47,7 +47,10 @@ class ReceivePaymentsController extends Controller
         $paymentSerial = 'PM' . str_pad(ReceivePayment::query()->count(), 3, '0', STR_PAD_LEFT);
         $customers = Customer::all();
         $cashAcId = optional(GroupMap::query()->firstWhere('key', LedgerHelper::$CASH_AC))->value;
-        $depositAccounts = Ledger::find($this->getAssetLedgers())->sortBy('ledger_name');
+        $depositAccounts = Ledger::whereIn('ledger_group_id', LedgerGroup::where('group_name', 'Bank Accounts')->pluck('id'))
+                             ->orWhere('id', $cashAcId)
+                             ->get()
+                             ->sortBy('ledger_name');
         $paymentMethods = PaymentMethod::query()->get();
         $customer_id = \request()->get('customer_id');
         $ledgerGroups = LedgerGroup::all();
