@@ -272,6 +272,15 @@
                             @endforeach
 
                         </select>
+                        {{-- <select id="payment_method_id" class="form-control" name="payment_method_id">
+                            @foreach ($filteredPaymentMethods as $paymentMethod)
+                                <option value="{{ $paymentMethod->id }}"
+                                    {{ optional($invoice)->payment_method_id == $paymentMethod->id ? 'selected' : '' }} 
+                                    @if($invoice == null && $paymentMethod->is_default) selected @endif>
+                                    {{ $paymentMethod->name }}
+                                </option>
+                            @endforeach
+                        </select> --}}
                     </div>
                 </div>
                 <div class="form-group row">

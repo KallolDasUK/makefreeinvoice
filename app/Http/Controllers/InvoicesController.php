@@ -188,6 +188,53 @@ class InvoicesController extends Controller
             'ledgerGroups', 'products', 'taxes', 'next_invoice', 'categories', 'extraFields',
             'invoice_fields', 'cashAcId', 'depositAccounts', 'paymentMethods'));
     }
+    // public function create(Product $product)
+    // {
+    //     $showProfit = MetaSetting::where('key', 'show_profit')->first();
+    
+    //     $this->authorize('create', Invoice::class);
+    
+    //     $cashAcId = optional(GroupMap::query()->firstWhere('key', LedgerHelper::$CASH_AC))->value;
+    //     $depositAccounts = Ledger::find($this->getAssetLedgers())->sortBy('ledger_name');
+    //     $paymentMethods = PaymentMethod::query()->get();
+    //     $ledgerCashAC= LedgerHelper::$CASH_AC;
+    
+    //     // Get IDs of ledgers whose group is 'Bank Accounts'
+    //     $bankAccountLedgers = LedgerGroup::where('group_name', LedgerHelper::$BANK_ACCOUNTS)->pluck('id')->toArray();
+    
+    //     // Filter payment methods to include only those with "Cash A/C" or those in the bank accounts group
+    //     $filteredPaymentMethods = $paymentMethods->filter(function ($paymentMethod) use ($cashAcId, $bankAccountLedgers) {
+    //         return $paymentMethod->id == $cashAcId || in_array($paymentMethod->ledger_id, $bankAccountLedgers);
+    //     });
+    
+    //     $customers = \DB::table('customers')
+    //         ->where('client_id', auth()->user()->client_id)
+    //         ->select('name', 'id', 'email', 'phone')
+    //         ->get()
+    //         ->toArray();
+    
+    //     $products = Product::where('client_id', auth()->user()->client_id)
+    //         ->select('name', 'id', 'description', 'purchase_price', 'sell_price', 'sell_unit', 'purchase_unit', 'photo as image', 'code')
+    //         ->get();
+    
+    //     $categories = Category::all();
+    //     $taxes = Tax::query()->latest()->get()->toArray();
+    //     $extraFields = optional(Invoice::query()->latest()->first())->extra_fields ?? [];
+    //     $invoice_fields = optional(Invoice::query()->latest()->first())->invoice_extra ?? [];
+    //     $next_invoice = Invoice::nextInvoiceNumber();
+    //     $ledgerGroups = LedgerGroup::all();
+    //     $bankAccounts = LedgerHelper::$BANK_ACCOUNTS;
+    
+    //     view()->share('title', 'Create Invoice');
+        
+    //     return view('invoices.create', compact(
+    //         'showProfit', 'bankAccounts', 'customers', 'ledgerGroups', 'products', 
+    //         'taxes', 'next_invoice', 'categories', 'extraFields', 'invoice_fields', 
+    //         'cashAcId', 'depositAccounts', 'filteredPaymentMethods'
+    //     ));
+    // }
+    
+
 
     public function items($id)
     {
