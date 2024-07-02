@@ -43,6 +43,7 @@ use App\Http\Controllers\UsersController;
 use App\Http\Controllers\VendorAdvancePaymentsController;
 use App\Http\Controllers\VendorsController;
 use App\Http\Controllers\FrontendController;
+use App\Http\Controllers\BankingController;
 use App\Models\Bill;
 use App\Models\BillItem;
 use App\Models\BillPaymentItem;
@@ -315,6 +316,11 @@ Route::group(['middleware' => 'auth:web', 'prefix' => 'app'], function () {
 
     });
 
+
+    Route::group(['prefix' => 'bank'], function () {
+
+        Route::post('/', [BankingController::class, 'store'])->name('bank.bank.store');       
+    });
 
 // php artisan resource-file:create Category --fields=id,name,category_id
 // php artisan create:scaffold Category  --layout-name="layouts.app" --with-migration

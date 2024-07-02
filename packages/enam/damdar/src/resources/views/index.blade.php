@@ -334,15 +334,15 @@
                     </div>
                     <div class="shortcuts-title  text-black">Bank Accounts</div>
                 </a>
-                <a href="javascript:void(0)" data-toggle="modal" data-target="#bankDepositModal"
+                <a href="javascript:void(0)" data-toggle="modal" data-target="#bankDepositModal" id="bankDeposit"
                     style="position:relative;"
-                    class="sc-gPEVay eaBhby border rounded {{ ability_class(\App\Utils\Ability::GENERAL_SETTINGS_READ) }}">
+                    class="sc-gPEVay eaBhby border rounded ">
                     <div class="sc-iRbamj image" style="background-image:url('images/deposit.svg'); background-size: unset !important">
 
                     </div>
                     <div class="shortcuts-title  text-black">Bank Deposit</div>
                 </a>
-                <a href="{{ route('accounting.settings.edit') }}"
+                <a href="javascript:void(0)" data-toggle="modal" data-target="#bankWithdrawModal" id="bankWithdraw"
                    style="position:relative;"
                    class="sc-gPEVay eaBhby border rounded {{ ability_class(\App\Utils\Ability::GENERAL_SETTINGS_READ) }}">
                     <div class="sc-iRbamj image" style="background-image:url('images/transfer.svg'); background-size: unset !important">
@@ -350,7 +350,7 @@
                     </div>
                     <div class="shortcuts-title  text-black">Bank Withdraw</div>
                 </a>
-                <a href="{{ route('accounting.settings.edit') }}"
+                <a href="javascript:void(0)" data-toggle="modal" data-target="#bankTransferModal" id="bankTransfer"
                    style="position:relative;"
                    class="sc-gPEVay eaBhby border rounded {{ ability_class(\App\Utils\Ability::GENERAL_SETTINGS_READ) }}">
                     <div class="sc-iRbamj image" style="background-image:url('images/withdraw.svg'); background-size: unset !important">
@@ -627,8 +627,6 @@
                         <div class="shortcuts-title sc-jlyJG gSoaLO title">Most Popular Products</div>
                     </a>
 
-
-
                     <a class="sc-gPEVay eaBhby border rounded @cannot('receipt_payment') pro-tag @endcannot"
                        href="{{ route('reports.report.receipt_payment_report') }}">
                         <div class="sc-iRbamj image" style="background-image:url('{{ asset('images/estimate.svg') }}') ">
@@ -683,7 +681,6 @@
                 </div>
             </div>
         </div>
-        
 
     </div>
 
@@ -702,11 +699,14 @@
     </div>
 
     @include('modals.bank-deposit-modal')
+    @include('modals.bank-withdraw-modal')
+    @include('modals.bank-transfer-modal')
+    @include('partials.ajax-ledger-create-form')
 @endsection
 
 @section('js')
     <script src="{{ asset('js/subscriptions/subscribe.js') }}"></script>
-
+    <script src="{{ asset('js/invoice-crud.js') }}?v=1.2"></script>
     <script>
         $(document).ready(function () {
 
@@ -725,21 +725,6 @@
 
                 });
             })
-
-            $('#select_account').select2({
-                placeholder: "--", allowClear: true
-            }).on('select2:open', function () {
-                let a = $(this).data('select2');
-                let doExits = a.$results.parents('.select2-results').find('button')
-                if (!doExits.length) {
-                    a.$results.parents('.select2-results')
-                        .append('<div><button  data-toggle="modal" data-target="#ledgerModal" class="btn btn-default text-primary underline btn-fw" style="width: 100%">+ Add New Account</button></div>')
-                        .on('click', function (b) {
-                            $("#select_account").select2("close");
-                        });
-                }
-            })
-
         })
     </script>
 

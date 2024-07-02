@@ -1,7 +1,7 @@
 <div class="modal fade" id="bankDepositModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
 
-        <form id="bankDepositForm" action="{{ route('customers.customer.store') }}" method="post">
+        <form id="bankDepositForm" action="{{ route('bank.bank.store') }}" method="post">
             @csrf
             <div class="modal-content">
                 <div class="modal-header">
@@ -11,7 +11,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-
+                    <input type="hidden" name="type" value="deposit">
                     <div class="row">
                         <div class="col">
                             <div class="form-group">
@@ -23,8 +23,8 @@
 
                         <div class="col">
                             <div class="form-group">
-                                <label for="select_account" class="col-form-label text-danger">Select Account *:</label>
-                                <select id="select_account" class="form-control" name="select_account">
+                                <label for="deposit_to_a" class="col-form-label text-danger">Select Account *:</label>
+                                <select id="deposit_to_a" class="form-control" name="account">
                                     @foreach ($depositAccounts as $account)
                                         <option
                                             value="{{ $account->id }}" {{ $account->id == \Enam\Acc\Models\Ledger::CASH_AC()?'selected':'' }} >
@@ -33,7 +33,7 @@
                                     @endforeach
 
                                 </select>
-                                {!! $errors->first('select_account', '<p class="form-text text-danger">:message</p>') !!}
+                                {!! $errors->first('account', '<p class="form-text text-danger">:message</p>') !!}
                             </div>
                         </div>
                     </div>
@@ -61,8 +61,17 @@
 
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary" id="storeBankDepositBtn">Save</button>
+                    <div class="d-flex justify-content-between align-items-center w-100">
+                        <div class="deposit-response-msg"></div>
+                        <div>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary" id="storeBankDepositBtn">
+                                <span class="spinner-grow spinner-grow-sm spinner d-none" role="status"
+                                aria-hidden="true"></span>
+                                Save
+                            </button>
+                        </div>
+                    </div>
                 </div>
 
             </div>
@@ -70,8 +79,3 @@
 
     </div>
 </div>
-
-<script>
-
-
-</script>

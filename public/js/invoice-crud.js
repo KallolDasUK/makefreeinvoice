@@ -396,7 +396,7 @@ $(document).on('keyup keypress', '.description', function (e) {
     }
 })
 
-$('#deposit_to').select2({
+$('[id^=deposit_to]').select2({
     placeholder: "--", allowClear: true
 }).on('select2:open', function () {
     let a = $(this).data('select2');
@@ -405,7 +405,7 @@ $('#deposit_to').select2({
         a.$results.parents('.select2-results')
             .append('<div><button  data-toggle="modal" data-target="#ledgerModal" class="btn btn-default text-primary underline btn-fw" style="width: 100%">+ Add New Account</button></div>')
             .on('click', function (b) {
-                $("#deposit_to").select2("close");
+                $("[id^=deposit_to]").select2("close");
             });
     }
 
@@ -423,12 +423,13 @@ $('#createLedgerForm').validate({
                 $('.spinner').removeClass('d-none')
             },
             success: function (response) {
+                console.log('L_response: ', response);
                 $('#ledgerModal').modal('hide');
                 let i = $('#createLedgerForm').attr('index') || 0;
                 if (i === 0 || i === '') {
-                    $("#deposit_to").append(new Option(response.ledger_name, response.id));
-                    $("#deposit_to").val(response.id)
-                    $("#deposit_to").trigger('change')
+                    $("[id^=deposit_to]").append(new Option(response.ledger_name, response.id));
+                    $("[id^=deposit_to]").val(response.id)
+                    $("[id^=deposit_to]").trigger('change')
                 } else {
                     ractive.push('ledgers', response)
                     ractive.set(`expense_items.${i}.ledger_id`, response.id)
@@ -450,6 +451,179 @@ $('#createLedgerForm').validate({
     messages: {
         name: {required: "Name is required",},
         sell_price: {required: "required",},
+    },
+    errorElement: 'span',
+    errorPlacement: function (error, element) {
+        error.addClass('invalid-feedback');
+        element.closest('.form-group').append(error);
+    },
+    highlight: function (element, errorClass, validClass) {
+        $(element).addClass('is-invalid');
+    },
+    unhighlight: function (element, errorClass, validClass) {
+        $(element).removeClass('is-invalid');
+    }
+});
+
+/* bankDepositForm Account Via Ajax With Validation */
+$('#bankDepositForm').validate({
+    submitHandler: function (form) {
+        $.ajax({
+            url: form.action,
+            type: form.method,
+            data: $(form).serialize(),
+            beforeSend: () => {
+                $('#storeBankDepositBtn').prop('disabled', true)
+                $('.spinner').removeClass('d-none')
+            },
+            success: function (response) {
+
+                var msgBody =  $('body').find('.deposit-response-msg');
+                $('.spinner').addClass('d-none');
+                if(!response.success){
+
+                    msgBody.html('<span class="text-danger">' + response.message + '</span>');
+                    return false;
+                }else{
+
+                    msgBody.html('<span class="text-success">' + response.message + '</span>');
+
+                    setTimeout(function() {
+
+                        $('#bankDepositModal').modal('hide');
+                        $('#bankDepositForm').trigger("reset");
+                        $('#storeBankDepositBtn').prop('disabled', false);
+                        msgBody.html('');
+
+                    }, 1000);
+                }
+            }
+        });
+    },
+    rules: {
+        date: {required: true,},
+        account: {required: true,},
+        amount: {required: true,},
+    },
+    messages: {
+        date: {required: "Date is required",},
+        account: {required: "Please select account",},
+        amount: {required: "Amount is required",},
+    },
+    errorElement: 'span',
+    errorPlacement: function (error, element) {
+        error.addClass('invalid-feedback');
+        element.closest('.form-group').append(error);
+    },
+    highlight: function (element, errorClass, validClass) {
+        $(element).addClass('is-invalid');
+    },
+    unhighlight: function (element, errorClass, validClass) {
+        $(element).removeClass('is-invalid');
+    }
+});
+
+
+$('#bankWithdrawForm').validate({
+    submitHandler: function (form) {
+        $.ajax({
+            url: form.action,
+            type: form.method,
+            data: $(form).serialize(),
+            beforeSend: () => {
+                $('#storeBankWithdrawBtn').prop('disabled', true)
+                $('.spinner').removeClass('d-none')
+            },
+            success: function (response) {
+
+                var msgBody =  $('body').find('.withdraw-response-msg');
+                $('.spinner').addClass('d-none');
+                if(!response.success){
+
+                    msgBody.html('<span class="text-danger">' + response.message + '</span>');
+                    return false;
+                }else{
+
+                    msgBody.html('<span class="text-success">' + response.message + '</span>');
+
+                    setTimeout(function() {
+
+                        $('#bankWithdrawForm').modal('hide');
+                        $('#bankWithdrawForm').trigger("reset");
+                        $('#storeBankWithdrawBtn').prop('disabled', false);
+                        msgBody.html('');
+
+                    }, 1000);
+                }
+            }
+        });
+    },
+    rules: {
+        date: {required: true,},
+        account: {required: true,},
+        amount: {required: true,},
+    },
+    messages: {
+        date: {required: "Date is required",},
+        account: {required: "Please select account",},
+        amount: {required: "Amount is required",},
+    },
+    errorElement: 'span',
+    errorPlacement: function (error, element) {
+        error.addClass('invalid-feedback');
+        element.closest('.form-group').append(error);
+    },
+    highlight: function (element, errorClass, validClass) {
+        $(element).addClass('is-invalid');
+    },
+    unhighlight: function (element, errorClass, validClass) {
+        $(element).removeClass('is-invalid');
+    }
+});
+
+$('#bankTransferForm').validate({
+    submitHandler: function (form) {
+        $.ajax({
+            url: form.action,
+            type: form.method,
+            data: $(form).serialize(),
+            beforeSend: () => {
+                $('#storeBankTransferBtn').prop('disabled', true)
+                $('.spinner').removeClass('d-none')
+            },
+            success: function (response) {
+
+                var msgBody =  $('body').find('.transfer-response-msg');
+                $('.spinner').addClass('d-none');
+                if(!response.success){
+
+                    msgBody.html('<span class="text-danger">' + response.message + '</span>');
+                    return false;
+                }else{
+
+                    msgBody.html('<span class="text-success">' + response.message + '</span>');
+
+                    setTimeout(function() {
+
+                        $('#bankTransferModal').modal('hide');
+                        $('#bankTransferForm').trigger("reset");
+                        $('#storeBankTransferBtn').prop('disabled', false);
+                        msgBody.html('');
+
+                    }, 1000);
+                }
+            }
+        });
+    },
+    rules: {
+        date: {required: true,},
+        account: {required: true,},
+        amount: {required: true,},
+    },
+    messages: {
+        date: {required: "Date is required",},
+        account: {required: "Please select account",},
+        amount: {required: "Amount is required",},
     },
     errorElement: 'span',
     errorPlacement: function (error, element) {
