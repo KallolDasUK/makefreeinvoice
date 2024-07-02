@@ -726,6 +726,19 @@
                 });
             })
 
+            $('#select_account').select2({
+                placeholder: "--", allowClear: true
+            }).on('select2:open', function () {
+                let a = $(this).data('select2');
+                let doExits = a.$results.parents('.select2-results').find('button')
+                if (!doExits.length) {
+                    a.$results.parents('.select2-results')
+                        .append('<div><button  data-toggle="modal" data-target="#ledgerModal" class="btn btn-default text-primary underline btn-fw" style="width: 100%">+ Add New Account</button></div>')
+                        .on('click', function (b) {
+                            $("#select_account").select2("close");
+                        });
+                }
+            })
 
         })
     </script>

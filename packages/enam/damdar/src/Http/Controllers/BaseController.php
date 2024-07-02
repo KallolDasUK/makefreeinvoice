@@ -6,12 +6,15 @@ namespace Enam\Acc\Http\Controllers;
 use App\AccTransaction;
 use App\Models\Invoice;
 use Carbon\Carbon;
+use App\Models\Bill;
 use Enam\Acc\Models\Ledger;
 use Enam\Acc\Models\LedgerGroup;
 use Enam\Acc\Models\Transaction;
 use Enam\Acc\Utils\VoucherType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
+use Enam\Acc\Utils\LedgerHelper;
+use Enam\Acc\Models\GroupMap;
 
 class BaseController extends Controller
 {
@@ -33,7 +36,15 @@ class BaseController extends Controller
         $has_invoice = \App\Models\Invoice::query()->exists();
         $shortcuts = \App\Models\Shortcut::all();
 
-        return \view('acc::index', compact('date', 'payment', 'receive', 'journal', 'contra', 'has_invoice', 'shortcuts'));
+        $cashAcId = optional(GroupMap::query()->firstWhere('key', LedgerHelper::$CASH_AC))->value;        
+        // Fetch the ledger accounts whose group is "Bank Accounts" or whose ID is the Cash A/C
+        $depositAccounts = Ledger::whereIn('ledger_group_id', LedgerGroup::where('group_name', 'Bank Accounts')->pluck('id'))
+                             ->orWhere('id', $cashAcId)
+                             ->get()
+                             ->sortBy('ledger_name');
+
+
+        return \view('acc::index', compact('date', 'payment', 'receive', 'journal', 'contra', 'has_invoice', 'shortcuts', 'cashAcId', 'depositAccounts'));
     }
 
     public $data = [];

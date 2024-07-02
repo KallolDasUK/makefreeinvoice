@@ -1,14 +1,13 @@
-<div class="modal fade" id="bankDepositModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-     aria-hidden="true">
-    <div class="modal-dialog" role="document" >
+<div class="modal fade" id="bankDepositModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
 
-        <form id="createCustomerForm" action="{{ route('customers.customer.store') }}" method="post">
+        <form id="bankDepositForm" action="{{ route('customers.customer.store') }}" method="post">
             @csrf
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Bank Deposit</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
+                        <i class="fa fa-close fs-18 text-primary"></i>
                     </button>
                 </div>
                 <div class="modal-body">
@@ -21,19 +20,20 @@
                                 {!! $errors->first('date', '<p class="form-text text-danger">:message</p>') !!}
                             </div>
                         </div>
-                       
+
                         <div class="col">
                             <div class="form-group">
-                                <label for="select_amount" class="col-form-label text-danger">Select Amount *:</label>
-                                <select class="form-control {{ $errors->has('select_amount') ? 'is-invalid' : '' }}" id="select_amount" name="select_amount">
-                                @foreach (['Dr' => 'Previous Due','Cr' => 'Advance'] as $key => $text)
-                                    <option
-                                        value="{{ $key }}">
-                                        {{ $text }}
-                                    </option>
-                                @endforeach
+                                <label for="select_account" class="col-form-label text-danger">Select Account *:</label>
+                                <select id="select_account" class="form-control" name="select_account">
+                                    @foreach ($depositAccounts as $account)
+                                        <option
+                                            value="{{ $account->id }}" {{ $account->id == \Enam\Acc\Models\Ledger::CASH_AC()?'selected':'' }} >
+                                            {{ $account->ledger_name }}
+                                        </option>
+                                    @endforeach
+
                                 </select>
-                                {!! $errors->first('select_amount', '<p class="form-text text-danger">:message</p>') !!}
+                                {!! $errors->first('select_account', '<p class="form-text text-danger">:message</p>') !!}
                             </div>
                         </div>
                     </div>
@@ -42,7 +42,7 @@
 
                         <div class="col-6">
                             <div class="form-group">
-                                <label for="amount"  class="col-form-label text-danger">Amount *: </label>
+                                <label for="amount" class="col-form-label text-danger">Amount *: </label>
                                 <input class="form-control {{ $errors->has('amount') ? 'is-invalid' : '' }}" name="amount" type="number" step="any" id="amount">
                                 {!! $errors->first('amount', '<p class="form-text text-danger">:message</p>') !!}
                             </div>
@@ -51,22 +51,6 @@
                     </div>
 
                     <div class="row">
-                        <div class="col">
-                            <div class="form-group">
-                                <label for="cheque_date" class="col-form-label">Cheque Date :</label>
-                                <input type="date" class="form-control " id="cheque_date" name="cheque_date"/>
-                            </div>
-                        </div>
-
-                        <div class="col">
-                            <div class="form-group">
-                                <label for="cheque_no" class="col-form-label">Cheque No: </label>
-                                <input class="form-control" name="cheque_no" type="text" id="cheque_no"> 
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">                        
                         <div class="col">
                             <div class="form-group">
                                 <label for="note" class="col-form-label">Note :</label>
@@ -86,3 +70,8 @@
 
     </div>
 </div>
+
+<script>
+
+
+</script>
