@@ -1589,7 +1589,7 @@ td {
     }
 }
 
-#bankDepositModal .fa-close:hover {
+#bankDepositModal .fa-close:hover, #bankWithdrawModal .fa-close:hover, #bankTransferModal .fa-close:hover {
     color: #065a92 !important;
 }
 .fs-18{
