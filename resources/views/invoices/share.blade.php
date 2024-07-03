@@ -66,6 +66,9 @@
           href="https://cdn.datatables.net/1.10.24/css/dataTables.bootstrap4.min.css">
     <script type="text/javascript" src="{{ asset('js/jquery.qrcode.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/qrcode.js') }}"></script>
+    <link rel="icon" type="image/png" href="{{ asset('mfi_favicon.png') }}"/>
+    <link rel="icon" type="image/png" href="{{ asset('mfi_favicon.png') }}"/>
+    <link rel="icon" type="image/png" href="{{ asset('mfi_favicon.png') }}"/>
 </head>
 <style>
     .invoice-container {

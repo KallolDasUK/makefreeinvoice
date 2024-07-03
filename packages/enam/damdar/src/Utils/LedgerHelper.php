@@ -10,6 +10,8 @@ abstract class LedgerHelper
     public static $CASH = "Cash";
     public static $BANK_ACCOUNTS = "Bank Accounts";
     public static $BANK_DEPOSIT = "Bank Deposit";
+    public static $BANK_WITHDRAW = "Bank Withdraw";
+    public static $BANK_TRANSFER = "Bank Transfer";
     public static $ACCOUNTS_RECEIVABLE = "Accounts Receivable";
     public static $ACCOUNTS_RECEIVABLE_GROUP = "Accounts Receivable Group";
     public static $STOCK_IN_HAND = "Stock In Hand";

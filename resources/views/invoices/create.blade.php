@@ -106,24 +106,14 @@
 
             })
 
-        var showProfitValue = {{ $showProfit->value ?? ''}};
+        var showProfitValue = {{ $showProfit->value ?? 'null' }};
         if (showProfitValue == 0) {
             $('.profitClass').css('display', 'none');
         }
-    
-
-
-
         });
     </script>
     <script src="{{ asset('js/invoices.js') }}?v=1.2"></script>
     <script src="{{ asset('js/invoice-crud.js') }}?v=1.2"></script>
-    <script src="{{ asset('js/pos/pos_sales.js') }}?v=2.22"></script>
-    <script>
-    
-</script>
-
-
 @endsection
 
 

@@ -31,11 +31,6 @@ class CreateBankTransactionsTable extends Migration
             $table->timestamps();
             $table->softDeletes();
         });
-
-        // Add primary key
-        Schema::table('bank_transactions', function (Blueprint $table) {
-            $table->primary('id');
-        });
     }
 
     /**
