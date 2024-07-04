@@ -174,25 +174,25 @@
     <tbody>
     <tr>
         <td class="px-0">
-            @php($settings = $invoice->settings)
-            <address>
-                {{ $settings->business_name??'n/a' }}
-                @if($settings->street_1??'')
-                    <br> {{ $settings->street_1??'' }}
-                @endif
-                @if($settings->street_2??'')
-                    <br> {{ $settings->street_2??'' }}
-                @endif
-                @if(($settings->state??'') || ($settings->zip_post??'') )
-                    <br> {{ $settings->state??'' }} {{ $settings->zip_post??'' }}
-                @endif
-                @if($settings->email??'')
-                    <br> {{ $settings->email??'' }}
-                @endif
-                @if($settings->phone??'')
-                    <br> {{ $settings->phone??'' }}
-                @endif
-            </address>
+            @php $settings = $invoice->settings; @endphp
+                <address>
+                    {{ $settings->business_name??'n/a' }}
+                    @if($settings->street_1??'')
+                        <br> {{ $settings->street_1??'' }}
+                    @endif
+                    @if($settings->street_2??'')
+                        <br> {{ $settings->street_2??'' }}
+                    @endif
+                    @if(($settings->state??'') || ($settings->zip_post??'') )
+                        <br> {{ $settings->state??'' }} {{ $settings->zip_post??'' }}
+                    @endif
+                    @if($settings->email??'')
+                        <br> {{ $settings->email??'' }}
+                    @endif
+                    @if($settings->phone??'')
+                        <br> {{ $settings->phone??'' }}
+                    @endif
+                </address>
         </td>
         <td class="border-0">
             @foreach($invoice->extras as $extra)
@@ -201,31 +201,31 @@
 
         </td>
         <td class="px-0" style="text-align: right">
-            @php($inv =$invoice->invoice )
-            @if($inv->customer)
+            @php $inv =$invoice->invoice; @endphp
+                @if($inv->customer)
 
-                <address>
-                    {{ $inv->customer->company_name?? $inv->customer->name??'N/A' }}<br>
-                    @if($inv->customer->street_1)
-                        {{ $inv->customer->street_1??'' }} <br>
-                    @endif
+                    <address>
+                        {{ $inv->customer->company_name?? $inv->customer->name??'N/A' }}<br>
+                        @if($inv->customer->street_1)
+                            {{ $inv->customer->street_1??'' }} <br>
+                        @endif
 
-                    @if($inv->customer->street_2)
-                        {{ $inv->customer->street_2??'' }}<br>
-                    @endif
-                    {{ $inv->customer->state??'' }} {{ $inv->customer->city??'' }} - {{ $inv->customer->zip_post??'' }}
-                    @if($inv->customer->email)
-                        <br> {{ $inv->customer->email??'' }}
-                    @endif
-                    @if($inv->customer->phone)
-                        <br> {{ $inv->customer->phone??'' }}
-                    @endif
-                </address>
-            @else
-                <address>
-                    No address / No Client Selected
-                </address>
-            @endif
+                        @if($inv->customer->street_2)
+                            {{ $inv->customer->street_2??'' }}<br>
+                        @endif
+                        {{ $inv->customer->state??'' }} {{ $inv->customer->city??'' }} - {{ $inv->customer->zip_post??'' }}
+                        @if($inv->customer->email)
+                            <br> {{ $inv->customer->email??'' }}
+                        @endif
+                        @if($inv->customer->phone)
+                            <br> {{ $inv->customer->phone??'' }}
+                        @endif
+                    </address>
+                @else
+                    <address>
+                        No address / No Client Selected
+                    </address>
+                @endif
         </td>
     </tr>
     </tbody>
@@ -251,8 +251,12 @@
     </tr>
     </thead>
     <tbody>
+        @php $sub_total = 0; @endphp
     {{-- Items --}}
     @foreach($invoice->items as $item)
+    @php
+        $sub_total += $item->sub_total_price;
+    @endphp
         <tr>
             <td class="pl-0">{{ $item->title }}</td>
             @if($invoice->hasItemUnits)
@@ -260,21 +264,21 @@
             @endif
             <td class="text-center">{{ $item->quantity }}</td>
             <td class="text-right">
-                {{ $invoice->formatCurrency($item->price_per_unit) }}
+                {{ $invoice->formatCurrency((float)$item->price_per_unit) }}
             </td>
             @if($invoice->hasItemDiscount)
                 <td class="text-right">
-                    {{ $invoice->formatCurrency($item->discount) }}
+                    {{ $invoice->formatCurrency((float)$item->discount) }}
                 </td>
             @endif
             @if($invoice->hasItemTax)
                 <td class="text-right">
-                    {{ $invoice->formatCurrency($item->tax) }}
+                    {{ $invoice->formatCurrency((float)$item->tax) }}
                 </td>
             @endif
 
             <td class="text-right pr-0">
-                {{ $invoice->formatCurrency($item->sub_total_price) }}
+                {{ $invoice->formatCurrency((float)$item->sub_total_price) }}
             </td>
         </tr>
     @endforeach
@@ -284,7 +288,7 @@
             <td colspan="{{ $invoice->table_columns - 2 }}" class="border-0"></td>
             <td class="text-right pl-0">{{ __('invoices::invoice.total_discount') }}</td>
             <td class="text-right pr-0">
-                {{ $invoice->formatCurrency($invoice->total_discount) }}
+                {{ $invoice->formatCurrency((float)$invoice->total_discount) }}
             </td>
         </tr>
     @endif
@@ -293,7 +297,7 @@
             <td colspan="{{ $invoice->table_columns - 2 }}" class="border-0"></td>
             <td class="text-right pl-0">{{ __('invoices::invoice.taxable_amount') }}</td>
             <td class="text-right pr-0">
-                {{ $invoice->formatCurrency($invoice->taxable_amount) }}
+                {{ $invoice->formatCurrency((float)$invoice->taxable_amount) }}
             </td>
         </tr>
     @endif
@@ -311,7 +315,7 @@
             <td colspan="{{ $invoice->table_columns - 2 }}" class="border-0"></td>
             <td class="text-right pl-0">{{ __('invoices::invoice.total_taxes') }}</td>
             <td class="text-right pr-0">
-                {{ $invoice->formatCurrency($invoice->total_taxes) }}
+                {{ $invoice->formatCurrency((float)$invoice->total_taxes) }}
             </td>
         </tr>
     @endif
@@ -320,21 +324,39 @@
             <td colspan="{{ $invoice->table_columns - 2 }}" class="border-0"></td>
             <td class="text-right pl-0">{{ __('invoices::invoice.shipping') }}</td>
             <td class="text-right pr-0">
-                {{ $invoice->formatCurrency($invoice->shipping_amount) }}
+                {{ $invoice->formatCurrency((float)$invoice->shipping_amount) }}
             </td>
         </tr>
     @endif
-    @if($invoice->cost_extra)
+
+   @if($invoice->cost_extra)
+       
         @foreach($invoice->cost_extra as $cost)
+            @php
+                $calculatedValue = 0;
+                if (isset($cost->value) && $cost->value) {
+                    // Check if the value is a percentage
+                    if (strpos($cost->value, '%') !== false) {
+                        $percentageValue = floatval(str_replace('%', '', $cost->value));
+                        $calculatedValue = ($sub_total * $percentageValue / 100);
+                    } else {
+                        $calculatedValue = floatval($cost->value);
+                    }
+                }
+            @endphp
             <tr>
                 <td colspan="{{ $invoice->table_columns - 2 }}" class="border-0"></td>
                 <td class="text-right pl-0">{{ $cost->name }}</td>
                 <td class="text-right pr-0">
-                    {{ $invoice->formatCurrency($cost->value ) }}
+                    @if($calculatedValue < 0)
+                        - 
+                    @endif
+                    {{ $invoice->formatCurrency(abs($calculatedValue)) }}
                 </td>
             </tr>
         @endforeach
-    @endif
+        
+   @endif
     <tr>
         <td colspan="{{ $invoice->table_columns - 2 }}" class="border-0"></td>
         <td class="text-right pl-0">{{ __('invoices::invoice.total_amount') }}</td>
@@ -353,29 +375,15 @@
 
 
 <script type="text/php">
-            if (isset($pdf) && $PAGE_COUNT > 1) {
-                $text = "Page {PAGE_NUM} / {PAGE_COUNT}";
-                $size = 10;
-                $font = $fontMetrics->getFont("Verdana");
-                $width = $fontMetrics->get_text_width($text, $font, $size) / 2;
-                $x = ($pdf->get_width() - $width);
-                $y = $pdf->get_height() - 35;
-                $pdf->page_text($x, $y, $text, $font, $size);
-            }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    if (isset($pdf) && $PAGE_COUNT > 1) {
+        $text = "Page {PAGE_NUM} / {PAGE_COUNT}";
+        $size = 10;
+        $font = $fontMetrics->getFont("Verdana");
+        $width = $fontMetrics->get_text_width($text, $font, $size) / 2;
+        $x = ($pdf->get_width() - $width);
+        $y = $pdf->get_height() - 35;
+        $pdf->page_text($x, $y, $text, $font, $size);
+    }
 </script>
 </body>
 </html>

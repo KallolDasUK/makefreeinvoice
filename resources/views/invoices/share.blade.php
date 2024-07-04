@@ -61,6 +61,9 @@
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
+
     <link href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css" rel="stylesheet"/>
     <link media="all" type="text/css" rel="stylesheet"
           href="https://cdn.datatables.net/1.10.24/css/dataTables.bootstrap4.min.css">
@@ -252,6 +255,18 @@
             })
             $('#closeShareModal').on('click', function () {
                 $('#shareModal').hide('modal')
+            })
+            $('#downloadButton').on('click', function () {
+                console.log('download')
+            var element = document.getElementById('invoice-container');
+            let invoice_number = "{{ $invoice->invoice_number??'invoice_invoicepedia' }}"
+            var opt = {
+                filename: invoice_number + '.pdf',
+                image: {type: 'jpeg', quality: 0.98},
+                html2canvas: {scale: 2},
+                jsPDF: {unit: 'in', format: 'letter', orientation: 'portrait'}
+            };
+            html2pdf(element, opt);
             })
     })
 </script>

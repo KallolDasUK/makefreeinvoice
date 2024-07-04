@@ -31,6 +31,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Salla\ZATCA\GenerateQrCode;
 use Salla\ZATCA\Tags\Seller;
+use Auth;
 
 class InvoicesController extends Controller
 {
@@ -40,14 +41,12 @@ class InvoicesController extends Controller
 
     public function __construct()
     {
-//        dd($this->settings);
+        //  dd($this->settings);
     }
 
     public function index(Request $request)
     {
         $this->authorize('viewAny', Invoice::class);
-
-
 
         $start_date = $request->start_date;
         $end_date = $request->end_date;
@@ -92,57 +91,55 @@ class InvoicesController extends Controller
 
     }
     public function filter(Request $request)
-{
-    $query = Invoice::query();
-    
-    // Capture filter parameters
-    $q = $request->input('q');
-    $customer_id = $request->input('customer');
-    $sr_id = $request->input('sr_id');
-    $payment_status = $request->input('payment_status');
-    $start_date = $request->input('start_date');
-    $end_date = $request->input('end_date');
-    $user_id = $request->input('user_id');
+    {
+        $query = Invoice::query();
+        
+        // Capture filter parameters
+        $q = $request->input('q');
+        $customer_id = $request->input('customer');
+        $sr_id = $request->input('sr_id');
+        $payment_status = $request->input('payment_status');
+        $start_date = $request->input('start_date');
+        $end_date = $request->input('end_date');
+        $user_id = $request->input('user_id');
 
-    // Apply filters to query
-    if ($q) {
-        $query->where('invoice_number', 'LIKE', "%{$q}%");
-    }
-    if ($customer_id) {
-        $query->where('customer_id', $customer_id);
-    }
-    if ($sr_id) {
-        $query->where('sr_id', $sr_id);
-    }
-    if ($payment_status) {
-        $query->where('payment_status', $payment_status);
-    }
-    if ($start_date && $end_date) {
-        $query->whereBetween('invoice_date', [$start_date, $end_date]);
-    }
-    if ($user_id) {
-        $query->where('user_id', $user_id);
-    }
+        // Apply filters to query
+        if ($q) {
+            $query->where('invoice_number', 'LIKE', "%{$q}%");
+        }
+        if ($customer_id) {
+            $query->where('customer_id', $customer_id);
+        }
+        if ($sr_id) {
+            $query->where('sr_id', $sr_id);
+        }
+        if ($payment_status) {
+            $query->where('payment_status', $payment_status);
+        }
+        if ($start_date && $end_date) {
+            $query->whereBetween('invoice_date', [$start_date, $end_date]);
+        }
+        if ($user_id) {
+            $query->where('user_id', $user_id);
+        }
 
-    // Get paginated results
-    $invoices = $query->paginate(10)->appends($request->all());
+        // Get paginated results
+        $invoices = $query->paginate(10)->appends($request->all());
 
-    // Pass filter parameters and results to view
-    return view('invoices.index', [
-        'invoices' => $invoices,
-        'q' => $q,
-        'customer_id' => $customer_id,
-        'sr_id' => $sr_id,
-        'payment_status' => $payment_status,
-        'start_date' => $start_date,
-        'end_date' => $end_date,
-        'user_id' => $user_id,
-        'customers' => Customer::all(),
-        // 'settings' => Settings::first(),
-    ]);
-}
-
-
+        // Pass filter parameters and results to view
+        return view('invoices.index', [
+            'invoices' => $invoices,
+            'q' => $q,
+            'customer_id' => $customer_id,
+            'sr_id' => $sr_id,
+            'payment_status' => $payment_status,
+            'start_date' => $start_date,
+            'end_date' => $end_date,
+            'user_id' => $user_id,
+            'customers' => Customer::all(),
+            // 'settings' => Settings::first(),
+        ]);
+    }
 
     public function create(Product $product)
     {
@@ -230,8 +227,6 @@ class InvoicesController extends Controller
     //         'cashAcId', 'depositAccounts', 'filteredPaymentMethods'
     //     ));
     // }
-    
-
 
     public function items($id)
     {
@@ -248,7 +243,6 @@ class InvoicesController extends Controller
         }
         return ['customer_id' => $customer_id, 'items' => $items];
     }
-
 
     public function store(Request $request)
     {
@@ -283,7 +277,6 @@ class InvoicesController extends Controller
 
     public function insertDataToOtherTable($invoice, $invoice_items, $extraFields, $additionalFields)
     {
-//        dd($invoice_items);
         foreach ($invoice_items as $invoice_item) {
             $product_id = $invoice_item->product_id;
             if (!is_numeric($product_id)) {
@@ -337,9 +330,7 @@ class InvoicesController extends Controller
         $tagBuf = Buffer($tagNum);
 
         return $code;
-
     }
-
 
     public function show(Request $request, $id)
     {
@@ -353,10 +344,9 @@ class InvoicesController extends Controller
                 MetaSetting::query()->updateOrCreate(['key' => 'invoice_template'], ['value' => $request->template]);
         }
         $settings = json_decode(MetaSetting::query()->pluck('value', 'key')->toJson());
-//        dd($settings);
+
         $template = $settings->invoice_template ?? 'classic';
 
-//        dd($template);
         $qr_code = route('invoices.invoice.share', [$invoice->secret, 'template' => $template]);
         $qr_code_style = $settings->qr_code_style ?? 'link';
 
@@ -364,13 +354,12 @@ class InvoicesController extends Controller
         if ($qr_code_style == 'tlv') {
             $business_name = $settings->business_name ?? auth()->user()->name ?? 'Unknown Seller';
 
-
             $seller_name = $business_name;
             $vat_number = $settings->vat_reg ?? '123456789';
             $creating_time = Carbon::parse($invoice->created_at);
 
             $invoice_date = Carbon::parse($invoice->invoice_date)->toDateString() . ' ' . $creating_time->toTimeString();
-//            dd($invoice_date);
+
             $taxable = number_format($invoice->total, 2, '.', '');
             $tax = number_format($invoice->taxable_amount, 2, '.', '');
 
@@ -441,12 +430,11 @@ class InvoicesController extends Controller
         $categories = Category::query()->latest()->get();
         $invoiceExtraField = InvoiceExtraField::query()->where('invoice_id', $invoice->id)->get();
         $extraFields = ExtraField::query()->where('type', Invoice::class)->where('type_id', $invoice->id)->get();
-//        dd($invoice_items);
+
         $ledgerGroups = LedgerGroup::all();
 
         return view('invoices.edit', compact('invoice', 'ledgerGroups', 'customers', 'taxes', 'invoice_items', 'invoiceExtraField', 'products', 'extraFields', 'categories', 'cashAcId', 'depositAccounts', 'paymentMethods'));
     }
-
 
     public function update($id, Request $request)
     {
@@ -458,11 +446,10 @@ class InvoicesController extends Controller
         $invoice_items = $data['invoice_items'] ?? [];
         $extraFields = $data['additional'] ?? [];
         $additionalFields = $data['additional_fields'] ?? [];
-//        dd($data);
+
         unset($data['invoice_items']);
         unset($data['additional']);
         unset($data['additional_fields']);
-
 
         InvoiceExtraField::query()->where('invoice_id', $invoice->id)->delete();
         InvoiceItem::query()->where('invoice_id', $invoice->id)->delete();
@@ -471,7 +458,6 @@ class InvoicesController extends Controller
         ReceivePaymentItem::query()->where('receive_payment_id', $invoice->receive_payment_id)->orWhere('invoice_id', $invoice->id)->get()->each(function ($model) {
             $model->delete();
         });
-
 
         $invoice->update($data);
         $this->insertDataToOtherTable($invoice, $invoice_items, $extraFields, $additionalFields);
@@ -483,7 +469,6 @@ class InvoicesController extends Controller
         return redirect()->route('invoices.invoice.show', $invoice->id)->with('success_message', 'Invoice was successfully updated.');
 
     }
-
 
     public function destroy($id)
     {
@@ -562,7 +547,6 @@ class InvoicesController extends Controller
         return $data;
     }
 
-
     protected function moveFile($file)
     {
         if (!$file->isValid()) {
@@ -581,8 +565,8 @@ class InvoicesController extends Controller
         $title = "Send Invoice - " . $invoice->invoice_number;
         $this->settings = json_decode(MetaSetting::query()->pluck('value', 'key')->toJson());
 
-//        dd($invoice, $this->settings, auth()->user(), MetaSetting::query()->pluck('value', 'key')->toJson());
-        $from = $this->settings->email ?? '';
+        // dd($invoice, $this->settings, auth()->user(), MetaSetting::query()->pluck('value', 'key')->toJson());
+        $from = $this->settings->email ?? Auth::user()->email;
         $to = null;
         if (optional($invoice->customer)->email) {
             $to = optional($invoice->customer)->email;
@@ -590,12 +574,11 @@ class InvoicesController extends Controller
         $customerName = optional($invoice->customer)->name ?? 'Customer';
         $subject = "Invoice #" . ($invoice->invoice_number ?? '') . ' from ' . ($this->settings->business_name ?? 'n/a');
         $businessName = $this->settings->business_name ?? 'Company Name';
-        $businessEmail = $this->settings->email ?? '';
+        $businessEmail = $this->settings->email ?? Auth::user()->email;
         $businessPhone = $this->settings->phone ?? '';
         $businessWebsite = $this->settings->website ?? '';
         $message = "Hi $customerName ,<br><br> I hope you’re well! Please see attached invoice number [$invoice->invoice_number] , due on [$invoice->due_date]. Don’t hesitate to reach out if you have any questions. <br> Invoice#: $invoice->invoice_number  <br>Date: $invoice->invoice_date <br>Amount: $invoice->total <br> <br> Kind regards,  <br> $businessName <br> $businessEmail <br> $businessPhone <br> $businessWebsite";
 
-//        dd($message);
         return view('invoices.send', compact('invoice', 'title', 'from', 'to', 'subject', 'message'));
     }
 
@@ -630,10 +613,9 @@ class InvoicesController extends Controller
 
     public function share($secret)
     {
-//        auth()->logout();
         $invoice = Invoice::query()->withoutGlobalScope('scopeClient')->with('customer')->where('secret', $secret)->firstOrFail();
         $settings = json_decode(MetaSetting::query()->where('client_id', $invoice->client_id)->pluck('value', 'key')->toJson());
-//        $settings = json_decode(MetaSetting::query()->pluck('value', 'key')->toJson());
+        //  $settings = json_decode(MetaSetting::query()->pluck('value', 'key')->toJson());
         $template = $settings->invoice_template ?? 'classic';
 
         $qr_code = route('invoices.invoice.share', [$invoice->secret, 'template' => $template]);
@@ -679,7 +661,5 @@ class InvoicesController extends Controller
         }
         return view('invoices.share', compact('invoice', 'settings', 'template', 'qr_code', 'qr_code_style'));
     }
-
-
 
 }
