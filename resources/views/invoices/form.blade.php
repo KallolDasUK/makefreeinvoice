@@ -109,12 +109,9 @@
     <div class="col">
         <div class="form-group mini">
             <label id="to_customer" class="font-weight-bolder">To Customer</label>
-
             <br>
-
             <select class="customer form-control select2" id="customer_id" name="customer_id" required>
-                <option value="" disabled
-                        selected></option>
+                <option value="" disabled selected></option>
                 @foreach ($customers as $customer)
                     <option
                         value="{{ $customer->id }}"
@@ -126,14 +123,11 @@
                             @endif
                         @endif
                         {{ $customer->name }} {{ $customer->phone }}
-
-
                     </option>
                 @endforeach
             </select>
-
             {!! $errors->first('customer_id', '<p class="form-text text-danger">:message</p>') !!}
-
+            <p id="customer-error" class="form-text text-danger" style="display: none;">Please select or create a customer</p>
         </div>
         <div id="info" style="display: none">
             <div class="row">

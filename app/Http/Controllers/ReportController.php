@@ -685,8 +685,8 @@ class ReportController extends AccountingReportsController
 
         $walkInCustomer = Customer::WALK_IN_CUSTOMER;
         $customers = Customer::all()->sortBy(function ($customer) use ($walkInCustomer) {            
-            return $customer->name === $walkInCustomer ? 0 : 1;
-        });        
+            return strtolower($customer->name) === strtolower($walkInCustomer) ? 0 : 1;
+        });
         
         return view('reports.due-report', compact('invoices', 'customers', 'start_date', 'end_date', 'customer_id'));
     }

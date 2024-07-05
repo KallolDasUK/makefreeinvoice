@@ -33,7 +33,6 @@
 
                     <div class="float-right">
                         <button class="btn btn-primary btn-lg btn-fw" id="create_invoice_button" type="submit" style="margin-top: 10px">
-
                             <i class="far fa-save"></i> Save Invoice
                         </button>
                     </div>
@@ -110,6 +109,16 @@
         if (showProfitValue == 0) {
             $('.profitClass').css('display', 'none');
         }
+        $('#create_invoice_button').click(function(event) {
+            var selectedCustomerText = $('#customer_id option:selected').text().trim();
+            if (selectedCustomerText === 'Walk In Customer') {
+                event.preventDefault();
+                $('#customer-error').show();
+                $('html, body').animate({
+                    scrollTop: $('#customer-error').offset().top - 20
+                }, 500);
+            }
+        });
         });
     </script>
     <script src="{{ asset('js/invoices.js') }}?v=1.2"></script>
