@@ -85,21 +85,17 @@
                             <div class="row align-items-center">
 
                                 <div class="mx-2">
-                                    <select id="customer_id" name="customer_id" class=" form-control m-2"
-
-                                            style="max-width: 130px"
-                                    >
+                                    <select id="customer_id" name="customer_id" class="form-control m-2" style="max-width: 130px">
                                         <option></option>
-                                        @foreach($customers as $customer)
-                                            <option value="{{ $customer->id }}"
-                                                    @if($customer->id == $customer_id) selected @endif>{{ $customer->name }}{{ $customer->phone }}</option>
+                                        @foreach($customers as $customer)                                          
+                                            <option value="{{ $customer->id }}" @if($customer->id == $customer_id) selected @endif>
+                                                {{ $customer->name  }}{{ $customer->phone }}
+                                            </option>
                                         @endforeach
                                     </select>
                                 </div>
                                 <div class="col-3 row">
                                     <div class="input-daterange input-group" id="start_date">
-
-
                                         <input type="text" class="form-control " name="start_date"
                                                value="{{ $start_date ?? '' }}"
                                                placeholder="Start">
@@ -110,10 +106,7 @@
                                         </div>
                                         <input type="text" class="form-control" name="end_date" id="end_date"
                                                value="{{ $end_date??'' }}"
-
                                                placeholder="End">
-
-
                                     </div>
 
                                 </div>
@@ -177,21 +170,19 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @foreach($invoices as $invoice)
-                                    <tr>
-                                        <td class=" border-0">{{ $invoice->invoice_number }}</td>
-{{--                                        @if($settings->customer_id_feature??'0')--}}
-{{--                                            <td class="text-center">{{ $customer->customer_ID??'-' }}</td>--}}
-{{--                                        @endif--}}
-                                        <td class="text-start border-0" style="max-width: 300px">
-                                            <b>{{ optional($invoice->customer)->name }}</b></td>
-                                        <td class="text-start border-0">{{ $invoice->invoice_date??'-' }}</td>
-
-                                        <td class="text-right border-0 bg-secondary">{{ decent_format_dash_if_zero($invoice->due) }}</td>
-
-                                    </tr>
-                                @endforeach
-
+                                    @foreach($invoices as $invoice)
+                                        <tr>
+                                            <td class="border-0">{{ $invoice->invoice_number }}</td>
+                                            {{-- @if($settings->customer_id_feature??'0') --}}
+                                            {{--     <td class="text-center">{{ $customer->customer_ID??'-' }}</td> --}}
+                                            {{-- @endif--}}
+                                            <td class="text-start border-0" style="max-width: 300px">
+                                                <b>{{ optional($invoice->customer)->name }}</b>
+                                            </td>
+                                            <td class="text-start border-0">{{ $invoice->invoice_date??'-' }}</td>
+                                            <td class="text-right border-0 bg-secondary">{{ decent_format_dash_if_zero($invoice->due) }}</td>
+                                        </tr>
+                                    @endforeach
                                 </tbody>
                                 <tfoot class="card-footer">
 

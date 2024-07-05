@@ -670,9 +670,9 @@ class ReportController extends AccountingReportsController
 
     public function dueReport(Request $request)
     {
-        $start_date = $request->start_date ;
-        $end_date = $request->end_date ;
-        $customer_id = $request->customer_id;
+        $start_date     = $request->start_date ?? '';
+        $end_date       = $request->end_date ?? '';
+        $customer_id    = $request->customer_id ?? 0;
         view()->share('title', 'Sales Due ');
         $invoices = Invoice::query()
             ->when($start_date != null, function ($query) use ($start_date, $end_date) {
@@ -682,6 +682,12 @@ class ReportController extends AccountingReportsController
             })->
             where('payment_status', '!=', 'Paid')->get();
         $customers = Customer::all();
+
+        $walkInCustomer = Customer::WALK_IN_CUSTOMER;
+        $customers = Customer::all()->sortBy(function ($customer) use ($walkInCustomer) {            
+            return $customer->name === $walkInCustomer ? 0 : 1;
+        });        
+        
         return view('reports.due-report', compact('invoices', 'customers', 'start_date', 'end_date', 'customer_id'));
     }
     public function purchaseDueReport(Request $request)

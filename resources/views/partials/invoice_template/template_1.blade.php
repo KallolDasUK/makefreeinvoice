@@ -147,7 +147,7 @@
                         <tfoot class="card-footer">
                         <tr>
                             <td colspan="5" class="text-right"><strong>Sub Total:</strong></td>
-                            <td class="text-right">{{ $invoice->currency }}{{ decent_format($invoice->sub_total) }}</td>
+                            <td class="text-right"><strong>{{ $invoice->currency }}{{ decent_format($invoice->sub_total) }}</strong></td>
                         </tr>
                         @if($invoice->discount && $invoice->discount != 0)
                             <tr>
@@ -186,7 +186,7 @@
                                     @if($calculatedValue < 0)
                                         - 
                                     @endif
-                                    {{ $invoice->currency }} {{ decent_format(abs($calculatedValue)) }}
+                                    <strong>{{ $invoice->currency }} {{ decent_format(abs($calculatedValue)) }}</strong>
                                 </td>
                             </tr>
                         @endforeach

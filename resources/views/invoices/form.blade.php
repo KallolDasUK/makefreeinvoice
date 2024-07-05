@@ -606,7 +606,7 @@
         {{#each pairs:i}}
             <tr>
                 <td class="d-flex align-items-center">
-                    <input type="text" class="input-sm form-control d-inline-block" placeholder="Additional.." value="{{ name }}">
+                    <input type="text" class="input-sm form-control d-inline-block" placeholder="Additional.." value="{{ name }}" style="font-weight:bold">
                     <input type="text" class="input-sm form-control d-inline-block discountValue" style="text-align: end; max-width: 100px;" value="{{ value }}" id="extrafieldValue" name="discountValue">
                     <i class="fa fa-minus text-danger mx-2" on-click="@this.removeExtraField(i)" style="cursor:pointer;"></i>
                     <b class="far fa-question-circle" data-toggle="tooltip" title="Add any other +ve or -ve charges that need to be applied to adjust the total amount of the transaction Eg. +10 or -10."></b>

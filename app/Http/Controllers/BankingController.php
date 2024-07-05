@@ -290,7 +290,7 @@ class BankingController extends Controller
             // Save the bank transaction for the account to transfer from
             $bankTransactionFrom = new BankTransaction;
             $bankTransactionFrom->ledger_id = $request->account_to;
-            $bankTransactionFrom->entry_type = EntryType::$DR; // Debit from account_to
+            $bankTransactionFrom->entry_type = EntryType::$CR;
             $bankTransactionFrom->txn_type = LedgerHelper::$BANK_TRANSFER;
             $bankTransactionFrom->Note = $request->note;
             $bankTransactionFrom->amount = $request->amount;
@@ -306,7 +306,7 @@ class BankingController extends Controller
             // Save the bank transaction for the account to transfer to
             $bankTransactionTo = new BankTransaction;
             $bankTransactionTo->ledger_id = $request->deposit_to;
-            $bankTransactionTo->entry_type = EntryType::$CR; // Credit to deposit_to
+            $bankTransactionTo->entry_type = EntryType::$DR;
             $bankTransactionTo->txn_type = LedgerHelper::$BANK_TRANSFER;
             $bankTransactionTo->Note = $request->note;
             $bankTransactionTo->amount = $request->amount;
