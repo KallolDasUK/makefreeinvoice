@@ -326,9 +326,9 @@
                 <div class="font-weight-bolder">
                     BANKING & EXPENDITURE SHORTCUTS
                 </div>
-                <a href="{{ route('accounting.settings.edit') }}"
+                <a href="javascript:void(0)" data-toggle="modal" data-target="#ledgerModal" id="ledgerCreate"
                    style="position:relative;"
-                   class="sc-gPEVay eaBhby border rounded {{ ability_class(\App\Utils\Ability::GENERAL_SETTINGS_READ) }}">
+                   class="sc-gPEVay eaBhby border rounded ">
                     <div class="sc-iRbamj image" style="background-image:url('images/bank_account.svg'); background-size: unset !important">
 
                     </div>
@@ -344,7 +344,7 @@
                 </a>
                 <a href="javascript:void(0)" data-toggle="modal" data-target="#bankWithdrawModal" id="bankWithdraw"
                    style="position:relative;"
-                   class="sc-gPEVay eaBhby border rounded {{ ability_class(\App\Utils\Ability::GENERAL_SETTINGS_READ) }}">
+                   class="sc-gPEVay eaBhby border rounded ">
                     <div class="sc-iRbamj image" style="background-image:url('images/transfer.svg'); background-size: unset !important">
 
                     </div>
@@ -352,7 +352,7 @@
                 </a>
                 <a href="javascript:void(0)" data-toggle="modal" data-target="#bankTransferModal" id="bankTransfer"
                    style="position:relative;"
-                   class="sc-gPEVay eaBhby border rounded {{ ability_class(\App\Utils\Ability::GENERAL_SETTINGS_READ) }}">
+                   class="sc-gPEVay eaBhby border rounded ">
                     <div class="sc-iRbamj image" style="background-image:url('images/withdraw.svg'); background-size: unset !important">
 
                     </div>
@@ -360,7 +360,7 @@
                 </a>
                 <a href="{{ route('accounting.settings.edit') }}"
                    style="position:relative;"
-                   class="sc-gPEVay eaBhby border rounded {{ ability_class(\App\Utils\Ability::GENERAL_SETTINGS_READ) }}">
+                   class="sc-gPEVay eaBhby border rounded ">
                     <div class="sc-iRbamj image" style="background-image:url('images/my_expense.svg'); background-size: unset !important">
 
                     </div>
@@ -368,7 +368,7 @@
                 </a>
                 <a href="{{ route('accounting.settings.edit') }}"
                    style="position:relative;"
-                   class="sc-gPEVay eaBhby border rounded {{ ability_class(\App\Utils\Ability::GENERAL_SETTINGS_READ) }}">
+                   class="sc-gPEVay eaBhby border rounded ">
                     <div class="sc-iRbamj image" style="background-image:url('images/expense3.svg'); background-size: unset !important">
 
                     </div>

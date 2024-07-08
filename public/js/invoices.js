@@ -88,8 +88,11 @@ var ractive = new Ractive({
             let sub = 0;
             let totalProfit = 0;
             ractiveExtra.set(`appliedTax`, []);
-            
+
+            let products = ractive.get('products');
+
             for (let i = 0; i < invoice_items.length; i++) {
+
                 let item = invoice_items[i];
                 sub += (parseFloat(item.qnt) || 0) * (parseFloat(item.price) || 0);
                 
@@ -103,14 +106,28 @@ var ractive = new Ractive({
                         minifiedName: `${tax.name} ${tax.value} ${tax.tax_type}`,
                         amount: taxAmount
                     });
+                }                
+
+                let product = products.filter((p) => p.id === parseInt(item.product_id));
+                if (product.length){
+
+                    product = product[0];
+                    if (product) {
+                        ractive.set(`invoice_items.${i}.price`, product.sell_price);
+                        ractive.set(`invoice_items.${i}.unit`, product.sell_unit || 'unit');
+                        ractive.set(`invoice_items.${i}.description`, product.description || '');
+                        ractive.set(`invoice_items.${i}.stock`, product.stock || '');
+                        ractive.set(`invoice_items.${i}.purchase_price`, product.purchase_price || 0);
+                    }
                 }
-                
+
                 // Calculate profit
                 let profit = (parseFloat(item.price || 0) - parseFloat(item.purchase_price || 0)) * (parseFloat(item.qnt) || 0);
                 ractive.set(`invoice_items.${i}.profit`, profit.toFixed(2));
                 
                 // Add to total profit
                 totalProfit += profit;
+
             }
     
             let appliedTax = ractiveExtra.get('appliedTax') || [];
@@ -142,7 +159,6 @@ var ractive = new Ractive({
             ractiveExtra.set('currency', newCurrency);
         }
     }
-    
 });
 
 var ractiveExtra = new Ractive({
@@ -303,10 +319,13 @@ function onProductChangeEvent(e) {
 
 function calculate(product_id, lineIndex) {
     let products = ractive.get('products');
+
     let product = products.filter((item) => item.id === parseInt(product_id));
+
     if (product.length)
         product = product[0];
     if (product) {
+
         ractive.set(`invoice_items.${lineIndex}.price`, product.sell_price);
         ractive.set(`invoice_items.${lineIndex}.unit`, product.sell_unit || 'unit');
         ractive.set(`invoice_items.${lineIndex}.description`, product.description || '');
@@ -328,7 +347,6 @@ function calculate(product_id, lineIndex) {
     }
     calculateOthers();
 }
-
 
 function calculateOthers() {
     let subTotal = parseFloat($('#subTotal').val()) || 0;
@@ -407,14 +425,9 @@ function calculateOthers() {
     }
 }
 
-
-
-
-
 $('#discountValue').on('input', () => calculateOthers());
 $('#shipping_input').on('input', () => calculateOthers());
 $('#discount_type').on('change', () => calculateOthers());
-
 
 $('#extrafieldValue').on('input', () => calculateOthers());
 // $('#extrafield_type').on('change', () => calculateOthers());
@@ -475,3 +488,7 @@ $(document).on('keyup', `.select2-search__field`, function (e) {
 
     }
 });
+
+$(document).on('click','.select2-results__option select2-results__option--highlighted', function (e) {
+    console.log('clicked');
+})

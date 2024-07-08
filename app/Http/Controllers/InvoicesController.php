@@ -177,10 +177,11 @@ class InvoicesController extends Controller
     $next_invoice = Invoice::nextInvoiceNumber();
     $ledgerGroups = LedgerGroup::all();
     $bankAccounts = LedgerHelper::$BANK_ACCOUNTS;
+    $cashOptionName= LedgerHelper::$CASH_AC;
     view()->share('title', 'Create Invoice');
     return view('invoices.create', compact('showProfit','bankAccounts','customers',
         'ledgerGroups', 'products', 'taxes', 'next_invoice', 'categories', 'extraFields',
-        'invoice_fields', 'cashAcId', 'depositAccounts', 'paymentMethods'));
+        'invoice_fields', 'cashAcId', 'depositAccounts', 'paymentMethods','cashOptionName'));
     }
     // public function create(Product $product)
     // {

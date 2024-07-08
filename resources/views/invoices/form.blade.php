@@ -114,15 +114,15 @@
                 <option value="" disabled selected></option>
                 @foreach ($customers as $customer)
                     <option
-                        value="{{ $customer->id }}"
-                        {{ old('customer_id', optional($invoice)->customer_id) == $customer->id ? 'selected' : '' }}
-                        @if($invoice == null && $customer->name == 'Walk In Customer') selected @endif>
-                        @if($settings->customer_id_feature??'0')
-                            @if($customer->customer_ID??false)
+                    value="{{ $customer->id }}"
+                    {{ old('customer_id', optional($invoice)->customer_id) == $customer->id ? 'selected' : '' }}
+                    @if(($invoice == null && strtolower($customer->name) == strtolower('Walk In Customer')) || old('customer_id', optional($invoice)->customer_id) == $customer->id) selected @endif>
+                        @if($settings->customer_id_feature ?? '0')
+                            @if($customer->customer_ID ?? false)
                                 [{{ $customer->customer_ID }}]
                             @endif
                         @endif
-                        {{ $customer->name }} {{ $customer->phone }}
+                    {{ $customer->name }} {{ $customer->phone }}
                     </option>
                 @endforeach
             </select>
@@ -228,6 +228,7 @@
                 <label for="paymentCheckBox" class="form-check-label "><span class="text-bold"> I have received the payment  <code style="margin-left: 30px">Shift + P</code> </span>
                 </label>
             </label>
+            <p id="checkbox-error" class="form-text text-danger" style="display: none;">Please select payment method first</p>
 
             <div class="advanceContainer d-none">
                 <label class="text-danger">→ <span id="using_advance_amount"></span> is being used from advance payment (<span
@@ -266,6 +267,7 @@
                             @endforeach
 
                         </select>
+                        <input type="text" id="cashOptionName" value="{{$cashOptionName ?? ''}}" hidden>
                         {{-- <select id="payment_method_id" class="form-control" name="payment_method_id">
                             @foreach ($filteredPaymentMethods as $paymentMethod)
                                 <option value="{{ $paymentMethod->id }}"
@@ -529,7 +531,7 @@
                 value="{{ product_id }}" index="{{ i }}" required>
                             <option disabled selected value=""> -- </option>
                             {{ #each products:i }}
-        <option value="{{ id }}" > {{ name }}</option>
+                            <option value="{{ id }}" > {{ name }}</option>
                             {{ /each }}
         </select>
         </div>
@@ -563,7 +565,7 @@
         <span class="currency d-inline font-weight-bolder" style="font-size: 16px">{{ currency }}</span>
     </td>
     <td>
-        <span class="font-weight-bolder profitClass" style="font-size: 16px; display: block; background-color: gray; color: white; padding: 5px; border-radius: 18px;">
+        <span  class="font-weight-bolder profitClass profit-input" style="font-size: 16px; display: block; background-color: gray; color: white; padding: 5px; border-radius: 18px;">
             {{ (parseFloat((price||0) - (purchase_price||0)) * (qnt||0)).toFixed(2) }}
         </span>
     </td>

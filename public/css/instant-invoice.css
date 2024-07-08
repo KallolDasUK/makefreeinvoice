@@ -1614,3 +1614,11 @@ input[READONLY]:focus {
     background-color: #065a92;
     border-color: #065a92;
 }
+
+@media print {
+    input[type="text"], textarea {
+        color: #000 !important;
+        font-weight: 700;
+        font-size: 14px;
+    }
+}

@@ -70,9 +70,23 @@
         console.log(products)
         $(document).ready(function () {
             let customerSelect = $('#customer_id');
-            setTimeout(() => {
+            setTimeout(() => {               
                 customerSelect.focus();
             }, 500);
+
+            customerSelect.on('select2:close', function (e) {
+                let i = ractive.get('invoice_items').length - 1;
+                let currentSelectItem = `#itemSelect${i}`;
+                $(currentSelectItem).focus();
+            });
+
+            customerSelect.on('select2:close change', function () {
+                let i = ractive.get('invoice_items').length - 1;
+
+                let currentSelectItem = `#itemSelect${i}`;
+                $(currentSelectItem).focus();
+            });
+
             $('#select2-selection__arrow').click();
             // $('#select2-customer_id-container').click();
 
@@ -92,33 +106,46 @@
                 if (additional_fields.length > 0) {
                     $('#additionalCollapse').collapse('show')
                 }
-        //    var selectedCustomer = $('#customer_id').val();
-            $('#customer_id').on('change', function() {
-                let i = ractive.get('invoice_items').length - 1;
-
-                let currentSelectItem = `#itemSelect${i}`;
-                $(currentSelectItem).focus();
-            })
-        //    console.log('selectedCustomer: ', selectedCustomer);
-       
-       
-
+                
+               
             })
 
-        var showProfitValue = {{ $showProfit->value ?? 'null' }};
-        if (showProfitValue == 0) {
-            $('.profitClass').css('display', 'none');
-        }
-        $('#create_invoice_button').click(function(event) {
-            var selectedCustomerText = $('#customer_id option:selected').text().trim();
-            if (selectedCustomerText === 'Walk In Customer') {
-                event.preventDefault();
-                $('#customer-error').show();
-                $('html, body').animate({
-                    scrollTop: $('#customer-error').offset().top - 20
-                }, 500);
+            var showProfitValue = {{ $showProfit->value ?? 'null' }};
+            if (showProfitValue == 0) {
+                $('.profitClass').css('display', 'none');
             }
-        });
+            $('#create_invoice_button').click(function(event) {
+
+                var selectedCustomerText = $('#customer_id option:selected').text().trim();
+                var paymentMethod = $('#deposit_to option:selected').text().trim();
+                var cashOptionName = $('#cashOptionName').val();
+                var walkInCustomer = 'Walk in Customer'.toLowerCase();
+
+                if (selectedCustomerText.toLowerCase() === walkInCustomer.toLowerCase() && 
+                    paymentMethod != cashOptionName ) {
+                    
+                    event.preventDefault();
+                    $('#customer-error').show();
+                    setTimeout(() => {
+                    $('#customer-error').hide();
+                    },2000);
+                    $('html, body').animate({
+                        scrollTop: $('#customer-error').offset().top - 20
+                    }, 500);
+                }
+
+                if (selectedCustomerText.toLowerCase() === walkInCustomer.toLowerCase() && 
+                     !$('#paymentCheckBox').is(':checked')) {
+                    event.preventDefault();
+                    $('#checkbox-error').show();
+                    setTimeout(() => {
+                        $('#checkbox-error').hide();
+                    },2000);
+                    $('#checkbox-error').animate({
+                        scrollTop: $('#checkbox-error').offset().top - 20
+                    }, 500);
+                }
+            });
         });
     </script>
     <script src="{{ asset('js/invoices.js') }}?v=1.2"></script>

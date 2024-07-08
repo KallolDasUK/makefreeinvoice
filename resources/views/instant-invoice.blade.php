@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="{{ asset('css/instant-invoice.css') }}">
     <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
 @endsection
+
 @section('content')
     <h1 class="d-none">Invoice Generator - Free Invoice Pedia</h1>
     <p class="d-none">The world's simplest way to invoice customers, from your phone or laptop. Save time, stay
@@ -214,27 +215,27 @@
 
                                                 </td>
                                                 <td>
-                                                    <input type="text" step="any" class=" form-control text-right"
+                                                    <input type="text" step="any" class=" form-control text-right instant"
                                                         style="font-weight: bolder;text-align: center" tabindex="20"
                                                         placeholder="Unit/Pcs">
                                                 </td>
                                                 <td>
-                                                    <input type="number" step="any" class=" form-control "
+                                                    <input type="number" step="any" class=" form-control instant"
                                                         style="font-weight: bolder;text-align: center" tabindex="20"
                                                         placeholder="$100">
                                                 </td>
                                                 <td>
-                                                    <input type="number" step="any" class=" form-control text-right"
+                                                    <input type="number" step="any" class=" form-control text-right instant"
                                                         style="font-weight: bolder;text-align: center" tabindex="20"
                                                         placeholder="20">
                                                 </td>
                                                 <td>
-                                                    <input type="number" step="any" class=" form-control text-right"
+                                                    <input type="number" step="any" class=" form-control text-right instant"
                                                         style="font-weight: bolder;text-align: center" tabindex="20"
                                                         placeholder="0">
                                                 </td>
                                                 <td>
-                                                    <input type="number" step="any" class=" form-control text-right"
+                                                    <input type="number" step="any" class=" form-control text-right instant"
                                                         style="font-weight: bolder;" tabindex="20" placeholder="$2000">
                                                 </td>
 

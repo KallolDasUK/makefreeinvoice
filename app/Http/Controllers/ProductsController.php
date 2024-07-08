@@ -56,7 +56,6 @@ class ProductsController extends Controller
 
     public function productStock(Request $request)
     {
-//        dd($request->product_ids,$request->all());
         $products = Product::query()->with([
             'category',
             'brand',
@@ -71,9 +70,13 @@ class ProductsController extends Controller
             'stock_entry_items',
         ])->find($request->product_ids);
 
+        $data = [];
+
+        if ($products === null || $products->isEmpty()) {
+            return $data = ['product_id' => 0, 'product_stock' => 0];
+        }
 
         $products = $products->pluck('stock', 'id')->toArray();
-        $data = [];
         foreach ($products as $product_id => $product_stock) {
             $data[] = ['product_id' => $product_id, 'product_stock' => $product_stock];
         }

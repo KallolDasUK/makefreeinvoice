@@ -41,6 +41,7 @@
 
 @section('js')
     <script src="{{ asset('js/product.js') }}"></script>
+    <script src="{{ asset('js/invoices.js') }}"></script>
     <script>
         $(document).ready(function () {
             $('#business_location').select2({placeholder: " -- Country --"})

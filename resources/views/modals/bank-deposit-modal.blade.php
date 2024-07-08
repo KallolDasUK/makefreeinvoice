@@ -26,10 +26,12 @@
                                 <label for="deposit_to_a" class="col-form-label text-danger">Select Account *:</label>
                                 <select id="deposit_to_a" class="form-control" name="account">
                                     @foreach ($depositAccounts as $account)
+                                    @if (url()->current() !==  env('APP_URL').'/app' || $account->ledger_name !== 'Cash A/C')
                                         <option
                                             value="{{ $account->id }}" {{ $account->id == \Enam\Acc\Models\Ledger::CASH_AC()?'selected':'' }} >
                                             {{ $account->ledger_name }}
                                         </option>
+                                    @endif
                                     @endforeach
 
                                 </select>

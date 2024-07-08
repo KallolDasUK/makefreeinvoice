@@ -27,10 +27,12 @@
                                 <label for="deposit_to" class="col-form-label text-danger">Account From *:</label>
                                 <select id="deposit_to_b" class="form-control" name="deposit_to" required>
                                     @foreach ($depositAccounts as $account)
+                                    @if (url()->current() !==  env('APP_URL').'/app' || $account->ledger_name !== 'Cash A/C')
                                     <option
                                         value="{{ $account->id }}" {{ $account->id == \Enam\Acc\Models\Ledger::CASH_AC()?'selected':'' }} >
                                         {{ $account->ledger_name }}
                                     </option>
+                                    @endif
                                     @endforeach
                                 </select>
                                 {!! $errors->first('deposit_to', '<p class="form-text text-danger">:message</p>') !!}
@@ -44,10 +46,12 @@
                                 <label for="account_to" class="col-form-label text-danger">Account To *:</label>
                                 <select id="accountNameB" class="form-control" name="account_to" required>
                                     @foreach ($depositAccounts as $account)
+                                    @if (url()->current() !==  env('APP_URL').'/app' || $account->ledger_name !== 'Cash A/C')
                                         <option
                                             value="{{ $account->id }}" {{ $account->id == \Enam\Acc\Models\Ledger::CASH_AC()?'selected':'' }} >
                                             {{ $account->ledger_name }}
                                         </option>
+                                    @endif
                                     @endforeach
                                 </select>
                                 {!! $errors->first('account_to', '<p class="form-text text-danger">:message</p>') !!}
