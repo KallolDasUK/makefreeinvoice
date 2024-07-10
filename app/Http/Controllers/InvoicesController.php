@@ -143,8 +143,10 @@ class InvoicesController extends Controller
 
     public function create(Product $product)
     {
-
-        $showProfit = MetaSetting::where('key', 'show_profit')->first();
+        if (!Customer::query()->where('name', Customer::WALK_IN_CUSTOMER)->exists()) {
+            Customer::create(['name' => Customer::WALK_IN_CUSTOMER]);
+        }
+        $showProfit = MetaSetting::where('key', 'show_profit')->select('value')->first();
         // $generateReportFrom = MetaSetting::where('key', 'generate_report_from')->first();
         // dd($generateReportFrom);
 
@@ -165,10 +167,10 @@ class InvoicesController extends Controller
                     ->select('name', 'id', 'email', 'phone')
                     ->get()
                     ->toArray();
-
-    $products = Product::where('client_id', auth()->user()->client_id)
-                       ->select('name', 'id', 'description', 'purchase_price', 'sell_price', 'sell_unit', 'purchase_unit', 'photo as image', 'code')
-                       ->get();
+    $products = \DB::table('products')
+                    ->where('client_id', auth()->user()->client_id)
+                    ->select('name', 'id', 'description', 'purchase_price', 'sell_price', 'sell_unit', 'purchase_unit', 'photo as image', 'code')
+                    ->get();                                
 
     $categories = Category::all();
     $taxes = Tax::query()->latest()->get()->toArray();

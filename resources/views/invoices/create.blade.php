@@ -110,7 +110,7 @@
                
             })
 
-            var showProfitValue = {{ $showProfit->value ?? 'null' }};
+            var showProfitValue = {{ $showProfit->value ?? 0 }};
             if (showProfitValue == 0) {
                 $('.profitClass').css('display', 'none');
             }

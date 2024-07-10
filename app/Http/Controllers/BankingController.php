@@ -78,7 +78,6 @@ class BankingController extends Controller
                 'message' => 'Something went wrong.',
             ];
         }
-
         return response()->json($response);
     }
 
@@ -86,9 +85,8 @@ class BankingController extends Controller
     public function save_deposit($request)
     {
         DB::beginTransaction();
-
+    
         try {
-
             // Save the bank transaction
             $bankTransaction = new BankTransaction;
             $bankTransaction->ledger_id = $request->account;
@@ -99,17 +97,17 @@ class BankingController extends Controller
             $bankTransaction->user_id = auth()->id();
             $bankTransaction->client_id = auth()->user()->client_id;
             $bankTransaction->date = $request->date;
-
+    
             if (!$bankTransaction->save()) {
                 throw new \Exception('Failed to record bank transaction.');
             }
-
+    
             // Get ledger name
             $ledger = Ledger::find($request->account);
             if (!$ledger) {
                 throw new \Exception('Invalid ledger account.');
             }
-
+    
             // Save the transaction            
             $transaction = new Transaction;
             $transaction->ledger_name =  $ledger->ledger_name;
@@ -122,66 +120,66 @@ class BankingController extends Controller
             $transaction->note = $request->note;
             $transaction->date =  now();
             $transaction->voucher_no = $this->getVoucherID();
-
+    
             if (!$transaction->save()) {
                 throw new \Exception('Failed to record transaction.');
             }
-
+    
             $cashAcId = optional(GroupMap::query()->firstWhere('key', LedgerHelper::$CASH_AC))->value;
-
+    
             // First transaction detail entry
-            // Save transaction details
             $transactionDetail = new TransactionDetail;
             $transactionDetail->transaction_id  = $transaction->id;
             $transactionDetail->ledger_id       = $request->account;
-            $transactionDetail->entry_type      = $request->account == $cashAcId ? EntryType::$CR : EntryType::$DR;
+            $transactionDetail->entry_type      = EntryType::$DR;
             $transactionDetail->amount          = $request->amount;
             $transactionDetail->note            = $request->note;
             $transactionDetail->date            = now();
             $transactionDetail->type            = BankTransaction::class;
             $transactionDetail->type_id         = $bankTransaction->id;
             $transactionDetail->is_bank         = 1;
-
+    
             if (!$transactionDetail->save()) {
                 throw new \Exception('Failed to record transaction during first entry.');
             }
-
+    
             // Second transaction detail entry
             $transactionDetail2 = new TransactionDetail;
             $transactionDetail2->transaction_id  = $transaction->id;
-            $transactionDetail2->ledger_id       = $request->account;
-            $transactionDetail2->entry_type      = $request->account == $cashAcId ? EntryType::$DR : EntryType::$CR;
+            $transactionDetail2->ledger_id       = $cashAcId ;
+            $transactionDetail2->entry_type      =  EntryType::$CR ;
             $transactionDetail2->amount          = $request->amount;
             $transactionDetail2->note            = $request->note;
             $transactionDetail2->date            = now();
             $transactionDetail2->type            = BankTransaction::class;
             $transactionDetail2->type_id         = $bankTransaction->id;
             $transactionDetail2->is_bank         = 1;
-
+    
             if (!$transactionDetail2->save()) {
                 throw new \Exception('Failed to record transaction during second entry.');
             }
-
+    
             DB::commit();
-
+    
             $response = [
                 'success' => true,
                 'message' => 'Data stored successfully.'
             ];
         } catch (\Exception $e) {
-
             DB::rollBack();
-
+    
             Log::error('Error while saving deposit: ' . $e->getMessage());
-
+    
             $response = [
                 'success' => false,
                 'message' => 'Error while saving. Please try again later.'
             ];
         }
-
+    
         return $response;
     }
+    
+
     public function save_withdraw($request)
     {
         DB::beginTransaction();
@@ -233,7 +231,7 @@ class BankingController extends Controller
             $transactionDetail = new TransactionDetail;
             $transactionDetail->transaction_id = $transaction->id;
             $transactionDetail->ledger_id = $request->deposit_to;
-            $transactionDetail->entry_type = $request->deposit_to == $cashAcId ? EntryType::$CR : EntryType::$DR;
+            $transactionDetail->entry_type =  EntryType::$CR ;
             $transactionDetail->amount = $request->withdraw_amount;
             $transactionDetail->note = $request->withdraw_note;
             $transactionDetail->date = now();
@@ -249,8 +247,8 @@ class BankingController extends Controller
             // Second transaction detail entry
             $transactionDetail2 = new TransactionDetail;
             $transactionDetail2->transaction_id = $transaction->id;
-            $transactionDetail2->ledger_id = $request->deposit_to;
-            $transactionDetail2->entry_type = $request->deposit_to == $cashAcId ? EntryType::$DR : EntryType::$CR;
+            $transactionDetail2->ledger_id = $cashAcId ;
+            $transactionDetail2->entry_type =  EntryType::$DR;
             $transactionDetail2->amount = $request->withdraw_amount;
             $transactionDetail2->note = $request->withdraw_note;
             $transactionDetail2->date = now();
