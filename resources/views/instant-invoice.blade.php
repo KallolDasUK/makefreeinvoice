@@ -49,7 +49,7 @@
                                     <div class="col">
                                         <input class="c-name form-control ml-2" type="text" tabindex="5" id="title"
                                             name="title" value="Invoice" data-json-node="title" data-is-array="false"
-                                            style="background-image: url(&quot;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABHklEQVQ4EaVTO26DQBD1ohQWaS2lg9JybZ+AK7hNwx2oIoVf4UPQ0Lj1FdKktevIpel8AKNUkDcWMxpgSaIEaTVv3sx7uztiTdu2s/98DywOw3Dued4Who/M2aIx5lZV1aEsy0+qiwHELyi+Ytl0PQ69SxAxkWIA4RMRTdNsKE59juMcuZd6xIAFeZ6fGCdJ8kY4y7KAuTRNGd7jyEBXsdOPE3a0QGPsniOnnYMO67LgSQN9T41F2QGrQRRFCwyzoIF2qyBuKKbcOgPXdVeY9rMWgNsjf9ccYesJhk3f5dYT1HX9gR0LLQR30TnjkUEcx2uIuS4RnI+aj6sJR0AM8AaumPaM/rRehyWhXqbFAA9kh3/8/NvHxAYGAsZ/il8IalkCLBfNVAAAAABJRU5ErkJggg==&quot;); background-repeat: no-repeat; background-attachment: scroll; background-size: 16px 18px; background-position: 98% 50%; cursor: auto;">
+                                            style="cursor: auto;">
 
                                     </div>
                                 </div>
@@ -211,7 +211,7 @@
                                                 onmouseout="showCloseIcon(0,false)">
                                                 <td>
                                                     <textarea type="text" class="w100" tabindex="20" id="itemDesc.0" rows="1"
-                                                        placeholder="Enter item name/description"></textarea>
+                                                        placeholder="Enter item name/description" style="margin: 10px 0px"></textarea>
 
                                                 </td>
                                                 <td>
@@ -594,7 +594,7 @@
                     onmouseover="showCloseIcon(${rowIndex}, true)"
                     onmouseout="showCloseIcon(${rowIndex}, false)">
                     <td>
-                        <textarea type="text" class="w100" tabindex="20" id="itemDesc.${rowIndex}" rows="1" placeholder="Enter item name/description"></textarea>
+                        <textarea type="text" class="w100" tabindex="20" id="itemDesc.${rowIndex}" rows="1" placeholder="Enter item name/description" style="margin: 10px 0px;"></textarea>
                     </td>
                     <td>
                         <input type="text" step="any" class="form-control text-right" style="font-weight: bolder; text-align: center" tabindex="20" placeholder="Unit/Pcs">

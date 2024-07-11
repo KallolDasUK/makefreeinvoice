@@ -23,6 +23,12 @@
         top: 0;
     }
 
+    input[type="text"], textarea {
+        color: #000 !important;
+        font-weight: 800;
+        font-size: 15px;
+        padding-bottom: 2px !important;
+    }
 }
 
 .test {
@@ -1613,12 +1619,4 @@ input[READONLY]:focus {
     color: white;
     background-color: #065a92;
     border-color: #065a92;
-}
-
-@media print {
-    input[type="text"], textarea {
-        color: #000 !important;
-        font-weight: 700;
-        font-size: 14px;
-    }
 }

@@ -370,7 +370,7 @@ class BankingController extends Controller
             $transactionDetailFrom = new TransactionDetail;
             $transactionDetailFrom->transaction_id = $transactionFrom->id;
             $transactionDetailFrom->ledger_id = $request->account_to;
-            $transactionDetailFrom->entry_type = EntryType::$CR;
+            $transactionDetailFrom->entry_type = EntryType::$DR;
             $transactionDetailFrom->amount = $request->amount;
             $transactionDetailFrom->note = $request->note;
             $transactionDetailFrom->date = now();
@@ -387,7 +387,7 @@ class BankingController extends Controller
             $transactionDetailTo = new TransactionDetail;
             $transactionDetailTo->transaction_id = $transactionTo->id;
             $transactionDetailTo->ledger_id = $request->deposit_to;
-            $transactionDetailTo->entry_type = EntryType::$DR;
+            $transactionDetailTo->entry_type = EntryType::$CR;
             $transactionDetailTo->amount = $request->amount;
             $transactionDetailTo->note = $request->note;
             $transactionDetailTo->date = now();

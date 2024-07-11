@@ -94,7 +94,6 @@ var ractive = new Ractive({
             for (let i = 0; i < invoice_items.length; i++) {
 
                 let item = invoice_items[i];
-                sub += (parseFloat(item.qnt) || 0) * (parseFloat(item.price) || 0);
                 
                 let tax_id = parseInt(item.tax_id || 0);
                 if (item.product_id && tax_id) {
@@ -127,6 +126,7 @@ var ractive = new Ractive({
                 
                 // Add to total profit
                 totalProfit += profit;
+                sub += (parseFloat(item.qnt) || 0) * (parseFloat(item.price) || 0);
 
             }
     
