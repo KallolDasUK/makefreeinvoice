@@ -89,12 +89,11 @@ var ractive = new Ractive({
             let totalProfit = 0;
             ractiveExtra.set(`appliedTax`, []);
 
-            let products = ractive.get('products');
 
             for (let i = 0; i < invoice_items.length; i++) {
 
                 let item = invoice_items[i];
-                
+                // sub += (parseFloat(item.qnt) || 0) * (parseFloat(item.price) || 0);
                 let tax_id = parseInt(item.tax_id || 0);
                 if (item.product_id && tax_id) {
                     let taxes = ractive.get('taxes');
@@ -106,17 +105,25 @@ var ractive = new Ractive({
                         amount: taxAmount
                     });
                 }                
-
+                let products = ractive.get('products');
                 let product = products.filter((p) => p.id === parseInt(item.product_id));
                 if (product.length){
 
                     product = product[0];
                     if (product) {
-                        ractive.set(`invoice_items.${i}.price`, product.sell_price);
-                        ractive.set(`invoice_items.${i}.unit`, product.sell_unit || 'unit');
-                        ractive.set(`invoice_items.${i}.description`, product.description || '');
-                        ractive.set(`invoice_items.${i}.stock`, product.stock || '');
                         ractive.set(`invoice_items.${i}.purchase_price`, product.purchase_price || 0);
+                        $.ajax({
+                            url: route('products.product.product_stock'),
+                            data: {product_ids: [product.id]},
+                            type: 'post',
+                            success: function (response) {
+                                let product_stocks = response;
+                                for (let j = 0; j < product_stocks.length; j++) {
+                                    let product_stock = product_stocks[j].product_stock;
+                                    ractive.set(`invoice_items.${i}.stock`, product_stock);
+                                }
+                            }
+                        });    
                     }
                 }
 
@@ -169,7 +176,7 @@ var ractiveExtra = new Ractive({
     },
     addExtraField: function () {
         ractiveExtra.push('pairs', {name: '', value: '', calculatedValue: ''});
-        bindDynamicFields(); // Bind new fields to calculateOthers
+        bindDynamicFields();
         $(document).ready(function () {
             $('[data-toggle="tooltip"]').tooltip();
         });
@@ -329,7 +336,6 @@ function calculate(product_id, lineIndex) {
         ractive.set(`invoice_items.${lineIndex}.price`, product.sell_price);
         ractive.set(`invoice_items.${lineIndex}.unit`, product.sell_unit || 'unit');
         ractive.set(`invoice_items.${lineIndex}.description`, product.description || '');
-        ractive.set(`invoice_items.${lineIndex}.stock`, product.stock || '');
         ractive.set(`invoice_items.${lineIndex}.purchase_price`, product.purchase_price || 0);
 
         $.ajax({
