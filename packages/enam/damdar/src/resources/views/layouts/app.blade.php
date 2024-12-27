@@ -1019,7 +1019,10 @@
 
                             <h5>
                                 <br/>
-                                <ul>
+                                <ul style="list-style: none;
+                                        padding: unset;
+                                        line-height: 1.5;"
+                                >
                                     <li>
                                         <a href="{{ route('accounting.settings.edit') }}">
                                             <i class="fa fa-cog"></i> Account Settings
