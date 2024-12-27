@@ -967,3 +967,16 @@ Route::get('/clear-cache', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/terms-of-service', function () {
+    view()->share('title', 'Terms of Service');
+    return view('policies.terms-of-service');
+})->name('terms_of_service');
+Route::get('/user-data-deletion', function () {
+    view()->share('title', 'Terms of Service');
+    return view('policies.user-data-deletion');
+})->name('user_data_deletion');
+Route::get('/privacy-policy', function () {
+    view()->share('title', 'Terms of Service');
+    return view('policies.privacy-policy');
+})->name('privacy_policy');
+

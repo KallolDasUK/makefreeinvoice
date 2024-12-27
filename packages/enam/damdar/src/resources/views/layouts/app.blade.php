@@ -1021,7 +1021,11 @@
                                 <br/>
                                 <a class="" href="{{ route('accounting.settings.edit') }}"><i class="fa fa-cog"></i>
                                     Account
-                                    Settings</a>
+                                    Settings</a>&nbsp;&nbsp;
+                                <a href="{{ route('terms_of_service') }}"><i class="fas fa-file-contract"></i>&nbsp;Terms of Service</a>&nbsp;&nbsp;
+                                <a href="{{ route('user_data_deletion') }}"><i class="fas fa-file-contract"></i>&nbsp;User Data Deletion</a>&nbsp;&nbsp;
+                                <a href="{{ route('privacy_policy') }}"><i class="fas fa-file-contract"></i>&nbsp;Privacy Policy</a>
+
                             </h5>
                         @endif
 
