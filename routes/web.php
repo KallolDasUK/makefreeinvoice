@@ -972,11 +972,11 @@ Route::get('/terms-of-service', function () {
     return view('policies.terms-of-service');
 })->name('terms_of_service');
 Route::get('/user-data-deletion', function () {
-    view()->share('title', 'Terms of Service');
+    view()->share('title', 'User Data Deletion');
     return view('policies.user-data-deletion');
 })->name('user_data_deletion');
 Route::get('/privacy-policy', function () {
-    view()->share('title', 'Terms of Service');
+    view()->share('title', 'Privacy Policy');
     return view('policies.privacy-policy');
 })->name('privacy_policy');
 
