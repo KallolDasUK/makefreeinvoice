@@ -1019,12 +1019,29 @@
 
                             <h5>
                                 <br/>
-                                <a class="" href="{{ route('accounting.settings.edit') }}"><i class="fa fa-cog"></i>
-                                    Account
-                                    Settings</a>&nbsp;&nbsp;
-                                <a href="{{ route('terms_of_service') }}"><i class="fas fa-file-contract"></i>&nbsp;Terms of Service</a>&nbsp;&nbsp;
-                                <a href="{{ route('user_data_deletion') }}"><i class="fas fa-file-contract"></i>&nbsp;User Data Deletion</a>&nbsp;&nbsp;
-                                <a href="{{ route('privacy_policy') }}"><i class="fas fa-file-contract"></i>&nbsp;Privacy Policy</a>
+                                <ul>
+                                    <li>
+                                        <a href="{{ route('accounting.settings.edit') }}">
+                                            <i class="fa fa-cog"></i> Account Settings
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ route('terms_of_service') }}">
+                                            <i class="fas fa-file-contract"></i> Terms of Service
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ route('user_data_deletion') }}">
+                                            <i class="fas fa-file-contract"></i> User Data Deletion
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ route('privacy_policy') }}">
+                                            <i class="fas fa-file-contract"></i> Privacy Policy
+                                        </a>
+                                    </li>
+                                </ul>
+
 
                             </h5>
                         @endif
