@@ -1019,15 +1019,23 @@
 
                             <h5>
                                 <br/>
-                                <ul style="list-style: none;
-                                        padding: unset;
-                                        line-height: 1.5;"
+                                <ul style="     list-style: none;
+                                                padding: unset;
+                                                margin: 0;
+                                                display: flex;
+                                                width: 160%;
+                                                font-size: 13px;
+                                                gap: 40px;
+                                                font-weight: 400;
+                                                justify-content: center;
+                                                margin-left: 33%;
+                                                color: #3699ff !important;"
                                 >
-                                    <li>
+                                    <!-- <li>
                                         <a href="{{ route('accounting.settings.edit') }}">
                                             <i class="fa fa-cog"></i> Account Settings
                                         </a>
-                                    </li>
+                                    </li> -->
                                     <li>
                                         <a href="{{ route('terms_of_service') }}">
                                             <i class="fas fa-file-contract"></i> Terms of Service
