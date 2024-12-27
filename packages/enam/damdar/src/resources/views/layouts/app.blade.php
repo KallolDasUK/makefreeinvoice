@@ -1018,7 +1018,7 @@
                     </div>                   
                 </div>
             </div>
-            <div class="col text-right">
+            <div class="col text-right d-flex justify-content-end align-items-center">
                 <form action="{{ route('logout') }}" method="post">
                     @csrf
                     <button class="btn btn-outline-danger" onclick="return confirm('Confirm Logout??')"><i
