@@ -1014,56 +1014,10 @@
                             class="d-inline-block">{{ \Carbon\Carbon::now()->format('h:i a Y-m-d ') }}{{ \Carbon\Carbon::now()->timezoneName }}  </strong>
                         <a href="{{ route('accounting.settings.edit') }}" class="d-inline-block">
                             <div>Change Timezone</div>
-                        </a>
-                        @if(ability_class(\App\Utils\Ability::GENERAL_SETTINGS_READ) != 'protected')
-
-                            <h5>
-                                <br/>
-                                <ul style="     list-style: none;
-                                                padding: unset;
-                                                margin: 0;
-                                                display: flex;
-                                                width: 160%;
-                                                font-size: 13px;
-                                                gap: 40px;
-                                                font-weight: 400;
-                                                justify-content: center;
-                                                margin-left: 33%;
-                                                color: #3699ff !important;"
-                                >
-                                    <!-- <li>
-                                        <a href="{{ route('accounting.settings.edit') }}">
-                                            <i class="fa fa-cog"></i> Account Settings
-                                        </a>
-                                    </li> -->
-                                    <li>
-                                        <a href="{{ route('terms_of_service') }}">
-                                            <i class="fas fa-file-contract"></i> Terms of Service
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="{{ route('user_data_deletion') }}">
-                                            <i class="fas fa-file-contract"></i> User Data Deletion
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="{{ route('privacy_policy') }}">
-                                            <i class="fas fa-file-contract"></i> Privacy Policy
-                                        </a>
-                                    </li>
-                                </ul>
-
-
-                            </h5>
-                        @endif
-
-
-                    </div>
+                        </a>                      
+                    </div>                   
                 </div>
-
             </div>
-
-
             <div class="col text-right">
                 <form action="{{ route('logout') }}" method="post">
                     @csrf
@@ -1073,7 +1027,33 @@
                 </form>
             </div>
         </div>
+        @if(ability_class(\App\Utils\Ability::GENERAL_SETTINGS_READ) != 'protected')
 
+        <footer class="text-center py-4 mb-4">
+            <ul class="list-unstyled d-inline-flex flex-column flex-md-row justify-content-center align-items-center gap-3 mb-0" style="gap:4rem">
+                {{-- <li>
+                    <a href="{{ route('accounting.settings.edit') }}" class="text-decoration-none text-dark">
+                        <i class="fa fa-cog"></i> Account Settings
+                    </a>
+                </li> --}}
+                <li>
+                    <a href="{{ route('terms_of_service') }}" class="text-decoration-none">
+                        <i class="fas fa-file-contract"></i> Terms of Service
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('user_data_deletion') }}" class="text-decoration-none">
+                        <i class="fas fa-file-contract"></i> User Data Deletion
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('privacy_policy') }}" class="text-decoration-none">
+                        <i class="fas fa-file-contract"></i> Privacy Policy
+                    </a>
+                </li>
+            </ul>
+        </footer>                            
+@endif
 
     </div>
 
