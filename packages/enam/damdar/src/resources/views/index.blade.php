@@ -358,7 +358,7 @@
                     </div>
                     <div class="shortcuts-title  text-black">Bank Transfer</div>
                 </a>
-                <a href="{{ route('accounting.settings.edit') }}"
+                <a href="{{ route('expenses.expense.create') }}"
                    style="position:relative;"
                    class="sc-gPEVay eaBhby border rounded ">
                     <div class="sc-iRbamj image" style="background-image:url('images/my_expense.svg'); background-size: unset !important">
@@ -366,7 +366,7 @@
                     </div>
                     <div class="shortcuts-title  text-black">Add Expense</div>
                 </a>
-                <a href="{{ route('accounting.settings.edit') }}"
+                <a href="{{ route('expenses.expense.index') }}"
                    style="position:relative;"
                    class="sc-gPEVay eaBhby border rounded ">
                     <div class="sc-iRbamj image" style="background-image:url('images/expense3.svg'); background-size: unset !important">
